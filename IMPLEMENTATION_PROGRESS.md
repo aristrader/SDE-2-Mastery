@@ -30,6 +30,25 @@ node playwright_smoke.js   # integration smoke (needs npm run dev running)
 - Doc-only pages (study plan README) show no tab.
 - `/api/run` compiles + executes through the vite proxy and returns stdout.
 
+## Session 2 — autonomous review & improvement pass (2026-06-18)
+Verified with evidence (screenshots/measurements/tests), each committed separately.
+- **Margins (verified real bug):** earlier "fix" lost a CSS specificity battle (prose stayed
+  688px). Real cap was `.content`; fixed with `!important`. Hub 720→1056px; doc ~784 (TOC-bound).
+- **AI → `agy` (default):** discovered the local `agy` agent CLI (Gemini-backed, agentic, cheap).
+  Added as 3rd provider, made default; fixed an stdin-pipe hang (agy waited on stdin → now closed).
+- **Strict code review (subagent):** fixed loopback bind (was 0.0.0.0 + skip-perms = LAN RCE),
+  AgentChat non-200 handling, illegal keep-alive header + post-header error guard, bounded
+  session/history maps, spawn-error resolve, stale comment. (fqcn regex + path guard confirmed safe.)
+- **Site bug-hunt (subagent):** clean except Playground absent on pages whose code is in
+  subfolders → fixed with nearest-markdown-ancestor ownership (Prototype now shows simple/+polymorphic/).
+- **Theme:** brand was defaulting to green (pre-1.0 var names); fixed to indigo→cyan, then a
+  full readability pass (typography, zebra tables, code/blockquote, deep-navy dark).
+- **Mobile:** fixed a table-overflow regression I introduced (kept tables scroll-on-narrow).
+- **UX:** agent elapsed timer + Stop, exercise badges (`*Practice.java`), AI quick-action chips,
+  run elapsed timer.
+- **Hygiene:** untracked 521 vitepress cache/dist files; added README + next-phase roadmap.
+- **Final state:** 24 backend + 7 lib tests pass, `docs:build` clean, playwright smoke PASSED.
+
 ## Notes / deviations from plan (discovered during execution)
 - **fileDiscovery is `.mjs` (ESM)**, not `.js` — package.json is `type: commonjs`, so an
   ESM file keeps both Vite and `node --test` happy without interop hacks.
