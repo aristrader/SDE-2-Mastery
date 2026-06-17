@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "node server/index.js",
+    "server": "node --env-file-if-exists=.env server/index.js",
     "docs:dev": "vitepress dev docs",
     "dev": "concurrently -n server,site -c green,cyan \"npm run server\" \"npm run docs:dev\"",
     "docs:build": "vitepress build docs",

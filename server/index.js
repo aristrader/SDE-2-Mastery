@@ -2,7 +2,11 @@
 const http = require('node:http')
 const { runJava } = require('./run')
 const { saveJava } = require('./save')
-const { streamAgent } = require('./agent')
+
+// AI provider is switchable. Default 'gemini' (Gemini API, conversational).
+// Set AI_PROVIDER=claude to use the Claude Code CLI agent (can edit/run files) — see agentClaude.js.
+const AI_PROVIDER = process.env.AI_PROVIDER || 'gemini'
+const { streamAgent } = AI_PROVIDER === 'claude' ? require('./agentClaude') : require('./agentGemini')
 
 const PORT = process.env.SITE_BACKEND_PORT || 5174
 
@@ -61,7 +65,7 @@ function createServer() {
 
 if (require.main === module) {
   createServer().listen(PORT, () => {
-    console.log(`[site-backend] listening on http://localhost:${PORT}`)
+    console.log(`[site-backend] listening on http://localhost:${PORT} (AI provider: ${AI_PROVIDER})`)
   })
 }
 

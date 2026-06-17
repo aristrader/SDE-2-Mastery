@@ -1,7 +1,7 @@
-// server/agent.test.js
+// server/agentClaude.test.js
 const { test } = require('node:test')
 const assert = require('node:assert')
-const { buildArgs, parseStreamLine } = require('./agent')
+const { buildArgs, parseStreamLine } = require('./agentClaude')
 
 test('buildArgs includes core flags and add-dir', () => {
   const args = buildArgs({ message: 'hi', sessionId: null })

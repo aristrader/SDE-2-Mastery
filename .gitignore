@@ -39,6 +39,7 @@ build/
 
 ### Node / VitePress site ###
 node_modules/
+.env
 .superpowers/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
