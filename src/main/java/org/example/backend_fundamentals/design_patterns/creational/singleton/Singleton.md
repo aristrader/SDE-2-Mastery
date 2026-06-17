@@ -285,6 +285,9 @@ public class BillPughSingleton {
 }
 ```
 
+<CodePlayground />
+
+
 **Pros:** lazy, thread-safe, no synchronization overhead, no `volatile` needed.
 **Cons:** none worth mentioning — this is the idiomatic Java singleton.
 
