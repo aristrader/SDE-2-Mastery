@@ -36,6 +36,15 @@ const javaRunnerPlugin = {
   }
 }
 
+const commonSidebarConfig = {
+  documentRootPath: 'src/main/java/org/example/backend_fundamentals',
+  useTitleFromFileHeading: true,
+  useTitleFromFrontmatter: true,
+  collapseDepth: 2,
+  capitalizeFirst: true,
+  sortMenusByFrontmatterOrder: true
+}
+
 export default defineConfig({
   title: "SDE-2 Mastery",
   description: "Study Plan & Backend Fundamentals",
@@ -45,41 +54,23 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Study Plan', link: '/todo/study_plan/README' },
+      { text: 'Java & JVM', link: '/java/foundations/generics/Generics' },
+      { text: 'Spring', link: '/spring/ioc_container/IoCContainer' },
+      { text: 'System Design', link: '/system_design/clustering/Clustering' },
       { text: 'Design Patterns', link: '/design_patterns/creational/CreationalPatternsRoadmap' },
-      { text: 'System Design', link: '/system_design/clustering/Clustering' }
+      { text: 'Networking', link: '/networking/ip_addressing/IpAddressingNatDhcp' },
+      { text: 'Databases', link: '/databases/graph_and_graphql/GraphDbAndGraphQl' }
     ],
     search: { provider: 'local' },
     sidebar: generateSidebar([
-      {
-        documentRootPath: 'src/main/java/org/example/backend_fundamentals',
-        scanStartPath: 'todo',
-        resolvePath: '/todo/',
-        useTitleFromFileHeading: true,
-        useTitleFromFrontmatter: true,
-        collapseDepth: 2,
-        capitalizeFirst: true,
-        sortMenusByFrontmatterOrder: true
-      },
-      {
-        documentRootPath: 'src/main/java/org/example/backend_fundamentals',
-        scanStartPath: 'design_patterns',
-        resolvePath: '/design_patterns/',
-        useTitleFromFileHeading: true,
-        useTitleFromFrontmatter: true,
-        collapseDepth: 2,
-        capitalizeFirst: true,
-        sortMenusByFrontmatterOrder: true
-      },
-      {
-        documentRootPath: 'src/main/java/org/example/backend_fundamentals',
-        scanStartPath: 'system_design',
-        resolvePath: '/system_design/',
-        useTitleFromFileHeading: true,
-        useTitleFromFrontmatter: true,
-        collapseDepth: 2,
-        capitalizeFirst: true,
-        sortMenusByFrontmatterOrder: true
-      }
+      { ...commonSidebarConfig, scanStartPath: 'todo', resolvePath: '/todo/' },
+      { ...commonSidebarConfig, scanStartPath: 'java', resolvePath: '/java/' },
+      { ...commonSidebarConfig, scanStartPath: 'spring', resolvePath: '/spring/' },
+      { ...commonSidebarConfig, scanStartPath: 'spring_boot', resolvePath: '/spring_boot/' },
+      { ...commonSidebarConfig, scanStartPath: 'system_design', resolvePath: '/system_design/' },
+      { ...commonSidebarConfig, scanStartPath: 'design_patterns', resolvePath: '/design_patterns/' },
+      { ...commonSidebarConfig, scanStartPath: 'networking', resolvePath: '/networking/' },
+      { ...commonSidebarConfig, scanStartPath: 'databases', resolvePath: '/databases/' }
     ])
   }
 })

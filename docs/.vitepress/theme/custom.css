@@ -1,0 +1,46 @@
+/* Import a highly legible, modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Use Inter for a cleaner, more readable experience */
+  --vp-font-family-base: 'Inter', sans-serif;
+  
+  /* Primary Brand Colors: A soothing, accessible Indigo/Blue */
+  --vp-c-brand: #4f46e5;
+  --vp-c-brand-light: #6366f1;
+  --vp-c-brand-lighter: #818cf8;
+  --vp-c-brand-dark: #4338ca;
+  --vp-c-brand-darker: #3730a3;
+
+  /* Adjust home hero name gradient for better readability */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #4f46e5 30%, #06b6d4);
+  
+  /* Make sure the text on the hero is fully visible */
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #4f46e5 50%, #06b6d4 50%);
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+/* Dark mode specific adjustments for better contrast */
+.dark {
+  --vp-c-brand: #818cf8;
+  --vp-c-brand-light: #a5b4fc;
+  --vp-c-brand-lighter: #c7d2fe;
+  --vp-c-brand-dark: #6366f1;
+  --vp-c-brand-darker: #4f46e5;
+  
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #818cf8 30%, #22d3ee);
+}
+
+/* Very subtle and safe hover effects without overriding core VitePress backgrounds */
+.VPCard {
+  transition: transform 0.25s ease, border-color 0.25s ease !important;
+}
+
+.VPCard:hover {
+  transform: translateY(-2px);
+}
+
+.VPSidebarItem .text {
+  transition: color 0.25s ease;
+}
