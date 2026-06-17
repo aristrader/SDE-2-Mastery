@@ -4,13 +4,15 @@
       <div v-if="hasCode" class="mode-tabs">
         <button :class="{ active: mode === 'read' }" @click="setMode('read')">Read</button>
         <button :class="{ active: mode === 'play' }" @click="setMode('play')">⚙ Playground</button>
-        <button class="ai-toggle" @click="drawer = !drawer">✦ Ask AI</button>
       </div>
       <div v-if="hasCode && mode === 'play'" class="play-wrap">
         <ClientOnly><Playground /></ClientOnly>
       </div>
     </template>
   </DefaultTheme.Layout>
+
+  <!-- Available on every page so you can discuss the current page with the agent. -->
+  <button v-if="!drawer" class="ai-fab" @click="drawer = true" title="Ask the AI about this page">✦ Ask AI</button>
 
   <div v-if="drawer" class="ai-drawer">
     <div class="ai-drawer-head">
@@ -82,8 +84,9 @@ syncFromHash()
 .mode-tabs { display: flex; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--vp-c-divider); }
 .mode-tabs button { padding: 4px 12px; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); cursor: pointer; }
 .mode-tabs button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); }
-.mode-tabs .ai-toggle { margin-left: auto; }
 .play-wrap { margin-top: 4px; }
+.ai-fab { position: fixed; right: 20px; bottom: 20px; z-index: 90; padding: 10px 16px; border: none; border-radius: 999px; background: var(--vp-c-brand-1); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+.ai-fab:hover { background: var(--vp-c-brand-2); }
 .ai-drawer { position: fixed; top: 0; right: 0; width: 380px; max-width: 90vw; height: 100vh; background: var(--vp-c-bg); border-left: 1px solid var(--vp-c-divider); box-shadow: -4px 0 16px rgba(0,0,0,0.15); z-index: 100; display: flex; flex-direction: column; }
 .ai-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--vp-c-divider); font-weight: 700; }
 .ai-drawer-head button { border: none; background: transparent; cursor: pointer; font-size: 16px; color: var(--vp-c-text-2); }
