@@ -38,8 +38,9 @@ export function analyzeJavaFiles(filesMap) {
     const pkg = pkgMatch ? pkgMatch[1] : ''
     const runnable = /public\s+static\s+void\s+main\s*\(/.test(content)
     const fqcn = pkg ? `${pkg}.${className}` : className
+    const kind = /Practice\.java$/.test(name) ? 'exercise' : 'example'
     if (!grouped[relDir]) grouped[relDir] = []
-    grouped[relDir].push({ name, rel, content, runnable, fqcn: runnable ? fqcn : null })
+    grouped[relDir].push({ name, rel, content, runnable, fqcn: runnable ? fqcn : null, kind })
   }
   for (const d of Object.keys(grouped)) grouped[d].sort((a, b) => a.name.localeCompare(b.name))
   return grouped

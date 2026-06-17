@@ -7,12 +7,14 @@
       </div>
       <div v-if="busy" class="msg agent">
         <div class="role">Agent</div>
-        <pre class="text">{{ streaming || '…' }}</pre>
+        <pre v-if="streaming" class="text">{{ streaming }}</pre>
+        <div v-else class="working"><span class="dot"></span> Agent is working… {{ elapsed }}s</div>
       </div>
     </div>
     <form class="agent-input" @submit.prevent="send">
       <input v-model="draft" :disabled="busy" placeholder="Ask about this page, or tell the agent what to do…" />
-      <button type="submit" :disabled="busy || !draft.trim()">Send</button>
+      <button v-if="!busy" type="submit" :disabled="!draft.trim()">Send</button>
+      <button v-else type="button" class="stop" @click="cancel">Stop</button>
       <button type="button" class="reset" @click="reset" :disabled="busy">New chat</button>
     </form>
   </div>
@@ -31,6 +33,13 @@ const busy = ref(false)
 const streaming = ref('')
 const sessionId = ref(null)
 const logEl = ref(null)
+const elapsed = ref(0)
+let timer = null
+let aborter = null
+
+function cancel() {
+  if (aborter) aborter.abort()
+}
 
 async function scrollDown() {
   await nextTick()
@@ -64,6 +73,10 @@ async function send() {
   draft.value = ''
   busy.value = true
   streaming.value = ''
+  elapsed.value = 0
+  const startedAt = Date.now()
+  timer = setInterval(() => { elapsed.value = Math.round((Date.now() - startedAt) / 1000) }, 500)
+  aborter = new AbortController()
   await scrollDown()
 
   try {
@@ -71,6 +84,7 @@ async function send() {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ message: text, sessionId: sessionId.value, context: props.context }),
+      signal: aborter.signal,
     })
     if (!res.ok || !res.body) {
       const detail = await res.text().catch(() => '')
@@ -96,8 +110,17 @@ async function send() {
       }
     }
   } catch (e) {
-    messages.value.push({ role: 'agent', text: 'Connection error: ' + e.message + '\nIs the backend running? `npm run dev`' })
+    if (e.name === 'AbortError') {
+      if (streaming.value) messages.value.push({ role: 'agent', text: streaming.value })
+      messages.value.push({ role: 'agent', text: '⏹ Stopped.' })
+      streaming.value = ''
+    } else {
+      messages.value.push({ role: 'agent', text: 'Connection error: ' + e.message + '\nIs the backend running? `npm run dev`' })
+    }
   } finally {
+    clearInterval(timer)
+    timer = null
+    aborter = null
     if (streaming.value) messages.value.push({ role: 'agent', text: streaming.value })
     streaming.value = ''
     busy.value = false
@@ -118,4 +141,8 @@ async function send() {
 .agent-input button { padding: 6px 12px; border: none; border-radius: 6px; background: var(--vp-c-brand-1); color: #fff; cursor: pointer; }
 .agent-input button:disabled { opacity: 0.5; cursor: not-allowed; }
 .agent-input .reset { background: var(--vp-c-bg-mute); color: var(--vp-c-text-2); }
+.agent-input .stop { background: #dc2626; }
+.working { display: flex; align-items: center; gap: 8px; color: var(--vp-c-text-2); font-size: 13px; font-style: italic; }
+.working .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vp-c-brand-1); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 </style>

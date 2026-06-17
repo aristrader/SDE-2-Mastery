@@ -35,6 +35,12 @@ test('analyzeJavaFiles groups by rel dir and detects mains + rel path', () => {
   assert.strictEqual(bp.runnable, true)
   assert.strictEqual(bp.rel, sdir + '/BillPughSingleton.java')
   assert.strictEqual(g[sdir].find((f) => f.name === 'NoSingleton.java').fqcn, null)
+  assert.strictEqual(bp.kind, 'example')
+})
+
+test('Practice files are tagged as exercises', () => {
+  const g = analyzeJavaFiles({ [P('java/foundations/generics/GenericPractice.java')]: 'package x;\npublic class GenericPractice {}' })
+  assert.strictEqual(g['java/foundations/generics'][0].kind, 'exercise')
 })
 
 test('ownerFolder finds nearest md-bearing ancestor', () => {

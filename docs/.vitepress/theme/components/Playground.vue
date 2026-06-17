@@ -7,7 +7,7 @@
         :class="['file', selected && selected.rel === f.rel ? 'active' : '']"
         @click="select(f)"
       >
-        <span class="fname"><span v-if="f.group" class="grp">{{ f.group }}/</span>{{ f.name }}</span>
+        <span class="fname"><span v-if="f.group" class="grp">{{ f.group }}/</span>{{ f.name }}<span v-if="f.kind === 'exercise'" class="badge">exercise</span></span>
         <button v-if="f.runnable" class="run" :disabled="running" @click.stop="run(f)" title="Compile & run this class">▶ Run</button>
       </div>
     </aside>
@@ -135,6 +135,7 @@ async function run(f) {
 .file.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
 .fname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .fname .grp { color: var(--vp-c-text-3); }
+.fname .badge { margin-left: 6px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #b45309; background: rgba(245, 158, 11, 0.16); padding: 1px 5px; border-radius: 4px; vertical-align: middle; }
 .file .run { flex: none; border: 1px solid var(--vp-c-brand-1); background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); cursor: pointer; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 5px; line-height: 1; }
 .file .run:hover:not(:disabled) { background: var(--vp-c-brand-1); color: #fff; }
 .file .run:disabled { opacity: 0.5; cursor: not-allowed; }
