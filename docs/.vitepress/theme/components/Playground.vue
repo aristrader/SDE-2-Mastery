@@ -18,7 +18,7 @@
         <span class="actions">
           <button :disabled="!dirty || saving" @click="save">{{ saving ? 'Saving…' : (dirty ? 'Save' : 'Saved') }}</button>
           <button v-if="selected && selected.runnable" :disabled="running" @click="run(selected)">
-            {{ running ? 'Compiling…' : 'Run' }}
+            {{ running ? `Compiling… ${runElapsed}s` : 'Run' }}
           </button>
         </span>
       </div>
@@ -67,6 +67,8 @@ const buffer = ref('')
 const original = ref('')
 const saving = ref(false)
 const running = ref(false)
+const runElapsed = ref(0)
+let runTimer = null
 const output = ref('')
 const runError = ref('')
 
@@ -108,6 +110,9 @@ async function run(f) {
   running.value = true
   output.value = ''
   runError.value = ''
+  runElapsed.value = 0
+  const startedAt = Date.now()
+  runTimer = setInterval(() => { runElapsed.value = Math.round((Date.now() - startedAt) / 1000) }, 500)
   try {
     const res = await fetch('/api/run', {
       method: 'POST',
@@ -121,6 +126,8 @@ async function run(f) {
   } catch (e) {
     runError.value = 'Run error: ' + e.message + '\nIs the backend running? `npm run dev`'
   } finally {
+    clearInterval(runTimer)
+    runTimer = null
     running.value = false
   }
 }
