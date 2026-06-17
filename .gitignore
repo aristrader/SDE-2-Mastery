@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Node / VitePress site ###
+node_modules/
+.superpowers/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+.vitepress/
