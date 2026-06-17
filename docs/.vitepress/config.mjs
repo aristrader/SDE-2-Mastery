@@ -1,40 +1,5 @@
-import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 import { generateSidebar } from 'vitepress-sidebar'
-import { exec } from 'child_process'
-
-const javaRunnerPlugin = {
-  name: 'java-runner',
-  configureServer(server) {
-    server.middlewares.use('/api/run-java', (req, res) => {
-      if (req.method === 'POST') {
-        let body = ''
-        req.on('data', chunk => { body += chunk.toString() })
-        req.on('end', () => {
-          try {
-            const { mainClass } = JSON.parse(body)
-            if (!mainClass) throw new Error("mainClass is required")
-            
-            const cmd = `mvn -q compile && mvn -q exec:java -Dexec.mainClass="${mainClass}"`
-            exec(cmd, { cwd: process.cwd() }, (error, stdout, stderr) => {
-              res.setHeader('Content-Type', 'application/json')
-              res.end(JSON.stringify({ 
-                stdout: stdout || '', 
-                stderr: stderr || '', 
-                error: error ? error.message : null 
-              }))
-            })
-          } catch (e) {
-            res.statusCode = 400
-            res.end("Bad Request")
-          }
-        })
-      } else {
-        res.statusCode = 405
-        res.end()
-      }
-    })
-  }
-}
 
 const commonSidebarConfig = {
   documentRootPath: 'src/main/java/org/example/backend_fundamentals',
@@ -42,24 +7,28 @@ const commonSidebarConfig = {
   useTitleFromFrontmatter: true,
   collapseDepth: 2,
   capitalizeFirst: true,
-  sortMenusByFrontmatterOrder: true
+  sortMenusByFrontmatterOrder: true,
 }
 
-export default defineConfig({
-  title: "SDE-2 Mastery",
-  description: "Study Plan & Backend Fundamentals",
+export default withMermaid({
+  title: 'SDE-2 Mastery',
+  description: 'Study Plan & Backend Fundamentals',
   srcDir: '../src/main/java/org/example/backend_fundamentals',
-  vite: { plugins: [javaRunnerPlugin] },
+  vite: {
+    server: {
+      proxy: { '/api': 'http://localhost:5174' },
+    },
+  },
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Study Plan', link: '/todo/study_plan/README' },
-      { text: 'Java & JVM', link: '/java/foundations/generics/Generics' },
-      { text: 'Spring', link: '/spring/ioc_container/IoCContainer' },
-      { text: 'System Design', link: '/system_design/clustering/Clustering' },
-      { text: 'Design Patterns', link: '/design_patterns/creational/CreationalPatternsRoadmap' },
-      { text: 'Networking', link: '/networking/ip_addressing/IpAddressingNatDhcp' },
-      { text: 'Databases', link: '/databases/graph_and_graphql/GraphDbAndGraphQl' }
+      { text: 'Java & JVM', link: '/java/' },
+      { text: 'Spring', link: '/spring/' },
+      { text: 'System Design', link: '/system_design/' },
+      { text: 'Design Patterns', link: '/design_patterns/' },
+      { text: 'Networking', link: '/networking/' },
+      { text: 'Databases', link: '/databases/' },
     ],
     search: { provider: 'local' },
     sidebar: generateSidebar([
@@ -70,7 +39,7 @@ export default defineConfig({
       { ...commonSidebarConfig, scanStartPath: 'system_design', resolvePath: '/system_design/' },
       { ...commonSidebarConfig, scanStartPath: 'design_patterns', resolvePath: '/design_patterns/' },
       { ...commonSidebarConfig, scanStartPath: 'networking', resolvePath: '/networking/' },
-      { ...commonSidebarConfig, scanStartPath: 'databases', resolvePath: '/databases/' }
-    ])
-  }
+      { ...commonSidebarConfig, scanStartPath: 'databases', resolvePath: '/databases/' },
+    ]),
+  },
 })
