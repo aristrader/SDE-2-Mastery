@@ -49,6 +49,7 @@ onBeforeUnmount(() => view && view.destroy())
 
 <style scoped>
 .code-editor { border: 1px solid var(--vp-c-divider); border-radius: 8px; overflow: hidden; }
-.code-editor :deep(.cm-editor) { max-height: 480px; }
+.code-editor :deep(.cm-editor) { height: 65vh; max-height: 75vh; }
+.code-editor :deep(.cm-content) { font-size: 14px; }
 .code-editor :deep(.cm-scroller) { overflow: auto; }
 </style>

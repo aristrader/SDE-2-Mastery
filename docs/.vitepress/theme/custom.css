@@ -45,16 +45,23 @@
   transition: color 0.25s ease;
 }
 
-/* Playground mode: hide the prose body + TOC aside so the Playground (rendered in
-   the #doc-top slot, a sibling of .vp-doc) gets the full content column. The tab
+/* Playground mode: give the Playground (rendered in the #doc-top slot, a sibling of
+   .vp-doc) the full viewport width. Hide the prose body, the TOC aside, and the
+   left sidebar, and drop the content column's reserved padding/max-width. The tab
    bar lives in the same slot and stays visible. */
-html.pg-play .vp-doc {
+html.pg-play .vp-doc,
+html.pg-play .VPDocAside,
+html.pg-play .VPSidebar {
   display: none;
 }
-html.pg-play .VPDocAside {
-  display: none;
+html.pg-play .VPContent.has-sidebar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+html.pg-play .VPDoc {
+  padding: 16px 24px !important;
 }
 html.pg-play .VPDoc .container,
 html.pg-play .VPDoc .content {
-  max-width: none;
+  max-width: none !important;
 }

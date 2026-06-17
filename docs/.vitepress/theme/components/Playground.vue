@@ -32,13 +32,8 @@
         <pre v-if="output" class="stdout">{{ output }}</pre>
         <pre v-if="runError" class="stderr">{{ runError }}</pre>
       </div>
+      <p class="agent-hint">Use the ✦ Ask AI button (bottom-right) to discuss or edit this file with the agent.</p>
     </section>
-
-    <aside class="agent">
-      <ClientOnly>
-        <AgentChat :context="agentContext" />
-      </ClientOnly>
-    </aside>
   </div>
   <div v-else class="playground-empty">No Java files in this folder.</div>
 </template>
@@ -47,7 +42,6 @@
 import { ref, computed, watch } from 'vue'
 import { useData } from 'vitepress'
 import CodeEditor from './CodeEditor.vue'
-import AgentChat from './AgentChat.vue'
 import { analyzeJavaFiles, filesForPage } from '../lib/fileDiscovery.mjs'
 
 // Relative glob from this file (components/) up to repo root, then into the java tree.
@@ -76,14 +70,6 @@ const output = ref('')
 const runError = ref('')
 
 const dirty = computed(() => !!selected.value && buffer.value !== original.value)
-
-const agentContext = computed(() => {
-  const dir = pageDir(page.value.relativePath)
-  const names = files.value.map((f) => f.name).join(', ')
-  return `The user is studying the page ${page.value.relativePath}. ` +
-    `Java files in this folder (${dir}): ${names}. ` +
-    (selected.value ? `Currently open: ${selected.value.name}.` : '')
-})
 
 function relFromGlobPath(f) {
   const marker = 'backend_fundamentals/'
@@ -147,7 +133,7 @@ async function run(f) {
 </script>
 
 <style scoped>
-.playground { display: grid; grid-template-columns: 200px 1fr 340px; gap: 12px; min-height: 540px; }
+.playground { display: grid; grid-template-columns: 220px 1fr; gap: 16px; min-height: 60vh; }
 .files { border: 1px solid var(--vp-c-divider); border-radius: 8px; overflow: hidden; height: fit-content; }
 .files-head, .console-head { padding: 8px 12px; font-weight: 700; border-bottom: 1px solid var(--vp-c-divider); background: var(--vp-c-bg-soft); }
 .file { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; cursor: pointer; font-family: var(--vp-font-family-mono); font-size: 13px; }
@@ -161,6 +147,7 @@ async function run(f) {
 .console { margin-top: 10px; border-radius: 8px; overflow: hidden; background: #000; }
 .stdout { color: #a7f3d0; padding: 10px; margin: 0; overflow-x: auto; font-family: var(--vp-font-family-mono); font-size: 13px; }
 .stderr { color: #fca5a5; padding: 10px; margin: 0; overflow-x: auto; font-family: var(--vp-font-family-mono); font-size: 13px; }
+.agent-hint { margin: 10px 2px 0; font-size: 12px; color: var(--vp-c-text-3); }
 .playground-empty { padding: 24px; color: var(--vp-c-text-2); }
 @media (max-width: 960px) { .playground { grid-template-columns: 1fr; } }
 </style>
