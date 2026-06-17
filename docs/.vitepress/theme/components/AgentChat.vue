@@ -1,6 +1,10 @@
 <template>
   <div class="agent-chat">
     <div class="agent-log" ref="logEl">
+      <div v-if="!messages.length && !busy" class="suggestions">
+        <p class="sugg-hint">Ask about this page, or try:</p>
+        <button v-for="s in suggestions" :key="s" type="button" class="chip" @click="sendText(s)">{{ s }}</button>
+      </div>
       <div v-for="(m, i) in messages" :key="i" :class="['msg', m.role]">
         <div class="role">{{ m.role === 'user' ? 'You' : 'Agent' }}</div>
         <pre class="text">{{ m.text }}</pre>
@@ -37,8 +41,19 @@ const elapsed = ref(0)
 let timer = null
 let aborter = null
 
+const suggestions = [
+  'Explain this page in simple terms',
+  'Quiz me on this topic',
+  'Give me a practice question',
+]
+
 function cancel() {
   if (aborter) aborter.abort()
+}
+
+function sendText(t) {
+  draft.value = t
+  send()
 }
 
 async function scrollDown() {
@@ -145,4 +160,8 @@ async function send() {
 .working { display: flex; align-items: center; gap: 8px; color: var(--vp-c-text-2); font-size: 13px; font-style: italic; }
 .working .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vp-c-brand-1); animation: pulse 1s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.suggestions { padding: 8px 4px; }
+.sugg-hint { margin: 0 0 8px; font-size: 13px; color: var(--vp-c-text-2); }
+.chip { display: block; width: 100%; text-align: left; margin-bottom: 6px; padding: 8px 12px; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg); color: var(--vp-c-text-1); cursor: pointer; font-size: 13px; transition: border-color 0.15s, background 0.15s; }
+.chip:hover { border-color: var(--vp-c-brand-1); background: var(--vp-c-brand-soft); }
 </style>
