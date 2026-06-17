@@ -40,6 +40,7 @@ function streamAgent({ message, sessionId, context }, onEvent) {
     const child = spawn('claude', buildArgs({ message, sessionId, context }), {
       cwd: REPO_ROOT,
       env: process.env,
+      stdio: ['ignore', 'pipe', 'pipe'], // close stdin so the CLI doesn't wait on it
     })
     let buffer = ''
     child.stdout.on('data', (chunk) => {

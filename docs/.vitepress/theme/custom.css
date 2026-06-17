@@ -45,6 +45,13 @@
   transition: color 0.25s ease;
 }
 
+/* Use more horizontal width on large screens — the default caps the article at
+   688px inside a 1104px container, leaving a lot of empty side margin. */
+@media (min-width: 1280px) {
+  .VPDoc .container { max-width: 1424px; }
+  .VPDoc .content-container { max-width: 1040px; }
+}
+
 /* Playground mode: give the Playground (rendered in the #doc-top slot, a sibling of
    .vp-doc) the full viewport width. Hide the prose body, the TOC aside, and the
    left sidebar, and drop the content column's reserved padding/max-width. The tab

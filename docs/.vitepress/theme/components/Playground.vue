@@ -8,7 +8,7 @@
         @click="select(f)"
       >
         <span class="fname">{{ f.name }}</span>
-        <button v-if="f.runnable" class="run" :disabled="running" @click.stop="run(f)" title="Run this main class">▶</button>
+        <button v-if="f.runnable" class="run" :disabled="running" @click.stop="run(f)" title="Compile & run this class">▶ Run</button>
       </div>
     </aside>
 
@@ -136,10 +136,13 @@ async function run(f) {
 .playground { display: grid; grid-template-columns: 220px 1fr; gap: 16px; min-height: 60vh; }
 .files { border: 1px solid var(--vp-c-divider); border-radius: 8px; overflow: hidden; height: fit-content; }
 .files-head, .console-head { padding: 8px 12px; font-weight: 700; border-bottom: 1px solid var(--vp-c-divider); background: var(--vp-c-bg-soft); }
-.file { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; cursor: pointer; font-family: var(--vp-font-family-mono); font-size: 13px; }
+.file { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; cursor: pointer; font-family: var(--vp-font-family-mono); font-size: 13px; }
 .file:hover { background: var(--vp-c-bg-soft); }
 .file.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
-.file .run { border: none; background: transparent; color: var(--vp-c-brand-1); cursor: pointer; font-size: 12px; }
+.fname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file .run { flex: none; border: 1px solid var(--vp-c-brand-1); background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); cursor: pointer; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 5px; line-height: 1; }
+.file .run:hover:not(:disabled) { background: var(--vp-c-brand-1); color: #fff; }
+.file .run:disabled { opacity: 0.5; cursor: not-allowed; }
 .main { display: flex; flex-direction: column; min-width: 0; }
 .editor-head { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--vp-c-bg-soft); border: 1px solid var(--vp-c-divider); border-bottom: none; border-radius: 8px 8px 0 0; font-family: var(--vp-font-family-mono); }
 .editor-head button { margin-left: 8px; padding: 4px 10px; border: none; border-radius: 6px; background: var(--vp-c-brand-1); color: #fff; cursor: pointer; }

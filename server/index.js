@@ -3,10 +3,17 @@ const http = require('node:http')
 const { runJava } = require('./run')
 const { saveJava } = require('./save')
 
-// AI provider is switchable. Default 'gemini' (Gemini API, conversational).
-// Set AI_PROVIDER=claude to use the Claude Code CLI agent (can edit/run files) — see agentClaude.js.
-const AI_PROVIDER = process.env.AI_PROVIDER || 'gemini'
-const { streamAgent } = AI_PROVIDER === 'claude' ? require('./agentClaude') : require('./agentGemini')
+// AI provider is switchable via AI_PROVIDER:
+//   'agy'    (default) — local agy agent CLI; agentic (can edit/run files), cheaper. See agentAgy.js
+//   'gemini'           — Gemini API; conversational only (needs GEMINI_API_KEY). See agentGemini.js
+//   'claude'           — Claude Code CLI agent; agentic. See agentClaude.js
+const AI_PROVIDER = process.env.AI_PROVIDER || 'agy'
+const providers = {
+  agy: () => require('./agentAgy'),
+  gemini: () => require('./agentGemini'),
+  claude: () => require('./agentClaude'),
+}
+const { streamAgent } = (providers[AI_PROVIDER] || providers.agy)()
 
 const PORT = process.env.SITE_BACKEND_PORT || 5174
 
