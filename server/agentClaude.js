@@ -1,4 +1,4 @@
-// server/agent.js
+// server/agentClaude.js — Claude Code CLI agent provider (agentic). Used when AI_PROVIDER=claude.
 const { spawn } = require('node:child_process')
 const { REPO_ROOT } = require('./paths')
 
@@ -43,6 +43,15 @@ function streamAgent({ message, sessionId, context }, onEvent) {
       stdio: ['ignore', 'pipe', 'pipe'], // close stdin so the CLI doesn't wait on it
     })
     let buffer = ''
+    let settled = false
+    const finish = (code) => {
+      if (settled) return
+      settled = true
+      const evt = parseStreamLine(buffer)
+      if (evt) onEvent(evt)
+      onEvent({ type: 'exit', code })
+      resolve()
+    }
     child.stdout.on('data', (chunk) => {
       buffer += chunk.toString()
       const lines = buffer.split('\n')
@@ -56,13 +65,12 @@ function streamAgent({ message, sessionId, context }, onEvent) {
       onEvent({ type: 'stderr', text: chunk.toString() })
     })
     child.on('error', (err) => {
-      onEvent({ type: 'error', text: err.message })
+      const hint = err.code === 'ENOENT' ? 'Could not launch "claude" (is it on PATH?)' : err.message
+      onEvent({ type: 'error', text: hint })
+      finish(err.code === 'ENOENT' ? 127 : 1) // resolve even if 'close' never fires
     })
     child.on('close', (code) => {
-      const evt = parseStreamLine(buffer)
-      if (evt) onEvent(evt)
-      onEvent({ type: 'exit', code })
-      resolve()
+      finish(code)
     })
   })
 }

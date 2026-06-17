@@ -72,6 +72,11 @@ async function send() {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ message: text, sessionId: sessionId.value, context: props.context }),
     })
+    if (!res.ok || !res.body) {
+      const detail = await res.text().catch(() => '')
+      messages.value.push({ role: 'agent', text: `Request failed (HTTP ${res.status}). ${detail.slice(0, 300)}` })
+      return
+    }
     const reader = res.body.getReader()
     const decoder = new TextDecoder()
     let buf = ''

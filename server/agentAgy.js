@@ -10,6 +10,26 @@ const { REPO_ROOT } = require('./paths')
 
 const sessions = new Map()
 const AGY_BIN = process.env.AGY_BIN || 'agy'
+const MAX_SESSIONS = 50        // evict oldest beyond this (bounded memory)
+const MAX_HISTORY_MSGS = 20    // keep last ~10 turns per session
+
+function getSession(sessionId) {
+  let sid = sessionId
+  if (!sid || !sessions.has(sid)) {
+    sid = randomUUID()
+    if (sessions.size >= MAX_SESSIONS) {
+      sessions.delete(sessions.keys().next().value) // drop oldest (insertion order)
+    }
+    sessions.set(sid, [])
+  }
+  return { sid, history: sessions.get(sid) }
+}
+
+function pushTurn(history, userText, assistantText) {
+  history.push({ role: 'user', text: userText })
+  history.push({ role: 'assistant', text: assistantText })
+  if (history.length > MAX_HISTORY_MSGS) history.splice(0, history.length - MAX_HISTORY_MSGS)
+}
 
 /** Build the single prompt string from page context + prior turns + the new message. */
 function buildPrompt(history, message, context) {
@@ -39,13 +59,18 @@ function buildArgs(prompt, model) {
  */
 function streamAgent({ message, sessionId, context }, onEvent) {
   return new Promise((resolve) => {
-    let sid = sessionId
-    if (!sid || !sessions.has(sid)) {
-      sid = randomUUID()
-      sessions.set(sid, [])
-    }
-    const history = sessions.get(sid)
+    const { sid, history } = getSession(sessionId)
     onEvent({ type: 'session', session_id: sid })
+
+    let settled = false
+    const finish = (code) => {
+      if (settled) return
+      settled = true
+      pushTurn(history, message, full)
+      onEvent({ type: 'result', session_id: sid, result: full })
+      onEvent({ type: 'exit', code })
+      resolve()
+    }
 
     const prompt = buildPrompt(history, message, context)
     const child = spawn(AGY_BIN, buildArgs(prompt, process.env.AGY_MODEL), {
@@ -68,14 +93,9 @@ function streamAgent({ message, sessionId, context }, onEvent) {
         ? `Could not launch "${AGY_BIN}". Is the agy CLI on PATH? (set AGY_BIN to its absolute path)`
         : err.message
       onEvent({ type: 'error', session_id: sid, text: hint })
+      finish(err.code === 'ENOENT' ? 127 : 1) // resolve even if 'close' never fires
     })
-    child.on('close', (code) => {
-      history.push({ role: 'user', text: message })
-      history.push({ role: 'assistant', text: full })
-      onEvent({ type: 'result', session_id: sid, result: full })
-      onEvent({ type: 'exit', code })
-      resolve()
-    })
+    child.on('close', (code) => finish(code))
   })
 }
 

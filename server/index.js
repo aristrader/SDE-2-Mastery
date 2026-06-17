@@ -56,11 +56,17 @@ function createServer() {
         res.writeHead(200, {
           'content-type': 'text/event-stream',
           'cache-control': 'no-cache',
-          connection: 'keep-alive',
         })
-        await streamAgent({ message, sessionId, context }, (evt) => {
-          res.write(`data: ${JSON.stringify(evt)}\n\n`)
-        })
+        if (res.flushHeaders) res.flushHeaders()
+        // Headers are sent; any failure here must surface as an SSE error event,
+        // NOT a second writeHead (which would throw ERR_HTTP_HEADERS_SENT).
+        try {
+          await streamAgent({ message, sessionId, context }, (evt) => {
+            res.write(`data: ${JSON.stringify(evt)}\n\n`)
+          })
+        } catch (streamErr) {
+          res.write(`data: ${JSON.stringify({ type: 'error', text: streamErr.message })}\n\n`)
+        }
         return res.end()
       }
       sendJson(res, 404, { error: 'not found' })
@@ -71,8 +77,11 @@ function createServer() {
 }
 
 if (require.main === module) {
-  createServer().listen(PORT, () => {
-    console.log(`[site-backend] listening on http://localhost:${PORT} (AI provider: ${AI_PROVIDER})`)
+  // Bind to loopback only: /api/run, /api/save and /api/agent (which runs an agent
+  // with skip-permissions) are powerful and unauthenticated — they must not be
+  // reachable from the LAN. The Vite dev proxy reaches 127.0.0.1 fine.
+  createServer().listen(PORT, '127.0.0.1', () => {
+    console.log(`[site-backend] listening on http://127.0.0.1:${PORT} (AI provider: ${AI_PROVIDER})`)
   })
 }
 

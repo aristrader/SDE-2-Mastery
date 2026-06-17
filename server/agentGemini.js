@@ -9,6 +9,8 @@ const { randomUUID } = require('node:crypto')
 const sessions = new Map()
 
 const DEFAULT_MODEL = 'gemini-2.5-flash'
+const MAX_SESSIONS = 50      // evict oldest beyond this (bounded memory)
+const MAX_HISTORY_MSGS = 20  // keep last ~10 turns (also caps tokens re-sent per call)
 
 /** Build the Gemini request body from prior history + the new user message. */
 function buildRequestBody(history, message, context) {
@@ -54,6 +56,7 @@ async function streamAgent({ message, sessionId, context }, onEvent) {
   let sid = sessionId
   if (!sid || !sessions.has(sid)) {
     sid = randomUUID()
+    if (sessions.size >= MAX_SESSIONS) sessions.delete(sessions.keys().next().value)
     sessions.set(sid, [])
   }
   const history = sessions.get(sid)
@@ -103,6 +106,7 @@ async function streamAgent({ message, sessionId, context }, onEvent) {
     }
     history.push({ role: 'user', parts: [{ text: message }] })
     history.push({ role: 'model', parts: [{ text: full }] })
+    if (history.length > MAX_HISTORY_MSGS) history.splice(0, history.length - MAX_HISTORY_MSGS)
     onEvent({ type: 'result', session_id: sid, result: full })
   } catch (e) {
     onEvent({ type: 'error', session_id: sid, text: e.message })

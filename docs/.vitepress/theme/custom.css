@@ -92,8 +92,14 @@ button:focus-visible {
 /* Default caps the article at 688px inside a 1104px container — lots of empty
    side margin. Widen both on >=1280px. */
 @media (min-width: 1280px) {
-  .VPDoc .container { max-width: 1424px; }
-  .VPDoc .content-container { max-width: 1040px; }
+  /* !important + .has-aside specificity: VitePress's own
+     `.VPDoc.has-aside .content-container { max-width: 688px }` is more specific
+     than a plain `.VPDoc .content-container`, so without these the prose stayed 688. */
+  .VPDoc .container { max-width: 1488px !important; }
+  /* .content is the real cap (default ~784px). Flexbox keeps the TOC aside its own
+     width, so growing content just reclaims the wasted right margin. */
+  .VPDoc .content { max-width: 1200px !important; }
+  .VPDoc .content-container { max-width: 1152px !important; }
 }
 
 /* ----- Playground mode: full-bleed --------------------------------------- */
