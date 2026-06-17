@@ -44,3 +44,17 @@
 .VPSidebarItem .text {
   transition: color 0.25s ease;
 }
+
+/* Playground mode: hide the prose body + TOC aside so the Playground (rendered in
+   the #doc-top slot, a sibling of .vp-doc) gets the full content column. The tab
+   bar lives in the same slot and stays visible. */
+html.pg-play .vp-doc {
+  display: none;
+}
+html.pg-play .VPDocAside {
+  display: none;
+}
+html.pg-play .VPDoc .container,
+html.pg-play .VPDoc .content {
+  max-width: none;
+}
