@@ -3,11 +3,11 @@
     <aside class="files">
       <div class="files-head">Files</div>
       <div
-        v-for="f in files" :key="f.path"
-        :class="['file', selected && selected.path === f.path ? 'active' : '']"
+        v-for="f in files" :key="f.rel"
+        :class="['file', selected && selected.rel === f.rel ? 'active' : '']"
         @click="select(f)"
       >
-        <span class="fname">{{ f.name }}</span>
+        <span class="fname"><span v-if="f.group" class="grp">{{ f.group }}/</span>{{ f.name }}</span>
         <button v-if="f.runnable" class="run" :disabled="running" @click.stop="run(f)" title="Compile & run this class">▶ Run</button>
       </div>
     </aside>
@@ -42,11 +42,12 @@
 import { ref, computed, watch } from 'vue'
 import { useData } from 'vitepress'
 import CodeEditor from './CodeEditor.vue'
-import { analyzeJavaFiles, filesForPage } from '../lib/fileDiscovery.mjs'
+import { analyzeJavaFiles, mdFolderSet, filesForPage } from '../lib/fileDiscovery.mjs'
 
-// Relative glob from this file (components/) up to repo root, then into the java tree.
+// Relative globs from this file (components/) up to repo root, then into the java tree.
 const raw = import.meta.glob('../../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default', eager: true })
 const grouped = analyzeJavaFiles(raw)
+const mdFolders = mdFolderSet(Object.keys(import.meta.glob('../../../../src/main/java/org/example/backend_fundamentals/**/*.md')))
 
 const { page } = useData()
 
@@ -58,7 +59,7 @@ function pageDir(relativePath) {
 const files = computed(() => {
   const dir = pageDir(page.value.relativePath)
   if (!dir) return []
-  return filesForPage(grouped, page.value.relativePath, (d) => d.endsWith('/' + dir) || d.endsWith(dir))
+  return filesForPage(grouped, mdFolders, dir)
 })
 
 const selected = ref(null)
@@ -70,12 +71,6 @@ const output = ref('')
 const runError = ref('')
 
 const dirty = computed(() => !!selected.value && buffer.value !== original.value)
-
-function relFromGlobPath(f) {
-  const marker = 'backend_fundamentals/'
-  const idx = f.path.indexOf(marker)
-  return idx === -1 ? f.name : f.path.slice(idx + marker.length)
-}
 
 function select(f) {
   selected.value = f
@@ -95,11 +90,10 @@ async function save() {
   if (!selected.value) return
   saving.value = true
   try {
-    const rel = relFromGlobPath(selected.value)
     const res = await fetch('/api/save', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ relativePath: rel, content: buffer.value }),
+      body: JSON.stringify({ relativePath: selected.value.rel, content: buffer.value }),
     })
     if (!res.ok) throw new Error((await res.json()).error || 'save failed')
     original.value = buffer.value
@@ -140,6 +134,7 @@ async function run(f) {
 .file:hover { background: var(--vp-c-bg-soft); }
 .file.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
 .fname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fname .grp { color: var(--vp-c-text-3); }
 .file .run { flex: none; border: 1px solid var(--vp-c-brand-1); background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); cursor: pointer; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 5px; line-height: 1; }
 .file .run:hover:not(:disabled) { background: var(--vp-c-brand-1); color: #fff; }
 .file .run:disabled { opacity: 0.5; cursor: not-allowed; }

@@ -26,17 +26,18 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 import { ref, computed, watch } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { useData } from 'vitepress'
 import Playground from './components/Playground.vue'
 import AgentChat from './components/AgentChat.vue'
-import { analyzeJavaFiles } from './lib/fileDiscovery.mjs'
+import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
 
-// Relative glob from this file (theme/) up to repo root, then into the java tree.
+// Relative globs from this file (theme/) up to repo root, then into the java tree.
 const raw = import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default', eager: true })
 const grouped = analyzeJavaFiles(raw)
+// md folders only need their paths (keys), not content — keep this non-eager.
+const mdFolders = mdFolderSet(Object.keys(import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.md')))
 
 const { page } = useData()
-const route = useRoute()
 const mode = ref('read')
 const drawer = ref(false)
 
@@ -48,7 +49,7 @@ function pageDir(rel) {
 const hasCode = computed(() => {
   const dir = pageDir(page.value.relativePath)
   if (!dir) return false
-  return Object.keys(grouped).some((d) => d.endsWith('/' + dir) || d.endsWith(dir))
+  return pageHasCode(grouped, mdFolders, dir)
 })
 
 const shortPath = computed(() => page.value.relativePath.split('/').pop())
@@ -75,7 +76,9 @@ function syncFromHash() {
   applyBodyClass()
 }
 
-watch(() => route.path, () => { syncFromHash() })
+// React to route AND hasCode (a computed that may settle a tick after the route),
+// so play-mode/body-class never reflects the previous page.
+watch([() => page.value.relativePath, hasCode], () => syncFromHash())
 watch(mode, applyBodyClass)
 syncFromHash()
 </script>
