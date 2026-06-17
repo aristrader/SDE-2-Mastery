@@ -1,0 +1,14 @@
+package org.example.backend_fundamentals.design_patterns.creational.factory.factory_method;
+
+/** Concrete creator — plugs an {@link IosDeveloper} into the hiring flow. */
+public class IosHiringProcess extends DeveloperHiringProcess {
+
+  protected IosHiringProcess(EmailService emailService, OfferLetterService offerLetterService) {
+    super(emailService, offerLetterService);
+  }
+
+  @Override
+  public Employee createDeveloper() {
+    return new IosDeveloper();
+  }
+}
