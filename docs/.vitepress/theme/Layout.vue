@@ -129,7 +129,7 @@ syncFromHash()
 .hv-bar em { margin-left: 8px; color: #8b90a0; font-style: normal; font-family: var(--vp-font-family-mono); font-size: 12px; }
 .hv-body { padding: 16px 18px; }
 .hv-code { margin: 0; color: #d4d7e0; font-family: var(--vp-font-family-mono); font-size: 13px; line-height: 1.6; white-space: pre; overflow-x: auto; }
-.hv-code .kw { color: #a5b4fc; }
+.hv-code .kw { color: #5cc6b4; }
 .hv-run { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
 .hv-btn { background: var(--vp-c-brand-3); color: #fff; font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 6px; }
 .hv-out { color: #5fce6a; font-family: var(--vp-font-family-mono); font-size: 12px; }
