@@ -9,6 +9,32 @@
         <ClientOnly><Playground /></ClientOnly>
       </div>
     </template>
+
+    <!-- Home: fill the empty hero side with a mini-playground visual + a how-it-works strip. -->
+    <template #home-hero-image>
+      <div class="hero-visual">
+        <div class="hv-bar"><span></span><span></span><span></span><em>Singleton.java</em></div>
+        <div class="hv-body">
+          <pre class="hv-code"><span class="kw">public class</span> BillPughSingleton {
+  <span class="kw">private static class</span> Holder {
+    <span class="kw">static final</span> var I = <span class="kw">new</span> BillPughSingleton();
+  }
+}</pre>
+          <div class="hv-run"><span class="hv-btn">▶ Run</span><span class="hv-out">▸ instance ok</span></div>
+        </div>
+      </div>
+    </template>
+
+    <template #home-features-after>
+      <div class="how">
+        <h2 class="how-title">How it works</h2>
+        <div class="how-grid">
+          <div class="how-step"><div class="how-n">1</div><h3>Read</h3><p>Theory, diagrams and tables for each topic — clean and scannable.</p></div>
+          <div class="how-step"><div class="how-n">2</div><h3>Run</h3><p>Open the Playground on any code page, edit a class, and run it locally.</p></div>
+          <div class="how-step"><div class="how-n">3</div><h3>Ask AI</h3><p>Discuss the page or get quizzed — the agent is one click away, on every page.</p></div>
+        </div>
+      </div>
+    </template>
   </DefaultTheme.Layout>
 
   <!-- Available on every page so you can discuss the current page with the agent. -->
@@ -94,4 +120,27 @@ syncFromHash()
 .ai-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--vp-c-divider); font-weight: 700; }
 .ai-drawer-head button { border: none; background: transparent; cursor: pointer; font-size: 16px; color: var(--vp-c-text-2); }
 .ai-drawer :deep(.agent-chat) { flex: 1; border: none; border-radius: 0; }
+
+/* Home hero visual — a mini playground that fills the otherwise-empty hero side */
+.hero-visual { width: 100%; max-width: 420px; border-radius: 14px; overflow: hidden; border: 1px solid var(--vp-c-divider); box-shadow: 0 18px 50px rgba(67, 56, 202, 0.18); background: #0f1117; }
+.hv-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: #1a1d27; border-bottom: 1px solid #2a2e3a; }
+.hv-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a3f4d; }
+.hv-bar span:nth-child(1) { background: #ef5f56; } .hv-bar span:nth-child(2) { background: #f6bd3b; } .hv-bar span:nth-child(3) { background: #5fce6a; }
+.hv-bar em { margin-left: 8px; color: #8b90a0; font-style: normal; font-family: var(--vp-font-family-mono); font-size: 12px; }
+.hv-body { padding: 16px 18px; }
+.hv-code { margin: 0; color: #d4d7e0; font-family: var(--vp-font-family-mono); font-size: 13px; line-height: 1.6; white-space: pre; overflow-x: auto; }
+.hv-code .kw { color: #a5b4fc; }
+.hv-run { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+.hv-btn { background: var(--vp-c-brand-3); color: #fff; font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 6px; }
+.hv-out { color: #5fce6a; font-family: var(--vp-font-family-mono); font-size: 12px; }
+
+/* "How it works" strip below the feature cards */
+.how { max-width: 1152px; margin: 8px auto 0; padding: 16px 24px 8px; }
+.how-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; border: none; padding: 0; }
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.how-step { padding: 20px; border: 1px solid var(--vp-c-divider); border-radius: 12px; background: var(--vp-c-bg-soft); }
+.how-step .how-n { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; background: var(--vp-c-brand-3); margin-bottom: 12px; }
+.how-step h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.how-step p { margin: 0; color: var(--vp-c-text-2); font-size: 0.9rem; line-height: 1.6; }
+@media (max-width: 880px) { .how-grid { grid-template-columns: 1fr; } }
 </style>
