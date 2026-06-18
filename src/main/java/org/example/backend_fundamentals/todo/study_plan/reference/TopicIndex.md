@@ -29,9 +29,10 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 ## B
 
-- **Backpressure** → Part 02 (concurrency), Part 10 (messaging)
+- **Backpressure** → Part 02 (concurrency), Part 07 (row 60), Part 10 (messaging)
 - **Backup & restore** → Part 06, Part 13 (AWS)
 - **BAC vs PACE** → Part 29 row 8 (passport NFC)
+- **BFF (Backend-For-Frontend, service-layer aggregation)** → Part 06 (row 41)
 - **Bean lifecycle (Spring)** → Part 03
 - **Bean validation (@Valid, @NotNull, custom @Constraint)** → Part 03, Part 1b row 16
 - **BeanPostProcessor / @PostConstruct** → Part 03
@@ -81,11 +82,13 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## D
 
 - **Data residency (per-tenant)** → Part 28 row 11, Part 29 row 37, Part 31 row 48
+- **Database federation (vs sharding, cross-DB joins/transactions, BFF)** → Part 06 (row 41)
 - **Datadog** → Part 21, Part 31 (KYC funnel)
 - **Deadlock** → Part 02, Part 06
 - **Deepfakes** → Part 29 row 54
 - **Defense-in-depth** → Part 15, Part 16, Part 17, Part 31
 - **Design docs** → Part 24 row 1
+- **Domain-Driven Design / Bounded Context (strategic DDD, context ≠ DB, DDD → service boundaries)** → Part 07 (row 70), Part 04 (row 59 tactical building blocks)
 - **Design thinking process (pain → responsibilities → vary/stay → arrows → skeleton → verify)** → Part 04 row 1, deep_dives/DesignThinkingProcess.md
 - **Device fingerprinting** → Part 29 row 112
 - **DHCP & MAC addresses (leases, identity vs location, spoofing)** → Part 11 row 31
@@ -156,7 +159,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Idempotency-Key** → Part 12, Part 29 row 64
 - **Image quality assessment** → Part 29 row 45, Part 31 row 14
 - **iBeta certification** → Part 29 row 50
-- **Indexes (BTree, hash, GIN)** → Part 06
+- **Indexes (B+ tree internals, pages/fanout, clustered vs secondary, dense vs sparse, AUTO_INCREMENT vs UUID)** → Part 06 (row 3)
 - **Inflight / draining (LB)** → Part 11, Part 26
 - **Injection (SQL, prompt)** → Part 18 (SQL), Part 23 row 25 (prompt)
 - **Inspector (AWS — vulnerability assessment)** → Part 13
@@ -205,14 +208,18 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Manual review queue (KYC)** → Part 29 row 70, Part 31 row 59
 - **MasterSchedule** → MasterSchedule.md (top-level file, not in a Part)
 - **MCP (Model Context Protocol)** → Part 23 row 21
+- **Message broker / event streaming (RabbitMQ vs Kafka, commit log, replay, ESB)** → Part 07 (row 11), Part 10 (rows 5, 12)
 - **Micrometer Observation API** → Part 03, Part 21
 - **mTLS** → Part 16, Part 17, Part 29 row 84
 - **Model drift / canary (ML)** → Part 29 rows 98-99
+- **Monolith vs microservices (modular monolith, distributed monolith anti-pattern, SOA, cohesion/coupling, when-not-to)** → Part 07 (row 69)
 - **MRZ parsing** → Part 29 row 7, Part 31 row 1
 - **MVCC** → Part 06
 
 ## N
 
+- **Normalization / normal forms (1NF–BCNF, functional/partial/transitive dependencies)** → Part 06 (row 1)
+- **N-tier / layered architecture (layer vs tier, closed vs open layers)** → Part 07 (row 68)
 - **NFC chip reading (e-passport)** → Part 29 row 8, Part 31 row 29
 - **NIST FRVT** → Part 29 row 18
 - **NIST 800-63 IAL/AAL** → Part 29 rows 2-3
@@ -232,6 +239,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## P
 
 - **PACE vs BAC (NFC)** → Part 29 row 8
+- **Publish-subscribe / point-to-point / fan-out (event vs command)** → Part 07 (row 12), Part 10 (rows 10, 13)
 - **Pattern matching in switch (instanceof binding, exhaustive)** → Part 01 row 31, Part 1b rows 24, 27
 - **Partial completion (KYC)** → Part 29 row 65, Part 31 row 62
 - **PCI-DSS** → Part 28 row 13
@@ -252,6 +260,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 - **Quality assessment (pre-vendor)** → Part 31 row 14, Part 29 row 45
 - **Queue (in-memory / distributed)** → Part 10
+- **Quorum (N/W/R, R+W>N, leaderless reads/writes)** → Part 06 (row 38)
 
 ## R
 
@@ -267,6 +276,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Replay protection (webhook)** → Part 29 row 32
 - **RFC 1918 private IP ranges (10/8, 172.16-31/12, 192.168/16)** → Part 11 row 15
 - **Replica lag** → Part 06, Part 31 row 61
+- **Replication (leader/follower, sync/async/semi-sync, failover, multi-leader, leaderless quorum, WAL)** → Part 06 (rows 9, 13, 28, 38)
 - **Retry budget** → Part 29 row 66
 - **Retry topics pattern / @RetryableTopic** → Part 10
 - **Right-to-be-forgotten** → Part 28 row 9, Part 29 cross-q #26
@@ -286,7 +296,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Sequence diagram** → Part 05 row 2
 - **Service discovery** → Part 11
 - **Session token (short-lived)** → Part 31 row 4
-- **Sharding** → Part 06, Part 07
+- **Sharding (strategies, shard keys, routing/mongos/Vitess, scatter-gather, consistent hashing, virtual nodes)** → Part 06 (rows 10, 35), Part 07 (rows 5, 22, 30, 42)
 - **Shadow traffic** → Part 26 row 9, Part 31 row 38
 - **Side-channel / timing attacks** → Part 15
 - **Sigstore / cosign (supply-chain signing)** → Part 22
@@ -327,6 +337,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Token bucket / leaky bucket** → Part 09, PracticeProblems § 1 #9
 - **Tokenization vs encryption** → Part 28 row 16
 - **Tracing (OpenTelemetry, Jaeger)** → Part 21
+- **Transactions / distributed commit (states/lifecycle, 2PC blocking, 3PC, Saga/compensating)** → Part 06 (rows 6, 19), Part 07 (rows 37, 39)
 - **Trivy (image scanning)** → Part 22
 - **Trunk-based development** → Part 26 row 10
 

@@ -6,28 +6,28 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | CAP theorem — and why it's often misunderstood | 🔴 💼 🎯 | M | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: place 5 well-known systems (Cassandra, DynamoDB, MongoDB, ZooKeeper, Postgres replicated) on the CAP triangle; defend each placement out loud (30 min) |
-| 2 | PACELC — the practical extension | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Consistency models — strong, sequential, causal, eventual, read-your-writes, monotonic reads | 🔴 💼 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Jepsen "Consistency Models" page (jepsen.io/consistency — diagram + descriptions, ~30 min) |
+| 1 | CAP theorem — and why it's often misunderstood | 🔴 💼 🎯 | M | 1 hr 30 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — partition-time C-vs-A, CP/AP philosophy, why CA doesn't exist, CAP-C vs ACID-C | 📖 `system_design/cap_pacelc/CapPacelc.md` · 💻 Warm-up: place 5 well-known systems (Cassandra, DynamoDB, MongoDB, ZooKeeper, Postgres replicated) on the CAP triangle; defend each placement out loud (30 min) |
+| 2 | PACELC — the practical extension | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — Else branch (latency vs consistency), PA/EL vs PC/EC | 📖 `system_design/cap_pacelc/CapPacelc.md` |
+| 3 | Consistency models — strong, sequential, causal, eventual, read-your-writes, monotonic reads | 🔴 💼 🎯 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: eventual consistency (convergence) covered; strong/sequential/causal/read-your-writes/monotonic pending. ~13 min (ChatGPT) | 📖 `system_design/cap_pacelc/CapPacelc.md` (eventual only) · 📖 Jepsen "Consistency Models" page (jepsen.io/consistency — diagram + descriptions, ~30 min) |
 | 4 | Replication — leader/follower, multi-leader, leaderless (Dynamo-style) | 🔴 💼 🎯 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: leader/follower + replica promotion covered (Redis/Kafka lens); multi-leader, leaderless pending | 📖 *Designing Data-Intensive Applications* ch 5 (Kleppmann, ~45 min) · 📖 `system_design/clustering/Clustering.md` (leader/follower only) |
-| 5 | Partitioning — by range, hash, consistent hashing | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: hash slots + consistent hashing covered (cache lens); range partitioning + DB-partitioning view pending | 📖 `system_design/caching/CachingAndDistributedCache.md` (hash/consistent-hash only) |
+| 5 | Partitioning — by range, hash, consistent hashing | 🔴 💼 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — range/hash/list/composite, DB partitioning view, consistent hashing (ring + virtual nodes) | 📖 `databases/sharding/Sharding.md` · 📖 `system_design/caching/CachingAndDistributedCache.md` (cache lens) |
 | 6 | Load balancers — L4 vs L7, algorithms (round-robin, least-conn, consistent hash, EWMA) | 🔴 💼 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT). Algorithms (RR/least-conn/EWMA) pending | 📖 `system_design/load_balancing/LoadBalancing.md` |
 | 7 | Reverse proxy vs API gateway | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/proxies_vpn/ProxiesVpnFirewalls.md` |
 | 8 | CDN — edge caching, cache-control, invalidation, push vs pull | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT). Cache-Control header mechanics pending (Part 11 row 8) | 📖 `system_design/cdn/Cdn.md` |
 | 9 | Caching — patterns (cache-aside, read-through, write-through, write-behind, refresh-ahead) | 🔴 💼 🎯 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | Refresh-ahead pending. Time counted in Part 9 row 1 | 📖 `system_design/caching/CachingAndDistributedCache.md` · (Cross-ref Part 9 — Caching deep dive) |
 | 10 | Cache invalidation — TTL, event-based, write-through | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Message queue vs stream — semantics differences | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Pub-sub vs point-to-point | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Message queue vs stream — semantics differences | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — broker (deliver-and-discard) vs streaming/commit-log (store + replay), offsets, RabbitMQ vs Kafka | 📖 `messaging/message_brokers/MessageBrokers.md` | 
+| 12 | Pub-sub vs point-to-point | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT, 2 pastes) — queue (competing consumers, command) vs topic (fan-out, event), filtering, durability, multi-protocol delivery, who-does-work-vs-who-wants-to-know | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` |
 | 13 | Rate limiting — fixed window, sliding window, token bucket, leaky bucket | 🔴 💼 🎯 | MP | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement token bucket — tryAcquire() with periodic refill (30 min) |
 | 14 | Timeouts (and why "no timeout" is the #1 prod bug) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Retries with exponential backoff + jitter | 🔴 💼 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 📖 AWS Architecture Blog "Exponential Backoff and Jitter" (~15 min, classic) · 💻 Warm-up: retry(maxAttempts, Supplier) with jitter against flaky Supplier (25 min) |
 | 16 | Circuit breakers (closed/open/half-open) | 🔴 💼 🎯 | MP | 2 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: minimal CircuitBreaker state machine in Java (CLOSED → OPEN → HALF_OPEN); 5 failures opens, probe success closes (45 min) |
-| 17 | Idempotency — keys, design, replay safety | 🔴 💼 🎯 | D | 3 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: build an Idempotency-Key middleware in Spring — TTL'd Redis store, 409 on conflict-different-body, replay original response on conflict-same-body (45 min) |
+| 17 | Idempotency — keys, design, replay safety | 🔴 💼 🎯 | D | 3 hrs 15 min | [ ] | [x] | [ ] | [ ] | Partial: idempotency keys + dedup-by-txn-id + replay safety + payment-key example + effectively-once covered; Spring middleware hands-on pending. ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/DistributedTransactions.md` · 💻 Warm-up: build an Idempotency-Key middleware in Spring — TTL'd Redis store, 409 on conflict-different-body, replay original response on conflict-same-body (45 min) |
 | 18 | Graceful degradation, fallback | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Horizontal vs vertical scaling — tradeoffs | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Stateless service design | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Sticky sessions vs distributed session store | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: sticky-session concept + modern shared-store alternative covered; session-store design details pending | 📖 `system_design/load_balancing/LoadBalancing.md` (concept only) |
-| 22 | Sharding — strategies and pain points (revisited from Part 6) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6.3) |
+| 22 | Sharding — strategies and pain points (revisited from Part 6) | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — strategies, shard keys, routing (mongos/Vitess), scatter-gather, cross-shard joins, rebalancing pain | 📖 `databases/sharding/Sharding.md` · (Cross-ref Part 6.10) |
 | 23 | Consensus — Paxos and Raft (high-level enough to discuss) | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📺 "Raft in 30 min" — thesecretlivesofdata.com (interactive visualization) |
 | 24 | Quorum reads/writes (R + W > N) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Vector clocks, Lamport timestamps | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -35,19 +35,19 @@
 | 27 | Service mesh — sidecar pattern, Istio/Linkerd intuition | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | Reverse proxies — nginx, Envoy, HAProxy | 🟠 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: reverse-proxy concept/uses covered; nginx/Envoy/HAProxy specifics pending | 📖 `networking/proxies_vpn/ProxiesVpnFirewalls.md` (concept only) |
 | 29 | Probabilistic structures — Bloom filter, Cuckoo filter, Count-Min sketch, HyperLogLog, T-Digest | 🟠 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 30 | Consistent hashing (with virtual nodes) | 🟠 💼 🎯 | MP | 2 hrs 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Warm-up implementation still worth doing | 📖 `system_design/caching/CachingAndDistributedCache.md` · 📺 ByteByteGo "Consistent Hashing" video (~15 min) · 💻 Warm-up: implement a basic consistent-hash ring with 100 virtual nodes in Java; add/remove a node, count keys that migrate (45 min) |
+| 30 | Consistent hashing (with virtual nodes) | 🟠 💼 🎯 | MP | 2 hrs 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Warm-up implementation still worth doing | 📖 `databases/sharding/Sharding.md` · 📖 `system_design/caching/CachingAndDistributedCache.md` · 📺 ByteByteGo "Consistent Hashing" video (~15 min) · 💻 Warm-up: implement a basic consistent-hash ring with 100 virtual nodes in Java; add/remove a node, count keys that migrate (45 min) |
 | 31 | Merkle trees — Git internals, anti-entropy in Dynamo-style DBs, blockchain | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 32 | Geospatial structures — geohash, S2 (Google), H3 (Uber), R-tree, quadtree | 🟠 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | Tries — autocomplete, IP prefix matching | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Inverted index — search systems fundamental | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Bulkheads | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 36 | Dead-letter queues | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | Saga pattern (revisited from LLD) | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 4.3) |
+| 37 | Saga pattern (revisited from LLD) | 🟠 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — local txns + compensations, eventual consistency, compensation-failure handling (retry/pending/DLQ/idempotency), Kafka choreography | 📖 `databases/distributed_transactions/DistributedTransactions.md` · (Cross-ref Part 4.3) |
 | 38 | Outbox pattern (revisited) | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 4.3) |
-| 39 | Compensating transactions | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 39 | Compensating transactions | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — compensation actions, failure handling (retry/pending/DLQ/human), idempotency requirement | 📖 `databases/distributed_transactions/DistributedTransactions.md` |
 | 40 | Read/write separation | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6.3 read replicas) |
 | 41 | Geo-distribution, multi-region active-active vs active-passive | 🟠 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 42 | Hot partition mitigation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 42 | Hot partition mitigation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: hot-shard cause (low-cardinality keys like country) + good-shard-key choice + virtual nodes covered; key-salting/write-sharding mitigations pending. ~18 min (ChatGPT) | 📖 `databases/sharding/Sharding.md` |
 | 43 | Async processing, queue offload | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 44 | HLD — URL shortener | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | See `reference/PracticeProblems.md` § HLD |
 | 45 | HLD — Pastebin | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -65,7 +65,7 @@
 | 57 | HLD — Web crawler | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 58 | HLD — Search autocomplete / typeahead | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 59 | HLD — KYC / identity verification platform — your domain | 🟠 🎯 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | Portfolio piece — polish this one |
-| 60 | Backpressure, flow control | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 60 | Backpressure, flow control | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — producer/consumer rate mismatch, 429/503, rate limiting, bounded buffers | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` |
 | 61 | Chaos engineering | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 62 | Failure mode analysis | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 63 | HLD — Payment system (idempotency, ledger) | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -73,14 +73,17 @@
 | 65 | HLD — Distributed locks | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 66 | Availability vs reliability vs fault tolerance — definitions, HA vs FT, redundancy mindset | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/availability/AvailabilityReliabilityFaultTolerance.md` |
 | 67 | Clustering fundamentals — cluster vs LB, heartbeats, failure detection, replica promotion / leader election (Redis & Kafka examples) | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/Clustering.md` |
+| 68 | N-tier / layered architecture — layer vs tier, 1/2/3-tier, closed vs open layers, modern request path | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — layer (logical) vs tier (physical), 3-tier gatekeeper, closed/open layers | 📖 `system_design/n_tier/NTierArchitecture.md` |
+| 69 | Monolith vs microservices — modular monolith, distributed monolith (anti-pattern), SOA, cohesion/coupling, sync vs event-driven, when NOT to | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — trade-off framing, modular→micro evolution, distributed-monolith signs, loose-coupling≠EDA, when not to use | 📖 `system_design/architecture/MonolithsVsMicroservices.md` |
+| 70 | Domain-Driven Design (strategic) — bounded context, domain boundaries, context ≠ DB, data duplication for independence, DDD → service boundaries | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — bounded context = meaning/ownership not DB, "no universal Customer", DDD identifies microservice seams. Tactical building blocks: Part 4 row 59 | 📖 `system_design/ddd/DomainDrivenDesign.md` |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~37.17 hrs | ~3.4 wk | ~5.25 hrs so far (rows 6, 7, 8, 9, 66 done; rows 4, 5, 21 partial) |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~90.67 hrs | ~8.2 wk | ~7.5 hrs so far (rows 6, 7, 8, 9, 30, 66, 67 done; rows 4, 5, 21, 28 partial) |
-| Full Part (all items including 🟡) | ~98.67 hrs | ~9 wk | ~7.5 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~37.17 hrs | ~3.4 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~90.67 hrs | ~8.2 wk | |
+| Full Part (all items including 🟡) | ~101.42 hrs | ~9.2 wk | ~12.3 hrs so far |
 
 > Heaviest interview block at senior+. The HLD problems (rows 44-65) overlap with `reference/PracticeProblems.md` § HLD — pick 5-7 problems to walk through end-to-end, especially #59 (KYC platform — portfolio piece).
 

@@ -6,25 +6,25 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | Normalization (1NF–3NF, BCNF) — and when to denormalize | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: normalize-vs-denormalize philosophy (SQL vs NoSQL) covered; 1NF–3NF/BCNF forms pending | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (philosophy only) |
+| 1 | Normalization (1NF–3NF, BCNF) — and when to denormalize | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — 1NF–BCNF, functional/partial/transitive deps, dirty-table journey, denormalization trade-offs | 📖 `databases/normalization/Normalization.md` · 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (philosophy) |
 | 2 | Primary keys, foreign keys, surrogate vs natural | 🔴 💼 🎯 | M | 1 hr 5 min | [ ] | [x] | [ ] | [ ] | Partial: FK / referential integrity / orphaned records / app-vs-DB enforcement covered; surrogate vs natural keys pending | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (FK part) · 💻 Warm-up: basic CRUD on a users table from memory — CREATE TABLE / INSERT / SELECT WHERE / UPDATE / DELETE (20 min) |
-| 3 | Indexes — B-tree, composite, covering, partial; INCLUDE columns | 🔴 💼 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Use The Index, Luke! — Markus Winand (free, dip-in reference) |
+| 3 | Indexes — B-tree, composite, covering, partial; INCLUDE columns | 🔴 💼 🎯 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: B+ tree internals (pages, fanout, internal-vs-leaf, splits/rebalance, clustered vs secondary, dense vs sparse, NULLs, AUTO_INCREMENT vs UUID) covered; composite/covering/partial/INCLUDE columns pending. ~18 min (ChatGPT) | 📖 `databases/indexes/Indexes.md` · 📖 Use The Index, Luke! — Markus Winand (free, dip-in reference) |
 | 4 | Query planner / EXPLAIN — reading plans, identifying full scans | 🔴 💼 🎯 | D | 3 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 Vlad Mihalcea blog on EXPLAIN ANALYZE · 💻 Warm-up: GROUP BY + COUNT/SUM/AVG/HAVING/ORDER BY from scratch (20 min) |
 | 5 | Joins — nested loop, hash, merge; when each is chosen | 🔴 💼 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write LEFT / INNER / RIGHT JOIN on orders + customers, observe result-set differences (30 min) |
-| 6 | ACID — what each letter actually guarantees | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: atomicity/rollback + transactions-not-SQL-only covered; letter-by-letter guarantees pending | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (transactions part) |
+| 6 | ACID — what each letter actually guarantees | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — Consistency-means-constraints (vs CAP), A/I/D recap, constraint examples | 📖 `databases/transactions/Transactions.md` · 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (transactions part) |
 | 7 | Isolation levels — read uncommitted, read committed, repeatable read, serializable | 🔴 💼 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 *Designing Data-Intensive Applications* ch 7 (Kleppmann — single chapter, ~45 min) |
 | 8 | Anomalies — dirty read, non-repeatable, phantom, write skew, lost update | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Read replicas — async lag, read-after-write | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Sharding — strategies (range, hash, directory), resharding pain | 🔴 💼 🎯 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: what sharding is + when/when-not to shard (shard-last answer) covered; strategies + resharding pain pending | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (when-to-shard only) |
+| 9 | Read replicas — async lag, read-after-write | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: read replicas + replication lag + lag-vs-app-latency covered; read-after-write mitigation strategies (sticky reads, timestamp) pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` |
+| 10 | Sharding — strategies (range, hash, directory), resharding pain | 🔴 💼 🎯 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — hash/list/range/composite strategies, shard keys, app-vs-DB routing (mongos/Vitess), scatter-gather, lookup table, resharding/consistent-hashing | 📖 `databases/sharding/Sharding.md` · 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (when-to-shard) |
 | 11 | Key-value (Redis, DynamoDB, Memcached) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Document (MongoDB, DynamoDB) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: MongoDB schema flexibility / validation / transactions / document-modeling limits covered; DynamoDB pending | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (MongoDB parts) |
-| 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` (replication part) |
 | 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 redis.io "Introduction to Redis" (~30 min) |
 | 16 | MVCC — Postgres vs MySQL implementations | 🟠 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | Locks — row, gap, next-key (MySQL specifically) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Deadlocks — detection, prevention | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: transaction states/lifecycle + distributed transactions + 2PC (prepare/commit, blocking problem, recovery) + 3PC + Saga/compensating covered; savepoints + XA pending. ~26 min (ChatGPT, 2 pastes) | 📖 `databases/distributed_transactions/DistributedTransactions.md` · 📖 `databases/transactions/Transactions.md` |
 | 20 | Window functions (ROW_NUMBER, RANK, LAG, LEAD) | 🟠 💼 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: ROW_NUMBER / RANK / LAG over PARTITION BY — find top-N per category, find diff between consecutive rows (20 min) |
 | 21 | CTEs (WITH), recursive CTEs | 🟠 💼 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: WITH non-recursive + recursive CTE for org-chart hierarchy traversal (25 min) |
 | 22 | Materialized views | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -33,27 +33,28 @@
 | 25 | Connection pooling — HikariCP, sizing math | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 HikariCP "About Pool Sizing" wiki (~15 min, gold) |
 | 26 | Caching layer in front (Redis) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Vertical vs horizontal scaling | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 28 | Multi-master, conflict resolution | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 28 | Multi-master, conflict resolution | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — multi-leader, regional models, LWW/merge/human, OT/CRDT for collaborative editing | 📖 `databases/replication/Replication.md` |
 | 29 | Wide-column (Cassandra, ScyllaDB, HBase) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | Graph (Neo4j, Neptune) | 🟠 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: fraud-detection use cases (shared devices, cycles) covered; Neo4j/Neptune specifics pending | 📖 `databases/graph_and_graphql/GraphDbAndGraphQl.md` (use cases only) |
 | 31 | Time-series (Prometheus, InfluxDB, TimescaleDB) | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 32 | Search (Elasticsearch, OpenSearch) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | DynamoDB — partition keys, GSI/LSI, hot partitions, on-demand vs provisioned | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Elasticsearch — inverted index, mapping, analyzers | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 35 | Partitioning (range, list, hash) | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 35 | Partitioning (range, list, hash) | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — horizontal vs vertical, hash/list/range/composite criteria | 📖 `databases/sharding/Sharding.md` |
 | 36 | JSON columns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Vector (pgvector, Pinecone, Weaviate, Milvus) — also covered in GenAI | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency (leaderless, N/W/R quorums, R+W>N) covered; partition + clustering keys pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` (quorum part) |
 | 39 | MongoDB — sharding, secondary indexes, aggregation pipeline | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` |
+| 41 | Database federation — federated DBs vs sharding, cross-DB join/transaction cost, modern database-per-service + Saga + BFF | 🟡 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — federation vs sharding contrast, why it faded, BFF as service-layer aggregation | 📖 `databases/federation/Federation.md` |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~37.92 hrs | ~3.45 wk | ~1 hr so far (row 40 done; rows 1, 2, 6, 10, 12 partial) |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~64.92 hrs | ~5.9 wk | ~1 hr so far (row 30 also partial) |
-| Full Part (all items including 🟡) | ~70.17 hrs | ~6.4 wk | ~1 hr so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~37.92 hrs | ~3.45 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~64.92 hrs | ~5.9 wk | |
+| Full Part (all items including 🟡) | ~71.17 hrs | ~6.5 wk | ~5.0 hrs so far |
 
 > Database is foundational for most senior interviews. Isolation levels + indexes + EXPLAIN are interview-canonical and worth Mastery time.
 

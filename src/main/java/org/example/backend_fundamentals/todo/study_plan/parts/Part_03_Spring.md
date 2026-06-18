@@ -68,9 +68,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~40.42 hrs | ~3.7 wk | ~1 hr so far (row 31 done) |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~40.42 hrs | ~3.7 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~72 hrs | ~6.55 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~84.67 hrs | ~7.7 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~84.67 hrs | ~7.7 wk | ~1 hr so far |
 
 > Spring is your daily tool — expect a large fraction of items to be ✅ Done at Survey time. Actual study time will be a small fraction of these estimates.
 

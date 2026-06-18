@@ -48,7 +48,7 @@ The user runs `/clear` after every design pattern is finished. Persistent state 
 
 When a pattern is finished, before context is cleared:
 
-0. **Fill actual time in the Part row's `Notes` column AND update the Time summary** — follow the procedure in memory file `feedback_actual_time_tracking.md` (JSONL-based active-time calculation).
+0. **Fill actual time in the Part row's `Notes` column AND update the Time summary** — update the single cumulative figure in the `Full Part` row only (same lightweight rule as the import workflow below; 🔴-only / 🔴+🟠 actual cells stay blank, no row-lists). Estimate active time from the session (elapsed working time, e.g. from `.claude/events.jsonl` timestamps); an approximate figure is fine.
 
 1. **Run the demo** (`mvn -q compile && mvn -q exec:java -Dexec.mainClass="..."`) and confirm it still works.
 2. **Tick the pattern done in `design_patterns/creational/CreationalPatternsRoadmap.md`**.
@@ -60,25 +60,24 @@ Do not skip these. If skipped, the next session will start cold and lose context
 
 The user studies topics in ChatGPT threads, has ChatGPT generate a study page per thread (via the saved prompt in `todo/study_plan/reference/ChatGptDocImportPrompt.md`, which follows `reference/DocCreationStandard.md`), and imports those pages here one at a time. The routine — follow it whenever the user says they've pasted a doc into `temp.md` (repo root) or asks to "process" it:
 
-1. **Read `temp.md`**, then read `todo/study_plan/reference/DocCreationStandard.md` before processing.
+1. **Read the temp file(s)** — `temp.md`, or `temp1`–`temp4` when several dumps are staged at once (repo root has 5 staging files) — then read `todo/study_plan/reference/DocCreationStandard.md` before processing.
 2. **Standards pass** — restructure to the repo doc shape (direct start, dense sections, `## Quick recall` ending, pure GFM/no HTML, ```java blocks, no emojis). **Never drop a discussion point** — cleanup means reorganize/rephrase/dedupe, not cut. Non-interview tangents go to a `## Good to know` section near the end instead of being removed. Avoid shortening the user's content; only true redundancy may be collapsed.
 3. **Extend where thin — but only topics actually discussed.** If a discussed topic is under-explained against the interview bar (missing internals, the "why", a classic gotcha), deepen it per DocCreationStandard. Do NOT add undiscussed subtopics just to close a Part-row gap (user explicitly declined this — e.g. don't bolt on IPv6/Anycast sections to fully earn a row the chat only partially covered). Extension deepens; shortening is not allowed.
-4. **Split when overloaded — decide yourself.** If one paste spans multiple distinct topics, split into separate files/folders. The user has said: **don't ask where to put files — decide the destination/filename autonomously** and just state the choice. New top-level folders under `backend_fundamentals/` are fine (e.g. `networking/` was created this way).
-5. **Write the .md(s)** at the chosen location(s) under `backend_fundamentals/`, then **clear `temp.md`** back to its two comment lines.
+4. **Split when overloaded — decide yourself.** If one paste spans multiple distinct topics, split into separate files/folders. The user has said: **don't ask where to put files — decide the destination/filename autonomously** and just state the choice. New top-level folders under `backend_fundamentals/` are fine (e.g. `networking/`, `messaging/` were created this way). **A new top-level folder MUST also be registered in `docs/.vitepress/config.mjs`** — add it to both the `nav` array and the `sidebar` `generateSidebar([...])` array, and give the folder an `index.md` hub (frontmatter `sidebar: false`, `pageClass: hub-page`) — otherwise it won't appear on the site. Subfolders of an already-registered folder (e.g. anything new under `databases/`) are auto-discovered and need no config change.
+5. **Write the .md(s)** at the chosen location(s) under `backend_fundamentals/`, then **clear the processed temp file(s)** back to their two comment lines. **Use absolute paths for every Bash file op** (clear/ls/find) — the shell CWD is *not* guaranteed to be the repo root, and a relative `> temp.md` once created stray empty files inside `backend_fundamentals/`. Never rely on `cd` persisting between calls.
 6. **Update the Part doc(s)** in `todo/study_plan/parts/`:
    - If solid doc content matches **no existing Part row**, add a new row for it (priority-sorted position, sensible tier/time; e.g. row 31 "DHCP + MAC addresses" was added to Part 11 this way) and sync TopicIndex.
    - Tick `Done` (`[x]`) only on rows the doc **substantially** covers (explicit user instruction — overrides the "don't tick for the user" default; `Grilling` / `Visit Again` stay untouched). Partially covered rows stay unticked in `Done` but get **`Partial` ticked (`[x]`)**, a `Partial: <covered> ; <pending>` note in `Notes`, the 📖 link, and a call-out in the import report. When a later paste completes a partial row: tick `Done`, untick `Partial`.
-   - Actual time: **~1.5 hr per paste, total** (regardless of how many files it splits into), split evenly across all covered rows in the `Notes` column (e.g. 3 rows → `~30 min` each). Approximate is fine.
+   - Actual time: **~1.5 hr per paste, total** (regardless of how many files it splits into), split across covered rows in the `Notes` column. Approximate is fine — a single per-row figure, no arithmetic agonising.
    - Add a `📖 <path/to/Doc.md>` link in the Resources column of **every covered row**.
-   - Update the Time summary's "Actual time" cell (cumulative, list rows done).
-7. **Bookkeeping** — sync `reference/TopicIndex.md` if Part rows changed.
-8. **Import report** — every run ends with a compact stats block. Keep it a short table/list, no prose:
-   - **Files created:** N (split from 1 paste, or "1, no split") + paths.
-   - **Part rows covered:** which Part(s), which row #s, and topic names.
-   - **Partial coverage:** every row only partially covered — what's covered vs what's still pending (the user relies on this instead of gap-filling extensions).
-   - **Time — planned vs actual:** sum of the covered rows' estimated `Time` column vs the ~1.5 hr actual (e.g. "planned ~6 hrs → actual ~1.5 hr, saved ~4.5 hrs").
-   - **Part progress:** for each touched Part — 🔴 rows done / total 🔴 rows (and overall rows done / total), plus the Part's cumulative actual time from its Time summary.
-   - **Timeline position:** current Sprint week vs where the covered Part sits in the schedule — one line saying ahead / on track / behind. **Sprint anchor: Monday, May 18, 2026 = Week 1 start** (recorded in `study_plan/README.md` "Current phase + week" — bump the Week number there if a new week has started since it was last updated).
+   - **Time summary — lightweight rule (token-saving, applies to ALL parts).** Maintain **one** running cumulative figure in the **`Full Part` row's "Actual time" cell** only (e.g. `~5.0 hrs so far`). Leave the 🔴-only and 🔴+🟠 "Actual time" cells **blank**. **Never** append a done/partial **row-list** to any cell — the table's `Done`/`Partial` checkboxes are the single source of truth (the old per-scope row-lists were pure duplication and have been removed). Every studied Part now follows this one format — keep it that way.
+7. **Bookkeeping (batch at end of run).** Sync `reference/TopicIndex.md` **only when a row is added / renamed / deleted** — a plain `Done`/`Partial` tick needs no index change. Also add new docs to their folder `index.md` hub. When one run processes **multiple pastes**, do all index + hub updates as a single final sweep, not per paste.
+8. **Import report** — end every run with a compact block (short table/list, no prose):
+   - **Files created:** paths (note splits, e.g. "1 paste → 2 files").
+   - **Part rows covered:** Part + row # + topic, marking Done vs Partial.
+   - **Partial coverage:** for each partial row, covered vs pending (the user relies on this instead of gap-filling extensions).
+   - **Timeline position:** one line — current Sprint week vs where the covered Part sits in the schedule (ahead / on track / behind). **Sprint anchor: Monday, May 18, 2026 = Week 1 start** (in `study_plan/README.md` "Current phase + week" — bump the Week if a new one started).
+   - Keep figures **approximate** — do **not** burn tokens computing exact 🔴-done/total ratios or planned-vs-actual sums unless the user explicitly asks for the full standing.
 
 ## Pattern progress
 
@@ -110,6 +109,8 @@ mvn -q exec:java -Dexec.mainClass="<FQCN>"                 # run any demo runner
 ```
 
 When asked to verify a change works, compile + run the relevant `...Run` main rather than writing a unit test.
+
+**Bash hygiene:** use **absolute paths** for file operations. The shell CWD is not guaranteed to be the repo root and does not reliably persist across calls — a relative `> temp.md` once wrote stray files into `backend_fundamentals/`. Don't depend on a prior `cd`.
 
 ## Code layout and the `.md`-alongside-code convention
 

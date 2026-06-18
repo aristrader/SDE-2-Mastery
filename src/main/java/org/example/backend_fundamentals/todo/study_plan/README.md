@@ -72,7 +72,7 @@ Each doc has:
 
 > **Sprint start:** Monday, May 18, 2026 (Week 1 = May 18–24)
 > **Phase:** Sprint
-> **Week:** 3 (Jun 1–7) — *(update each Monday)*
+> **Week:** 5 (Jun 15–21) — *(update each Monday)*
 > **Today's deliverable:** *(update each session)*
 
 ## If you're behind schedule

@@ -38,6 +38,7 @@ export default withMermaid({
       { text: 'Design Patterns', link: '/design_patterns/' },
       { text: 'Networking', link: '/networking/' },
       { text: 'Databases', link: '/databases/' },
+      { text: 'Messaging', link: '/messaging/' },
     ],
     search: { provider: 'local' },
     sidebar: generateSidebar([
@@ -49,6 +50,7 @@ export default withMermaid({
       { ...commonSidebarConfig, scanStartPath: 'design_patterns', resolvePath: '/design_patterns/' },
       { ...commonSidebarConfig, scanStartPath: 'networking', resolvePath: '/networking/' },
       { ...commonSidebarConfig, scanStartPath: 'databases', resolvePath: '/databases/' },
+      { ...commonSidebarConfig, scanStartPath: 'messaging', resolvePath: '/messaging/' },
     ]),
   },
 })

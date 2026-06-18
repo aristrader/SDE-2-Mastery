@@ -117,6 +117,23 @@ Yes, potentially — a trade-off exists.
 - **SQL: normalize.** Users / orders / products / payments in separate tables, relationships through joins, avoid duplication. Motto: *avoid duplication, maintain consistency.*
 - **NoSQL: denormalize.** Store related data together (`{"user":"Alice","orders":[…]}`), duplicate data if necessary, avoid joins. Motto: *duplicate data, optimize access patterns.*
 
+## Design mindset: entity-first vs access-pattern-first
+
+Beyond normalize/denormalize, the two technologies push a different *starting point* for design — this is the framing interviewers want.
+
+- **SQL mindset — entity-first / relationship-first.** Start from the entities (users, orders, products, payments), model the relationships between them, normalize, and let flexible querying (ad-hoc joins) come later. You design the data, then query it however you need.
+- **NoSQL mindset — access-pattern-first.** Start from *"what queries will I run most often?"* (e.g. "get user profile with recent orders"), then shape storage around those queries. You design for the read, and pay for new access patterns with new denormalized copies.
+
+**Interview framing:** SQL lets you defer query decisions because joins are cheap and flexible; NoSQL forces you to know your access patterns up front because the storage layout *is* the query plan.
+
+## Scale alone doesn't dictate NoSQL
+
+**Misconception:** *large scale ⇒ NoSQL.*
+
+**Correction:** plenty of very large systems run PostgreSQL / MySQL at massive scale. The choice is driven by **data model, query patterns, operational requirements, and team expertise** — not raw user count. "We have a lot of users" is not, by itself, a reason to reach for NoSQL.
+
+Note the symmetry with the transactions point above: **SQL has gotten better at scaling** (partitioning, replicas, managed sharding) and **NoSQL has gotten better at transactions**. So the old "SQL = transactions, NoSQL = scale" split no longer drives the decision — *data shape and access patterns* do.
+
 ## NoSQL scaling
 
 *"When people say NoSQL scales better, does it mean sharding is built in?"* — mostly yes. Many NoSQL systems were designed around horizontal scaling from day one: MongoDB → built-in sharding; Cassandra → built-in partitioning; DynamoDB → automatic partitioning.
@@ -148,6 +165,7 @@ A 20 GB database at 500 req/s — Postgres handles it. Sharding introduces cross
 4. **"Big companies remove relationships."** Relationships still exist — *enforcement* moves from the database (FKs can't span service databases) to the application.
 5. **"NoSQL consistency = SQL consistency now."** Distinguish ACID consistency (both can do) from built-in data-integrity enforcement (relational constraints/FKs are stronger).
 6. **"Data is big, let's shard."** Shard when a single DB is the *bottleneck*, and only after optimization/indexing/caching/replicas/vertical scaling are exhausted.
+7. **"Large scale means NoSQL."** No — large systems run on Postgres/MySQL too. The driver is data model + query patterns + operational needs + team expertise, not user count.
 
 ## Quick recall
 
@@ -171,3 +189,9 @@ A. SQL: normalize, avoid duplication, join. NoSQL: denormalize, duplicate freely
 
 **Q. When do you shard?**
 A. When a single database is the bottleneck — and only after query optimization, indexing, caching, read replicas, and vertical scaling are exhausted.
+
+**Q. SQL vs NoSQL design mindset?**
+A. SQL is entity-first/relationship-first (model entities, normalize, query flexibly later); NoSQL is access-pattern-first (design storage around the queries you'll run most).
+
+**Q. Does large scale force NoSQL?**
+A. No — Postgres/MySQL run at massive scale. The decision is data model, query patterns, operational needs, and team expertise, not user count.

@@ -44,9 +44,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~20.92 hrs | ~1.9 wk | ~6 hrs 14 min so far (rows 1, 1a, 2, 3, 4, 5, 6, 7, 8 done) |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~20.92 hrs | ~1.9 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~36.92 hrs | ~3.35 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~50.67 hrs | ~4.6 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~50.67 hrs | ~4.6 wk | ~6 hr 14 min so far |
 
 > Time estimates assume zero baseline (you've never seen the topic). Subtract whatever you already know.
 > Fill in "Actual time" after finishing the Part — useful for calibrating future Parts.
