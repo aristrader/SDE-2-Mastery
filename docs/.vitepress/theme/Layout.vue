@@ -1,6 +1,7 @@
 <template>
   <DefaultTheme.Layout>
     <template #doc-top>
+      <div v-if="domainLabel" class="page-eyebrow">{{ domainLabel }}</div>
       <div v-if="hasCode" class="mode-tabs">
         <button :class="{ active: mode === 'read' }" @click="setMode('read')">Read</button>
         <button :class="{ active: mode === 'play' }" @click="setMode('play')">⚙ Playground</button>
@@ -79,6 +80,19 @@ const hasCode = computed(() => {
   return pageHasCode(grouped, mdFolders, dir)
 })
 
+// Colored domain kicker above the page title — orientation + a structural splash
+// of colour. Suppressed on the home + hub index pages (their H1 already names the domain).
+const DOMAINS = {
+  design_patterns: 'Design Patterns', java: 'Java & JVM', spring: 'Spring',
+  spring_boot: 'Spring', system_design: 'System Design', networking: 'Networking',
+  databases: 'Databases', todo: 'Study Plan',
+}
+const domainLabel = computed(() => {
+  const rel = page.value.relativePath
+  if (!rel || rel === 'index.md' || rel.endsWith('/index.md')) return ''
+  return DOMAINS[rel.split('/')[0]] || ''
+})
+
 const shortPath = computed(() => page.value.relativePath.split('/').pop())
 const drawerContext = computed(() => `The user is reading ${page.value.relativePath}. Discuss or act on this page's content.`)
 
@@ -123,6 +137,7 @@ syncFromHash()
 </script>
 
 <style scoped>
+.page-eyebrow { font-family: var(--vp-font-family-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--vp-c-brand-1); margin-bottom: 4px; }
 .mode-tabs { display: flex; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--vp-c-divider); }
 .mode-tabs button { padding: 4px 12px; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); cursor: pointer; }
 .mode-tabs button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); }
@@ -142,7 +157,7 @@ syncFromHash()
 .hv-bar em { margin-left: 8px; color: #8b90a0; font-style: normal; font-family: var(--vp-font-family-mono); font-size: 12px; }
 .hv-body { padding: 16px 18px; }
 .hv-code { margin: 0; color: #d4d7e0; font-family: var(--vp-font-family-mono); font-size: 13px; line-height: 1.6; white-space: pre; overflow-x: auto; }
-.hv-code .kw { color: #5cc6b4; }
+.hv-code .kw { color: #7aa2ff; }
 .hv-run { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
 .hv-btn { background: var(--vp-c-brand-3); color: #fff; font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 6px; }
 .hv-out { color: #5fce6a; font-family: var(--vp-font-family-mono); font-size: 12px; }

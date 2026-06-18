@@ -1,5 +1,6 @@
 ---
 sidebar: false
+pageClass: hub-page
 ---
 
 # System Design

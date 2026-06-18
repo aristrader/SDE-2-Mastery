@@ -17,12 +17,14 @@ export default withMermaid({
   // Calm, neutral diagrams that don't fight the teal theme (default mermaid is purple).
   // The plugin still swaps to dark automatically on the .dark class.
   mermaid: {
-    theme: 'neutral',
+    theme: 'base',
     themeVariables: {
-      primaryColor: '#eef1f0',
-      primaryBorderColor: '#117c6f',
-      primaryTextColor: '#232830',
-      lineColor: '#8a909c',
+      primaryColor: '#e8efff',
+      primaryBorderColor: '#2563eb',
+      primaryTextColor: '#161a22',
+      secondaryColor: '#f3e8ff',
+      tertiaryColor: '#e8fff4',
+      lineColor: '#94a3b8',
       fontFamily: "'IBM Plex Sans', sans-serif",
     },
   },

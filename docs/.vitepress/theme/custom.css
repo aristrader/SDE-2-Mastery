@@ -1,8 +1,8 @@
 /* ============================================================================
-   SDE-2 Mastery — "Quiet Study" theme
-   A calm, reading-first identity for long study sessions: soft (non-glare)
-   surfaces, comfortable contrast, a single restful teal accent, and type chosen
-   for on-screen legibility (IBM Plex Sans/Mono + Space Grotesk display).
+   SDE-2 Mastery — "Crisp" theme
+   Reading-first but vibrant: a bright clean canvas, strong high-contrast text, and
+   a confident blue→violet accent used boldly (hero, links, markers, diagrams).
+   High contrast reads sharper AND easier than washed-out grays.
    ============================================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
@@ -11,33 +11,35 @@
   --vp-font-family-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
   --study-display: 'Space Grotesk', var(--vp-font-family-base);
 
-  /* Calm teal accent — restful, readable, not a neon SaaS color */
-  --vp-c-brand-1: #117c6f;   /* links / interactive text (AA on canvas) */
-  --vp-c-brand-2: #0e6b60;   /* hover */
-  --vp-c-brand-3: #159a8a;   /* solid button bg */
-  --vp-c-brand-soft: rgba(17, 124, 111, 0.10);
+  /* Vivid blue accent + violet partner for gradients */
+  --vp-c-brand-1: #2563eb;   /* links / interactive (vivid, AA on white) */
+  --vp-c-brand-2: #1d4ed8;   /* hover */
+  --vp-c-brand-3: #3b82f6;   /* solid button bg */
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.10);
   --vp-c-brand: var(--vp-c-brand-1);
   --vp-c-brand-light: var(--vp-c-brand-3);
-  --vp-c-brand-lighter: #2bb6a3;
-  --vp-c-brand-dark: #0c574e;
+  --vp-c-brand-lighter: #60a5fa;
+  --vp-c-brand-dark: #1e40af;
+  --study-violet: #7c3aed;
 
-  /* Soft, low-glare neutrals (no stark #fff, no pure #000) */
-  --vp-c-bg: #f8f8f6;
-  --vp-c-bg-alt: #efefea;
-  --vp-c-bg-soft: #f1f1ec;
-  --vp-c-bg-mute: #ecece6;
-  --vp-c-text-1: #232830;   /* soft near-black — comfortable, not harsh */
-  --vp-c-text-2: #585f6c;
-  --vp-c-text-3: #8a909c;
-  --vp-c-divider: #e6e4dd;
-  --vp-c-gutter: #e6e4dd;
+  /* Bright, crisp neutrals — clean canvas, strong text (not soft/dull) */
+  --vp-c-bg: #fcfdfe;
+  --vp-c-bg-alt: #f3f6fb;
+  --vp-c-bg-soft: #f1f4f9;
+  --vp-c-bg-mute: #e9eef5;
+  --vp-c-text-1: #161a22;   /* strong near-black for crisp reading */
+  --vp-c-text-2: #4c5566;
+  --vp-c-text-3: #828b9c;
+  --vp-c-divider: #e3e8ef;
+  --vp-c-gutter: #e3e8ef;
 
-  --study-success: #2f9e5a; /* run-output green */
+  --study-success: #16a34a;
 
-  --vp-home-hero-name-color: var(--vp-c-brand-1);
-  --vp-home-hero-name-background: none;
-  --vp-home-hero-image-background-image: linear-gradient(120deg, rgba(17,124,111,0.30), rgba(43,182,163,0.22));
-  --vp-home-hero-image-filter: blur(64px);
+  /* Vivid gradient hero name (this is the 'pop') */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #2563eb 10%, #7c3aed 95%);
+  --vp-home-hero-image-background-image: linear-gradient(120deg, rgba(37,99,235,0.42), rgba(124,58,237,0.34));
+  --vp-home-hero-image-filter: blur(60px);
 
   --vp-button-brand-border: transparent;
   --vp-button-brand-bg: var(--vp-c-brand-3);
@@ -46,66 +48,76 @@
 }
 
 .dark {
-  --vp-c-brand-1: #5cc6b4;   /* lighter teal for dark surfaces */
-  --vp-c-brand-2: #45b4a1;
-  --vp-c-brand-3: #2c9d8a;
-  --vp-c-brand-soft: rgba(92, 198, 180, 0.14);
-  --vp-c-brand-lighter: #8fe0d3;
+  --vp-c-brand-1: #7aa2ff;   /* bright on dark */
+  --vp-c-brand-2: #6e8bff;
+  --vp-c-brand-3: #3b82f6;
+  --vp-c-brand-soft: rgba(122, 162, 255, 0.16);
+  --vp-c-brand-lighter: #a7c0ff;
+  --study-violet: #b794ff;
 
-  --vp-c-bg: #14171c;        /* soft dark, not pure black */
-  --vp-c-bg-alt: #1b1f26;
-  --vp-c-bg-soft: #1a1e24;
-  --vp-c-bg-mute: #20242c;
-  --vp-c-text-1: #dde1e8;
-  --vp-c-text-2: #a0a7b4;
-  --vp-c-text-3: #707887;
-  --vp-c-divider: #2a2f38;
+  --vp-c-bg: #0e1117;
+  --vp-c-bg-alt: #161a22;
+  --vp-c-bg-soft: #151922;
+  --vp-c-bg-mute: #1d222c;
+  --vp-c-text-1: #e7eaf1;
+  --vp-c-text-2: #a3abba;
+  --vp-c-text-3: #6f7889;
+  --vp-c-divider: #272d39;
 
-  --vp-home-hero-name-color: var(--vp-c-brand-1);
-  --vp-home-hero-image-background-image: linear-gradient(120deg, rgba(92,198,180,0.22), rgba(44,157,138,0.18));
+  --vp-home-hero-name-background: linear-gradient(120deg, #7aa2ff 10%, #b794ff 95%);
+  --vp-home-hero-image-background-image: linear-gradient(120deg, rgba(122,162,255,0.30), rgba(183,148,255,0.24));
 }
 
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-/* ----- Reading comfort --------------------------------------------------- */
-.vp-doc { font-size: 16.5px; line-height: 1.8; }
-.vp-doc p, .vp-doc li { line-height: 1.8; }
+/* ----- Reading comfort (crisp, generous) --------------------------------- */
+.vp-doc { font-size: 16.5px; line-height: 1.78; }
+.vp-doc p, .vp-doc li { line-height: 1.78; }
 .vp-doc li + li { margin-top: 5px; }
 .vp-doc p { margin: 16px 0; }
 
-/* Display face on headings + hero, set with restraint */
+/* Display face on headings + hero. Strong weights for crisp hierarchy. */
 .vp-doc h1, .vp-doc h2, .vp-doc h3, .vp-doc h4,
 .VPHero .name, .VPHero .text, .VPFeature .title, .how-title {
   font-family: var(--study-display);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.018em;
 }
 .vp-doc h1 { font-weight: 700; }
-.vp-doc h2 { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--vp-c-divider); font-weight: 650; }
+/* h2 gets an accent tick on the left + divider — colour as a structural cue */
+.vp-doc h2 {
+  margin-top: 3rem; padding-top: 1.4rem;
+  border-top: 1px solid var(--vp-c-divider);
+  font-weight: 650;
+}
+.vp-doc h2::before {
+  content: ''; display: inline-block; width: 3px; height: 0.92em;
+  background: linear-gradient(var(--vp-c-brand-1), var(--study-violet));
+  border-radius: 2px; margin-right: 10px; vertical-align: -1px;
+}
 .vp-doc h3 { margin-top: 2rem; font-weight: 600; }
 
-/* Links: calm, underline on hover only (low visual noise) */
+/* Links: vivid, underline on hover */
 .vp-doc a { color: var(--vp-c-brand-1); font-weight: 500; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
-.vp-doc a:hover { border-bottom-color: var(--vp-c-brand-2); }
+.vp-doc a:hover { border-bottom-color: var(--vp-c-brand-1); }
 
-/* Inline code: soft teal tint */
+/* Inline code: vivid blue tint */
 .vp-doc :not(pre) > code { color: var(--vp-c-brand-1); background-color: var(--vp-c-brand-soft); border-radius: 5px; font-size: 0.84em; padding: 0.16em 0.42em; }
 
-/* Code blocks: soft rounding + gentle border (no harsh shadow) */
 .vp-doc div[class*='language-'] { border-radius: 10px; border: 1px solid var(--vp-c-divider); }
 
-/* Tables: keep VitePress's block+scroll (mobile-safe); gentle zebra + clear header */
+/* Tables: block+scroll (mobile-safe), clear header, gentle zebra */
 .vp-doc table { margin: 1.25rem 0; font-size: 0.92em; }
-.vp-doc th { background: var(--vp-c-bg-soft); font-weight: 600; text-align: left; }
+.vp-doc th { background: var(--vp-c-brand-soft); color: var(--vp-c-text-1); font-weight: 600; text-align: left; }
 .vp-doc th, .vp-doc td { padding: 9px 14px; }
 .vp-doc tbody tr:nth-child(2n) { background: var(--vp-c-bg-alt); }
 
-/* Blockquotes: soft teal accent */
-.vp-doc blockquote { border-left: 3px solid var(--vp-c-brand-3); background: var(--vp-c-brand-soft); border-radius: 0 8px 8px 0; padding: 2px 16px; color: var(--vp-c-text-2); }
+/* Blockquotes / tips: accent bar */
+.vp-doc blockquote { border-left: 3px solid var(--vp-c-brand-1); background: var(--vp-c-brand-soft); border-radius: 0 8px 8px 0; padding: 2px 16px; color: var(--vp-c-text-2); }
 
-/* ----- Components polish (quiet) ----------------------------------------- */
+/* ----- Components polish -------------------------------------------------- */
 .VPButton { border-radius: 8px; font-weight: 600; }
 .VPCard, .VPFeature { border-radius: 12px; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important; }
-.VPCard:hover, .VPFeature:hover { transform: translateY(-2px); border-color: var(--vp-c-brand-1); box-shadow: 0 8px 22px rgba(17, 124, 111, 0.10); }
+.VPCard:hover, .VPFeature:hover { transform: translateY(-3px); border-color: var(--vp-c-brand-1); box-shadow: 0 10px 26px rgba(37, 99, 235, 0.14); }
 
 .VPSidebarItem.is-active > .item .text,
 .VPSidebarItem.is-link.is-active > .item .link .text { color: var(--vp-c-brand-1); font-weight: 600; }
@@ -117,7 +129,25 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--vp-c-brand-1); 
   .VPCard, .VPFeature, .VPSidebarItem .text { transition: none !important; }
 }
 
-/* ----- Wider content on large screens (reclaim wasted side margin) -------- */
+/* ----- Hub pages: turn the topic lists into a card grid (landing feel) ---- */
+.hub-page .vp-doc ul {
+  list-style: none; padding-left: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 12px;
+  margin: 16px 0 8px;
+}
+.hub-page .vp-doc li {
+  margin: 0; padding: 14px 16px;
+  border: 1px solid var(--vp-c-divider); border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.hub-page .vp-doc li:hover { transform: translateY(-2px); border-color: var(--vp-c-brand-1); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.10); }
+.hub-page .vp-doc li a { font-weight: 600; }
+.hub-page .vp-doc li a:first-child { font-size: 1.02em; }
+.hub-page .vp-doc h2 { border-top: none; padding-top: 0; margin-top: 2.2rem; }
+@media (prefers-reduced-motion: reduce) { .hub-page .vp-doc li { transition: none; } }
+
+/* ----- Wider content on large screens ------------------------------------ */
 @media (min-width: 1280px) {
   .VPDoc .container { max-width: 1488px !important; }
   .VPDoc .content { max-width: 1200px !important; }
