@@ -23,7 +23,7 @@
 | 13 | Facade | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Proxy — virtual, remote, protection | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Strategy | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: PaymentStrategy interface + Card/UPI/Wallet impls (25 min) · 📖 Deep-dive: `study_plan/deep_dives/PatternSelectionExercise.md` (Strategy vs Registry vs DI for "one HR, many factories" — 4 exercises) |
-| 16 | Observer / Pub-Sub | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: minimal EventBus with subscribe(Class<T>, Consumer<T>) + publish (25 min) |
+| 16 | Observer / Pub-Sub | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: minimal EventBus with `subscribe(Class<T>, Consumer<T>)` + publish (25 min) |
 | 17 | Template Method | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | State — perfect fit for KYC status machines | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Chain of Responsibility | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

@@ -67,7 +67,7 @@
    - **Gotcha:** Container memory limits != host memory. K8s kills based on cgroup limits. JVM by default doesn't respect cgroup limits (pre-Java 8u131) — uses host RAM as max heap. Fix: `-XX:+UseContainerSupport` (default in modern JVMs) + `-XX:MaxRAMPercentage=75.0` to leave headroom for native memory.
 3. **Q:** Terraform apply succeeds but the resource doesn't appear in AWS console. What's wrong?
    - **Gotcha:** Provider region mismatch. Default region in Terraform vs the region you're viewing in console. Always: `aws_region` explicitly set in provider config; AWS console region matches.
-4. **Q:** GitHub Actions secret `${{ secrets.AWS_KEY }}` is logged in the action output. Why?
+4. **Q:** GitHub Actions secret `&#123;&#123; secrets.AWS_KEY &#125;&#125;` is logged in the action output. Why?
    - **Gotcha:** Likely echoed via `echo` or printed via debug. GitHub auto-redacts secrets in logs, but commands that output the secret via base64 / encoded form bypass the redaction. Never echo secrets. Use OIDC federation for cloud access — no static secrets needed.
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)

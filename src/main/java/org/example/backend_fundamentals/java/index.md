@@ -5,8 +5,8 @@ pageClass: hub-page
 
 # Java & JVM
 
-Core Java for backend work — most folders have runnable demos and `*Practice` skeletons in the
-**Playground** tab.
+Core Java for backend work — most folders have demo code and `*Practice` skeletons, viewable in
+the **Code** tab.
 
 ## Coding fluency
 - [Streams Core](/java/coding_fluency/streams/StreamsCore) · [Collectors](/java/coding_fluency/streams/StreamCollectors) · [Method References](/java/coding_fluency/streams/MethodReferences)

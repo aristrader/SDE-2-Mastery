@@ -3,7 +3,7 @@ layout: home
 hero:
   name: "SDE-2 Mastery"
   text: "Backend Fundamentals, System Design & Patterns"
-  tagline: "A local, runnable study workspace — read the theory, run the code, ask the agent."
+  tagline: "A study reference — read the theory, browse the code right next to it."
   actions:
     - theme: brand
       text: "Open Study Plan"
@@ -19,7 +19,7 @@ features:
     details: "Streams, records, concurrency, the memory model, generics."
     link: "/java/"
   - title: "Design Patterns"
-    details: "Creational patterns and OOP/SOLID foundations — with runnable demos."
+    details: "Creational patterns and OOP/SOLID foundations — with demo code."
     link: "/design_patterns/"
   - title: "System Design"
     details: "Clustering, caching, load balancing, CDNs, fault tolerance."
@@ -34,10 +34,7 @@ features:
 
 ## How this site works
 
-Every topic folder that contains Java shows a **Playground** tab next to **Read**: browse the
-folder's files, edit them, and run any class with a `main` (folders with several runnable demos
-get a Run button per file). The **✦ Ask AI** button opens a Claude agent scoped to this repo that
-can explain the page, quiz you, or edit the files on request.
-
-Run locally with `npm run dev` (starts the docs site and the backend that compiles/runs Java and
-streams the agent).
+Every topic folder that contains Java shows a **Code** tab next to **Read** — a read-only,
+syntax-highlighted browser of that folder's `.java` files (grouped by subfolder, with
+`*Practice` files flagged as exercises). It's a reference: to compile and run the examples,
+open the project in IntelliJ.

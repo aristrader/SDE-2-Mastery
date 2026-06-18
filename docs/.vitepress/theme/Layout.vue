@@ -4,24 +4,24 @@
       <div v-if="domainLabel" class="page-eyebrow">{{ domainLabel }}</div>
       <div v-if="hasCode" class="mode-tabs">
         <button :class="{ active: mode === 'read' }" @click="setMode('read')">Read</button>
-        <button :class="{ active: mode === 'play' }" @click="setMode('play')">⚙ Playground</button>
+        <button :class="{ active: mode === 'play' }" @click="setMode('play')">⌗ Code</button>
       </div>
       <div v-if="hasCode && mode === 'play'" class="play-wrap">
         <ClientOnly><Playground /></ClientOnly>
       </div>
     </template>
 
-    <!-- Home: fill the empty hero side with a mini-playground visual + a how-it-works strip. -->
+    <!-- Home: fill the empty hero side with a code-reference visual + a how-it-works strip. -->
     <template #home-hero-image>
       <div class="hero-visual">
-        <div class="hv-bar"><span></span><span></span><span></span><em>Singleton.java</em></div>
+        <div class="hv-bar"><span></span><span></span><span></span><em>BillPughSingleton.java</em></div>
         <div class="hv-body">
           <pre class="hv-code"><span class="kw">public class</span> BillPughSingleton {
   <span class="kw">private static class</span> Holder {
     <span class="kw">static final</span> var I = <span class="kw">new</span> BillPughSingleton();
   }
 }</pre>
-          <div class="hv-run"><span class="hv-btn">▶ Run</span><span class="hv-out">▸ instance ok</span></div>
+          <div class="hv-cap">design_patterns · creational · singleton</div>
         </div>
       </div>
     </template>
@@ -31,23 +31,12 @@
         <h2 class="how-title">How it works</h2>
         <div class="how-grid">
           <div class="how-step"><div class="how-n">1</div><h3>Read</h3><p>Theory, diagrams and tables for each topic — clean and scannable.</p></div>
-          <div class="how-step"><div class="how-n">2</div><h3>Run</h3><p>Open the Playground on any code page, edit a class, and run it locally.</p></div>
-          <div class="how-step"><div class="how-n">3</div><h3>Ask AI</h3><p>Discuss the page or get quizzed — the agent is one click away, on every page.</p></div>
+          <div class="how-step"><div class="how-n">2</div><h3>Browse the code</h3><p>See each topic's Java implementation right next to the theory, in the Code tab.</p></div>
+          <div class="how-step"><div class="how-n">3</div><h3>Run in your IDE</h3><p>Open the project in IntelliJ to compile and run the examples yourself.</p></div>
         </div>
       </div>
     </template>
   </DefaultTheme.Layout>
-
-  <!-- Available on every page so you can discuss the current page with the agent. -->
-  <button v-if="!drawer" class="ai-fab" @click="drawer = true" title="Ask the AI about this page">✦ Ask AI</button>
-
-  <div v-if="drawer" class="ai-drawer">
-    <div class="ai-drawer-head">
-      <span>✦ Agent — {{ shortPath }}</span>
-      <button @click="drawer = false">✕</button>
-    </div>
-    <ClientOnly><AgentChat :context="drawerContext" /></ClientOnly>
-  </div>
 </template>
 
 <script setup>
@@ -56,7 +45,6 @@ import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useData } from 'vitepress'
 import mediumZoom from 'medium-zoom'
 import Playground from './components/Playground.vue'
-import AgentChat from './components/AgentChat.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.
@@ -67,7 +55,6 @@ const mdFolders = mdFolderSet(Object.keys(import.meta.glob('../../../src/main/ja
 
 const { page } = useData()
 const mode = ref('read')
-const drawer = ref(false)
 
 function pageDir(rel) {
   const i = rel.lastIndexOf('/')
@@ -80,8 +67,7 @@ const hasCode = computed(() => {
   return pageHasCode(grouped, mdFolders, dir)
 })
 
-// Colored domain kicker above the page title — orientation + a structural splash
-// of colour. Suppressed on the home + hub index pages (their H1 already names the domain).
+// Colored domain kicker above the page title — orientation + a structural splash of colour.
 const DOMAINS = {
   design_patterns: 'Design Patterns', java: 'Java & JVM', spring: 'Spring',
   spring_boot: 'Spring', system_design: 'System Design', networking: 'Networking',
@@ -93,10 +79,7 @@ const domainLabel = computed(() => {
   return DOMAINS[rel.split('/')[0]] || ''
 })
 
-const shortPath = computed(() => page.value.relativePath.split('/').pop())
-const drawerContext = computed(() => `The user is reading ${page.value.relativePath}. Discuss or act on this page's content.`)
-
-// Hiding the prose in play mode is done with a class on <html> (see custom.css),
+// Hiding the prose in code mode is done with a class on <html> (see custom.css),
 // because the markdown body lives outside this slot.
 function applyBodyClass() {
   if (typeof document === 'undefined') return
@@ -105,15 +88,13 @@ function applyBodyClass() {
 
 function setMode(m) {
   mode.value = m
-  if (typeof location !== 'undefined') {
-    location.hash = m === 'play' ? 'playground' : ''
-  }
+  if (typeof location !== 'undefined') location.hash = m === 'play' ? 'code' : ''
   applyBodyClass()
 }
 
 function syncFromHash() {
   if (typeof location === 'undefined') return
-  mode.value = location.hash === '#playground' && hasCode.value ? 'play' : 'read'
+  mode.value = location.hash === '#code' && hasCode.value ? 'play' : 'read'
   applyBodyClass()
 }
 
@@ -128,8 +109,6 @@ function applyZoom() {
   })
 }
 
-// React to route AND hasCode (a computed that may settle a tick after the route),
-// so play-mode/body-class never reflects the previous page.
 const stopZoomWatch = watch([() => page.value.relativePath, hasCode], () => { syncFromHash(); applyZoom() })
 watch(mode, applyBodyClass)
 onMounted(applyZoom)
@@ -143,15 +122,9 @@ syncFromHash()
 .mode-tabs button { padding: 4px 12px; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); cursor: pointer; }
 .mode-tabs button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); }
 .play-wrap { margin-top: 4px; }
-.ai-fab { position: fixed; right: 20px; bottom: 20px; z-index: 90; padding: 10px 16px; border: none; border-radius: 999px; background: var(--vp-c-brand-1); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
-.ai-fab:hover { background: var(--vp-c-brand-2); }
-.ai-drawer { position: fixed; top: 0; right: 0; width: 380px; max-width: 90vw; height: 100vh; background: var(--vp-c-bg); border-left: 1px solid var(--vp-c-divider); box-shadow: -4px 0 16px rgba(0,0,0,0.15); z-index: 100; display: flex; flex-direction: column; }
-.ai-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--vp-c-divider); font-weight: 700; }
-.ai-drawer-head button { border: none; background: transparent; cursor: pointer; font-size: 16px; color: var(--vp-c-text-2); }
-.ai-drawer :deep(.agent-chat) { flex: 1; border: none; border-radius: 0; }
 
-/* Home hero visual — a mini playground that fills the otherwise-empty hero side */
-.hero-visual { width: 100%; max-width: 420px; border-radius: 14px; overflow: hidden; border: 1px solid var(--vp-c-divider); box-shadow: 0 18px 50px rgba(67, 56, 202, 0.18); background: #0f1117; }
+/* Home hero visual — a code-reference card that fills the otherwise-empty hero side */
+.hero-visual { width: 100%; max-width: 420px; border-radius: 14px; overflow: hidden; border: 1px solid var(--vp-c-divider); box-shadow: 0 18px 50px rgba(37, 99, 235, 0.18); background: #0f1117; }
 .hv-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: #1a1d27; border-bottom: 1px solid #2a2e3a; }
 .hv-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a3f4d; }
 .hv-bar span:nth-child(1) { background: #ef5f56; } .hv-bar span:nth-child(2) { background: #f6bd3b; } .hv-bar span:nth-child(3) { background: #5fce6a; }
@@ -159,9 +132,7 @@ syncFromHash()
 .hv-body { padding: 16px 18px; }
 .hv-code { margin: 0; color: #d4d7e0; font-family: var(--vp-font-family-mono); font-size: 13px; line-height: 1.6; white-space: pre; overflow-x: auto; }
 .hv-code .kw { color: #7aa2ff; }
-.hv-run { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
-.hv-btn { background: var(--vp-c-brand-3); color: #fff; font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 6px; }
-.hv-out { color: #5fce6a; font-family: var(--vp-font-family-mono); font-size: 12px; }
+.hv-cap { margin-top: 14px; color: #8b90a0; font-family: var(--vp-font-family-mono); font-size: 11px; letter-spacing: 0.04em; }
 
 /* "How it works" strip below the feature cards */
 .how { max-width: 1152px; margin: 8px auto 0; padding: 16px 24px 8px; }

@@ -1,65 +1,38 @@
-# SDE-2 Mastery — local study site
+# SDE-2 Mastery — study reference site
 
-An interactive, **local-only** VitePress site over this repo's study material (`.md`) and its
-Java implementations (`.java`): read the theory, run the code, and chat with an AI agent about
-any page. Not deployed — runs on your machine; GitHub is backup only.
+A clean, fast **static** reference site over this repo's study material (`.md`) and its Java
+implementations (`.java`): read the theory, browse the code next to it. It's a reader — there's
+**no backend, no code execution, and no AI** (run the examples in your IDE).
 
 ## Run it
 
 ```bash
-npm install            # first time
-npm run dev            # starts the site (http://localhost:5173) + backend (127.0.0.1:5174)
+npm install          # first time
+npm run dev          # http://localhost:5173  (VitePress dev server)
+npm run docs:build   # static production build → docs/.vitepress/dist
+npm run docs:preview # preview the built site
 ```
 
-`npm run dev` launches two processes via `concurrently`:
-- **VitePress** — the docs frontend (port 5173).
-- **Backend sidecar** (`server/`) — the only piece that touches the filesystem / runs processes;
-  bound to loopback only. Vite proxies `/api/*` to it.
-
-Other scripts: `npm test` (backend unit tests), `npm run docs:build` (production build),
-`node playwright_smoke.js` (integration smoke — needs `npm run dev` running).
+It's a pure static site — nothing runs on your machine beyond the dev/preview server, and the
+built `dist/` can be served as plain files anywhere.
 
 ## Features
 
-- **Read / Playground tabs** — appear on any page whose folder (or a subfolder) contains `.java`.
-  - *Read*: the doc, with rendered Mermaid and styled tables.
-  - *Playground*: a file list of the folder's Java (grouped by subfolder; `*Practice.java`
-    flagged as **exercise**), a CodeMirror editor, **Save**, and a **Run** button on every
-    class with a `main()` (folders with several runnable demos get one Run per file).
-- **✦ Ask AI** (floating, every page) — a streaming chat scoped to the current page. Quick-action
-  chips (Explain / Quiz / Practice) get you started.
-
-## AI providers
-
-Set in `.env` (copy from `.env.example`). `AI_PROVIDER` selects the backend:
-
-| Provider | Agentic? | Notes |
-| --- | --- | --- |
-| `agy` (default) | yes | Local `agy` CLI (Gemini-backed); can edit/run files; cheap; uses agy's own auth. Optional `AGY_MODEL`. |
-| `gemini` | no | Gemini API (conversational only). Needs `GEMINI_API_KEY`, optional `GEMINI_MODEL`. |
-| `claude` | yes | Claude Code CLI agent. |
+- **Read / Code tabs** appear on any page whose folder (or a subfolder) contains `.java`.
+  - *Read*: the doc — rendered Mermaid diagrams (click to zoom), styled tables, clean typography.
+  - *Code*: a **read-only** browser of that folder's Java files (grouped by subfolder;
+    `*Practice.java` flagged as **exercise**), syntax-highlighted. To run them, open the project
+    in IntelliJ.
+- **Hub pages** (Java, Design Patterns, etc.) as card grids; colored domain eyebrows; local search.
 
 ## Where things live
 
-- `server/` — `index.js` (router), `run.js` (mvn), `save.js`, `paths.js`, `agentAgy.js` /
-  `agentGemini.js` / `agentClaude.js` (providers).
-- `docs/.vitepress/` — `config.mjs`, `theme/Layout.vue`, `theme/components/{Playground,CodeEditor,AgentChat}.vue`,
+- `docs/.vitepress/` — `config.mjs`, `theme/Layout.vue`, `theme/components/{Playground,CodeEditor}.vue`,
   `theme/lib/fileDiscovery.mjs`, `theme/custom.css`.
 - Study content — `src/main/java/org/example/backend_fundamentals/` (the site's `srcDir`).
-- Design/plans — `docs/superpowers/specs/` and `docs/superpowers/plans/` (incl. the
-  next-phase roadmap).
+- Design/plans — `docs/superpowers/specs/` and `docs/superpowers/plans/`.
 
-## Security notes
+## Running the Java
 
-This is a deliberately powerful local tool — treat it as such:
-
-- The sidecar binds **`127.0.0.1` only** and rejects requests whose `Host`/`Origin` isn't
-  loopback (defeats DNS-rebinding / cross-origin drive-by calls from other sites you visit).
-- `/api/run` + `/api/save` together are **arbitrary local code execution by design**; runs
-  are killed on a timeout and on client disconnect, and concurrency is capped.
-- The agentic providers (`agy`/`claude`) run with permissions auto-accepted and can edit/run
-  files in the repo. **Treat repo content as trusted** — don't pull an untrusted branch /
-  downloaded sample into the tree and then ask the AI about it (indirect prompt-injection
-  could steer the agent). Use `AI_PROVIDER=gemini` (read-only chat) if you want the AI to be
-  non-agentic.
-- Never expose it via `0.0.0.0` or a tunnel.
+The site shows the code for reference only. To compile/run an example, open the Maven project in
+IntelliJ (or `mvn -q exec:java -Dexec.mainClass="<FQCN>"` from the repo root) as before.

@@ -28,19 +28,6 @@ export default withMermaid({
       fontFamily: "'IBM Plex Sans', sans-serif",
     },
   },
-  vite: {
-    server: {
-      // Bind to IPv4 loopback explicitly (NOT 0.0.0.0 — no LAN exposure) instead
-      // of relying on how Node resolves `localhost`. Node 17+ resolves localhost to
-      // IPv6 ::1 first, which made the dev server bind IPv6-only — so the Antigravity
-      // preview (which connects over IPv4 127.0.0.1) got connection-refused and only
-      // the SSR shell painted (partial render). 127.0.0.1 keeps it loopback-only.
-      host: '127.0.0.1',
-      // Pin the proxy target to IPv4 to match the backend's 127.0.0.1 bind, so the
-      // /api proxy can't silently break on the same localhost-resolution ambiguity.
-      proxy: { '/api': 'http://127.0.0.1:5174' },
-    },
-  },
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },

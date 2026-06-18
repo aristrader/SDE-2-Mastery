@@ -5,8 +5,8 @@ pageClass: hub-page
 
 # Design Patterns
 
-Pattern theory with runnable demos alongside. Open a pattern, switch to **Playground** to run its
-variants, or **✦ Ask AI** to be quizzed.
+Pattern theory with demo code alongside. Open a pattern and switch to the **Code** tab to read
+its variants; run them in your IDE.
 
 ## Start here
 - [Creational Patterns Roadmap](/design_patterns/creational/CreationalPatternsRoadmap)

@@ -54,13 +54,6 @@ When a pattern is finished, before context is cleared:
 2. **Tick the pattern done in `design_patterns/creational/CreationalPatternsRoadmap.md`**.
 3. **Update the living docs** if any generic insights surfaced (`todo/study_plan/deep_dives/DesignThinkingProcess.md`, `java/foundations/access_modifiers/AccessModifiersDeepDive.md`, or the matching foundations doc under `design_patterns/foundations/`). Pattern-specific stuff belongs in that pattern's own doc.
 4. **Update this `CLAUDE.md`** if new working-style preferences, conventions, anti-patterns, or repo-shape changes came out of the discussion. Treat the end-of-pattern update like a unit-of-work commit — the *next* session reads only this file.
-5. **Update `todo/NotionLayout.md`** — add the new doc to the Notion tree and the source-map table at the bottom. Only add docs that are ready to publish (status `✅`, `📋`, or `🔄`). Held/todo docs are excluded from this file. If a doc is renamed or moved, update the source path. This step applies whenever a doc is created, moved, or has its status change.
-7. **Track Notion sync status — the `🔄` rule.** Any time a `.md` file that's already `✅` in Notion gets edited (even a typo fix), flip its status from `✅` → `🔄` in NotionLayout.md, both in the tree and in the "📋 / 🔄 Needs Notion sync" table. Only the user moves a status back to `✅`, and only after they confirm they've re-pasted into Notion. Do not assume the user has re-pasted just because they thanked you for the edit — wait for an explicit "synced" / "updated in Notion" / "done in Notion" signal. The status flow: new doc → `📋` → user pastes → `✅` → local edit → `🔄` → user re-pastes → `✅`. **`📋` does NOT downgrade to `🔄` on subsequent edits** — `📋` already means "needs paste," so further updates leave it `📋`.
-8. **End the response with a "Notion update" line** — after any session that creates or significantly updates a doc, write a one-line summary at the very end. Format depends on whether it's a first paste, a re-paste, or a content update to a yet-unpasted doc:
-   - First paste: `Notion update — first paste: <PageTitle> → <location>`
-   - Re-paste needed (was `✅`, now `🔄`): `Notion update — re-paste needed: <PageTitle> → <location> (replaces existing page)`
-   - Update to a still-unpasted doc (stays `📋`): `Notion update — pending paste (📋, content updated): <PageTitle> → <location>`
-
 Do not skip these. If skipped, the next session will start cold and lose context the user expected to carry over.
 
 ## ChatGPT doc-import workflow — `temp.md` (ACTIVE, survives /clear)
@@ -70,7 +63,7 @@ The user studies topics in ChatGPT threads, has ChatGPT generate a study page pe
 1. **Read `temp.md`**, then read `todo/study_plan/reference/DocCreationStandard.md` before processing.
 2. **Standards pass** — restructure to the repo doc shape (direct start, dense sections, `## Quick recall` ending, pure GFM/no HTML, ```java blocks, no emojis). **Never drop a discussion point** — cleanup means reorganize/rephrase/dedupe, not cut. Non-interview tangents go to a `## Good to know` section near the end instead of being removed. Avoid shortening the user's content; only true redundancy may be collapsed.
 3. **Extend where thin — but only topics actually discussed.** If a discussed topic is under-explained against the interview bar (missing internals, the "why", a classic gotcha), deepen it per DocCreationStandard. Do NOT add undiscussed subtopics just to close a Part-row gap (user explicitly declined this — e.g. don't bolt on IPv6/Anycast sections to fully earn a row the chat only partially covered). Extension deepens; shortening is not allowed.
-4. **Split when overloaded — decide yourself.** If one paste spans multiple distinct topics, split into separate files/folders. The user has said: **don't ask where to put files — decide the destination/filename autonomously** and just state the choice. New top-level folders under `backend_fundamentals/` are fine (e.g. `networking/` was created this way); add the matching section to NotionLayout.
+4. **Split when overloaded — decide yourself.** If one paste spans multiple distinct topics, split into separate files/folders. The user has said: **don't ask where to put files — decide the destination/filename autonomously** and just state the choice. New top-level folders under `backend_fundamentals/` are fine (e.g. `networking/` was created this way).
 5. **Write the .md(s)** at the chosen location(s) under `backend_fundamentals/`, then **clear `temp.md`** back to its two comment lines.
 6. **Update the Part doc(s)** in `todo/study_plan/parts/`:
    - If solid doc content matches **no existing Part row**, add a new row for it (priority-sorted position, sensible tier/time; e.g. row 31 "DHCP + MAC addresses" was added to Part 11 this way) and sync TopicIndex.
@@ -78,8 +71,8 @@ The user studies topics in ChatGPT threads, has ChatGPT generate a study page pe
    - Actual time: **~1.5 hr per paste, total** (regardless of how many files it splits into), split evenly across all covered rows in the `Notes` column (e.g. 3 rows → `~30 min` each). Approximate is fine.
    - Add a `📖 <path/to/Doc.md>` link in the Resources column of **every covered row**.
    - Update the Time summary's "Actual time" cell (cumulative, list rows done).
-7. **Bookkeeping** — add each new doc to `todo/NotionLayout.md` as `📋` (tree + source map), sync `reference/TopicIndex.md` if Part rows changed, and end the response with the standard "Notion update" line.
-8. **Import report** — every run ends with a compact stats block (just before the Notion update line). Keep it a short table/list, no prose:
+7. **Bookkeeping** — sync `reference/TopicIndex.md` if Part rows changed.
+8. **Import report** — every run ends with a compact stats block. Keep it a short table/list, no prose:
    - **Files created:** N (split from 1 paste, or "1, no split") + paths.
    - **Part rows covered:** which Part(s), which row #s, and topic names.
    - **Partial coverage:** every row only partially covered — what's covered vs what's still pending (the user relies on this instead of gap-filling extensions).
@@ -122,7 +115,7 @@ When asked to verify a change works, compile + run the relevant `...Run` main ra
 
 > The `web/` folder (mirroring WEB RELATED CONCEPTS) does not currently exist on disk — its only doc was folded into `study_plan/parts/Part_11_Networking.md`, Part 13 (AWS) row 33, and Part 22 (DevOps) rows 9 + 18. Recreate `web/` if/when web-related demo code lands.
 
-**Folder rules:** Mirror Notion workspace exactly — every Notion section has a matching package under `backend_fundamentals/`. No files at `org/example/` root. No `package-info.java` placeholders. `scratch/` is outside `backend_fundamentals/`.
+**Folder rules:** Maintain a structured tree under `backend_fundamentals/`. No files at `org/example/` root. No `package-info.java` placeholders. `scratch/` is outside `backend_fundamentals/`.
 
 Each pattern package is **self-contained** — products, creators, services, and the runner all live together, even when names overlap with a sibling package (e.g., `simple_factory/`, `factory_method_basic/`, and `factory_method/` each have their own `Employee.java`, `AndroidDeveloper.java`, etc., and the four builder packages each carry their own copy of `JobOffer.java`). Do not consolidate; the duplication is intentional so each package reads as a standalone lesson and as a contrast against its siblings.
 
@@ -134,20 +127,19 @@ The root-of-package `.md` files are the primary deliverables alongside code. Whe
 
 **Always lives in `todo/` (meta / process docs):**
 
-- **`NotionLayout.md`** — **ALWAYS UPDATE THIS.** Authoritative Notion sync status (✅/📋/🔄).
 - Deep-dive docs live in `todo/study_plan/deep_dives/` (not `todo/`): `DesignThinkingProcess.md`, `PatternSelectionExercise.md`, `PatternSelectionScenarios.md`.
 
-**Topic docs in `todo/` while in progress, move out when done.** No active topic docs currently in `todo/`. See `todo/NotionLayout.md` for all doc locations and Notion sync status.
+**Topic docs in `todo/` while in progress, move out when done.** No active topic docs currently in `todo/`.
 
 ### Topic-doc lifecycle — the rule
 
 A topic doc starts in `todo/` and only moves when the user signals completion. Don't move proactively.
 
-**On completion:** (1) Review doc for stale refs, session deposits, selective demo cross-refs — integration, not authoring. (2) `mkdir` destination (no `package-info.java`), move the `.md`. (3) Add to `NotionLayout.md` as 📋. Once user pastes → ✅.
+**On completion:** (1) Review doc for stale refs, session deposits, selective demo cross-refs — integration, not authoring. (2) `mkdir` destination (no `package-info.java`), move the `.md`.
 
 `AccessModifiersDeepDive.md` is the established example.
 
-## Doc strategy and Notion publishing
+## Doc strategy and Website publishing
 
 ### Where each kind of insight goes
 
@@ -163,11 +155,11 @@ If unsure, lean toward the pattern's own doc; promote to a `todo/` doc only when
 
 ## Conventions to honour when editing
 
-- **`.md` formatting:** pure Markdown only. Avoid `<p>`, `<b>`, `<i>`, `<ul>`, etc. — they do not survive paste into Notion. Tables, fenced ```java code blocks, `- [ ]` task lists, and standard headings all paste cleanly.
+- **`.md` formatting:** pure Markdown only. Avoid HTML tags (`<p>`, `<b>`, `<i>`, `<ul>`, etc.) as they may render poorly. Tables, fenced ```java code blocks, `- [ ]` task lists, and standard headings all work cleanly.
 - **Crisp by default; long only where it earns it.** Topic docs are reference material — quick overview now, deeper learning later. Keep sections short and direct. Expand only where the topic is genuinely confusing, where the user got stuck during the session, or where the short version would mislead. Twice as long isn't twice as useful.
 - **End with a `## Quick recall` Q&A, not a "Done when" checklist.** Each answer is 1-2 lines max — a self-check, not a lesson.
 - **JavaDoc only where it adds value, and keep it tight.** Don't javadoc the obvious — skip getters whose name says it all, trivial setters, self-documenting static factories like `Temperature.celsius(double)`. Do javadoc the *non-obvious*: a class's purpose and key design decision, contracts (`@throws`, format expectations), cross-references via `{@link}`, anything a careful reader couldn't infer from the name and signature. When you do write JavaDoc, keep it tight: class-level 3–8 lines, method-level 1–2 lines plus `@param` / `@return` / `@throws` only as needed. **Long-form lessons live in the matching `.md`, not in JavaDoc** — no `<h2>` sections, no multi-paragraph backstory, no takeaway sections, no feature tables inside JavaDoc.
 - **Role-based class names.** `DeveloperHiringProcess`, `BillPughSingleton` — not `FactoryImpl` or `SingletonHelper`. The user has called this out explicitly.
 - **Demo runners print to `System.out` and log via Lombok `@Slf4j`.** Keep this consistent when adding new runners.
-- **Not a git repo.** Deletions are permanent outside the IDE's local history. Always confirm before `rm -rf` on user code, even when the user has already agreed to a rename.
+- **Git Repository.** This project is tracked via Git. Changes are version-controlled, but still confirm before large deletions.
 
