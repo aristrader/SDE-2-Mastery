@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
   context: { type: String, default: '' }, // page context injected as system prompt
@@ -50,6 +50,13 @@ const suggestions = [
 function cancel() {
   if (aborter) aborter.abort()
 }
+
+// Unmounting mid-turn (drawer closed / navigated away) must abort the stream and clear
+// the timer — otherwise the interval, the reader, and the backend agent process all leak.
+onBeforeUnmount(() => {
+  if (timer) { clearInterval(timer); timer = null }
+  if (aborter) { aborter.abort(); aborter = null }
+})
 
 function sendText(t) {
   draft.value = t
@@ -139,6 +146,7 @@ async function send() {
     if (streaming.value) messages.value.push({ role: 'agent', text: streaming.value })
     streaming.value = ''
     busy.value = false
+    if (messages.value.length > 200) messages.value.splice(0, messages.value.length - 200) // bound browser memory
     await scrollDown()
   }
 }

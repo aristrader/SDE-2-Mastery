@@ -52,7 +52,7 @@
 
 <script setup>
 import DefaultTheme from 'vitepress/theme'
-import { ref, computed, watch, onMounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useData } from 'vitepress'
 import mediumZoom from 'medium-zoom'
 import Playground from './components/Playground.vue'
@@ -130,9 +130,10 @@ function applyZoom() {
 
 // React to route AND hasCode (a computed that may settle a tick after the route),
 // so play-mode/body-class never reflects the previous page.
-watch([() => page.value.relativePath, hasCode], () => { syncFromHash(); applyZoom() })
+const stopZoomWatch = watch([() => page.value.relativePath, hasCode], () => { syncFromHash(); applyZoom() })
 watch(mode, applyBodyClass)
 onMounted(applyZoom)
+onBeforeUnmount(() => { if (zoom) { zoom.detach(); zoom = null } stopZoomWatch() })
 syncFromHash()
 </script>
 

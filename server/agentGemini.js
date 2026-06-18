@@ -49,7 +49,7 @@ function extractText(obj) {
  * AgentChat.vue already understands ({type:'assistant', message:{content:[{type:'text'}]}},
  * 'result', 'error', 'exit'), with session_id on every event so the client can resume.
  */
-async function streamAgent({ message, sessionId, context }, onEvent) {
+async function streamAgent({ message, sessionId, context, signal }, onEvent) {
   const key = process.env.GEMINI_API_KEY
   const model = process.env.GEMINI_MODEL || DEFAULT_MODEL
 
@@ -78,6 +78,7 @@ async function streamAgent({ message, sessionId, context }, onEvent) {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify(body),
+      signal, // abort the upstream stream on client disconnect
     })
     if (!res.ok) {
       const text = await res.text()

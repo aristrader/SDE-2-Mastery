@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { useData } from 'vitepress'
 import CodeEditor from './CodeEditor.vue'
 import { analyzeJavaFiles, mdFolderSet, filesForPage } from '../lib/fileDiscovery.mjs'
@@ -69,6 +69,7 @@ const saving = ref(false)
 const running = ref(false)
 const runElapsed = ref(0)
 let runTimer = null
+let runAborter = null
 const output = ref('')
 const runError = ref('')
 
@@ -113,11 +114,13 @@ async function run(f) {
   runElapsed.value = 0
   const startedAt = Date.now()
   runTimer = setInterval(() => { runElapsed.value = Math.round((Date.now() - startedAt) / 1000) }, 500)
+  runAborter = new AbortController()
   try {
     const res = await fetch('/api/run', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ fqcn: f.fqcn }),
+      signal: runAborter.signal,
     })
     const data = await res.json()
     output.value = data.stdout || (data.error ? '' : 'Process finished (no output).')
@@ -128,9 +131,17 @@ async function run(f) {
   } finally {
     clearInterval(runTimer)
     runTimer = null
+    runAborter = null
     running.value = false
   }
 }
+
+// Unmounting mid-run (switched to Read / navigated away) clears the timer and aborts
+// the request so the backend mvn run is cancelled instead of orphaned.
+onBeforeUnmount(() => {
+  if (runTimer) { clearInterval(runTimer); runTimer = null }
+  if (runAborter) { runAborter.abort(); runAborter = null }
+})
 </script>
 
 <style scoped>

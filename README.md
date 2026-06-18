@@ -49,8 +49,17 @@ Set in `.env` (copy from `.env.example`). `AI_PROVIDER` selects the backend:
 - Design/plans — `docs/superpowers/specs/` and `docs/superpowers/plans/` (incl. the
   next-phase roadmap).
 
-## Security note
+## Security notes
 
-The sidecar binds `127.0.0.1` only. `/api/run` + `/api/save` together are arbitrary local
-code execution by design, and the agentic providers run with permissions auto-accepted —
-keep it local (never `0.0.0.0` or behind a tunnel).
+This is a deliberately powerful local tool — treat it as such:
+
+- The sidecar binds **`127.0.0.1` only** and rejects requests whose `Host`/`Origin` isn't
+  loopback (defeats DNS-rebinding / cross-origin drive-by calls from other sites you visit).
+- `/api/run` + `/api/save` together are **arbitrary local code execution by design**; runs
+  are killed on a timeout and on client disconnect, and concurrency is capped.
+- The agentic providers (`agy`/`claude`) run with permissions auto-accepted and can edit/run
+  files in the repo. **Treat repo content as trusted** — don't pull an untrusted branch /
+  downloaded sample into the tree and then ask the AI about it (indirect prompt-injection
+  could steer the agent). Use `AI_PROVIDER=gemini` (read-only chat) if you want the AI to be
+  non-agentic.
+- Never expose it via `0.0.0.0` or a tunnel.

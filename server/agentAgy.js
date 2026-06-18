@@ -12,6 +12,7 @@ const sessions = new Map()
 const AGY_BIN = process.env.AGY_BIN || 'agy'
 const MAX_SESSIONS = 50        // evict oldest beyond this (bounded memory)
 const MAX_HISTORY_MSGS = 20    // keep last ~10 turns per session
+const AGENT_TIMEOUT_MS = Number(process.env.AGENT_TIMEOUT_MS) || 180000 // watchdog kill
 
 function getSession(sessionId) {
   let sid = sessionId
@@ -57,29 +58,39 @@ function buildArgs(prompt, model) {
  * ({type:'assistant', message:{content:[{type:'text'}]}}, 'result', 'error', 'exit'),
  * with session_id on every event.
  */
-function streamAgent({ message, sessionId, context }, onEvent) {
+function streamAgent({ message, sessionId, context, signal }, onEvent) {
   return new Promise((resolve) => {
     const { sid, history } = getSession(sessionId)
     onEvent({ type: 'session', session_id: sid })
 
+    let full = ''
     let settled = false
+    const child = spawn(AGY_BIN, buildArgs(buildPrompt(history, message, context), process.env.AGY_MODEL), {
+      cwd: REPO_ROOT,
+      env: process.env,
+      detached: true,                     // own process group → kill the whole tree
+      stdio: ['ignore', 'pipe', 'pipe'],  // close stdin so the CLI doesn't wait on it
+    })
+    const killTree = (s) => { try { process.kill(-child.pid, s) } catch { /* gone */ } }
+
+    const onAbort = () => killTree('SIGKILL') // client disconnect / Stop
+    if (signal) {
+      if (signal.aborted) onAbort()
+      else signal.addEventListener('abort', onAbort, { once: true })
+    }
+    const watchdog = setTimeout(() => killTree('SIGKILL'), AGENT_TIMEOUT_MS)
+
     const finish = (code) => {
       if (settled) return
       settled = true
-      pushTurn(history, message, full)
+      clearTimeout(watchdog)
+      if (signal) signal.removeEventListener('abort', onAbort)
+      if (full) pushTurn(history, message, full) // don't persist empty/aborted turns
       onEvent({ type: 'result', session_id: sid, result: full })
       onEvent({ type: 'exit', code })
       resolve()
     }
 
-    const prompt = buildPrompt(history, message, context)
-    const child = spawn(AGY_BIN, buildArgs(prompt, process.env.AGY_MODEL), {
-      cwd: REPO_ROOT,
-      env: process.env,
-      stdio: ['ignore', 'pipe', 'pipe'], // close stdin so the CLI doesn't wait on it
-    })
-
-    let full = ''
     child.stdout.on('data', (chunk) => {
       const text = chunk.toString()
       full += text
