@@ -51,8 +51,9 @@
 
 <script setup>
 import DefaultTheme from 'vitepress/theme'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { useData } from 'vitepress'
+import mediumZoom from 'medium-zoom'
 import Playground from './components/Playground.vue'
 import AgentChat from './components/AgentChat.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
@@ -102,10 +103,22 @@ function syncFromHash() {
   applyBodyClass()
 }
 
+// Click-to-zoom for diagrams and images (helpful for dense system-design mermaid).
+let zoom = null
+function applyZoom() {
+  if (typeof document === 'undefined') return
+  nextTick(() => {
+    const targets = document.querySelectorAll('.vp-doc img, .vp-doc .mermaid svg')
+    if (!zoom) zoom = mediumZoom(targets, { background: 'var(--vp-c-bg)', margin: 24 })
+    else { zoom.detach(); zoom.attach(targets) }
+  })
+}
+
 // React to route AND hasCode (a computed that may settle a tick after the route),
 // so play-mode/body-class never reflects the previous page.
-watch([() => page.value.relativePath, hasCode], () => syncFromHash())
+watch([() => page.value.relativePath, hasCode], () => { syncFromHash(); applyZoom() })
 watch(mode, applyBodyClass)
+onMounted(applyZoom)
 syncFromHash()
 </script>
 

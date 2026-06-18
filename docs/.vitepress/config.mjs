@@ -14,6 +14,18 @@ export default withMermaid({
   title: 'SDE-2 Mastery',
   description: 'Study Plan & Backend Fundamentals',
   srcDir: '../src/main/java/org/example/backend_fundamentals',
+  // Calm, neutral diagrams that don't fight the teal theme (default mermaid is purple).
+  // The plugin still swaps to dark automatically on the .dark class.
+  mermaid: {
+    theme: 'neutral',
+    themeVariables: {
+      primaryColor: '#eef1f0',
+      primaryBorderColor: '#117c6f',
+      primaryTextColor: '#232830',
+      lineColor: '#8a909c',
+      fontFamily: "'IBM Plex Sans', sans-serif",
+    },
+  },
   vite: {
     server: {
       proxy: { '/api': 'http://localhost:5174' },
