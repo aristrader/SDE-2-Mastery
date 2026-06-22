@@ -6,18 +6,19 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | RESTful resource modeling | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Versioning — URI, header, content negotiation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Pagination — offset, cursor, keyset | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement keyset pagination — `WHERE id > :lastSeenId ORDER BY id LIMIT 20` + response includes `nextCursor` (30 min) |
-| 4 | Filtering, sorting, projections | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
-| 6 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
-| 7 | Authentication header design | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Async / long-running APIs (202 + status endpoint — your KYC pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | HATEOAS — what it is, why most APIs skip it | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | OpenAPI spec & code-gen | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | API deprecation strategy | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | RESTful resource modeling | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes HTTP verbs, status codes, over-fetching | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` |
+| 2 | REST vs GraphQL vs gRPC comparison & architecture | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes streaming types, trade-offs | 📖 `networking/api_design/ApiTechnologies_Part4_Comparison.md` |
+| 3 | Versioning — URI, header, content negotiation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | Pagination — offset, cursor, keyset | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement keyset pagination — `WHERE id > :lastSeenId ORDER BY id LIMIT 20` + response includes `nextCursor` (30 min) |
+| 5 | Filtering, sorting, projections | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
+| 7 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
+| 8 | Authentication header design | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | Async / long-running APIs (202 + status endpoint — your KYC pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | HATEOAS — what it is, why most APIs skip it | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | OpenAPI spec & code-gen | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 13 | API deprecation strategy | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
@@ -25,7 +26,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~13.5 hrs | ~1.25 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~17.75 hrs | ~1.6 wk | |
-| Full Part (all items including 🟡) | ~18.75 hrs | ~1.7 wk | |
+| Full Part (all items including 🟡) | ~18.75 hrs | ~1.7 wk | ~2.0 hrs so far |
 
 ## Frequently asked
 

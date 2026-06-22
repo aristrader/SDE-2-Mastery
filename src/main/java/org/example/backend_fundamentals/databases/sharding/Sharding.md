@@ -11,7 +11,19 @@ Partitioning breaks a database into smaller parts spread across machines for man
 
 A database architecture pattern based on horizontal partitioning: one logical table's rows are split across multiple shards, every shard has the **same schema** and a **different subset** of the data. It exists because vertical scaling (bigger CPU/RAM/disk) gets expensive and hits a ceiling — sharding scales **horizontally** by adding servers.
 
-**Key production insight:** a shard is usually an **entire independent database cluster** (its own primary + replicas), not just a table partition on one box. So **sharding scales writes + storage**; **replication scales reads + availability** — they're orthogonal and used together.
+**Key production insight:** a shard is usually an **entire independent database cluster** (its own primary + replicas), not just a table partition on one box.
+
+### Replication vs Sharding
+Many people confuse these, but they solve different problems and are usually used together:
+
+| Replication | Sharding |
+|------------|-----------|
+| Copies data | Splits data |
+| Improves availability | Improves scalability |
+| Same dataset everywhere | Different data on each node |
+| Good for reads | Good for storage and throughput |
+
+So **sharding scales writes + storage**; **replication scales reads + availability** — they're orthogonal and used together.
 
 ## Partitioning strategies (criteria)
 
@@ -57,7 +69,7 @@ If it doesn't (e.g. login by email when the shard key is `user_id`), the router 
 
 **Use when:** a single DB is the bottleneck — write/storage scaling, more concurrent connections, geographic data separation, fast scaling on existing hardware.
 
-**Costs:** operational complexity; **cross-shard joins** (users on shard A, orders on shard B) need multi-server queries and perform poorly; and **rebalancing** when load skews (shard A 80%, B/C 10%) means expensive data migration. Shard last — after indexing, caching, read replicas, and vertical scaling.
+**Costs:** operational complexity; **cross-shard joins** (users on shard A, orders on shard B) need multi-server queries and perform poorly; multi-shard **transactions** become complex (may require two-phase commit); and **rebalancing** when load skews (shard A 80%, B/C 10%) means expensive data migration. Shard last — after indexing, caching, read replicas, and vertical scaling.
 
 ## Consistent hashing
 

@@ -78,6 +78,8 @@ DNS is not only name resolution — large systems use it to decide *where* traff
 
 The authoritative DNS server often sees the **resolver's IP address, not the end user's IP**. If you use Cloudflare's resolver, Netflix's DNS primarily sees the Cloudflare resolver IP, not your exact IP. This is one reason DNS-based geolocation is approximate.
 
+To improve this, modern DNS often uses **EDNS Client Subnet (ECS)**, which allows the resolver to forward a partial subnet of the client's IP to the authoritative server for better geolocation accuracy.
+
 ## Gotchas / Trick questions
 
 1. **"Root servers know website IPs."** No — they only know `TLD → TLD server locations` (`.com → TLD servers`). They are the first directory lookup.

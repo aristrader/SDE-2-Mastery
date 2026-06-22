@@ -49,6 +49,8 @@ The user was told "success" but the write is gone — the canonical async risk.
 
 **Semi-synchronous** — the common compromise: primary waits for **at least one** replica (primary + 1) before returning success. Shrinks the data-loss window without paying the full all-replicas latency cost.
 
+> **The PACELC connection:** This trade-off is exactly what the PACELC theorem describes. In the absence of network partitions (the 'E' in PACELC), a replicated system must choose between Latency (async replication) and Consistency (sync replication).
+
 ## Failover and promotion
 
 Primary crashes → a replica is promoted → traffic redirected. **Manual** failover: an engineer promotes. **Automatic** failover: monitoring detects the failure, an election runs, a replica is promoted.
@@ -95,6 +97,8 @@ write touches {A,B};  read touches {B,C}  →  B overlaps → latest visible
 ```
 Stale reads still happen when the quorum is too weak (N=3, W=1, R=1: write reaches only A, read from C is stale). And even `R+W>N` isn't a hard guarantee under network partitions, concurrent writes, or clock skew.
 
+**Anti-entropy / Read Repair:** If a node goes offline and misses updates, the system must synchronize it when it returns. This is often done proactively via background *anti-entropy* processes or reactively via *read repair* (when a read detects a stale replica, it forces an update).
+
 ## Write-Ahead Log (WAL)
 
 Before modifying the actual data pages, the change is appended to the WAL; the data pages are updated afterward. On crash, the WAL is **replayed** to recover committed work.
@@ -120,6 +124,9 @@ A. The most-advanced one, by ordered-log position (LSN/GTID/binlog). Logs are or
 
 **Q. Why must `R + W > N` in a quorum system?**
 A. It guarantees the read and write node sets overlap, so a read sees at least one node with the latest write — reducing (not perfectly eliminating) stale reads.
+
+**Q. How do leaderless systems handle nodes that missed updates while offline?**
+A. Through background anti-entropy processes or reactive read repair (updating the stale node when a read detects the discrepancy).
 
 **Q. What does a WAL protect against, and what's its limit?**
 A. Protects against process/OS/power crashes via replay; does not protect against losing the whole machine/disk — so the WAL itself must be replicated.

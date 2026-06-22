@@ -24,7 +24,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **AsyncProfiler** → Part 08, Part 25 row 20
 - **@Scheduled (fixedRate vs fixedDelay vs cron, TaskScheduler config)** → Part 03, Part 1b row 23
 - **Audit logging (authz decisions)** → Part 19
-- **Availability vs reliability vs fault tolerance (HA vs FT)** → Part 07 row 66
+- **Availability, reliability, fault tolerance (HA vs FT, Nines, Sequence vs Parallel)** → Part 07 row 66
 - **Audit logs** → Part 21 (observability), Part 28 row 8 (tamper-evident), Part 31 row 54
 
 ## B
@@ -56,6 +56,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Cache key design (tenant-scoped, versioned)** → Part 09
 - **Cache stampede + jittered TTL** → Part 09
 - **CDC (Change Data Capture)** → Part 10
+- **CDN (Content Delivery Network)** → Part 07 row 8
 - **@ConfigurationProperties (binding YAML, @Validated)** → Part 03, Part 1b row 12
 - **@ControllerAdvice / global exception handling** → Part 03, Part 1b row 11
 - **CompletableFuture (thenApply, thenCompose, allOf, exceptionally)** → Part 02, Part 1b row 14
@@ -66,6 +67,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Certificate pinning (mobile)** → Part 31 row 32
 - **Chunking (RAG)** → Part 23 row 14
 - **Circuit breaker (Resilience4j)** → Part 03, Part 31 row 39
+- **Client-Server Communication Patterns** → Part 11 rows 28-30
 - **Clustering (heartbeats, leader election, failover — Redis/Kafka)** → Part 07 row 67
 - **Compaction (Kafka)** → Part 10
 - **Compensating transactions / Saga** → Part 29 row 106, Part 04
@@ -83,6 +85,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 - **Data residency (per-tenant)** → Part 28 row 11, Part 29 row 37, Part 31 row 48
 - **Database federation (vs sharding, cross-DB joins/transactions, BFF)** → Part 06 (row 41)
+- **Database private IPs / hacking methods (Lateral movement, App compromise)** → Part 11 row 15b
 - **Datadog** → Part 21, Part 31 (KYC funnel)
 - **Deadlock** → Part 02, Part 06
 - **Deepfakes** → Part 29 row 54
@@ -102,6 +105,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## E
 
 - **ECS / EKS** → Part 13, Part 22
+- **EDNS Client Subnet (ECS)** → Part 11 row 11
 - **Egress cost optimization (NAT GW, CloudFront, VPC endpoints)** → Part 14
 - **eKYC vs in-person** → Part 29 row 4
 - **Embeddings (face / text)** → Part 29 row 15, Part 23 row 12
@@ -134,6 +138,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Garbage collection (G1, ZGC, Shenandoah)** → Part 01
 - **GDPR** → Part 28 rows 1-2
 - **GenAI / LLMs** → Part 23 (entire Part — Consolidation only)
+- **Global vs distributed cache** → Part 09
 - **gp3 vs io2 (RDS storage)** → Part 14
 - **gRPC** → Part 11, Part 12
 - **GuardDuty (AWS threat detection)** → Part 13
@@ -141,12 +146,14 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## H
 
 - **HashMap internals** → Part 01
-- **Hashing / consistent hashing** → Part 07
+- **Hashing / consistent hashing (virtual nodes)** → Part 07, Part 09
 - **Hexagonal / ports & adapters** → Part 04
 - **HikariCP** → Part 03, Part 06
 - **HMAC-SHA256 (webhook signing)** → Part 20, Part 29 row 31
 - **HSTS / CSP / X-Frame-Options** → Part 18
+- **HTTP status codes / methods** → Part 11 row 7
 - **HTTP/2, HTTP/3 (QUIC)** → Part 11
+- **HTTPS handshake** → Part 11 row 7, Part 16
 - **HttpInterface / @HttpExchange (Spring 6 declarative client)** → Part 03
 - **Hybrid SDK distribution** → Part 29 row 71
 
@@ -165,6 +172,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Inspector (AWS — vulnerability assessment)** → Part 13
 - **Ingress controller (nginx) / ingressClassName / nginx annotations** → Part 22 row 9
 - **IPv4 exhaustion + secondary market (RIR depletion, brokers, legacy /8 blocks)** → Part 11 row 26
+- **IP Address Types (Public/Private, Static/Dynamic)** → Part 11 row 15b
 - **IPv4 vs IPv6 (32-bit vs 128-bit, dual-stack, where each dominates)** → Part 11 row 14
 - **Isolation levels** → Part 06
 - **Istio / service mesh** → Part 22
@@ -196,8 +204,10 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 - **Lazy initialization** → Part 04 (Singleton)
 - **Liveness (active / passive / PAD)** → Part 29 rows 10-13
-- **Load balancer / draining** → Part 11, Part 26
+- **Load balancer (L4 vs L7, redundancy, draining, consistent hashing)** → Part 07 row 6, Part 11, Part 26
+- **Local vs distributed cache** → Part 09
 - **Lombok (@Builder, @Value, @Data, @Slf4j, @RequiredArgsConstructor)** → Part 04, Part 1b row 5
+- **Long polling** → Part 11 row 30
 - **LRU / LFU cache** → PracticeProblems § 1 #7-8
 
 ## M
@@ -234,6 +244,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Open / closed circuit (resilience)** → Part 07, Part 31 row 39
 - **OpenSearch / ELK** → PracticeProblems § 2 #20
 - **OpenTelemetry** → Part 21
+- **OSI Model (vs TCP/IP, mental framework)** → Part 11 row 1
 - **Outbox + CDC** → Part 10, Part 29 row 134
 
 ## P
@@ -249,6 +260,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Pattern selection — Strategy vs Registry vs Spring DI ("one HR, many factories")** → deep_dives/PatternSelectionExercise.md, Part 04 rows 15, 23
 - **Pattern selection scenarios (Singleton / Factory / Builder / Static Factory / Abstract Factory — 25 production scenarios)** → deep_dives/PatternSelectionScenarios.md, Part 04 rows 8, 9, 10
 - **PEP screening** → Part 29 row 20
+- **Polling (Short vs Long)** → Part 11 row 30
 - **Polling vs webhook** → Part 29 row 85, Part 31 FAQ #4
 - **Promotion criteria** → Part 30 row 6
 - **Proxy (forward vs reverse), VPN tunneling, national firewalls** → Part 11 row 32, Part 07 row 7
@@ -270,11 +282,14 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Reactor / Project Reactor** → Part 02, Part 03
 - **Records as DTOs (compact constructor, validation)** → Part 01 row 31, Part 1b row 6
 - **Redis (data structures, eviction, persistence)** → Part 09
+- **Redis Cluster (sharding, hash slots, failover)** → Part 09
 - **Refactoring smells** → Part 04
 - **Regional ID schemes (SEA)** → Part 29 row 40, Part 31 row 1
 - **Registry / Service Locator pattern** → deep_dives/PatternSelectionExercise.md, Part 04 row 23
 - **Replay protection (webhook)** → Part 29 row 32
+- **REST vs GraphQL vs gRPC (comparison & architecture)** → Part 12 (row 2)
 - **RFC 1918 private IP ranges (10/8, 172.16-31/12, 192.168/16)** → Part 11 row 15
+- **Read repair / anti-entropy** → Part 06 (row 38)
 - **Replica lag** → Part 06, Part 31 row 61
 - **Replication (leader/follower, sync/async/semi-sync, failover, multi-leader, leaderless quorum, WAL)** → Part 06 (rows 9, 13, 28, 38)
 - **Retry budget** → Part 29 row 66
@@ -285,6 +300,9 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 ## S
 
+- **Scalability (vertical vs horizontal, active redundancy)** → Part 07 row 19
+- **Sequential vs random IO** → Part 07 row 19
+
 - **S3 pre-signed URL** → Part 13, Part 31 row 5
 - **Saga / orchestration vs choreography** → PracticeProblems § 3 Q16, Part 29 row 106
 - **Sanctions / PEP / adverse media** → Part 29 rows 19-21
@@ -294,6 +312,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Security Hub (AWS aggregator)** → Part 13
 - **Semantic versioning** → Part 26 row 11
 - **Sequence diagram** → Part 05 row 2
+- **Server-Sent Events (SSE)** → Part 11 row 29
 - **Service discovery** → Part 11
 - **Session token (short-lived)** → Part 31 row 4
 - **Sharding (strategies, shard keys, routing/mongos/Vitess, scatter-gather, consistent hashing, virtual nodes)** → Part 06 (rows 10, 35), Part 07 (rows 5, 22, 30, 42)
@@ -301,6 +320,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Side-channel / timing attacks** → Part 15
 - **Sigstore / cosign (supply-chain signing)** → Part 22
 - **Site-to-Site (S2S) VPN** → Part 13 row 33
+- **Short polling** → Part 11 row 30
 - **Snyk (image scanning)** → Part 22
 - **SNS — topics, subscriptions, fanout, FIFO** → Part 13, Part 10
 - **SOC 2** → Part 28 row 14
@@ -328,6 +348,8 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## T
 
 - **TaskDecorator (context propagation)** → Part 03, Part 1b row 22
+- **TCP (handshake, congestion, TIME_WAIT)** → Part 11 rows 2-3
+- **TCP vs UDP** → Part 11 rows 2, 4
 - **Text blocks (Java 15+)** → Part 01 row 32, Part 1b row 26
 - **Telemetry (SDK, PII-safe)** → Part 31 row 34
 - **TestContainers** → Part 25 row 12
@@ -345,9 +367,11 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 - **UML (class / sequence / state / activity)** → Part 05
 - **UBO screening** → Part 29 row 129
+- **UDP (DNS, VoIP, gaming)** → Part 11 row 4
 
 ## V
 
+- **Varints / Protobuf encoding** → Part 11 row 13, Part 12 row 2
 - **Vector databases (pgvector, Pinecone)** → Part 23 row 13
 - **Vendor abstraction / adapter** → Part 31 row 9
 - **Vendor failover** → Part 31 row 11
@@ -358,7 +382,9 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## W
 
 - **Webhook signing (HMAC + timestamp + nonce)** → Part 20, Part 29 rows 30-33
+- **Webhooks** → Part 11 row 22
 - **WebMvcTest / SpringBootTest** → Part 25 row 4
+- **WebSockets** → Part 11 row 28
 - **var (local type inference, limits)** → Part 01 row 32, Part 1b row 26
 - **WebClient (reactive)** → Part 03, Part 1b row 18
 - **White-label SDK** → Part 29 row 91, Part 31 row 50
@@ -368,6 +394,10 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## X
 
 - **X.509 cert anatomy** → Part 17
+
+## Y
+
+- **YouTube streaming vs Video calls (TCP vs UDP)** → Part 11 row 4
 
 ## Z
 

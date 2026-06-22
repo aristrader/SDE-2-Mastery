@@ -1,4 +1,46 @@
-# Availability vs Reliability vs Fault Tolerance
+# System Availability, Reliability & Fault Tolerance
+
+## Measuring availability
+
+**Formula:** `Availability = Uptime / (Uptime + Downtime)`
+
+**The "Nines":** Companies measure availability in percentages. Every extra 9 increases complexity and cost.
+
+| Availability | Downtime per year | Expected Setup |
+|------------|------------|-------|
+| 99% | ~3.65 days | 1 server |
+| 99.9% ("Three nines") | ~8.7 hours | |
+| 99.99% ("Four nines") | ~52 minutes | |
+| 99.999% ("Five nines") | ~5 minutes | Multiple servers, AZs, replication, automatic failover |
+
+## Sequence vs Parallel availability
+
+This is the mathematical reason why load balancers and clusters exist.
+
+### Components in Sequence (Series)
+
+```text
+User → Load Balancer → API → Database
+```
+
+For a request to succeed, **all** components must work. 
+If each component has 99.9% availability:
+`0.999 × 0.999 × 0.999 ≈ 99.7%` overall availability.
+**Adding more required components in series reduces total availability.** (Analogy: Christmas lights — one bulb breaks, the whole chain dies).
+
+### Components in Parallel
+
+```text
+          Server A
+        /
+User ——
+        \
+          Server B
+```
+
+Request succeeds if **A OR B** works. Both need to fail simultaneously for the service to die.
+Two 99.9% servers in parallel jump to approximately 99.9999% availability.
+**Adding components in parallel increases total availability.** (Analogy: Owning two cars — if one breaks, you can still drive).
 
 ## How it works
 
@@ -73,13 +115,18 @@ FT:  failure → service continues  → users don't notice
 5. **"If there's even a tiny interruption, is it still fault tolerant?"** Nuance: in theory FT aims for no visible interruption; in practice perfect zero impact is extremely difficult — a few failed requests, millisecond-level disruption, or tiny switchover delays may remain. The goal is making failures *effectively invisible* to users.
 6. **Understanding check (correct):** HA = system works again after a short interruption; FT = system continues without users noticing.
 
-## Performance characteristics
+## How availability is increased (SDE-2 level)
 
-### How availability is increased
+When asked "How can we improve availability?", SDE-2s are expected to identify single points of failure and apply **redundancy**:
 
-Through **redundancy**: multiple servers, multiple replicas, multiple nodes, automatic failover, load balancing.
+1. **Replication:** 1 DB → 3 DB replicas (no single point of failure).
+2. **Multiple App Servers:** 10 servers instead of 1.
+3. **Load Balancers:** Route traffic away from failed instances (turns sequence failure into parallel availability).
+4. **Multi-AZ Deployment:** Survives a datacenter death.
+5. **Health Checks:** Detect failures automatically.
+6. **Automatic Failover:** Move traffic without human intervention.
 
-Key insight: modern distributed systems **assume hardware failures will happen**. The goal is not preventing all failures — it's *surviving* them.
+Key insight: modern distributed systems **assume hardware failures will happen**. The goal is not preventing all failures — it's *surviving* them. CDNs, Caching, Clustering, and DNS Routing are all fundamentally techniques to improve Latency and **Availability**.
 
 ## Good to know
 
@@ -113,3 +160,6 @@ A. HA allows small interruptions; FT aims for no noticeable interruption.
 
 **Q. What is the core distributed-systems mindset?**
 A. Assume failures will happen and design the system to continue operating.
+
+**Q. How does adding components in sequence vs parallel affect availability?**
+A. Sequence (A → B → C) reduces total availability (all must work). Parallel (A || B) increases total availability (both must fail simultaneously to cause an outage).

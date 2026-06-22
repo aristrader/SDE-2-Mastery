@@ -20,14 +20,14 @@
 | 12 | Document (MongoDB, DynamoDB) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: MongoDB schema flexibility / validation / transactions / document-modeling limits covered; DynamoDB pending | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` (MongoDB parts) |
 | 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` (replication part) |
 | 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 redis.io "Introduction to Redis" (~30 min) |
+| 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: clustering (Redis Cluster, shards, replication, failover) covered; data types, persistence, eviction, pub/sub, streams pending. ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/Clustering.md` · 📖 redis.io "Introduction to Redis" (~30 min) |
 | 16 | MVCC — Postgres vs MySQL implementations | 🟠 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | Locks — row, gap, next-key (MySQL specifically) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Deadlocks — detection, prevention | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: transaction states/lifecycle + distributed transactions + 2PC (prepare/commit, blocking problem, recovery) + 3PC + Saga/compensating covered; savepoints + XA pending. ~26 min (ChatGPT, 2 pastes) | 📖 `databases/distributed_transactions/DistributedTransactions.md` · 📖 `databases/transactions/Transactions.md` |
+| 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: transaction states/lifecycle + distributed transactions + 2PC (prepare/commit, blocking problem, recovery) + 3PC + Saga/compensating + FLP/consensus covered; savepoints + XA pending. ~45 min (ChatGPT, 3 pastes) | 📖 `databases/distributed_transactions/DistributedTransactions.md` · 📖 `databases/transactions/Transactions.md` |
 | 20 | Window functions (ROW_NUMBER, RANK, LAG, LEAD) | 🟠 💼 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: ROW_NUMBER / RANK / LAG over PARTITION BY — find top-N per category, find diff between consecutive rows (20 min) |
 | 21 | CTEs (WITH), recursive CTEs | 🟠 💼 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: WITH non-recursive + recursive CTE for org-chart hierarchy traversal (25 min) |
-| 22 | Materialized views | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 22 | Materialized views | 🟠 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `databases/views/ViewsAndMaterializedViews.md` |
 | 23 | Stored procedures / triggers — and why most teams avoid them now | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Schema migrations safely (Flyway, Liquibase) — backward-compatible changes | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Connection pooling — HikariCP, sizing math | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 HikariCP "About Pool Sizing" wiki (~15 min, gold) |
@@ -43,7 +43,7 @@
 | 35 | Partitioning (range, list, hash) | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — horizontal vs vertical, hash/list/range/composite criteria | 📖 `databases/sharding/Sharding.md` |
 | 36 | JSON columns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Vector (pgvector, Pinecone, Weaviate, Milvus) — also covered in GenAI | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency (leaderless, N/W/R quorums, R+W>N) covered; partition + clustering keys pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` (quorum part) |
+| 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency (leaderless, N/W/R quorums, R+W>N, read repair) covered; partition + clustering keys pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` (quorum part) |
 | 39 | MongoDB — sharding, secondary indexes, aggregation pipeline | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/SqlVsNosql.md` |
 | 41 | Database federation — federated DBs vs sharding, cross-DB join/transaction cost, modern database-per-service + Saga + BFF | 🟡 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — federation vs sharding contrast, why it faded, BFF as service-layer aggregation | 📖 `databases/federation/Federation.md` |
@@ -54,7 +54,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~37.92 hrs | ~3.45 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~64.92 hrs | ~5.9 wk | |
-| Full Part (all items including 🟡) | ~71.17 hrs | ~6.5 wk | ~5.0 hrs so far |
+| Full Part (all items including 🟡) | ~71.17 hrs | ~6.5 wk | ~6.8 hrs so far |
 
 > Database is foundational for most senior interviews. Isolation levels + indexes + EXPLAIN are interview-canonical and worth Mastery time.
 

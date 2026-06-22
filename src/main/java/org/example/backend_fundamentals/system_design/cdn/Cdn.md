@@ -41,6 +41,30 @@ The most common model — content is fetched **only when requested**: user reque
 
 Content is **proactively distributed** to CDN nodes before users request it — e.g. large software updates, game patches, OS releases. The content is already at CDN locations when users begin downloading.
 
+### Architecture diagram
+
+```text
+             +----------------+
+             | Origin Server  |
+             +----------------+
+                     |
+     ---------------------------------
+     |               |              |
+     v               v              v
++---------+    +---------+    +---------+
+| Mumbai  |    | London  |    |  NYC    |
+|  CDN    |    |  CDN    |    |  CDN    |
++---------+    +---------+    +---------+
+     |               |              |
+ India Users    Europe Users    US Users
+```
+
+### Cache invalidation
+
+When origin content changes (e.g. a new `profile.jpg` replaces an old one), the CDN will still serve the old cached copy. Solutions:
+- **Versioning (most common):** Changing the filename or query string (e.g., `profile_v2.jpg` or `profile.jpg?v=2`) so the CDN treats it as a completely new file.
+- **Purge / Invalidate:** Explicitly telling the CDN to delete the old copy, forcing it to fetch the fresh version on the next request.
+
 ## Gotchas / Trick questions
 
 1. **"Aren't CDN and Redis basically the same thing?"** They're both caches, but they solve different problems:
@@ -61,7 +85,7 @@ Content is **proactively distributed** to CDN nodes before users request it — 
 
 ## Performance characteristics
 
-**Benefits:** lower latency (nearby nodes), reduced origin load (many requests never reach it), reduced bandwidth consumption, better user experience for static assets.
+**Benefits:** lower latency (nearby nodes), reduced origin load (many requests never reach it), reduced bandwidth consumption, better user experience for static assets, high availability (content can still be served even if the origin is overloaded), and DDoS protection (most CDN providers add security layers before traffic reaches the origin).
 
 **Trade-offs:** cost (global CDN infrastructure isn't free) and cache-invalidation complexity (updated content may persist in CDN caches until invalidated or refreshed).
 

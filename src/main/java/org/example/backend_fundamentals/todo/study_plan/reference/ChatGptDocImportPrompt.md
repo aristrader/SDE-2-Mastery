@@ -15,5 +15,13 @@ Dump this entire conversation as one Markdown document for my study notes. Don't
 - Group related points together so the dump is readable, but don't sweat the ordering beyond that.
 - Plain Markdown, no HTML, no emojis.
 
-Output everything as one Markdown code block so I can copy it cleanly.
+**CRITICAL RULE FOR LONG CHATS**: 
+Do NOT attempt to dump a long conversation in a single response, as you will be forced to compress and lose details to fit your output limit.
+1. Evaluate the length of our chat.
+2. If it is long, break your dump into multiple chronological parts.
+3. Generate ONLY Part 1 right now.
+4. End Part 1 by explicitly stating: **"I have completed Part 1. This dump will require approximately [X] parts. Reply 'Continue' to proceed to the next part."**
+5. Wait for me to reply "Continue" before generating the next part.
+
+Output Part 1 (or the whole thing if it easily fits) as one Markdown code block so I can copy it cleanly.
 ```

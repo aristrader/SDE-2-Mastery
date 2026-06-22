@@ -44,9 +44,9 @@
 | 34 | Mediator | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Visitor | 🟠 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Refactoring Guru "Visitor" explainer |
 | 36 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Martin Fowler — "CQRS" article (~30 min) |
-| 38 | Event Sourcing — same | 🟠 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Saga" (~30 min) |
+| 37 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 2.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
+| 38 | Event Sourcing — same | 🟠 💼 | D | 2.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
+| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `messaging/saga/SagaVsPubSub.md` |
 | 40 | Outbox pattern — reliable event publishing | 🟠 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Transactional outbox" |
 | 41 | Idempotent receiver | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 42 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -79,7 +79,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~31.25 hrs | ~2.85 wk | rows 8, 9, 10 done pre-time-tracking (hours not logged) |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~78.5 hrs | ~7.15 wk | rows 8, 9, 10, 29 done pre-time-tracking |
-| Full Part (all items including 🟡 + 🟢) | ~92.5 hrs | ~8.4 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~92.5 hrs | ~8.4 wk | ~4.5 hrs so far |
 
 > Heavy Part — but a large fraction is already ✅ Done from your active design-patterns track. Mark accordingly during Survey.
 

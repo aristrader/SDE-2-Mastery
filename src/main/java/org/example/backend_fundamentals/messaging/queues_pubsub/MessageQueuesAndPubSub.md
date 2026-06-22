@@ -40,7 +40,7 @@ Main Queue → fail N times → DLQ → alert / human investigation
 
 ## Push vs pull, and long polling
 
-- **Pull** — consumer repeatedly asks "any message?" (wasteful polling).
+- **Pull** — consumer repeatedly asks "any message?" (wasteful polling — wastes CPU, network bandwidth, and adds delivery latency).
 - **Push** — broker pushes immediately when a message arrives.
 - **Long polling** — consumer asks, broker *holds the request open* and returns the instant a message arrives (or on timeout). Best of both; **SQS** uses this.
 

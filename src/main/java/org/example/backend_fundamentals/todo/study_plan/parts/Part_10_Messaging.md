@@ -18,11 +18,11 @@
 | 10 | SNS — fan-out, filtering | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~24 min (ChatGPT, 2 pastes) — fan-out, event filtering by attribute, multi-protocol delivery (queue/HTTP/Lambda), durability | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` |
 | 11 | Kinesis — shards, retention, consumer types | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | RabbitMQ — exchanges, queues, bindings, routing keys | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RabbitMQ model (queue, deliver-ACK-delete, vs Kafka log) covered; exchanges/bindings/routing-keys pending. ~9 min (ChatGPT) | 📖 `messaging/message_brokers/MessageBrokers.md` |
-| 13 | Event-driven architecture — events vs commands | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — event ("this happened") vs command ("do this"), fan-out, pub/sub extensibility | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` |
+| 13 | Event-driven architecture — events vs commands | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — event ("this happened") vs command ("do this"), fan-out, pub/sub extensibility | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` · 📖 `messaging/eda/EventDrivenArchitecture.md` |
 | 14 | Outbox pattern (revisit) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 4.3) |
 | 15 | Change Data Capture (CDC) — Debezium, AWS DMS, MySQL binlog, Postgres logical replication | 🟠 💼 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run Debezium against local Postgres, observe a row INSERT propagate to a Kafka topic (30 min) |
 | 16 | Transactional outbox + CDC — reliable event publishing without 2PC | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Choreography vs orchestration in event-driven architecture | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 4.3 Sagas) |
+| 17 | Choreography vs orchestration in event-driven architecture | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~15 min (ChatGPT) — choreography vs orchestration, Saga vs Pub/Sub | (Cross-ref Part 4.3 Sagas) · 📖 `messaging/saga/SagaVsPubSub.md` |
 | 18 | Stream processing — Kafka Streams, Flink basics | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Schema registry, Avro / Protobuf for events; schema evolution rules | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
@@ -32,7 +32,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~12.75 hrs | ~1.16 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~34 hrs | ~3.1 wk | |
-| Full Part (all items including 🟡) | ~37 hrs | ~3.36 wk | ~1.8 hr so far |
+| Full Part (all items including 🟡) | ~37 hrs | ~3.36 wk | ~2.3 hrs so far |
 
 ## Key diagrams
 

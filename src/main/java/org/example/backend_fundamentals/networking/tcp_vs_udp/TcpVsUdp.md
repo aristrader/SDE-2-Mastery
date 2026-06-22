@@ -81,6 +81,14 @@ The key idea: **UDP itself remains unreliable, but the game adds reliability whe
 
 A game session is not necessarily a single communication pipe. A common pattern: one channel for low-latency updates, another for reliable operations. These may use different ports, different protocols, and different reliability mechanisms — the networking layer decides which data goes through which channel.
 
+### YouTube Video Streaming vs Video Calls
+
+A common misconception is that video streaming (like YouTube) must use UDP because it's video and "losing some packets is acceptable."
+
+**YouTube Video Streaming:** Mostly **TCP**. Video content is delivered in chunks over HTTPS (which uses TCP). Smooth playback is achieved through **buffering** (download ahead, store locally, play later), which absorbs any delays caused by TCP retransmissions.
+
+**Video Calls (Zoom, Discord Voice):** Usually **UDP**. These prioritize **low latency** over perfect reliability. A tiny audio glitch from a lost packet is preferable to waiting for a retransmission, which would cause noticeable lag in a live conversation.
+
 ## Gotchas / Trick questions
 
 1. **"At SDE2 do I need to memorize the OSI model?"** No — interviewers care far more about practical concepts: TCP vs UDP, HTTP, DNS, load balancers, service communication. OSI is mainly a conceptual framework.

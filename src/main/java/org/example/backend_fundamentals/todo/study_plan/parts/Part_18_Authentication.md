@@ -7,12 +7,12 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Password storage done right — Argon2id, bcrypt; never plain hash | 🔴 💼 🔐 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 15 password hashing) |
-| 2 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` |
 | 3 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
 | 5 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
-| 7 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
+| 7 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part2_GraphQL_AsymmetricJWT.md` |
 | 8 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -30,7 +30,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~19.33 hrs | ~1.75 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~29.16 hrs | ~2.65 wk | |
-| Full Part (all items including 🟡) | ~30.66 hrs | ~2.8 wk | |
+| Full Part (all items including 🟡) | ~30.66 hrs | ~2.8 wk | ~3.5 hrs so far |
 
 ## Key diagrams
 

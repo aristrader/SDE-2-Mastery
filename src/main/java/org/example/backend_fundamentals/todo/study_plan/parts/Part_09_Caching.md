@@ -11,12 +11,12 @@
 | 3 | Eviction policies — LRU, LFU, ARC, FIFO, random | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: LRU concept covered; LFU/ARC/FIFO details pending | 📖 `system_design/caching/CachingAndDistributedCache.md` (LRU only) |
 | 4 | Cache stampede / thundering herd — single-flight, request coalescing, jittered TTLs | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Spring `@Cacheable` mechanics + pitfalls — self-invocation bypass (AOP proxy), SpEL key, `sync = true` for hot keys, condition vs unless, CacheManager wiring | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: reproduce the self-invocation trap — service method calls another method with @Cacheable on same class, observe cache bypass; fix via self-injection or AspectJ (30 min) |
-| 6 | Multi-tier caching — browser, CDN, gateway, app, distributed, DB buffer | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: local→Redis→DB layering + CPU-cache analogy + CDN tier covered; full browser/gateway/DB-buffer tier walk pending | 📖 `system_design/caching/CachingAndDistributedCache.md` + `system_design/cdn/Cdn.md` (partial) |
+| 6 | Multi-tier caching — browser, CDN, gateway, app, distributed, DB buffer | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: local→Redis→DB layering + CPU-cache analogy + CDN tier covered; full browser/gateway/DB-buffer tier walk pending | 📖 `system_design/caching/CachingAndDistributedCache.md` + `system_design/cdn/Cdn.md` (partial) |
 | 7 | Negative caching (caching "not found") | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Cache consistency models in microservices | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Hot key problem & mitigation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Cache key design — tenant-scoped, versioned, collision-safe (e.g., `kyc:v1:tenant:{tenantId}:doc:{docId}`); cross-tenant safety; key versioning for schema migrations | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Redis specifically — data structures, persistence (RDB/AOF), Sentinel, Cluster | 🟠 💼 | D | 3 hrs 20 min | [ ] | [x] | [ ] | [ ] | Partial: Cluster (16384 hash slots, masters/replicas, failover) covered; data structures, RDB/AOF, Sentinel pending | 📖 `system_design/caching/CachingAndDistributedCache.md` (Cluster only) · 📖 redis.io intro · 💻 Warm-up: connect with `redis-cli`, exercise SET/GET/EXPIRE/TTL/HSET/LPUSH/ZADD from memory (20 min) |
+| 11 | Redis specifically — data structures, persistence (RDB/AOF), Sentinel, Cluster | 🟠 💼 | D | 3 hrs 20 min | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: Cluster (16384 hash slots, masters/replicas, failover) covered; data structures, RDB/AOF, Sentinel pending | 📖 `system_design/caching/CachingAndDistributedCache.md` (Cluster only) · 📖 redis.io intro · 💻 Warm-up: connect with `redis-cli`, exercise SET/GET/EXPIRE/TTL/HSET/LPUSH/ZADD from memory (20 min) |
 | 12 | Memcached vs Redis tradeoffs | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Caffeine (in-JVM cache) — for Spring apps | 🟠 | MP | 1 hr 35 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Caffeine builder with maximumSize + expireAfterWrite + recordStats (20 min) |
 
@@ -26,7 +26,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~10.25 hrs | ~0.93 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21 hrs | ~1.9 wk | |
-| Full Part (all items including 🟡) | ~21.83 hrs | ~2 wk | ~45 min so far |
+| Full Part (all items including 🟡) | ~21.83 hrs | ~2 wk | ~2.25 hrs so far |
 
 ## Key diagrams
 

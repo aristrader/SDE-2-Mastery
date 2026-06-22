@@ -30,6 +30,16 @@ Represents the **server**; users communicate with the reverse proxy and never di
 User ─► Reverse proxy ─► [Server A | B | C | D]
 ```
 
+### Forward Proxy vs Reverse Proxy
+
+| Question | Forward Proxy | Reverse Proxy |
+|-----------|-----------|-----------|
+| Represents | Client | Server |
+| Hides | Client | Server |
+| Used by | User organization | Website owner |
+| Main purpose | Privacy, filtering, geo access | Security, caching, load balancing |
+| Example | VPN, corporate proxy | Nginx, HAProxy, CDN edge nodes |
+
 ### Why reverse proxies exist
 
 - **Security** — backend servers stay private, not directly reachable from the internet.
@@ -88,6 +98,8 @@ The ISP sees only `destination IP = VPN server`; the final destination is hidden
 - **Bypasses DNS blocking:** DNS queries travel *inside* the tunnel to the VPN's DNS — the ISP cannot inspect or modify them.
 - **Bypasses IP blocking:** the ISP only sees the VPN server's IP; the VPN server connects to the blocked site *outside* the ISP's network.
 
+**Obfuscated VPNs:** To bypass Deep Packet Inspection (DPI), VPNs disguise their traffic as normal HTTPS traffic (e.g., "Looks like somebody opening Gmail" instead of "Looks like a VPN"). This creates a constant cat-and-mouse game between firewalls and VPN providers.
+
 ## National firewall architecture
 
 ### Traditional ISP-based blocking
@@ -109,8 +121,11 @@ Most international traffic passes through centralized filtering — one highly c
 | DNS filtering | Return fake or invalid DNS responses |
 | IP blocking | Drop traffic to specific destinations |
 | Deep packet inspection (DPI) | Inspect packet metadata and protocol characteristics — can detect VPN traffic, certain applications, suspicious patterns |
+| TLS/SNI filtering | Inspect the Server Name Indication (SNI) in the unencrypted TLS handshake to see the requested domain (e.g., `facebook.com`) and terminate the connection |
 | VPN detection | Identify and block common VPN protocols (OpenVPN, WireGuard) |
 | Active probing | The firewall itself connects to a suspected VPN server to test whether it runs VPN software; if confirmed, it's blocked |
+
+*Note: Because of such strict restrictions, services commonly used globally (Google, YouTube, Facebook) are often unavailable, leading to local alternatives developing (e.g., China's internet ecosystem).*
 
 ## Gotchas / Trick questions
 

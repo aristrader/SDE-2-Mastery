@@ -54,7 +54,7 @@ if all_yes:  shardA.commit(); shardB.commit()
 else:        rollback()
 ```
 
-**Misconception:** *Postgres supports transactions, so I'm fine.* Only *within one instance*. Across multiple Postgres nodes, Postgres alone can't guarantee atomicity. Systems like **Google Spanner** expose one logical `BEGIN…COMMIT` but internally use consensus, distributed-commit protocols, and timestamp ordering — the complexity still exists; the DB just hides it.
+**Misconception:** *Postgres supports transactions, so I'm fine.* Only *within one instance*. Across multiple Postgres nodes, Postgres alone can't guarantee atomicity. Systems like **CockroachDB, Google Spanner, and YugabyteDB** expose one logical `BEGIN…COMMIT` but internally use **consensus protocols (like Paxos or Raft)**, distributed-commit protocols, and timestamp ordering — the complexity still exists; the DB just hides it.
 
 ## Three-Phase Commit (3PC)
 
@@ -69,7 +69,7 @@ In 2PC, the PREPARED state doesn't tell a participant whether the coordinator *i
 **Why 3PC is rarely used:**
 1. **More round trips** — three phases = more latency, messages, complexity.
 2. **Strong timing assumptions** — it relies on bounded network delay, bounded timeouts, and reliable failure detection. Real networks provide none of these.
-3. **Network partitions defeat it** — if A can reach the coordinator but B can't, B thinks the coordinator died while the coordinator thinks B died. **A slow node is indistinguishable from a dead node**, so timeout-based self-decisions can still produce inconsistency. 3PC trades 2PC's blocking for partition-time incorrectness — usually a bad trade.
+3. **Network partitions defeat it** — if A can reach the coordinator but B can't, B thinks the coordinator died while the coordinator thinks B died. **A slow node is indistinguishable from a dead node (the FLP problem)**, so timeout-based self-decisions can still produce inconsistency. 3PC trades 2PC's blocking for partition-time incorrectness — usually a bad trade. Modern systems bypass 3PC entirely by using consensus protocols like Paxos or Raft to handle leader failure instead of timeouts.
 
 ## Saga pattern
 

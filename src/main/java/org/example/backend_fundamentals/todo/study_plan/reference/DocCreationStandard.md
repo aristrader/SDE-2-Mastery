@@ -107,4 +107,6 @@ The keep/cut test for exercise docs becomes: "does this help practice the skill 
 
 If a section already exists but feels like the cut list — academic survey, alternative explanation, historical trivia, comparative content the reader will skip — cut it before publishing. Don't rationalise: if you have to argue for keeping it, it doesn't belong.
 
+*(Exception: If you are processing a `temp.md` ChatGPT dump, follow the `CLAUDE.md` workflow rules instead: do NOT cut these if they were actively discussed. Move them to a `## Good to know` section to preserve the user's learning context.)*
+
 For sweeping older bloated docs, use the sibling `DocCleanupPrompt.md` — that's the subagent-ready version of the cut criteria.

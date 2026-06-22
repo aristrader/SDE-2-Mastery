@@ -14,3 +14,4 @@ pageClass: hub-page
 - [Distributed Transactions — 2PC, 3PC & Saga](/databases/distributed_transactions/DistributedTransactions)
 - [Sharding, Partitioning & Consistent Hashing](/databases/sharding/Sharding)
 - [Database Federation](/databases/federation/Federation)
+- [Views & Materialized Views](/databases/views/ViewsAndMaterializedViews)
