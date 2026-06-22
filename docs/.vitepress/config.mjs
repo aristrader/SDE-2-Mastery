@@ -32,6 +32,7 @@ export default withMermaid({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Study Plan', link: '/todo/study_plan/README' },
+      { text: 'Progress', link: '/progress' },
       { text: 'Java & JVM', link: '/java/' },
       { text: 'Spring', link: '/spring/' },
       { text: 'System Design', link: '/system_design/' },
@@ -39,6 +40,7 @@ export default withMermaid({
       { text: 'Networking', link: '/networking/' },
       { text: 'Databases', link: '/databases/' },
       { text: 'Messaging', link: '/messaging/' },
+      { text: 'Security', link: '/security/' },
     ],
     search: { provider: 'local' },
     sidebar: generateSidebar([
@@ -51,6 +53,7 @@ export default withMermaid({
       { ...commonSidebarConfig, scanStartPath: 'networking', resolvePath: '/networking/' },
       { ...commonSidebarConfig, scanStartPath: 'databases', resolvePath: '/databases/' },
       { ...commonSidebarConfig, scanStartPath: 'messaging', resolvePath: '/messaging/' },
+      { ...commonSidebarConfig, scanStartPath: 'security', resolvePath: '/security/' },
     ]),
   },
 })

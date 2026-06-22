@@ -277,7 +277,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## R
 
 - **RAG (retrieval-augmented generation)** → Part 23 rows 12-17
-- **Rate limiting (token bucket, sliding window, distributed)** → Part 09, PracticeProblems § 1 #9, § 2 #13
+- **Rate limiting (token bucket, sliding window, distributed)** → Part 07 row 13, Part 09, PracticeProblems § 1 #9, § 2 #13
 - **RBAC / ABAC / ReBAC** → Part 19
 - **Reactor / Project Reactor** → Part 02, Part 03
 - **Records as DTOs (compact constructor, validation)** → Part 01 row 31, Part 1b row 6

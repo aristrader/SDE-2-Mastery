@@ -8,7 +8,7 @@
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Password storage done right — Argon2id, bcrypt; never plain hash | 🔴 💼 🔐 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 15 password hashing) |
 | 2 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` |
-| 3 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/OAuth_JWT_APIKeys.md` |
 | 4 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
 | 5 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
@@ -20,7 +20,7 @@
 | 12 | MFA — TOTP (RFC 6238), WebAuthn / FIDO2, push, SMS (and why SMS is weak) | 🟠 💼 🔐 | MP | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement TOTP generator (HMAC-SHA1 over time-counter) from RFC 6238 — verify against Google Authenticator (20 min) |
 | 13 | Magic links, passwordless flows | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | SSO patterns | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | API keys — when to use, rotation strategy | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 15 | API keys — when to use, rotation strategy | 🟠 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/OAuth_JWT_APIKeys.md` |
 | 16 | mTLS as primary auth between services | 🟠 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Parts 16, 17) |
 | 17 | HMAC request signing (AWS SigV4 pattern) | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 

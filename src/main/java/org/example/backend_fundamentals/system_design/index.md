@@ -13,6 +13,7 @@ High-level design building blocks.
 - [CDN](/system_design/cdn/Cdn)
 - [Availability, Reliability & Fault Tolerance](/system_design/availability/AvailabilityReliabilityFaultTolerance)
 - [CAP & PACELC](/system_design/cap_pacelc/CapPacelc)
-- [N-Tier Architecture](/system_design/n_tier/NTierArchitecture)
+- [N-Tier Architecture](./n_tier/NTierArchitecture.md)
+- [Rate Limiting](./rate_limiting/RateLimiting.md)
 - [Monoliths vs Microservices](/system_design/architecture/MonolithsVsMicroservices)
 - [Domain-Driven Design & Bounded Contexts](/system_design/ddd/DomainDrivenDesign)

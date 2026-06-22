@@ -36,6 +36,9 @@
 | 26 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Multi-modal — vision, audio | 🟡 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | PII redaction in prompts / responses | 🟡 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 29 | AI System Design — Architecture for enterprise chatbots, coding assistants | 🟠 💼 🆕 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 30 | AI-Integrated Technical Assessments (HackerRank AI follow-ups handling) | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 31 | Behavioral & HR Questions — Your AI usage, workflow automation, tool selection | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

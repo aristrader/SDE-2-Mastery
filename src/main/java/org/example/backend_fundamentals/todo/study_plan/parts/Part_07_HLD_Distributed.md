@@ -18,7 +18,7 @@
 | 10 | Cache invalidation — TTL, event-based, write-through | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Message queue vs stream — semantics differences | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — broker (deliver-and-discard) vs streaming/commit-log (store + replay), offsets, RabbitMQ vs Kafka | 📖 `messaging/message_brokers/MessageBrokers.md` | 
 | 12 | Pub-sub vs point-to-point | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT, 2 pastes) — queue (competing consumers, command) vs topic (fan-out, event), filtering, durability, multi-protocol delivery, who-does-work-vs-who-wants-to-know | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` |
-| 13 | Rate limiting — fixed window, sliding window, token bucket, leaky bucket | 🔴 💼 🎯 | MP | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement token bucket — tryAcquire() with periodic refill (30 min) |
+| 13 | Rate limiting — fixed window, sliding window, token bucket, leaky bucket | 🔴 💼 🎯 | MP | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/rate_limiting/RateLimiting.md` · 💻 Warm-up: implement token bucket — tryAcquire() with periodic refill (30 min) |
 | 14 | Timeouts (and why "no timeout" is the #1 prod bug) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Retries with exponential backoff + jitter | 🔴 💼 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 📖 AWS Architecture Blog "Exponential Backoff and Jitter" (~15 min, classic) · 💻 Warm-up: retry(maxAttempts, Supplier) with jitter against flaky Supplier (25 min) |
 | 16 | Circuit breakers (closed/open/half-open) | 🔴 💼 🎯 | MP | 2 hrs 15 min | [ ] | [x] | [ ] | [ ] | Partial: theory, states (closed/open/half-open), implementation concepts covered; hands-on Java warm-up pending. ~1.5 hr (ChatGPT) | 📖 `networking/api_gateway/ApiGatewayBff.md` · 💻 Warm-up: minimal CircuitBreaker state machine in Java (CLOSED → OPEN → HALF_OPEN); 5 failures opens, probe success closes (45 min) |
@@ -61,7 +61,7 @@
 | 53 | HLD — Notification service | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 54 | HLD — Distributed cache (design Redis-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 55 | HLD — Distributed message queue (design Kafka-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 56 | HLD — Rate limiter (distributed) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 56 | HLD — Rate limiter (distributed) | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 1.5 hrs | 📖 `system_design/rate_limiting/RateLimiting.md` |
 | 57 | HLD — Web crawler | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 58 | HLD — Search autocomplete / typeahead | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 59 | HLD — KYC / identity verification platform — your domain | 🟠 🎯 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | Portfolio piece — polish this one |
