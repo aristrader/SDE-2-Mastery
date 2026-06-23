@@ -7,7 +7,7 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | TLS 1.2 vs TLS 1.3 — handshake differences (1-RTT, 0-RTT) | 🔴 💼 🔐 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: capture a TLS 1.2 handshake and a TLS 1.3 handshake with tcpdump or Wireshark; count RTTs to first byte (30 min) |
-| 2 | Full handshake walkthrough — ClientHello, ServerHello, key exchange | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/cryptography/TLS_HTTPS_PKI.md` · 💻 Warm-up: `openssl s_client -connect google.com:443 -tls1_3 -trace` — identify ClientHello, ServerHello, key exchange in the trace output (30 min) |
+| 2 | Full handshake walkthrough — ClientHello, ServerHello, key exchange | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 📖 `security/cryptography/TLS_HTTPS_PKI.md` · 💻 Warm-up: `openssl s_client -connect google.com:443 -tls1_3 -trace` — identify ClientHello, ServerHello, key exchange in the trace output (30 min) |
 | 3 | Cipher suites — naming convention, what each component does | 🔴 💼 🔐 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run `nmap --script ssl-enum-ciphers -p 443 yourdomain.com` against your service; identify which suites are weak and how to disable them in Spring Boot (30 min) |
 | 4 | Perfect Forward Secrecy — why DHE / ECDHE matters | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | SNI — Server Name Indication, ESNI / ECH | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

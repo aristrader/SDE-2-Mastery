@@ -7,7 +7,7 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Symmetric encryption — AES (modes: GCM, CBC, CTR), ChaCha20-Poly1305 | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Asymmetric encryption — RSA, ECC, key sizes | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Asymmetric encryption — RSA, ECC, key sizes | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: RSA/ECC concept mentioned, key sizes pending | 📖 `security/cryptography/TLS_HTTPS_PKI.md` |
 | 3 | Hash functions — SHA-2 family, SHA-3, properties (preimage, collision) | 🔴 💼 🔐 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: SHA-256 a string via Java MessageDigest from memory + verify with `echo -n "hello" \| shasum -a 256` (10 min) |
 | 4 | MAC — HMAC, vs digital signature | 🔴 💼 🔐 | MP | 1 hr 40 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Java HMAC-SHA256 over a payload with shared secret + verify equality timing-safely (10 min) |
 | 5 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -25,7 +25,7 @@
 | 17 | Side-channel | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Insecure deserialization | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Supply chain (log4shell era) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Concept mentioned as handshake mechanism, details pending | 📖 `security/cryptography/TLS_HTTPS_PKI.md` |
 | 21 | OWASP Top 10 — full list | 🟠 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

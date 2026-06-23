@@ -12,7 +12,7 @@
 | 4 | UDP — when it's right (DNS, real-time, QUIC) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). QUIC angle pending (own row 16) | 📖 `networking/tcp_vs_udp/TcpVsUdp.md` |
 | 5 | HTTP/1.1 — persistent connections, pipelining, chunked encoding | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | HTTP/2 — multiplexing, header compression (HPACK), server push (deprecated) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | HTTP methods, status codes (and which to use when) | 🔴 💼 🎯 | M | 1 hr 10 min | [x] | [ ] | [ ] | [ ] | | 📖 `networking/http_basics/HttpFundamentals.md` · 💻 Warm-up: write controller endpoints returning 200/201/204/400/401/403/404/409/422/429/500 with proper ResponseEntity (10 min) |
+| 7 | HTTP methods, status codes (and which to use when) | 🔴 💼 🎯 | M | 1 hr 10 min | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending | 📖 `networking/http_basics/HttpFundamentals.md` · 💻 Warm-up: write controller endpoints returning 200/201/204/400/401/403/404/409/422/429/500 with proper ResponseEntity (10 min) |
 | 8 | Caching headers — Cache-Control, ETag, Last-Modified, Vary | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | CORS — preflight, simple requests | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/XSS_CORS_SOP.md` |
 | 10 | DNS record types — A, AAAA, CNAME, MX, TXT, SRV | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

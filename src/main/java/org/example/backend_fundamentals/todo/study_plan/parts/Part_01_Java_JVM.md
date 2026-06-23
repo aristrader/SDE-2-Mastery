@@ -6,11 +6,11 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | Object model, inheritance, interfaces, abstract classes — when each fits | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~56 min | 💻 Warm-up: type a basic class with ctor/equals/hashCode/toString from memory (15 min) |
+| 1 | Object model, inheritance, interfaces, abstract classes — when each fits | 🔴 💼 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: Theory covered (~56 min), warm-up pending | 💻 Warm-up: type a basic class with ctor/equals/hashCode/toString from memory (15 min) |
 | 1a | String immutability — string pool, heap vs pool, why final, hashCode caching, StringBuilder | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/string/StringImmutability.md` |
 | 2 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 3 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/foundations/generics/Generics.md` · *Effective Java* Items 26-33 (Bloch) |
 | 3 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 2 hrs 45 min | [x] | [ ] | [ ] | [x] | ~33 min | 📖 `java/foundations/equals_hashcode/EqualsHashCode.md` · *Effective Java* Items 10-14 |
-| 4 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [x] | [ ] | [ ] | [x] | ~50 min. Redo Resource/AutoCloseable exercise from scratch — AutoCloseable not deeply covered yet | 💻 Warm-up: try-with-resources for a custom AutoCloseable + observe close ordering with multiple resources (10 min) |
+| 4 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [ ] | [x] | [ ] | [x] | Partial: Theory covered (~50 min). Redo Resource/AutoCloseable exercise from scratch — AutoCloseable not deeply covered yet | 💻 Warm-up: try-with-resources for a custom AutoCloseable + observe close ordering with multiple resources (10 min) |
 | 5 | Memory areas — heap (+ string pool inside heap), stack, metaspace, code cache | 🔴 💼 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~30 min | 📖 `java/foundations/memory_areas/MemoryAreas.md` |
 | 6 | Garbage collection — generational hypothesis, young/old, GC pauses | 🔴 💼 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | ~10 min | 📖 `java/foundations/gc/GarbageCollection.md` |
 | 7 | HashMap internals — bucket array, hashing, resizing, treeify threshold (8/6), load factor | 🔴 💼 🎯 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/hashmap/HashMap.md` · 📖 Baeldung "Guide to HashMap" + JEP 180 (treeification) |

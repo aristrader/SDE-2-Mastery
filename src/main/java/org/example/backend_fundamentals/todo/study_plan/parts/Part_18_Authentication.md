@@ -11,7 +11,7 @@
 | 3 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/OAuth_JWT_APIKeys.md` |
 | 4 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
 | 5 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
+| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
 | 7 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `networking/api_design/ApiTechnologies_Part2_GraphQL_AsymmetricJWT.md` |
 | 8 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

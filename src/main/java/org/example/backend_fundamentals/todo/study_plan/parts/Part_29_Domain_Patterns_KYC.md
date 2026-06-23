@@ -113,14 +113,14 @@
 | 103 | Double-entry ledger basics — debits and credits always balance | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 104 | Idempotency in payments — Idempotency-Key header, dedup window, retry safety | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 105 | Eventual consistency in money flows — applied carefully | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 106 | Saga / compensating transactions for multi-step payments | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 106 | Saga / compensating transactions for multi-step payments | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/DistributedTransactions.md` |
 | 107 | Reconciliation — periodic + per-transaction | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 108 | Authorization vs capture vs settlement | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 109 | Refunds, chargebacks, disputes flow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 110 | Payment state machines | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 111 | Velocity checks (X attempts in Y seconds, per device / IP / ID number) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 112 | Device fingerprinting — canvas, fonts, audio context, hardware signals | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 113 | IP intelligence — proxy / VPN / Tor / ASN lookup | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 113 | IP intelligence — proxy / VPN / Tor / ASN lookup | 🟠 💼 🔐 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: Proxies and VPNs covered conceptually; KYC specific intelligence application pending. | 📖 `networking/proxies_vpn/ProxiesVpnFirewalls.md` |
 | 114 | Behavioral biometrics | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 115 | Risk scoring — feature engineering, rules + ML hybrid | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 116 | Step-up authentication triggered on risk signals | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

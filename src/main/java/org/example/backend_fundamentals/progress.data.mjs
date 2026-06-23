@@ -25,8 +25,10 @@ export default {
 
       let totalTopics = 0;
       let completedTopics = 0;
+      let partialTopics = 0;
       
       const tiers = { red: { total: 0, done: 0 }, orange: { total: 0, done: 0 }, yellow: { total: 0, done: 0 }, green: { total: 0, done: 0 } };
+      const topics = [];
 
       let inTable = false;
 
@@ -63,17 +65,31 @@ export default {
                 globalTiers[rowTier].total++;
               }
 
-              const doneCell = cols[6].trim();
+              const doneCell = cols[6] ? cols[6].trim() : '';
+              const partialCell = cols[7] ? cols[7].trim() : '';
               const isDone = doneCell.includes('[x]') || doneCell.includes('[X]');
+              const isPartial = partialCell.includes('[x]') || partialCell.includes('[X]');
               
+              let status = 'left';
               if (isDone) {
+                status = 'done';
                 completedTopics++;
                 globalCompletedTopics++;
                 if (rowTier) {
                   tiers[rowTier].done++;
                   globalTiers[rowTier].done++;
                 }
+              } else if (isPartial) {
+                status = 'partial';
+                partialTopics++;
               }
+
+              topics.push({
+                num: numCell,
+                name: cols[2].trim(),
+                status: status,
+                tier: rowTier
+              });
             }
           }
         }
@@ -84,8 +100,10 @@ export default {
         title,
         totalTopics,
         completedTopics,
+        partialTopics,
         percentage: totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0,
-        tiers
+        tiers,
+        topics
       });
     }
 

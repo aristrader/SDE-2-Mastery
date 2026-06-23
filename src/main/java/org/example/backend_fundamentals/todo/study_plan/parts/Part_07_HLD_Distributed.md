@@ -6,7 +6,7 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | CAP theorem — and why it's often misunderstood | 🔴 💼 🎯 | M | 1 hr 30 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — partition-time C-vs-A, CP/AP philosophy, why CA doesn't exist, CAP-C vs ACID-C | 📖 `system_design/cap_pacelc/CapPacelc.md` · 💻 Warm-up: place 5 well-known systems (Cassandra, DynamoDB, MongoDB, ZooKeeper, Postgres replicated) on the CAP triangle; defend each placement out loud (30 min) |
+| 1 | CAP theorem — and why it's often misunderstood | 🔴 💼 🎯 | M | 1 hr 30 min | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~13 min (ChatGPT) — partition-time C-vs-A, CP/AP philosophy, why CA doesn't exist, CAP-C vs ACID-C | 📖 `system_design/cap_pacelc/CapPacelc.md` · 💻 Warm-up: place 5 well-known systems (Cassandra, DynamoDB, MongoDB, ZooKeeper, Postgres replicated) on the CAP triangle; defend each placement out loud (30 min) |
 | 2 | PACELC — the practical extension | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — Else branch (latency vs consistency), PA/EL vs PC/EC | 📖 `system_design/cap_pacelc/CapPacelc.md` |
 | 3 | Consistency models — strong, sequential, causal, eventual, read-your-writes, monotonic reads | 🔴 💼 🎯 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: eventual consistency (convergence) covered; strong/sequential/causal/read-your-writes/monotonic pending. ~13 min (ChatGPT) | 📖 `system_design/cap_pacelc/CapPacelc.md` (eventual only) · 📖 Jepsen "Consistency Models" page (jepsen.io/consistency — diagram + descriptions, ~30 min) |
 | 4 | Replication — leader/follower, multi-leader, leaderless (Dynamo-style) | 🔴 💼 🎯 | D | 3 hrs | [ ] | [x] | [ ] | [ ] | Partial: leader/follower + replica promotion covered (Redis/Kafka lens); multi-leader, leaderless pending | 📖 *Designing Data-Intensive Applications* ch 5 (Kleppmann, ~45 min) · 📖 `system_design/clustering/Clustering.md` (leader/follower only) |
@@ -18,10 +18,10 @@
 | 10 | Cache invalidation — TTL, event-based, write-through | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Message queue vs stream — semantics differences | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — broker (deliver-and-discard) vs streaming/commit-log (store + replay), offsets, RabbitMQ vs Kafka | 📖 `messaging/message_brokers/MessageBrokers.md` | 
 | 12 | Pub-sub vs point-to-point | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT, 2 pastes) — queue (competing consumers, command) vs topic (fan-out, event), filtering, durability, multi-protocol delivery, who-does-work-vs-who-wants-to-know | 📖 `messaging/queues_pubsub/MessageQueuesAndPubSub.md` |
-| 13 | Rate limiting — fixed window, sliding window, token bucket, leaky bucket | 🔴 💼 🎯 | MP | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/rate_limiting/RateLimiting.md` · 💻 Warm-up: implement token bucket — tryAcquire() with periodic refill (30 min) |
+| 13 | Rate limiting — fixed window, sliding window, token bucket, leaky bucket | 🔴 💼 🎯 | MP | 2 hrs 30 min | [x] | [x] | [ ] | [ ] | Theory and algorithm details covered via deep-dive conversation. | 📖 `system_design/rate_limiting/` · 💻 Warm-up: implement token bucket — tryAcquire() with periodic refill (30 min) |
 | 14 | Timeouts (and why "no timeout" is the #1 prod bug) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Retries with exponential backoff + jitter | 🔴 💼 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 📖 AWS Architecture Blog "Exponential Backoff and Jitter" (~15 min, classic) · 💻 Warm-up: retry(maxAttempts, Supplier) with jitter against flaky Supplier (25 min) |
-| 16 | Circuit breakers (closed/open/half-open) | 🔴 💼 🎯 | MP | 2 hrs 15 min | [ ] | [x] | [ ] | [ ] | Partial: theory, states (closed/open/half-open), implementation concepts covered; hands-on Java warm-up pending. ~1.5 hr (ChatGPT) | 📖 `networking/api_gateway/ApiGatewayBff.md` · 💻 Warm-up: minimal CircuitBreaker state machine in Java (CLOSED → OPEN → HALF_OPEN); 5 failures opens, probe success closes (45 min) |
+| 16 | Circuit breakers (closed/open/half-open) | 🔴 💼 🎯 | MP | 2 hrs 15 min | [x] | [x] | [ ] | [ ] | Theory, states, timeouts vs retries, and cascade failure prevention covered via deep-dive conversation. | 📖 `system_design/resilience/CircuitBreakers.md` · 💻 Warm-up: minimal CircuitBreaker state machine in Java (CLOSED → OPEN → HALF_OPEN); 5 failures opens, probe success closes (45 min) |
 | 17 | Idempotency — keys, design, replay safety | 🔴 💼 🎯 | D | 3 hrs 15 min | [ ] | [x] | [ ] | [ ] | Partial: idempotency keys + dedup-by-txn-id + replay safety + payment-key example + effectively-once covered; Spring middleware hands-on pending. ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/DistributedTransactions.md` · 💻 Warm-up: build an Idempotency-Key middleware in Spring — TTL'd Redis store, 409 on conflict-different-body, replay original response on conflict-same-body (45 min) |
 | 18 | Graceful degradation, fallback | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Horizontal vs vertical scaling — tradeoffs | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — vertical vs horizontal, active redundancy, sequential vs random IO | 📖 `system_design/scalability/ScalabilityAndStorage.md` |
@@ -32,12 +32,12 @@
 | 24 | Quorum reads/writes (R + W > N) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Vector clocks, Lamport timestamps | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Eventual consistency in practice — read repair, anti-entropy, hinted handoff | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 27 | Service mesh — sidecar pattern, Istio/Linkerd intuition | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 27 | Service mesh — sidecar pattern, Istio/Linkerd intuition | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered service discovery, registries, gateways, and service mesh architecture tradeoffs. | 📖 `networking/api_gateway/ServiceMesh_And_Gateways.md` |
 | 28 | Reverse proxies — nginx, Envoy, HAProxy | 🟠 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: reverse-proxy concept/uses covered; nginx/Envoy/HAProxy specifics pending | 📖 `networking/proxies_vpn/ProxiesVpnFirewalls.md` (concept only) |
 | 29 | Probabilistic structures — Bloom filter, Cuckoo filter, Count-Min sketch, HyperLogLog, T-Digest | 🟠 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 30 | Consistent hashing (with virtual nodes) | 🟠 💼 🎯 | MP | 2 hrs 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Warm-up implementation still worth doing | 📖 `databases/sharding/Sharding.md` · 📖 `system_design/caching/CachingAndDistributedCache.md` · 📺 ByteByteGo "Consistent Hashing" video (~15 min) · 💻 Warm-up: implement a basic consistent-hash ring with 100 virtual nodes in Java; add/remove a node, count keys that migrate (45 min) |
+| 30 | Consistent hashing (with virtual nodes) | 🟠 💼 🎯 | MP | 2 hrs 45 min | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~45 min (ChatGPT) | 📖 `databases/sharding/Sharding.md` · 📖 `system_design/caching/CachingAndDistributedCache.md` · 📺 ByteByteGo "Consistent Hashing" video (~15 min) · 💻 Warm-up: implement a basic consistent-hash ring with 100 virtual nodes in Java; add/remove a node, count keys that migrate (45 min) |
 | 31 | Merkle trees — Git internals, anti-entropy in Dynamo-style DBs, blockchain | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 32 | Geospatial structures — geohash, S2 (Google), H3 (Uber), R-tree, quadtree | 🟠 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 32 | Geospatial structures — geohash, S2 (Google), H3 (Uber), R-tree, quadtree | 🟠 💼 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Geohash, Quadtree, S2, and H3 fully covered through deep-dive conversation and consolidated notes. | 📖 `system_design/location_and_uber_architecture/` (docs 01-03, 07) |
 | 33 | Tries — autocomplete, IP prefix matching | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Inverted index — search systems fundamental | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Bulkheads | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -55,13 +55,13 @@
 | 47 | HLD — Instagram / image-heavy feed | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 48 | HLD — WhatsApp / chat | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 49 | HLD — YouTube / video streaming | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 50 | HLD — Uber / ride-sharing | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 50 | HLD — Uber / ride-sharing | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Deep-dive covered location updates, candidate discovery, state machines, ETA/Routing (A*, Dijkstra), and regional matching clusters. | 📖 `system_design/location_and_uber_architecture/` (docs 04-06) |
 | 51 | HLD — Dropbox / file sync | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 52 | HLD — Google Drive / collaborative editing | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 53 | HLD — Notification service | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 54 | HLD — Distributed cache (design Redis-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 55 | HLD — Distributed message queue (design Kafka-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 56 | HLD — Rate limiter (distributed) | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 1.5 hrs | 📖 `system_design/rate_limiting/RateLimiting.md` |
+| 56 | HLD — Rate limiter (distributed) | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered fully along with the rate limiting concepts deep-dive. | 📖 `system_design/rate_limiting/` |
 | 57 | HLD — Web crawler | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 58 | HLD — Search autocomplete / typeahead | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 59 | HLD — KYC / identity verification platform — your domain | 🟠 🎯 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | Portfolio piece — polish this one |

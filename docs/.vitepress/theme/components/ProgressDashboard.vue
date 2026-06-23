@@ -6,6 +6,7 @@ const props = defineProps({
 })
 
 const viewMode = ref('sprint') // 'sprint' or 'journey'
+const selectedPart = ref(null) // Holds the part object to show in the modal
 
 // --- 9-Month Journey Calcs ---
 const overallPercentage = computed(() => props.data.global.percentage)
@@ -40,6 +41,17 @@ function getCircleColor(percentage) {
   if (percentage > 0) return '#f59e0b'; // amber
   return '#e5e7eb'; // gray
 }
+
+// Modal grouping logic
+const selectedTopics = computed(() => {
+  if (!selectedPart.value) return { done: [], partial: [], left: [] }
+  const topics = selectedPart.value.topics || [];
+  return {
+    done: topics.filter(t => t.status === 'done'),
+    partial: topics.filter(t => t.status === 'partial'),
+    left: topics.filter(t => t.status === 'left')
+  }
+})
 </script>
 
 <template>
@@ -109,16 +121,24 @@ function getCircleColor(percentage) {
 
       <h3 class="section-title">Sprint Progress by Part (🔴 MUST only)</h3>
       <div class="parts-grid">
-        <div v-for="part in data.parts" :key="'sprint-'+part.id" class="part-card" v-show="part.tiers.red.total > 0">
-          <h3>{{ part.title }}</h3>
-          <div class="part-progress-wrapper">
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill" :style="{ width: (part.tiers.red.done / part.tiers.red.total * 100) + '%', backgroundColor: getCircleColor((part.tiers.red.done / part.tiers.red.total * 100)) }"></div>
+        <div 
+          v-for="part in data.parts" 
+          :key="'sprint-'+part.id" 
+          class="part-card-clickable"
+          @click="selectedPart = part"
+          v-show="part.tiers.red.total > 0"
+        >
+          <div class="part-card">
+            <h3>{{ part.title }}</h3>
+            <div class="part-progress-wrapper">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" :style="{ width: (part.tiers.red.done / part.tiers.red.total * 100) + '%', backgroundColor: getCircleColor((part.tiers.red.done / part.tiers.red.total * 100)) }"></div>
+              </div>
+              <span class="part-percentage">{{ Math.round((part.tiers.red.done / part.tiers.red.total) * 100) }}%</span>
             </div>
-            <span class="part-percentage">{{ Math.round((part.tiers.red.done / part.tiers.red.total) * 100) }}%</span>
-          </div>
-          <div class="part-details">
-            <span>{{ part.tiers.red.done }} / {{ part.tiers.red.total }} Core Topics</span>
+            <div class="part-details">
+              <span>{{ part.tiers.red.done }} / {{ part.tiers.red.total }} Core Topics</span>
+            </div>
           </div>
         </div>
       </div>
@@ -184,20 +204,85 @@ function getCircleColor(percentage) {
 
       <h3 class="section-title">Overall Progress by Part</h3>
       <div class="parts-grid">
-        <div v-for="part in data.parts" :key="'journey-'+part.id" class="part-card">
-          <h3>{{ part.title }}</h3>
-          <div class="part-progress-wrapper">
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill" :style="{ width: part.percentage + '%', backgroundColor: getCircleColor(part.percentage) }"></div>
+        <div 
+          v-for="part in data.parts" 
+          :key="'journey-'+part.id" 
+          class="part-card-clickable"
+          @click="selectedPart = part"
+        >
+          <div class="part-card">
+            <h3>{{ part.title }}</h3>
+            <div class="part-progress-wrapper">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" :style="{ width: part.percentage + '%', backgroundColor: getCircleColor(part.percentage) }"></div>
+              </div>
+              <span class="part-percentage">{{ part.percentage }}%</span>
             </div>
-            <span class="part-percentage">{{ part.percentage }}%</span>
-          </div>
-          <div class="part-details">
-            <span>{{ part.completedTopics }} / {{ part.totalTopics }} total topics</span>
+            <div class="part-details">
+              <span>{{ part.completedTopics }} / {{ part.totalTopics }} total topics</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    
+    <!-- Quick Overview Modal -->
+    <div v-if="selectedPart" class="modal-overlay" @click="selectedPart = null">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h2>{{ selectedPart.title }}</h2>
+          <button class="close-btn" @click="selectedPart = null">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="topic-group">
+            <h4 class="text-green">✅ Completed ({{ selectedTopics.done.length }})</h4>
+            <div class="topic-scroll-container">
+              <ul class="topic-list" v-if="selectedTopics.done.length > 0">
+                <li v-for="t in selectedTopics.done" :key="t.num">
+                  <span class="tier-badge">{{ t.tier === 'red' ? '🔴' : t.tier === 'orange' ? '🟠' : t.tier === 'yellow' ? '🟡' : '🟢' }}</span>
+                  {{ t.name }}
+                </li>
+              </ul>
+              <div v-else class="empty-state">None yet</div>
+            </div>
+          </div>
+          
+          <div class="topic-group">
+            <h4 class="text-gray">⚪ Left to do ({{ selectedTopics.left.length }})</h4>
+            <div class="topic-scroll-container">
+              <ul class="topic-list left-list" v-if="selectedTopics.left.length > 0">
+                <li v-for="t in selectedTopics.left" :key="t.num">
+                  <span class="tier-badge">{{ t.tier === 'red' ? '🔴' : t.tier === 'orange' ? '🟠' : t.tier === 'yellow' ? '🟡' : '🟢' }}</span>
+                  {{ t.name }}
+                </li>
+              </ul>
+              <div v-else class="empty-state">All clear!</div>
+            </div>
+          </div>
+
+          <div class="topic-group">
+            <h4 class="text-orange">⏳ Partial ({{ selectedTopics.partial.length }})</h4>
+            <div class="topic-scroll-container">
+              <ul class="topic-list" v-if="selectedTopics.partial.length > 0">
+                <li v-for="t in selectedTopics.partial" :key="t.num">
+                  <span class="tier-badge">{{ t.tier === 'red' ? '🔴' : t.tier === 'orange' ? '🟠' : t.tier === 'yellow' ? '🟡' : '🟢' }}</span>
+                  {{ t.name }}
+                </li>
+              </ul>
+              <div v-else class="empty-state">None</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <a :href="'/todo/study_plan/parts/' + selectedPart.id.replace('.md', '.html')" class="nav-btn">
+            Open Full Study Document &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </template>
 
@@ -344,6 +429,8 @@ function getCircleColor(percentage) {
 .stat-item .value { font-weight: bold; }
 .text-green { color: #10b981; }
 .text-red { color: #ef4444; }
+.text-orange { color: #f97316; }
+.text-gray { color: var(--vp-c-text-2); }
 
 .section-title {
   margin: 1rem 0 0 0;
@@ -373,13 +460,184 @@ function getCircleColor(percentage) {
 
 /* Parts Grid */
 .parts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-.part-card { background: var(--vp-c-bg-soft); border-radius: 8px; padding: 1.5rem; border: 1px solid var(--vp-c-divider); }
-.part-card h3 { margin: 0 0 1rem 0; font-size: 1.1rem; line-height: 1.4; }
+
+.part-card-clickable {
+  cursor: pointer;
+  display: block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.part-card-clickable:hover {
+  transform: translateY(-2px);
+}
+
+.part-card-clickable:hover .part-card {
+  border-color: var(--vp-c-brand);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.part-card { background: var(--vp-c-bg-soft); border-radius: 8px; padding: 1.5rem; border: 1px solid var(--vp-c-divider); transition: all 0.2s ease; height: 100%; }
+.part-card h3 { margin: 0 0 1rem 0; font-size: 1.1rem; line-height: 1.4; color: var(--vp-c-text-1); }
 .part-progress-wrapper { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
 .progress-bar-bg { flex-grow: 1; height: 8px; background: var(--vp-c-divider); border-radius: 4px; overflow: hidden; }
 .progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease-out; }
 .part-percentage { font-weight: bold; font-size: 0.9rem; min-width: 40px; text-align: right; }
 .part-details { font-size: 0.85rem; color: var(--vp-c-text-2); }
+
+/* Quick Overview Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background: var(--vp-c-bg);
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1200px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 1px solid var(--vp-c-divider);
+  animation: modalPop 0.2s ease-out;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--vp-c-text-2);
+}
+
+.close-btn:hover {
+  color: var(--vp-c-text-1);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  overflow: hidden; /* Prevent body scrolling, let columns scroll */
+}
+
+.topic-group {
+  display: flex;
+  flex-direction: column;
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  overflow: hidden;
+}
+
+.topic-group h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding: 1rem;
+  background: var(--vp-c-bg-mute);
+}
+
+.topic-scroll-container {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.empty-state {
+  color: var(--vp-c-text-3);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.topic-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topic-list li {
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.left-list li {
+  color: var(--vp-c-text-2);
+}
+
+.tier-badge {
+  font-size: 0.8rem;
+  margin-top: 0.1rem;
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--vp-c-divider);
+  text-align: right;
+  background: var(--vp-c-bg-soft);
+  border-radius: 0 0 12px 12px;
+}
+
+.nav-btn {
+  display: inline-block;
+  background: var(--vp-c-brand);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: var(--vp-c-brand-dark);
+}
+
+@media (max-width: 768px) {
+  .modal-body {
+    grid-template-columns: 1fr;
+    overflow-y: auto; /* Body scrolls on mobile */
+  }
+  .topic-group {
+    max-height: none;
+    margin-bottom: 1.5rem;
+  }
+  .topic-scroll-container {
+    max-height: 250px; /* Still allow individual scrolling on mobile if extremely long */
+  }
+}
 
 @media (max-width: 480px) {
   .card-body { flex-direction: column; gap: 1.5rem; }

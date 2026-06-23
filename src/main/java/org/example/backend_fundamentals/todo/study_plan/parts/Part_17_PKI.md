@@ -7,7 +7,7 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🔴 💼 🔐 🎯 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
-| 2 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr 5 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/cryptography/TLS_HTTPS_PKI.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
+| 2 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr 5 min | [ ] | [ ] | [ ] | [ ] | | 📖 `security/cryptography/TLS_HTTPS_PKI.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
 | 3 | Why you never use a root directly — intermediates, ability to revoke | 🔴 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Certificate types — DV, OV, EV; SAN vs wildcard | 🔴 💼 🔐 🎯 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | CSR — what's in it, key generation flow | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
