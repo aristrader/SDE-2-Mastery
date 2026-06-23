@@ -7,18 +7,18 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Test pyramid — many unit, some integration, few e2e | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Unit tests — JUnit 5 (Jupiter), AssertJ, Hamcrest | 🔴 💼 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: JUnit 5 test class with @ParameterizedTest + @MethodSource + AssertJ chained assertions (15 min) |
-| 3 | Mocking — Mockito basics, when to mock vs not (rule: mock at boundaries, not internals) | 🔴 💼 | MP | 2 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Mockito @Mock + @InjectMocks + when().thenReturn() + verify().times(N) (15 min) |
-| 4 | Spring slice tests — @WebMvcTest, @DataJpaTest, @JsonTest, @WebFluxTest | 🔴 💼 | MP | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @WebMvcTest one controller, mock its service via @MockBean, hit via MockMvc (20 min) |
-| 5 | Spring full-context tests — @SpringBootTest, MockMvc, TestRestTemplate | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Unit tests — JUnit 5 (Jupiter), AssertJ, Hamcrest | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: JUnit 5 test class with @ParameterizedTest + @MethodSource + AssertJ chained assertions (15 min) |
+| 3 | Mocking — Mockito basics, when to mock vs not (rule: mock at boundaries, not internals) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Mockito @Mock + @InjectMocks + when().thenReturn() + verify().times(N) (15 min) |
+| 4 | Spring slice tests — @WebMvcTest, @DataJpaTest, @JsonTest, @WebFluxTest | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @WebMvcTest one controller, mock its service via @MockBean, hit via MockMvc (20 min) |
+| 5 | Spring full-context tests — @SpringBootTest, MockMvc, TestRestTemplate | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Arrange-Act-Assert (AAA) structure | 🔴 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | One concept per test (not necessarily one assertion call) | 🔴 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Naming — `should_X_when_Y` or BDD `given/when/then` | 🔴 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Test isolation — no order dependence, no shared mutable state | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Load testing — JMeter, Gatling, k6, Locust | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 8 load testing) |
-| 11 | Integration tests — with real DB, real Redis, real Kafka | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | TestContainers — Postgres, MySQL, Redis, Kafka, Elasticsearch | 🟠 💼 | MP | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Testcontainers + PostgreSQLContainer for an integration test against a real Postgres (30 min) |
-| 13 | Contract testing — Pact, Spring Cloud Contract (consumer-driven) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | Load testing — JMeter, Gatling, k6, Locust | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 8 load testing) |
+| 11 | Integration tests — with real DB, real Redis, real Kafka | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | TestContainers — Postgres, MySQL, Redis, Kafka, Elasticsearch | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Testcontainers + PostgreSQLContainer for an integration test against a real Postgres (30 min) |
+| 13 | Contract testing — Pact, Spring Cloud Contract (consumer-driven) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | WireMock for external HTTP | 🟠 💼 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | EmbeddedKafka, embedded Redis | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | Test data builders, ObjectMother pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

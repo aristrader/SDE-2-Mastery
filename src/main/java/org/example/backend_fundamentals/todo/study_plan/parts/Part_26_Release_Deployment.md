@@ -9,7 +9,7 @@
 | 1 | Blue-green deployment — atomic traffic switch | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 22 deployments) |
 | 2 | Canary release — small % first, gradual rollout | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Rolling deployment — replace instances gradually | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Feature flags / toggles — release ≠ launch | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: simple feature flag via Spring `@ConfigurationProperties` + conditional bean; flip flag, reload app, observe behavior change (15 min) |
+| 4 | Feature flags / toggles — release ≠ launch | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: simple feature flag via Spring `@ConfigurationProperties` + conditional bean; flip flag, reload app, observe behavior change (15 min) |
 | 5 | Backward-compatible API changes — add fields, never remove or rename | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Backward-compatible DB changes — expand / contract (add → migrate → switch → remove) | 🔴 💼 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: walk through renaming `username → user_name` via expand-contract (add new col, dual-write, backfill, switch reads, drop old) on paper (30 min) |
 | 7 | Rollback strategy for every change (incl. data migrations — hardest) | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -17,7 +17,7 @@
 | 9 | Shadow traffic — mirror prod to new service silently to compare | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Semantic versioning | 🟠 💼 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
+| 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
 | 13 | Online schema change — gh-ost, pt-online-schema-change (MySQL) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Multi-version compatibility (rolling deploy implies N and N+1 coexist) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Feature flag platforms — LaunchDarkly, Unleash, Statsig | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

@@ -7,27 +7,27 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Latency numbers every programmer should know (L1 → memory → SSD → network → cross-region) | 🔴 💼 🎯 | L | 40 min | [ ] | [ ] | [ ] | [ ] | | 📖 Jeff Dean's "Latency numbers every programmer should know" · 💻 Warm-up: write latency cheat sheet from memory — L1, L2, RAM, SSD, HDD, intra-DC RTT, cross-region RTT (10 min) |
-| 2 | Throughput math — RPS × payload, network bandwidth, storage growth | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Profiling — async-profiler, JFR, perf | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 async-profiler GitHub README · 💻 Warm-up: run async-profiler on a small Java app, capture CPU profile, render flame graph (30 min) |
-| 5 | Flame graphs — reading them | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Throughput math | 🔴 💼 🎯 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | GC tuning (G1GC vs ZGC) for latency — pause times vs throughput | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | Thread dumps, heap dumps, MAT (Memory Analyzer Tool) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write OOM program, generate heap dump (-XX:+HeapDumpOnOutOfMemoryError), open in MAT, find leak (45 min) |
+| 5 | Profiling tools — async-profiler, JFR, flame graphs | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |
+| 6 | Non-blocking I/O (NIO, epoll, kqueue) | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
+| 7 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | GC tuning intuition (without going overboard) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Connection pool sizing (HikariCP — `pool size = ((cores × 2) + effective_spindle_count)`) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6 HikariCP) |
-| 11 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | GC tuning intuition (without going overboard) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | Connection pool sizing (HikariCP — `pool size = ((cores × 2) + effective_spindle_count)`) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6 HikariCP) |
+| 10 | Object pooling (e.g., HikariCP internals) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | P50 / P90 / P99 / P99.9 latency — tail latency matters more than average | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 Gil Tene — "How NOT to measure latency" (~30 min, canonical) |
-| 13 | Load testing — JMeter, Gatling, k6, Locust | 🟠 💼 | MP | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write k6 script with 10 VUs ramping to 100 over 30s against a local endpoint, read the p95 (30 min) |
+| 13 | Load testing — JMeter, Gatling, k6, Locust | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write k6 script with 10 VUs ramping to 100 over 30s against a local endpoint, read the p95 (30 min) |
 | 14 | Async I/O, non-blocking | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Batching writes | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Pipelining requests (Redis pipelining, HTTP/2) | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Cache warm-up | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Precomputation / materialization | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Read-path optimization (denormalization, fan-out on write) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Write-path optimization (LSM trees, append-only logs) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Microbenchmarking — JMH, pitfalls | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Lock-free data structures | 🟡 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 22 | Lock-free data structures | 🟡 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Off-heap memory | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

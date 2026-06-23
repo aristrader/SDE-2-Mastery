@@ -7,37 +7,37 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Object model, inheritance, interfaces, abstract classes — when each fits | 🔴 💼 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: Theory covered (~56 min), warm-up pending | 💻 Warm-up: type a basic class with ctor/equals/hashCode/toString from memory (15 min) |
-| 1a | String immutability — string pool, heap vs pool, why final, hashCode caching, StringBuilder | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/string/StringImmutability.md` |
-| 2 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 3 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/foundations/generics/Generics.md` · *Effective Java* Items 26-33 (Bloch) |
-| 3 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 2 hrs 45 min | [x] | [ ] | [ ] | [x] | ~33 min | 📖 `java/foundations/equals_hashcode/EqualsHashCode.md` · *Effective Java* Items 10-14 |
+| 1a | String immutability — string pool, heap vs pool, why final, hashCode caching, StringBuilder | 🔴 💼 🎯 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/string/StringImmutability.md` |
+| 2 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/foundations/generics/Generics.md` · *Effective Java* Items 26-33 (Bloch) |
+| 3 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~33 min | 📖 `java/foundations/equals_hashcode/EqualsHashCode.md` · *Effective Java* Items 10-14 |
 | 4 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [ ] | [x] | [ ] | [x] | Partial: Theory covered (~50 min). Redo Resource/AutoCloseable exercise from scratch — AutoCloseable not deeply covered yet | 💻 Warm-up: try-with-resources for a custom AutoCloseable + observe close ordering with multiple resources (10 min) |
-| 5 | Memory areas — heap (+ string pool inside heap), stack, metaspace, code cache | 🔴 💼 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~30 min | 📖 `java/foundations/memory_areas/MemoryAreas.md` |
-| 6 | Garbage collection — generational hypothesis, young/old, GC pauses | 🔴 💼 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | ~10 min | 📖 `java/foundations/gc/GarbageCollection.md` |
-| 7 | HashMap internals — bucket array, hashing, resizing, treeify threshold (8/6), load factor | 🔴 💼 🎯 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/hashmap/HashMap.md` · 📖 Baeldung "Guide to HashMap" + JEP 180 (treeification) |
-| 8 | ConcurrentHashMap — CAS for empty bins, synchronized on head node, compute/merge atomicity | 🔴 💼 🎯 | D | 2.5 hrs | [x] | [ ] | [ ] | [x] | ~35 min | 📖 `java/foundations/concurrent_hashmap/ConcurrentHashMap.md` |
+| 5 | Memory areas — heap (+ string pool inside heap), stack, metaspace, code cache | 🔴 💼 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~30 min | 📖 `java/foundations/memory_areas/MemoryAreas.md` |
+| 6 | Garbage collection — generational hypothesis, young/old, GC pauses | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~10 min | 📖 `java/foundations/gc/GarbageCollection.md` |
+| 7 | HashMap internals — bucket array, hashing, resizing, treeify threshold (8/6), load factor | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/hashmap/HashMap.md` · 📖 Baeldung "Guide to HashMap" + JEP 180 (treeification) |
+| 8 | ConcurrentHashMap — CAS for empty bins, synchronized on head node, compute/merge atomicity | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~35 min | 📖 `java/foundations/concurrent_hashmap/ConcurrentHashMap.md` |
 | 9 | LinkedHashMap — insertion vs access order, LRU cache implementation | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/foundations/linked_hashmap/LinkedHashMap.md` · 💻 LeetCode "LRU Cache" — implement using LinkedHashMap then from scratch |
 | 10 | TreeMap — Red-Black tree, sorted operations, ceilingKey / floorKey | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/foundations/treemap/TreeMap.md` |
 | 11 | Collections framework architecture (interfaces vs implementations) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Streams API — intermediate vs terminal, lazy evaluation, parallel streams (and when NOT to use) | 🔴 💼 🎯 | D | 3 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 Baeldung "Java 8 Streams" · 💻 Warm-up: 5 stream ops from scratch — filter / map / sum / groupingBy / partitioningBy (20 min) |
+| 12 | Streams API — intermediate vs terminal, lazy evaluation, parallel streams (and when NOT to use) | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Baeldung "Java 8 Streams" · 💻 Warm-up: 5 stream ops from scratch — filter / map / sum / groupingBy / partitioningBy (20 min) |
 | 13 | Optional — proper use vs misuse | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Functional interfaces — Function, Predicate, Consumer, Supplier, BiFunction | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | GC algorithms — G1 (default), ZGC, Shenandoah, Parallel; tuning intuition | 🟠 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 15 | GC algorithms — G1 (default), ZGC, Shenandoah, Parallel; tuning intuition | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 17 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | WeakHashMap, IdentityHashMap, EnumMap — when each is right | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Hashtable vs HashMap vs ConcurrentHashMap — history & differences (Hashtable is legacy — know for comparison only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Collisions, load factor, rehashing cost | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Annotations & meta-annotations | 🟡 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Reflection — uses, costs, when to avoid | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Heap dumps & analysis (Eclipse MAT, jmap) | 🟡 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 Eclipse MAT tutorial — load a sample heap, find a leak |
-| 24 | Thread dumps & analysis (jstack) | 🟡 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 23 | Heap dumps & analysis (Eclipse MAT, jmap) | 🟡 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 🎓 Eclipse MAT tutorial — load a sample heap, find a leak |
+| 24 | Thread dumps & analysis (jstack) | 🟡 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | JFR (Java Flight Recorder) & JMC | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | JVM flags worth knowing (Xmx, Xms, +HeapDumpOnOutOfMemoryError, GC logs) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Map.of(), Map.copyOf(), Collections.unmodifiableMap — immutability flavors | 🟡 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | Set family — HashSet, LinkedHashSet, TreeSet, CopyOnWriteArraySet | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 29 | List family — ArrayList vs LinkedList (and why LinkedList is rarely the right choice) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | Queue / Deque — ArrayDeque, PriorityQueue, BlockingQueue family | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 31 | Records, sealed classes, pattern matching (Java 17+) | 🟢 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define `sealed interface Shape permits Circle, Rectangle` + records + pattern match in switch (15 min) |
+| 31 | Records, sealed classes, pattern matching (Java 17+) | 🟢 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define `sealed interface Shape permits Circle, Rectangle` + records + pattern match in switch (15 min) |
 | 32 | Text blocks, switch expressions, var | 🟢 🆕 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

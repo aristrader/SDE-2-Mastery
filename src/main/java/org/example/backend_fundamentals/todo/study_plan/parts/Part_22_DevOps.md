@@ -6,26 +6,26 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | AWS IAM — roles, policies, trust relationships, instance profiles | 🔴 💼 🔐 | MP | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | (Cross-ref Part 13 IAM) | 💻 Warm-up: write IAM role with EC2 trust policy + attach a least-privilege S3 read policy + verify via aws sts get-caller-identity from the instance (20 min) |
+| 1 | AWS IAM — roles, policies, trust relationships, instance profiles | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | (Cross-ref Part 13 IAM) | 💻 Warm-up: write IAM role with EC2 trust policy + attach a least-privilege S3 read policy + verify via aws sts get-caller-identity from the instance (20 min) |
 | 2 | AWS VPC, subnets (public/private), security groups, NACLs basics | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | (Cross-ref Part 13 VPC) | |
-| 3 | Docker — image layers, multi-stage builds, .dockerignore, distroless | 🔴 💼 | MP | 2 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a multi-stage Dockerfile for a Spring Boot app — JDK stage + JRE runtime + .dockerignore (15 min) |
+| 3 | Docker — image layers, multi-stage builds, .dockerignore, distroless | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a multi-stage Dockerfile for a Spring Boot app — JDK stage + JRE runtime + .dockerignore (15 min) |
 | 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Terraform — providers, state, modules, workspaces | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write Terraform that provisions an S3 bucket with versioning + lifecycle, apply + destroy (30 min) |
 | 6 | Daily Linux fluency — ps, top, htop, lsof, netstat / ss, tcpdump, strace | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`), find which files a process has open (`lsof -p <pid>`), watch syscalls (`strace -p <pid>`) (30 min) |
 | 7 | systemd basics | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Filesystem layout, permissions, ulimits | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Kubernetes — Pod, Deployment, Service (ClusterIP / NodePort / LoadBalancer), Ingress (resource vs controller), `ingressClassName` (multiple controllers per cluster, e.g., `nginx` vs `nginx-internal`), nginx annotations (`proxy-body-size`, CORS, `rewrite-target`, `server-snippet`), ConfigMap, Secret; public LB vs internal LB ("two doors into the same building" model), AWS LB controller annotations (`service.beta.kubernetes.io/aws-load-balancer-internal`) | 🔴 💼 | D | 4 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: deploy a Spring Boot pod via Deployment + expose via Service + ClusterIP, kubectl get pods (30 min) |
-| 10 | Container security — image scanning (Trivy, Snyk, ECR scanning), distroless, SBOM (Syft, Grype), supply-chain (Sigstore/cosign) | 🟠 💼 🔐 | MP | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: scan your Spring Boot Dockerfile with Trivy or grype, identify top 5 CVEs, generate an SBOM with syft (30 min) |
+| 9 | Kubernetes — Pod, Deployment, Service (ClusterIP / NodePort / LoadBalancer), Ingress (resource vs controller), `ingressClassName` (multiple controllers per cluster, e.g., `nginx` vs `nginx-internal`), nginx annotations (`proxy-body-size`, CORS, `rewrite-target`, `server-snippet`), ConfigMap, Secret; public LB vs internal LB ("two doors into the same building" model), AWS LB controller annotations (`service.beta.kubernetes.io/aws-load-balancer-internal`) | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: deploy a Spring Boot pod via Deployment + expose via Service + ClusterIP, kubectl get pods (30 min) |
+| 10 | Container security — image scanning (Trivy, Snyk, ECR scanning), distroless, SBOM (Syft, Grype), supply-chain (Sigstore/cosign) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: scan your Spring Boot Dockerfile with Trivy or grype, identify top 5 CVEs, generate an SBOM with syft (30 min) |
 | 11 | Kubernetes RBAC + ServiceAccount + Pod Security Standards (restricted/baseline/privileged) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Kubernetes — StatefulSet, DaemonSet, Job, CronJob | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Helm, Kustomize | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | Pulumi, CDK alternatives | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
+| 17 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
 | 18 | ArgoCD, Flux — GitOps model, sync loop (effectively `kubectl apply` driven by git state), how `kustomization.yaml` decides which manifests get applied, drift detection | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Blue-green, canary, feature flags | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Bash scripting fluency | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | Bash scripting fluency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | awk, sed, jq for log mining | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Service mesh — Istio, Linkerd | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | LaunchDarkly, Unleash, custom flag systems | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |

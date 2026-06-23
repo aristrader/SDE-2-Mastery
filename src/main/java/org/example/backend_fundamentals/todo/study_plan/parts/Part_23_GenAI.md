@@ -12,8 +12,8 @@
 | 2 | Context window, attention cost (O(n²)) | 🟠 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Pre-training vs instruction tuning vs RLHF (high level) | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Open vs closed models — Llama, Mistral, Claude, GPT, Gemini | 🟠 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Prompt engineering — system prompts, few-shot, CoT, structured output | 🟠 💼 🆕 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
-| 6 | Function calling / tool use | 🟠 💼 🆕 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Claude / OpenAI function calling — define a tool schema, call API, parse tool response, return result (30 min) |
+| 5 | Prompt engineering — system prompts, few-shot, CoT, structured output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
+| 6 | Function calling / tool use | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Claude / OpenAI function calling — define a tool schema, call API, parse tool response, return result (30 min) |
 | 7 | Streaming responses, token-by-token UX | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -28,11 +28,11 @@
 | 18 | Agent loop — plan, act, observe, reflect | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | ReAct pattern, function calling for tools | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Multi-step agents — when to use, when not | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | MCP (Model Context Protocol) — what it is, how servers / clients work, why it standardizes tool access | 🟠 💼 🆕 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Building MCP servers (your future leverage) | 🟠 💼 🆕 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
-| 23 | Evals — golden sets, LLM-as-judge, metric design | 🟠 💼 🆕 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 21 | MCP (Model Context Protocol) — what it is, how servers / clients work, why it standardizes tool access | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 22 | Building MCP servers (your future leverage) | 🟠 💼 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
+| 23 | Evals — golden sets, LLM-as-judge, metric design | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Hallucination detection | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 25 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Multi-modal — vision, audio | 🟡 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | PII redaction in prompts / responses | 🟡 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

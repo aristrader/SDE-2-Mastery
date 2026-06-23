@@ -15,8 +15,8 @@
 | 5 | Interface Segregation | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Dependency Inversion — vs dependency injection | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | DRY, KISS, YAGNI — and when each is misapplied | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Singleton — and its problems (testability, hidden coupling) | 🔴 🎯 | MP | 1 hr 50 min | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (creational track: 5 variants + thread-safety demo + doc) | 💻 repo demo: `creational/singleton/` · 💻 Warm-up: Singleton three ways (eager / DCL + volatile / Bill Pugh) (20 min) · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Singleton (5 production scenarios: config, logger, pool, session, ID-generator) |
-| 9 | Factory Method, Abstract Factory | 🔴 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (simple factory + basic + prod variants, abstract factory; demos + docs) | 💻 repo demos: `creational/factory/`, `creational/abstract_factory/` · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Simple Factory + § Factory Method + § Abstract Factory (15 production scenarios across the three) |
+| 8 | Singleton — and its problems (testability, hidden coupling) | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (creational track: 5 variants + thread-safety demo + doc) | 💻 repo demo: `creational/singleton/` · 💻 Warm-up: Singleton three ways (eager / DCL + volatile / Bill Pugh) (20 min) · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Singleton (5 production scenarios: config, logger, pool, session, ID-generator) |
+| 9 | Factory Method, Abstract Factory | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (simple factory + basic + prod variants, abstract factory; demos + docs) | 💻 repo demos: `creational/factory/`, `creational/abstract_factory/` · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Simple Factory + § Factory Method + § Abstract Factory (15 production scenarios across the three) |
 | 10 | Builder — especially for many optional params | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (4 variants: basic, Lombok, director, GoF director; demos + docs) | 💻 repo demo: `creational/builder/` (4 variants) · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Builder (5 production scenarios: HTTP request, insurance policy, test data factories, email, SQL) |
 | 11 | Adapter | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Decorator | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Coffee with Milk/Sugar decorators — verify composed price/desc (25 min) |
@@ -42,35 +42,35 @@
 | 32 | Bridge | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | Iterator | 🟠 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Mediator | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 35 | Visitor | 🟠 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Refactoring Guru "Visitor" explainer |
+| 35 | Visitor | 🟠 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 Refactoring Guru "Visitor" explainer |
 | 36 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 2.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
-| 38 | Event Sourcing — same | 🟠 💼 | D | 2.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
-| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 3 hrs | [x] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `messaging/saga/SagaVsPubSub.md` |
-| 40 | Outbox pattern — reliable event publishing | 🟠 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Transactional outbox" |
-| 41 | Idempotent receiver | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 37 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
+| 38 | Event Sourcing — same | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
+| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `messaging/saga/SagaVsPubSub.md` |
+| 40 | Outbox pattern — reliable event publishing | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Transactional outbox" |
+| 41 | Idempotent receiver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 42 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 43 | Shotgun surgery, feature envy | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 44 | LLD — Parking Lot | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | See `reference/PracticeProblems.md` § Machine Coding |
-| 45 | LLD — Splitwise | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 46 | LLD — Snake & Ladder / Chess / Tic-Tac-Toe (state + rules) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 47 | LLD — Elevator system | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 48 | LLD — LRU / LFU cache | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 44 | LLD — Parking Lot | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | See `reference/PracticeProblems.md` § Machine Coding |
+| 45 | LLD — Splitwise | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 46 | LLD — Snake & Ladder / Chess / Tic-Tac-Toe (state + rules) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 47 | LLD — Elevator system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 48 | LLD — LRU / LFU cache | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 49 | LLD — Rate limiter (token bucket) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 50 | LLD — Logger with levels | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 51 | LLD — In-memory key-value store with TTL | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 52 | LLD — ATM / Vending machine (pure state machine) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 53 | LLD — Library management | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 54 | LLD — BookMyShow / movie ticket booking (concurrency on seat lock) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 53 | LLD — Library management | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 54 | LLD — BookMyShow / movie ticket booking (concurrency on seat lock) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 55 | Command-Query Separation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 56 | Flyweight | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 57 | Memento, Interpreter | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 58 | Anti-corruption layer | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 59 | Aggregate, Entity, Value Object (DDD building blocks) | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 60 | Hexagonal / ports and adapters | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 61 | LLD — Notification dispatch system (multi-channel) | 🟡 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 62 | LLD — Job scheduler / cron | 🟡 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 63 | LLD — Online food ordering / ride-sharing core domain | 🟡 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 61 | LLD — Notification dispatch system (multi-channel) | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 62 | LLD — Job scheduler / cron | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 63 | LLD — Online food ordering / ride-sharing core domain | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 64 | Clean Architecture, Onion Architecture | 🟢 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

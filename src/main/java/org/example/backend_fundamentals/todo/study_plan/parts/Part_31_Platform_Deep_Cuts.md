@@ -10,10 +10,10 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
+| 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
 | 2 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Document switching mid-flow — historical attempts vs effective context (your design) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
+| 4 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
 | 5 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Crash resilience — write-ahead correlation IDs BEFORE vendor calls; recovery / replay flows (your exact liveness-piggyback risk) | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Idempotency on retry — never duplicate transactions when SDK retries blindly | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -25,7 +25,7 @@
 | 13 | Capture → upload → quality check → vendor submission pipeline | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Quality assessment pre-vendor (your ImageQualityService pattern) — reject early, save money | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Image retention policy — purge after N days; right-to-be-forgotten cascade | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Per-partner configuration — accepted documents, vendor preferences, score thresholds, capture modes | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | Per-partner configuration — accepted documents, vendor preferences, score thresholds, capture modes | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | Flow types — what operations are required per product (your `flow_type` field is this) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | KYC funnel metrics — start → document_capture → liveness → face_match → verified | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define 5 funnel metrics + Datadog query for each (drop-off per step) (30 min) |
 | 19 | Drop-off per step (which step loses users — usually liveness) | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -52,7 +52,7 @@
 | 40 | Vendor credential rotation, secret hygiene | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 41 | Vendor mock-mode for staging and load testing | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 42 | Vendor result caching — when safe, when dangerous (face match: never; OCR: maybe) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 43 | Billing reconciliation with vendors (the Bank Sampoerna scenario — your war story) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 43 | Billing reconciliation with vendors (the Bank Sampoerna scenario — your war story) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 44 | Image access controls — who can view portraits? (you correctly excluded them from transaction API) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 45 | Sensitive content redaction in logs (filtering OCR/quality responses from Datadog) | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 46 | EXIF stripping — metadata leaks location and device | 🟠 💼 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |

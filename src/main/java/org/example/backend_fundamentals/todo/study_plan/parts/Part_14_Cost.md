@@ -6,7 +6,7 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Pricing intuition for top 10 AWS services you use | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: open AWS Pricing Calculator, model the cost of a 1M-req/day API (Lambda + DynamoDB + S3) — note where the bulk of cost lives (20 min) |
+| 1 | Pricing intuition for top 10 AWS services you use | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: open AWS Pricing Calculator, model the cost of a 1M-req/day API (Lambda + DynamoDB + S3) — note where the bulk of cost lives (20 min) |
 | 2 | The silent killers — NAT Gateway data transfer, cross-AZ traffic, inter-region traffic, NLB cross-zone | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | S3 cost breakdown — storage + requests + transfer + lifecycle transitions | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | DynamoDB — on-demand vs provisioned math, GSI cost multiplier | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: compute monthly cost for a DDB table at 1000 WCU / 5000 RCU provisioned vs on-demand at 30M req/month (15 min) |
@@ -14,7 +14,7 @@
 | 6 | Capacity planning — peak QPS, growth headroom, scaling lead time | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Lambda — duration × memory × invocations, plus integration costs (API Gateway, etc.) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | RDS — instance + storage + IOPS + backups + Multi-AZ doubling | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | TCO model — infra + data egress + ops overhead + license | 🟠 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | TCO model — infra + data egress + ops overhead + license | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | FinOps practices — cost allocation tags, chargeback / showback, Cost Anomaly Detection | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Cost vs performance tradeoffs — gp3 vs io2, Multi-AZ vs single-AZ for non-prod, Graviton vs Intel | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Egress cost optimization — CloudFront for outbound, S3 Transfer Acceleration cost-benefit, VPC endpoints | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |

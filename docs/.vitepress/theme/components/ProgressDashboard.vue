@@ -9,15 +9,29 @@ const viewMode = ref('sprint') // 'sprint' or 'journey'
 const selectedPart = ref(null) // Holds the part object to show in the modal
 
 // --- 9-Month Journey Calcs ---
-const overallPercentage = computed(() => props.data.global.percentage)
-const overallOffset = computed(() => 283 - (283 * overallPercentage.value) / 100)
+const overallTimePercentage = computed(() => props.data.global.timePercentage)
+const overallTimeOffset = computed(() => 283 - (283 * overallTimePercentage.value) / 100)
+
+const overallTopicPercentage = computed(() => props.data.global.percentage)
+const overallTopicOffset = computed(() => 283 - (283 * overallTopicPercentage.value) / 100)
+
+function formatHours(mins) {
+  if (!mins) return '0 hrs';
+  return (mins / 60).toFixed(1) + ' hrs';
+}
 
 // --- 3-Month Sprint Calcs (🔴 MUST only) ---
-const sprintPercentage = computed(() => {
+const sprintTopicPercentage = computed(() => {
   const red = props.data.global.tiers.red;
   return red.total > 0 ? Math.round((red.done / red.total) * 100) : 0;
 })
-const sprintOffset = computed(() => 283 - (283 * sprintPercentage.value) / 100)
+const sprintTopicOffset = computed(() => 283 - (283 * sprintTopicPercentage.value) / 100)
+
+const sprintTimePercentage = computed(() => {
+  const red = props.data.global.tiers.red;
+  return red.totalMinutes > 0 ? Math.round((red.doneMinutes / red.totalMinutes) * 100) : 0;
+})
+const sprintTimeOffset = computed(() => 283 - (283 * sprintTimePercentage.value) / 100)
 
 // --- Sprint Timeline Calcs ---
 const sprintStart = new Date('2026-05-18T00:00:00')
@@ -29,7 +43,7 @@ const elapsedDays = Math.max(0, Math.min(sprintLengthDays, Math.floor((today - s
 const expectedPercentage = Math.round((elapsedDays / sprintLengthDays) * 100)
 
 const sprintStatus = computed(() => {
-  const diff = sprintPercentage.value - expectedPercentage
+  const diff = sprintTimePercentage.value - expectedPercentage
   if (diff >= 5) return { text: 'Ahead of Schedule', color: '#10b981' } // Green
   if (diff >= -5) return { text: 'On Track', color: '#3b82f6' } // Blue
   return { text: 'Behind Schedule', color: '#ef4444' } // Red
@@ -104,17 +118,32 @@ const selectedTopics = computed(() => {
           <span class="subtitle">Core Fundamentals (🔴 MUST topics only)</span>
         </div>
         <div class="card-body">
-          <div class="circle-container">
-            <svg class="circular-chart" viewBox="0 0 100 100">
-              <path class="circle-bg" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
-              <path class="circle stroke-red" :stroke-dasharray="283" :stroke-dashoffset="sprintOffset" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
-              <text x="50" y="50" class="percentage" dominant-baseline="middle" text-anchor="middle">{{ sprintPercentage }}%</text>
-            </svg>
-          </div>
-          <div class="stats-text">
-            <div class="stat-item"><span class="label">Target Sprint Topics:</span><span class="value">{{ data.global.tiers.red.total }}</span></div>
-            <div class="stat-item"><span class="label">Completed:</span><span class="value text-red">{{ data.global.tiers.red.done }}</span></div>
-            <div class="stat-item"><span class="label">Remaining:</span><span class="value">{{ data.global.tiers.red.total - data.global.tiers.red.done }}</span></div>
+          <div class="dual-circle-layout">
+            <!-- Topic Progress Circle -->
+            <div class="circle-wrapper">
+              <h4 class="circle-title">Topics Covered</h4>
+              <div class="circle-container">
+                <svg class="circular-chart" viewBox="0 0 100 100">
+                  <path class="circle-bg" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <path class="circle stroke-red" :stroke-dasharray="283" :stroke-dashoffset="sprintTopicOffset" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <text x="50" y="50" class="percentage" dominant-baseline="middle" text-anchor="middle">{{ sprintTopicPercentage }}%</text>
+                </svg>
+              </div>
+              <div class="circle-stats">{{ data.global.tiers.red.done }} / {{ data.global.tiers.red.total }} core topics</div>
+            </div>
+
+            <!-- Effort Progress Circle -->
+            <div class="circle-wrapper">
+              <h4 class="circle-title">Effort Weighted</h4>
+              <div class="circle-container">
+                <svg class="circular-chart" viewBox="0 0 100 100">
+                  <path class="circle-bg" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <path class="circle stroke-red" :stroke-dasharray="283" :stroke-dashoffset="sprintTimeOffset" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <text x="50" y="50" class="percentage" dominant-baseline="middle" text-anchor="middle">{{ sprintTimePercentage }}%</text>
+                </svg>
+              </div>
+              <div class="circle-stats">{{ formatHours(data.global.tiers.red.doneMinutes) }} / {{ formatHours(data.global.tiers.red.totalMinutes) }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -152,18 +181,35 @@ const selectedTopics = computed(() => {
           <span class="subtitle">Complete Syllabus (All Tiers)</span>
         </div>
         <div class="card-body">
-          <div class="circle-container">
-            <svg class="circular-chart" viewBox="0 0 100 100">
-              <path class="circle-bg" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
-              <path class="circle stroke-brand" :stroke-dasharray="283" :stroke-dashoffset="overallOffset" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
-              <text x="50" y="50" class="percentage" dominant-baseline="middle" text-anchor="middle">{{ overallPercentage }}%</text>
-            </svg>
+          
+          <div class="dual-circle-layout">
+            <!-- Topic Progress Circle -->
+            <div class="circle-wrapper">
+              <h4 class="circle-title">Topics Covered</h4>
+              <div class="circle-container">
+                <svg class="circular-chart" viewBox="0 0 100 100">
+                  <path class="circle-bg" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <path class="circle stroke-brand" :stroke-dasharray="283" :stroke-dashoffset="overallTopicOffset" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <text x="50" y="50" class="percentage" dominant-baseline="middle" text-anchor="middle">{{ overallTopicPercentage }}%</text>
+                </svg>
+              </div>
+              <div class="circle-stats">{{ data.global.completedTopics }} / {{ data.global.totalTopics }} topics</div>
+            </div>
+
+            <!-- Effort Progress Circle -->
+            <div class="circle-wrapper">
+              <h4 class="circle-title">Effort Weighted</h4>
+              <div class="circle-container">
+                <svg class="circular-chart" viewBox="0 0 100 100">
+                  <path class="circle-bg" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <path class="circle stroke-brand" :stroke-dasharray="283" :stroke-dashoffset="overallTimeOffset" d="M50 5 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90" />
+                  <text x="50" y="50" class="percentage" dominant-baseline="middle" text-anchor="middle">{{ overallTimePercentage }}%</text>
+                </svg>
+              </div>
+              <div class="circle-stats">{{ formatHours(data.global.completedMinutes) }} / {{ formatHours(data.global.totalMinutes) }}</div>
+            </div>
           </div>
-          <div class="stats-text">
-            <div class="stat-item"><span class="label">Total Topics:</span><span class="value">{{ data.global.totalTopics }}</span></div>
-            <div class="stat-item"><span class="label">Completed:</span><span class="value text-green">{{ data.global.completedTopics }}</span></div>
-            <div class="stat-item"><span class="label">Remaining:</span><span class="value">{{ data.global.totalTopics - data.global.completedTopics }}</span></div>
-          </div>
+          
         </div>
       </div>
 
@@ -214,12 +260,12 @@ const selectedTopics = computed(() => {
             <h3>{{ part.title }}</h3>
             <div class="part-progress-wrapper">
               <div class="progress-bar-bg">
-                <div class="progress-bar-fill" :style="{ width: part.percentage + '%', backgroundColor: getCircleColor(part.percentage) }"></div>
+                <div class="progress-bar-fill" :style="{ width: part.timePercentage + '%', backgroundColor: getCircleColor(part.timePercentage) }"></div>
               </div>
-              <span class="part-percentage">{{ part.percentage }}%</span>
+              <span class="part-percentage">{{ part.timePercentage }}%</span>
             </div>
             <div class="part-details">
-              <span>{{ part.completedTopics }} / {{ part.totalTopics }} total topics</span>
+              <span>{{ formatHours(part.completedMinutes) }} / {{ formatHours(part.totalMinutes) }} effort</span>
             </div>
           </div>
         </div>
@@ -422,6 +468,34 @@ const selectedTopics = computed(() => {
 .stroke-red { stroke: #ef4444; }
 
 .percentage { fill: var(--vp-c-text-1); font-family: inherit; font-size: 22px; font-weight: bold; }
+
+.dual-circle-layout {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.circle-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.circle-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+.circle-stats {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+}
 
 .stats-text { display: flex; flex-direction: column; gap: 0.75rem; font-size: 1.05rem; min-width: 150px; }
 .stat-item { display: flex; justify-content: space-between; gap: 1rem; }
@@ -641,6 +715,7 @@ const selectedTopics = computed(() => {
 
 @media (max-width: 480px) {
   .card-body { flex-direction: column; gap: 1.5rem; }
+  .dual-circle-layout { flex-direction: column; gap: 2rem; }
   .toggle-switch { flex-direction: column; border-radius: 12px; }
   .toggle-btn { border-radius: 8px; }
 }

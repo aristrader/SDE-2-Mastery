@@ -9,10 +9,10 @@
 | 1 | RESTful resource modeling | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes HTTP verbs, status codes, over-fetching | 📖 `networking/api_design/ApiTechnologies_Part1_REST_JWT.md` |
 | 2 | REST vs GraphQL vs gRPC comparison & architecture | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes streaming types, trade-offs | 📖 `networking/api_design/ApiTechnologies_Part4_Comparison.md` |
 | 3 | Versioning — URI, header, content negotiation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Pagination — offset, cursor, keyset | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement keyset pagination — `WHERE id > :lastSeenId ORDER BY id LIMIT 20` + response includes `nextCursor` (30 min) |
+| 4 | Pagination — offset, cursor, keyset | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement keyset pagination — `WHERE id > :lastSeenId ORDER BY id LIMIT 20` + response includes `nextCursor` (30 min) |
 | 5 | Filtering, sorting, projections | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
-| 7 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
+| 6 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
+| 7 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
 | 8 | Authentication header design | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Async / long-running APIs (202 + status endpoint — your KYC pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

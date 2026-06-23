@@ -6,42 +6,42 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | EC2 — instance families, EBS, AMIs, user data, instance metadata | 🔴 💼 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
-| 2 | Auto Scaling Groups — launch templates, scaling policies, lifecycle hooks | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Lambda — concurrency, cold starts, layers, destinations, provisioned concurrency | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: deploy a basic Java Lambda via SAM CLI + invoke (30 min) |
-| 4 | S3 — storage classes, lifecycle, versioning, replication, event notifications | 🔴 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | EC2 — instance families, EBS, AMIs, user data, instance metadata | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
+| 2 | Auto Scaling Groups — launch templates, scaling policies, lifecycle hooks | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Lambda — concurrency, cold starts, layers, destinations, provisioned concurrency | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: deploy a basic Java Lambda via SAM CLI + invoke (30 min) |
+| 4 | S3 — storage classes, lifecycle, versioning, replication, event notifications | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | S3 — strong read-after-write consistency (post-2020), prefix scaling | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | EBS — types (gp3, io2), snapshots | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | RDS — Multi-AZ vs read replicas, parameter groups, automated backups | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Aurora — storage-decoupled architecture, replicas, Global Database | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | DynamoDB — partition keys, GSI, LSI, capacity modes, DAX | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | VPC — subnets (public/private), route tables, IGW, NAT GW | 🔴 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 7 | RDS — Multi-AZ vs read replicas, parameter groups, automated backups | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | Aurora — storage-decoupled architecture, replicas, Global Database | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | DynamoDB — partition keys, GSI, LSI, capacity modes, DAX | 🔴 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | VPC — subnets (public/private), route tables, IGW, NAT GW | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Security groups vs NACLs | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | ALB vs NLB vs CLB vs Gateway LB | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Route 53 — routing policies, health checks | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 11 Route 53) |
-| 14 | CloudFront — origins, behaviors, OAC, signed URLs / cookies | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
-| 16 | IAM — policy evaluation logic, permission boundaries, SCPs | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 14 | CloudFront — origins, behaviors, OAC, signed URLs / cookies | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 15 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
+| 16 | IAM — policy evaluation logic, permission boundaries, SCPs | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | STS, AssumeRole, role chaining | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 3 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
+| 18 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
 | 19 | Secrets Manager vs Parameter Store | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | CloudWatch — metrics, logs (Logs Insights), alarms, dashboards | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | CloudWatch — metrics, logs (Logs Insights), alarms, dashboards | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | X-Ray — distributed tracing, service map | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Cost Explorer, Budgets | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Reserved Instances vs Savings Plans vs Spot vs On-Demand | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🔴 💼 🎯 | MP | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
+| 24 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
 | 25 | SNS — topics, subscriptions, fanout, FIFO topics, message filtering | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | API Gateway — REST vs HTTP API, throttling, usage plans, Lambda authorizers, request/response mapping | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 26 | API Gateway — REST vs HTTP API, throttling, usage plans, Lambda authorizers, request/response mapping | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | ECS vs EKS vs Fargate | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | EFS, FSx | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 29 | S3 — pre-signed URLs, Transfer Acceleration | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | ElastiCache (Redis, Memcached) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 31 | OpenSearch (managed Elasticsearch) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 32 | RDS Proxy (for Lambda) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | VPC Peering, Transit Gateway, PrivateLink, Site-to-Site (S2S) VPN — encrypted tunnel between two networks; why internal-LB IPs are private and unreachable from outside the VPC; calling AWS LBs by `*.elb.amazonaws.com` hostname rather than raw IP | 🟠 💼 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 33 | VPC Peering, Transit Gateway, PrivateLink, Site-to-Site (S2S) VPN — encrypted tunnel between two networks; why internal-LB IPs are private and unreachable from outside the VPC; calling AWS LBs by `*.elb.amazonaws.com` hostname rather than raw IP | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Endpoint services (Interface vs Gateway endpoints) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | EventBridge — schema registry, rules, targets, audit / event bus pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 36 | Step Functions — standard vs express workflows, state types, error handling, KYC orchestration fit | 🟠 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 36 | Step Functions — standard vs express workflows, state types, error handling, KYC orchestration fit | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | ACM — public + private CAs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 17 PKI) |
 | 38 | CloudHSM | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 39 | GuardDuty — threat detection, finding types | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -49,10 +49,10 @@
 | 41 | Inspector — vulnerability assessment for EC2/ECR | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 42 | Macie — S3 data classification, PII discovery | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 43 | WAF, Shield (Standard vs Advanced) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 44 | Cognito — User Pools vs Identity Pools, federated identity | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 44 | Cognito — User Pools vs Identity Pools, federated identity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 45 | CloudTrail — management & data events, multi-region trail | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 46 | CloudFormation — templates, stacks, change sets, drift | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 47 | CDK (TypeScript / Python) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 46 | CloudFormation — templates, stacks, change sets, drift | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 47 | CDK (TypeScript / Python) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 48 | Systems Manager (SSM) — Session Manager, Patch Manager, Run Command | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 49 | AppConfig — feature flags, configuration profiles, gradual rollout, validators | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 50 | Organizations — OUs, SCPs, consolidated billing | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

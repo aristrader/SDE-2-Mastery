@@ -7,22 +7,22 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Thread lifecycle — NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/thread_lifecycle/ThreadLifecycle.md` · 💻 Warm-up: create + start a thread two ways (15 min) |
-| 2 | Race conditions, atomicity, visibility, ordering | 🔴 💼 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/race_conditions/RaceConditions.md` |
-| 3 | Java Memory Model — happens-before, volatile, synchronized semantics | 🔴 💼 🎯 | VD | 5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/jmm/JavaMemoryModel.md` · 📖 *Java Concurrency in Practice* ch 3 (Goetz, ~30 min effective) |
-| 4 | synchronized — intrinsic locks, monitor, biased locking history | 🔴 💼 | D | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/synchronized_keyword/Synchronized.md` · 💻 Warm-up: synchronized block on shared counter (20 min) |
-| 5 | volatile — what it guarantees, what it doesn't | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/volatile_keyword/Volatile.md` |
-| 6 | ExecutorService, ThreadPoolExecutor — core / max pool, queue strategy, rejection policies | 🔴 💼 🎯 | D | 3 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/executor_service/ExecutorService.md` · 📖 Baeldung "Guide to ThreadPoolExecutor" · 💻 Warm-up: run 1000 threads via fixed pool + virtual pool, compare (20 min) |
-| 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 3 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/CompletableFuture.md` · 📖 Baeldung "Guide to CompletableFuture" · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
-| 8 | Locks — ReentrantLock, ReentrantReadWriteLock, fair vs unfair | 🔴 💼 | MP | 2 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/locks/Locks.md` · 💻 Warm-up: ReentrantLock with try-finally unlock pattern (15 min) |
+| 2 | Race conditions, atomicity, visibility, ordering | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/race_conditions/RaceConditions.md` |
+| 3 | Java Memory Model — happens-before, volatile, synchronized semantics | 🔴 💼 🎯 | VD | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/jmm/JavaMemoryModel.md` · 📖 *Java Concurrency in Practice* ch 3 (Goetz, ~30 min effective) |
+| 4 | synchronized — intrinsic locks, monitor, biased locking history | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/synchronized_keyword/Synchronized.md` · 💻 Warm-up: synchronized block on shared counter (20 min) |
+| 5 | volatile — what it guarantees, what it doesn't | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/volatile_keyword/Volatile.md` |
+| 6 | ExecutorService, ThreadPoolExecutor — core / max pool, queue strategy, rejection policies | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/executor_service/ExecutorService.md` · 📖 Baeldung "Guide to ThreadPoolExecutor" · 💻 Warm-up: run 1000 threads via fixed pool + virtual pool, compare (20 min) |
+| 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/CompletableFuture.md` · 📖 Baeldung "Guide to CompletableFuture" · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
+| 8 | Locks — ReentrantLock, ReentrantReadWriteLock, fair vs unfair | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/locks/Locks.md` · 💻 Warm-up: ReentrantLock with try-finally unlock pattern (15 min) |
 | 9 | Reentrancy | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Deadlock, livelock, starvation — causes and prevention | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: producer-consumer via wait/notify — feel the awkwardness (20 min) |
-| 12 | Semaphore, CountDownLatch, CyclicBarrier, Phaser — when each fits | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | Semaphore, CountDownLatch, CyclicBarrier, Phaser — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | StampedLock — optimistic reads | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Atomic family — AtomicInteger, AtomicReference, LongAdder | 🔴 💼 | MP | 1 hr 40 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: AtomicInteger.compareAndSet() — observe return value (10 min) |
-| 15 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 15 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | BlockingQueue family — ArrayBlockingQueue, LinkedBlockingQueue, SynchronousQueue, DelayQueue | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Virtual threads (Loom) — what they are, when they help, pinning gotchas | 🟠 💼 🆕 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 JEP 444 (Virtual Threads) + Oracle Loom intro |
+| 17 | Virtual threads (Loom) — what they are, when they help, pinning gotchas | 🟠 💼 🆕 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 JEP 444 (Virtual Threads) + Oracle Loom intro |
 | 18 | Structured concurrency | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Producer-consumer, futures composition, fan-out / fan-in | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Double-checked locking — pre / post Java 5 (volatile fix) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -32,7 +32,7 @@
 | 24 | ScheduledExecutorService — proper way to do periodic tasks | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | ThreadLocal — uses, leaks in pooled threads | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Scoped values (replacing ThreadLocal) | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 27 | Reactive — Reactor (Mono / Flux), backpressure | 🟡 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 27 | Reactive — Reactor (Mono / Flux), backpressure | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

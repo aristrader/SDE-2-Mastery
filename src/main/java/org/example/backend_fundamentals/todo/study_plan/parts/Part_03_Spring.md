@@ -9,52 +9,52 @@
 | 1 | IoC container, beans, scopes (singleton, prototype, request, session) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/ioc_container/IoCContainer.md` |
 | 2 | Dependency injection — constructor vs field vs setter | 🔴 💼 | L | 50 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/dependency_injection/DependencyInjection.md` · 💻 Warm-up: constructor injection + @Configuration with one @Bean (20 min) |
 | 3 | Bean lifecycle — @PostConstruct, @PreDestroy, BeanPostProcessor | 🔴 💼 | M | 1 hr 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/bean_lifecycle/BeanLifecycle.md` · 💻 Warm-up: bean with @PostConstruct + @PreDestroy log + custom BeanPostProcessor that logs each bean (20 min) |
-| 4 | Auto-configuration — how it actually works (@EnableAutoConfiguration, conditions) | 🔴 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/auto_configuration/AutoConfiguration.md` |
+| 4 | Auto-configuration — how it actually works (@EnableAutoConfiguration, conditions) | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/auto_configuration/AutoConfiguration.md` |
 | 5 | Starter ecosystem | 🔴 💼 | M | 1 hr 15 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/starters/StarterEcosystem.md` · 💻 Warm-up: Spring Boot app from scratch — main class + @RestController + curl hit (30 min) |
 | 6 | Actuator — health, info, metrics, env, custom endpoints | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/actuator/Actuator.md` |
-| 7 | MVC — DispatcherServlet, handler mapping, controller, view resolution | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/mvc/SpringMVC.md` |
-| 8 | REST — @RestController, @RequestBody, @PathVariable, validation | 🔴 💼 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/rest/SpringRest.md` · 💻 Warm-up: @RequestBody with @Valid + @NotBlank / @Email + custom @Constraint annotation (15 min) |
+| 7 | MVC — DispatcherServlet, handler mapping, controller, view resolution | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/mvc/SpringMVC.md` |
+| 8 | REST — @RestController, @RequestBody, @PathVariable, validation | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/rest/SpringRest.md` · 💻 Warm-up: @RequestBody with @Valid + @NotBlank / @Email + custom @Constraint annotation (15 min) |
 | 9 | Exception handling — @ExceptionHandler, @ControllerAdvice, ResponseEntity | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/exception_handling/ExceptionHandling.md` |
-| 10 | Repository hierarchy — CrudRepository, JpaRepository | 🔴 💼 | M | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/jpa_repository/JpaRepository.md` · 💻 Warm-up: @Entity + JpaRepository + REST CRUD endpoints, test with curl (30 min) |
+| 10 | Repository hierarchy — CrudRepository, JpaRepository | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/jpa_repository/JpaRepository.md` · 💻 Warm-up: @Entity + JpaRepository + REST CRUD endpoints, test with curl (30 min) |
 | 11 | Derived queries, @Query (JPQL), native queries | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/derived_queries/DerivedQueries.md` |
-| 12 | Transactions — @Transactional propagation, isolation, rollback rules | 🔴 💼 | D | 3 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/transactions/Transactions.md` · 📖 Baeldung "@Transactional propagation guide" (~40 min) · 💻 Warm-up: @Transactional method that throws → observe rollback (15 min) |
+| 12 | Transactions — @Transactional propagation, isolation, rollback rules | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/transactions/Transactions.md` · 📖 Baeldung "@Transactional propagation guide" (~40 min) · 💻 Warm-up: @Transactional method that throws → observe rollback (15 min) |
 | 13 | Entity lifecycle — transient, managed, detached, removed | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/entity_lifecycle/EntityLifecycle.md` |
-| 14 | Feign / OpenFeign — declarative HTTP clients, interceptors, error decoders, retryers | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/feign/Feign.md` · 💻 Warm-up: minimal @FeignClient to httpbin.org + RequestInterceptor that adds Authorization header (30 min) |
-| 15 | SecurityFilterChain (modern config style) | 🔴 💼 🔐 | MP | 2 hrs 15 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/SecurityFilterChain.md` · 📖 Spring Security 6 migration guide (skip historical bits) · 💻 Warm-up: minimal SecurityFilterChain @Bean with httpBasic + one protected route (15 min) |
-| 16 | Authentication providers, UserDetailsService | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/AuthenticationProviders.md` |
+| 14 | Feign / OpenFeign — declarative HTTP clients, interceptors, error decoders, retryers | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/feign/Feign.md` · 💻 Warm-up: minimal @FeignClient to httpbin.org + RequestInterceptor that adds Authorization header (30 min) |
+| 15 | SecurityFilterChain (modern config style) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/SecurityFilterChain.md` · 📖 Spring Security 6 migration guide (skip historical bits) · 💻 Warm-up: minimal SecurityFilterChain @Bean with httpBasic + one protected route (15 min) |
+| 16 | Authentication providers, UserDetailsService | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/AuthenticationProviders.md` |
 | 17 | Authorization — method security, @PreAuthorize, SpEL | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/Authorization.md` |
-| 18 | Spring caching abstraction — @Cacheable, @CacheConfig, @CacheEvict, @CachePut; provider adapters (Caffeine, EhCache, Redis) | 🟠 💼 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/caching/SpringCaching.md` · 💻 Warm-up: @Cacheable on a slow method + @CacheEvict on an update method, verify cache hit/miss (15 min) |
-| 19 | Jackson customization — @JsonView, @JsonIgnore, custom serializers / deserializers, MappingJackson2HttpMessageConverter, Mixins | 🟠 💼 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/jackson/JacksonCustomization.md` · 💻 Warm-up: two @JsonView views on a single DTO + custom serializer for an Instant field (use java.time — not java.util.Date) (20 min) |
+| 18 | Spring caching abstraction — @Cacheable, @CacheConfig, @CacheEvict, @CachePut; provider adapters (Caffeine, EhCache, Redis) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/caching/SpringCaching.md` · 💻 Warm-up: @Cacheable on a slow method + @CacheEvict on an update method, verify cache hit/miss (15 min) |
+| 19 | Jackson customization — @JsonView, @JsonIgnore, custom serializers / deserializers, MappingJackson2HttpMessageConverter, Mixins | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/jackson/JacksonCustomization.md` · 💻 Warm-up: two @JsonView views on a single DTO + custom serializer for an Instant field (use java.time — not java.util.Date) (20 min) |
 | 20 | @Configuration vs @Component, @Bean methods | 🟠 💼 | M | 1 hr 5 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Configuration with 2 @Bean methods + @ConditionalOnProperty toggle (20 min) |
 | 21 | Profiles, @ConditionalOnXxx | 🟠 💼 | M | 1 hr 10 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Profile("dev") + @Profile("prod") + @ConfigurationProperties POJO loading from yaml (25 min) |
 | 22 | Properties — @Value, @ConfigurationProperties, externalized config | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | AOP — proxies, JDK vs CGLIB, common pitfalls (self-invocation) | 🟠 💼 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 📖 Baeldung "Comparing JDK Proxy vs CGLIB" + Spring AOP reference · 💻 Warm-up: @Around aspect that logs method timing on annotated methods (20 min) |
+| 23 | AOP — proxies, JDK vs CGLIB, common pitfalls (self-invocation) | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 Baeldung "Comparing JDK Proxy vs CGLIB" + Spring AOP reference · 💻 Warm-up: @Around aspect that logs method timing on annotated methods (20 min) |
 | 24 | Embedded servers — Tomcat vs Undertow vs Jetty | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Boot graceful shutdown | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Testing — @SpringBootTest, @MockBean, slice tests (@WebMvcTest, @DataJpaTest) | 🟠 💼 | MP | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @WebMvcTest with MockMvc — test one controller endpoint in isolation (20 min) |
-| 27 | Filters, interceptors, HandlerMethodArgumentResolver | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: HandlerInterceptor that generates + injects correlationId into MDC (30 min) |
-| 28 | Async controllers, DeferredResult, Callable returns | 🟠 💼 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @EnableAsync + @Async method returning CompletableFuture (20 min) |
-| 29 | @Async + thread-context propagation — MDC, tenant context, SecurityContext across async boundaries; TaskDecorator pattern | 🔴 💼 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/async_mdc/AsyncMdc.md` · 💻 Warm-up: write a `TaskDecorator` that copies MDC + SecurityContext into the async thread; verify with a log line printing the tenant id (30 min) |
+| 26 | Testing — @SpringBootTest, @MockBean, slice tests (@WebMvcTest, @DataJpaTest) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @WebMvcTest with MockMvc — test one controller endpoint in isolation (20 min) |
+| 27 | Filters, interceptors, HandlerMethodArgumentResolver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: HandlerInterceptor that generates + injects correlationId into MDC (30 min) |
+| 28 | Async controllers, DeferredResult, Callable returns | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @EnableAsync + @Async method returning CompletableFuture (20 min) |
+| 29 | @Async + thread-context propagation — MDC, tenant context, SecurityContext across async boundaries; TaskDecorator pattern | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/async_mdc/AsyncMdc.md` · 💻 Warm-up: write a `TaskDecorator` that copies MDC + SecurityContext into the async thread; verify with a log line printing the tenant id (30 min) |
 | 30 | Content negotiation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 31 | Lazy vs eager — N+1 problem and fixes (JOIN FETCH, @EntityGraph) | 🔴 💼 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT; doc already existed — added circular-ref-vs-N+1 gotcha, LAZY-default reasoning, 2nd-level-cache note) | 📖 `spring/jpa_lazy_eager/LazyEagerN1.md` · 📖 Vlad Mihalcea "N+1 query problem" blog (~30 min) |
+| 31 | Lazy vs eager — N+1 problem and fixes (JOIN FETCH, @EntityGraph) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT; doc already existed — added circular-ref-vs-N+1 gotcha, LAZY-default reasoning, 2nd-level-cache note) | 📖 `spring/jpa_lazy_eager/LazyEagerN1.md` · 📖 Vlad Mihalcea "N+1 query problem" blog (~30 min) |
 | 32 | Pagination, sorting, specifications, Querydsl | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | Optimistic locking (@Version), pessimistic locking | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 34 | Multiple datasources, read replicas routing | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 35 | Resilience4j — circuit breaker, retry, bulkhead, rate limiter (with Feign) | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 33 | Optimistic locking (@Version), pessimistic locking | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 34 | Multiple datasources, read replicas routing | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 35 | Resilience4j — circuit breaker, retry, bulkhead, rate limiter (with Feign) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 36 | Service discovery — Eureka, Consul, K8s DNS-based | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Config server, distributed config | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 38 | Sleuth / Micrometer tracing | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 39 | Micrometer Observation API — unified metrics + tracing + logging (Spring Boot 3); @Observed, ObservationRegistry, ObservationHandler | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 40 | OAuth2 resource server, OAuth2 client | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/OAuth2ResourceServer.md` |
-| 41 | JWT validation, JWK Set, custom claims | 🔴 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/JwtValidation.md` |
+| 40 | OAuth2 resource server, OAuth2 client | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/OAuth2ResourceServer.md` |
+| 41 | JWT validation, JWK Set, custom claims | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/security/JwtValidation.md` |
 | 42 | CSRF, CORS configuration | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 43 | @Scheduled — task scheduling, cron expressions, ThreadPoolTaskScheduler, fixedRate vs fixedDelay vs cron | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Scheduled cron + @Scheduled fixedRate on two methods, observe timing (15 min) |
-| 44 | WebClient — reactive non-blocking HTTP client (replacement for RestTemplate for new code); distinct from Feign | 🟠 💼 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: WebClient GET / POST to httpbin.org with .block() then with subscribe() (20 min) |
+| 44 | WebClient — reactive non-blocking HTTP client (replacement for RestTemplate for new code); distinct from Feign | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: WebClient GET / POST to httpbin.org with .block() then with subscribe() (20 min) |
 | 45 | HttpInterface / declarative HTTP clients (Spring 6+) — @HttpExchange annotations, WebClient-backed; modern Feign replacement | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 46 | ApplicationContext events, listeners | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 47 | DevTools, hot reload | 🟡 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 48 | Spring Boot 3 / Jakarta migration concerns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 49 | WebFlux — when (and when not) to use, reactive contracts | 🟡 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 49 | WebFlux — when (and when not) to use, reactive contracts | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 50 | OpenAPI / Swagger generation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 51 | Auditing (@CreatedDate etc.), envers | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 52 | Liquibase / Flyway migrations | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

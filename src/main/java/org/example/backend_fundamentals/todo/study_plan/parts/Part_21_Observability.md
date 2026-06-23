@@ -6,18 +6,18 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Logs — structured (JSON), levels, correlation IDs | 🔴 💼 🎯 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: configure Logback / Logstash encoder for JSON output with correlationId via MDC, hit endpoint, inspect log shape (15 min) |
-| 2 | Metrics — counters, gauges, histograms, summaries; RED & USE methods | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Traces — spans, context propagation, OpenTelemetry | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Prometheus + Grafana | 🔴 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Datadog (you use it daily) — APM, logs, metrics, monitors | 🔴 💼 | MP | 1 hr 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define a Datadog custom metric via dd-trace-java + verify in Datadog UI (20 min) |
+| 1 | Logs — structured (JSON), levels, correlation IDs | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: configure Logback / Logstash encoder for JSON output with correlationId via MDC, hit endpoint, inspect log shape (15 min) |
+| 2 | Metrics — counters, gauges, histograms, summaries; RED & USE methods | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Traces — spans, context propagation, OpenTelemetry | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | Prometheus + Grafana | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 5 | Datadog (you use it daily) — APM, logs, metrics, monitors | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define a Datadog custom metric via dd-trace-java + verify in Datadog UI (20 min) |
 | 6 | Alerts — symptom-based not cause-based; runbooks per alert | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | On-call hygiene, incident response | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Events — discrete vs metric aggregation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | SLO, SLI, SLA — definitions and error budgets | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Definitions, measurements, and error budget theory covered via deep-dive conversation. | 📖 `system_design/observability/SLA_SLO_SLI.md` |
 | 10 | ELK / OpenSearch / Loki stacks | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Jaeger, Tempo, AWS X-Ray | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |
+| 12 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |
 | 13 | Postmortems, blameless culture, 5 whys | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Chaos engineering basics | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Sentry for error tracking | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

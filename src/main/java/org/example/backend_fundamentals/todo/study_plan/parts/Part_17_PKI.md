@@ -6,8 +6,8 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🔴 💼 🔐 🎯 | MP | 1 hr 45 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
-| 2 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr 5 min | [ ] | [ ] | [ ] | [ ] | | 📖 `security/cryptography/TLS_HTTPS_PKI.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
+| 1 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
+| 2 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `security/cryptography/TLS_HTTPS_PKI.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
 | 3 | Why you never use a root directly — intermediates, ability to revoke | 🔴 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Certificate types — DV, OV, EV; SAN vs wildcard | 🔴 💼 🔐 🎯 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | CSR — what's in it, key generation flow | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -19,7 +19,7 @@
 | 11 | Internal CA setup — Vault PKI, smallstep, ACM Private CA, EJBCA | 🟠 💼 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 smallstep tutorials · 📺 HashiCorp Vault PKI (30 min) |
 | 12 | ACME protocol — Let's Encrypt automation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Certificate pinning — public-key pinning, problems | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | keytool, openssl — daily-use commands | 🟠 💼 🔐 | MP | 2 hrs 20 min | [ ] | [ ] | [ ] | [ ] | | 🎓 OpenSSL Cookbook (Ristić, free online) · 💻 Warm-up: PEM → PKCS#12 → JKS conversion + reverse (20 min) |
+| 14 | keytool, openssl — daily-use commands | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 OpenSSL Cookbook (Ristić, free online) · 💻 Warm-up: PEM → PKCS#12 → JKS conversion + reverse (20 min) |
 | 15 | Java truststores, keystores — JKS, PKCS12 | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | Cert-manager (Kubernetes) | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 cert-manager.io docs |
 | 17 | HSM-backed keys — when required (regulatory) | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
