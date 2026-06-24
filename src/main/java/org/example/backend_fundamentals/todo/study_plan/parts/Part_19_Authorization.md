@@ -11,7 +11,7 @@
 | 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
 | 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | ACL — direct permissions on resources | 🔴 💼 🔐 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/OAuth_JWT_APIKeys.md` |
 | 7 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
 | 9 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

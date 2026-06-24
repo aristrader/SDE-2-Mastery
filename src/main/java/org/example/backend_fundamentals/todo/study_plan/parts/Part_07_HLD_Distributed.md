@@ -76,6 +76,7 @@
 | 68 | N-tier / layered architecture — layer vs tier, 1/2/3-tier, closed vs open layers, modern request path | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — layer (logical) vs tier (physical), 3-tier gatekeeper, closed/open layers | 📖 `system_design/n_tier/NTierArchitecture.md` |
 | 69 | Monolith vs microservices — modular monolith, distributed monolith (anti-pattern), SOA, cohesion/coupling, sync vs event-driven, when NOT to | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — trade-off framing, modular→micro evolution, distributed-monolith signs, loose-coupling≠EDA, when not to use | 📖 `system_design/architecture/MonolithsVsMicroservices.md` |
 | 70 | Domain-Driven Design (strategic) — bounded context, domain boundaries, context ≠ DB, data duplication for independence, DDD → service boundaries | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — bounded context = meaning/ownership not DB, "no universal Customer", DDD identifies microservice seams. Tactical building blocks: Part 4 row 59 | 📖 `system_design/ddd/DomainDrivenDesign.md` |
+| 71 | Disaster Recovery — RTO, RPO, backup vs replication, hot/warm/cold sites | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | RTO, RPO, replication vs backup, cost vs recovery tradeoffs covered. | 📖 `deep_dives/DisasterRecovery.md` |
 
 ## Time summary
 

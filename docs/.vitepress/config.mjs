@@ -41,6 +41,7 @@ export default withMermaid({
       { text: 'Databases', link: '/databases/' },
       { text: 'Messaging', link: '/messaging/' },
       { text: 'Security', link: '/security/' },
+      { text: 'Resources', link: '/resources' },
     ],
     search: { provider: 'local' },
     sidebar: generateSidebar([

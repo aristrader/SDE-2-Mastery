@@ -6,6 +6,7 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
+| 0 | Process vs Thread — memory isolation, IPC vs shared memory, context switching, CPU scheduling | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Notes: Covered in OS/Containers notes | |
 | 1 | Thread lifecycle — NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/thread_lifecycle/ThreadLifecycle.md` · 💻 Warm-up: create + start a thread two ways (15 min) |
 | 2 | Race conditions, atomicity, visibility, ordering | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/race_conditions/RaceConditions.md` |
 | 3 | Java Memory Model — happens-before, volatile, synchronized semantics | 🔴 💼 🎯 | VD | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/jmm/JavaMemoryModel.md` · 📖 *Java Concurrency in Practice* ch 3 (Goetz, ~30 min effective) |

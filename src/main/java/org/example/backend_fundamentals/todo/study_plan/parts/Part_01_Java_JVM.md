@@ -6,8 +6,10 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
+| 0 | JDK vs JRE vs JVM distinction, Java standard libraries overview | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deep_dives/Java_JDK_JRE_JVM.md` | |
 | 1 | Object model, inheritance, interfaces, abstract classes — when each fits | 🔴 💼 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: Theory covered (~56 min), warm-up pending | 💻 Warm-up: type a basic class with ctor/equals/hashCode/toString from memory (15 min) |
 | 1a | String immutability — string pool, heap vs pool, why final, hashCode caching, StringBuilder | 🔴 💼 🎯 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/string/StringImmutability.md` |
+| 1b | JVM vs JRE vs JDK — bytecode execution, runtime libs, compiler | 🔴 💼 | L | 30 min | [x] | [ ] | [ ] | [ ] | Notes: Covered in OS/Containers notes | |
 | 2 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/foundations/generics/Generics.md` · *Effective Java* Items 26-33 (Bloch) |
 | 3 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~33 min | 📖 `java/foundations/equals_hashcode/EqualsHashCode.md` · *Effective Java* Items 10-14 |
 | 4 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [ ] | [x] | [ ] | [x] | Partial: Theory covered (~50 min). Redo Resource/AutoCloseable exercise from scratch — AutoCloseable not deeply covered yet | 💻 Warm-up: try-with-resources for a custom AutoCloseable + observe close ordering with multiple resources (10 min) |
