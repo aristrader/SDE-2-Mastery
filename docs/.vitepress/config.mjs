@@ -41,6 +41,8 @@ export default withMermaid({
       { text: 'Databases', link: '/databases/' },
       { text: 'Messaging', link: '/messaging/' },
       { text: 'Security', link: '/security/' },
+      { text: 'Engineering Practice', link: '/engineering_practice/' },
+      { text: 'Deployments', link: '/deployments/' },
       { text: 'Resources', link: '/resources' },
     ],
     search: { provider: 'local' },
@@ -55,6 +57,8 @@ export default withMermaid({
       { ...commonSidebarConfig, scanStartPath: 'databases', resolvePath: '/databases/' },
       { ...commonSidebarConfig, scanStartPath: 'messaging', resolvePath: '/messaging/' },
       { ...commonSidebarConfig, scanStartPath: 'security', resolvePath: '/security/' },
+      { ...commonSidebarConfig, scanStartPath: 'engineering_practice', resolvePath: '/engineering_practice/' },
+      { ...commonSidebarConfig, scanStartPath: 'deployments', resolvePath: '/deployments/' },
     ]),
   },
 })

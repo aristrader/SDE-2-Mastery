@@ -6,10 +6,10 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Writing design docs — context, goals, non-goals, alternatives, tradeoffs | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | RFC process, design reviews | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Code review etiquette — what's worth commenting on | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Technical writing — clarity over cleverness | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Writing design docs — context, goals, non-goals, alternatives, tradeoffs | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.0 hr | 📖 `engineering_practice/DesignDocsAndRFCs.md` |
+| 2 | RFC process, design reviews | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~0.5 hr | 📖 `engineering_practice/DesignDocsAndRFCs.md` |
+| 3 | Code review etiquette — what's worth commenting on | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~0.75 hr | 📖 `engineering_practice/CodeReviews.md` |
+| 4 | Technical writing — clarity over cleverness | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~0.75 hr | 📖 `engineering_practice/TechnicalWriting.md` |
 | 5 | Mentoring juniors | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Estimation, scoping, breakdown into stories | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Sprint hygiene, async communication | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -23,7 +23,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~5.25 hrs | ~0.5 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~9.0 hrs | ~0.85 wk | |
-| Full Part (all items including 🟡) | ~10.5 hrs | ~0.95 wk | |
+| Full Part (all items including 🟡) | ~10.5 hrs | ~0.95 wk | ~3.0 hrs so far |
 
 > This Part is soft-skills-heavy. Time estimates assume *reading + reflecting + producing artifacts* (a design doc, a brag log, a code review checklist). The real learning is over months of practice, not study hours.
 
