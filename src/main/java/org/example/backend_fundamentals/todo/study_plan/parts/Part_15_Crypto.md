@@ -21,10 +21,7 @@
 | 13 | Password hashing — never SHA-256 plain, use Argon2 / bcrypt | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Argon2id hash + verify in Java (Spring Security's BCryptPasswordEncoder + Argon2 via Bouncy Castle); compare hash output (20 min) |
 | 14 | Nonce, IV — reuse pitfalls (catastrophic for GCM) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | SSRF | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Padding oracle (CBC) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Side-channel | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Insecure deserialization | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | Supply chain (log4shell era) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Concept mentioned as handshake mechanism, details pending | 📖 `security/cryptography/TLS_HTTPS_PKI.md` |
 | 21 | OWASP Top 10 — full list | 🟠 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 

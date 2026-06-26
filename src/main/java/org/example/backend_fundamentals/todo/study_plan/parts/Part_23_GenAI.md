@@ -15,7 +15,6 @@
 | 8 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Caching strategies for LLM calls (prompt caching, semantic caching) | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | LLM observability — LangSmith, Helicone, Langfuse, Phoenix | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Embeddings — what they are, similarity metrics | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -29,7 +28,6 @@
 | 22 | Building MCP servers (your future leverage) | 🟠 💼 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
 | 25 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 28 | PII redaction in prompts / responses | 🟡 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

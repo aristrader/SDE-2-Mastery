@@ -18,14 +18,12 @@
 | 9 | DynamoDB Basics — partition keys, GSI, capacity modes | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9b | DynamoDB Advanced — LSI, DAX | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | VPC Basics — public vs private subnets, Security Groups | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10b | VPC Peering, Transit Gateway, PrivateLink, Site-to-Site VPN | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | VPC Advanced — route tables, IGW, NAT GW, NACLs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Load Balancers Basics — ALB vs NLB (L7 vs L4) | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12b | Load Balancers Advanced — CLB vs Gateway LB | 🟡 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | CloudFront Basics — origins, edge caching | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14b | CloudFront Advanced — OAC, signed URLs / cookies | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
-| 16 | IAM Advanced — policy evaluation logic, permission boundaries, SCPs | 🟠 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | STS, AssumeRole, role chaining | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
 | 19 | Secrets Manager vs Parameter Store | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |

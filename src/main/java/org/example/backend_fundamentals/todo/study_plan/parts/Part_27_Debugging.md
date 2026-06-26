@@ -22,7 +22,6 @@
 | 19 | `ss` / `netstat` — open connections, TIME_WAIT, port exhaustion | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Lock waits, deadlock graph | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Replication lag investigation | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Auto-vacuum / bloat (Postgres) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Bisecting bad commits (`git bisect`) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Postmortem writing — blameless, action items with owners | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Knowing when to escalate vs continue investigating | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

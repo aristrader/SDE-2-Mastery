@@ -39,12 +39,8 @@
 | 27 | Java `TimeoutException` propagating from vendor calls — what you do at the boundary | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | Government ID gateways — Dukcapil (Indonesia), JPN (Malaysia), MyInfo / Singpass (Singapore) — your integrations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 29 | NFC chip reading from e-passports — DSC, CSCA, country signing certs (your integration, not theory) | 🟠 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 29 row 8 + Part 17 PKI) |
-| 30 | App attestation — Play Integrity (Android), App Attest (iOS) — your decisions, your rollout | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 31 | Root / jailbreak detection — and the arms race with bypass tooling (your stance) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 32 | SSL / certificate pinning on mobile — rotate without bricking deployed apps | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | SDK obfuscation, anti-tampering, anti-debugging — what your team chose, what you skipped | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 34 | SDK telemetry without leaking PII — what's safe to log in your pipeline | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 35 | SDK bundle size — banks care about app weight; your size budget | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 36 | Offline-first capture, queue-and-sync upload, time-skew handling | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Cost-aware routing — cheapest first, fall back on failure (vs accuracy-weighted) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 38 | Shadow / A/B testing across vendors — accuracy comparison without affecting customers | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -77,9 +73,7 @@
 | 65 | Compliance reviewer override breaking automated state-machine assumptions | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 66 | Invalid base64 image strings from SDK (in your filtered errors) — defensive parsing | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 67 | ASG-NEO response not parseable as JSON — schema versioning between services | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 68 | Hardware-backed key storage — Android Keystore, iOS Secure Enclave (your usage) | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 69 | Federated vendor SLAs / quotas — government gateways (Dukcapil, JPN) need special handling | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 70 | Image watermarking / fingerprinting for audit forensics | 🟡 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 71 | Per-partner quota / fair-use enforcement | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

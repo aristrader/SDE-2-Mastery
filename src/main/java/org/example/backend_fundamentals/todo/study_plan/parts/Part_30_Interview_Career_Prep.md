@@ -19,8 +19,6 @@
 | 11 | Visibility compounders — design docs, tech talks, mentoring | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | levels.fyi, Glassdoor, Blind — compensation benchmarks | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Negotiation basics — competing offers, signing bonus, RSU cliffs and vesting | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | External presence — blog, GitHub, OSS contributions | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Speaking at conferences / meetups | 🟡 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

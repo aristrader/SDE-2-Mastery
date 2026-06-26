@@ -14,13 +14,10 @@
 | 5 | SNI — Server Name Indication, ESNI / ECH | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | ALPN — protocol selection (HTTP/2 negotiation) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Session resumption — session IDs, session tickets | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | OCSP stapling | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | HSTS, preload lists | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Mutual TLS (mTLS) — when, how, cert rotation | 🟠 💼 🔐 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Basics covered | 📖 `../TLS_SSL_mTLS_Notes.md` (Cross-ref Part 17 PKI) · 💻 Warm-up: configure Spring Boot with server.ssl.client-auth=need; generate client cert with openssl; curl with --cert/--key; observe rejection without cert (30 min) |
 | 11 | Common attacks — BEAST, CRIME, POODLE, Heartbleed, downgrade attacks | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | TLS terminator placement (LB, sidecar, app) | 🟠 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | SSL Labs grading criteria | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Wireshark TLS inspection | 🟢 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

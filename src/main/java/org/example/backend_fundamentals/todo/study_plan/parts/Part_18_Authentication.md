@@ -15,7 +15,6 @@
 | 8 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `deep_dives/SSO_SAML_OIDC_IdentityBrokers.md` |
-| 11 | LDAP, Kerberos basics (enterprise contexts) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | MFA — TOTP (RFC 6238), WebAuthn / FIDO2, push, SMS (and why SMS is weak) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement TOTP generator (HMAC-SHA1 over time-counter) from RFC 6238 — verify against Google Authenticator (20 min) |
 | 13 | Magic links, passwordless flows | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | SSO patterns | 🟠 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 `deep_dives/SSO_SAML_OIDC_IdentityBrokers.md` |
