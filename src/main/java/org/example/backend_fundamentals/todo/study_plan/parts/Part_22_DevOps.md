@@ -6,7 +6,8 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 3 | Docker — image layers, multi-stage builds, .dockerignore, distroless | 🔴 💼 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Notes: Images vs Containers, Registries, Artifacts covered | 💻 Warm-up: write a multi-stage Dockerfile for a Spring Boot app — JDK stage + JRE runtime + .dockerignore (15 min) |
+| 3 | Dockerfile optimization — multi-stage builds, distroless, layer caching | 🔴 💼 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: Multi-stage covered; cache/distroless pending | 📖 `devops_deployment/docker/Docker_Basics.md` · 💻 Warm-up: write a 2-stage Dockerfile for a Spring app with layer caching for deps (30 min) |
+| 3b | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered | |
 | 5 | Terraform — providers, state, modules, workspaces | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write Terraform that provisions an S3 bucket with versioning + lifecycle, apply + destroy (30 min) |
 | 6 | Daily Linux fluency — ps, top, htop, lsof, netstat / ss, tcpdump, strace | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`), find which files a process has open (`lsof -p <pid>`), watch syscalls (`strace -p <pid>`) (30 min) |

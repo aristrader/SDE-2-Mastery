@@ -21,8 +21,8 @@
 | 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/Replication.md` (replication part) |
 | 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: clustering (Redis Cluster, shards, replication, failover) covered; data types, persistence, eviction, pub/sub, streams pending. ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/Clustering.md` · 📖 redis.io "Introduction to Redis" (~30 min) |
-| 16 | MVCC — Postgres vs MySQL implementations | 🟠 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Locks — row, gap, next-key (MySQL specifically) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | N+1 query problem — detection (Hibernate/JPA) and fixes | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 17 | Row-level security (RLS) in DBs (e.g. Postgres for multi-tenant) | 🟠 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Deadlocks — detection, prevention | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: transaction states/lifecycle + distributed transactions + 2PC (prepare/commit, blocking problem, recovery) + 3PC + Saga/compensating + FLP/consensus covered; savepoints + XA pending. ~45 min (ChatGPT, 3 pastes) | 📖 `databases/distributed_transactions/DistributedTransactions.md` · 📖 `databases/transactions/Transactions.md` |
 | 20 | Window functions (ROW_NUMBER, RANK, LAG, LEAD) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: ROW_NUMBER / RANK / LAG over PARTITION BY — find top-N per category, find diff between consecutive rows (20 min) |
