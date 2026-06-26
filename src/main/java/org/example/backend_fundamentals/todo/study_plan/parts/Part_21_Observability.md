@@ -6,16 +6,16 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Logs — structured (JSON), levels, correlation IDs | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: configure Logback / Logstash encoder for JSON output with correlationId via MDC, hit endpoint, inspect log shape (15 min) |
-| 2 | Metrics — counters, gauges, histograms, summaries; RED & USE methods | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Traces — spans, context propagation, OpenTelemetry | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Prometheus + Grafana | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Datadog (you use it daily) — APM, logs, metrics, monitors | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define a Datadog custom metric via dd-trace-java + verify in Datadog UI (20 min) |
-| 6 | Alerts — symptom-based not cause-based; runbooks per alert | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | On-call hygiene, incident response | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Events — discrete vs metric aggregation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |
-| 13 | Postmortems, blameless culture, 5 whys | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Logs — structured (JSON), levels, correlation IDs | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 💻 Warm-up: configure Logback / Logstash encoder for JSON output with correlationId via MDC, hit endpoint, inspect log shape (15 min) |
+| 2 | Metrics — counters, gauges, histograms, summaries; RED & USE methods | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | | |
+| 3 | Traces — spans, context propagation, OpenTelemetry | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | | |
+| 4 | Prometheus + Grafana | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | |
+| 5 | Datadog (you use it daily) — APM, logs, metrics, monitors | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 💻 Warm-up: define a Datadog custom metric via dd-trace-java + verify in Datadog UI (20 min) |
+| 6 | Alerts — symptom-based not cause-based; runbooks per alert | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | |
+| 7 | On-call hygiene, incident response | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | |
+| 8 | Events — discrete vs metric aggregation | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | | |
+| 12 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | | 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |
+| 13 | Postmortems, blameless culture, 5 whys | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
