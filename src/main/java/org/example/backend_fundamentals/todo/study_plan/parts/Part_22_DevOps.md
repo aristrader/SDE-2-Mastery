@@ -11,23 +11,19 @@
 | 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered | |
 | 5 | Terraform — providers, state, modules, workspaces | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write Terraform that provisions an S3 bucket with versioning + lifecycle, apply + destroy (30 min) |
 | 6 | Daily Linux fluency — ps, top, htop, lsof, netstat / ss, tcpdump, strace | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`), find which files a process has open (`lsof -p <pid>`), watch syscalls (`strace -p <pid>`) (30 min) |
-| 7 | systemd basics | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+
 | 8 | Filesystem layout, permissions, ulimits | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Container security — image scanning (Trivy, Snyk, ECR scanning), distroless, SBOM (Syft, Grype), supply-chain (Sigstore/cosign) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: scan your Spring Boot Dockerfile with Trivy or grype, identify top 5 CVEs, generate an SBOM with syft (30 min) |
-| 11 | Kubernetes RBAC + ServiceAccount + Pod Security Standards (restricted/baseline/privileged) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+
 | 12 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deep_dives/KubernetesAndContainers.md` | |
 | 14 | Kubernetes — StatefulSet, DaemonSet, Job, CronJob | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Helm, Kustomize | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Pulumi, CDK alternatives | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+
 | 17 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
-| 18 | ArgoCD, Flux — GitOps model, sync loop (effectively `kubectl apply` driven by git state), how `kustomization.yaml` decides which manifests get applied, drift detection | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deep_dives/KubernetesAndContainers.md` | |
+
 | 19 | Blue-green, canary, feature flags | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Bash scripting fluency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | awk, sed, jq for log mining | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Service mesh — Istio, Linkerd | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | LaunchDarkly, Unleash, custom flag systems | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | Performance — iostat, vmstat, sar | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+
 | 25 | SSH — key-based auth, `~/.ssh/config`, ssh-agent, host key verification, port forwarding (`-L`/`-R`/`-D`), ProxyJump / bastion | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate ed25519 keypair, add to authorized_keys on a remote, set up a `~/.ssh/config` alias with ProxyJump bastion, verify host key is pinned in known_hosts (20 min) |
 | 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deep_dives/KubernetesAndContainers.md` | |
 

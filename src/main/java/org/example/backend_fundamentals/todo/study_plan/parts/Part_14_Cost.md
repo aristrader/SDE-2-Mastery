@@ -14,11 +14,7 @@
 | 6 | Capacity planning — peak QPS, growth headroom, scaling lead time | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Lambda — duration × memory × invocations, plus integration costs (API Gateway, etc.) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | RDS — instance + storage + IOPS + backups + Multi-AZ doubling | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | TCO model — infra + data egress + ops overhead + license | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | FinOps practices — cost allocation tags, chargeback / showback, Cost Anomaly Detection | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Cost vs performance tradeoffs — gp3 vs io2, Multi-AZ vs single-AZ for non-prod, Graviton vs Intel | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Egress cost optimization — CloudFront for outbound, S3 Transfer Acceleration cost-benefit, VPC endpoints | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Spot strategy for batch workloads | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

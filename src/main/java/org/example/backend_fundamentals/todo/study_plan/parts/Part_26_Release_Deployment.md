@@ -18,12 +18,9 @@
 | 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Semantic versioning | 🟠 💼 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
-| 13 | Online schema change — gh-ost, pt-online-schema-change (MySQL) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+
 | 14 | Multi-version compatibility (rolling deploy implies N and N+1 coexist) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Feature flag platforms — LaunchDarkly, Unleash, Statsig | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Kill switches as deploy guardrails | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | DORA metrics — deploy frequency, lead time, MTTR, change failure rate | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | Artifact management — Nexus, JFrog Artifactory, ECR | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+
 | 19 | Hot-fix workflow | 🟢 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

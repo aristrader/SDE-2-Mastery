@@ -24,8 +24,7 @@
 | 17 | Fixtures vs factories | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | TDD — when it helps, when it doesn't | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Coverage — JaCoCo; line vs branch coverage and their limits | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | Chaos engineering — Chaos Monkey, Gremlin, Litmus | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Game days — planned failure injection | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+
 | 23 | Test pyramid inversion — when API tests dominate (microservices reality) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

@@ -18,9 +18,6 @@
 | 11 | Jaeger, Tempo, AWS X-Ray | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |
 | 13 | Postmortems, blameless culture, 5 whys | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Chaos engineering basics | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Sentry for error tracking | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Synthetic monitoring | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
