@@ -15,7 +15,6 @@
 | 7 | One concept per test (not necessarily one assertion call) | 🔴 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Naming — `should_X_when_Y` or BDD `given/when/then` | 🔴 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Test isolation — no order dependence, no shared mutable state | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Load testing — JMeter, Gatling, k6, Locust | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 8 load testing) |
 | 11 | Integration tests — with real DB, real Redis, real Kafka | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | TestContainers — Postgres, MySQL, Redis, Kafka, Elasticsearch | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Testcontainers + PostgreSQLContainer for an integration test against a real Postgres (30 min) |
 | 13 | Contract testing — Pact, Spring Cloud Contract (consumer-driven) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -25,7 +24,6 @@
 | 17 | Fixtures vs factories | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | TDD — when it helps, when it doesn't | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Coverage — JaCoCo; line vs branch coverage and their limits | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Profiling under load — async-profiler, JFR | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 8 profiling) |
 | 21 | Chaos engineering — Chaos Monkey, Gremlin, Litmus | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Game days — planned failure injection | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Test pyramid inversion — when API tests dominate (microservices reality) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

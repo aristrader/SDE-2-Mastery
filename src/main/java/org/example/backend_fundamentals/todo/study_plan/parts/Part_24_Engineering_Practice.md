@@ -15,7 +15,6 @@
 | 7 | Sprint hygiene, async communication | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Influence without authority (cross-team work) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Tech talks, brown bags | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Blog writing, open source contributions | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

@@ -16,9 +16,9 @@
 | 8 | Aurora — storage-decoupled architecture, replicas, Global Database | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | DynamoDB — partition keys, GSI, LSI, capacity modes, DAX | 🔴 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | VPC — subnets (public/private), route tables, IGW, NAT GW | 🔴 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 10b | VPC Peering, Transit Gateway, PrivateLink, Site-to-Site VPN | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Security groups vs NACLs | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | ALB vs NLB vs CLB vs Gateway LB | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Route 53 — routing policies, health checks | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 11 Route 53) |
 | 14 | CloudFront — origins, behaviors, OAC, signed URLs / cookies | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
 | 16 | IAM — policy evaluation logic, permission boundaries, SCPs | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -38,27 +38,13 @@
 | 30 | ElastiCache (Redis, Memcached) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 31 | OpenSearch (managed Elasticsearch) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 32 | RDS Proxy (for Lambda) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | VPC Peering, Transit Gateway, PrivateLink, Site-to-Site (S2S) VPN — encrypted tunnel between two networks; why internal-LB IPs are private and unreachable from outside the VPC; calling AWS LBs by `*.elb.amazonaws.com` hostname rather than raw IP | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Endpoint services (Interface vs Gateway endpoints) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | EventBridge — schema registry, rules, targets, audit / event bus pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 36 | Step Functions — standard vs express workflows, state types, error handling, KYC orchestration fit | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | ACM — public + private CAs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 17 PKI) |
-| 38 | CloudHSM | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 39 | GuardDuty — threat detection, finding types | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 40 | Security Hub — aggregator + compliance standards (CIS, PCI) | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 41 | Inspector — vulnerability assessment for EC2/ECR | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 42 | Macie — S3 data classification, PII discovery | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 43 | WAF, Shield (Standard vs Advanced) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 44 | Cognito — User Pools vs Identity Pools, federated identity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 45 | CloudTrail — management & data events, multi-region trail | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 46 | CloudFormation — templates, stacks, change sets, drift | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 47 | CDK (TypeScript / Python) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 48 | Systems Manager (SSM) — Session Manager, Patch Manager, Run Command | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 49 | AppConfig — feature flags, configuration profiles, gradual rollout, validators | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 50 | Organizations — OUs, SCPs, consolidated billing | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 51 | Tagging strategy for cost allocation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 52 | IAM Identity Center (formerly SSO) | 🟡 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 53 | Detective, Audit Manager | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 54 | Managed Grafana, Managed Prometheus | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 55 | Batch | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 

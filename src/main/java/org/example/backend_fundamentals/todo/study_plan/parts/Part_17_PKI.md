@@ -22,7 +22,6 @@
 | 14 | keytool, openssl — daily-use commands | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 OpenSSL Cookbook (Ristić, free online) · 💻 Warm-up: PEM → PKCS#12 → JKS conversion + reverse (20 min) |
 | 15 | Java truststores, keystores — JKS, PKCS12 | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | Cert-manager (Kubernetes) | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 cert-manager.io docs |
-| 17 | HSM-backed keys — when required (regulatory) | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

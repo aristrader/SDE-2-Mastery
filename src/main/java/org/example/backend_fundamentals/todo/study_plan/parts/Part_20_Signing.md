@@ -6,15 +6,14 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Digital signature vs MAC — different threat models | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 15) |
 | 2 | Sign-then-encrypt vs encrypt-then-sign — choose carefully | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | HMAC for symmetric scenarios (webhook signing) | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: HMAC-SHA256 over a JSON payload + base64-encode + constant-time verify (15 min) |
 | 4 | RSA-PSS, ECDSA, EdDSA — modern signature algorithms | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Webhook signing — Stripe-style HMAC, replay protection with timestamps | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: build a webhook receiver that verifies HMAC over `timestamp + body` with 5-min replay window (30 min) |
 | 6 | Detached signatures — for documents, JARs | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 6b | Document signing — PDF signatures, eIDAS (Europe), relevant to KYC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | JWS detached payloads | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Code signing | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Document signing — PDF signatures, eIDAS (Europe), relevant to KYC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

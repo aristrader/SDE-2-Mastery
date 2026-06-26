@@ -6,40 +6,20 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | GDPR — lawful basis, consent, data subject rights (access, erasure, portability, rectification), DPO | 🔴 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: read your company's privacy policy; map each clause to a GDPR right; identify any gaps (20 min) |
-| 2 | GDPR — processor vs controller, DPA agreements | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | OJK regulations — POJK 11/03/2022 (digital banking), POJK 12/03/2018 (KYC/CDD), data localization for Indonesian financial data | 🔴 💼 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: read POJK 11/03/2022 executive summary; map 3 platform requirements to KYC features you ship (30 min) |
-| 4 | Bank Indonesia (BI) — cross-border data + payment systems rules; PBI 23/6/PBI/2021 for payment system providers | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | MAS Technology Risk Management (TRM) Guidelines — Singapore; cyber hygiene rules for financial institutions, incident reporting | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Singapore PDPA — consent, notification, DPO requirement, transfer limitations | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Malaysia PDPA — Personal Data Protection Act 2010 + 2024 amendments, transfer restrictions, DPO | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | CCPA / CPRA (California) | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | KYC / AML regulations — CDD / EDD, sanctions screening, STR (Suspicious Transaction Report), SAR | 🔴 💼 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: read FATF 40 Recommendations executive summary; identify the 5 most relevant for KYC platforms (30 min) |
-| 10 | PII classification & tagging (data inventory is the first step) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Data minimization — collect only what's needed; question every field | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Audit logs — what / when / who; tamper-evident storage | 🔴 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
-| 14 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🔴 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
-| 15 | Retention policies enforced in code, not just in docs | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Cross-border data transfer — SCCs, adequacy, Schrems II | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Promoted 🟠→🔴: EU partner banks. | |
-| 18 | SOC 2 — Type I vs II, Trust Service Criteria | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Promoted 🟠→🔴: B2B KYC default expectation. | |
-| 19 | Breach notification obligations — GDPR 72-hour rule, OJK incident reporting, MAS reporting timeline; processor-controller notification chain | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-page incident-response playbook with notification deadlines per regulator (30 min) |
-| 20 | Data localization & residency requirements | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | PCI-DSS — if you touch card data; cardholder data environment, scope reduction | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | ISO 27001 — ISMS, controls, certification flow | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Tokenization vs encryption — when each fits | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Pseudonymization, anonymization, k-anonymity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Consent management platforms | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 27 | Privacy by design, DPIA | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 28 | Sanctions screening lists in depth — OFAC SDN, UN consolidated, EU consolidated, UK HMT; name-matching algorithms (Soundex, Levenshtein); false-positive tuning | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Cross-ref Part 29 sanctions row. | |
-| 29 | PEP screening — politically exposed person definitions, adverse media monitoring, vendor APIs (World-Check, ComplyAdvantage) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 30 | Travel Rule (FATF Recommendation 16) — applies to VASPs / payment touches; originator-beneficiary information exchange | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 31 | Vendor risk management — sub-processor assessment, DPA template, ongoing monitoring | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 32 | Data lineage / provenance tracking — for compliance audits; what touched what, when | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | BSP regulations (Philippines) — Bangko Sentral ng Pilipinas circulars relevant for KYC | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 34 | eIDAS — EU electronic ID and trust services regulation | 🟡 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 20 signing) |
+| 1 | PII classification & tagging (data inventory is the first step) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Data minimization — collect only what's needed; question every field | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | Audit logs — what / when / who; tamper-evident storage | 🔴 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
+| 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🔴 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
+| 6 | Retention policies enforced in code, not just in docs | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 7 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | Data localization & residency requirements | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | Tokenization vs encryption — when each fits | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Pseudonymization, anonymization, k-anonymity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | Privacy by design, DPIA | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 13 | Data lineage / provenance tracking — for compliance audits; what touched what, when | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 14 | SOC 2 & ISO 27001 backend readiness — audit logging, evidence collection, control mapping | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

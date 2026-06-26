@@ -10,16 +10,11 @@
 | 2 | Reading thread dumps — find BLOCKED, identify lock contention, deadlocks | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Heap dumps — jmap, `-XX:+HeapDumpOnOutOfMemoryError` | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Heap analysis — Eclipse MAT (dominator tree, retained heap, leak suspects) | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: open a sample heap dump (or generate via `jmap -dump`) in Eclipse MAT, navigate to Leak Suspects report (30 min) |
-| 5 | `curl -v`, `openssl s_client` (TLS handshake inspection) | 🔴 💼 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 11 + 16) |
 | 6 | tcpdump basics, Wireshark for deep dives | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Slow query logs — MySQL slow_log, Postgres pg_stat_statements | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: enable `log_min_duration_statement = 1000` in Postgres, capture a slow query, read the log line (15 min) |
-| 8 | EXPLAIN ANALYZE deeply (cost vs actual rows, where plans go wrong) | 🔴 💼 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6) |
-| 9 | Distributed tracing for narrowing failure to a service | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 21) |
-| 10 | Correlation IDs end-to-end | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 21) |
 | 11 | 5 whys, fishbone (Ishikawa) analysis | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Reproducing in staging / lower envs | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | GC log analysis — gceasy.io, GCViewer | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Async-profiler — CPU, allocation, lock profiling | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 8) |
 | 15 | JFR — continuous low-overhead profiling in prod | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | jstat, jcmd, jinfo, jps — command-line forensics | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | mitmproxy / Charles for HTTP intercept | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -30,9 +25,7 @@
 | 22 | Auto-vacuum / bloat (Postgres) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Bisecting bad commits (`git bisect`) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Postmortem writing — blameless, action items with owners | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Incident commander vs comms role separation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Knowing when to escalate vs continue investigating | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 27 | eBPF tooling (bcc-tools, bpftrace) — for the curious | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

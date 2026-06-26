@@ -14,14 +14,11 @@
 | 4 | Behavioral / leadership — STAR method, prepared stories (have 5–8 ready) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write down 3 STAR stories from your last year (situation → task → action → result + explicit impact) (45 min) |
 | 5 | SDE2 vs SDE3 vs Staff vs Principal — scope of impact, ambiguity tolerance, influence radius | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Promotion criteria at your company — write them down, gap-analyze quarterly | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Bar-raiser / cross-functional rounds | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Hiring manager — motivation, growth, fit | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Brag doc / weekly notes habit — promotion currency | 🟠 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 24 brag doc) |
 | 10 | Peer feedback — solicit early, give precisely | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Visibility compounders — design docs, tech talks, mentoring | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | levels.fyi, Glassdoor, Blind — compensation benchmarks | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Negotiation basics — competing offers, signing bonus, RSU cliffs and vesting | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Reference management | 🟠 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | External presence — blog, GitHub, OSS contributions | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | Speaking at conferences / meetups | 🟡 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 

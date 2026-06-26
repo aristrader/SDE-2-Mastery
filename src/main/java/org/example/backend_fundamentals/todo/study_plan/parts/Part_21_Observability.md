@@ -14,7 +14,6 @@
 | 6 | Alerts — symptom-based not cause-based; runbooks per alert | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | On-call hygiene, incident response | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Events — discrete vs metric aggregation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | SLO, SLI, SLA — definitions and error budgets | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Definitions, measurements, and error budget theory covered via deep-dive conversation. | 📖 `system_design/observability/SLA_SLO_SLI.md` |
 | 10 | ELK / OpenSearch / Loki stacks | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Jaeger, Tempo, AWS X-Ray | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |

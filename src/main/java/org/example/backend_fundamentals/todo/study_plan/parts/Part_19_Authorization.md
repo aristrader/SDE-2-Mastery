@@ -15,7 +15,6 @@
 | 7 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
 | 9 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Row-level security (RLS) in DBs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Postgres CREATE POLICY + session-var (SET app.tenant_id) + test cross-tenant query rejection (20 min) |
 | 11 | Method-level + URL-level + data-level authorization — defense in depth | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Audit logging of authz decisions — who tried to access what, when, denied or allowed | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Permission caching + TTL — authz checks per request are expensive; how to cache safely | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
