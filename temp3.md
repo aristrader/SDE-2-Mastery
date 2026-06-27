@@ -1,2 +1,2 @@
-<!-- temp3.md -->
-<!-- Ready for next paste -->
+// temp3.md
+// Clear per CLAUDE.md guidelines
