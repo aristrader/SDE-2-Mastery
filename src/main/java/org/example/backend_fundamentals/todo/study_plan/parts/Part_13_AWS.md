@@ -17,8 +17,8 @@
 | 8 | RDS & Aurora Advanced — parameter groups, Global Database, automated backups | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | DynamoDB Basics — partition keys, GSI, capacity modes | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9b | DynamoDB Advanced — LSI, DAX | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | VPC Basics — public vs private subnets, Security Groups | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | VPC Advanced — route tables, IGW, NAT GW, NACLs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only)| 🔴 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | VPC Advanced — route tables, IGW, NAT GW, NACLs  (Basic concept only)| 🟠 💼 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Load Balancers Basics — ALB vs NLB (L7 vs L4) | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 12b | Load Balancers Advanced — CLB vs Gateway LB | 🟡 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | CloudFront Basics — origins, edge caching | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

@@ -9,13 +9,13 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 4 | Open vs closed models — Llama, Mistral, Claude, GPT, Gemini | 🟠 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Prompt engineering — system prompts, few-shot, CoT, structured output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
+| 5 | Prompt engineering — system prompts, few-shot, CoT, structured output  (Basic concept only)| 🟠 💼 🆕 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
 | 6 | Function calling / tool use | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Claude / OpenAI function calling — define a tool schema, call API, parse tool response, return result (30 min) |
 | 7 | Streaming responses, token-by-token UX | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Caching strategies for LLM calls (prompt caching, semantic caching) | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Embeddings — what they are, similarity metrics | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | Embeddings — what they are, similarity metrics  (Basic concept only)| 🟠 💼 🆕 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Hybrid search — BM25 + vector | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -25,7 +25,7 @@
 | 19 | ReAct pattern, function calling for tools | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Multi-step agents — when to use, when not | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | MCP (Model Context Protocol) — what it is, how servers / clients work, why it standardizes tool access | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Building MCP servers (your future leverage) | 🟠 💼 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
+| 22 | Building MCP servers (your future leverage)  (Basic concept only)| 🟠 💼 🆕 | D | 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
 | 25 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
@@ -34,8 +34,7 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~0 hrs (no 🔴 — 🟠 is the baseline here) | ~0 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~40.5 hrs | ~3.7 wk | |
-| Full Part (all items including 🟡) | ~43 hrs | ~3.9 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~40.5 hrs  (Basic concept only)| ~3.7 wk | | 15 min | Full Part (all items including 🟡) | ~43 hrs | ~3.9 wk | |
 
 ## Frequently asked
 

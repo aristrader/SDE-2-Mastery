@@ -12,13 +12,13 @@
 | 2 | Machine coding / LLD — clarify → classes → interfaces → sequence → edge cases (45–90 min) | 🔴 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: 60-min LLD timed mock — pick a problem from `reference/PracticeProblems.md`, run the full clarify→classes→interfaces sequence end-to-end (60 min) |
 | 3 | System design / HLD — requirements → estimates → API → HLD → deep-dive → tradeoffs | 🔴 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: 45-min HLD timed mock — pick a problem from `reference/PracticeProblems.md`, sketch requirements→estimates→API→HLD on paper (45 min) |
 | 4 | Behavioral / leadership — STAR method, prepared stories (have 5–8 ready) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write down 3 STAR stories from your last year (situation → task → action → result + explicit impact) (45 min) |
-| 5 | SDE2 vs SDE3 vs Staff vs Principal — scope of impact, ambiguity tolerance, influence radius | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Promotion criteria at your company — write them down, gap-analyze quarterly | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Hiring manager — motivation, growth, fit | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Peer feedback — solicit early, give precisely | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Visibility compounders — design docs, tech talks, mentoring | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | levels.fyi, Glassdoor, Blind — compensation benchmarks | 🟠 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Negotiation basics — competing offers, signing bonus, RSU cliffs and vesting | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 5 | SDE2 vs SDE3 vs Staff vs Principal — scope of impact, ambiguity tolerance, influence radius (Basic concept only) | 🔴 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | Promotion criteria at your company — write them down, gap-analyze quarterly (Basic concept only) | 🔴 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | Hiring manager — motivation, growth, fit (Basic concept only) | 🟠 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 10 | Peer feedback — solicit early, give precisely (Basic concept only) | 🟠 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Visibility compounders — design docs, tech talks, mentoring (Basic concept only) | 🟠 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | levels.fyi, Glassdoor, Blind — compensation benchmarks (Basic concept only) | 🟠 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 13 | Negotiation basics — competing offers, signing bonus, RSU cliffs and vesting (Basic concept only) | 🟠 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 

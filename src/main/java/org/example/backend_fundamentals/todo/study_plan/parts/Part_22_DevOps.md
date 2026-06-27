@@ -6,7 +6,6 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 3 | Dockerfile optimization — multi-stage builds, distroless, layer caching | 🔴 💼 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: Multi-stage covered; cache/distroless pending | 📖 `devops_deployment/docker/Docker_Basics.md` · 💻 Warm-up: write a 2-stage Dockerfile for a Spring app with layer caching for deps (30 min) |
 | 3b | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered | |
 | 5 | Terraform — providers, state, modules, workspaces | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write Terraform that provisions an S3 bucket with versioning + lifecycle, apply + destroy (30 min) |

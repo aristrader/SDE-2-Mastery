@@ -6,19 +6,17 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | PII classification & tagging (data inventory is the first step) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Data minimization — collect only what's needed; question every field | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | PII classification & tagging (data inventory is the first step) (Basic concept only) | 🔴 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Data minimization — collect only what's needed; question every field (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Audit logs — what / when / who; tamper-evident storage | 🔴 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
 | 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🔴 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
 | 6 | Retention policies enforced in code, not just in docs | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Data localization & residency requirements | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Tokenization vs encryption — when each fits | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | Data localization & residency requirements (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | Tokenization vs encryption — when each fits (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Pseudonymization, anonymization, k-anonymity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Privacy by design, DPIA | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | SOC 2 & ISO 27001 backend readiness — audit logging, evidence collection, control mapping | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Pseudonymization, anonymization, k-anonymity (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
@@ -83,15 +81,7 @@ flowchart LR
    - **Why asked:** KYC platform must support these. (1) Right to access: user can request copy of their data — typically <30 days. (2) Right to erasure (right to be forgotten): delete on request — except where retention is legally required. (3) Right to portability: machine-readable export. (4) Right to rectification: correct inaccurate data. (5) Right to object: opt out of certain processing.
 2. **Q:** Walk through right-to-be-forgotten implementation in a KYC context.
    - **Why asked:** Hard real-world implementation. KYC has tension: GDPR right to erasure vs AML retention requirement (typically 5-7 years). Resolution: erasure scope is limited to non-required data. Document categories: account data (deletable), KYC verification artifacts (retained for AML), audit logs (retained per regulator). Document the legal basis for retention. Right pattern: soft-delete + cascade + audit trail.
-3. **Q:** Encryption at rest — where exactly?
-   - **Why asked:** Defense-in-depth check. (1) Object store (S3) — SSE-KMS. (2) DB volumes — RDS encryption. (3) DB column-level for super-sensitive (PII like SSN, document images). (4) Backups — encrypted snapshots. (5) Logs — if they contain PII (and they shouldn't, but if). Tip: every hop, every store, with envelope encryption + KMS.
-4. **Q:** Processor vs controller — your KYC platform is which?
-   - **Why asked:** Senior-canonical GDPR distinction. Controller: decides why + how data is processed (your partner bank is controller). Processor: processes on behalf of controller (your KYC platform is processor for the bank). DPA (Data Processing Agreement) defines the relationship. Processor obligations: only process as instructed, security, sub-processor notice, breach notification.
-5. **Q:** PCI-DSS scope reduction strategies.
-   - **Why asked:** If KYC touches card data. The CDE (Cardholder Data Environment) attracts compliance scope. Reduction strategies: (1) Tokenization — replace PAN with token, isolating the CDE to the tokenizer. (2) Outsource to PCI-compliant payment processor (Stripe, Adyen) — they're CDE, you're not. (3) Network segmentation — CDE in isolated subnet, strict ACLs. (4) Don't store card data at all.
-6. **Q:** SOC 2 Type I vs Type II — what's the difference?
-   - **Why asked:** B2B SaaS canonical. Type I: point-in-time audit — controls are in place AT this moment. Type II: extended audit (6-12 months) — controls are in place AND operating effectively over time. Type II is more rigorous + more valuable to enterprise customers. Most KYC platforms aim for Type II.
-7. **Q:** Audit logs — what makes them tamper-evident?
+3. **Q:** Audit logs — what makes them tamper-evident?
    - **Why asked:** Compliance hard requirement. Tamper-evident options: (1) Append-only storage (no DELETE / UPDATE permissions on the log table). (2) Hash chain — each log entry includes hash of previous (Merkle-tree-ish). (3) Write to immutable storage (S3 Object Lock, CloudTrail with log file integrity validation). (4) Separate-system witness (sign each entry with a different system's key).
 
 ## Trick questions / gotchas
@@ -102,16 +92,14 @@ flowchart LR
    - **Gotcha:** Backups must be in scope of erasure too — OR you must commit to not restoring those records back into prod. Common approaches: (1) re-apply erasure after restore, (2) rolling backup retention (older backups expire automatically), (3) document the technical limitation in your privacy notice.
 3. **Q:** Your audit log records "user X read document Y at time Z." Compliance asks for "who deleted document Y." You can't answer. Why?
    - **Gotcha:** Audit log was only on reads, not writes. Mistake. Audit logs need to cover ALL state-changing operations, with who/what/when/why. Senior signal: design the audit log requirements at feature inception, not retrofitted after compliance asks.
-4. **Q:** Your KYC platform stores Indonesian KYC data in AWS-SG. OJK auditor asks why data isn't in Indonesia. What's your defense?
-   - **Gotcha:** Data localization. OJK requires Indonesian KYC data to stay in Indonesia. AWS-SG is Singapore, NOT Indonesia. Defense: there isn't one if you're storing it there. Mitigations: move to DC-JKT or AWS Jakarta region (when it became available), accept the regulatory finding. Document the architectural change.
+
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
 - **GDPR data subject rights end-to-end for KYC** (~3 hrs rows 1+14) — directly job-relevant. Implementation patterns for each right within KYC retention constraints.
 - **Audit log design for KYC platform** (~2.5 hrs row 13) — tamper-evident, regulator-queryable, performance-aware. Critical for KYC.
 - **Data residency enforcement in code** (~2 hrs row 20) — KYC platform across DC-JKT + AWS-SG. How code prevents cross-region data leak. Tenant-pinning logic.
-- **SOC 2 + ISO 27001 readiness** (~3 hrs combined rows 18+22) — for B2B partner contracts. Control mappings, evidence collection, audit prep.
-- **SEA regulator coverage map** (~3 hrs combined rows 3+4+5+6+7) — OJK + BI + MAS + Singapore PDPA + Malaysia PDPA. Build a single matrix mapping each regulator to: data localization, retention, breach notification, DPO requirement, transfer rules.
+
 
 ## Hands-on exercises (Practice + Advanced)
 
@@ -143,23 +131,13 @@ Warm-up exercises are listed inline in the topic-table Resources column (counted
 **Q. GDPR data subject rights — name 4.**
 A. Access (copy of data), erasure (right to be forgotten), portability (machine-readable export), rectification (correct inaccurate). Plus: object to processing, restrict processing.
 
-**Q. Processor vs controller?**
-A. Controller decides why + how data is processed. Processor processes on the controller's behalf per a DPA. Your KYC platform is processor for partner banks (controllers).
 
 **Q. Right-to-be-forgotten in KYC — tension?**
 A. GDPR erasure vs AML retention (typically 5-7 years). Resolution: erase non-required data, retain regulatory-required data, document legal basis.
 
-**Q. Encryption at rest — where exactly?**
-A. Object store (S3 + SSE-KMS), DB volumes (RDS encryption), DB column-level for super-sensitive, backups (encrypted snapshots), logs (if they contain PII).
 
-**Q. SOC 2 Type I vs Type II?**
-A. Type I: controls in place at a point in time. Type II: controls in place AND operating effectively over 6-12 months. Type II is more valuable to enterprise customers.
 
 **Q. Audit log — what makes it tamper-evident?**
 A. Append-only (no DELETE/UPDATE perms), hash chain linking entries, immutable storage (S3 Object Lock), or external witness signing each entry. Defense in depth.
 
-**Q. SEA regulators most relevant to a KYC platform?**
-A. OJK (Indonesia banking), BI (Indonesia payment systems), MAS (Singapore financial), PDPC (Singapore data protection), Personal Data Protection Department (Malaysia), BSP (Philippines).
 
-**Q. Breach notification timelines?**
-A. GDPR: 72 hours to supervisory authority + without undue delay to data subjects (if high risk). OJK: typically 1×24 hours for material incidents. MAS: 1 hour for critical incidents.

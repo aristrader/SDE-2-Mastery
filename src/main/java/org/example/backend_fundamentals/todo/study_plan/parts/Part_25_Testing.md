@@ -68,7 +68,6 @@
 - **Spring slice tests + TestContainers integration tests** (~3 hrs combined rows 4 + 12) — modern Spring testing stack. @WebMvcTest for controllers, TestContainers for repositories, full @SpringBootTest sparingly.
 - **Contract testing with Pact** (~3 hrs row 13) — KYC platform is multi-service. Consumer-driven contracts catch cross-service breaks. Worth the setup investment.
 - **Test discipline + naming + AAA** (~2 hrs combined rows 6-9) — get the team to write maintainable tests. Soft skill but high leverage for codebase quality.
-- **Load testing setup with k6** (~2 hrs row 10) — cross-ref Part 8. Reproducible scripts in git; tied to CI for regression catching.
 
 ## Hands-on exercises (Practice + Advanced)
 
@@ -82,8 +81,7 @@ Warm-up testing exercises are listed inline in the topic-table Resources column 
 
 ### Advanced — senior-grade depth (~60+ min each)
 
-4. **k6 load test pipeline** (~75 min) — write a k6 script that ramps to 100 VUs over 30s, sustains 2 min, ramps down. Capture p50/p95/p99. Run against local Spring Boot service. Tie into CI (artifact upload of results).
-5. **Chaos engineering experiment** (~90 min) — pick a non-prod service. Inject latency on one downstream dependency (via WireMock or container CPU throttling). Verify circuit breaker activates. Document expected vs observed behavior.
+4. **Chaos engineering experiment** (~90 min) — pick a non-prod service. Inject latency on one downstream dependency (via WireMock or container CPU throttling). Verify circuit breaker activates. Document expected vs observed behavior.
 
 ### Hands-on time summary (Practice + Advanced only)
 

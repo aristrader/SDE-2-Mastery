@@ -9,9 +9,9 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | KYC flow archetypes — collection → verification → screening → decision | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | eKYC vs in-person vs hybrid flows | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | eKYC vs in-person vs hybrid flows (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Multi-step verification state machine — operations × components × statuses | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch your current `kyc_status` state machine on paper — states, transitions, terminal vs non-terminal (30 min) |
 | 6 | Step ordering — strict vs non-linear; tradeoffs (you chose non-linear) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Source-of-truth separation — required ops from flow config, history from attempts table | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -28,19 +28,19 @@
 | 28 | Ordering — per-resource ordering vs "out-of-order safe" event design | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 29 | Per-partner endpoint health tracking, per-partner circuit breaker | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | SSRF protection — URL allowlist, blocked IP ranges, no-follow redirects | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 31 | mTLS to partner endpoints (regulated banking) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 17 PKI) |
+
 | 32 | Polling fallback (`GET /verify/status`, your current model) for partners who can't accept webhooks | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | Webhook event schema versioning | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Per-tenant SLAs, monitoring, alerting | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Noisy-neighbor isolation — connection pools, thread budgets, downstream quotas | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 36 | Per-tenant audit logs — billing dispute resolution + compliance | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Outbox + CDC for reliable webhook publishing | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 13) |
-| 38 | EventBridge / SNS as fan-out hub for multi-subscriber events | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 38 | EventBridge / SNS as fan-out hub for multi-subscriber events (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 39 | Tenant offboarding — data export, deletion guarantees | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 40 | Tenant-scoped feature flags (different rollouts per partner) | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 41 | Cell-based architecture (advanced isolation pattern) | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 42 | ONNX for model interoperability | 🟡 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 43 | GPU vs CPU inference economics; batching strategies | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 41 | Cell-based architecture (advanced isolation pattern) (Basic concept only) | 🟡 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 42 | ONNX for model interoperability (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 43 | GPU vs CPU inference economics; batching strategies (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 44 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
 | 45 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
@@ -137,9 +137,7 @@ stateDiagram-v2
 
 1. **Q:** Walk through the end-to-end KYC flow from SDK launch to partner notification.
    - **Why asked:** Most senior-canonical KYC question. Sequence: session start (token + flow config) → document capture + upload → OCR / quality / forgery checks → liveness capture → face match (often piggybacked with liveness reference) → sanctions / PEP screening → status aggregation → partner notification (webhook or polling). Each hop has its own failure mode and retry semantics.
-2. **Q:** IAL2 vs IAL3 — what's the difference?
-   - **Why asked:** NIST 800-63 standard. IAL2: remote identity proofing with strong evidence (e.g., gov-issued ID + biometric match) — your eKYC sits here. IAL3: in-person or supervised remote, with stronger evidence verification — rarely used in B2C SaaS. AAL (authentication assurance) is the runtime-auth sibling: AAL1 single-factor, AAL2 MFA, AAL3 hardware-backed.
-3. **Q:** What's PACE in passport NFC reading and why was it introduced over BAC?
+2. **Q:** What's PACE in passport NFC reading and why was it introduced over BAC?
    - **Why asked:** Document-verification depth. BAC (Basic Access Control) derives keys from MRZ — weak entropy, brute-forceable offline. PACE (Password Authenticated Connection Establishment) is a stronger key-agreement protocol — resistant to offline attacks. ICAO mandates PACE on newer e-passports; BAC remains for backward compatibility.
 4. **Q:** APCER vs BPCER vs ACER — define each and which you optimize.
    - **Why asked:** PAD literacy. APCER (Attack Presentation Classification Error Rate): % of attacks accepted as bona-fide — security risk. BPCER (Bona-fide Presentation Classification Error Rate): % of real users rejected — UX risk. ACER: average of the two. KYC optimizes for low APCER first (security), then tunes BPCER for UX.
@@ -257,7 +255,6 @@ Practice answering these out loud, fluently, in under 2 minutes each. If you stu
 
 ### Domain depth — what interviewers want to hear from a senior
 
-40. Difference between IAL2 and IAL3?
 41. What's APCER vs BPCER? Why is ACER reported?
 42. What's PACE in passport NFC reading, and why was it introduced over BAC?
 43. What's a face embedding? How does the matcher actually compare two faces?
@@ -278,9 +275,6 @@ Practice answering these out loud, fluently, in under 2 minutes each. If you stu
 55. Design a sanctions-screening service with millions of names and continuous list updates.
 
 ## Quick recall
-
-**Q. IAL2 vs IAL3?**
-A. IAL2 is remote identity proofing with strong evidence (gov ID + biometric) — your eKYC sits here. IAL3 is in-person or supervised-remote with stronger evidence verification. AAL is the runtime-auth sibling.
 
 **Q. PACE vs BAC?**
 A. BAC derives keys from MRZ — weak, offline-brute-forceable. PACE is a stronger key-agreement protocol — offline-attack-resistant. ICAO mandates PACE on newer e-passports.

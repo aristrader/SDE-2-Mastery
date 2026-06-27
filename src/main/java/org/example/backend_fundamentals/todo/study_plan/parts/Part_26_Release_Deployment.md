@@ -6,15 +6,15 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Blue-green deployment — atomic traffic switch | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | (Cross-ref Part 22 deployments)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 2 | Canary release — small % first, gradual rollout | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 3 | Rolling deployment — replace instances gradually | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
+| 1 | Blue-green deployment — atomic traffic switch (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | (Cross-ref Part 22 deployments)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
+| 2 | Canary release — small % first, gradual rollout (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
+| 3 | Rolling deployment — replace instances gradually (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
 | 4 | Feature flags / toggles — release ≠ launch | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 💻 Warm-up: simple feature flag via Spring `@ConfigurationProperties` + conditional bean; flip flag, reload app, observe behavior change (15 min)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
 | 5 | Backward-compatible API changes — add fields, never remove or rename | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
 | 6 | Backward-compatible DB changes — expand / contract (add → migrate → switch → remove) | 🔴 💼 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~30 min | 💻 Warm-up: walk through renaming `username → user_name` via expand-contract (add new col, dual-write, backfill, switch reads, drop old) on paper (30 min)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
 | 7 | Rollback strategy for every change (incl. data migrations — hardest) | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 8 | Dark launches — code deployed but disabled | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Shadow traffic — mirror prod to new service silently to compare | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | Dark launches — code deployed but disabled (Basic concept only) | 🟠 💼 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | Shadow traffic — mirror prod to new service silently to compare (Basic concept only) | 🟠 💼 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Semantic versioning | 🟠 💼 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
@@ -64,7 +64,6 @@
 - **Expand-contract DB migration end-to-end** (~3 hrs row 6) — the senior-canonical safe migration. Walk through it for a real KYC schema change.
 - **Rollback strategy for data migrations** (~2.5 hrs row 7) — hardest case. Document patterns: shadow tables, accept-forward, PITR.
 - **Feature flag architecture for KYC platform** (~2.5 hrs row 4) — kill switches per partner, gradual rollouts for new verification logic, A/B testing on UX.
-- **Canary release + metric gating** (~2 hrs row 2) — define which metrics gate promotion, the watch window, auto-rollback policy.
 
 ## Hands-on exercises (Practice + Advanced)
 
@@ -78,8 +77,7 @@ Warm-up release exercises are listed inline in the topic-table Resources column 
 
 ### Advanced — senior-grade depth (~60+ min each)
 
-4. **Canary deploy with metric gating** (~75 min) — K8s deployment with two ReplicaSets (canary + stable). Argo Rollouts or Flagger config. Define metric gates (error rate, latency). Promote canary based on metrics. Auto-rollback on regression.
-5. **Multi-version compatibility test** (~90 min) — deploy old + new versions side-by-side. Send requests to both. Use a feature flag to route 50/50. Verify both versions handle each other's data correctly (e.g., new version reads old serialized cache, old version reads new).
+4. **Multi-version compatibility test** (~90 min) — deploy old + new versions side-by-side. Send requests to both. Use a feature flag to route 50/50. Verify both versions handle each other's data correctly (e.g., new version reads old serialized cache, old version reads new).
 
 ### Hands-on time summary (Practice + Advanced only)
 
