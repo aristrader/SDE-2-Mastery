@@ -10,15 +10,12 @@
 | 2 | ABAC — attribute-based, policies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
 | 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | ACL — direct permissions on resources | 🔴 💼 🔐 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/OAuth_JWT_APIKeys.md` |
 | 7 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
 | 9 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Method-level + URL-level + data-level authorization — defense in depth | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Audit logging of authz decisions — who tried to access what, when, denied or allowed | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Permission caching + TTL — authz checks per request are expensive; how to cache safely | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Step-up authentication for sensitive ops | 🟠 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
@@ -82,8 +79,6 @@ flowchart LR
    - **Why asked:** Defense in depth. All three: (1) URL-level (filter / middleware) — coarse-grained "logged in, has role". (2) Method-level (`@PreAuthorize` in Spring) — fine-grained "this method needs permission X". (3) Data-level (RLS or `WHERE tenant_id=...`) — last line, catches bugs in code above. One layer can't be trusted alone.
 5. **Q:** OPA / Rego — when does PBAC make sense?
    - **Why asked:** Modern authorization. PBAC: externalized policy engine, declarative rules. Worth it when (1) policies change frequently (without redeploy), (2) policies span multiple services (consistent across), (3) compliance / audit needs explicit policy documents. Caveats: latency (network hop), policy debugging complexity.
-6. **Q:** Step-up authentication — what is it, when do you trigger?
-   - **Why asked:** Modern UX security. Same user, but elevated MFA required for sensitive operations (e.g., add payment method, change password, large transaction). Triggered: based on risk score (new device, new location, unusual time, high-value action). Implemented via re-prompt + ACR claim in OIDC.
 7. **Q:** Your KYC platform has tenant + agent users + admin users. Design the RBAC model.
    - **Why asked:** Domain application. Tenant (bank): users who belong to a partner bank. Roles: TenantAdmin (manage bank settings), TenantAgent (process verifications), TenantViewer (read-only). Cross-tenant: PlatformAdmin (your team). Implementation: JWT carries `tenant_id` + `roles[]` claims. Authorization checks both.
 
@@ -146,11 +141,7 @@ A. Authorization bypass where the request includes a resource ID and the server 
 **Q. @PreAuthorize on private method — does it work?**
 A. No — same Spring AOP proxy gotcha as @Transactional/@Async. Private method calls bypass the proxy. Use public methods or AspectJ weaving.
 
-**Q. Step-up auth — when triggered?**
-A. Risk-based: new device, new location, unusual time, sensitive operation. Re-prompts user for stronger factor (MFA / WebAuthn). ACR claim in OIDC carries the auth context level reached.
 
 **Q. Spring SecurityFilterChain — order of the key default filters?**
 A. `SecurityContextPersistenceFilter` → `BearerTokenAuthenticationFilter` (or `UsernamePasswordAuthenticationFilter`) → `ExceptionTranslationFilter` → `AuthorizationFilter` (formerly `FilterSecurityInterceptor`). Authentication populates `SecurityContext`; authorization reads from it. `@PreAuthorize` runs *after* the filter chain via method-level AOP proxy, not inside the chain.
 
-**Q. Audit log of authz decisions — what must each entry capture?**
-A. who (subject ID + tenant), what (resource ID + action), when (timestamp + request ID), decision (allow/deny), reason (which rule/role/policy fired), context (IP, user agent, ACR). Log both allows and denies — denies for security, allows for compliance/forensics. Append-only, immutable storage; deny logs trigger alerting beyond a per-user threshold.
