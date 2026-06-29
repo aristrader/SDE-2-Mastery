@@ -12,6 +12,9 @@ hero:
       text: "Design Patterns"
       link: "/design_patterns/"
 features:
+  - title: "5-Phase Plan"
+    details: "The actionable 5-Phase study plan checklist."
+    link: "/phases/"
   - title: "Study Plan"
     details: "The 32-Part execution map and weekly schedule."
     link: "/todo/study_plan/README"

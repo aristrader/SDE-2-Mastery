@@ -1,16 +1,17 @@
-C++ → Java Transition Cheat Sheet (SDE-2 Backend Interviews)
+# C++ → Java Transition Cheat Sheet (SDE-2 Backend Interviews)
 
-Goal: Bridge existing C++ DSA knowledge to Java for coding interviews. Focus only on high-frequency interview APIs, syntax, and patterns.
+> Goal: Bridge existing C++ DSA knowledge to Java for coding interviews. Focus only on high-frequency interview APIs, syntax, and patterns.
 
-1. Program Skeleton
-C++
+## 1. Program Skeleton
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 
 int main() {
 
 }
-Java
+```
+```java
 import java.util.*;
 
 public class Main {
@@ -25,17 +26,19 @@ LeetCode:
 class Solution {
 
 }
-2. Primitive Types
-C++	Java
-int	int
-long long	long
-float	float
-double	double
-bool	boolean
-char	char
-string	String
+```
+## 2. Primitive Types
+| C++ | Java |
+|---|---|
+| int | int |
+| long long | long |
+| float | float |
+| double | double |
+| bool | boolean |
+| char | char |
+| string | String |
 
-Useful String APIs
+### Useful String APIs
 
 s.length();
 
@@ -51,27 +54,29 @@ s.equals(other);
 
 Never compare Strings using ==.
 
-3. Arrays
-C++
+## 3. Arrays
+```cpp
 int arr[10];
 
 vector<int> nums;
-Java
+```
+```java
 int[] arr = new int[10];
 
 int[] nums = {1,2,3};
+```
 
-Length
+### Length
 
 arr.length
 
-Loop
+### Loop
 
-for(int i=0;i<arr.length;i++){
+`for(int i=0;i<arr.length;i++){`
 
 }
-4. Vector ↔ ArrayList
-C++
+## 4. Vector ↔ ArrayList
+```cpp
 vector<int> v;
 
 v.push_back(x);
@@ -81,7 +86,8 @@ v.pop_back();
 v.back();
 
 v.size();
-Java
+```
+```java
 ArrayList<Integer> list = new ArrayList<>();
 
 list.add(x);
@@ -91,8 +97,9 @@ list.remove(list.size()-1);
 list.get(list.size()-1);
 
 list.size();
+```
 
-Remember
+### Remember
 
 Collections store wrapper classes.
 
@@ -100,8 +107,8 @@ int
 ↓
 
 Integer
-5. Pair & Common Interview Patterns
-C++
+## 5. Pair & Common Interview Patterns
+```cpp
 pair<int,int>
 
 Java has no built-in Pair.
@@ -118,24 +125,25 @@ class Pair{
     int second;
 
 }
+```
 
-Very common:
+### Very common:
 
-vector<pair<int,int>>
+`vector<pair<int,int>>`
 
 ↓
 
-List<int[]> edges = new ArrayList<>();
+`List<int[]> edges = new ArrayList<>();`
 
 edges.add(new int[]{u, w});
 
 int node = edges.get(i)[0];
 int weight = edges.get(i)[1];
-6. Stack
+## 6. Stack
 
-Prefer
+### Prefer
 
-Deque<Integer> st = new ArrayDeque<>();
+`Deque<Integer> st = new ArrayDeque<>();`
 
 st.push(x);
 
@@ -145,11 +153,11 @@ st.peek();
 
 st.isEmpty();
 
-Avoid legacy
+### Avoid legacy
 
 Stack
-7. Queue
-Queue<Integer> q = new LinkedList<>();
+## 7. Queue
+`Queue<Integer> q = new LinkedList<>();`
 
 q.offer(x);
 
@@ -159,17 +167,17 @@ q.peek();
 
 q.isEmpty();
 
-Level-order BFS pattern
+### Level-order BFS pattern
 
 int size = q.size();
 
-for(int i=0;i<size;i++){
+`for(int i=0;i<size;i++){`
 
     int node = q.poll();
 
 }
-8. Deque
-Deque<Integer> dq = new ArrayDeque<>();
+## 8. Deque
+`Deque<Integer> dq = new ArrayDeque<>();`
 
 dq.addFirst(x);
 
@@ -182,33 +190,33 @@ dq.pollLast();
 dq.peekFirst();
 
 dq.peekLast();
-9. Priority Queue (Heap)
-Min Heap
-PriorityQueue<Integer> pq =
-    new PriorityQueue<>();
-Max Heap
-PriorityQueue<Integer> pq =
-    new PriorityQueue<>(Collections.reverseOrder());
-Custom Comparator
+## 9. Priority Queue (Heap)
+### Min Heap
+`PriorityQueue<Integer> pq =`
+    `new PriorityQueue<>();`
+### Max Heap
+`PriorityQueue<Integer> pq =`
+    `new PriorityQueue<>(Collections.reverseOrder());`
+### Custom Comparator
 
-Preferred
+### Preferred
 
-PriorityQueue<int[]> pq =
-    new PriorityQueue<>(
+`PriorityQueue<int[]> pq =`
+    `new PriorityQueue<>(`
         (a,b) -> Integer.compare(a[1], b[1])
     );
 
-Avoid
+### Avoid
 
 a[1]-b[1]
 
 because of integer overflow.
 
-10. HashMap
-HashMap<Integer,Integer> map =
-    new HashMap<>();
+## 10. HashMap
+`HashMap<Integer,Integer> map =`
+    `new HashMap<>();`
 
-Operations
+### Operations
 
 map.put(k,v);
 
@@ -222,18 +230,18 @@ map.remove(k);
 
 map.size();
 
-Iteration
+### Iteration
 
-for(Map.Entry<Integer,Integer> e
+`for(Map.Entry<Integer,Integer> e`
         : map.entrySet()){
 
     int key = e.getKey();
 
     int val = e.getValue();
 }
-11. HashSet
-HashSet<Integer> set =
-    new HashSet<>();
+## 11. HashSet
+`HashSet<Integer> set =`
+    `new HashSet<>();`
 
 set.add(x);
 
@@ -242,12 +250,13 @@ set.remove(x);
 set.contains(x);
 
 set.size();
-12. Ordered Map / Set
-C++	Java
-map	TreeMap
-set	TreeSet
+## 12. Ordered Map / Set
+| C++ | Java |
+|---|---|
+| map | TreeMap |
+| set | TreeSet |
 
-Useful methods
+### Useful methods
 
 ceilingKey()
 
@@ -260,60 +269,60 @@ lowerKey()
 firstKey()
 
 lastKey()
-13. Graph Representation
+## 13. Graph Representation
 
-Adjacency List
+### Adjacency List
 
-vector<vector<int>>
+`vector<vector<int>>`
 
 ↓
 
-List<List<Integer>> graph =
-    new ArrayList<>();
+`List<List<Integer>> graph =`
+    `new ArrayList<>();`
 
-for(int i=0;i<n;i++)
-    graph.add(new ArrayList<>());
+`for(int i=0;i<n;i++)`
+    `graph.add(new ArrayList<>());`
 
-Edge
+### Edge
 
 graph.get(u).add(v);
 
-Weighted graph
+### Weighted graph
 
-List<List<int[]>> graph;
+`List<List<int[]>> graph;`
 
 Each edge
 
 {neighbor, weight}
 
-Dynamic graph using HashMap
+### Dynamic graph using HashMap
 
-Map<Integer,List<Integer>> graph =
-    new HashMap<>();
+`Map<Integer,List<Integer>> graph =`
+    `new HashMap<>();`
 
 graph.computeIfAbsent(
     u,
-    k -> new ArrayList<>()
+    `k -> new ArrayList<>()`
 ).add(v);
-14. 2D Arrays vs List<List<Integer>>
+## 14. 2D Arrays vs `List<List<Integer>>`
 
-Fixed grid
+### Fixed grid
 
-vector<vector<int>>
+`vector<vector<int>>`
 
 ↓
 
 int[][] grid;
 
-Dynamic adjacency list
+### Dynamic adjacency list
 
-List<List<Integer>> graph;
+`List<List<Integer>> graph;`
 
-Use
+### Use
 
 int[][] for matrices
-List<List<Integer>> for graphs
-15. Tree Node
+`List<List<Integer>> for graphs`
+## 15. Tree Node
 class TreeNode{
 
     int val;
@@ -326,7 +335,7 @@ class TreeNode{
         this.val = val;
     }
 }
-16. Linked List Node
+## 16. Linked List Node
 class ListNode{
 
     int val;
@@ -338,9 +347,9 @@ class ListNode{
         val = x;
     }
 }
-17. BFS
-Queue<Integer> q =
-    new LinkedList<>();
+## 17. BFS
+`Queue<Integer> q =`
+    `new LinkedList<>();`
 
 boolean[] vis =
     new boolean[n];
@@ -361,7 +370,7 @@ while(!q.isEmpty()){
         }
     }
 }
-18. DFS
+## 18. DFS
 void dfs(int node){
 
     vis[node]=true;
@@ -373,13 +382,13 @@ void dfs(int node){
             dfs(nei);
     }
 }
-19. Sorting
+## 19. Sorting
 
-Arrays
+### Arrays
 
 Arrays.sort(arr);
 
-ArrayList
+### ArrayList
 
 Collections.sort(list);
 
@@ -407,16 +416,16 @@ Multiple fields
 
     return Integer.compare(a[1],b[1]);
 }
-20. Binary Search
+## 20. Binary Search
 
 Manual implementation is preferred during interviews.
 
-Library
+### Library
 
 Arrays.binarySearch(arr,target);
-21. Strings & Characters
+## 21. Strings & Characters
 
-Characters
+### Characters
 
 c-'0'
 
@@ -430,7 +439,7 @@ Character.toUpperCase(c)
 
 Character.toLowerCase(c)
 
-Mutable strings
+### Mutable strings
 
 StringBuilder sb =
     new StringBuilder();
@@ -441,15 +450,15 @@ sb.reverse();
 
 sb.toString();
 
-Avoid
+### Avoid
 
 ans += c;
 
 inside loops.
 
-22. Useful Utility APIs
+## 22. Useful Utility APIs
 
-Arrays
+### Arrays
 
 Arrays.fill(arr,-1);
 
@@ -459,7 +468,7 @@ Arrays.toString(arr);
 
 Arrays.deepToString(grid);
 
-Collections
+### Collections
 
 Collections.max(list);
 
@@ -469,7 +478,7 @@ Collections.reverse(list);
 
 Collections.swap(list,i,j);
 
-Math
+### Math
 
 Math.max(a,b);
 
@@ -485,7 +494,7 @@ Math.ceil(x);
 
 Math.floor(x);
 
-Conversions
+### Conversions
 
 Integer.parseInt(s);
 
@@ -494,21 +503,21 @@ Long.parseLong(s);
 String.valueOf(x);
 
 Integer.toString(x);
-23. Arrays.asList() vs List.of()
-Arrays.asList()
+## 23. Arrays.asList() vs List.of()
+### Arrays.asList()
 
 Returns a fixed-size list.
 
-List.of()
+### List.of()
 
 Returns an immutable list.
 
-Need a modifiable list?
+### Need a modifiable list?
 
-new ArrayList<>(Arrays.asList(...))
-24. Enhanced For Loop
+`new ArrayList<>(Arrays.asList(...))`
+## 24. Enhanced For Loop
 
-Vector
+### Vector
 
 for(auto x : v)
 
@@ -516,18 +525,18 @@ for(auto x : v)
 
 for(int x : list)
 
-Map
+### Map
 
-for(Map.Entry<Integer,Integer> e
+`for(Map.Entry<Integer,Integer> e`
         : map.entrySet())
-25. Common Pitfalls
-Collections use wrapper classes
+## 25. Common Pitfalls
+### Collections use wrapper classes
 Integer
 
 Long
 
 Character
-String comparison
+### String comparison
 
 ❌
 
@@ -536,36 +545,36 @@ String comparison
 ✅
 
 equals()
-Arrays
+### Arrays
 length
-ArrayList
+### ArrayList
 size()
-Queue
+### Queue
 offer()
 
 poll()
 
 peek()
-HashMap
+### HashMap
 
-Prefer
+### Prefer
 
 map.getOrDefault(key,0);
 
 instead of
 
 map.get(key);
-Integer Overflow
+### Integer Overflow
 
-Use
+### Use
 
 long
 
 when needed.
 
-Comparator
+### Comparator
 
-Prefer
+### Prefer
 
 Integer.compare()
 
@@ -573,40 +582,41 @@ Long.compare()
 
 instead of subtraction.
 
-Array Initialization
+### Array Initialization
 int[] arr =
     new int[n];
 
 Defaults to
 
 0
-NullPointerException
+### NullPointerException
 
-Remember
+### Remember
 
 map.get(key)
 
 may return
 
 null
-26. C++ STL ↔ Java Collections Mapping
-C++ STL	Java
-vector	ArrayList
-unordered_map	HashMap
-map	TreeMap
-unordered_set	HashSet
-set	TreeSet
-queue	Queue (LinkedList)
-deque	ArrayDeque
-stack	ArrayDeque
-priority_queue	PriorityQueue
-pair	int[] / custom Pair
-string	String
-string builder	StringBuilder
-sort	Arrays.sort / Collections.sort
-lower_bound	Manual Binary Search
-upper_bound	Manual Binary Search
-27. The 90% Interview Toolkit
+## 26. C++ STL ↔ Java Collections Mapping
+| C++ STL | Java |
+|---|---|
+| vector | ArrayList |
+| unordered_map | HashMap |
+| map | TreeMap |
+| unordered_set | HashSet |
+| set | TreeSet |
+| queue | Queue (LinkedList) |
+| deque | ArrayDeque |
+| stack | ArrayDeque |
+| priority_queue | PriorityQueue |
+| pair | int[] / custom Pair |
+| string | String |
+| string builder | StringBuilder |
+| sort | Arrays.sort / Collections.sort |
+| lower_bound | Manual Binary Search |
+| upper_bound | Manual Binary Search |
+## 27. The 90% Interview Toolkit
 
 These are the only classes you'll use for the vast majority of SDE-2 coding interviews:
 
@@ -615,8 +625,8 @@ import java.util.*;
 int[]
 int[][]
 
-ArrayList
-HashMap
+### ArrayList
+### HashMap
 HashSet
 TreeMap
 TreeSet
@@ -625,9 +635,9 @@ ArrayDeque
 LinkedList
 PriorityQueue
 
-Arrays
-Collections
+### Arrays
+### Collections
 StringBuilder
-Math
+### Math
 
 If you're already comfortable solving DSA problems in C++, mastering the APIs and patterns above is enough to write clean, idiomatic Java solutions for almost every LeetCode-style interview question.

@@ -44,6 +44,7 @@ export default withMermaid({
       { text: 'Engineering Practice', link: '/engineering_practice/' },
       { text: 'Deployments', link: '/deployments/' },
       { text: 'Performance', link: '/performance/' },
+      { text: 'Phases', link: '/phases/' },
       { text: 'Resources', link: '/resources' },
     ],
     search: { provider: 'local' },
@@ -61,6 +62,7 @@ export default withMermaid({
       { ...commonSidebarConfig, scanStartPath: 'engineering_practice', resolvePath: '/engineering_practice/' },
       { ...commonSidebarConfig, scanStartPath: 'deployments', resolvePath: '/deployments/' },
       { ...commonSidebarConfig, scanStartPath: 'performance', resolvePath: '/performance/' },
+      { ...commonSidebarConfig, scanStartPath: 'todo/study_plan/phases', resolvePath: '/phases/' },
     ]),
   },
 })
