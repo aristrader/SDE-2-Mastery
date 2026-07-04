@@ -4,30 +4,30 @@
 
 ## Milestone 1 — Java Language Fundamentals
 ### Java Basics
-- [ ] Java compilation pipeline (JDK, JRE, JVM)
-- [ ] Source file structure
-- [ ] Primitive types
-- [ ] Wrapper classes
-- [ ] Variables and scope
-- [ ] Operators
-- [ ] Type casting
-- [ ] Control flow (if/switch/loops)
-- [ ] Methods
-- [ ] Variable arguments (varargs)
-- [ ] Pass-by-value
-- [ ] Arrays
-- [ ] Strings
-- [ ] StringBuilder
-- [ ] Enums
+- [x] Java compilation pipeline (JDK, JRE, JVM)
+- [x] Source file structure
+- [x] Primitive types
+- [x] Wrapper classes
+- [x] Variables and scope
+- [x] Operators
+- [x] Type casting
+- [x] Control flow (if/switch/loops)
+- [x] Methods
+- [x] Variable arguments (varargs)
+- [x] Pass-by-value
+- [x] Arrays
+- [x] Strings
+- [x] StringBuilder
+- [x] Enums
 ## Milestone 2 — Object-Oriented Programming
 ### Classes & Objects
-- [ ] Classes
-- [ ] Objects
-- [ ] Constructors
-- [ ] this
-- [ ] static
-- [ ] final
-- [ ] Access modifiers
+- [x] Classes
+- [x] Objects
+- [x] Constructors
+- [x] this
+- [x] static
+- [x] final
+- [x] Access modifiers
 ### Core OOP
 - [ ] Encapsulation
 - [ ] Inheritance

@@ -12,7 +12,7 @@
 | 3 | GC tuning (G1GC vs ZGC) for latency — pause times vs throughput | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Thread dumps, heap dumps, MAT (Memory Analyzer Tool) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write OOM program, generate heap dump (-XX:+HeapDumpOnOutOfMemoryError), open in MAT, find leak (45 min) |
 | 5 | Profiling tools — async-profiler, JFR, flame graphs | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |
-| 6 | Non-blocking I/O (NIO, epoll, kqueue) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/performance/Spring_WebFlux_Threading_Model.md) |
+| 6 | Non-blocking I/O (NIO, epoll, kqueue) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/spring/spring_web/Spring_WebFlux_Threading_Model.md) |
 | 6 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -22,7 +22,7 @@
 | 11 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/Latency_Throughput_LittlesLaw.md) |
 | 12 | P50 / P90 / P99 / P99.9 latency — tail latency matters more than average | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 Gil Tene — "How NOT to measure latency" (~30 min, canonical) |
 | 13 | Load testing — JMeter, Gatling, k6, Locust | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write k6 script with 10 VUs ramping to 100 over 30s against a local endpoint, read the p95 (30 min) |
-| 14 | Async I/O, non-blocking | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/performance/Spring_WebFlux_Threading_Model.md) |
+| 14 | Async I/O, non-blocking | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/spring/spring_web/Spring_WebFlux_Threading_Model.md) |
 | 18 | Precomputation / materialization | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Read-path optimization (denormalization, fan-out on write) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Write-path optimization (LSM trees, append-only logs) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

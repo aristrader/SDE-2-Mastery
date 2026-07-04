@@ -31,21 +31,30 @@ export default withMermaid({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Study Plan', link: '/todo/study_plan/README' },
-      { text: 'Progress', link: '/progress' },
-      { text: 'Java & JVM', link: '/java/' },
-      { text: 'Spring', link: '/spring/' },
-      { text: 'System Design', link: '/system_design/' },
-      { text: 'Design Patterns', link: '/design_patterns/' },
-      { text: 'Networking', link: '/networking/' },
-      { text: 'Databases', link: '/databases/' },
-      { text: 'Messaging', link: '/messaging/' },
-      { text: 'Security', link: '/security/' },
-      { text: 'Engineering Practice', link: '/engineering_practice/' },
-      { text: 'Deployments', link: '/deployments/' },
-      { text: 'Performance', link: '/performance/' },
-      { text: 'Phases', link: '/phases/' },
-      { text: 'Resources', link: '/resources' },
+      { text: 'Plan & Progress', items: [
+          { text: 'Study Plan', link: '/todo/study_plan/README' },
+          { text: 'Progress', link: '/progress' },
+          { text: 'Phases', link: '/todo/study_plan/phases/' },
+          { text: 'Resources', link: '/resources' }
+      ]},
+      { text: 'Core Backend', items: [
+          { text: 'Java & JVM', link: '/java/' },
+          { text: 'Spring', link: '/spring/' },
+          { text: 'Spring Boot', link: '/spring_boot/' },
+          { text: 'Design Patterns', link: '/design_patterns/' }
+      ]},
+      { text: 'Architecture', items: [
+          { text: 'System Design', link: '/system_design/' },
+          { text: 'Databases', link: '/databases/' },
+          { text: 'Networking', link: '/networking/' },
+          { text: 'Messaging', link: '/messaging/' }
+      ]},
+      { text: 'Ops & Best Practices', items: [
+          { text: 'Security', link: '/security/' },
+          { text: 'Engineering Practice', link: '/engineering_practice/' },
+          { text: 'Deployments', link: '/deployments/' },
+          { text: 'Performance', link: '/performance/' }
+      ]}
     ],
     search: { provider: 'local' },
     sidebar: generateSidebar([

@@ -1,7 +1,5 @@
 ---
 title: Deployments
-sidebar: false
-pageClass: hub-page
 ---
 
 # Deployments Hub

@@ -1,7 +1,3 @@
----
-sidebar: false
-pageClass: hub-page
----
 
 # Engineering Practice & Communication
 

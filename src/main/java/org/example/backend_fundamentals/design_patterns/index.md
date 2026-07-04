@@ -1,7 +1,3 @@
----
-sidebar: false
-pageClass: hub-page
----
 
 # Design Patterns
 

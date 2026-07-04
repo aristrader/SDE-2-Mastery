@@ -1,12 +1,8 @@
----
-sidebar: false
-pageClass: hub-page
----
 
 # Databases
 
 - [SQL vs NoSQL](/databases/sql_vs_nosql/SqlVsNosql)
-- [Graph Databases & GraphQL](/databases/graph_and_graphql/GraphDbAndGraphQl)
+- [Graph Databases & GraphQL](/networking/api_design/graphql/GraphDbAndGraphQl)
 - [Replication](/databases/replication/Replication)
 - [Indexes (B+ Trees)](/databases/indexes/Indexes)
 - [Normalization & Denormalization](/databases/normalization/Normalization)
