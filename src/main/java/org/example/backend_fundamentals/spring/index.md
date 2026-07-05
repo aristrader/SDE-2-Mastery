@@ -18,6 +18,6 @@ Spring & Spring Boot topics — framework theory for interview prep.
 - [Starter Ecosystem](/spring_boot/starters/)
 
 ## Security
-- [Security Filter Chain](/spring/spring_security/)
-- [Authentication Providers](/spring/spring_security/) · [Authorization](/spring/spring_security/)
-- [OAuth2 Resource Server](/spring/spring_security/) · [JWT Validation](/spring/spring_security/)
+- [Security Filter Chain](/spring/spring_security/security_filter_chain/)
+- [Authentication Providers](/spring/spring_security/authentication_providers/) · [Authorization](/spring/spring_security/authorization/)
+- [OAuth2 Resource Server](/spring/spring_security/o_auth2_resource_server/) · [JWT Validation](/spring/spring_security/jwt_validation/)

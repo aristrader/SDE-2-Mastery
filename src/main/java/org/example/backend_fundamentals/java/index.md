@@ -8,7 +8,7 @@ Core Java for backend work — most folders have demo code and `*Practice` skele
 the **Code** tab.
 
 ## Coding fluency
-- [Streams Core](/java/coding_fluency/streams/) · [Collectors](/java/coding_fluency/streams/StreamCollectors) · [Method References](/java/coding_fluency/streams/)
+- [Streams Core](/java/coding_fluency/streams/) · [Collectors](/java/coding_fluency/streams/) · [Method References](/java/coding_fluency/streams/)
 - [Records](/java/coding_fluency/records/)
 - [Optional](/java/coding_fluency/optional/)
 - [Immutable Collections](/java/coding_fluency/immutable_collections/)
