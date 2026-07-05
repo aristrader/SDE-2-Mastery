@@ -468,6 +468,11 @@
                 "order": 80
               },
               {
+                "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
+                "link": "/java/oop/object_class/",
+                "order": 85
+              },
+              {
                 "text": "Method Overloading vs Overriding & Dynamic Dispatch",
                 "link": "/java/oop/method_dispatch/",
                 "order": 90
@@ -1295,6 +1300,10 @@
     {
       "text": "Inheritance — the details",
       "link": "/java/oop/inheritance/"
+    },
+    {
+      "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
+      "link": "/java/oop/object_class/"
     },
     {
       "text": "Method Overloading vs Overriding & Dynamic Dispatch",
