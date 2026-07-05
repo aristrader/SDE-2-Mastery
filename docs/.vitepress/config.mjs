@@ -5,12 +5,9 @@ import monacoEditorPlugin from 'vite-plugin-monaco-editor'
 export default withMermaid({
   title: 'SDE-2 Mastery',
   description: 'Study Plan & Backend Fundamentals',
-  srcDir: '../../src/main/java/org/example/backend_fundamentals',
+  srcDir: '../src/main/java/org/example/backend_fundamentals',
   srcExclude: ['**/*.java', '**/target/**'],
   ignoreDeadLinks: true,
-  build: {
-    sourcemap: false
-  },
   vite: {
     plugins: [
       monacoEditorPlugin.default ? monacoEditorPlugin.default({}) : monacoEditorPlugin({})

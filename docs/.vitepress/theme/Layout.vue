@@ -11,6 +11,10 @@
       </div>
     </template>
 
+    <template #doc-after>
+      <ClientOnly><ExerciseNav /></ClientOnly>
+    </template>
+
     <!-- Home: fill the empty hero side with a code-reference visual + a how-it-works strip. -->
     <template #home-hero-image>
       <div class="hero-visual">
@@ -45,6 +49,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useData } from 'vitepress'
 import mediumZoom from 'medium-zoom'
 import Playground from './components/Playground.vue'
+import ExerciseNav from './components/ExerciseNav.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.

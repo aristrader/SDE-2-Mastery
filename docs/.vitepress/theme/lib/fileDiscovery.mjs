@@ -29,7 +29,10 @@ export function toRel(globPath) {
 export function analyzeJavaFiles(filesMap) {
   const grouped = {}
   for (const path of Object.keys(filesMap)) {
-    const content = filesMap[path]
+    let content = filesMap[path]
+    if (content && typeof content === 'object' && 'default' in content) {
+      content = content.default
+    }
     const rel = toRel(path)                       // e.g. design_patterns/.../X.java
     const relDir = dirname(rel)
     const name = basename(rel)
