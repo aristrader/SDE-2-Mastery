@@ -1,5 +1,7 @@
 ---
 order: 50
+sidebar: false
+pageClass: hub-page
 ---
 
 # Java & JVM

@@ -8,6 +8,7 @@ export default withMermaid({
   srcDir: '../src/main/java/org/example/backend_fundamentals',
   srcExclude: ['**/*.java', '**/target/**'],
   ignoreDeadLinks: false,
+  cleanUrls: true,
   vite: {
     plugins: [
       monacoEditorPlugin.default ? monacoEditorPlugin.default({}) : monacoEditorPlugin({})
@@ -30,7 +31,7 @@ export default withMermaid({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      ...(navData.nav || [])
+      { text: 'Curriculum', items: navData.nav || [] }
     ],
     search: { provider: 'local' },
     sidebar: navData.sidebar,
