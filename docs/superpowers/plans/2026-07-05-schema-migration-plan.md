@@ -40,11 +40,11 @@
 *Convert all Java topics into Schema A (index.md, playground/, exercise/, solution/, assets/).*
 ***Critical Rule 1:** MUST use `git mv` instead of `mv`.*
 ***Critical Rule 2:** Immediately update the `package` declarations and `import` statements inside the `.java` files to reflect their new `playground` directory paths to prevent `mvn compile` failures.*
-- [ ] Migrate `java/oop/*` *(Completed & Packages Patched)*
-- [ ] Migrate `java/collections/*`
-- [ ] Migrate `java/concurrency/*`
-- [ ] Migrate `java/coding_fluency/*`
-- [ ] Migrate `java/jvm/*`
+- [x] Migrate `java/oop/*` *(Completed & Packages Patched)*
+- [x] Migrate `java/collections/*`
+- [x] Migrate `java/concurrency/*`
+- [x] Migrate `java/coding_fluency/*`
+- [x] Migrate `java/jvm/*`
 
 ## Phase 4: Module Level (Spring - Schema A)
 *Convert all Spring topics into Schema A.*

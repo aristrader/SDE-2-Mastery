@@ -1,3 +1,7 @@
+---
+order: 30
+---
+
 # JWT Validation, JWK Set, Custom Claims
 
 ---

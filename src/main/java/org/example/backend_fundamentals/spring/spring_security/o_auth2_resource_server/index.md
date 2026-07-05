@@ -1,3 +1,7 @@
+---
+order: 40
+---
+
 # OAuth2 Resource Server & Client
 
 ---
