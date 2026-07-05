@@ -18,6 +18,13 @@ Main Codex instructions for this repository. Keep this file short; add only dura
 - Keep explanations focused on the current topic or pattern. If adjacent patterns apply, name that explicitly instead of mixing concepts.
 - Confirm before large deletions.
 
+## Large Context Offload
+
+- For broad repo scans or many-file context gathering, use Antigravity CLI as a read-only summarizer instead of loading huge file sets directly:
+  `"/Users/swapnilagarwal/.local/bin/agy" --add-dir /Users/swapnilagarwal/IdeaProjects/TestingTesting -p "<focused read-only prompt>"`
+- Ask for compact, source-grounded summaries with file paths. Treat the result as advisory; verify specific claims against local files before editing.
+- Do not use Antigravity for small targeted reads where `rg`, `sed`, or direct file inspection is cheaper and clearer.
+
 ## Commands
 
 ```bash
@@ -25,12 +32,21 @@ mvn -q compile
 mvn -q clean compile
 mvn -q exec:java -Dexec.mainClass="<FQCN>"
 node scripts/generate-homepage.js
+codegraph status .
+codegraph sync .
 ```
 
 - Use `mvn -q compile` for a quick Java sanity check.
 - When verifying examples, run the relevant `...Run` main with Maven instead of inventing tests.
 - `src/test/java` is currently empty; do not add tests unless the user asks or the change clearly needs them.
 - Run `node scripts/generate-homepage.js` after adding, moving, deleting, or renaming site pages/sections.
+
+## Code Navigation
+
+- CodeGraph is initialized for this repo via `.codegraph/` and `.mcp.json`; the database and logs are local artifacts and should not be committed.
+- Use CodeGraph for relationship questions: callers/callees, impact, symbol bodies inside large files, and bounded exploration of unfamiliar areas.
+- Prefer `rg`/direct file reads for plain text searches, constants, small files, and simple path discovery.
+- If CodeGraph results look stale, run `codegraph sync .`; keep `codegraph explore` bounded because it can return large source chunks.
 
 ## LMS / Website Structure
 
