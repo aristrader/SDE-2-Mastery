@@ -77,12 +77,13 @@
 
 ## Phase 7: Global Link & References Reconciliation
 *Fix all broken markdown links and cross-references.*
-- [ ] **Curriculum Links:** Search and update all `.md` files in `todo/study_plan/parts/` and `todo/study_plan/phases/` to point to the new Schema A/B URLs.
-- [ ] **Static Assets (CRITICAL):** You MUST move all `.png`, `.jpg`, and `.svg` files from their legacy folders into the new `assets/` directory of their respective module. Do NOT leave images orphaned in legacy directories, or the legacy directories can never be safely deleted. Update all markdown `![image](path)` links to point to the new local `assets/` folder.
-- [ ] **Code Snippets & Line Numbers:** If markdown files import code snippets via VitePress (`<<< @/path/to/file.java`) or link to specific line numbers, these must be updated. *Warning: Updating package/import statements in Java files shifts line numbers down, which will break existing line number references!*
-- [ ] **Java Imports:** Run a final `mvn clean compile` to catch any cross-package Java `import` statements that were broken during the folder moves and patch them.
+- [x] **Curriculum Links:** Search and update all `.md` files in `todo/study_plan/parts/` and `todo/study_plan/phases/` to point to the new Schema A/B URLs.
+- [x] **Static Assets (CRITICAL):** You MUST move all `.png`, `.jpg`, and `.svg` files from their legacy folders into the new `assets/` directory of their respective module. Do NOT leave images orphaned in legacy directories, or the legacy directories can never be safely deleted. Update all markdown `![image](path)` links to point to the new local `assets/` folder.
+- [x] **Code Snippets & Line Numbers:** If markdown files import code snippets via VitePress (`<<< @/path/to/file.java`) or link to specific line numbers, these must be updated. *Warning: Updating package/import statements in Java files shifts line numbers down, which will break existing line number references!*
+- [x] **Java Imports:** Run a final `mvn clean compile` to catch any cross-package Java `import` statements that were broken during the folder moves and patch them.
 
 ## Phase 8: Legacy Directory Cleanup (Ghost Folders)
 *Remove the empty husks of the legacy architecture to prevent validation crashes.*
-- [ ] **Sanitize Untracked Files:** Ensure no stray `.DS_Store`, `Thumbs.db`, or random `.txt` notes were left behind in the old folder structures.
-- [ ] **Delete Empty Folders:** Run a cleanup to delete all empty legacy directories (e.g., `find . -type d -empty -delete`). If a legacy directory remains, the strict validation script will detect it as a malformed "Dangling Folder" and crash the VitePress build.
+- [x] **Sanitize Untracked Files:** Ensure no stray `.DS_Store`, `Thumbs.db`, or random `.txt` notes were left behind in the old folder structures.
+- [x] **Legacy Deletion:** Run a cleanup to delete all empty legacy directories. Check `design_patterns/foundations/oop_pillars/` in particular to make sure it's gone.
+- [x] **Validation Script Enablement:** Will be done in Automation Plan Task 1.ld.
