@@ -11,7 +11,7 @@
 | 1a | String immutability — string pool, heap vs pool, why final, hashCode caching, StringBuilder | 🔴 💼 🎯 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/string/StringImmutability.md` |
 | 1b | JVM vs JRE vs JDK — bytecode execution, runtime libs, compiler | 🔴 💼 | L | 30 min | [x] | [ ] | [ ] | [ ] | Notes: Covered in OS/Containers notes | |
 | 2 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/foundations/generics/Generics.md` · *Effective Java* Items 26-33 (Bloch) |
-| 3 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~33 min | 📖 `java/foundations/equals_hashcode/EqualsHashCode.md` · *Effective Java* Items 10-14 |
+| 3 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 3 min | 📖 `java/oop/equals_hashcode/index.md` · *Effective Java* Items 10-14 |
 | 4 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [ ] | [x] | [ ] | [x] | Partial: Theory covered (~50 min). Redo Resource/AutoCloseable exercise from scratch — AutoCloseable not deeply covered yet | 💻 Warm-up: try-with-resources for a custom AutoCloseable + observe close ordering with multiple resources (10 min) |
 | 5 | Memory areas — heap (+ string pool inside heap), stack, metaspace, code cache | 🔴 💼 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~30 min | 📖 `java/foundations/memory_areas/MemoryAreas.md` |
 | 6 | Garbage collection — generational hypothesis, young/old, GC pauses | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~10 min | 📖 `java/foundations/gc/GarbageCollection.md` |
@@ -48,7 +48,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~20.92 hrs | ~1.9 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~36.92 hrs | ~3.35 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~50.67 hrs | ~4.6 wk | ~6 hr 14 min so far |
+| Full Part (all items including 🟡 + 🟢) | ~50.67 hrs | ~4.6 wk | ~7 hr 44 min so far |
 
 > Time estimates assume zero baseline (you've never seen the topic). Subtract whatever you already know.
 > Fill in "Actual time" after finishing the Part — useful for calibrating future Parts.
