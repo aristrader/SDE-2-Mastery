@@ -175,7 +175,10 @@ async function main() {
         flatten(tree);
         
         fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
-        fs.writeFileSync(OUT_FILE, JSON.stringify(flatMap, null, 2));
+        fs.writeFileSync(OUT_FILE, JSON.stringify({
+            sidebar: tree.items || [],
+            navMap: flatMap
+        }, null, 2));
         
         console.log("Validation passed! Generated navigation_map.json.");
     } catch (err) {

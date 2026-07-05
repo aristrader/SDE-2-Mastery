@@ -1,0 +1,1351 @@
+{
+  "sidebar": [
+    {
+      "text": "Databases",
+      "link": "/databases/",
+      "order": 10,
+      "items": [
+        {
+          "text": "Distributed Transactions — 2PC, 3PC & Saga",
+          "link": "/databases/distributed_transactions/",
+          "order": 10
+        },
+        {
+          "text": "Database Federation",
+          "link": "/databases/federation/",
+          "order": 20
+        },
+        {
+          "text": "Database Indexes (B+ Trees)",
+          "link": "/databases/indexes/",
+          "order": 30
+        },
+        {
+          "text": "Normalization & Denormalization",
+          "link": "/databases/normalization/",
+          "order": 40
+        },
+        {
+          "text": "Database Replication",
+          "link": "/databases/replication/",
+          "order": 50
+        },
+        {
+          "text": "Sharding, Data Partitioning & Consistent Hashing",
+          "link": "/databases/sharding/",
+          "order": 60
+        },
+        {
+          "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+          "link": "/databases/sql_vs_nosql/",
+          "order": 70
+        },
+        {
+          "text": "Transactions, ACID Consistency & Distributed Commit",
+          "link": "/databases/transactions/",
+          "order": 80
+        },
+        {
+          "text": "Views and Materialized Views",
+          "link": "/databases/views/",
+          "order": 90
+        }
+      ]
+    },
+    {
+      "text": "Deployments Hub",
+      "link": "/deployments/",
+      "order": 20,
+      "items": [
+        {
+          "text": "OS, Containers & Docker Fundamentals",
+          "link": "/deployments/o_s__containers__docker__notes/",
+          "order": 10
+        },
+        {
+          "text": "Release & Deployment Strategies",
+          "link": "/deployments/release_and_deployment_strategies/",
+          "order": 20
+        }
+      ]
+    },
+    {
+      "text": "Design Patterns",
+      "link": "/design_patterns/",
+      "order": 30,
+      "items": [
+        {
+          "text": "CQRS (Command Query Responsibility Segregation)",
+          "link": "/design_patterns/cqrs/",
+          "order": 10
+        },
+        {
+          "text": "Creational Design Patterns — Learning Guide",
+          "link": "/design_patterns/creational/",
+          "order": 20
+        },
+        {
+          "text": "Event Sourcing & Event-Driven Architecture",
+          "link": "/design_patterns/event_sourcing/",
+          "order": 30
+        },
+        {
+          "text": "Foundations",
+          "link": "/design_patterns/foundations/",
+          "order": 40
+        }
+      ]
+    },
+    {
+      "text": "Engineering Practice & Communication",
+      "link": "/engineering_practice/",
+      "order": 40,
+      "items": [
+        {
+          "text": "Code Reviews",
+          "link": "/engineering_practice/code_reviews/",
+          "order": 10
+        },
+        {
+          "text": "Domain-Driven Design & Bounded Contexts",
+          "link": "/engineering_practice/ddd/",
+          "order": 20
+        },
+        {
+          "text": "Design Documents and RFCs",
+          "link": "/engineering_practice/design_docs_and_r_f_cs/",
+          "order": 30
+        },
+        {
+          "text": "Technical Writing",
+          "link": "/engineering_practice/technical_writing/",
+          "order": 40
+        }
+      ]
+    },
+    {
+      "text": "Java & JVM",
+      "link": "/java/",
+      "order": 50,
+      "items": [
+        {
+          "text": "Coding Fluency",
+          "link": "/java/coding_fluency/",
+          "order": 10,
+          "items": [
+            {
+              "text": "Immutable Collections — Coding Exercises",
+              "link": "/java/coding_fluency/immutable_collections/",
+              "order": 10
+            },
+            {
+              "text": "Lombok — Coding Exercises",
+              "link": "/java/coding_fluency/lombok/",
+              "order": 20
+            },
+            {
+              "text": "Optional — Coding Exercises",
+              "link": "/java/coding_fluency/optional/",
+              "order": 30
+            },
+            {
+              "text": "Records as DTOs — Coding Exercises",
+              "link": "/java/coding_fluency/records/",
+              "order": 40
+            },
+            {
+              "text": "Feign Client — Coding Exercises",
+              "link": "/java/coding_fluency/spring_basics/",
+              "order": 50
+            },
+            {
+              "text": "Method References — Coding Exercises",
+              "link": "/java/coding_fluency/streams/",
+              "order": 60
+            }
+          ]
+        },
+        {
+          "text": "Arrays",
+          "link": "/java/collections/",
+          "order": 20,
+          "items": [
+            {
+              "text": "ConcurrentHashMap",
+              "link": "/java/collections/concurrent_hashmap/",
+              "order": 10
+            },
+            {
+              "text": "Hashing in Java — what it is and how Java uses it",
+              "link": "/java/collections/hashing/",
+              "order": 20
+            },
+            {
+              "text": "HashMap Internals",
+              "link": "/java/collections/hashmap/",
+              "order": 30
+            },
+            {
+              "text": "LinkedHashMap",
+              "link": "/java/collections/linked_hashmap/",
+              "order": 40
+            },
+            {
+              "text": "Lists in Java — types, choices, and the Array trap",
+              "link": "/java/collections/lists/",
+              "order": 50
+            },
+            {
+              "text": "Maps in Java — types, choices, and trade-offs",
+              "link": "/java/collections/maps/",
+              "order": 60
+            },
+            {
+              "text": "Sets in Java — types, choices, and the dedup trap",
+              "link": "/java/collections/sets/",
+              "order": 70
+            },
+            {
+              "text": "TreeMap",
+              "link": "/java/collections/treemap/",
+              "order": 80
+            }
+          ]
+        },
+        {
+          "text": "Concurrency",
+          "link": "/java/concurrency/",
+          "order": 30,
+          "items": [
+            {
+              "text": "CompletableFuture",
+              "link": "/java/concurrency/completable_future/",
+              "order": 10
+            },
+            {
+              "text": "ExecutorService & ThreadPoolExecutor",
+              "link": "/java/concurrency/executor_service/",
+              "order": 20
+            },
+            {
+              "text": "Java Memory Model (JMM)",
+              "link": "/java/concurrency/jmm/",
+              "order": 30
+            },
+            {
+              "text": "Locks",
+              "link": "/java/concurrency/locks/",
+              "order": 40
+            },
+            {
+              "text": "Race Conditions, Atomicity, Visibility, Ordering",
+              "link": "/java/concurrency/race_conditions/",
+              "order": 50
+            },
+            {
+              "text": "synchronized",
+              "link": "/java/concurrency/synchronized_keyword/",
+              "order": 60
+            },
+            {
+              "text": "Thread Lifecycle",
+              "link": "/java/concurrency/thread_lifecycle/",
+              "order": 70
+            },
+            {
+              "text": "volatile",
+              "link": "/java/concurrency/volatile_keyword/",
+              "order": 80
+            }
+          ]
+        },
+        {
+          "text": "Foundations",
+          "link": "/java/foundations/",
+          "order": 40,
+          "items": [
+            {
+              "text": "Control Flow",
+              "link": "/java/foundations/control_flow/",
+              "order": 10
+            },
+            {
+              "text": "Enums",
+              "link": "/java/foundations/enums/",
+              "order": 20
+            },
+            {
+              "text": "Exception Handling",
+              "link": "/java/foundations/exceptions/",
+              "order": 30
+            },
+            {
+              "text": "Generics",
+              "link": "/java/foundations/generics/",
+              "order": 40
+            },
+            {
+              "text": "Primitive Types",
+              "link": "/java/foundations/primitives/",
+              "order": 50
+            },
+            {
+              "text": "Stream Terminal Operations — Collectors",
+              "link": "/java/foundations/streams/",
+              "order": 60
+            },
+            {
+              "text": "String Immutability — Deep Dive",
+              "link": "/java/foundations/string/",
+              "order": 70
+            }
+          ]
+        },
+        {
+          "text": "Jvm",
+          "link": "/java/jvm/",
+          "order": 50,
+          "items": [
+            {
+              "text": "Garbage Collection",
+              "link": "/java/jvm/gc/",
+              "order": 10
+            },
+            {
+              "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+              "link": "/java/jvm/memory_areas/",
+              "order": 20
+            }
+          ]
+        },
+        {
+          "text": "Nested Classes",
+          "link": "/java/nested_classes/",
+          "order": 60
+        },
+        {
+          "text": "OOP Pillar Confusions — the pairs that blur",
+          "link": "/java/oop/",
+          "order": 70,
+          "items": [
+            {
+              "text": "Abstract Class vs. Interface — the decision",
+              "link": "/java/oop/abstract_class_vs_interface/",
+              "order": 10
+            },
+            {
+              "text": "Abstraction — the details",
+              "link": "/java/oop/abstraction/",
+              "order": 20
+            },
+            {
+              "text": "Variables and Scope",
+              "link": "/java/oop/access_modifiers/",
+              "order": 30
+            },
+            {
+              "text": "Classes, Objects, and Constructors",
+              "link": "/java/oop/classes_and_objects/",
+              "order": 40
+            },
+            {
+              "text": "Composition vs Inheritance",
+              "link": "/java/oop/composition_vs_inheritance/",
+              "order": 50
+            },
+            {
+              "text": "Encapsulation — the details",
+              "link": "/java/oop/encapsulation/",
+              "order": 60
+            },
+            {
+              "text": "equals / hashCode / Comparable / Comparator — Practice Exercises",
+              "link": "/java/oop/equals_hashcode/",
+              "order": 70
+            },
+            {
+              "text": "Inheritance — the details",
+              "link": "/java/oop/inheritance/",
+              "order": 80
+            },
+            {
+              "text": "Method Overloading vs Overriding & Dynamic Dispatch",
+              "link": "/java/oop/method_dispatch/",
+              "order": 90
+            },
+            {
+              "text": "Java Object Model",
+              "link": "/java/oop/object_model/",
+              "order": 100
+            },
+            {
+              "text": "Polymorphism — the details",
+              "link": "/java/oop/polymorphism/",
+              "order": 110
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Messaging",
+      "link": "/messaging/",
+      "order": 60,
+      "items": [
+        {
+          "text": "Event-Driven Architecture (EDA)",
+          "link": "/messaging/eda/",
+          "order": 10
+        },
+        {
+          "text": "Message Brokers & Event Streaming",
+          "link": "/messaging/message_brokers/",
+          "order": 20
+        },
+        {
+          "text": "Message Queues & Publish-Subscribe",
+          "link": "/messaging/queues_pubsub/",
+          "order": 30
+        }
+      ]
+    },
+    {
+      "text": "Networking",
+      "link": "/networking/",
+      "order": 70,
+      "items": [
+        {
+          "text": "API Technologies Study Notes — Complete Conversation Dump",
+          "link": "/networking/api_design/",
+          "order": 10
+        },
+        {
+          "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
+          "link": "/networking/api_gateway/",
+          "order": 20
+        },
+        {
+          "text": "Client ↔ Server Communication Patterns",
+          "link": "/networking/communication_patterns/",
+          "order": 30
+        },
+        {
+          "text": "DNS — Resolution Flow, Caching, and Traffic Steering",
+          "link": "/networking/dns/",
+          "order": 40
+        },
+        {
+          "text": "HTTP Fundamentals",
+          "link": "/networking/http_basics/",
+          "order": 50
+        },
+        {
+          "text": "IP Addressing, NAT, DHCP, CGNAT, MAC Addresses, and Internet Reachability",
+          "link": "/networking/ip_addressing/",
+          "order": 60
+        },
+        {
+          "text": "Proxies, DNS Blocking, VPNs, and National Firewalls",
+          "link": "/networking/proxies_vpn/",
+          "order": 70
+        },
+        {
+          "text": "TCP vs UDP — Transport Protocol Choice (and the OSI Model in Practice)",
+          "link": "/networking/tcp_vs_udp/",
+          "order": 80
+        }
+      ]
+    },
+    {
+      "text": "Performance Engineering",
+      "link": "/performance/",
+      "order": 80,
+      "items": [
+        {
+          "text": "Latency, Throughput & Little's Law",
+          "link": "/performance/latency__throughput__littles_law/",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "text": "Security",
+      "link": "/security/",
+      "order": 90,
+      "items": [
+        {
+          "text": "Authentication: OAuth, JWT, and API Keys",
+          "link": "/security/authentication/",
+          "order": 10
+        },
+        {
+          "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
+          "link": "/security/cryptography/",
+          "order": 20
+        },
+        {
+          "text": "Web Security: XSS, SOP, and CORS",
+          "link": "/security/web_security/",
+          "order": 30
+        }
+      ]
+    },
+    {
+      "text": "Spring",
+      "link": "/spring/",
+      "order": 100,
+      "items": [
+        {
+          "text": "Spring Cloud",
+          "link": "/spring/spring_cloud/",
+          "order": 10,
+          "items": [
+            {
+              "text": "Feign / OpenFeign",
+              "link": "/spring/spring_cloud/feign/",
+              "order": 10
+            }
+          ]
+        },
+        {
+          "text": "Spring Core",
+          "link": "/spring/spring_core/",
+          "order": 20,
+          "items": [
+            {
+              "text": "@Async + Thread Context Propagation",
+              "link": "/spring/spring_core/async_mdc/",
+              "order": 10
+            },
+            {
+              "text": "Bean Lifecycle",
+              "link": "/spring/spring_core/bean_lifecycle/",
+              "order": 20
+            },
+            {
+              "text": "Spring Caching Abstraction",
+              "link": "/spring/spring_core/caching/",
+              "order": 30
+            },
+            {
+              "text": "Dependency Injection",
+              "link": "/spring/spring_core/dependency_injection/",
+              "order": 40
+            },
+            {
+              "text": "IoC Container",
+              "link": "/spring/spring_core/ioc_container/",
+              "order": 50
+            },
+            {
+              "text": "Spring Transactions — @Transactional Deep Dive",
+              "link": "/spring/spring_core/transactions/",
+              "order": 60
+            }
+          ]
+        },
+        {
+          "text": "Spring Data",
+          "link": "/spring/spring_data/",
+          "order": 30,
+          "items": [
+            {
+              "text": "Derived Queries & @Query",
+              "link": "/spring/spring_data/derived_queries/",
+              "order": 10
+            },
+            {
+              "text": "JPA Entity Lifecycle",
+              "link": "/spring/spring_data/entity_lifecycle/",
+              "order": 20
+            },
+            {
+              "text": "Lazy vs Eager Loading & N+1",
+              "link": "/spring/spring_data/jpa_lazy_eager/",
+              "order": 30
+            },
+            {
+              "text": "JPA Repository Hierarchy",
+              "link": "/spring/spring_data/jpa_repository/",
+              "order": 40
+            }
+          ]
+        },
+        {
+          "text": "Spring Data Jpa",
+          "link": "/spring/spring_data_jpa/",
+          "order": 40
+        },
+        {
+          "text": "Spring Mvc",
+          "link": "/spring/spring_mvc/",
+          "order": 50
+        },
+        {
+          "text": "Spring Security",
+          "link": "/spring/spring_security/",
+          "order": 60,
+          "items": [
+            {
+              "text": "Authentication Providers",
+              "link": "/spring/spring_security/authentication_providers/",
+              "order": 10
+            },
+            {
+              "text": "Authorization",
+              "link": "/spring/spring_security/authorization/",
+              "order": 20
+            },
+            {
+              "text": "JWT Validation, JWK Set, Custom Claims",
+              "link": "/spring/spring_security/jwt_validation/",
+              "order": 30
+            },
+            {
+              "text": "OAuth2 Resource Server & Client",
+              "link": "/spring/spring_security/o_auth2_resource_server/",
+              "order": 40
+            },
+            {
+              "text": "SecurityFilterChain",
+              "link": "/spring/spring_security/security_filter_chain/",
+              "order": 50
+            }
+          ]
+        },
+        {
+          "text": "Spring Web",
+          "link": "/spring/spring_web/",
+          "order": 70,
+          "items": [
+            {
+              "text": "Spring Exception Handling",
+              "link": "/spring/spring_web/exception_handling/",
+              "order": 10
+            },
+            {
+              "text": "Jackson Customization",
+              "link": "/spring/spring_web/jackson/",
+              "order": 20
+            },
+            {
+              "text": "Spring MVC",
+              "link": "/spring/spring_web/mvc/",
+              "order": 30
+            },
+            {
+              "text": "Spring REST",
+              "link": "/spring/spring_web/rest/",
+              "order": 40
+            },
+            {
+              "text": "Spring, WebFlux, and the Threading Model",
+              "link": "/spring/spring_web/spring__web_flux__threading__model/",
+              "order": 50
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Spring Boot",
+      "link": "/spring_boot/",
+      "order": 110,
+      "items": [
+        {
+          "text": "Actuator",
+          "link": "/spring_boot/actuator/",
+          "order": 10
+        },
+        {
+          "text": "Auto-Configuration",
+          "link": "/spring_boot/auto_configuration/",
+          "order": 20
+        },
+        {
+          "text": "Starter Ecosystem",
+          "link": "/spring_boot/starters/",
+          "order": 30
+        }
+      ]
+    },
+    {
+      "text": "System Design",
+      "link": "/system_design/",
+      "order": 120,
+      "items": [
+        {
+          "text": "Case Studies",
+          "link": "/system_design/case_studies/",
+          "order": 10,
+          "items": [
+            {
+              "text": "Consolidated Notes: Location Fundamentals and Spatial Indexing (Part 1)",
+              "link": "/system_design/case_studies/location_and_uber_architecture/",
+              "order": 10
+            }
+          ]
+        },
+        {
+          "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+          "link": "/system_design/clustering/",
+          "order": 20
+        },
+        {
+          "text": "Components",
+          "link": "/system_design/components/",
+          "order": 30,
+          "items": [
+            {
+              "text": "Caching, Distributed Cache, Redis Cluster, and Consistent Hashing",
+              "link": "/system_design/components/caching/",
+              "order": 10
+            },
+            {
+              "text": "CDN — Edge Caching, DNS Routing, Push vs Pull",
+              "link": "/system_design/components/cdn/",
+              "order": 20
+            },
+            {
+              "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+              "link": "/system_design/components/load_balancing/",
+              "order": 30
+            },
+            {
+              "text": "Rate Limiting",
+              "link": "/system_design/components/rate_limiting/",
+              "order": 40
+            }
+          ]
+        },
+        {
+          "text": "Concepts",
+          "link": "/system_design/concepts/",
+          "order": 40,
+          "items": [
+            {
+              "text": "System Availability, Reliability & Fault Tolerance",
+              "link": "/system_design/concepts/availability/",
+              "order": 10
+            },
+            {
+              "text": "CAP & PACELC",
+              "link": "/system_design/concepts/cap_pacelc/",
+              "order": 20
+            },
+            {
+              "text": "SLA, SLO, and SLI: Technical Overview",
+              "link": "/system_design/concepts/observability/",
+              "order": 30
+            },
+            {
+              "text": "Circuit Breaker and Resiliency Patterns",
+              "link": "/system_design/concepts/resilience/",
+              "order": 40
+            },
+            {
+              "text": "Scalability, Redundancy, and Sequential vs Random Access",
+              "link": "/system_design/concepts/scalability/",
+              "order": 50
+            }
+          ]
+        },
+        {
+          "text": "Patterns",
+          "link": "/system_design/patterns/",
+          "order": 50,
+          "items": [
+            {
+              "text": "Monoliths vs Microservices",
+              "link": "/system_design/patterns/architecture/",
+              "order": 10
+            },
+            {
+              "text": "N-Tier Architecture",
+              "link": "/system_design/patterns/n_tier/",
+              "order": 20
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "navMap": [
+    {
+      "text": "Backend Fundamentals",
+      "link": "/"
+    },
+    {
+      "text": "Databases",
+      "link": "/databases/"
+    },
+    {
+      "text": "Distributed Transactions — 2PC, 3PC & Saga",
+      "link": "/databases/distributed_transactions/"
+    },
+    {
+      "text": "Database Federation",
+      "link": "/databases/federation/"
+    },
+    {
+      "text": "Database Indexes (B+ Trees)",
+      "link": "/databases/indexes/"
+    },
+    {
+      "text": "Normalization & Denormalization",
+      "link": "/databases/normalization/"
+    },
+    {
+      "text": "Database Replication",
+      "link": "/databases/replication/"
+    },
+    {
+      "text": "Sharding, Data Partitioning & Consistent Hashing",
+      "link": "/databases/sharding/"
+    },
+    {
+      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+      "link": "/databases/sql_vs_nosql/"
+    },
+    {
+      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "link": "/databases/transactions/"
+    },
+    {
+      "text": "Views and Materialized Views",
+      "link": "/databases/views/"
+    },
+    {
+      "text": "Deployments Hub",
+      "link": "/deployments/"
+    },
+    {
+      "text": "OS, Containers & Docker Fundamentals",
+      "link": "/deployments/o_s__containers__docker__notes/"
+    },
+    {
+      "text": "Release & Deployment Strategies",
+      "link": "/deployments/release_and_deployment_strategies/"
+    },
+    {
+      "text": "Design Patterns",
+      "link": "/design_patterns/"
+    },
+    {
+      "text": "CQRS (Command Query Responsibility Segregation)",
+      "link": "/design_patterns/cqrs/"
+    },
+    {
+      "text": "Creational Design Patterns — Learning Guide",
+      "link": "/design_patterns/creational/"
+    },
+    {
+      "text": "Event Sourcing & Event-Driven Architecture",
+      "link": "/design_patterns/event_sourcing/"
+    },
+    {
+      "text": "Foundations",
+      "link": "/design_patterns/foundations/"
+    },
+    {
+      "text": "Engineering Practice & Communication",
+      "link": "/engineering_practice/"
+    },
+    {
+      "text": "Code Reviews",
+      "link": "/engineering_practice/code_reviews/"
+    },
+    {
+      "text": "Domain-Driven Design & Bounded Contexts",
+      "link": "/engineering_practice/ddd/"
+    },
+    {
+      "text": "Design Documents and RFCs",
+      "link": "/engineering_practice/design_docs_and_r_f_cs/"
+    },
+    {
+      "text": "Technical Writing",
+      "link": "/engineering_practice/technical_writing/"
+    },
+    {
+      "text": "Java & JVM",
+      "link": "/java/"
+    },
+    {
+      "text": "Coding Fluency",
+      "link": "/java/coding_fluency/"
+    },
+    {
+      "text": "Immutable Collections — Coding Exercises",
+      "link": "/java/coding_fluency/immutable_collections/"
+    },
+    {
+      "text": "Lombok — Coding Exercises",
+      "link": "/java/coding_fluency/lombok/"
+    },
+    {
+      "text": "Optional — Coding Exercises",
+      "link": "/java/coding_fluency/optional/"
+    },
+    {
+      "text": "Records as DTOs — Coding Exercises",
+      "link": "/java/coding_fluency/records/"
+    },
+    {
+      "text": "Feign Client — Coding Exercises",
+      "link": "/java/coding_fluency/spring_basics/"
+    },
+    {
+      "text": "Method References — Coding Exercises",
+      "link": "/java/coding_fluency/streams/"
+    },
+    {
+      "text": "Arrays",
+      "link": "/java/collections/"
+    },
+    {
+      "text": "ConcurrentHashMap",
+      "link": "/java/collections/concurrent_hashmap/"
+    },
+    {
+      "text": "Hashing in Java — what it is and how Java uses it",
+      "link": "/java/collections/hashing/"
+    },
+    {
+      "text": "HashMap Internals",
+      "link": "/java/collections/hashmap/"
+    },
+    {
+      "text": "LinkedHashMap",
+      "link": "/java/collections/linked_hashmap/"
+    },
+    {
+      "text": "Lists in Java — types, choices, and the Array trap",
+      "link": "/java/collections/lists/"
+    },
+    {
+      "text": "Maps in Java — types, choices, and trade-offs",
+      "link": "/java/collections/maps/"
+    },
+    {
+      "text": "Sets in Java — types, choices, and the dedup trap",
+      "link": "/java/collections/sets/"
+    },
+    {
+      "text": "TreeMap",
+      "link": "/java/collections/treemap/"
+    },
+    {
+      "text": "Concurrency",
+      "link": "/java/concurrency/"
+    },
+    {
+      "text": "CompletableFuture",
+      "link": "/java/concurrency/completable_future/"
+    },
+    {
+      "text": "ExecutorService & ThreadPoolExecutor",
+      "link": "/java/concurrency/executor_service/"
+    },
+    {
+      "text": "Java Memory Model (JMM)",
+      "link": "/java/concurrency/jmm/"
+    },
+    {
+      "text": "Locks",
+      "link": "/java/concurrency/locks/"
+    },
+    {
+      "text": "Race Conditions, Atomicity, Visibility, Ordering",
+      "link": "/java/concurrency/race_conditions/"
+    },
+    {
+      "text": "synchronized",
+      "link": "/java/concurrency/synchronized_keyword/"
+    },
+    {
+      "text": "Thread Lifecycle",
+      "link": "/java/concurrency/thread_lifecycle/"
+    },
+    {
+      "text": "volatile",
+      "link": "/java/concurrency/volatile_keyword/"
+    },
+    {
+      "text": "Foundations",
+      "link": "/java/foundations/"
+    },
+    {
+      "text": "Control Flow",
+      "link": "/java/foundations/control_flow/"
+    },
+    {
+      "text": "Enums",
+      "link": "/java/foundations/enums/"
+    },
+    {
+      "text": "Exception Handling",
+      "link": "/java/foundations/exceptions/"
+    },
+    {
+      "text": "Generics",
+      "link": "/java/foundations/generics/"
+    },
+    {
+      "text": "Primitive Types",
+      "link": "/java/foundations/primitives/"
+    },
+    {
+      "text": "Stream Terminal Operations — Collectors",
+      "link": "/java/foundations/streams/"
+    },
+    {
+      "text": "String Immutability — Deep Dive",
+      "link": "/java/foundations/string/"
+    },
+    {
+      "text": "Jvm",
+      "link": "/java/jvm/"
+    },
+    {
+      "text": "Garbage Collection",
+      "link": "/java/jvm/gc/"
+    },
+    {
+      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+      "link": "/java/jvm/memory_areas/"
+    },
+    {
+      "text": "Nested Classes",
+      "link": "/java/nested_classes/"
+    },
+    {
+      "text": "OOP Pillar Confusions — the pairs that blur",
+      "link": "/java/oop/"
+    },
+    {
+      "text": "Abstract Class vs. Interface — the decision",
+      "link": "/java/oop/abstract_class_vs_interface/"
+    },
+    {
+      "text": "Abstraction — the details",
+      "link": "/java/oop/abstraction/"
+    },
+    {
+      "text": "Variables and Scope",
+      "link": "/java/oop/access_modifiers/"
+    },
+    {
+      "text": "Classes, Objects, and Constructors",
+      "link": "/java/oop/classes_and_objects/"
+    },
+    {
+      "text": "Composition vs Inheritance",
+      "link": "/java/oop/composition_vs_inheritance/"
+    },
+    {
+      "text": "Encapsulation — the details",
+      "link": "/java/oop/encapsulation/"
+    },
+    {
+      "text": "equals / hashCode / Comparable / Comparator — Practice Exercises",
+      "link": "/java/oop/equals_hashcode/"
+    },
+    {
+      "text": "Inheritance — the details",
+      "link": "/java/oop/inheritance/"
+    },
+    {
+      "text": "Method Overloading vs Overriding & Dynamic Dispatch",
+      "link": "/java/oop/method_dispatch/"
+    },
+    {
+      "text": "Java Object Model",
+      "link": "/java/oop/object_model/"
+    },
+    {
+      "text": "Polymorphism — the details",
+      "link": "/java/oop/polymorphism/"
+    },
+    {
+      "text": "Messaging",
+      "link": "/messaging/"
+    },
+    {
+      "text": "Event-Driven Architecture (EDA)",
+      "link": "/messaging/eda/"
+    },
+    {
+      "text": "Message Brokers & Event Streaming",
+      "link": "/messaging/message_brokers/"
+    },
+    {
+      "text": "Message Queues & Publish-Subscribe",
+      "link": "/messaging/queues_pubsub/"
+    },
+    {
+      "text": "Networking",
+      "link": "/networking/"
+    },
+    {
+      "text": "API Technologies Study Notes — Complete Conversation Dump",
+      "link": "/networking/api_design/"
+    },
+    {
+      "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
+      "link": "/networking/api_gateway/"
+    },
+    {
+      "text": "Client ↔ Server Communication Patterns",
+      "link": "/networking/communication_patterns/"
+    },
+    {
+      "text": "DNS — Resolution Flow, Caching, and Traffic Steering",
+      "link": "/networking/dns/"
+    },
+    {
+      "text": "HTTP Fundamentals",
+      "link": "/networking/http_basics/"
+    },
+    {
+      "text": "IP Addressing, NAT, DHCP, CGNAT, MAC Addresses, and Internet Reachability",
+      "link": "/networking/ip_addressing/"
+    },
+    {
+      "text": "Proxies, DNS Blocking, VPNs, and National Firewalls",
+      "link": "/networking/proxies_vpn/"
+    },
+    {
+      "text": "TCP vs UDP — Transport Protocol Choice (and the OSI Model in Practice)",
+      "link": "/networking/tcp_vs_udp/"
+    },
+    {
+      "text": "Performance Engineering",
+      "link": "/performance/"
+    },
+    {
+      "text": "Latency, Throughput & Little's Law",
+      "link": "/performance/latency__throughput__littles_law/"
+    },
+    {
+      "text": "Security",
+      "link": "/security/"
+    },
+    {
+      "text": "Authentication: OAuth, JWT, and API Keys",
+      "link": "/security/authentication/"
+    },
+    {
+      "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
+      "link": "/security/cryptography/"
+    },
+    {
+      "text": "Web Security: XSS, SOP, and CORS",
+      "link": "/security/web_security/"
+    },
+    {
+      "text": "Spring",
+      "link": "/spring/"
+    },
+    {
+      "text": "Spring Cloud",
+      "link": "/spring/spring_cloud/"
+    },
+    {
+      "text": "Feign / OpenFeign",
+      "link": "/spring/spring_cloud/feign/"
+    },
+    {
+      "text": "Spring Core",
+      "link": "/spring/spring_core/"
+    },
+    {
+      "text": "@Async + Thread Context Propagation",
+      "link": "/spring/spring_core/async_mdc/"
+    },
+    {
+      "text": "Bean Lifecycle",
+      "link": "/spring/spring_core/bean_lifecycle/"
+    },
+    {
+      "text": "Spring Caching Abstraction",
+      "link": "/spring/spring_core/caching/"
+    },
+    {
+      "text": "Dependency Injection",
+      "link": "/spring/spring_core/dependency_injection/"
+    },
+    {
+      "text": "IoC Container",
+      "link": "/spring/spring_core/ioc_container/"
+    },
+    {
+      "text": "Spring Transactions — @Transactional Deep Dive",
+      "link": "/spring/spring_core/transactions/"
+    },
+    {
+      "text": "Spring Data",
+      "link": "/spring/spring_data/"
+    },
+    {
+      "text": "Derived Queries & @Query",
+      "link": "/spring/spring_data/derived_queries/"
+    },
+    {
+      "text": "JPA Entity Lifecycle",
+      "link": "/spring/spring_data/entity_lifecycle/"
+    },
+    {
+      "text": "Lazy vs Eager Loading & N+1",
+      "link": "/spring/spring_data/jpa_lazy_eager/"
+    },
+    {
+      "text": "JPA Repository Hierarchy",
+      "link": "/spring/spring_data/jpa_repository/"
+    },
+    {
+      "text": "Spring Data Jpa",
+      "link": "/spring/spring_data_jpa/"
+    },
+    {
+      "text": "Spring Mvc",
+      "link": "/spring/spring_mvc/"
+    },
+    {
+      "text": "Spring Security",
+      "link": "/spring/spring_security/"
+    },
+    {
+      "text": "Authentication Providers",
+      "link": "/spring/spring_security/authentication_providers/"
+    },
+    {
+      "text": "Authorization",
+      "link": "/spring/spring_security/authorization/"
+    },
+    {
+      "text": "JWT Validation, JWK Set, Custom Claims",
+      "link": "/spring/spring_security/jwt_validation/"
+    },
+    {
+      "text": "OAuth2 Resource Server & Client",
+      "link": "/spring/spring_security/o_auth2_resource_server/"
+    },
+    {
+      "text": "SecurityFilterChain",
+      "link": "/spring/spring_security/security_filter_chain/"
+    },
+    {
+      "text": "Spring Web",
+      "link": "/spring/spring_web/"
+    },
+    {
+      "text": "Spring Exception Handling",
+      "link": "/spring/spring_web/exception_handling/"
+    },
+    {
+      "text": "Jackson Customization",
+      "link": "/spring/spring_web/jackson/"
+    },
+    {
+      "text": "Spring MVC",
+      "link": "/spring/spring_web/mvc/"
+    },
+    {
+      "text": "Spring REST",
+      "link": "/spring/spring_web/rest/"
+    },
+    {
+      "text": "Spring, WebFlux, and the Threading Model",
+      "link": "/spring/spring_web/spring__web_flux__threading__model/"
+    },
+    {
+      "text": "Spring Boot",
+      "link": "/spring_boot/"
+    },
+    {
+      "text": "Actuator",
+      "link": "/spring_boot/actuator/"
+    },
+    {
+      "text": "Auto-Configuration",
+      "link": "/spring_boot/auto_configuration/"
+    },
+    {
+      "text": "Starter Ecosystem",
+      "link": "/spring_boot/starters/"
+    },
+    {
+      "text": "System Design",
+      "link": "/system_design/"
+    },
+    {
+      "text": "Case Studies",
+      "link": "/system_design/case_studies/"
+    },
+    {
+      "text": "Consolidated Notes: Location Fundamentals and Spatial Indexing (Part 1)",
+      "link": "/system_design/case_studies/location_and_uber_architecture/"
+    },
+    {
+      "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+      "link": "/system_design/clustering/"
+    },
+    {
+      "text": "Components",
+      "link": "/system_design/components/"
+    },
+    {
+      "text": "Caching, Distributed Cache, Redis Cluster, and Consistent Hashing",
+      "link": "/system_design/components/caching/"
+    },
+    {
+      "text": "CDN — Edge Caching, DNS Routing, Push vs Pull",
+      "link": "/system_design/components/cdn/"
+    },
+    {
+      "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+      "link": "/system_design/components/load_balancing/"
+    },
+    {
+      "text": "Rate Limiting",
+      "link": "/system_design/components/rate_limiting/"
+    },
+    {
+      "text": "Concepts",
+      "link": "/system_design/concepts/"
+    },
+    {
+      "text": "System Availability, Reliability & Fault Tolerance",
+      "link": "/system_design/concepts/availability/"
+    },
+    {
+      "text": "CAP & PACELC",
+      "link": "/system_design/concepts/cap_pacelc/"
+    },
+    {
+      "text": "SLA, SLO, and SLI: Technical Overview",
+      "link": "/system_design/concepts/observability/"
+    },
+    {
+      "text": "Circuit Breaker and Resiliency Patterns",
+      "link": "/system_design/concepts/resilience/"
+    },
+    {
+      "text": "Scalability, Redundancy, and Sequential vs Random Access",
+      "link": "/system_design/concepts/scalability/"
+    },
+    {
+      "text": "Patterns",
+      "link": "/system_design/patterns/"
+    },
+    {
+      "text": "Monoliths vs Microservices",
+      "link": "/system_design/patterns/architecture/"
+    },
+    {
+      "text": "N-Tier Architecture",
+      "link": "/system_design/patterns/n_tier/"
+    }
+  ]
+}
