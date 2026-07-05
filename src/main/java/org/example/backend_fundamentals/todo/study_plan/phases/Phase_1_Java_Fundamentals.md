@@ -29,14 +29,14 @@
 - [x] final
 - [x] Access modifiers
 ### Core OOP
-- [ ] Encapsulation
-- [ ] Inheritance
-- [ ] Polymorphism
-- [ ] Abstraction
-- [ ] Interfaces
-- [ ] Abstract classes
-- [ ] Method overloading
-- [ ] Method overriding
+- [x] Encapsulation
+- [x] Inheritance
+- [x] Polymorphism
+- [x] Abstraction
+- [x] Interfaces
+- [x] Abstract classes
+- [x] Method overloading
+- [x] Method overriding
 ### Object Fundamentals
 - [ ] Object class
 - [ ] equals()
