@@ -1,0 +1,97 @@
+# AGENTS.md
+
+Main Codex instructions for this repository. Keep this file short; add only durable rules that prevent repeated mistakes.
+
+## Repository Shape
+
+- This is a personal backend-fundamentals and interview-prep learning repo, not a production Spring service.
+- Primary content lives under `src/main/java/org/example/backend_fundamentals/`.
+- The study plan lives under `src/main/java/org/example/backend_fundamentals/todo/study_plan/`.
+- Do not put files directly under `src/main/java/org/example/`.
+- Do not add `package-info.java` placeholders.
+- Preserve unrelated user changes.
+
+## Default Working Style
+
+- The user often wants to write code themselves. If they say to guide/review only, do not edit active `.java` or `.md` files until asked.
+- When asked "is this right?", answer directly: yes/no, exact issue, exact fix.
+- Keep explanations focused on the current topic or pattern. If adjacent patterns apply, name that explicitly instead of mixing concepts.
+- Confirm before large deletions.
+
+## Commands
+
+```bash
+mvn -q compile
+mvn -q clean compile
+mvn -q exec:java -Dexec.mainClass="<FQCN>"
+node scripts/generate-homepage.js
+```
+
+- Use `mvn -q compile` for a quick Java sanity check.
+- When verifying examples, run the relevant `...Run` main with Maven instead of inventing tests.
+- `src/test/java` is currently empty; do not add tests unless the user asks or the change clearly needs them.
+- Run `node scripts/generate-homepage.js` after adding, moving, deleting, or renaming site pages/sections.
+
+## LMS / Website Structure
+
+Follow this schema for modules under `backend_fundamentals`:
+
+- Interactive module: `index.md`, `playground/` Java-only files, `exercise/index.md`, `solution/index.md`.
+- System design module: `index.md`, `design/index.md`, `exercise/index.md`, optional `assets/`.
+- Module `index.md` files need valid YAML frontmatter and `order: X`.
+- `exercise/index.md` uses `search: false` and `order: 10`.
+- `solution/index.md` uses `search: false` and `order: 20`.
+- `design/index.md` uses `search: false` and `order: 20`.
+- Never create empty folders; they can break navigation generation.
+- Do not manually edit generated navigation data. `scripts/generate-homepage.js` writes `docs/.vitepress/navigation_map.json`, and `docs/.vitepress/config.mjs` consumes it.
+- Java playground code belongs in `playground/`; do not place `Main.java` beside module `index.md`.
+
+## Markdown Rules
+
+- Use pure GitHub-flavored Markdown; avoid HTML tags.
+- Prefer concise interview-prep writing over textbook coverage.
+- Use fenced `java` blocks for Java examples.
+- Topic docs should end with `## Quick recall` when they are study material.
+- Keep Quick recall answers short.
+- Preserve useful user analogies, misconceptions, and struggle points when converting notes into docs.
+
+## Java Rules
+
+- Use role-based class names such as `DeveloperHiringProcess` or `BillPughSingleton`; avoid vague names such as `FactoryImpl`.
+- Demo runners should print to `System.out` and may use Lombok `@Slf4j` if consistent with nearby code.
+- Add JavaDoc only when it explains non-obvious purpose, contracts, design decisions, or useful cross-references.
+- Do not put long lessons, feature tables, or multi-section explanations in JavaDoc; put them in Markdown docs.
+
+## Study Plan Rules
+
+- When the user references the study plan, read `src/main/java/org/example/backend_fundamentals/todo/study_plan/README.md` first.
+- Per-Part files in `src/main/java/org/example/backend_fundamentals/todo/study_plan/parts/` are the authoritative syllabus.
+- Before creating or substantially editing study material linked from a Part row, read `src/main/java/org/example/backend_fundamentals/todo/study_plan/reference/DocCreationStandard.md`.
+- New study material should pass this bar: would a senior Java backend interviewer plausibly ask about it?
+- Do not tick `Done`, `Grilling`, or `Visit Again` for the user except during the temp-doc import workflow.
+- If adding, renaming, deleting, moving, splitting, or significantly rewording a Part topic row, update `src/main/java/org/example/backend_fundamentals/todo/study_plan/reference/TopicIndex.md` in the same session.
+- A plain `Done` or `Partial` tick does not require a TopicIndex update.
+
+## Temp Doc Import Workflow
+
+Use this when the user asks to process `temp.md` or `temp1.md` through `temp4.md`.
+
+- Read every staged temp file completely before processing.
+- Read `src/main/java/org/example/backend_fundamentals/todo/study_plan/reference/DocCreationStandard.md`.
+- Decide destination paths yourself unless truly blocked.
+- Merge related dumps into existing docs; split one dump if it clearly covers multiple topics.
+- Do not drop substantive discussion points. Reorganize, dedupe, and deepen only topics actually discussed.
+- Write docs under `src/main/java/org/example/backend_fundamentals/`.
+- Clear processed temp files back to their placeholder comments; do not delete the temp files.
+- For covered Part rows, add the doc link in Resources.
+- Tick `Done` only when substantially covered. For partial coverage, tick `Partial`, leave `Done` unticked, and note covered vs pending.
+- Track actual time only in the `Full Part` actual-time cell, as a single cumulative estimate.
+- End with a compact report: files created, rows covered, partial gaps, and timeline position.
+
+## Durable Insight Routing
+
+- Pattern-specific mechanics go in that module/topic doc.
+- Generic design-thinking notes go in `src/main/java/org/example/backend_fundamentals/todo/study_plan/deep_dives/DesignThinkingProcess.md`.
+- Pattern-selection and orchestration notes go in `src/main/java/org/example/backend_fundamentals/todo/study_plan/deep_dives/PatternSelectionExercise.md`.
+- OOP/SOLID/supporting-principle notes go in the closest relevant foundations doc.
+- If unsure, keep the insight local to the current topic rather than creating broad documentation.
