@@ -7,6 +7,6 @@ order: 40
 
 Collection of soft-skills, communication, and engineering processes.
 
-- [Design Documents and RFCs](./DesignDocsAndRFCs.md)
-- [Code Reviews](./CodeReviews.md)
-- [Technical Writing](./TechnicalWriting.md)
+- [Design Documents and RFCs]()
+- [Code Reviews]()
+- [Technical Writing]()

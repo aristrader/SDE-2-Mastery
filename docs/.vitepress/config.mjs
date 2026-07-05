@@ -7,7 +7,7 @@ export default withMermaid({
   description: 'Study Plan & Backend Fundamentals',
   srcDir: '../src/main/java/org/example/backend_fundamentals',
   srcExclude: ['**/*.java', '**/target/**'],
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: false,
   vite: {
     plugins: [
       monacoEditorPlugin.default ? monacoEditorPlugin.default({}) : monacoEditorPlugin({})

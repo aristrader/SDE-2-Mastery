@@ -8,15 +8,15 @@ Core Java for backend work — most folders have demo code and `*Practice` skele
 the **Code** tab.
 
 ## Coding fluency
-- [Streams Core](/java/coding_fluency/streams/StreamsCore) · [Collectors](/java/coding_fluency/streams/StreamCollectors) · [Method References](/java/coding_fluency/streams/MethodReferences)
-- [Records](/java/coding_fluency/records/Records)
-- [Optional](/java/coding_fluency/optional/Optional)
-- [Immutable Collections](/java/coding_fluency/immutable_collections/ImmutableCollections)
-- [Lombok](/java/coding_fluency/lombok/Lombok)
+- [Streams Core](/java/coding_fluency/streams/) · [Collectors](/java/coding_fluency/streams/StreamCollectors) · [Method References](/java/coding_fluency/streams/)
+- [Records](/java/coding_fluency/records/)
+- [Optional](/java/coding_fluency/optional/)
+- [Immutable Collections](/java/coding_fluency/immutable_collections/)
+- [Lombok](/java/coding_fluency/lombok/)
 
 ## Concurrency
-- [Java Memory Model](/java/concurrency/jmm/JavaMemoryModel)
-- [Thread Lifecycle](/java/concurrency/thread_lifecycle/ThreadLifecycle)
-- [Locks](/java/concurrency/locks/Locks) · [synchronized](/java/concurrency/synchronized_keyword/Synchronized) · [volatile](/java/concurrency/volatile_keyword/Volatile)
-- [Race Conditions](/java/concurrency/race_conditions/RaceConditions)
-- [ExecutorService](/java/concurrency/executor_service/ExecutorService) · [CompletableFuture](/java/concurrency/completable_future/CompletableFuture)
+- [Java Memory Model](/java/concurrency/jmm/)
+- [Thread Lifecycle](/java/concurrency/thread_lifecycle/)
+- [Locks](/java/concurrency/locks/) · [synchronized](/java/concurrency/synchronized_keyword/) · [volatile](/java/concurrency/volatile_keyword/)
+- [Race Conditions](/java/concurrency/race_conditions/)
+- [ExecutorService](/java/concurrency/executor_service/) · [CompletableFuture](/java/concurrency/completable_future/)
