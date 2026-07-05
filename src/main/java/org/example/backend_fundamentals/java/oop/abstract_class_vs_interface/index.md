@@ -1,5 +1,5 @@
 ---
-order: 100
+order: 10
 ---
 # Abstract Class vs. Interface — the decision
 
@@ -90,9 +90,7 @@ Template Method is named in the GoF Behavioural section, but you've already been
 
 ## Four decision questions
 
-Run through these in order:
-
-1. **Does this thing need state across implementations?** Yes → abstract class. No → prefer interface.
+Run through these in order: 10. **Does this thing need state across implementations?** Yes → abstract class. No → prefer interface.
 2. **Is it a "what kind of object am I" claim** (taxonomy / IS-A) **or a "what can this object do" claim** (capability)? Taxonomy → abstract class. Capability → interface.
 3. **Could the same capability appear on completely unrelated hierarchies?** Yes (`Comparable`, `Serializable`) → interface. No (a `Shape` parent for `Circle` / `Square`) → abstract class.
 4. **Do I need a template method that calls subclass-specific hooks?** Yes → abstract class — interfaces have `default` methods but no `final`, so you can't lock the algorithm.

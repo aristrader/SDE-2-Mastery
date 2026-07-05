@@ -2,155 +2,122 @@
 order: 60
 ---
 
-# Streams Core — Coding Exercises
+# Method References — Coding Exercises
 
 ## Why this matters
-Stream pipelines replace 90% of for-loops in modern Java services; reviewers flag imperative loops as a code smell.
-`flatMap` over nested collections (e.g., order → line items) is a daily pattern in KYC and order-processing code.
-Interviewers routinely ask candidates to rewrite a for-loop as a stream on the spot — fumbling laziness or single-use is an immediate red flag.
+Method references are the idiomatic replacement for single-method lambdas — less noise, more explicit intent.
+Interviewers ask you to rewrite a lambda on the spot; fumbling bound vs unbound signals you learned the syntax but not the semantics.
+Constructor references come up in stream-to-collection pipelines and DTO mapping — daily patterns in service code.
 
 ## Domain model
 
+Same `Order` and `LineItem` from prior exercises, plus a utility class and a DTO:
+
 ```java
-public enum OrderStatus { PENDING, PAID, CANCELLED }
+public record Order(String id, OrderStatus status, String customerId,
+                    List<LineItem> lineItems, BigDecimal total) {}
 
 public record LineItem(String productId, int quantity, BigDecimal unitPrice) {}
 
-public record Order(
-    String id,
-    OrderStatus status,
-    String customerId,
-    List<LineItem> lineItems,
-    BigDecimal total
-) {}
+/** DTO produced when an order is approved for processing. */
+public record OrderDto(String orderId, String customerId, BigDecimal total) {
+    /** One constructor: called via constructor reference in Exercise 4. */
+    public OrderDto(Order order) {
+        this(order.id(), order.customerId(), order.total());
+    }
+}
+
+/** Utility class with static helpers — used in Exercise 1. */
+public class OrderUtils {
+    public static boolean isHighValue(Order order) {
+        return order.total().compareTo(new BigDecimal("300.00")) > 0;
+    }
+    public static String summarise(Order order) {
+        return order.id() + ":" + order.status();
+    }
+}
 ```
 
-Seed data to paste into your runner:
+Same seed list from `StreamsCore.md` — copy it into your runner.
 
+---
+
+## Exercise 1: Static method reference (`ClassName::staticMethod`) (~5 min)
+**Goal:** Replace a lambda that delegates entirely to a static method.
+
+**Task:** You have these two lambdas in a stream pipeline:
 ```java
-List<Order> orders = List.of(
-    new Order("O1", PAID,      "C1", List.of(new LineItem("P1", 2, new BigDecimal("50.00"))), new BigDecimal("100.00")),
-    new Order("O2", PENDING,   "C2", List.of(new LineItem("P2", 1, new BigDecimal("200.00"))), new BigDecimal("200.00")),
-    new Order("O3", CANCELLED, "C1", List.of(new LineItem("P3", 3, new BigDecimal("30.00"))), new BigDecimal("90.00")),
-    new Order("O4", PAID,      "C3", List.of(new LineItem("P1", 1, new BigDecimal("50.00")), new LineItem("P4", 2, new BigDecimal("75.00"))), new BigDecimal("200.00")),
-    new Order("O5", PENDING,   "C2", List.of(new LineItem("P2", 2, new BigDecimal("200.00"))), new BigDecimal("400.00")),
-    new Order("O6", PAID,      "C1", List.of(new LineItem("P5", 1, new BigDecimal("999.00"))), new BigDecimal("999.00"))
-);
+orders.stream().filter(o -> OrderUtils.isHighValue(o))   // identify high-value orders
+orders.stream().map(o -> OrderUtils.summarise(o))         // summarise each order
 ```
+Rewrite both using static method references. Then add a third: parse a `List<String>` of numeric strings into `List<Integer>` using `Integer::parseInt`.
+
+**Gotcha:** A static reference works only when the lambda does nothing except call the static method with its argument(s) directly — no extra logic, no wrapping. `o -> OrderUtils.isHighValue(o) && o.total() != null` cannot become a method reference.
 
 ---
 
-## Exercise 1: Filter and map (~5 min)
-**Goal:** Practice `filter()` chained with `map()` to project a subset of fields.
-
-**Task:** From `orders`, produce a `List<String>` containing the IDs of every PAID order, in encounter order.
-
-**Gotcha:** `filter()` and `map()` are intermediate — nothing executes until you call a terminal operation. Store `.filter(...).map(...)` in a variable without a terminal op and you get a `Stream<String>`, not a `List<String>`.
-
----
-
-## Exercise 2: flatMap over nested collections (~8 min)
-**Goal:** Collapse a two-level structure (orders → line items) into a single stream.
-
-**Task:** From `orders`, collect every `LineItem` across all orders into a `List<LineItem>`. Then, in a separate pipeline, collect just the distinct `productId` strings (there are duplicates — `P1` and `P2` each appear twice).
-
-**Gotcha:** `.map(Order::lineItems)` gives a `Stream<List<LineItem>>` — a stream of lists, not items. Use `flatMap(order -> order.lineItems().stream())`, then map to product ID and call `distinct()`.
-
----
-
-## Exercise 3: reduce to sum totals (~5 min)
-**Goal:** Aggregate values using `reduce()` instead of a mutable accumulator.
-
-**Task:** Using `reduce()`, compute the sum of `total` across all PAID orders. Do not use `Collectors.summingDouble` or `mapToDouble().sum()` — use `reduce()` explicitly.
-
-**Gotcha:** `reduce(identity, accumulator)` requires identity to be the neutral value for the operation — for `BigDecimal` addition that is `BigDecimal.ZERO`, not `null`. The single-arg `reduce()` returns `Optional`, so you must handle the empty case.
-
----
-
-## Exercise 4: anyMatch / allMatch / noneMatch (~5 min)
-**Goal:** Short-circuit matching instead of filtering and checking size.
+## Exercise 2: Bound instance method reference (`instance::method`) (~5 min)
+**Goal:** Capture a specific object instance and reference one of its methods.
 
 **Task:**
-1. Is there any PENDING order with a total above `300.00`?
-2. Are all CANCELLED orders attributed to customer `C1`?
-3. Are there no orders with a `null` customerId?
+1. Print every order summary to stdout by rewriting `o -> System.out.println(o)` as a bound instance reference in a `.forEach()`.
+2. You have a specific order: `Order target = orders.get(1)`. Filter the full list to find all orders sharing the same status as `target`, by rewriting the predicate `o -> target.status().equals(o.status())` using a bound reference on `target.status()` — think about which object is "bound" here.
 
-Write each as a single expression on `orders`. Do not collect into a list first.
-
-**Gotcha:** These are terminal operations — they consume the stream. You cannot reuse the same `Stream<Order>` variable for all three; call each expression on the source `orders` list directly, or re-open the stream each time.
+**Gotcha:** `System.out::println` is bound because `System.out` is a specific `PrintStream` captured at the reference site. `PrintStream::println` (unbound) would require passing the `PrintStream` as the first argument, which doesn't fit `Consumer<Order>`. For part 2, the bound reference is `target.status()::equals`, and `o.status()` is what gets passed to `equals`.
 
 ---
 
-## Exercise 5: distinct and sorted with Comparator (~7 min)
-**Goal:** De-duplicate and sort without mutating the source list.
+## Exercise 3: Unbound instance method reference (`ClassName::instanceMethod`) (~5 min)
+**Goal:** Reference an instance method without tying it to a specific object — the stream element itself becomes the receiver.
 
 **Task:**
-1. Collect all `customerId` values (including duplicates) and then produce a sorted `List<String>` of distinct customer IDs, ascending alphabetically.
-2. Produce a `List<Order>` of all orders sorted by `total` descending, then by `id` ascending as a tiebreaker.
+1. Map a `Stream<Order>` to a `Stream<String>` of statuses by rewriting `o -> o.status().name()` — think about how many hops this is and whether a single reference covers it.
+2. Map a `Stream<Order>` to customer IDs using `Order::customerId` directly.
+3. Given a `List<String>` of mixed-case status names (e.g., `["paid", "pending"]`), convert each to uppercase using `String::toUpperCase`.
 
-**Gotcha:** `sorted()` on a `Stream<Order>` requires either `Order` to be `Comparable` (it isn't — it's a record with no natural order) or an explicit `Comparator`. Forget the `Comparator` and you get a `ClassCastException` at runtime, not a compile error.
-
----
-
-## Exercise 6: peek for debugging (~3 min)
-**Goal:** Inspect elements flowing through a pipeline without changing them.
-
-**Task:** Add a `.peek(o -> System.out.println("before filter: " + o.id()))` before the filter in your Exercise 1 pipeline, and another `.peek(o -> System.out.println("after filter: " + o.id()))` between `filter` and `map`. Observe what prints.
-
-**Gotcha:** `peek()` is intermediate and lazy — it only fires for elements that reach that stage. Short-circuit terminals (`findFirst`, `anyMatch`, `limit`) skip `peek` for elements past the cutoff. Never use `peek` in production for logic that must always run — it is a debugging-only tool.
+**Gotcha:** `o -> o.status().name()` is a two-hop lambda — it cannot collapse into a single method reference. Use it as-is or chain two `.map()` calls; don't force a reference where the lambda does two things. Part 2 is the clean case: `Order::customerId` works because `customerId()` is called on the stream element directly.
 
 ---
 
-## Exercise 7: findFirst and short-circuit operations (~5 min)
-**Goal:** Return the first match without processing the whole stream.
+## Exercise 4: Comparator.comparing with method reference (~5 min)
+**Goal:** Build a `Comparator` using `Comparator.comparing` with an unbound method reference — the most common real-world usage of method references outside of streams.
 
 **Task:**
-1. Find the first PAID order whose total exceeds `500.00`. Return it as an `Optional<Order>`.
-2. Sort orders by total descending and use `.findFirst()` to get the highest-value order.
+1. Sort `orders` by `customerId` ascending using `Comparator.comparing(Order::customerId)`.
+2. Sort by `total` descending: `Comparator.comparing(Order::total).reversed()`.
+3. Sort by `status` ascending, then by `total` descending as tiebreaker: chain with `.thenComparing(...)`.
 
-**Gotcha:** `findFirst()`, `anyMatch()`, and `limit()` short-circuit — they stop as soon as their condition is satisfied. `findFirst()` returns `Optional<Order>`; call `.orElseThrow()` if a match must exist, or `.orElse(null)` / `.orElse(defaultOrder)` if the empty case is valid.
+**Gotcha:** `Comparator.comparing` takes a `Function<T, U>` key extractor — an unbound instance reference fits perfectly. `Order::customerId` means "call `customerId()` on whichever `Order` is passed." Don't confuse it with `someOrder::customerId`, which captures a specific order and always returns the same value.
 
 ---
 
-## Exercise 8: reduce — identity, accumulator, and combiner (~8 min)
-**Goal:** Understand both the 2-arg and 3-arg forms of `reduce`, including the combiner used in parallel streams.
+## Exercise 5: Constructor reference (`ClassName::new`) (~5 min)
+**Goal:** Use a constructor as a function to transform or collect into a mutable collection.
 
 **Task:**
-1. Use the 2-arg form `reduce(identity, accumulator)` to sum the totals of all PAID orders (same goal as Exercise 3, but now name the arguments explicitly in a comment).
-2. Use the 3-arg form `reduce(identity, accumulator, combiner)` on a `parallelStream()` to sum the same totals. The combiner merges partial results from different threads.
+1. Map the `Stream<Order>` to a `Stream<OrderDto>` by rewriting `o -> new OrderDto(o)` as a constructor reference.
+2. Collect the resulting DTOs into an `ArrayList` (not the default unmodifiable list) using `toCollection(ArrayList::new)`.
 
-**Gotcha:** The 3-arg form is only meaningful on parallel streams — on a sequential stream the combiner is never called. The combiner must be associative and compatible with the accumulator: if the accumulator adds `BigDecimal`s, the combiner must also add. A wrong combiner produces a wrong answer on parallel streams but a correct one on sequential — a subtle, hard-to-reproduce bug.
-
----
-
-## Exercise 9: limit and skip for pagination (~5 min)
-**Goal:** Simulate a page of results from a sorted stream.
-
-**Task:** Sort all orders by total descending (same comparator as Exercise 5). Implement a helper that, given `pageNumber` (0-indexed) and `pageSize`, returns the correct `List<Order>` slice using `skip()` and `limit()`.
-
-**Gotcha:** `skip(n)` and `limit(m)` are intermediate — apply them *after* `sorted()`. Skipping before sorting skips from an unordered stream and gives wrong results. `skip` takes a `long`, not `int`.
+**Gotcha:** `OrderDto::new` resolves to the constructor matching the functional interface's signature. The stream element is `Order`, so Java looks for `OrderDto(Order)` — defined above. Missing constructor is a compile error, not runtime. For `toCollection(ArrayList::new)`, the supplier is `Supplier<ArrayList<OrderDto>>`, matching the no-arg `ArrayList` constructor.
 
 ---
 
 ## Quick recall
 
-**Q.** What happens if you call a terminal operation on a stream that has already been consumed?
-**A.** `IllegalStateException: stream has already been operated upon or closed`. Streams are single-use; re-open from the source collection each time.
+**Q.** What is the difference between a bound and an unbound instance method reference?
+**A.** Bound: a specific object instance is captured (`instance::method`) — the reference acts as a zero-arg (or n-arg) function where the receiver is fixed. Unbound: the receiver is the first argument supplied at invocation (`ClassName::method`) — used in `.map()` where the stream element is the receiver.
 
-**Q.** What is the difference between intermediate and terminal operations?
-**A.** Intermediate ops (e.g., `filter`, `map`, `flatMap`, `sorted`, `peek`) are lazy and return a new `Stream`. Terminal ops (e.g., `collect`, `reduce`, `anyMatch`, `findFirst`) trigger execution and close the stream.
+**Q.** When can you NOT replace a lambda with a method reference?
+**A.** When the lambda does more than delegate to a single method call — e.g., two chained calls (`o.status().name()`), arithmetic, conditional logic, or multiple arguments beyond what the method expects.
 
-**Q.** What is the difference between `map` and `flatMap`?
-**A.** `map` applies a function that returns a value, wrapping it one-for-one. `flatMap` applies a function that returns a `Stream` and merges all those streams into one flat stream — use it to collapse nested collections.
+**Q.** What functional interface does `ClassName::new` satisfy?
+**A.** Whichever interface matches the constructor's parameter list. A no-arg constructor satisfies `Supplier<T>`; a single-arg constructor satisfies `Function<A, T>` or `UnaryOperator<T>`; a two-arg constructor satisfies `BiFunction<A, B, T>`.
 
-**Q.** Why does `filter().map()` not execute immediately?
-**A.** Both are intermediate (lazy) operations. The pipeline runs only when a terminal operation (`collect`, `reduce`, `anyMatch`, etc.) is called, and only processes as many elements as the terminal op needs.
+**Q.** Why is `System.out::println` a bound reference and not a static one?
+**A.** `println` is an instance method on `PrintStream`; `System.out` is the specific `PrintStream` instance that gets captured. Static references point to methods that don't require an instance at all (e.g., `Integer::parseInt`).
 
-**Q.** What is the identity element for `reduce`, and what is the combiner in the 3-arg form?
-**A.** The identity is the neutral value (`BigDecimal.ZERO` for addition) such that `identity OP x == x`. The combiner (3-arg form only) merges partial results across threads in a parallel stream — it is never called on a sequential stream, so combiner bugs only surface under parallelism.
+**Q.** What happens if you write `OrderDto::new` but `OrderDto` has no constructor matching the stream element type?
+**A.** Compile error — the constructor reference cannot be resolved to a matching functional interface. The error points to the reference site, not inside `OrderDto`.
 
-**Q.** How do you sort a stream of domain objects that don't implement `Comparable`?
-**A.** Pass an explicit `Comparator` to `sorted()` — e.g., `Comparator.comparing(Order::total).reversed()`. Calling `sorted()` with no args on a non-`Comparable` type compiles fine but throws `ClassCastException` at runtime.
-
-**Q.** What is `peek()` useful for, and when should you avoid it?
-**A.** Debugging intermediate pipeline stages. Never use it for required side effects — it only fires for elements that reach that stage, and short-circuit ops can skip it entirely.
+**Q.** How does `Comparator.comparing(Order::total)` work and which method reference form is it?
+**A.** It uses an unbound instance reference: `Order::total` is the key extractor — Java calls `total()` on whichever `Order` it receives. Chain `.reversed()` for descending, `.thenComparing(...)` for secondary sort keys.

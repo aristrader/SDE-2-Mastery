@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 80
 ---
 # Inheritance — the details
 

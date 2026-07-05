@@ -2,113 +2,158 @@
 order: 20
 ---
 
-# Creational Patterns — Quick Reference
+# Creational Design Patterns — Learning Guide
 
-One-paragraph mental model per pattern for fast revision. Not a tutorial — read the pattern's own `.md` for the full explanation.
-
----
-
-## Singleton
-
-**One instance. Full stop.**
-
-The whole application shares one object. The pattern controls construction so you can never accidentally create a second one. Use it for things that genuinely need to be global and shared — a config registry, a connection pool, a logger. The trap: Singleton is a hidden global; it makes testing harder and creates tight coupling across the codebase. Spring beans are singletons by default without the Singleton pattern — prefer DI over hand-rolled singletons in production.
-
-**In one line:** *Everyone gets the same object.*
-
-**JDK:** `Runtime.getRuntime()`, `Collections.EMPTY_LIST`
+A reading sequence that builds naturally, front-loads the practically useful patterns, and slots in two non-GoF side quests at the right moment. Follow this order if you're learning from scratch; jump to any section if you already know some of them.
 
 ---
 
-## Factory Method
+## Recommended sequence
 
-**The caller wants a product. It doesn't care which one.**
+```
+Singleton  →  Factory Method  →  Builder  →  Side quest A  →  Abstract Factory  →  [Side quest B]  →  Prototype
+```
 
-The caller says "give me a developer" and gets back an `Employee`. It never writes `new AndroidDeveloper()` — it just calls `hireForTeam()` on whatever hiring process it was given. You swap the product by swapping the creator subclass. The creator (the hiring process) decides what gets built; the caller (HR) only sees the abstract product. Extend the system by adding a new creator + product pair — no existing class changes.
-
-**In one line:** *Caller gets a product; a subclass decides which one.*
-
-**JDK:** `Calendar.getInstance()`, `NumberFormat.getInstance()`
+Each step below tells you what to read, what to try, and why it comes where it does.
 
 ---
 
-## Abstract Factory
+## 1. Singleton
 
-**Factory Method, but for a whole matched family of products.**
+**Read:** `singleton/Singleton.md`
 
-You don't just need one product — you need several that belong together. A cheap furniture factory produces a `CheapChair` and a `CheapSofa` that match. A luxury factory produces `LuxuryChair` + `LuxurySofa`. The factory interface guarantees you can never accidentally mix a luxury chair with a cheap sofa. The client gets the whole family from one factory call site and works only against the abstract product interfaces. Add a new family by adding a new concrete factory — no existing client code changes.
+**Run:** `ThreadSafeSingleton.main` — races 50 threads; should always print PASS.
 
-**In one line:** *Caller gets a coordinated family of products; the factory guarantees they match.*
+**Try yourself:** Implement all five variants from scratch (no singleton, eager, lazy, thread-safe, Bill Pugh). Then answer: why is `BillPughSingleton` preferred over `ThreadSafeSingleton`?
 
-**JDK:** JDBC `Connection` → `Statement` → `ResultSet` from the same driver; `DocumentBuilderFactory`
-
----
-
-## Builder
-
-**Construct complex objects step by step, hand back an immutable result.**
-
-When an object has many fields — some required, many optional — constructors become unreadable (`new Job(title, city, null, null, 0, true, false)`). Builder separates construction from representation: required fields go into the builder's constructor (so you can never forget them), optional fields are fluent setters, and `build()` validates before handing back a fully constructed, immutable product. The Director variant adds pre-packaged recipes so the same steps can build completely different products.
-
-**In one line:** *Construction is complex; Builder makes it readable and validates before handing you the result.*
-
-**JDK:** `StringBuilder`, `HttpRequest.newBuilder()`, `Stream.Builder`; Lombok `@Builder` in any Spring project
+**Why first:** Simplest creational pattern. Introduces the idea that construction can be controlled — which all the others build on.
 
 ---
 
-## Static Factory Methods *(Effective Java Item 1 — not a GoF pattern)*
+## 2. Factory Method
 
-**Named constructors with superpowers.**
+**Read:** `factory/Factory.md` — overview of Simple Factory vs GoF Factory Method and when to promote one to the other.
 
-Instead of `new Temperature(37, CELSIUS)` you write `Temperature.celsius(37)`. The name is clearer, you can cache instances (return the same object for the same input), and you can return a subtype the caller doesn't even know about. The two limitations: you can't subclass a class whose only constructor is private, and static factory methods don't stand out in Javadoc the way constructors do.
+Then the pattern-specific docs in order: 20. `factory/simple_factory/SimpleFactory.md` — the non-GoF starting point
+2. `factory/factory_method_basic/FactoryMethodBasic.md` — learning variant (static services, no interface above the abstract class)
+3. `factory/factory_method/FactoryMethodProd.md` — production variant (injected services, `HiringProcess` interface, DIP-clean `HR`)
 
-**In one line:** *Give construction a meaningful name; optionally cache or hide the concrete type.*
+**Run:** `simple_factory/SimpleFactoryRun`, `factory_method_basic/FactoryMethodRun`, `factory_method/FactoryMethodRun` — compare the wiring cost across the three.
 
-**JDK:** `List.of(...)`, `Optional.empty()`, `Integer.valueOf(5)`, `Path.of(...)`
+**Try yourself:** Build a `NotificationFactory` with `EmailNotification` and `SmsNotification`. Make the caller (`NotificationSender`) depend only on the `Notification` interface, not on either concrete class.
 
----
-
-## Prototype
-
-**Copy a pre-built object instead of constructing from scratch.**
-
-When construction is expensive (database lookup, heavy computation) and you already have a fully configured instance, cloning it is faster than building a new one. The prototype is a template — you copy it and tweak the copy. Java's `Cloneable`/`clone()` is the canonical mechanism but is widely considered broken (shallow copy by default, no constructor called, awkward exception). Copy constructors are the modern alternative: `new Shape(existingShape)` gives you full control over what gets copied and how deeply.
-
-**In one line:** *Construction is expensive; copy a ready-made template instead.*
-
-**JDK:** `new ArrayList<>(existingList)`, `new HashMap<>(existingMap)` — copy constructors everywhere
+**Why here:** Introduces polymorphic creation — the concept that powers Abstract Factory and most DI containers.
 
 ---
 
-## Shallow copy vs deep copy (applies to Prototype)
+## Side quest A — Static factory methods (Effective Java Item 1)
 
-- **Shallow copy:** the new object gets its own primitive fields but shares references to any nested objects with the original. Mutating a nested object in the copy changes the original too.
-- **Deep copy:** every nested object is also copied recursively. The original and the copy are completely independent.
+**Read:** `static_factory_methods/StaticFactoryMethods.md`
 
-`Object.clone()` does a shallow copy. Copy constructors let you choose per field.
+**Run:** `static_factory_methods/TemperatureRun`
 
----
-
-## Choosing between them — the one-question test
-
-| Question | Pattern |
-| --- | --- |
-| Do I need exactly one instance globally? | Singleton |
-| Do I need an object but want to decide the concrete type elsewhere? | Factory Method |
-| Do I need a set of objects that must match each other? | Abstract Factory |
-| Does the object have many fields, some optional, and I want immutability? | Builder |
-| Do I want a named constructor, caching, or to hide the concrete type? | Static Factory Method |
-| Is construction expensive and I already have a good template? | Prototype |
+**Why here:** Takes ~20 minutes, pays off forever. Explains why `Integer.valueOf(5)` beats `new Integer(5)`, why `List.of(...)` looks the way it does, and how `JobOffer.builder()` differs from a true static factory method. Sets up the mental model for Spring `@Bean` methods.
 
 ---
 
-## The trap each one hides
+## 3. Builder
 
-| Pattern | Common mistake |
-| --- | --- |
-| Singleton | Using it everywhere — it's a hidden global that breaks testability |
-| Factory Method | Adding it when a plain constructor would do; not every `new` needs a factory |
-| Abstract Factory | Stuffing behaviour (e.g., `furnishRoom`) into the factory — consumption belongs to the caller |
-| Builder | Skipping required-field enforcement — if a field is mandatory, it goes in the builder's constructor, not as a setter |
-| Static Factory | Calling `JobOffer.builder()` a "static factory method" — it returns a `Builder`, not a `JobOffer`; that's not the EJ definition |
-| Prototype | Using `clone()` and assuming deep copy — it's shallow unless you override everything |
+**Read:** `builder/Builder.md` — overview of the four variants.
+
+Then the variant-specific docs in order: 20. `builder/simple_builder/BuilderBasic.md` — hand-written EJ-style (required fields in constructor, validation in `build()`)
+2. `builder/lombok_builder/BuilderLombok.md` — what `@Builder` generates and what it costs you
+3. `builder/director_builder/BuilderDirector.md` — Director as a recipe holder; never calls `build()`
+4. `builder/director_builder_gof/BuilderDirectorGof.md` — GoF Director: same recipe drives multiple builders, different artefacts
+
+**Run:** All four `JobOfferRun` mains. The GoF one is the most instructive — notice how one recipe produces a `JobOffer` from one builder and a `String` letter from another.
+
+**Try yourself:** Model a `Pizza` with a required size and optional toppings. First in plain Java (required fields in builder constructor, validation in `build()`), then with `@Builder`. Notice what `@Builder` cannot enforce.
+
+**Why here:** The most practically useful creational pattern. You will use it constantly in real Java code.
+
+---
+
+## Side quest B — Dependency Injection
+
+**Read:** `todo/FoundationsToRead.md` → "DI in practice"
+
+**Why here:** Once Factory Method clicks, DI is the natural next question — *what if something else held my object graph and handed me my collaborators?* Doing this detour makes Abstract Factory feel motivated rather than theoretical.
+
+**Three passes:** manual DI (constructor injection, wired in `main`) → Spring basics (`@Component`, `@Autowired`, `@Bean`) → bean scopes (singleton vs prototype vs request).
+
+**Try yourself:** Refactor the `NotificationFactory` from the Factory Method exercise so Spring injects the right implementation based on configuration. You should end up deleting the factory class entirely.
+
+---
+
+## 4. Abstract Factory
+
+**Read:** `abstract_factory/AbstractFactory.md`
+
+**Run:** `abstract_factory/RunAbstractFactory`
+
+**Try yourself:** Build a `UIFactory` with `LightThemeFactory` and `DarkThemeFactory`. Each produces matching `Button`, `TextField`, and `Checkbox`. Write a `renderUI(UIFactory)` helper on the client side — not on the factory.
+
+**Why here:** Abstract Factory only makes sense once plain Factory Method is solid. The pattern is Factory Method scaled to a coordinated family of products.
+
+**Key decision to think through:** When does a set of objects qualify as a "family"? (Answer: when mixing products from different families would produce incorrect behaviour — e.g., a luxury chair with a cheap sofa breaks the design guarantee.)
+
+---
+
+## 5. Prototype
+
+**Read:** `prototype/Prototype.md` (once written)
+
+**Try yourself:** Implement a `Shape` with a `List<Point>` both ways:
+1. `Cloneable` + `clone()` — observe the shallow-copy trap (both copies share the same list).
+2. Copy constructor — proper deep copy with no shared state.
+
+Form your own opinion on which is safer and clearer to read.
+
+**Why last:** Least used in modern Java. The GoF mechanics (`Cloneable`/`clone()`) are widely considered broken; copy constructors or serialization libraries win in practice. Worth knowing for interviews and for recognising the pattern when you see it.
+
+---
+
+## Side quest B revisit — DI orchestration mini-project
+
+**Read:** `todo/study_plan/deep_dives/PatternSelectionExercise.md`
+
+Practice choosing between Strategy, Registry, and Spring DI to orchestrate multiple factories from a single client. This is the synthesis exercise — it forces you to pick between patterns rather than just implement them.
+
+---
+
+## Completion criteria
+
+You can move on from any pattern when you can answer these without looking them up:
+
+1. What problem does this pattern solve? (one sentence)
+2. What does the minimum implementation look like? (can you write it from scratch?)
+3. Where does it appear in the JDK or a popular library?
+4. When would you *not* use it?
+5. How does it interact with dependency injection?
+
+---
+
+## If you only have time for the essentials
+
+**Singleton + Factory Method + Builder** cover roughly 90 % of creational code in real Java projects. Add Side quest A (static factory methods) for another 20 minutes that pays off in every codebase you read.
+
+Abstract Factory earns its keep when you interview or when you encounter JDBC / UI toolkits. Prototype is mostly for interview prep and recognising the shape in libraries.
+
+---
+
+## All docs at a glance
+
+| Pattern | Overview doc | Variant / detail docs |
+| --- | --- | --- |
+| Singleton | `singleton/Singleton.md` | — |
+| Factory Method | `factory/Factory.md` | `simple_factory/SimpleFactory.md`, `factory_method_basic/FactoryMethodBasic.md`, `factory_method/FactoryMethodProd.md` |
+| Builder | `builder/Builder.md` | `simple_builder/BuilderBasic.md`, `lombok_builder/BuilderLombok.md`, `director_builder/BuilderDirector.md`, `director_builder_gof/BuilderDirectorGof.md` |
+| Static factory methods | `static_factory_methods/StaticFactoryMethods.md` | — |
+| Abstract Factory | `abstract_factory/AbstractFactory.md` | — |
+| Prototype | `prototype/Prototype.md` | — |
+
+**Foundations and cross-cutting:**
+- `design_patterns/foundations/` — SOLID, supporting principles, OOP pillars, coupling/cohesion/smells, DIP vs DI
+- `todo/study_plan/deep_dives/DesignThinkingProcess.md` — pattern-agnostic design heuristics (6-step process)
+- `todo/study_plan/deep_dives/PatternSelectionExercise.md` — when to use which pattern, "one HR, many factories" orchestration exercise
+- `todo/study_plan/deep_dives/PatternSelectionScenarios.md` — 25 production scenario exercises across the creational patterns

@@ -1,5 +1,5 @@
 ---
-order: 110
+order: 20
 title: Deployments
 ---
 

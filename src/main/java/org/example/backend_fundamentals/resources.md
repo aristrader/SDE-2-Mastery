@@ -1,3 +1,7 @@
+---
+order: 10
+---
+
 # General Study Resources
 
 Here is a collection of high-quality external resources, courses, and guides for system design and backend engineering.

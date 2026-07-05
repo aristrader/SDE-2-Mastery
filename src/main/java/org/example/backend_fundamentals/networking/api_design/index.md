@@ -3,1100 +3,1008 @@ order: 10
 ---
 
 # API Technologies Study Notes — Complete Conversation Dump
-# Part 2/3 — JWT Deep Dive, Session vs JWT Security, GraphQL, N+1, gRPC, Protobuf Foundations
+# Part 1/3 — APIs, REST, Statelessness, Sessions, JWT, HTTP Status Codes
 
-This continues directly from Part 1.
-
----
-
-# JWT Symmetric vs Asymmetric Signing
+This document captures all topics, questions, misconceptions, corrections, examples, and follow-up clarifications discussed in this part of the conversation.
 
 ---
 
-# User Question
+# APIs
 
-> I remember something about public/private keys.
->
-> How does JWT verification actually work?
+API = Application Programming Interface.
 
----
+Purpose:
 
-# Symmetric JWT (HS256)
+- Contract between systems.
+- Defines how requests are made.
+- Defines how responses are returned.
+- Defines data formats.
+- Defines error handling.
 
-One shared secret.
-
-Creation:
-
-```text
-HMAC(
- Header + Payload,
- SecretKey
-)
-```
-
-Verification:
-
-```text
-HMAC(
- Header + Payload,
- SecretKey
-)
-```
-
-Same key used for both.
-
----
-
-# Mental Model
-
-```text
-Server
-  |
-SecretKey
-```
-
-Only server knows secret.
-
-Server creates token.
-
-Server verifies token.
-
-Simple.
-
----
-
-# Asymmetric JWT (RS256)
-
-Uses:
-
-```text
-Private Key
-Public Key
-```
-
----
-
-# Token Creation
-
-Auth Service owns:
-
-```text
-Private Key
-```
-
-Creates signature:
-
-```text
-Sign(
- Header + Payload,
- PrivateKey
-)
-```
-
-Returns JWT.
-
----
-
-# Token Verification
-
-Services have:
-
-```text
-Public Key
-```
-
-Verify:
-
-```text
-Verify(
- Header + Payload,
- Signature,
- PublicKey
-)
-```
-
----
-
-# Why Use Public/Private Keys?
-
-Imagine:
-
-```text
-Auth Service
-Order Service
-Payment Service
-Inventory Service
-```
-
-Only Auth Service should create tokens.
-
-But all services should verify them.
-
----
-
-With asymmetric crypto:
-
-```text
-Auth Service
-    |
-Private Key
-```
-
-Only Auth Service can sign.
-
----
-
-Other services:
-
-```text
-Order Service
-Payment Service
-Inventory Service
-```
-
-have:
-
-```text
-Public Key
-```
-
-Can verify.
-
-Cannot create fake tokens.
-
----
-
-# User Question
-
-> Where does public key come from?
->
-> Doesn't Order Service need to call Auth Service?
-
----
-
-# Correction
-
-Usually:
-
-```text
-No.
-```
-
-That defeats the purpose.
-
----
-
-# Why Not Verify Through Auth Service Every Request?
-
-Imagine:
+Simple mental model:
 
 ```text
 Client
-  |
-Order Service
-  |
-Auth Service
+   |
+API
+   |
+Server
 ```
-
-Every request requires:
-
-```text
-Verify Token
-```
-
-Problems:
-
-- Extra network call.
-- More latency.
-- Auth Service bottleneck.
-- Single point of failure.
-
----
-
-# How Public Key Is Distributed
-
-## Option 1
-
-Deployment-time configuration.
 
 Example:
 
-```text
-Auth Service
-  Private Key
-
-Order Service
-  Public Key
-
-Payment Service
-  Public Key
-```
-
-Configured once.
-
----
-
-## Option 2
-
-Auth Service exposes:
+Client:
 
 ```text
-/public-key
+Give me user 123
 ```
 
-or
-
-```text
-/jwks
-```
-
-endpoint.
-
-Services fetch:
-
-```text
-Once
-```
-
-or
-
-```text
-At startup
-```
-
-or
-
-```text
-Every few hours
-```
-
-and cache.
-
----
-
-# Cost Benefit
-
-Verification becomes:
-
-```text
-JWT
-  |
-Order Service
-  |
-Verify Locally
-```
-
-No network call.
-
-Very fast.
-
----
-
-# Passport Analogy
-
-Government:
-
-```text
-Issues Passport
-```
-
-Airport officer:
-
-```text
-Verifies Signature
-```
-
-Doesn't call government every time.
-
-JWT verification works similarly.
-
----
-
-# Session vs JWT Security
-
----
-
-# User Question
-
-> If someone steals Session ID, can't they use it?
->
-> Isn't that exactly like stealing JWT?
-
----
-
-# Correction
-
-Yes.
-
-100%.
-
-This was an important realization.
-
----
-
-# Session Theft
-
-Attacker steals:
-
-```text
-SESSIONID=ABC123
-```
-
-Sends:
-
-```http
-Cookie: SESSIONID=ABC123
-```
-
-Server says:
-
-```text
-Yep.
-That's User123.
-```
-
-Access granted.
-
----
-
-# JWT Theft
-
-Attacker steals:
-
-```http
-Authorization: Bearer JWT
-```
-
-Server says:
-
-```text
-Signature Valid
-```
-
-Access granted.
-
----
-
-# Important Realization
-
-From a theft perspective:
-
-```text
-Stolen SessionID
-=
-Stolen JWT
-```
-
-Both are:
-
-```text
-Bearer Credentials
-```
-
-Whoever possesses them can use them.
-
----
-
-# User Follow-up
-
-> Then what's the difference?
-
----
-
-# Difference = Revocation
-
----
-
-## Sessions
-
-Stored:
-
-```text
-ABC123 -> User101
-```
-
-Delete entry:
-
-```text
-ABC123 removed
-```
-
-Session instantly invalid.
-
----
-
-## JWT
-
-Server receives:
-
-```text
-Valid JWT
-```
-
-Checks:
-
-```text
-Signature Valid
-Expiry Valid
-```
-
-Accepts it.
-
----
-
-To revoke JWT you need:
-
-```text
-Blacklist
-Revocation Table
-Redis Check
-```
-
-Extra complexity.
-
----
-
-# Tradeoff
-
-Sessions:
-
-```text
-Easy Logout
-Easy Revocation
-Easy Control
-
-Need Storage
-```
-
-JWT:
-
-```text
-Easy Scaling
-Stateless
-
-Hard Revocation
-```
-
----
-
-# User Observation
-
-> Hackers won't use web pages.
->
-> They'll call APIs directly.
-
----
-
-# Correction
-
-Correct.
-
-Eventually authentication becomes:
-
-```text
-Who possesses credential?
-```
-
-not
-
-```text
-Who opened browser?
-```
-
----
-
-If attacker gets:
-
-```text
-Password
-SessionID
-JWT
-```
-
-they can usually call APIs directly.
-
----
-
-# Security Measures Mentioned
-
-```text
-HTTPS
-Secure Cookies
-HttpOnly Cookies
-Short Expiration
-MFA
-```
-
----
-
-# GraphQL
-
-Created by Facebook.
-
-Core idea:
-
-```text
-Client decides exact response shape.
-```
-
----
-
-# Why GraphQL Exists
-
-REST:
-
-```http
-GET /user/1
-```
-
-Returns:
+Server:
 
 ```json
 {
   "id":123,
-  "name":"Swapnil",
-  "email":"...",
-  "phone":"..."
+  "name":"Swapnil"
 }
-```
-
----
-
-Client only needs:
-
-```text
-name
-```
-
-GraphQL solves that.
-
----
-
-# Query Example
-
-```graphql
-{
-  getUser {
-    name
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "getUser": {
-    "name":"Swapnil"
-  }
-}
-```
-
----
-
-# Schema
-
-Example:
-
-```graphql
-type User {
-  id: ID
-  name: String
-  city: String
-}
-```
-
-Defines available fields.
-
----
-
-# Queries
-
-Read operations.
-
-Example:
-
-```graphql
-query {
-  getUser {
-    name
-  }
-}
-```
-
----
-
-# Mutations
-
-Write operations.
-
-Example:
-
-```graphql
-mutation {
-  createUser(name:"Swapnil")
-}
-```
-
----
-
-# Resolvers
-
-Resolver = GraphQL request handler.
-
----
-
-# User Understanding
-
-Question:
-
-> GraphQL is basically using backend resolvers that know where data comes from?
-
----
-
-# Correction
-
-Yes.
-
-Good mental model.
-
----
-
-Example:
-
-```graphql
-{
-  user {
-    name
-    dob
-  }
-}
-```
-
-Resolver:
-
-```java
-getUser()
-```
-
-could execute:
-
-```sql
-SELECT name,dob
-FROM users
-```
-
-One query.
-
----
-
-# Important Confusion
-
----
-
-## Misconception
-
-> If name and DOB are requested, does GraphQL do two fetches?
-
----
-
-## Correction
-
-No.
-
-If both fields live in same row:
-
-```sql
-SELECT name,dob
-FROM users
-```
-
-One fetch.
-
-No double querying.
-
----
-
-# Another Example
-
-Query:
-
-```graphql
-{
-  user {
-    name
-    orders {
-      id
-    }
-  }
-}
-```
-
-Maybe:
-
-```text
-name -> User DB
-orders -> Order Service
-```
-
-Now multiple sources involved.
-
----
-
-# Important Misconception
-
-Misconception:
-
-> One GraphQL field means one DB query.
-
-Correction:
-
-Not necessarily.
-
-Good implementations often:
-
-```java
-loadUser()
-```
-
-once.
-
-Then:
-
-```java
-user.getName()
-user.getDob()
-```
-
-read from loaded object.
-
----
-
-# N+1 Problem
-
-One of the most important GraphQL interview topics.
-
----
-
-# Example
-
-Query:
-
-```graphql
-{
-  users {
-    id
-    orders {
-      id
-    }
-  }
-}
-```
-
----
-
-Step 1
-
-```sql
-SELECT *
-FROM users
-```
-
-Returns:
-
-```text
-User1
-User2
-...
-User100
-```
-
-One query.
-
----
-
-Step 2
-
-For every user:
-
-```sql
-SELECT *
-FROM orders
-WHERE user_id=1
-```
-
-```sql
-SELECT *
-FROM orders
-WHERE user_id=2
-```
-
-...
-
-100 queries.
-
----
-
-Total:
-
-```text
-1 + 100 = 101 queries
-```
-
-Called:
-
-```text
-N+1 Problem
-```
-
----
-
-# User Memory
-
-You remembered:
-
-> Batch 50-50 requests?
->
-> Fetch list of IDs?
-
-Exactly.
-
-That's one common solution.
-
----
-
-# Solution 1: Batch Loading
-
-Instead of:
-
-```sql
-WHERE user_id=1
-WHERE user_id=2
-WHERE user_id=3
-```
-
-Do:
-
-```sql
-SELECT *
-FROM orders
-WHERE user_id IN (
- 1,2,3,...100
-)
-```
-
-One query.
-
----
-
-# DataLoader
-
-Common GraphQL tool.
-
-Conceptually:
-
-Application calls:
-
-```java
-load(user1)
-load(user2)
-load(user3)
-```
-
-Internally becomes:
-
-```java
-load([1,2,3])
-```
-
-One DB hit.
-
----
-
-# Solution 2: Join
-
-```sql
-SELECT *
-FROM users
-LEFT JOIN orders
-```
-
-Single query.
-
----
-
-# Solution 3: Eager Loading
-
-Examples:
-
-```java
-JOIN FETCH
-```
-
-or
-
-```java
-@EntityGraph
-```
-
-Load related data up front.
-
----
-
-# Solution 4: Cache
-
-Redis.
-
-Local cache.
-
-Not primary solution.
-
-Can help.
-
----
-
-# Important Misconception
-
-Misconception:
-
-> N+1 means GraphQL is bad.
-
-Correction:
-
-N+1 means resolver implementation is bad.
-
-Proper batching solves it.
-
----
-
-# gRPC Introduction
-
----
-
-# User Confusion
-
-> I still don't understand gRPC.
->
-> Start from layman terms.
-
----
-
-# Key Insight
-
-Many people think:
-
-```text
-REST vs gRPC
-=
-JSON vs Binary
-```
-
-Not really.
-
----
-
-The deeper distinction:
-
-REST:
-
-```text
-Resource-Oriented
-```
-
-gRPC:
-
-```text
-Procedure-Oriented
 ```
 
 ---
 
 # REST
 
-Think:
+REST = Representational State Transfer.
+
+Most common API style.
+
+Core idea:
 
 ```text
-Users
-Orders
-Payments
+Everything is a resource.
 ```
 
-URLs:
+Examples:
 
-```http
-/users/123
-/orders/456
+```text
+/users
+/orders
+/products
+/payments
 ```
 
 ---
 
-# gRPC
+# REST Endpoints
 
-Think:
-
-```java
-getUser()
-createOrder()
-validatePayment()
-```
-
-Functions.
-
----
-
-# REST Example
+Get user:
 
 ```http
 GET /users/123
 ```
 
+Create user:
+
+```http
+POST /users
+```
+
+Update user:
+
+```http
+PATCH /users/123
+```
+
+Delete user:
+
+```http
+DELETE /users/123
+```
+
 ---
 
-# gRPC Example
+# REST Constraints
+
+## Client-Server
+
+Frontend and backend are independent.
+
+Example:
+
+```text
+React App
+    ↓
+REST API
+    ↓
+Database
+```
+
+---
+
+## Stateless
+
+Each request should contain everything required to process it.
+
+Example:
+
+```http
+GET /profile
+Authorization: Bearer JWT
+```
+
+Server should not need information from previous requests.
+
+---
+
+## Cacheable
+
+Responses can be cached.
+
+Example:
+
+```http
+GET /products
+```
+
+Cache for 5 minutes.
+
+Reduces DB load.
+
+---
+
+## Uniform Interface
+
+Consistent conventions.
+
+Good:
+
+```text
+GET /users
+POST /users
+PATCH /users/1
+DELETE /users/1
+```
+
+Bad:
+
+```text
+/getUsers
+/createUser
+/removeUser
+```
+
+---
+
+# HTTP Verbs
+
+| Verb | Meaning |
+|--------|---------|
+| GET | Read |
+| POST | Create |
+| PUT | Replace entire resource |
+| PATCH | Partial update |
+| DELETE | Delete |
+| HEAD | Metadata only |
+
+---
+
+# PUT vs PATCH
+
+Existing user:
+
+```json
+{
+  "name":"John",
+  "age":25
+}
+```
+
+PUT:
+
+```json
+{
+  "name":"Bob"
+}
+```
+
+Result:
+
+```json
+{
+  "name":"Bob"
+}
+```
+
+Entire resource replaced.
+
+---
+
+PATCH:
+
+```json
+{
+  "name":"Bob"
+}
+```
+
+Result:
+
+```json
+{
+  "name":"Bob",
+  "age":25
+}
+```
+
+Only specified fields updated.
+
+---
+
+# HTTP Status Codes
+
+## 1xx
+
+Informational.
+
+Rarely discussed in interviews.
+
+---
+
+## 2xx
+
+Success.
+
+Examples:
+
+```text
+200 OK
+201 Created
+204 No Content
+```
+
+---
+
+## 3xx
+
+Redirection.
+
+---
+
+### User Question
+
+> Explain 3xx errors.
+
+---
+
+### 301 Moved Permanently
+
+Example:
+
+```http
+GET oldsite.com
+```
+
+Response:
+
+```http
+301 Moved Permanently
+Location: newsite.com
+```
+
+Browser automatically goes to:
+
+```http
+GET newsite.com
+```
+
+Search engines update indexes.
+
+Permanent change.
+
+---
+
+### 302 Found / Temporary Redirect
+
+Example:
+
+```http
+302 Found
+Location: maintenance-page
+```
+
+Meaning:
+
+```text
+Use another URL temporarily.
+```
+
+Original URL may return later.
+
+---
+
+### 304 Not Modified
+
+Important for caching.
+
+Yesterday browser downloaded:
+
+```http
+GET /logo.png
+```
+
+Today:
+
+```http
+GET /logo.png
+If-Modified-Since: yesterday
+```
+
+Server responds:
+
+```http
+304 Not Modified
+```
+
+Browser uses cached image.
+
+No image transferred.
+
+Bandwidth saved.
+
+---
+
+## 4xx
+
+Client errors.
+
+Examples:
+
+```text
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not Found
+429 Too Many Requests
+```
+
+---
+
+## 5xx
+
+Server errors.
+
+Examples:
+
+```text
+500 Internal Server Error
+503 Service Unavailable
+```
+
+---
+
+# REST Problems
+
+## Over-Fetching
+
+Suppose:
+
+```json
+{
+  "id":1,
+  "name":"Swapnil",
+  "email":"x@gmail.com",
+  "phone":"123",
+  "address":"..."
+}
+```
+
+Client only needs:
+
+```json
+{
+  "name":"Swapnil"
+}
+```
+
+REST still returns everything.
+
+Called:
+
+```text
+Over-Fetching
+```
+
+---
+
+## Multiple Round Trips
+
+Need:
+
+```text
+User
+Orders
+Payments
+```
+
+REST may require:
+
+```http
+GET /user/1
+GET /orders?user=1
+GET /payments?user=1
+```
+
+Three network calls.
+
+---
+
+# REST Statelessness vs Sessions
+
+This became one of the biggest confusion points.
+
+---
+
+# User Confusion
+
+Question:
+
+> REST says stateless.
+>
+> But websites clearly maintain login sessions.
+>
+> Cookies exist.
+>
+> Isn't that state?
+>
+> Is there some separate protocol?
+
+---
+
+# Correction
+
+Yes.
+
+There is state somewhere.
+
+The question is:
+
+```text
+Where is the state stored?
+```
+
+---
+
+# Pure REST / Stateless Example
+
+Login:
+
+```http
+POST /login
+```
+
+Response:
+
+```json
+{
+  "token":"abc123"
+}
+```
+
+Future request:
+
+```http
+GET /profile
+Authorization: Bearer abc123
+```
+
+Server validates token.
+
+Returns profile.
+
+Tomorrow:
+
+```http
+GET /profile
+Authorization: Bearer abc123
+```
+
+Same process.
+
+Server doesn't need memory of previous requests.
+
+Stateless.
+
+---
+
+# Session-Based Authentication
+
+Traditional websites often work like this.
+
+Login:
+
+```http
+POST /login
+```
+
+Server creates:
+
+```text
+SessionID = XYZ
+```
+
+Stores:
+
+```text
+XYZ -> User123
+```
+
+in memory, Redis, or DB.
+
+Returns:
+
+```http
+Set-Cookie: SESSIONID=XYZ
+```
+
+Browser stores cookie.
+
+---
+
+Future request:
+
+```http
+GET /profile
+Cookie: SESSIONID=XYZ
+```
+
+Server executes:
 
 ```java
-userService.getUser(123)
+sessionStore.get("XYZ")
 ```
 
-Looks like local method call.
+Finds:
+
+```text
+User123
+```
+
+Returns profile.
 
 ---
 
-# Why Google Built It
+# Why This Is Not Pure REST
 
-Imagine:
+Request #2 depends on information remembered from request #1.
 
-```text
-Order Service
-Payment Service
-```
-
-communicating:
+Server has state:
 
 ```text
-10,000 requests/sec
+XYZ -> User123
 ```
 
-Problems with REST:
+stored somewhere.
 
-- JSON overhead.
-- Manual DTOs.
-- Serialization cost.
+REST's stateless constraint says ideally:
+
+```text
+Don't do that.
+```
 
 ---
 
-# End of Part 2/3
+# Major Misconception
 
-Part 3 will continue with:
+Misconception:
 
-- Protobuf deep dive
-- Why field numbers exist
-- Shared contracts
-- Generated DTOs
-- Build-time schema sharing
-- Versioning
-- Schema evolution
-- Generated code examples
-- Why protobuf isn't used everywhere
-- Real-world architectures
-- All protobuf misconceptions and corrections
+> If sessions aren't perfectly RESTful, companies shouldn't use them.
+
+Correction:
+
+Companies absolutely use them.
+
+A lot.
+
+---
+
+# Why Companies Use Sessions Anyway
+
+Because REST purity isn't the goal.
+
+Business requirements are.
+
+---
+
+# Example: Force Logout
+
+Current session:
+
+```text
+ABC123 -> User101
+```
+
+Admin clicks:
+
+```text
+Logout User
+```
+
+Delete:
+
+```text
+ABC123
+```
+
+User instantly logged out.
+
+---
+
+# Example: Single Login Policy
+
+Store:
+
+```text
+User101 -> SessionABC
+```
+
+User logs in elsewhere:
+
+Delete old session.
+
+Create new one.
+
+Easy.
+
+---
+
+# Example: Banking
+
+Banks often want server-side control.
+
+They may prefer:
+
+```text
+Every request depends on active server-side session.
+```
+
+instead of:
+
+```text
+Long-lived self-contained JWT.
+```
+
+---
+
+# Real-World Conclusion
+
+Many systems are:
+
+```text
+REST APIs
++
+Session Authentication
+```
+
+Technically not pure REST.
+
+Practically very common.
+
+---
+
+# Scaling Problem With Sessions
+
+Suppose:
+
+```text
+App1
+App2
+App3
+...
+App10
+```
+
+User logs into:
+
+```text
+App1
+```
+
+Session stored in App1 memory.
+
+Next request hits:
+
+```text
+App7
+```
+
+Problem:
+
+```text
+App7 doesn't know session.
+```
+
+---
+
+# Solutions
+
+## Sticky Sessions
+
+Load balancer always routes user to App1.
+
+Scales poorly.
+
+---
+
+## Shared Redis
+
+```text
+App1
+App2
+App3
+  |
+Redis
+```
+
+Works.
+
+But Redis becomes critical infrastructure.
+
+---
+
+# Why JWT Became Popular
+
+Request:
+
+```http
+Authorization: Bearer JWT
+```
+
+can hit:
+
+```text
+App1
+App2
+App3
+App4
+```
+
+No session lookup required.
+
+No Redis dependency required.
+
+Easy horizontal scaling.
+
+---
+
+# JWT
+
+---
+
+# User Confusion
+
+Question:
+
+> Whoever has JWT is authenticated right?
+>
+> JWT holds hash of request right?
+>
+> I forgot how verification works.
+
+---
+
+# JWT Structure
+
+JWT contains:
+
+```text
+Header
+Payload
+Signature
+```
+
+Example:
+
+```text
+xxxxx.yyyyy.zzzzz
+```
+
+Three sections.
+
+---
+
+# Header
+
+Example:
+
+```json
+{
+  "alg":"HS256",
+  "typ":"JWT"
+}
+```
+
+Meaning:
+
+```text
+Algorithm = HS256
+Type = JWT
+```
+
+---
+
+# Payload
+
+Example:
+
+```json
+{
+  "sub":"123",
+  "role":"ADMIN",
+  "exp":1712345678
+}
+```
+
+Contains claims.
+
+Usually:
+
+```text
+User ID
+Roles
+Permissions
+Expiry
+```
+
+---
+
+# Signature
+
+Server computes:
+
+```text
+HMAC(
+ Header + Payload,
+ SecretKey
+)
+```
+
+Result:
+
+```text
+ABCXYZ123
+```
+
+Stored as signature.
+
+---
+
+# Verification
+
+Client sends:
+
+```text
+Header.Payload.Signature
+```
+
+Server:
+
+1. Extracts Header.
+2. Extracts Payload.
+3. Extracts Signature.
+
+Recomputes:
+
+```text
+HMAC(
+ Header + Payload,
+ SecretKey
+)
+```
+
+If result matches:
+
+```text
+Token is valid.
+```
+
+---
+
+# Important Correction
+
+Misconception:
+
+> JWT contains hash of request.
+
+Correction:
+
+JWT signature is generated from:
+
+```text
+Header + Payload
+```
+
+not from every API request.
+
+---
+
+# Important Correction
+
+Misconception:
+
+> JWT is encrypted.
+
+Correction:
+
+JWT is usually NOT encrypted.
+
+Example:
+
+```text
+eyJhbGciOi...
+```
+
+can often be decoded into:
+
+```json
+{
+  "userId":123,
+  "role":"ADMIN"
+}
+```
+
+without any secret key.
+
+---
+
+The signature protects:
+
+```text
+Integrity
+```
+
+not
+
+```text
+Secrecy
+```
+
+---
+
+# Tampering Example
+
+Original payload:
+
+```json
+{
+  "userId":123
+}
+```
+
+Attacker changes:
+
+```json
+{
+  "userId":999,
+  "role":"ADMIN"
+}
+```
+
+Signature no longer matches.
+
+Server rejects token.
+
+---
+
+# End of Part 1/3
+
+Part 2 will continue with:
+
+- JWT symmetric vs asymmetric
+- Public/private key distribution
+- Session theft vs JWT theft
+- GraphQL
+- Resolvers
+- Over-fetching
+- N+1 problem
+- DataLoader
+- gRPC introduction
+- Protobuf introduction
+- All associated misconceptions and corrections
