@@ -1,3 +1,7 @@
+---
+order: 40
+---
+
 # Rate Limiting
 
 Rate limiting is the process of preventing the frequency of an operation from exceeding a defined limit (e.g., 100 requests/minute, 5 login attempts/minute). 

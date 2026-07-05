@@ -1,3 +1,7 @@
+---
+order: 10
+---
+
 # Caching, Distributed Cache, Redis Cluster, and Consistent Hashing
 
 ## How it works

@@ -1,3 +1,7 @@
+---
+order: 30
+---
+
 # Load Balancing — L4 vs L7, DNS Routing, Redundancy
 
 ## How it works

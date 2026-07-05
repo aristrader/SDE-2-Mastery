@@ -51,11 +51,11 @@
 ***Critical Rule 1:** MUST use `git mv` to preserve history.*
 ***Critical Rule 2:** Immediately update `package` and `import` statements.*
 ***Critical Rule 3:** You MUST update fully qualified class names in `application.yml`, XML contexts, or `@ComponentScan` configurations that point to these moved beans.*
-- [ ] Migrate `spring/spring_core/*`
-- [ ] Migrate `spring/spring_mvc/*`
-- [ ] Migrate `spring/spring_data_jpa/*`
-- [ ] Migrate `spring/spring_security/*`
-- [ ] Migrate `spring_boot/*`
+- [x] Migrate `spring/spring_core/*`
+- [x] Migrate `spring/spring_mvc/*`
+- [x] Migrate `spring/spring_data_jpa/*`
+- [x] Migrate `spring/spring_security/*`
+- [x] Migrate `spring_boot/*`
 
 ## Phase 5: Module Level (System Design - Schema B)
 *Convert System Design into Schema B (index.md, design/, exercise/, assets/).*
