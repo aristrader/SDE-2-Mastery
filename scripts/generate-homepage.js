@@ -174,9 +174,31 @@ async function main() {
         
         flatten(tree);
         
+        const multiSidebar = {};
+        const topNav = [];
+        
+        if (tree.items) {
+            for (const child of tree.items) {
+                topNav.push({
+                    text: child.text,
+                    link: child.link,
+                    activeMatch: child.link
+                });
+                // The VitePress multi-sidebar format maps the prefix to an array of items.
+                // We wrap it in a single group so it looks nice.
+                multiSidebar[child.link] = [
+                    {
+                        text: child.text,
+                        items: child.items || []
+                    }
+                ];
+            }
+        }
+        
         fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
         fs.writeFileSync(OUT_FILE, JSON.stringify({
-            sidebar: tree.items || [],
+            sidebar: multiSidebar,
+            nav: topNav,
             navMap: flatMap
         }, null, 2));
         

@@ -30,13 +30,7 @@ export default withMermaid({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      ...navData.sidebar.map(domain => ({
-        text: domain.text,
-        items: domain.items ? domain.items.map(sub => ({
-          text: sub.text,
-          link: sub.link
-        })) : []
-      }))
+      ...(navData.nav || [])
     ],
     search: { provider: 'local' },
     sidebar: navData.sidebar,
