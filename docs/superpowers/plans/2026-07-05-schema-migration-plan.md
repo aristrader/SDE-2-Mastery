@@ -59,9 +59,9 @@
 
 ## Phase 5: Module Level (System Design - Schema B)
 *Convert System Design into Schema B (index.md, design/, exercise/, assets/).*
-- [ ] Migrate `system_design/foundations/*`
-- [ ] Migrate `system_design/components/*`
-- [ ] Migrate `system_design/architectures/*`
+- [x] Migrate `system_design/foundations/*`
+- [x] Migrate `system_design/components/*`
+- [x] Migrate `system_design/architectures/*`
 
 ## Phase 6: Theory Domains (Schema A - Theory Only)
 *Convert theory domains (no code/playgrounds needed, just `index.md` and empty `exercise` folders).*
