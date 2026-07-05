@@ -17,6 +17,7 @@ Main Codex instructions for this repository. Keep this file short; add only dura
 - When asked "is this right?", answer directly: yes/no, exact issue, exact fix.
 - Keep explanations focused on the current topic or pattern. If adjacent patterns apply, name that explicitly instead of mixing concepts.
 - Confirm before large deletions.
+- Do not ask before running `git add`; stage requested files directly when committing.
 
 ## Large Context Offload
 
