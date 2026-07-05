@@ -458,7 +458,7 @@
                 "order": 60
               },
               {
-                "text": "equals / hashCode / Comparable / Comparator — Practice Exercises",
+                "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
                 "link": "/java/oop/equals_hashcode/",
                 "order": 70
               },
@@ -466,11 +466,6 @@
                 "text": "Inheritance — the details",
                 "link": "/java/oop/inheritance/",
                 "order": 80
-              },
-              {
-                "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
-                "link": "/java/oop/object_class/",
-                "order": 85
               },
               {
                 "text": "Method Overloading vs Overriding & Dynamic Dispatch",
@@ -1294,16 +1289,12 @@
       "link": "/java/oop/encapsulation/"
     },
     {
-      "text": "equals / hashCode / Comparable / Comparator — Practice Exercises",
+      "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
       "link": "/java/oop/equals_hashcode/"
     },
     {
       "text": "Inheritance — the details",
       "link": "/java/oop/inheritance/"
-    },
-    {
-      "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
-      "link": "/java/oop/object_class/"
     },
     {
       "text": "Method Overloading vs Overriding & Dynamic Dispatch",
