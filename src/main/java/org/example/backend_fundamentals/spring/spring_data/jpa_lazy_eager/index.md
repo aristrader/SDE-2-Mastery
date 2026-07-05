@@ -1,3 +1,7 @@
+---
+order: 30
+---
+
 # Lazy vs Eager Loading & N+1
 
 ---

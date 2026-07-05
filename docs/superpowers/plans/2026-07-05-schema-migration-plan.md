@@ -66,14 +66,14 @@
 ## Phase 6: Theory Domains (Schema A - Theory Only)
 *Convert theory domains (no code/playgrounds needed, just `index.md` and empty `exercise` folders).*
 ***Critical Rule:** Git ignores empty folders. You MUST create empty `exercise/index.md` and `solution/index.md` files (with `order: X`) in every topic to satisfy the automation scripts and ensure they track in Git.*
-- [ ] Migrate `design_patterns/*`
-- [ ] Migrate `databases/*`
-- [ ] Migrate `networking/*`
-- [ ] Migrate `messaging/*`
-- [ ] Migrate `security/*` (General security, not Spring Security)
-- [ ] Migrate `engineering_practice/*`
-- [ ] Migrate `deployments/*`
-- [ ] Migrate `performance/*`
+- [x] Migrate `design_patterns/*`
+- [x] Migrate `databases/*`
+- [x] Migrate `networking/*`
+- [x] Migrate `messaging/*`
+- [x] Migrate `security/*` (General security, not Spring Security)
+- [x] Migrate `engineering_practice/*`
+- [x] Migrate `deployments/*`
+- [x] Migrate `performance/*`
 
 ## Phase 7: Global Link & References Reconciliation
 *Fix all broken markdown links and cross-references.*
