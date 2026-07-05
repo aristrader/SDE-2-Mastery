@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.streams.basics;
+package org.example.backend_fundamentals.java.foundations.streams.playground.basics;
 
 import java.util.Set;
 import java.util.stream.Collectors;

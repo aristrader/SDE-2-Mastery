@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.streams.grouping;
+package org.example.backend_fundamentals.java.foundations.streams.playground.grouping;
 
 import java.util.ArrayList;
 import java.util.HashMap;

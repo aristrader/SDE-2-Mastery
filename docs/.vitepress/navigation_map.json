@@ -7,7 +7,14 @@
           {
             "text": "Distributed Transactions — 2PC, 3PC & Saga",
             "link": "/databases/distributed_transactions/",
-            "order": 10
+            "order": 10,
+            "items": [
+              {
+                "text": "Saga vs Publish-Subscribe",
+                "link": "/databases/distributed_transactions/saga/",
+                "order": 10
+              }
+            ]
           },
           {
             "text": "Database Federation",
@@ -81,7 +88,78 @@
           {
             "text": "Creational Design Patterns — Learning Guide",
             "link": "/design_patterns/creational/",
-            "order": 20
+            "order": 20,
+            "items": [
+              {
+                "text": "Abstract Factory",
+                "link": "/design_patterns/creational/abstract_factory/",
+                "order": 10
+              },
+              {
+                "text": "Builder — Overview",
+                "link": "/design_patterns/creational/builder/",
+                "order": 20,
+                "items": [
+                  {
+                    "text": "Builder — Director (simple variant)",
+                    "link": "/design_patterns/creational/builder/director_builder/",
+                    "order": 10
+                  },
+                  {
+                    "text": "Builder — Director (GoF flavour)",
+                    "link": "/design_patterns/creational/builder/director_builder_gof/",
+                    "order": 20
+                  },
+                  {
+                    "text": "Builder — Lombok variant",
+                    "link": "/design_patterns/creational/builder/lombok_builder/",
+                    "order": 30
+                  },
+                  {
+                    "text": "Builder — Basic (EJ Item 2 hand-written)",
+                    "link": "/design_patterns/creational/builder/simple_builder/",
+                    "order": 40
+                  }
+                ]
+              },
+              {
+                "text": "Factory Patterns in Java — Three Variants Side by Side",
+                "link": "/design_patterns/creational/factory/",
+                "order": 30,
+                "items": [
+                  {
+                    "text": "Factory Method — Production Variant",
+                    "link": "/design_patterns/creational/factory/factory_method/",
+                    "order": 10
+                  },
+                  {
+                    "text": "Factory Method — Learning Variant",
+                    "link": "/design_patterns/creational/factory/factory_method_basic/",
+                    "order": 20
+                  },
+                  {
+                    "text": "Simple Factory",
+                    "link": "/design_patterns/creational/factory/simple_factory/",
+                    "order": 30
+                  }
+                ]
+              },
+              {
+                "text": "Prototype",
+                "link": "/design_patterns/creational/prototype/",
+                "order": 40
+              },
+              {
+                "text": "Singleton Pattern in Java",
+                "link": "/design_patterns/creational/singleton/",
+                "order": 50
+              },
+              {
+                "text": "Static Factory Methods — Effective Java Item 1",
+                "link": "/design_patterns/creational/static_factory_methods/",
+                "order": 60
+              }
+            ]
           },
           {
             "text": "Event Sourcing & Event-Driven Architecture",
@@ -91,7 +169,29 @@
           {
             "text": "Foundations",
             "link": "/design_patterns/foundations/",
-            "order": 40
+            "order": 40,
+            "items": [
+              {
+                "text": "Coupling, Cohesion, and Code Smells",
+                "link": "/design_patterns/foundations/coupling_cohesion_smells/",
+                "order": 10
+              },
+              {
+                "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+                "link": "/design_patterns/foundations/dip_vs_di/",
+                "order": 20
+              },
+              {
+                "text": "SOLID Principles",
+                "link": "/design_patterns/foundations/solid/",
+                "order": 30
+              },
+              {
+                "text": "Supporting Principles",
+                "link": "/design_patterns/foundations/supporting_principles/",
+                "order": 40
+              }
+            ]
           }
         ]
       }
@@ -416,7 +516,14 @@
           {
             "text": "API Technologies Study Notes — Complete Conversation Dump",
             "link": "/networking/api_design/",
-            "order": 10
+            "order": 10,
+            "items": [
+              {
+                "text": "Graph Databases & GraphQL — Related in Name Only",
+                "link": "/networking/api_design/graphql/",
+                "order": 10
+              }
+            ]
           },
           {
             "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -846,6 +953,10 @@
       "link": "/databases/distributed_transactions/"
     },
     {
+      "text": "Saga vs Publish-Subscribe",
+      "link": "/databases/distributed_transactions/saga/"
+    },
+    {
       "text": "Database Federation",
       "link": "/databases/federation/"
     },
@@ -902,12 +1013,80 @@
       "link": "/design_patterns/creational/"
     },
     {
+      "text": "Abstract Factory",
+      "link": "/design_patterns/creational/abstract_factory/"
+    },
+    {
+      "text": "Builder — Overview",
+      "link": "/design_patterns/creational/builder/"
+    },
+    {
+      "text": "Builder — Director (simple variant)",
+      "link": "/design_patterns/creational/builder/director_builder/"
+    },
+    {
+      "text": "Builder — Director (GoF flavour)",
+      "link": "/design_patterns/creational/builder/director_builder_gof/"
+    },
+    {
+      "text": "Builder — Lombok variant",
+      "link": "/design_patterns/creational/builder/lombok_builder/"
+    },
+    {
+      "text": "Builder — Basic (EJ Item 2 hand-written)",
+      "link": "/design_patterns/creational/builder/simple_builder/"
+    },
+    {
+      "text": "Factory Patterns in Java — Three Variants Side by Side",
+      "link": "/design_patterns/creational/factory/"
+    },
+    {
+      "text": "Factory Method — Production Variant",
+      "link": "/design_patterns/creational/factory/factory_method/"
+    },
+    {
+      "text": "Factory Method — Learning Variant",
+      "link": "/design_patterns/creational/factory/factory_method_basic/"
+    },
+    {
+      "text": "Simple Factory",
+      "link": "/design_patterns/creational/factory/simple_factory/"
+    },
+    {
+      "text": "Prototype",
+      "link": "/design_patterns/creational/prototype/"
+    },
+    {
+      "text": "Singleton Pattern in Java",
+      "link": "/design_patterns/creational/singleton/"
+    },
+    {
+      "text": "Static Factory Methods — Effective Java Item 1",
+      "link": "/design_patterns/creational/static_factory_methods/"
+    },
+    {
       "text": "Event Sourcing & Event-Driven Architecture",
       "link": "/design_patterns/event_sourcing/"
     },
     {
       "text": "Foundations",
       "link": "/design_patterns/foundations/"
+    },
+    {
+      "text": "Coupling, Cohesion, and Code Smells",
+      "link": "/design_patterns/foundations/coupling_cohesion_smells/"
+    },
+    {
+      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+      "link": "/design_patterns/foundations/dip_vs_di/"
+    },
+    {
+      "text": "SOLID Principles",
+      "link": "/design_patterns/foundations/solid/"
+    },
+    {
+      "text": "Supporting Principles",
+      "link": "/design_patterns/foundations/supporting_principles/"
     },
     {
       "text": "Engineering Practice & Communication",
@@ -1152,6 +1331,10 @@
     {
       "text": "API Technologies Study Notes — Complete Conversation Dump",
       "link": "/networking/api_design/"
+    },
+    {
+      "text": "Graph Databases & GraphQL — Related in Name Only",
+      "link": "/networking/api_design/graphql/"
     },
     {
       "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",

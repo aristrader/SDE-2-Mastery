@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.primitives;
+package org.example.backend_fundamentals.java.foundations.primitives.playground;
 
 public class PrimitivesExercise {
     public static void main(String[] args) {

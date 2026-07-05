@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.exceptions;
+package org.example.backend_fundamentals.java.foundations.exceptions.playground;
 
 public class ConfigLoadException extends RuntimeException {
 

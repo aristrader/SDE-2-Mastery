@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.streams.joining;
+package org.example.backend_fundamentals.java.foundations.streams.playground.joining;
 
 import java.util.List;
 import java.util.stream.Collectors;

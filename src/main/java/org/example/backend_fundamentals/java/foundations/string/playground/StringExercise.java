@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.string;
+package org.example.backend_fundamentals.java.foundations.string.playground;
 
 public class StringExercise {
     public static void main(String[] args) {

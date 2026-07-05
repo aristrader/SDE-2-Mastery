@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.generics;
+package org.example.backend_fundamentals.java.foundations.generics.playground;
 
 import java.util.ArrayList;
 import java.util.List;

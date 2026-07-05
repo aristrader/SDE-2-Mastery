@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.control_flow;
+package org.example.backend_fundamentals.java.foundations.control_flow.playground;
 
 public class OperatorsExercise {
     public static void main(String[] args) {

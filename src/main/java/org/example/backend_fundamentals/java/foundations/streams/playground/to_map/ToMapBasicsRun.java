@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.foundations.streams.to_map;
+package org.example.backend_fundamentals.java.foundations.streams.playground.to_map;
 
 import java.util.List;
 import java.util.Map;
