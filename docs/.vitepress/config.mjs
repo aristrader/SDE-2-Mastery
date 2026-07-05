@@ -1,5 +1,6 @@
 import { withMermaid } from 'vitepress-plugin-mermaid'
 import navData from './navigation_map.json'
+import monacoEditorPlugin from 'vite-plugin-monaco-editor'
 
 export default withMermaid({
   title: 'SDE-2 Mastery',
@@ -9,6 +10,11 @@ export default withMermaid({
   ignoreDeadLinks: true,
   build: {
     sourcemap: false
+  },
+  vite: {
+    plugins: [
+      monacoEditorPlugin.default ? monacoEditorPlugin.default({}) : monacoEditorPlugin({})
+    ]
   },
   // Calm, neutral diagrams that don't fight the teal theme (default mermaid is purple).
   // The plugin still swaps to dark automatically on the .dark class.

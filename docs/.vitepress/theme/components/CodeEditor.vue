@@ -1,13 +1,20 @@
 <template>
-  <div ref="host" class="code-editor"></div>
+  <div class="code-editor">
+    <VueMonacoEditor
+      :value="modelValue"
+      language="java"
+      :theme="isDark ? 'vs-dark' : 'vs'"
+      :options="{ readOnly: readonly, automaticLayout: true, minimap: { enabled: false } }"
+      @mount="onMount"
+      @change="onChange"
+    />
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import { EditorView, basicSetup } from 'codemirror'
-import { EditorState } from '@codemirror/state'
-import { java } from '@codemirror/lang-java'
-import { oneDark } from '@codemirror/theme-one-dark'
+import { ref, watch, onBeforeUnmount, shallowRef } from 'vue'
+import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
+import { useData } from 'vitepress'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -15,41 +22,30 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const host = ref(null)
-let view = null
+const { isDark } = useData()
+const editorRef = shallowRef()
 
-function makeState(doc) {
-  return EditorState.create({
-    doc,
-    extensions: [
-      basicSetup,
-      java(),
-      oneDark,
-      EditorView.editable.of(!props.readonly),
-      EditorView.updateListener.of((v) => {
-        if (v.docChanged) emit('update:modelValue', v.state.doc.toString())
-      }),
-    ],
-  })
+const onMount = (editor, monaco) => {
+  editorRef.value = editor
 }
 
-onMounted(() => {
-  view = new EditorView({ state: makeState(props.modelValue), parent: host.value })
-})
+const onChange = (value) => {
+  emit('update:modelValue', value)
+}
 
-// Reset the document when the selected file changes from the parent.
 watch(() => props.modelValue, (val) => {
-  if (view && val !== view.state.doc.toString()) {
-    view.setState(makeState(val))
+  if (editorRef.value && val !== editorRef.value.getValue()) {
+    editorRef.value.setValue(val)
   }
 })
 
-onBeforeUnmount(() => view && view.destroy())
+onBeforeUnmount(() => {
+  if (editorRef.value) {
+    editorRef.value.dispose()
+  }
+})
 </script>
 
 <style scoped>
-.code-editor { border: 1px solid var(--vp-c-divider); border-radius: 8px; overflow: hidden; }
-.code-editor :deep(.cm-editor) { height: 65vh; max-height: 75vh; }
-.code-editor :deep(.cm-content) { font-size: 14px; }
-.code-editor :deep(.cm-scroller) { overflow: auto; }
+.code-editor { border: 1px solid var(--vp-c-divider); border-radius: 8px; overflow: hidden; height: 65vh; max-height: 75vh; }
 </style>
