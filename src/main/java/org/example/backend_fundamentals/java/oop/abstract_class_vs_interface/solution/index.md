@@ -1,5 +1,6 @@
 ---
-order: 10
+order: 20
+search: false
 ---
 # Solution
 Pending AI generation.
