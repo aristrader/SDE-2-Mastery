@@ -215,3 +215,6 @@ A. Adding/removing nodes remaps most keys → massive cache misses.
 
 **Q. Why does consistent hashing help?**
 A. Only the subset of keys needed by the new node remaps instead of nearly all keys.
+
+
+<ExerciseNav />

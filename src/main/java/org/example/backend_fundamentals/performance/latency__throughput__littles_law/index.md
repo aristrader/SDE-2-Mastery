@@ -83,3 +83,6 @@ A. 500 × 0.2 = 100 active requests in flight.
 
 **Q. Why can't we just create 10,000 threads for 10,000 requests?**
 A. Threads are expensive (stack memory, JVM overhead) and context-switching 10,000 threads on an 8-core machine will waste CPU time thrashing rather than doing useful work.
+
+
+<ExerciseNav />

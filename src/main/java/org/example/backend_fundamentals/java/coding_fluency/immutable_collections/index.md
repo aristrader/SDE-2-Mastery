@@ -127,3 +127,6 @@ public class DocumentTypeConfig {
 
 **Q.** Can you rely on `instanceof ArrayList` to detect a mutable list?
 **A.** No. `List.of` returns internal implementation classes, not `ArrayList`. Check mutability by catching `UnsupportedOperationException` or by tracking the source of the list.
+
+
+<ExerciseNav />

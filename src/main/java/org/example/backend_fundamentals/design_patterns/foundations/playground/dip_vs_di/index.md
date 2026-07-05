@@ -265,3 +265,6 @@ You can answer these three concept-check questions from above without looking:
 
 - **SOLID — DIP** — this doc is the deep dive; the SOLID doc has the one-line summary.
 - **Pattern Selection Exercise** (`todo/study_plan/deep_dives/PatternSelectionExercise.md`) — Stage 3 of the practice path above is implemented there with Strategy/Registry/DI variants.
+
+
+<ExerciseNav />

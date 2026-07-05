@@ -89,3 +89,6 @@ A. To gather engineering feedback early on architecture, risks, and tradeoffs be
 
 **Q. How do you handle architectural disagreements?**
 A. Document the proposal, discuss tradeoffs, collect stakeholder feedback, revise the design, and proceed after agreement.
+
+
+<ExerciseNav />

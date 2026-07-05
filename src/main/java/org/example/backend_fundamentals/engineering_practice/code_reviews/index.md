@@ -69,3 +69,6 @@ A. No, tests could be missing edge cases, fail to check null handling, or the bu
 
 **Q. What are the five mental questions during every review?**
 A. Is it correct? Can it break something? Will it scale? Can another engineer maintain it? Are there sufficient tests?
+
+
+<ExerciseNav />

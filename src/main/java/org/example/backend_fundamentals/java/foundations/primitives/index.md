@@ -130,3 +130,6 @@ Primitive:
 
 ---
 
+
+
+<ExerciseNav />

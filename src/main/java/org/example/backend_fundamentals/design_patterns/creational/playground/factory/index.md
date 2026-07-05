@@ -265,3 +265,6 @@ Otherwise                                                 ────▶ Learni
 - `../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — the underlying principles that govern these decisions.
 - `../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `abstract`, `private` in each variant.
 - `../../todo/study_plan/deep_dives/PatternSelectionExercise.md` — next step: orchestrating multiple factories (Strategy / Registry / DI).
+
+
+<ExerciseNav />

@@ -157,3 +157,6 @@ Use `@AutoConfigureWireMock` (Spring Cloud Contract WireMock) or `WireMockServer
 
 **Q.** What is Feign's default retry behaviour, and when should you be careful adding retries?
 **A.** Default is `Retryer.NEVER_RETRY`. Add a `Retryer.Default` bean to enable retries. Avoid retrying non-idempotent methods (`POST`, `PATCH`) — a retry after a timeout can create duplicate records.
+
+
+<ExerciseNav />

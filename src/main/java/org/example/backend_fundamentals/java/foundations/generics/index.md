@@ -255,3 +255,6 @@ A. Generics are invariant. If it were allowed, you could add a `Double` through 
 
 **Q. What does `? super Integer` actually mean — "at most Integer" or "Integer or above"?**
 A. Integer or above. The list's actual type is `Integer`, `Number`, or `Object`. You write Integer *into* it (safe because Integer fits all supertypes); reads give only `Object` because the actual type could be anything up the hierarchy.
+
+
+<ExerciseNav />

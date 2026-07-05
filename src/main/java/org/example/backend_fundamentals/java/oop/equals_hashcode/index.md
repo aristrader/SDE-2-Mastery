@@ -46,3 +46,6 @@ All three in `main` of `EqualsHashCodePractice.java`:
 1. Sort `people` by name using `Comparator.comparing`
 2. Sort by age descending using `.reversed()`
 3. Sort by age ascending then name as tiebreaker using `.thenComparing`
+
+
+<ExerciseNav />

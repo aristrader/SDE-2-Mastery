@@ -243,3 +243,6 @@ A. Make the method an instance method and inject the implementation (DI). The ca
 - **Inheritance** — the mechanism that creates the chain virtual dispatch walks.
 - **Abstract Class vs Interface** — both can host abstract methods that get polymorphically dispatched.
 - **Access Modifiers Deep Dive** — `private` methods are not virtual; `protected` and `public` instance methods are.
+
+
+<ExerciseNav />

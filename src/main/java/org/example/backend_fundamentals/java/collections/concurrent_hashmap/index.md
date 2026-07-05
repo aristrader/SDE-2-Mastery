@@ -355,3 +355,6 @@ A. Almost never. One case: you need null key/value support and coarse locking is
 
 **Q. Is `size()` exact?**
 A. No — it sums a `baseCount` plus `CounterCell` values that concurrent writers are updating; the result is eventually consistent, not a precise snapshot.
+
+
+<ExerciseNav />

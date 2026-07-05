@@ -234,3 +234,6 @@ A. Infinite scroll / load-more UIs — `Slice` skips the `COUNT(*)` query; `Page
 
 **Q. Why can't you use `JOIN FETCH` with `Pageable` in JPQL?**
 A. Hibernate can't push pagination into SQL when a fetch join multiplies rows; it fetches all rows and paginates in memory. Use a separate count query or avoid fetch joins with pagination.
+
+
+<ExerciseNav />

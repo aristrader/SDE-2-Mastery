@@ -214,3 +214,6 @@ A. The JMM freeze rule: at constructor end, final field values are frozen and vi
 
 **Q. What is safe publication?**
 A. Publishing an object so that both its reference and its state are visible to other threads simultaneously — no thread sees a partially-constructed state. Achieved via static initializer, volatile field, AtomicReference, final fields (freeze rule), or lock-guarded fields.
+
+
+<ExerciseNav />

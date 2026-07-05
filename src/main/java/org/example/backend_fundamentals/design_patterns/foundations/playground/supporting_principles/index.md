@@ -162,3 +162,6 @@ A. API behaviour matches reasonable caller expectations. `getX()` that mutates s
 - **SOLID — SRP** — SLAP is SRP applied at the method level.
 - **Coupling and Cohesion** — Tell Don't Ask + Law of Demeter both reduce coupling.
 - **Encapsulation** — Tell Don't Ask is the behavioural side of encapsulation.
+
+
+<ExerciseNav />

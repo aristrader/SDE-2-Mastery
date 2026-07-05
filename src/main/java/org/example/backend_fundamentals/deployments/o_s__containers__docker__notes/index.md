@@ -54,3 +54,6 @@ Containers are fundamentally just regular Linux processes with applied isolation
 *   **JVM (Java Virtual Machine):** Responsible for executing bytecode (`.class` files) and translating it to machine code.
 *   **JRE (Java Runtime Environment):** Historically contained the JVM plus runtime libraries and components needed to run Java applications.
 *   **JDK (Java Development Kit):** Contains the compiler (`javac`), developer tools, and the runtime. Used to build applications. (Interview simplification: JDK = Development + Runtime; JVM = Executes Bytecode).
+
+
+<ExerciseNav />

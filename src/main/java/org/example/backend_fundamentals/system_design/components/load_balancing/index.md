@@ -79,3 +79,6 @@ A. No, they are natively distributed. You are pushing the failure concern from y
 
 **Q. What is N+1 redundancy in load balancing?**
 A. Keeping enough spare capacity so that if one load balancer dies, the remaining healthy nodes can absorb the full traffic load without being overwhelmed.
+
+
+<ExerciseNav />

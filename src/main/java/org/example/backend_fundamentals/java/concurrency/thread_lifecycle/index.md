@@ -168,3 +168,6 @@ A. The permit is pre-loaded; the subsequent `park()` call returns immediately wi
 
 **Q. Can you call `start()` on a terminated thread?**
 A. No — throws `IllegalThreadStateException`. A thread can only be started once.
+
+
+<ExerciseNav />

@@ -46,3 +46,6 @@ The variants differ in *how strictly* each of these is enforced and *what additi
 - `creational/Factory.md` &mdash; the same overview shape applied to the factory family.
 - `todo/AccessModifiersDeepDive.md` &mdash; section "Class-level modifier decisions" covers `final class`, `static class`, and the private-constructor chokepoint pattern that all Builder variants rely on.
 - `todo/FoundationsToRead.md` &mdash; LSP entry covers why `OfferLetter extends JobOffer` would be wrong, an insight that shaped `BuilderDirectorGof.md`.
+
+
+<ExerciseNav />

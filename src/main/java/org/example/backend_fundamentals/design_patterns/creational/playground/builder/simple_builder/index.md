@@ -127,3 +127,6 @@ To close the immutability contract. Without `final`, a subclass could:
 - `lombok_builder/BuilderLombok.md` &mdash; Lombok's `@Builder` auto-generates this shape, but loses required-field enforcement and built-in validation.
 - `director_builder/BuilderDirector.md` &mdash; adds a Director holding reusable construction recipes.
 - `director_builder_gof/BuilderDirectorGof.md` &mdash; the GoF flavour with a shared step interface enabling multi-product polymorphism.
+
+
+<ExerciseNav />

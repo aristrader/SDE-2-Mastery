@@ -283,3 +283,6 @@ A. When your class has no no-arg constructor (immutable classes, records, Lombok
 
 **Q. Where do you register a `SimpleModule` (custom ser/deser) in Spring Boot?**
 A. Declare it as a `@Bean` — Spring Boot auto-discovers and registers `Module` beans into the `ObjectMapper` automatically.
+
+
+<ExerciseNav />

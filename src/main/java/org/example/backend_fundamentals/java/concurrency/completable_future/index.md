@@ -190,3 +190,6 @@ A. `join()` — throws unchecked `CompletionException`, no need to catch checked
 
 **Q. Why is using `ForkJoinPool.commonPool()` for IO dangerous in a web server?**
 A. IO tasks block common pool threads and can starve parallel streams and other FJ work across the JVM; always pass a dedicated executor.
+
+
+<ExerciseNav />

@@ -280,3 +280,6 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.abstra
 - `creational/builder/Builder.md` &mdash; Builder configures one product; Abstract Factory chooses among coordinated families. Different jobs.
 - `todo/FoundationsToRead.md` &raquo; "Abstract class vs Interface" &mdash; covers the questions behind the "factory as interface, not abstract class" decision, with practice exercises queued.
 - `todo/FoundationsToRead.md` &raquo; "Dependency Inversion (DIP) vs Dependency Injection (DI)" &mdash; the abstract-product return type is a textbook DIP application.
+
+
+<ExerciseNav />

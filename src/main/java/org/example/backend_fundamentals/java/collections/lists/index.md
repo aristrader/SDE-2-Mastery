@@ -76,3 +76,6 @@ Compile-time errors beat runtime errors — the strongest single argument for `L
 - **Maps** and **Sets** — the other two collection families with their own trade-offs.
 - **Stream Collectors** — covers how to produce list types from streams.
 - **Encapsulation** — returning a mutable internal collection is a classic encapsulation violation; use `Collections.unmodifiableList(...)` or `List.copyOf(...)` to fix it.
+
+
+<ExerciseNav />

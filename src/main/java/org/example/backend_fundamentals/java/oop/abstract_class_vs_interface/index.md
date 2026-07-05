@@ -142,3 +142,6 @@ A. (1) Need state across implementations? (2) Taxonomy or capability? (3) Could 
 
 - **Access Modifiers Deep Dive** — explains *why* the modifiers chosen for `DeveloperHiringProcess` (protected ctor, public final, protected abstract, private helpers) only work in an abstract class.
 - **Inheritance** — covers `extends` mechanics that abstract classes use; interfaces use `implements`.
+
+
+<ExerciseNav />

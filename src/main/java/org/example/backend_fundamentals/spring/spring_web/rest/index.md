@@ -295,3 +295,6 @@ A. Spring Security filter chain runs before `DispatcherServlet`. If security is 
 
 **Q. 409 Conflict vs 422 Unprocessable Entity — when to use each?**
 A. 409 = state conflict (duplicate resource, optimistic lock failure). 422 = well-formed body that fails semantic/business validation (`MethodArgumentNotValidException`). Many APIs use 400 for both; 422 is the precise choice for validation errors.
+
+
+<ExerciseNav />

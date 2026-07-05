@@ -167,3 +167,6 @@ See `../factory_method/FactoryMethodProd.md` for the step-by-step differences an
 - `../Factory.md` — overall comparison.
 - `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — design principles behind these choices.
 - `../../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `abstract`, etc.
+
+
+<ExerciseNav />

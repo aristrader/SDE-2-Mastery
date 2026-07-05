@@ -1008,3 +1008,5 @@ Part 2 will continue with:
 - gRPC introduction
 - Protobuf introduction
 - All associated misconceptions and corrections
+
+<ExerciseNav />

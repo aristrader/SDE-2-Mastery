@@ -189,3 +189,6 @@ See `traps/BrokenEqualsHashCodeTrapRun` for the live failure and the side-by-sid
 - **Lists** (previous family) and **Sets** (next family) — the other two collection families with their own trade-offs.
 - **Stream Collectors** — `toMap`, `groupingBy`, `counting` produce maps from streams.
 - **`equals` / `hashCode` contract** — Effective Java Items 10 and 11.
+
+
+<ExerciseNav />

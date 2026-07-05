@@ -178,3 +178,6 @@ See `joining/JoiningBasicsRun`.
 - **Lists, Maps, Sets** — collectors produce these types; the same mutability and dedup trade-offs apply.
 - **Hashing** — `toMap` and `groupingBy` produce hash-backed maps; the `equals`/`hashCode` contract on keys matters.
 - **Functional interfaces and lambdas** — `keyFn`, `valueFn`, `classifier`, `mergeFunction` are all functional-interface arguments. Separate Java Foundations topic, worth a refresher if these feel opaque.
+
+
+<ExerciseNav />

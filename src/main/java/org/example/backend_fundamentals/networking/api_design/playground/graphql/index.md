@@ -128,3 +128,6 @@ A. Naive nested resolvers fire one query per parent entity; DataLoader batches t
 
 **Q. What can a GraphQL server sit in front of?**
 A. Anything — databases, REST services, multiple microservices — aggregating results into one response shaped exactly like the query.
+
+
+<ExerciseNav />

@@ -144,3 +144,6 @@ A. Hold the most abstract type that still does the job. `HR` holds `HiringProces
 - **DIP vs DI** — DIP overlaps with the DI deep-dive; here just understand the principle, the other doc covers how DI delivers on DIP.
 - **Inheritance / LSP** — LSP is the formal is-a test from the Inheritance doc.
 - **Coupling and Cohesion** — SRP is fundamentally about high cohesion.
+
+
+<ExerciseNav />

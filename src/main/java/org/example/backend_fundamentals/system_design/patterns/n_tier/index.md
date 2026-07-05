@@ -51,3 +51,6 @@ A. Closed = must traverse every layer in order (clean, extra hops); open = may s
 
 **Q. Do interviewers ask "explain N-tier"?**
 A. Rarely directly — but "design Amazon/Netflix/WhatsApp" answers become N-tier diagrams, and "layer vs tier" is a frequent warm-up.
+
+
+<ExerciseNav />

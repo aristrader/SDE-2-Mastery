@@ -182,3 +182,6 @@ A. New entity (null id): `EntityManager.persist()` — direct INSERT, no SELECT.
 
 **Q. When do you need `@EnableJpaRepositories` explicitly in Spring Boot?**
 A. In multi-datasource setups to bind specific repository packages to a specific `EntityManagerFactory`/`TransactionManager`. Boot's auto-configuration handles single-datasource projects automatically.
+
+
+<ExerciseNav />

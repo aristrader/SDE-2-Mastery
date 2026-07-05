@@ -243,3 +243,6 @@ A. Metadata describing how to create a bean (class, scope, init method, etc.). C
 
 **Q. What does the `Environment` abstraction unify?**
 A. Properties (from files, system env, CLI args) and profiles. `@Value`, `@Profile`, and `environment.getProperty()` all go through it. Available on `ApplicationContext` but not on raw `BeanFactory`.
+
+
+<ExerciseNav />

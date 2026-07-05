@@ -79,3 +79,6 @@ A. New consumers can reprocess all historical events (e.g. add fraud detection a
 
 **Q. Why did the ESB model fall out of favor?**
 A. Centralizing routing/transformation/logic in the bus made it a bottleneck and single point of contention; modern systems keep logic in services and the broker simple.
+
+
+<ExerciseNav />

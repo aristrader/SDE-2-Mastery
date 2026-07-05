@@ -153,3 +153,6 @@ A. You usually don't — use at-least-once delivery + idempotent processing (ded
 
 **Q. Why does a Kafka consumer reprocess messages after a crash?**
 A. Kafka retains messages and tracks offsets; a crash after processing but before committing the offset causes redelivery — so consumers must be idempotent.
+
+
+<ExerciseNav />

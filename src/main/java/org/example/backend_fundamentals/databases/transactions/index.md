@@ -102,3 +102,6 @@ A. Distributed ACID/2PC is slow, fragile, and lock-heavy; Saga uses local transa
 
 **Q. What happens to a transaction on deadlock mid-way?**
 A. It fails → aborts → rolls back entirely; statements that "succeeded" earlier are undone because COMMIT was never reached.
+
+
+<ExerciseNav />

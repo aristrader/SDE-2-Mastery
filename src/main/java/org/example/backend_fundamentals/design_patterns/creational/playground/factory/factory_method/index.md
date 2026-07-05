@@ -189,3 +189,6 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.factor
 - `../Factory.md` — overall comparison + the exact diff between basic and prod.
 - `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — design principles behind these choices.
 - `../../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `private`, etc.
+
+
+<ExerciseNav />

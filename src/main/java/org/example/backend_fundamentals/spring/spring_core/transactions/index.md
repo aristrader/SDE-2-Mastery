@@ -236,3 +236,6 @@ A. `NESTED` is a savepoint inside the same physical TX (outer rollback takes inn
 
 **Q. `@Transactional` on a private method — does it work?**
 A. No — CGLIB/JDK proxies can't intercept private methods. The annotation is silently ignored.
+
+
+<ExerciseNav />

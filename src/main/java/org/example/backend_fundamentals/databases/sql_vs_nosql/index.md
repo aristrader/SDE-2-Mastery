@@ -199,3 +199,6 @@ A. SQL is entity-first/relationship-first (model entities, normalize, query flex
 
 **Q. Does large scale force NoSQL?**
 A. No — Postgres/MySQL run at massive scale. The decision is data model, query patterns, operational needs, and team expertise, not user count.
+
+
+<ExerciseNav />

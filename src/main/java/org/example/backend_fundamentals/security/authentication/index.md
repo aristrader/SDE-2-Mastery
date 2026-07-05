@@ -59,3 +59,6 @@ A. A long-lived Access Token is disastrous if stolen. A Refresh Token allows the
 
 **Q. What OAuth flow is used for Service-to-Service communication?**
 A. Client Credentials flow. Service A exchanges its Client ID + Secret for an Access Token directly with the Authorization Server, with no user interaction.
+
+
+<ExerciseNav />

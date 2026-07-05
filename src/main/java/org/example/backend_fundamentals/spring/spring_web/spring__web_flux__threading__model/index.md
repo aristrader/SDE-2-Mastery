@@ -59,3 +59,6 @@ A. Not necessarily. Thread A might start the DB query, and Thread B might resume
 
 **Q. Mono vs Flux in one sentence?**
 A. Mono is a promise to produce zero or one value later; Flux is a promise to produce multiple values over time.
+
+
+<ExerciseNav />

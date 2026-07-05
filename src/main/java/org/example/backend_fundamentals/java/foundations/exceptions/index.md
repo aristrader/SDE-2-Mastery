@@ -130,3 +130,6 @@ A. The compiler nests each resource in its own `finally` block — inner closes 
 
 **Q. Body exception vs close exception — which wins?**
 A. Body exception is primary. Close exception is attached as suppressed via `getSuppressed()`. Both are preserved.
+
+
+<ExerciseNav />

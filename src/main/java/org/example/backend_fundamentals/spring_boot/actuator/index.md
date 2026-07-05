@@ -375,3 +375,6 @@ A. `POST /actuator/loggers/{logger-name}` with body `{"configuredLevel": "DEBUG"
 
 **Q. Liveness vs readiness probes — what's the difference?**
 A. Liveness = is the process alive and not deadlocked (restart if fails). Readiness = is the app ready to handle traffic (remove from load balancer if fails, don't restart). Exposed at `/actuator/health/liveness` and `/actuator/health/readiness`.
+
+
+<ExerciseNav />

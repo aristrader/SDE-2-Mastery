@@ -160,3 +160,6 @@ See `traps/BrokenEqualsHashCodeSetTrapRun` for the live demonstration.
 - **Maps** (previous family) and **Lists** — the other two collection families.
 - **Stream Collectors** — `toSet`, `toUnmodifiableSet` produce sets from streams.
 - **`equals` / `hashCode` contract** — Effective Java Items 10 and 11.
+
+
+<ExerciseNav />

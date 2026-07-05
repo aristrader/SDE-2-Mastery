@@ -99,3 +99,6 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.simple
 - `../Factory.md` — compares Simple Factory against both Factory Method variants.
 - `../factory_method_basic/FactoryMethodBasic.md` — the next step up.
 - `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — principles behind the trade-offs here.
+
+
+<ExerciseNav />

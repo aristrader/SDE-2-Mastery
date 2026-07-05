@@ -253,3 +253,6 @@ A. Boot 2.7 introduced `AutoConfiguration.imports` alongside `spring.factories`.
 
 **Q. How do you inspect which auto-configs loaded in a running app without restarting?**
 A. `GET /actuator/conditions` (requires Actuator). Returns positive matches, negative matches, and exclusions as JSON. Formerly `/autoconfig` in Boot 1.x.
+
+
+<ExerciseNav />

@@ -222,3 +222,6 @@ A. A Spring wrapper for lazy or optional injection. Use `getIfAvailable()` / `if
 
 **Q. How does `@Lazy` break a constructor circular dependency?**
 A. Spring injects a CGLIB proxy instead of the real bean at construction time. The real bean is resolved on the first method call. It's a workaround — prefer redesigning to remove the cycle.
+
+
+<ExerciseNav />

@@ -292,3 +292,6 @@ A. A tampered token sets `"alg": "none"` to claim it needs no signature. `Nimbus
 
 **Q. What happens if a JWT is expired when it reaches your Resource Server?**
 A. `NimbusJwtDecoder` throws `JwtException`; `ExceptionTranslationFilter` converts it to a 401 response. The calling client must re-authenticate; never forward an expired token downstream.
+
+
+<ExerciseNav />

@@ -157,3 +157,6 @@ Abstract Factory earns its keep when you interview or when you encounter JDBC / 
 - `todo/study_plan/deep_dives/DesignThinkingProcess.md` — pattern-agnostic design heuristics (6-step process)
 - `todo/study_plan/deep_dives/PatternSelectionExercise.md` — when to use which pattern, "one HR, many factories" orchestration exercise
 - `todo/study_plan/deep_dives/PatternSelectionScenarios.md` — 25 production scenario exercises across the creational patterns
+
+
+<ExerciseNav />

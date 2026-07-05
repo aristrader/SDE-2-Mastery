@@ -153,3 +153,6 @@ the dependency is not injected and remains null at runtime.
 
 **Q.** How do you inspect what Lombok actually generated?  
 **A.** Run `mvn lombok:delombok` — it writes the expanded source under `target/generated-sources/delombok/` so you can see exactly what was synthesised.
+
+
+<ExerciseNav />

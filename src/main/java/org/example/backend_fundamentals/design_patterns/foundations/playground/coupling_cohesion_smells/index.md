@@ -102,3 +102,6 @@ A. The smell *is* the pain; the pattern *is* the cure. Naming the smell is Step 
 
 - **Design Thinking Process** (`study_plan/deep_dives/DesignThinkingProcess.md`) — "name the pain" relies on having the smell vocabulary loaded.
 - **SOLID — SRP** — Large Class is the canonical SRP violation.
+
+
+<ExerciseNav />

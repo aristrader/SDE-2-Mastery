@@ -65,3 +65,6 @@ For an SLO of 99.9% uptime over a standard 30-day month:
    * **Correction:** An SLI is the *measured metric value* (e.g., actual uptime = 99.95%). An SLO is the *target threshold* for that metric (e.g., target uptime = 99.9%).
 2. **Misconception:** SLA, SLO, and SLI are independent, unrelated concepts.
    * **Correction:** They depend on one another. The SLA dictates the business promise, which defines the target SLO, which is monitored using measured SLIs.
+
+
+<ExerciseNav />

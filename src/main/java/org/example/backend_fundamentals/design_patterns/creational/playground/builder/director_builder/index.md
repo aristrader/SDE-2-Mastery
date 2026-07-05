@@ -106,3 +106,6 @@ Scenario 4 is the proof that the caller, not the Director, owns `build()`.
 
 - `simple_builder/BuilderBasic.md` &mdash; the underlying builder this Director drives.
 - `director_builder_gof/BuilderDirectorGof.md` &mdash; the Director with multi-product polymorphism via a shared step interface.
+
+
+<ExerciseNav />

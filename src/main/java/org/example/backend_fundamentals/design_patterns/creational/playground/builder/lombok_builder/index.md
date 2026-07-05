@@ -136,3 +136,6 @@ Strictly per Effective Java Item 1, this is *not* a static factory method *for* 
 
 - `simple_builder/BuilderBasic.md` &mdash; the hand-written variant.
 - `director_builder/BuilderDirector.md` &mdash; adds a Director holding reusable recipes.
+
+
+<ExerciseNav />
