@@ -1,70 +1,8 @@
-package org.example.backend_fundamentals.java.nested_classes;
+package org.example.backend_fundamentals.java.oop.nested_classes;
 
 /**
- * ### Java Static Nested Class vs Inner Class
- *
- * #### 1. Static Nested Class
- *
- * ```java
- * static class A {}
- * ```
- *
- * * Does **not** depend on outer class instance
- * * Can be created directly:
- *
- *   ```java
- *   A obj = new A();
- *   ```
- * * Can have static members
- * * Acts like a normal class, just grouped inside another
- *
- * **Use when:** no need to access outer class instance
- *
- * ---
- *
- * #### 2. Non-Static Inner Class
- *
- * ```java
- * class B {}
- * ```
- *
- * * **Depends on outer class instance**
- * * Must be created like:
- *
- *   ```java
- *   Outer outer = new Outer();
- *   Outer.B obj = outer.new B();
- *   ```
- * * Can access outer class methods/variables directly
- *
- * **Use when:** tightly coupled with outer object
- *
- * ---
- *
- * #### 3. Static Context Rule
- *
- * * `main()` is static
- * * Cannot directly use non-static inner class inside it
- * * Must create outer object first
- *
- * ---
- *
- * #### 4. Key Difference
- *
- * | Feature                 | Static Nested | Inner Class |
- * | ----------------------- | ------------- | ----------- |
- * | Needs outer instance    | No            | Yes         |
- * | Works in static methods | Yes           | No          |
- * | Access outer members    | Only static   | All members |
- *
- * ---
- *
- * #### 5. One-line Memory Trick
- *
- * * Static nested → **independent**
- * * Inner class → **attached to outer object**
+ * Demonstrates static nested class creation, inner class creation, and the outer-instance rule.
  */
-
 public class NestedClassDemo {
 
   public static void main(String[] args) {

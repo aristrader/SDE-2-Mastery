@@ -76,6 +76,10 @@
                 "link": "/java/oop/polymorphism/"
               },
               {
+                "text": "Nested Classes",
+                "link": "/java/oop/nested_classes/"
+              },
+              {
                 "text": "Method Overloading vs Overriding & Dynamic Dispatch",
                 "link": "/java/oop/method_dispatch/"
               },
@@ -89,10 +93,6 @@
               }
             ],
             "collapsed": true
-          },
-          {
-            "text": "Nested Classes",
-            "link": "/java/nested_classes/"
           },
           {
             "text": "Java Collections",
@@ -1060,9 +1060,22 @@
                 }
               },
               {
+                "text": "Nested Classes",
+                "link": "/java/oop/nested_classes/",
+                "order": 90,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
                 "text": "Method Overloading vs Overriding & Dynamic Dispatch",
                 "link": "/java/oop/method_dispatch/",
-                "order": 90,
+                "order": 100,
                 "schema": "practice",
                 "capabilities": {
                   "exercise": true,
@@ -1075,7 +1088,7 @@
               {
                 "text": "Abstract Class vs. Interface — the decision",
                 "link": "/java/oop/abstract_class_vs_interface/",
-                "order": 100,
+                "order": 110,
                 "schema": "practice",
                 "capabilities": {
                   "exercise": true,
@@ -1088,7 +1101,7 @@
               {
                 "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
                 "link": "/java/oop/equals_hashcode/",
-                "order": 110,
+                "order": 120,
                 "schema": "interactive-code",
                 "capabilities": {
                   "exercise": true,
@@ -1099,19 +1112,6 @@
                 }
               }
             ]
-          },
-          {
-            "text": "Nested Classes",
-            "link": "/java/nested_classes/",
-            "order": 30,
-            "schema": "interactive-code",
-            "capabilities": {
-              "exercise": true,
-              "solution": true,
-              "design": false,
-              "playground": true,
-              "assets": false
-            }
           },
           {
             "text": "Java Collections",
@@ -3075,6 +3075,10 @@
       "link": "/java/oop/polymorphism/"
     },
     {
+      "text": "Nested Classes",
+      "link": "/java/oop/nested_classes/"
+    },
+    {
       "text": "Method Overloading vs Overriding & Dynamic Dispatch",
       "link": "/java/oop/method_dispatch/"
     },
@@ -3085,10 +3089,6 @@
     {
       "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
       "link": "/java/oop/equals_hashcode/"
-    },
-    {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/"
     },
     {
       "text": "Java Collections",
@@ -4353,6 +4353,49 @@
       },
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
     },
+    "/java/oop/nested_classes/": {
+      "text": "Nested Classes",
+      "link": "/java/oop/nested_classes/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/nested_classes/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/oop/nested_classes/exercise/": {
+      "text": "Nested Classes",
+      "link": "/java/oop/nested_classes/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/oop/nested_classes/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/oop/nested_classes/solution/": {
+      "text": "Nested Classes",
+      "link": "/java/oop/nested_classes/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/oop/nested_classes/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Solution</h1>\n<p>One possible structure:</p>\n<pre><code>public class InterviewQuestion {\n  private final String text;\n\n  public InterviewQuestion(String text) {\n    this.text = text;\n  }\n\n  static class AnswerKey {\n    private final String expected;\n\n    AnswerKey(String expected) {\n      this.expected = expected;\n    }\n  }\n\n  class Attempt {\n    private final String submitted;\n\n    Attempt(String submitted) {\n      this.submitted = submitted;\n    }\n\n    void print(AnswerKey key) {\n      System.out.println(&quot;Question: &quot; + text);\n      System.out.println(&quot;Expected: &quot; + key.expected);\n      System.out.println(&quot;Submitted: &quot; + submitted);\n    }\n  }\n\n  public static void main(String[] args) {\n    AnswerKey key = new AnswerKey(&quot;Use outer.new Inner() for inner classes&quot;);\n\n    InterviewQuestion question = new InterviewQuestion(&quot;How do you create an inner class?&quot;);\n    Attempt attempt = question.new Attempt(&quot;Create outer first, then outer.new Attempt()&quot;);\n\n    attempt.print(key);\n  }\n}</code></pre>\n<p><code>AnswerKey</code> is static, so it is created as <code>new AnswerKey(...)</code> from inside the outer class. <code>Attempt</code> is an inner class, so it is created as <code>question.new Attempt(...)</code>.</p>"
+    },
     "/java/oop/method_dispatch/": {
       "text": "Method Overloading vs Overriding & Dynamic Dispatch",
       "link": "/java/oop/method_dispatch/",
@@ -4481,49 +4524,6 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
-    },
-    "/java/nested_classes/": {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/",
-      "pageType": "theory",
-      "parentLink": "/java/nested_classes/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/nested_classes/exercise/": {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/nested_classes/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/nested_classes/solution/": {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/nested_classes/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solution</h1>"
     },
     "/java/collections/": {
       "text": "Java Collections",
