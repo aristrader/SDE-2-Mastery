@@ -23,7 +23,7 @@ Navigation and schema automation exist to protect that experience. The goal is n
 To eliminate manual routing updates and ensure no topics are missed silently:
 - **Generated VitePress Configuration Data**: `scripts/generate-homepage.js` recursively scans `src/main/java/org/example/backend_fundamentals` and writes `docs/.vitepress/navigation_map.json`. `docs/.vitepress/config.mjs` imports that JSON to populate the Curriculum dropdown and sidebars.
   - *Ordering Rule:* Any sibling `order: X` collision is a validation error. Do not fall back to alphabetical sorting, because that hides curriculum-order mistakes.
-- **Generated Navigation Map**: The Node.js script emits `sidebar`, `nav`, and flattened `navMap` data. `ExerciseNav.vue` uses the flattened map for direct-refresh-safe exercise and solution navigation.
+- **Generated Navigation Map**: The Node.js script emits `sidebar`, `nav`, full `tree`, flattened `navMap`, and `pageMeta` data. `ExerciseNav.vue` uses this metadata for direct-refresh-safe exercise/design/solution navigation, and `Layout.vue` injects `AutoTopicGrid.vue` from the same tree for homepage and domain/category hub cards. Hub pages must not hand-maintain duplicate local topic lists; the validator rejects manual `<AutoTopicGrid>` markers and local markdown topic-list links on pages with child topics.
 - **NPM/Husky Hooks**: The root `package.json` scripts run `node scripts/generate-homepage.js` before docs dev/build commands, and `.husky/pre-commit` runs the same validator before commits.
 
 ## 3. Topic Learning Experience
@@ -47,34 +47,30 @@ Each final topic should use the learning journey that fits the topic type:
 - **Mobile and dense-content layout:** On smaller screens, tabs, sidebars, code panes, tables, diagrams, and navigation buttons must not overlap or force horizontal page-level scrolling except inside code/table containers.
 
 ## 5. Specialized Interactive Components
-- **Secure Code Execution (`<Playground>`)**: `Playground.vue` provides editable Java examples and offloads execution to the public **Piston Execution API**.
-  - *Operational Update (2026-07-06):* The public `https://emkc.org/api/v2/piston/execute` endpoint currently responds that the public API is whitelist-only as of 2026-02-15. Hosted execution therefore requires either an approved/self-hosted Piston-compatible endpoint configured through `VITE_PISTON_EXECUTE_URL`, or a separate hardened local sidecar for local study mode.
+- **Secure Code Execution (`<Playground>`)**: `Playground.vue` provides editable Java examples. In local study mode it posts to `/api/run-java`, a VitePress dev-server middleware that compiles edited playground files in a temporary directory with `javac`, runs the selected `main` class with `java`, returns structured stdout/stderr/error, and deletes the temp directory. Hosted/static deployments still need an approved sandbox endpoint configured separately.
+  - *Operational Update (2026-07-06):* The public `https://emkc.org/api/v2/piston/execute` endpoint currently responds that the public API is whitelist-only as of 2026-02-15. It is no longer the default local execution path. `VITE_PISTON_EXECUTE_URL` remains an optional escape hatch for an approved/self-hosted Piston-compatible endpoint.
   - *Resilience & Vue Reactivity Rules:* Must actively `.abort()` previous requests on rapid consecutive clicks. MUST prevent submission if the code editor is empty. 
   - *Component Reuse Trap:* When Vue reuses the component on route changes, `onBeforeUnmount` is bypassed. Therefore, the `watch` on `$route` must explicitly `.abort()` any pending network requests, clear previous output state, and call `.setValue(newCode)` on the reused editor instance.
   - *Rate Limiting Rule:* Parse the `Retry-After` header on 429 responses and physically disable the Run button until the window expires.
   - *OOM Protection (Build & Client-Side):* The `import.meta.glob` call for Java files MUST NOT use `eager: true`. Eager evaluation inlines the entire Java repository into the JS bundle, exhausting the Vite build heap and crippling client RAM. It must use dynamic async imports or runtime HTTP fetches.
-  - *OOM Protection (Execution):* Truncate the Piston output string to 10,000 characters.
+  - *OOM Protection (Execution):* Truncate execution output to 10,000 characters client-side and cap server-side stdout/stderr buffers.
   - *SPA Memory Leak Rule (Code Editor):* The Code Editor instance MUST be explicitly destroyed (`view.destroy()` for CodeMirror, or `editor.dispose()` and `model.dispose()` for Monaco) in `onBeforeUnmount`. 
-  - *Compliance & Legal Rule:* Must display a persistent UI warning adjacent to the Run button explicitly forbidding the submission of proprietary code, API keys, or PII.
+  - *Compliance & Legal Rule:* Must display a persistent UI warning adjacent to the Run button. In local mode it must warn not to run untrusted code; in hosted mode it must warn not to submit proprietary code, API keys, credentials, or PII.
   - *Run UX Rule:* The run area should clearly show file selection, runnable status, execution state, stdout/stderr/compile errors, rate-limit/timeout states, and output truncation. Non-runnable support files should still be browsable without pretending they can execute alone.
   - *Context Rule:* Code examples should be available from theory, exercise, and solution contexts when useful, but code mode must preserve the learner's place and not hide essential navigation.
 - **Java Execution Strategy**:
-  - *Hosted/default mode:* Prefer remote sandbox execution through Piston or an equivalent sandbox for public/static-site usage. This avoids exposing the visitor's machine or the site host to arbitrary Maven/JVM execution. The endpoint must be configurable; do not assume the public Piston endpoint is available.
-  - *Local study mode:* A local-only runner may be reintroduced for richer repo demos, but it must be treated as a powerful developer tool, not a public endpoint. Historical commits `6a1be06` and `79bc29c` contain the previous sidecar approach: `POST /api/run` accepted an FQCN and ran `mvn -q compile && mvn -q exec:java -Dexec.mainClass="<FQCN>"` from the repo root.
-  - *Do not revive the earliest middleware design:* The older `/api/run-java` Vite middleware used `child_process.exec` directly inside Vite config. If local execution returns, use a separate local sidecar with explicit security and lifecycle controls.
-  - *Local runner hardening requirements:* Use `spawn` instead of shell-only `exec` where possible; validate FQCNs with a strict Java-name regex; bind only to `127.0.0.1`; reject non-local `Host` and `Origin` headers; cap request body size; serialize or tightly limit Maven runs; kill the whole Maven/JVM process group on timeout, stop, route change, or client disconnect; cap captured output; return separated `stdout`, `stderr`, and `error`.
-  - *Save/edit hardening requirements:* If file saving is supported, only write `.java` files under the allowed Java tree, reject `../` traversal, verify real paths stay inside the tree, refuse symlink targets, and never expose save endpoints in hosted mode.
-- **System Design Viewer (`<ArchitectureBoard>`)**: `ArchitectureBoard.vue` embeds interactive Draw.io files.
-  - *SPA Memory Leak Rule (Iframes):* Must explicitly `window.removeEventListener('message', handlerReference)` in `onBeforeUnmount`. You cannot just pass the string `'message'`; you must store the exact function reference.
-  - *Component Reuse Trap:* Similar to the Code Editor, Vue will reuse this component. You MUST bind a `watch` on `$route` (or `props.src`) to perform the "about:blank Flush" (`iframeRef.value.src = 'about:blank'`) and reset the event listener before loading the new iframe source.
+  - *Local study mode (current default):* `/api/run-java` is available only in Vite dev. It does not save files, does not run Maven, does not use a shell command string, writes only to a temporary directory, validates Java filenames and main-class names, caps body/file/output sizes, applies a timeout, and removes the temp directory after each run. This is suitable for the personal local-study workflow, not for a public static deployment.
+  - *Hosted/static mode:* A deployed static site cannot run Java by itself. Hosted execution requires an approved remote sandbox, such as a self-hosted Piston-compatible endpoint configured through `VITE_PISTON_EXECUTE_URL`, with the same abort, timeout, output-cap, and no-`v-html` guarantees.
+  - *Save/edit hardening requirements:* File saving is not currently exposed. If save support is added later, only write `.java` files under the allowed Java tree, reject `../` traversal, verify real paths stay inside the tree, refuse symlink targets, and never expose save endpoints in hosted mode.
+- **System Design Viewer (`<ArchitectureBoard>`)**: `ArchitectureBoard.vue` renders local `.drawio` assets in a sandboxed iframe using read-only SVG generated from the Draw.io XML. This avoids the external diagrams.net iframe CSP block seen on localhost.
 - **Global SPA Memory Rules:** Any use of `medium-zoom` must explicitly call `.detach()` or `.destroy()` on route changes to prevent DOM detachment memory leaks.
 
 ## 6. SPA Lifecycle And Memory Safety
 - **Lazy asset loading:** Do not eagerly glob the full Java tree or all large assets into the client bundle. Use schema metadata and lazy raw-file imports so navigation can render without loading every playground file.
 - **Editor cleanup:** Monaco/CodeMirror instances must dispose editor and model resources on unmount. Route reuse must update the existing editor value without creating leaked editor instances.
-- **Network cleanup:** Any pending run, save, Piston, sidecar, diagram, or agent request must be abortable. Route changes, tab changes, unmounts, and explicit Stop actions must cancel or ignore stale work.
+- **Network cleanup:** Any pending run, save, hosted sandbox, local runner, diagram, or agent request must be abortable. Route changes, tab changes, unmounts, and explicit Stop actions must cancel or ignore stale work.
 - **Timer cleanup:** Rate-limit countdowns, elapsed timers, timeout timers, polling loops, and delayed iframe reloads must be cleared on route change and unmount.
-- **Iframe cleanup:** Draw.io iframes must remove the exact `message` listener reference and perform an `about:blank` flush before loading a new diagram or unmounting.
+- **Iframe cleanup:** Diagram iframes should not accumulate message listeners, timers, stale XML, or stale `srcdoc` across route changes.
 - **Zoom cleanup:** `medium-zoom` must detach/destroy on route changes and unmounts; retargeting should not accumulate stale DOM references.
 - **Stale result protection:** A completed request must not write output into a newer route, a different selected file, or a newer run. Track run IDs or abort signals and ignore stale completions.
 - **Output bounds:** Execution output and logs must be capped both server-side and client-side to avoid large-string memory pressure.
@@ -162,7 +158,7 @@ New schema families must be added deliberately: document the shape, update `AGEN
 - Replace eager Java globs in both `Layout.vue` and `Playground.vue` with lazy loading before significantly expanding playground coverage.
 - Fix Monaco worker build output so `npm run docs:build` does not emit generated worker files under `src/main/java/org/example/backend_fundamentals/Users/...`. Build artifacts belong under ignored VitePress build/cache/temp locations, never inside curriculum content.
 - Replace hardcoded Read/Code behavior with schema-aware tabs/actions. `ExerciseNav.vue` must stop assuming every topic has an exercise.
-- Decide whether Java execution is hosted Piston-only, local sidecar-only, or dual-mode. If local sidecar returns, implement the hardening requirements above before exposing run/save controls.
+- Keep local Java execution developer-only. A public/static deployment needs a separate hosted sandbox decision before exposing Run to visitors.
 - Add navigation UX checks for hierarchy depth: top-level domains should be easy to scan, intermediate sidebars should not become long undifferentiated lists, and final topic pages should expose clear paths to theory, practice, and answer pages.
 
 ## 11. Legacy Cleanup
@@ -170,11 +166,11 @@ All obsolete scripts, deprecated layout components, and hardcoded routing mappin
 
 ## 12. Mandatory Automated QA & Negative Testing (Playwright)
 Before any human review is requested, a Playwright E2E script must verify the holistic health of the application. 
-- **API Mocking Rule:** E2E scripts must use Playwright Network Interception (`page.route()`) to mock Piston API responses.
+- **API Mocking Rule:** E2E scripts must use Playwright Network Interception (`page.route()`) to mock `/api/run-java` or hosted runner responses for success, compile/runtime failure, timeout, rate limit, output truncation, and stale route-change behavior.
 - **Navigation QA Rule:** E2E tests must cover homepage domain discovery, domain hub drilldown, sidebar active state, topic action visibility, direct refresh on exercise/solution/design pages, and mobile layout.
 - **Playground QA Rule:** E2E tests must cover runnable and non-runnable files, success, compile error, timeout, rate limit, rapid clicks/abort, output truncation, and route changes during a pending run.
 - **Memory/Lifecycle QA Rule:** Tests must verify repeated route changes, tab switches, diagram loads, and run cancellations do not accumulate listeners, timers, stale output, or duplicate editor instances.
-- **Local Runner QA Rule:** If the local sidecar returns, tests must cover invalid FQCN rejection, timeout process-tree kill, client-disconnect abort, concurrency limiting, Host/Origin rejection, request-size caps, out-of-tree save rejection, non-Java save rejection, and symlink escape rejection.
+- **Local Runner QA Rule:** Local runner tests must cover invalid main class rejection, timeout, request-size caps, output caps, compile/runtime failure states, temp-directory cleanup, and no file-save surface. If a heavier Maven sidecar is introduced later, add process-tree kill, client-disconnect abort, concurrency limiting, Host/Origin rejection, path traversal, non-Java save, and symlink escape tests before enabling it.
 
 ## 13. Final Peer Review & Git Protocol
 - **No Unapproved Commits**: Agents are strictly forbidden from executing `git commit` at any stage without explicit human authorization.

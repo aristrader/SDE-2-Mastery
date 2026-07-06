@@ -24,7 +24,7 @@
             {{ runButtonLabel }}
           </button>
         </div>
-        <p class="run-warning">Hosted execution uses a remote sandbox. Do not submit proprietary code, API keys, credentials, or PII.</p>
+        <p class="run-warning">{{ runnerNotice }}</p>
         <ClientOnly>
           <CodeEditor v-if="selected" v-model="selectedCode" :readonly="false" />
         </ClientOnly>
@@ -102,7 +102,9 @@ let selectionToken = 0
 let runToken = 0
 const RUN_TIMEOUT_MS = 15000
 const OUTPUT_LIMIT = 10000
-const PISTON_EXECUTE_URL = import.meta.env.VITE_PISTON_EXECUTE_URL || 'https://emkc.org/api/v2/piston/execute'
+const PISTON_EXECUTE_URL = import.meta.env.VITE_PISTON_EXECUTE_URL || ''
+const JAVA_RUNNER_URL = import.meta.env.VITE_JAVA_RUNNER_URL || '/api/run-java'
+const usesPiston = computed(() => Boolean(PISTON_EXECUTE_URL))
 
 function javaMeta(name, content) {
   const className = name.replace(/\.java$/, '')
@@ -178,6 +180,25 @@ function formatPistonOutput(data) {
   }
 }
 
+function formatLocalOutput(data) {
+  if (data.phase === 'compile' && !data.ok) {
+    return {
+      label: 'Compile Error',
+      text: data.stderr || data.stdout || data.error || 'Compilation failed.',
+    }
+  }
+  if (!data.ok) {
+    return {
+      label: data.error && /timed out/i.test(data.error) ? 'Timeout' : 'Runtime Error',
+      text: [data.stderr, data.stdout, data.error].filter(Boolean).join('\n') || 'Execution failed.',
+    }
+  }
+  return {
+    label: 'Success',
+    text: data.stdout || data.stderr || 'Process finished with no output.',
+  }
+}
+
 async function filesForRun() {
   if (!selected.value) return []
   const runFiles = [{
@@ -211,6 +232,13 @@ const runButtonLabel = computed(() => {
   if (!selectedCode.value.trim()) return 'No code'
   if (!selectedRunnable.value) return 'No main'
   return 'Run'
+})
+
+const runnerNotice = computed(() => {
+  if (!usesPiston.value) {
+    return 'Local study mode: edited Java is compiled in a temporary directory and run through the local JDK. Do not run untrusted code.'
+  }
+  return 'Hosted execution uses a remote sandbox. Do not submit proprietary code, API keys, credentials, or PII.'
 })
 
 async function select(f) {
@@ -289,15 +317,13 @@ async function runCode() {
     const payloadFiles = await filesForRun()
     if (token !== runToken) return
 
-    const res = await fetch(PISTON_EXECUTE_URL, {
+    const res = await fetch(usesPiston.value ? PISTON_EXECUTE_URL : JAVA_RUNNER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       signal: abortController.signal,
-      body: JSON.stringify({
-        language: 'java',
-        version: '15.0.2',
-        files: payloadFiles
-      })
+      body: JSON.stringify(usesPiston.value
+        ? { language: 'java', version: '15.0.2', files: payloadFiles }
+        : { mainClass: selected.value.fqcn, files: payloadFiles })
     })
 
     if (res.status === 429) {
@@ -322,7 +348,7 @@ async function runCode() {
 
     const data = await res.json()
     if (token !== runToken) return
-    const formatted = formatPistonOutput(data)
+    const formatted = usesPiston.value ? formatPistonOutput(data) : formatLocalOutput(data)
     outputLabel.value = formatted.label
     output.value = boundedOutput(formatted.text)
   } catch (err) {

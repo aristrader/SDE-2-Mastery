@@ -10,16 +10,16 @@ hero:
     alt: Backend Logo
   actions:
     - theme: brand
-      text: Start Learning
-      link: /java/
+      text: Browse Curriculum
+      link: "#curriculum"
     - theme: alt
-      text: View Curriculum
-      link: /system_design/
+      text: Java & JVM
+      link: /java/
 features:
-  - title: Interactive Code Playgrounds
-    details: Write, compile, and execute Java code directly in your browser using our Monaco editor integration.
-  - title: System Design Architecture
-    details: Explore scalable designs with embedded Draw.io architecture diagrams and detailed component breakdowns.
-  - title: Comprehensive Curriculum
-    details: From JVM internals to Spring Boot, Microservices, and Distributed Databases.
+  - title: Read
+    details: Theory pages stay focused on interview-grade explanations and quick recall.
+  - title: Practice
+    details: Exercise and solution routes are generated from the schema instead of hand-maintained links.
+  - title: Explore
+    details: Major domains below match the generated Curriculum dropdown.
 ---

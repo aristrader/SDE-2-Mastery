@@ -2,7 +2,7 @@
 order: 20
 ---
 
-# Arrays
+# Java Collections
 
 ## User understanding
 
@@ -170,4 +170,3 @@ Know:
 - ArrayList uses `.size()` (implicitly discussed through comparison).
 
 ---
-

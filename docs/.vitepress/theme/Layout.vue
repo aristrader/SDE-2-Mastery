@@ -6,13 +6,14 @@
         <button :class="{ active: mode === 'read' }" @click="setMode('read')">Read</button>
         <button :class="{ active: mode === 'play' }" @click="setMode('play')">⌗ Code</button>
       </div>
+      <ClientOnly><ExerciseNav /></ClientOnly>
       <div v-if="hasCode && mode === 'play'" class="play-wrap">
         <ClientOnly><Playground /></ClientOnly>
       </div>
     </template>
 
     <template #doc-after>
-      <ClientOnly><ExerciseNav /></ClientOnly>
+      <ClientOnly><AutoTopicGrid /></ClientOnly>
     </template>
 
     <!-- Home: fill the empty hero side with a code-reference visual + a how-it-works strip. -->
@@ -31,12 +32,16 @@
     </template>
 
     <template #home-features-after>
+      <div id="curriculum" class="home-curriculum">
+        <h2 class="home-curriculum-title">Curriculum</h2>
+        <ClientOnly><AutoTopicGrid root /></ClientOnly>
+      </div>
       <div class="how">
         <h2 class="how-title">How it works</h2>
         <div class="how-grid">
           <div class="how-step"><div class="how-n">1</div><h3>Read</h3><p>Theory, diagrams and tables for each topic — clean and scannable.</p></div>
           <div class="how-step"><div class="how-n">2</div><h3>Browse the code</h3><p>See each topic's Java implementation right next to the theory, in the Code tab.</p></div>
-          <div class="how-step"><div class="how-n">3</div><h3>Run in your IDE</h3><p>Open the project in IntelliJ to compile and run the examples yourself.</p></div>
+          <div class="how-step"><div class="how-n">3</div><h3>Run locally</h3><p>Use the Code tab in local study mode to compile and run Java examples through your local JDK.</p></div>
         </div>
       </div>
     </template>
@@ -50,6 +55,7 @@ import { useData } from 'vitepress'
 import mediumZoom from 'medium-zoom'
 import Playground from './components/Playground.vue'
 import ExerciseNav from './components/ExerciseNav.vue'
+import AutoTopicGrid from './components/AutoTopicGrid.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.
@@ -139,6 +145,8 @@ syncFromHash()
 .mode-tabs button { padding: 4px 12px; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); cursor: pointer; }
 .mode-tabs button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); }
 .play-wrap { margin-top: 4px; }
+.home-curriculum { max-width: 1152px; margin: 10px auto 0; padding: 8px 24px 0; }
+.home-curriculum-title { font-size: 1.4rem; font-weight: 700; margin: 0 0 16px; border: none; padding: 0; }
 
 /* Home hero visual — a code-reference card that fills the otherwise-empty hero side */
 .hero-visual { width: 100%; max-width: 420px; border-radius: 14px; overflow: hidden; border: 1px solid var(--vp-c-divider); box-shadow: 0 18px 50px rgba(37, 99, 235, 0.18); background: #0f1117; }

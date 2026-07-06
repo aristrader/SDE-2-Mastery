@@ -5,8 +5,8 @@
         "text": "Databases",
         "items": [
           {
-            "text": "Distributed Transactions — 2PC, 3PC & Saga",
-            "link": "/databases/distributed_transactions/",
+            "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+            "link": "/databases/sql_vs_nosql/",
             "order": 10,
             "schema": "practice",
             "capabilities": {
@@ -15,26 +15,11 @@
               "design": false,
               "playground": false,
               "assets": false
-            },
-            "items": [
-              {
-                "text": "Saga vs Publish-Subscribe",
-                "link": "/databases/distributed_transactions/saga/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
+            }
           },
           {
-            "text": "Database Federation",
-            "link": "/databases/federation/",
+            "text": "Database Replication",
+            "link": "/databases/replication/",
             "order": 20,
             "schema": "practice",
             "capabilities": {
@@ -72,8 +57,8 @@
             }
           },
           {
-            "text": "Database Replication",
-            "link": "/databases/replication/",
+            "text": "Transactions, ACID Consistency & Distributed Commit",
+            "link": "/databases/transactions/",
             "order": 50,
             "schema": "practice",
             "capabilities": {
@@ -85,8 +70,8 @@
             }
           },
           {
-            "text": "Sharding, Data Partitioning & Consistent Hashing",
-            "link": "/databases/sharding/",
+            "text": "Distributed Transactions — 2PC, 3PC & Saga",
+            "link": "/databases/distributed_transactions/",
             "order": 60,
             "schema": "practice",
             "capabilities": {
@@ -95,11 +80,26 @@
               "design": false,
               "playground": false,
               "assets": false
-            }
+            },
+            "items": [
+              {
+                "text": "Saga vs Publish-Subscribe",
+                "link": "/databases/distributed_transactions/saga/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
           },
           {
-            "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
-            "link": "/databases/sql_vs_nosql/",
+            "text": "Sharding, Data Partitioning & Consistent Hashing",
+            "link": "/databases/sharding/",
             "order": 70,
             "schema": "practice",
             "capabilities": {
@@ -111,8 +111,8 @@
             }
           },
           {
-            "text": "Transactions, ACID Consistency & Distributed Commit",
-            "link": "/databases/transactions/",
+            "text": "Database Federation",
+            "link": "/databases/federation/",
             "order": 80,
             "schema": "practice",
             "capabilities": {
@@ -617,7 +617,7 @@
             ]
           },
           {
-            "text": "Arrays",
+            "text": "Java Collections",
             "link": "/java/collections/",
             "order": 20,
             "schema": "theory",
@@ -961,7 +961,7 @@
             ]
           },
           {
-            "text": "Jvm",
+            "text": "JVM",
             "link": "/java/jvm/",
             "order": 50,
             "schema": "theory",
@@ -1606,7 +1606,7 @@
             ]
           },
           {
-            "text": "Spring Data Jpa",
+            "text": "Spring Data JPA",
             "link": "/spring/spring_data_jpa/",
             "order": 40,
             "schema": "practice",
@@ -1619,7 +1619,7 @@
             }
           },
           {
-            "text": "Spring Mvc",
+            "text": "Spring MVC",
             "link": "/spring/spring_mvc/",
             "order": 50,
             "schema": "practice",
@@ -2139,6 +2139,2193 @@
       "activeMatch": "/system_design/"
     }
   ],
+  "tree": {
+    "text": "Backend Fundamentals",
+    "link": "/",
+    "order": 1,
+    "schema": "theory",
+    "capabilities": {
+      "exercise": false,
+      "solution": false,
+      "design": false,
+      "playground": false,
+      "assets": false
+    },
+    "items": [
+      {
+        "text": "Databases",
+        "link": "/databases/",
+        "order": 10,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+            "link": "/databases/sql_vs_nosql/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Database Replication",
+            "link": "/databases/replication/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Database Indexes (B+ Trees)",
+            "link": "/databases/indexes/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Normalization & Denormalization",
+            "link": "/databases/normalization/",
+            "order": 40,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Transactions, ACID Consistency & Distributed Commit",
+            "link": "/databases/transactions/",
+            "order": 50,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Distributed Transactions — 2PC, 3PC & Saga",
+            "link": "/databases/distributed_transactions/",
+            "order": 60,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Saga vs Publish-Subscribe",
+                "link": "/databases/distributed_transactions/saga/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Sharding, Data Partitioning & Consistent Hashing",
+            "link": "/databases/sharding/",
+            "order": 70,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Database Federation",
+            "link": "/databases/federation/",
+            "order": 80,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Views and Materialized Views",
+            "link": "/databases/views/",
+            "order": 90,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Deployments Hub",
+        "link": "/deployments/",
+        "order": 20,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "OS, Containers & Docker Fundamentals",
+            "link": "/deployments/o_s__containers__docker__notes/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Release & Deployment Strategies",
+            "link": "/deployments/release_and_deployment_strategies/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Design Patterns",
+        "link": "/design_patterns/",
+        "order": 30,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "CQRS (Command Query Responsibility Segregation)",
+            "link": "/design_patterns/cqrs/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Creational Design Patterns — Learning Guide",
+            "link": "/design_patterns/creational/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Abstract Factory",
+                "link": "/design_patterns/creational/abstract_factory/",
+                "order": 10,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Builder — Overview",
+                "link": "/design_patterns/creational/builder/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Builder — Director (simple variant)",
+                    "link": "/design_patterns/creational/builder/director_builder/",
+                    "order": 10,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Director (GoF flavour)",
+                    "link": "/design_patterns/creational/builder/director_builder_gof/",
+                    "order": 20,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Lombok variant",
+                    "link": "/design_patterns/creational/builder/lombok_builder/",
+                    "order": 30,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Basic (EJ Item 2 hand-written)",
+                    "link": "/design_patterns/creational/builder/simple_builder/",
+                    "order": 40,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  }
+                ]
+              },
+              {
+                "text": "Factory Patterns in Java — Three Variants Side by Side",
+                "link": "/design_patterns/creational/factory/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Factory Method — Production Variant",
+                    "link": "/design_patterns/creational/factory/factory_method/",
+                    "order": 10,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Factory Method — Learning Variant",
+                    "link": "/design_patterns/creational/factory/factory_method_basic/",
+                    "order": 20,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Simple Factory",
+                    "link": "/design_patterns/creational/factory/simple_factory/",
+                    "order": 30,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  }
+                ]
+              },
+              {
+                "text": "Prototype",
+                "link": "/design_patterns/creational/prototype/",
+                "order": 40,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Singleton Pattern in Java",
+                "link": "/design_patterns/creational/singleton/",
+                "order": 50,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Static Factory Methods — Effective Java Item 1",
+                "link": "/design_patterns/creational/static_factory_methods/",
+                "order": 60,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Event Sourcing & Event-Driven Architecture",
+            "link": "/design_patterns/event_sourcing/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Foundations",
+            "link": "/design_patterns/foundations/",
+            "order": 40,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Coupling, Cohesion, and Code Smells",
+                "link": "/design_patterns/foundations/coupling_cohesion_smells/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+                "link": "/design_patterns/foundations/dip_vs_di/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "SOLID Principles",
+                "link": "/design_patterns/foundations/solid/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Supporting Principles",
+                "link": "/design_patterns/foundations/supporting_principles/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "Engineering Practice & Communication",
+        "link": "/engineering_practice/",
+        "order": 40,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Code Reviews",
+            "link": "/engineering_practice/code_reviews/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Domain-Driven Design & Bounded Contexts",
+            "link": "/engineering_practice/ddd/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Design Documents and RFCs",
+            "link": "/engineering_practice/design_docs_and_r_f_cs/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Technical Writing",
+            "link": "/engineering_practice/technical_writing/",
+            "order": 40,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Java & JVM",
+        "link": "/java/",
+        "order": 50,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Coding Fluency",
+            "link": "/java/coding_fluency/",
+            "order": 10,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Immutable Collections — Coding Exercises",
+                "link": "/java/coding_fluency/immutable_collections/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Lombok — Coding Exercises",
+                "link": "/java/coding_fluency/lombok/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Optional — Coding Exercises",
+                "link": "/java/coding_fluency/optional/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Records as DTOs — Coding Exercises",
+                "link": "/java/coding_fluency/records/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Feign Client — Coding Exercises",
+                "link": "/java/coding_fluency/spring_basics/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Method References — Coding Exercises",
+                "link": "/java/coding_fluency/streams/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Java Collections",
+            "link": "/java/collections/",
+            "order": 20,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "ConcurrentHashMap",
+                "link": "/java/collections/concurrent_hashmap/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Hashing in Java — what it is and how Java uses it",
+                "link": "/java/collections/hashing/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "HashMap Internals",
+                "link": "/java/collections/hashmap/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "LinkedHashMap",
+                "link": "/java/collections/linked_hashmap/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Lists in Java — types, choices, and the Array trap",
+                "link": "/java/collections/lists/",
+                "order": 50,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Maps in Java — types, choices, and trade-offs",
+                "link": "/java/collections/maps/",
+                "order": 60,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Sets in Java — types, choices, and the dedup trap",
+                "link": "/java/collections/sets/",
+                "order": 70,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "TreeMap",
+                "link": "/java/collections/treemap/",
+                "order": 80,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Concurrency",
+            "link": "/java/concurrency/",
+            "order": 30,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "CompletableFuture",
+                "link": "/java/concurrency/completable_future/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "ExecutorService & ThreadPoolExecutor",
+                "link": "/java/concurrency/executor_service/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Memory Model (JMM)",
+                "link": "/java/concurrency/jmm/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Locks",
+                "link": "/java/concurrency/locks/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Race Conditions, Atomicity, Visibility, Ordering",
+                "link": "/java/concurrency/race_conditions/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "synchronized",
+                "link": "/java/concurrency/synchronized_keyword/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Thread Lifecycle",
+                "link": "/java/concurrency/thread_lifecycle/",
+                "order": 70,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "volatile",
+                "link": "/java/concurrency/volatile_keyword/",
+                "order": 80,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Foundations",
+            "link": "/java/foundations/",
+            "order": 40,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Control Flow",
+                "link": "/java/foundations/control_flow/",
+                "order": 10,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Enums",
+                "link": "/java/foundations/enums/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Exception Handling",
+                "link": "/java/foundations/exceptions/",
+                "order": 30,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Generics",
+                "link": "/java/foundations/generics/",
+                "order": 40,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Primitive Types",
+                "link": "/java/foundations/primitives/",
+                "order": 50,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Stream Terminal Operations — Collectors",
+                "link": "/java/foundations/streams/",
+                "order": 60,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "String Immutability — Deep Dive",
+                "link": "/java/foundations/string/",
+                "order": 70,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "JVM",
+            "link": "/java/jvm/",
+            "order": 50,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Garbage Collection",
+                "link": "/java/jvm/gc/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+                "link": "/java/jvm/memory_areas/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Nested Classes",
+            "link": "/java/nested_classes/",
+            "order": 60,
+            "schema": "interactive-code",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": true,
+              "assets": false
+            }
+          },
+          {
+            "text": "OOP Pillar Confusions — the pairs that blur",
+            "link": "/java/oop/",
+            "order": 70,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Abstract Class vs. Interface — the decision",
+                "link": "/java/oop/abstract_class_vs_interface/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Abstraction — the details",
+                "link": "/java/oop/abstraction/",
+                "order": 20,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Variables and Scope",
+                "link": "/java/oop/access_modifiers/",
+                "order": 30,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Classes, Objects, and Constructors",
+                "link": "/java/oop/classes_and_objects/",
+                "order": 40,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Composition vs Inheritance",
+                "link": "/java/oop/composition_vs_inheritance/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Encapsulation — the details",
+                "link": "/java/oop/encapsulation/",
+                "order": 60,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
+                "link": "/java/oop/equals_hashcode/",
+                "order": 70,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Inheritance — the details",
+                "link": "/java/oop/inheritance/",
+                "order": 80,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Method Overloading vs Overriding & Dynamic Dispatch",
+                "link": "/java/oop/method_dispatch/",
+                "order": 90,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Object Model",
+                "link": "/java/oop/object_model/",
+                "order": 100,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Polymorphism — the details",
+                "link": "/java/oop/polymorphism/",
+                "order": 110,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "Messaging",
+        "link": "/messaging/",
+        "order": 60,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Event-Driven Architecture (EDA)",
+            "link": "/messaging/eda/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Message Brokers & Event Streaming",
+            "link": "/messaging/message_brokers/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Message Queues & Publish-Subscribe",
+            "link": "/messaging/queues_pubsub/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Networking",
+        "link": "/networking/",
+        "order": 70,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "API Technologies Study Notes — Complete Conversation Dump",
+            "link": "/networking/api_design/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Graph Databases & GraphQL — Related in Name Only",
+                "link": "/networking/api_design/graphql/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
+            "link": "/networking/api_gateway/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Client ↔ Server Communication Patterns",
+            "link": "/networking/communication_patterns/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "DNS — Resolution Flow, Caching, and Traffic Steering",
+            "link": "/networking/dns/",
+            "order": 40,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "HTTP Fundamentals",
+            "link": "/networking/http_basics/",
+            "order": 50,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "IP Addressing, NAT, DHCP, CGNAT, MAC Addresses, and Internet Reachability",
+            "link": "/networking/ip_addressing/",
+            "order": 60,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Proxies, DNS Blocking, VPNs, and National Firewalls",
+            "link": "/networking/proxies_vpn/",
+            "order": 70,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "TCP vs UDP — Transport Protocol Choice (and the OSI Model in Practice)",
+            "link": "/networking/tcp_vs_udp/",
+            "order": 80,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Performance Engineering",
+        "link": "/performance/",
+        "order": 80,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Latency, Throughput & Little's Law",
+            "link": "/performance/latency__throughput__littles_law/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Security",
+        "link": "/security/",
+        "order": 90,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Authentication: OAuth, JWT, and API Keys",
+            "link": "/security/authentication/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
+            "link": "/security/cryptography/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Web Security: XSS, SOP, and CORS",
+            "link": "/security/web_security/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "Spring",
+        "link": "/spring/",
+        "order": 100,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Spring Cloud",
+            "link": "/spring/spring_cloud/",
+            "order": 10,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Feign / OpenFeign",
+                "link": "/spring/spring_cloud/feign/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Spring Core",
+            "link": "/spring/spring_core/",
+            "order": 20,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "@Async + Thread Context Propagation",
+                "link": "/spring/spring_core/async_mdc/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Bean Lifecycle",
+                "link": "/spring/spring_core/bean_lifecycle/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Spring Caching Abstraction",
+                "link": "/spring/spring_core/caching/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Dependency Injection",
+                "link": "/spring/spring_core/dependency_injection/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "IoC Container",
+                "link": "/spring/spring_core/ioc_container/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Spring Transactions — @Transactional Deep Dive",
+                "link": "/spring/spring_core/transactions/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Spring Data",
+            "link": "/spring/spring_data/",
+            "order": 30,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Derived Queries & @Query",
+                "link": "/spring/spring_data/derived_queries/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "JPA Entity Lifecycle",
+                "link": "/spring/spring_data/entity_lifecycle/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Lazy vs Eager Loading & N+1",
+                "link": "/spring/spring_data/jpa_lazy_eager/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "JPA Repository Hierarchy",
+                "link": "/spring/spring_data/jpa_repository/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Spring Data JPA",
+            "link": "/spring/spring_data_jpa/",
+            "order": 40,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Spring MVC",
+            "link": "/spring/spring_mvc/",
+            "order": 50,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Spring Security",
+            "link": "/spring/spring_security/",
+            "order": 60,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Authentication Providers",
+                "link": "/spring/spring_security/authentication_providers/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Authorization",
+                "link": "/spring/spring_security/authorization/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "JWT Validation, JWK Set, Custom Claims",
+                "link": "/spring/spring_security/jwt_validation/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "OAuth2 Resource Server & Client",
+                "link": "/spring/spring_security/o_auth2_resource_server/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "SecurityFilterChain",
+                "link": "/spring/spring_security/security_filter_chain/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Spring Web",
+            "link": "/spring/spring_web/",
+            "order": 70,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Spring Exception Handling",
+                "link": "/spring/spring_web/exception_handling/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Jackson Customization",
+                "link": "/spring/spring_web/jackson/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Spring MVC",
+                "link": "/spring/spring_web/mvc/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Spring REST",
+                "link": "/spring/spring_web/rest/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Spring, WebFlux, and the Threading Model",
+                "link": "/spring/spring_web/spring__web_flux__threading__model/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "Spring Boot",
+        "link": "/spring_boot/",
+        "order": 110,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Actuator",
+            "link": "/spring_boot/actuator/",
+            "order": 10,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Auto-Configuration",
+            "link": "/spring_boot/auto_configuration/",
+            "order": 20,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Starter Ecosystem",
+            "link": "/spring_boot/starters/",
+            "order": 30,
+            "schema": "practice",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "System Design",
+        "link": "/system_design/",
+        "order": 120,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Case Studies",
+            "link": "/system_design/case_studies/",
+            "order": 10,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Consolidated Notes: Location Fundamentals and Spatial Indexing (Part 1)",
+                "link": "/system_design/case_studies/location_and_uber_architecture/",
+                "order": 10,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+            "link": "/system_design/clustering/",
+            "order": 20,
+            "schema": "system-design",
+            "capabilities": {
+              "exercise": true,
+              "solution": false,
+              "design": true,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Components",
+            "link": "/system_design/components/",
+            "order": 30,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Caching, Distributed Cache, Redis Cluster, and Consistent Hashing",
+                "link": "/system_design/components/caching/",
+                "order": 10,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "CDN — Edge Caching, DNS Routing, Push vs Pull",
+                "link": "/system_design/components/cdn/",
+                "order": 20,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+                "link": "/system_design/components/load_balancing/",
+                "order": 30,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Rate Limiting",
+                "link": "/system_design/components/rate_limiting/",
+                "order": 40,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Concepts",
+            "link": "/system_design/concepts/",
+            "order": 40,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "System Availability, Reliability & Fault Tolerance",
+                "link": "/system_design/concepts/availability/",
+                "order": 10,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": true
+                }
+              },
+              {
+                "text": "CAP & PACELC",
+                "link": "/system_design/concepts/cap_pacelc/",
+                "order": 20,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "SLA, SLO, and SLI: Technical Overview",
+                "link": "/system_design/concepts/observability/",
+                "order": 30,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Circuit Breaker and Resiliency Patterns",
+                "link": "/system_design/concepts/resilience/",
+                "order": 40,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Scalability, Redundancy, and Sequential vs Random Access",
+                "link": "/system_design/concepts/scalability/",
+                "order": 50,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Patterns",
+            "link": "/system_design/patterns/",
+            "order": 50,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Monoliths vs Microservices",
+                "link": "/system_design/patterns/architecture/",
+                "order": 10,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "N-Tier Architecture",
+                "link": "/system_design/patterns/n_tier/",
+                "order": 20,
+                "schema": "system-design",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "navMap": [
     {
       "text": "Backend Fundamentals",
@@ -2149,16 +4336,12 @@
       "link": "/databases/"
     },
     {
-      "text": "Distributed Transactions — 2PC, 3PC & Saga",
-      "link": "/databases/distributed_transactions/"
+      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+      "link": "/databases/sql_vs_nosql/"
     },
     {
-      "text": "Saga vs Publish-Subscribe",
-      "link": "/databases/distributed_transactions/saga/"
-    },
-    {
-      "text": "Database Federation",
-      "link": "/databases/federation/"
+      "text": "Database Replication",
+      "link": "/databases/replication/"
     },
     {
       "text": "Database Indexes (B+ Trees)",
@@ -2169,20 +4352,24 @@
       "link": "/databases/normalization/"
     },
     {
-      "text": "Database Replication",
-      "link": "/databases/replication/"
+      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "link": "/databases/transactions/"
+    },
+    {
+      "text": "Distributed Transactions — 2PC, 3PC & Saga",
+      "link": "/databases/distributed_transactions/"
+    },
+    {
+      "text": "Saga vs Publish-Subscribe",
+      "link": "/databases/distributed_transactions/saga/"
     },
     {
       "text": "Sharding, Data Partitioning & Consistent Hashing",
       "link": "/databases/sharding/"
     },
     {
-      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
-      "link": "/databases/sql_vs_nosql/"
-    },
-    {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
-      "link": "/databases/transactions/"
+      "text": "Database Federation",
+      "link": "/databases/federation/"
     },
     {
       "text": "Views and Materialized Views",
@@ -2341,7 +4528,7 @@
       "link": "/java/coding_fluency/streams/"
     },
     {
-      "text": "Arrays",
+      "text": "Java Collections",
       "link": "/java/collections/"
     },
     {
@@ -2445,7 +4632,7 @@
       "link": "/java/foundations/string/"
     },
     {
-      "text": "Jvm",
+      "text": "JVM",
       "link": "/java/jvm/"
     },
     {
@@ -2649,11 +4836,11 @@
       "link": "/spring/spring_data/jpa_repository/"
     },
     {
-      "text": "Spring Data Jpa",
+      "text": "Spring Data JPA",
       "link": "/spring/spring_data_jpa/"
     },
     {
-      "text": "Spring Mvc",
+      "text": "Spring MVC",
       "link": "/spring/spring_mvc/"
     },
     {
@@ -2822,11 +5009,11 @@
         "assets": false
       }
     },
-    "/databases/distributed_transactions/": {
-      "text": "Distributed Transactions — 2PC, 3PC & Saga",
-      "link": "/databases/distributed_transactions/",
+    "/databases/sql_vs_nosql/": {
+      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+      "link": "/databases/sql_vs_nosql/",
       "pageType": "theory",
-      "parentLink": "/databases/distributed_transactions/",
+      "parentLink": "/databases/sql_vs_nosql/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -2836,11 +5023,11 @@
         "assets": false
       }
     },
-    "/databases/distributed_transactions/exercise/": {
-      "text": "Distributed Transactions — 2PC, 3PC & Saga",
-      "link": "/databases/distributed_transactions/exercise/",
+    "/databases/sql_vs_nosql/exercise/": {
+      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+      "link": "/databases/sql_vs_nosql/exercise/",
       "pageType": "exercise",
-      "parentLink": "/databases/distributed_transactions/",
+      "parentLink": "/databases/sql_vs_nosql/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -2850,11 +5037,11 @@
         "assets": false
       }
     },
-    "/databases/distributed_transactions/solution/": {
-      "text": "Distributed Transactions — 2PC, 3PC & Saga",
-      "link": "/databases/distributed_transactions/solution/",
+    "/databases/sql_vs_nosql/solution/": {
+      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
+      "link": "/databases/sql_vs_nosql/solution/",
       "pageType": "solution",
-      "parentLink": "/databases/distributed_transactions/",
+      "parentLink": "/databases/sql_vs_nosql/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -2864,11 +5051,11 @@
         "assets": false
       }
     },
-    "/databases/distributed_transactions/saga/": {
-      "text": "Saga vs Publish-Subscribe",
-      "link": "/databases/distributed_transactions/saga/",
+    "/databases/replication/": {
+      "text": "Database Replication",
+      "link": "/databases/replication/",
       "pageType": "theory",
-      "parentLink": "/databases/distributed_transactions/saga/",
+      "parentLink": "/databases/replication/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -2878,11 +5065,11 @@
         "assets": false
       }
     },
-    "/databases/distributed_transactions/saga/exercise/": {
-      "text": "Saga vs Publish-Subscribe",
-      "link": "/databases/distributed_transactions/saga/exercise/",
+    "/databases/replication/exercise/": {
+      "text": "Database Replication",
+      "link": "/databases/replication/exercise/",
       "pageType": "exercise",
-      "parentLink": "/databases/distributed_transactions/saga/",
+      "parentLink": "/databases/replication/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -2892,53 +5079,11 @@
         "assets": false
       }
     },
-    "/databases/distributed_transactions/saga/solution/": {
-      "text": "Saga vs Publish-Subscribe",
-      "link": "/databases/distributed_transactions/saga/solution/",
+    "/databases/replication/solution/": {
+      "text": "Database Replication",
+      "link": "/databases/replication/solution/",
       "pageType": "solution",
-      "parentLink": "/databases/distributed_transactions/saga/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/databases/federation/": {
-      "text": "Database Federation",
-      "link": "/databases/federation/",
-      "pageType": "theory",
-      "parentLink": "/databases/federation/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/databases/federation/exercise/": {
-      "text": "Database Federation",
-      "link": "/databases/federation/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/databases/federation/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/databases/federation/solution/": {
-      "text": "Database Federation",
-      "link": "/databases/federation/solution/",
-      "pageType": "solution",
-      "parentLink": "/databases/federation/",
+      "parentLink": "/databases/replication/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -3032,11 +5177,11 @@
         "assets": false
       }
     },
-    "/databases/replication/": {
-      "text": "Database Replication",
-      "link": "/databases/replication/",
+    "/databases/transactions/": {
+      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "link": "/databases/transactions/",
       "pageType": "theory",
-      "parentLink": "/databases/replication/",
+      "parentLink": "/databases/transactions/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -3046,11 +5191,11 @@
         "assets": false
       }
     },
-    "/databases/replication/exercise/": {
-      "text": "Database Replication",
-      "link": "/databases/replication/exercise/",
+    "/databases/transactions/exercise/": {
+      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "link": "/databases/transactions/exercise/",
       "pageType": "exercise",
-      "parentLink": "/databases/replication/",
+      "parentLink": "/databases/transactions/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -3060,11 +5205,95 @@
         "assets": false
       }
     },
-    "/databases/replication/solution/": {
-      "text": "Database Replication",
-      "link": "/databases/replication/solution/",
+    "/databases/transactions/solution/": {
+      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "link": "/databases/transactions/solution/",
       "pageType": "solution",
-      "parentLink": "/databases/replication/",
+      "parentLink": "/databases/transactions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/databases/distributed_transactions/": {
+      "text": "Distributed Transactions — 2PC, 3PC & Saga",
+      "link": "/databases/distributed_transactions/",
+      "pageType": "theory",
+      "parentLink": "/databases/distributed_transactions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/databases/distributed_transactions/exercise/": {
+      "text": "Distributed Transactions — 2PC, 3PC & Saga",
+      "link": "/databases/distributed_transactions/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/databases/distributed_transactions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/databases/distributed_transactions/solution/": {
+      "text": "Distributed Transactions — 2PC, 3PC & Saga",
+      "link": "/databases/distributed_transactions/solution/",
+      "pageType": "solution",
+      "parentLink": "/databases/distributed_transactions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/databases/distributed_transactions/saga/": {
+      "text": "Saga vs Publish-Subscribe",
+      "link": "/databases/distributed_transactions/saga/",
+      "pageType": "theory",
+      "parentLink": "/databases/distributed_transactions/saga/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/databases/distributed_transactions/saga/exercise/": {
+      "text": "Saga vs Publish-Subscribe",
+      "link": "/databases/distributed_transactions/saga/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/databases/distributed_transactions/saga/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/databases/distributed_transactions/saga/solution/": {
+      "text": "Saga vs Publish-Subscribe",
+      "link": "/databases/distributed_transactions/saga/solution/",
+      "pageType": "solution",
+      "parentLink": "/databases/distributed_transactions/saga/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -3116,11 +5345,11 @@
         "assets": false
       }
     },
-    "/databases/sql_vs_nosql/": {
-      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
-      "link": "/databases/sql_vs_nosql/",
+    "/databases/federation/": {
+      "text": "Database Federation",
+      "link": "/databases/federation/",
       "pageType": "theory",
-      "parentLink": "/databases/sql_vs_nosql/",
+      "parentLink": "/databases/federation/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -3130,11 +5359,11 @@
         "assets": false
       }
     },
-    "/databases/sql_vs_nosql/exercise/": {
-      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
-      "link": "/databases/sql_vs_nosql/exercise/",
+    "/databases/federation/exercise/": {
+      "text": "Database Federation",
+      "link": "/databases/federation/exercise/",
       "pageType": "exercise",
-      "parentLink": "/databases/sql_vs_nosql/",
+      "parentLink": "/databases/federation/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -3144,53 +5373,11 @@
         "assets": false
       }
     },
-    "/databases/sql_vs_nosql/solution/": {
-      "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
-      "link": "/databases/sql_vs_nosql/solution/",
+    "/databases/federation/solution/": {
+      "text": "Database Federation",
+      "link": "/databases/federation/solution/",
       "pageType": "solution",
-      "parentLink": "/databases/sql_vs_nosql/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/databases/transactions/": {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
-      "link": "/databases/transactions/",
-      "pageType": "theory",
-      "parentLink": "/databases/transactions/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/databases/transactions/exercise/": {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
-      "link": "/databases/transactions/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/databases/transactions/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/databases/transactions/solution/": {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
-      "link": "/databases/transactions/solution/",
-      "pageType": "solution",
-      "parentLink": "/databases/transactions/",
+      "parentLink": "/databases/federation/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -4699,7 +6886,7 @@
       }
     },
     "/java/collections/": {
-      "text": "Arrays",
+      "text": "Java Collections",
       "link": "/java/collections/",
       "pageType": "theory",
       "parentLink": "/java/collections/",
@@ -5707,7 +7894,7 @@
       }
     },
     "/java/jvm/": {
-      "text": "Jvm",
+      "text": "JVM",
       "link": "/java/jvm/",
       "pageType": "theory",
       "parentLink": "/java/jvm/",
@@ -7569,7 +9756,7 @@
       }
     },
     "/spring/spring_data_jpa/": {
-      "text": "Spring Data Jpa",
+      "text": "Spring Data JPA",
       "link": "/spring/spring_data_jpa/",
       "pageType": "theory",
       "parentLink": "/spring/spring_data_jpa/",
@@ -7583,7 +9770,7 @@
       }
     },
     "/spring/spring_data_jpa/exercise/": {
-      "text": "Spring Data Jpa",
+      "text": "Spring Data JPA",
       "link": "/spring/spring_data_jpa/exercise/",
       "pageType": "exercise",
       "parentLink": "/spring/spring_data_jpa/",
@@ -7597,7 +9784,7 @@
       }
     },
     "/spring/spring_data_jpa/solution/": {
-      "text": "Spring Data Jpa",
+      "text": "Spring Data JPA",
       "link": "/spring/spring_data_jpa/solution/",
       "pageType": "solution",
       "parentLink": "/spring/spring_data_jpa/",
@@ -7611,7 +9798,7 @@
       }
     },
     "/spring/spring_mvc/": {
-      "text": "Spring Mvc",
+      "text": "Spring MVC",
       "link": "/spring/spring_mvc/",
       "pageType": "theory",
       "parentLink": "/spring/spring_mvc/",
@@ -7625,7 +9812,7 @@
       }
     },
     "/spring/spring_mvc/exercise/": {
-      "text": "Spring Mvc",
+      "text": "Spring MVC",
       "link": "/spring/spring_mvc/exercise/",
       "pageType": "exercise",
       "parentLink": "/spring/spring_mvc/",
@@ -7639,7 +9826,7 @@
       }
     },
     "/spring/spring_mvc/solution/": {
-      "text": "Spring Mvc",
+      "text": "Spring MVC",
       "link": "/spring/spring_mvc/solution/",
       "pageType": "solution",
       "parentLink": "/spring/spring_mvc/",

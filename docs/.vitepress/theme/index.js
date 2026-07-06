@@ -5,6 +5,7 @@ import ProgressDashboard from './components/ProgressDashboard.vue'
 import Playground from './components/Playground.vue'
 import ArchitectureBoard from './components/ArchitectureBoard.vue'
 import ExerciseNav from './components/ExerciseNav.vue'
+import AutoTopicGrid from './components/AutoTopicGrid.vue'
 
 export default {
   ...DefaultTheme,
@@ -14,5 +15,6 @@ export default {
     app.component('Playground', Playground)
     app.component('ArchitectureBoard', ArchitectureBoard)
     app.component('ExerciseNav', ExerciseNav)
+    app.component('AutoTopicGrid', AutoTopicGrid)
   }
 }

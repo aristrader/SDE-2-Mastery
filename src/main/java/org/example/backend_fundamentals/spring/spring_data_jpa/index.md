@@ -2,8 +2,7 @@
 order: 40
 ---
 
-# Spring Data Jpa
+# Spring Data JPA
 
 Overview of Spring Data Jpa.
-
 

@@ -73,8 +73,12 @@ async function openCodeMode(page) {
   await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
 }
 
-async function mockPiston(page, handler) {
-  await page.route('https://emkc.org/api/v2/piston/execute', handler);
+async function mockJavaRunner(page, handler) {
+  await page.route('**/api/run-java', handler);
+}
+
+async function unmockJavaRunner(page) {
+  await page.unroute('**/api/run-java');
 }
 
 async function runCode(page) {
@@ -135,31 +139,31 @@ async function main() {
   assert.strictEqual(await page.locator('.run-warning').count(), 1, 'run warning should be visible');
   await page.setViewportSize({ width: 1366, height: 900 });
 
-  await mockPiston(page, async (route) => {
+  await mockJavaRunner(page, async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ run: { code: 0, output: 'hello from piston\n' } }),
+      body: JSON.stringify({ ok: true, phase: 'run', stdout: 'hello from local runner\n' }),
     });
   });
   await openCodeMode(page);
   await runCode(page);
-  await assertConsole(page, /Success/, /hello from piston/);
-  await page.unroute('https://emkc.org/api/v2/piston/execute');
+  await assertConsole(page, /Success/, /hello from local runner/);
+  await unmockJavaRunner(page);
 
-  await mockPiston(page, async (route) => {
+  await mockJavaRunner(page, async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ compile: { code: 1, stderr: 'javac failed' } }),
+      body: JSON.stringify({ ok: false, phase: 'compile', stderr: 'javac failed', error: 'compile failed' }),
     });
   });
   await openCodeMode(page);
   await runCode(page);
   await assertConsole(page, /Compile Error/, /javac failed/);
-  await page.unroute('https://emkc.org/api/v2/piston/execute');
+  await unmockJavaRunner(page);
 
-  await mockPiston(page, async (route) => {
+  await mockJavaRunner(page, async (route) => {
     await route.fulfill({
       status: 429,
       headers: { 'Retry-After': '2', 'Access-Control-Expose-Headers': 'Retry-After' },
@@ -170,51 +174,34 @@ async function main() {
   await runCode(page);
   await assertConsole(page, /Rate Limited/, /wait 2 seconds/i);
   assert.match(await page.getByRole('button').filter({ hasText: /Wait/ }).innerText(), /Wait/);
-  await page.unroute('https://emkc.org/api/v2/piston/execute');
+  await unmockJavaRunner(page);
 
-  await mockPiston(page, async (route) => {
+  await mockJavaRunner(page, async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ run: { code: 0, output: 'x'.repeat(50000) } }),
+      body: JSON.stringify({ ok: true, phase: 'run', stdout: 'x'.repeat(50000) }),
     });
   });
   await openCodeMode(page);
   await runCode(page);
   await assertConsole(page, /Success/, /Output truncated/);
   assert.ok((await page.locator('.console-out').innerText()).length < 11000, 'output should be bounded');
-  await page.unroute('https://emkc.org/api/v2/piston/execute');
+  await unmockJavaRunner(page);
 
-  await mockPiston(page, async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        run: {
-          code: 0,
-          output: 'Public Piston API is now whitelist only as of 2/15/2026. Please contact EngineerMan on Discord with use case justification or consider hosting your own Piston instance.'
-        }
-      }),
-    });
-  });
-  await openCodeMode(page);
-  await runCode(page);
-  await assertConsole(page, /Execution Unavailable/, /self-hosted Piston endpoint/);
-  await page.unroute('https://emkc.org/api/v2/piston/execute');
-
-  await mockPiston(page, async (route) => {
+  await mockJavaRunner(page, async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ run: { code: 0, output: 'late output' } }),
+      body: JSON.stringify({ ok: true, phase: 'run', stdout: 'late output' }),
     });
   });
   await openCodeMode(page);
   await runCode(page);
   await page.goto(`${BASE_URL}/java/oop/encapsulation/`, { waitUntil: 'networkidle' });
   assert.strictEqual(await page.locator('.console-out').count(), 0, 'stale run output should not land after route change');
-  await page.unroute('https://emkc.org/api/v2/piston/execute');
+  await unmockJavaRunner(page);
 
   await browser.close();
   await stopServer();

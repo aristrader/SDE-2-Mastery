@@ -1,5 +1,5 @@
 ---
-order: 60
+order: 70
 ---
 
 # Sharding, Data Partitioning & Consistent Hashing
@@ -105,5 +105,4 @@ A. Shard key finds the machine; index finds the row within that machine — diff
 
 **Q. Why consistent hashing over `hash % N`, and what do virtual nodes add?**
 A. `hash % N` remaps most keys when N changes; a hash ring moves only ~1/N keys on add/remove. Virtual nodes (many positions per server) smooth out uneven distribution.
-
 

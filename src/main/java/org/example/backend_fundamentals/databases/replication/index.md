@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 20
 ---
 
 # Database Replication
@@ -137,5 +137,4 @@ A. Protects against process/OS/power crashes via replay; does not protect agains
 
 **Q. How does multi-leader handle write conflicts?**
 A. LWW (later timestamp wins, loses data), merge (combine non-overlapping changes), or human resolution; collaborative editors use OT/CRDTs so concurrent edits both survive.
-
 

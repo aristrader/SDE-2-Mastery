@@ -75,6 +75,26 @@ test('generator accepts theory-only leaf pages', () => {
     });
 });
 
+test('generator rejects manual hub navigation lists', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'databases', 'index.md'), `${frontmatter(10)}\n- [SQL vs NoSQL](/databases/sql_vs_nosql/)\n`);
+    write(path.join(base, 'databases', 'sql_vs_nosql', 'index.md'), frontmatter(10));
+
+    assert.throws(() => runGenerator(base, out), /manual local topic lists/);
+});
+
+test('generator rejects manual AutoTopicGrid markers in hub pages', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), `${frontmatter(10)}\n<AutoTopicGrid />\n`);
+    write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+
+    assert.throws(() => runGenerator(base, out), /remove manual <AutoTopicGrid>/);
+});
+
 test('generator rejects Java files outside playground directories', () => {
     const base = makeBase();
     const out = path.join(base, 'navigation_map.json');

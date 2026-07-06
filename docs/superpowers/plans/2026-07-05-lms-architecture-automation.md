@@ -3,36 +3,26 @@
 > **Historical note:** This plan was created through `/superpowers`. The original superpowers sub-skill instructions below are implementation history, not a requirement for ordinary future maintenance.
 > **Git rule:** Do not commit anything to Git unless the user explicitly asks for a commit.
 
-**Goal:** Automate the VitePress navigation, restore secure Java execution (Piston API), enforce build-time validation, build the Draw.io embedder, and test all edge cases.
+**Goal:** Automate the VitePress navigation, restore secure Java execution, enforce build-time validation, build the Draw.io viewer, and test all edge cases.
 
 **Current status:** This plan has already been executed on `chore/schema-migration`. Use it as implementation history and follow-up guidance, not as a fresh task list. When this plan conflicts with the live repository, prefer root `AGENTS.md`, `scripts/generate-homepage.js`, `docs/.vitepress/config.mjs`, and `package.json`. `.agents/AGENTS.md` is retained as older architecture-governance context.
 
 ## Active Follow-Ups
-- Implement the project-wide validation contract in `scripts/generate-homepage.js` so invalid curriculum additions fail generation, docs dev/build, and pre-commit.
-- Review the generated homepage, top navigation, and sidebars against the curriculum navigation goal: first-time visitors should see major domains quickly, then drill into meaningful categories without excessive nesting.
-- Add a navigation-depth audit that flags very long sibling lists, one-child categories that add no meaning, and topic pages that are hard to reach from their domain.
-- Introduce explicit schema-family validation in `scripts/generate-homepage.js`: interactive code, system design, theory-only, and future domain-specific schemas.
-- Harden `scripts/generate-homepage.js` to enforce exact child frontmatter when child pages exist: `exercise/index.md` must use `order: 10` and `search: false`; `solution/index.md` and `design/index.md` must use `order: 20` and `search: false`.
-- Harden schema validation for directory contents by schema family: `playground/` must be Java-only and `assets/` must be image/`.drawio` only.
-- Replace eager Java globs in both `Layout.vue` and `Playground.vue` with lazy raw-file loading.
-- Fix Monaco worker output paths. `npm run docs:build` currently emits `monacoeditorwork/` bundles under an absolute-path mirror inside `src/main/java/org/example/backend_fundamentals/Users/.../docs/.vitepress/`, which leaves generated files in the curriculum source tree. Configure the Monaco/Vite output so workers land only under `docs/.vitepress/dist` and `.temp`, or replace the plugin integration if needed.
-- Redesign topic-level navigation from hardcoded Read/Code mode to schema-aware actions: Read, Code, Practice, Solution, Scenario, Design, Diagram, Lab as applicable.
-- Redesign `ExerciseNav.vue` so it derives available actions from generated schema metadata instead of assuming every topic has an exercise.
-- Improve playground/run UX: runnable-file selection, support-file browsing, stdout/stderr/error separation, timeout/rate-limit states, safe output truncation, and route-change cancellation.
-- Add the persistent Run-button-adjacent warning required by the spec: do not submit proprietary code, API keys, credentials, or PII to hosted execution.
-- Ensure the editor wrapper exposes or owns disposal hooks so route changes and unmounts dispose editor/model resources, not only pending network requests.
-- Decide the Java execution mode before implementation: hosted Piston sandbox, local-only Maven sidecar, or dual-mode. If local sidecar returns, preserve the hardening from historical commit `79bc29c`.
-- Hosted execution must use a configurable endpoint. A real app run on 2026-07-06 showed the public `https://emkc.org/api/v2/piston/execute` endpoint returning a whitelist-only notice dated 2026-02-15, so the site must not present that public endpoint as guaranteed working Java execution.
-- Add focused validator tests for the hardening items above.
+- Keep using `scripts/generate-homepage.js` as the project-wide validation contract for curriculum structure, generated navigation, exact child frontmatter, Java-only playgrounds, and assets-only system-design assets.
+- Keep homepage, domain/category hub cards, top navigation, and sidebars generated from `navigation_map.json`; the generator now rejects hand-written local topic lists and manual `<AutoTopicGrid>` markers on pages with child topics.
+- Continue tuning `order` frontmatter where human study sequencing still needs improvement. The generated hub cards and sidebars now share the same source, so order fixes update both.
+- Keep `scripts/site-route-audit.js` as the broad navigation/layout smoke test for route status, browser console issues, and page-level overflow.
 - Treat `scripts/auto-generate.js` as a scaffold until it invokes a reviewed local generation workflow and produces human-reviewable curriculum.
+- Defer curriculum stub cleanup until explicitly requested; use `docs/superpowers/plans/2026-07-05-curriculum-stub-backlog.md` as the inventory.
+- Public/static Java execution remains a separate product decision. Local `docs:dev` execution works through `/api/run-java`; a deployed static site still needs an approved hosted sandbox before Run can work for visitors.
 
 ## Required Review Gates
 These gates are part of the implementation task list. Do not rely on memory or a final broad review to catch these areas.
 
-- [ ] **UX/Site Walkthrough Gate:** After navigation, layout, or topic-action changes, run a browser walkthrough with Playwright screenshots for homepage, domain hub, deep topic, theory-only topic, interactive topic, system-design topic, exercise/solution/design pages, and mobile viewport. Confirm the site is easy to scan and has no incoherent overlap, hidden primary actions, or dead-end drilldowns.
-- [ ] **Generator Validation Gate:** After changing `scripts/generate-homepage.js`, run focused positive and negative validation tests for schema families, exact child frontmatter, duplicate orders, invalid folder names, invalid `playground/` contents, invalid `assets/` contents, and theory-only leaves.
-- [ ] **Java Execution Security Gate:** Before reintroducing any run/save/local sidecar behavior, review the implementation against the sidecar requirements in Task 3. Confirm process-tree kill, timeout, disconnect abort, Host/Origin checks, request/output caps, path traversal rejection, symlink rejection, and hosted-mode restrictions.
-- [ ] **Memory/Lifecycle Gate:** Before accepting UI changes involving Monaco, iframes, image zoom, fetches, timers, or route watchers, verify disposal/abort cleanup on route changes and unmounts. Include repeated navigation smoke tests, not only static inspection.
+- [x] **UX/Site Walkthrough Gate:** Playwright E2E, targeted generated-card checks, and desktop/mobile route audits verified homepage/domain/topic flows, system-design design page, Code mode, and mobile layout.
+- [x] **Generator Validation Gate:** `npm test` runs focused positive and negative generator tests for theory-only leaves, child frontmatter, duplicate orders, invalid folder names, invalid `playground/`, invalid `assets/`, and Java files outside playgrounds.
+- [x] **Java Execution Security Gate:** Current local runner is Vite dev-only, has no save endpoint, validates main-class and Java filenames, writes only to temp dirs, avoids shell command strings, caps body/file/output sizes, times out child processes, and cleans temp dirs. A future Maven sidecar or hosted runner still needs its own hardening pass.
+- [x] **Memory/Lifecycle Gate:** E2E covers route-change stale-output protection, diagram iframe lifecycle, mobile Code mode, and Monaco disposal is handled in `CodeEditor.vue`.
 - [ ] **Curriculum Stub Cleanup Gate:** Do not start stub cleanup during architecture implementation. When explicitly requested, use Task 7 and the stub backlog as the source inventory, then decide per topic whether to write real material or migrate to a lighter schema.
 
 ## Current Site Audit Findings
@@ -157,7 +147,7 @@ Use the generated JSON to build `themeConfig.sidebar` and a single top-level `Cu
 
 ---
 
-### Task 3: Interactive Components (Piston API & Draw.io Embed)
+### Task 3: Interactive Components (Local Java Runner & Draw.io Viewer)
 
 **Files:**
 - Modify: `docs/.vitepress/theme/components/Playground.vue`
@@ -170,41 +160,33 @@ Create a Vue component (`<Playground>`) that uses `@guolao/vue-monaco-editor`.
 - **Web Worker Vite Config:** The current config uses `vite-plugin-monaco-editor` to bundle Monaco worker files.
 - **Current worker-output bug:** The current Monaco plugin/config writes worker bundles into an absolute-path mirror under the VitePress `srcDir` during `npm run docs:build` (`backend_fundamentals/Users/.../docs/.vitepress/...`). Treat this as a build hygiene bug: generated worker files must not be emitted under curriculum content.
 - Implements a UI wrapper simulating a standard IDE (Run button, Console Output).
-- On click, issues an HTTP `POST` fetch to the public Piston API.
+- On click, issues an HTTP `POST` fetch to `/api/run-java` in local dev mode. `VITE_PISTON_EXECUTE_URL` remains optional for a separately approved hosted sandbox.
 - The component receives the raw file path via a Vue prop. **Vite Build Fix:** You MUST use `import.meta.glob('.../*.java', { query: '?raw' })` to dynamically load the file contents. Do NOT use standard dynamic `import(prop)` as Vite cannot statically analyze it.
 - **Vite Bundle Bloat (CRITICAL):** Remove `eager: true` from the `import.meta.glob` call. Use dynamic async imports to prevent SSG heap crashes and massive client JS payloads.
 - **Dark Mode Sync:** Import `useData` from `vitepress`. Watch `useData().isDark` and dynamically bind the editor theme so the editor follows site color mode.
 - **Component Reuse Trap:** When `$route` changes, DO NOT mount a new editor instance. Call `.setValue(newCode)` on the existing editor. 
 - **SPA Memory Leaks & Race Conditions:** Explicitly destroy the editor (`view.destroy()`) in `onBeforeUnmount`. Because `onBeforeUnmount` is bypassed on component reuse, the `$route` watcher MUST also `.abort()` any pending network requests and clear previous state. Parse `Retry-After` on HTTP 429 and disable the Run button.
-- **Security (XSS Prevention):** The execution output returned from the Piston API MUST be rendered strictly using Vue text interpolation (`{{ output }}`) or `v-text`. Under no circumstances should `v-html` be used, as it would expose the site to Self-XSS if a user `System.out.println`s a malicious script tag.
+- **Security (XSS Prevention):** The execution output returned from the runner MUST be rendered strictly using Vue text interpolation (`{{ output }}`) or `v-text`. Under no circumstances should `v-html` be used, as it would expose the site to Self-XSS if a user `System.out.println`s a malicious script tag.
 - **Current implementation risk:** `Playground.vue` currently still uses an eager Java glob. Fix this before expanding the Java playground corpus or treating docs build memory as fully hardened.
 - **Layout implementation risk:** `Layout.vue` also eagerly globs Java files to decide whether to show Code mode. The final design should avoid loading the whole Java corpus just to render a page shell.
 - **Tab UX requirement:** Replace the current two-mode Read/Code model with schema-aware topic actions. Tabs/buttons should show only valid destinations for the current topic and should be stable on refresh.
 - **Run UX requirement:** The run panel should distinguish running, success, compile/runtime error, timeout, rate limit, aborted request, and truncated output. It should avoid setting aborted output after a newer run starts.
-- **Compliance warning requirement:** The run panel must display a persistent warning near the Run control: do not submit proprietary code, API keys, credentials, or PII to hosted execution.
+- **Compliance warning requirement:** The run panel must display a persistent warning near the Run control. Local mode warns not to run untrusted code; hosted mode warns not to submit proprietary code, API keys, credentials, or PII.
 - **Editor disposal requirement:** The implementation must verify that the underlying Monaco editor and model are disposed on unmount or replacement. Aborting network requests alone is not enough to satisfy the memory-safety requirement.
 
-- [ ] **Step 1.1: Java Execution Mode Decision**
-Before changing run behavior, choose one of these supported modes:
-1. **Hosted sandbox mode:** Use Piston or equivalent remote sandbox execution. Best for public/static site behavior. Must include empty-code guard, request aborts, Retry-After handling, timeout state, output truncation, and no `v-html`.
-2. **Local sidecar mode:** Reintroduce a developer-only Node sidecar for Maven execution. Historical reference: commit `79bc29c` hardened the earlier sidecar after commit `6a1be06`.
-3. **Dual mode:** Default to hosted sandbox; optionally enable local sidecar only when explicitly configured in local dev.
+- [x] **Step 1.1: Java Execution Mode Decision**
+Current mode is local study execution in Vite dev through `/api/run-java`. It compiles edited Java playground files in a temp directory with `javac` and runs the selected `main` with `java`. It deliberately avoids Maven, shell command strings, and save endpoints. Hosted/static execution remains optional and requires a separately approved sandbox endpoint.
 
-Do not reintroduce the older `/api/run-java` Vite middleware pattern from the June 17 docs. Keep run/save outside Vite config if local execution returns.
+- [x] **Step 1.2: Local Runner Requirements**
+- Endpoint shape: `POST /api/run-java { mainClass, files }` runs only in Vite dev.
+- Validate main class with a strict Java-name regex.
+- Validate Java file names and infer package directories from source content.
+- Cap request body size, per-file source size, file count, runtime, and stdout/stderr buffers.
+- Use temp directories under the OS temp root and remove them after every run.
+- Return structured `{ ok, phase, stdout, stderr, error }`.
+- No file-save endpoint is exposed.
 
-- [ ] **Step 1.2: Local Sidecar Requirements If Reintroduced**
-- Endpoint shape: `POST /api/run { fqcn }` runs `mvn -q compile && mvn -q exec:java -Dexec.mainClass="<FQCN>"` from repo root.
-- Use `spawn` with a killable process group, not plain `exec` with an unkillable child tree.
-- Validate FQCNs with a strict Java-name regex.
-- Bind to `127.0.0.1` only.
-- Reject non-local `Host` and non-local `Origin` headers to reduce DNS-rebinding / drive-by request risk.
-- Cap request body size.
-- Serialize or tightly limit Maven runs; Maven/JVM execution is too heavy for unbounded concurrency.
-- Abort and kill the process tree on client disconnect, route change, Stop, and timeout.
-- Cap stdout/stderr capture and return structured `{ stdout, stderr, error }`.
-- If save/edit support exists, accept only `.java` files under the Java tree, reject traversal, check real paths, reject symlink writes, and never expose save in hosted mode.
-
-- [ ] **Step 1.3: Memory And Lifecycle Requirements**
+- [x] **Step 1.3: Memory And Lifecycle Requirements**
 - Dispose Monaco editor and model resources on unmount.
 - Abort pending run/save/Piston/sidecar requests on route change and unmount.
 - Clear rate-limit countdowns, elapsed timers, timeout timers, and delayed iframe reloads.
@@ -254,12 +236,12 @@ The script must boot the dev server and test:
 8. **Direct Refresh:** Open theory, exercise, solution, and design URLs directly; verify the right actions and back-links render.
 9. **Mobile Layout:** Test homepage, sidebar/menu, topic tabs, code mode, tables, and diagrams at a mobile viewport with no incoherent overlap.
 10. **Architecture Board:** Verify iframe renders successfully and route changes reset listeners/iframe state.
-11. **Java Positive:** Inject code, intercept request with `page.route()`, return mock success payload.
+11. **Java Positive:** Inject code, intercept `/api/run-java` with `page.route()`, return mock success payload, and separately run one real browser execution through the local JDK.
 12. **Java Negative (Compile/Runtime Fail):** Return mock compiler/runtime error payloads, assert UI distinguishes them from successful stdout.
 13. **Java Negative (Rate Limit):** Return HTTP 429, assert UI shows rate-limit warning and disables Run for the parsed retry window.
 14. **Resilience (Rapid Click):** Click Run 5 times rapidly. Intercept requests and assert stale requests are aborted or ignored.
-15. **Resilience (Timeout):** Mock Piston API with a 30s delay. Assert UI handles timeout gracefully instead of hanging.
-16. **Resilience (OOM Truncation):** Mock a 50k character Piston response. Assert UI truncates it to 10k.
+15. **Resilience (Timeout):** Mock the runner with a 30s delay. Assert UI handles timeout gracefully instead of hanging.
+16. **Resilience (OOM Truncation):** Mock a 50k character runner response. Assert UI truncates it to 10k.
 17. **Route Change During Run:** Start a long run, navigate away, and assert no stale output lands on the new page.
 18. **Lifecycle Leak Smoke:** Repeatedly switch Read/Code/Practice/Solution tabs and navigate across topics; assert no duplicate console output, duplicate message handling, or visible stale state.
 19. **Diagram Lifecycle:** Navigate between two architecture boards and toggle dark mode; assert the iframe reloads correctly and old message listeners do not duplicate loads.

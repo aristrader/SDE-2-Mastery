@@ -2,8 +2,7 @@
 order: 50
 ---
 
-# Spring Mvc
+# Spring MVC
 
 Overview of Spring Mvc.
-
 
