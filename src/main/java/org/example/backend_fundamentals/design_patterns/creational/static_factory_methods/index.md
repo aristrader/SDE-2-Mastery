@@ -1,5 +1,5 @@
 ---
-order: 60
+order: 20
 ---
 
 # Static Factory Methods — Effective Java Item 1
@@ -178,5 +178,4 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.static
 - `creational/factory/Factory.md` &mdash; Simple Factory's `create(...)` is a static method that *is* a factory but is not strictly an Item-1 static factory method; the doc clarifies the terminology.
 - `creational/builder/Builder.md` &mdash; the `builder()` entry point Lombok generates is the same trap.
 - `todo/FoundationsToRead.md` &raquo; "Static factory methods (Effective Java Item 1)" &mdash; the foundations checklist entry.
-
 

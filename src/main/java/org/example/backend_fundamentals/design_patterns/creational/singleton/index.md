@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 10
 ---
 
 # Singleton Pattern in Java
@@ -343,5 +343,4 @@ Spring's default bean scope is singleton — you get "one shared instance" **and
 - **Safe + lazy + simple:** use the **Bill Pugh** holder idiom.
 - **Need serialization/reflection safety too:** use an `enum` singleton.
 - **In a Spring app:** don't write singletons by hand — use `@Service` / `@Component` and let the container manage the lifecycle.
-
 

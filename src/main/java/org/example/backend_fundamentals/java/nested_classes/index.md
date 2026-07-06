@@ -1,7 +1,6 @@
 ---
-order: 60
+order: 30
 ---
 
 # Nested Classes
-
 

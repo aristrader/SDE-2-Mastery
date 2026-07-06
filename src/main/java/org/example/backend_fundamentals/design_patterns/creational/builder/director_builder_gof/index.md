@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 40
 ---
 
 # Builder — Director (GoF flavour)
@@ -180,5 +180,4 @@ Three scenarios:
 - `simple_builder/BuilderBasic.md` &mdash; the underlying EJ Builder shape.
 - `todo/FoundationsToRead.md` &raquo; LSP &mdash; the principle behind why `OfferLetter extends JobOffer` is wrong.
 - `todo/AccessModifiersDeepDive.md` &raquo; "Class-level modifier decisions" &mdash; covers `final`, `static`, and chokepoint constructors.
-
 

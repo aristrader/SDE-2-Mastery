@@ -85,6 +85,28 @@ test('generator rejects manual hub navigation lists', () => {
     assert.throws(() => runGenerator(base, out), /manual local topic lists/);
 });
 
+test('generator rejects manual hub path tables and study-order sections', () => {
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+
+        write(path.join(base, 'design_patterns', 'index.md'), `${frontmatter(10)}\n| Topic | Doc |\n| --- | --- |\n| Factory | \`factory/simple_factory/index.md\` |\n`);
+        write(path.join(base, 'design_patterns', 'factory', 'index.md'), frontmatter(10));
+
+        assert.throws(() => runGenerator(base, out), /manual path tables/);
+    }
+
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+
+        write(path.join(base, 'design_patterns', 'index.md'), `${frontmatter(10)}\n## Recommended sequence\n`);
+        write(path.join(base, 'design_patterns', 'factory', 'index.md'), frontmatter(10));
+
+        assert.throws(() => runGenerator(base, out), /manual study-order sections/);
+    }
+});
+
 test('generator rejects manual AutoTopicGrid markers in hub pages', () => {
     const base = makeBase();
     const out = path.join(base, 'navigation_map.json');
@@ -92,7 +114,26 @@ test('generator rejects manual AutoTopicGrid markers in hub pages', () => {
     write(path.join(base, 'java', 'index.md'), `${frontmatter(10)}\n<AutoTopicGrid />\n`);
     write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
 
-    assert.throws(() => runGenerator(base, out), /remove manual <AutoTopicGrid>/);
+    assert.throws(() => runGenerator(base, out), /remove <AutoTopicGrid>/);
+});
+
+test('generator rejects manual generated workspace components in curriculum markdown', () => {
+    for (const [component, fileName] of [
+        ['Playground', 'index.md'],
+        ['ExerciseNav', 'notes.md'],
+        ['ExerciseWorkspace', 'index.md'],
+    ]) {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+        write(path.join(base, 'java', 'oop', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+        write(path.join(base, 'java', 'oop', 'playground', 'Example.java'), 'class Example {}\n');
+        write(path.join(base, 'java', 'oop', fileName), `${frontmatter(30)}\n<${component} />\n`);
+
+        assert.throws(() => runGenerator(base, out), new RegExp(`remove <${component}>`));
+    }
 });
 
 test('generator rejects Java files outside playground directories', () => {

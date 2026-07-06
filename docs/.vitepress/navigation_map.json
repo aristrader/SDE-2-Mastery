@@ -190,7 +190,7 @@
             }
           },
           {
-            "text": "Creational Design Patterns — Learning Guide",
+            "text": "Creational Design Patterns",
             "link": "/design_patterns/creational/",
             "order": 20,
             "schema": "practice",
@@ -203,8 +203,8 @@
             },
             "items": [
               {
-                "text": "Abstract Factory",
-                "link": "/design_patterns/creational/abstract_factory/",
+                "text": "Singleton Pattern in Java",
+                "link": "/design_patterns/creational/singleton/",
                 "order": 10,
                 "schema": "interactive-code",
                 "capabilities": {
@@ -216,71 +216,17 @@
                 }
               },
               {
-                "text": "Builder — Overview",
-                "link": "/design_patterns/creational/builder/",
+                "text": "Static Factory Methods — Effective Java Item 1",
+                "link": "/design_patterns/creational/static_factory_methods/",
                 "order": 20,
-                "schema": "practice",
+                "schema": "interactive-code",
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
                   "design": false,
-                  "playground": false,
+                  "playground": true,
                   "assets": false
-                },
-                "items": [
-                  {
-                    "text": "Builder — Director (simple variant)",
-                    "link": "/design_patterns/creational/builder/director_builder/",
-                    "order": 10,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  },
-                  {
-                    "text": "Builder — Director (GoF flavour)",
-                    "link": "/design_patterns/creational/builder/director_builder_gof/",
-                    "order": 20,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  },
-                  {
-                    "text": "Builder — Lombok variant",
-                    "link": "/design_patterns/creational/builder/lombok_builder/",
-                    "order": 30,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  },
-                  {
-                    "text": "Builder — Basic (EJ Item 2 hand-written)",
-                    "link": "/design_patterns/creational/builder/simple_builder/",
-                    "order": 40,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  }
-                ]
+                }
               },
               {
                 "text": "Factory Patterns in Java — Three Variants Side by Side",
@@ -337,21 +283,75 @@
                 ]
               },
               {
-                "text": "Prototype",
-                "link": "/design_patterns/creational/prototype/",
+                "text": "Builder — Overview",
+                "link": "/design_patterns/creational/builder/",
                 "order": 40,
-                "schema": "interactive-code",
+                "schema": "practice",
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
                   "design": false,
-                  "playground": true,
+                  "playground": false,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Builder — Basic (EJ Item 2 hand-written)",
+                    "link": "/design_patterns/creational/builder/simple_builder/",
+                    "order": 10,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Lombok variant",
+                    "link": "/design_patterns/creational/builder/lombok_builder/",
+                    "order": 20,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Director (simple variant)",
+                    "link": "/design_patterns/creational/builder/director_builder/",
+                    "order": 30,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Director (GoF flavour)",
+                    "link": "/design_patterns/creational/builder/director_builder_gof/",
+                    "order": 40,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
-                "text": "Singleton Pattern in Java",
-                "link": "/design_patterns/creational/singleton/",
+                "text": "Abstract Factory",
+                "link": "/design_patterns/creational/abstract_factory/",
                 "order": 50,
                 "schema": "interactive-code",
                 "capabilities": {
@@ -363,8 +363,8 @@
                 }
               },
               {
-                "text": "Static Factory Methods — Effective Java Item 1",
-                "link": "/design_patterns/creational/static_factory_methods/",
+                "text": "Prototype",
+                "link": "/design_patterns/creational/prototype/",
                 "order": 60,
                 "schema": "interactive-code",
                 "capabilities": {
@@ -524,340 +524,9 @@
         "text": "Java & JVM",
         "items": [
           {
-            "text": "Coding Fluency",
-            "link": "/java/coding_fluency/",
-            "order": 10,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "Immutable Collections — Coding Exercises",
-                "link": "/java/coding_fluency/immutable_collections/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Lombok — Coding Exercises",
-                "link": "/java/coding_fluency/lombok/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Optional — Coding Exercises",
-                "link": "/java/coding_fluency/optional/",
-                "order": 30,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Records as DTOs — Coding Exercises",
-                "link": "/java/coding_fluency/records/",
-                "order": 40,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Feign Client — Coding Exercises",
-                "link": "/java/coding_fluency/spring_basics/",
-                "order": 50,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Method References — Coding Exercises",
-                "link": "/java/coding_fluency/streams/",
-                "order": 60,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
-            "text": "Java Collections",
-            "link": "/java/collections/",
-            "order": 20,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "ConcurrentHashMap",
-                "link": "/java/collections/concurrent_hashmap/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Hashing in Java — what it is and how Java uses it",
-                "link": "/java/collections/hashing/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "HashMap Internals",
-                "link": "/java/collections/hashmap/",
-                "order": 30,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "LinkedHashMap",
-                "link": "/java/collections/linked_hashmap/",
-                "order": 40,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Lists in Java — types, choices, and the Array trap",
-                "link": "/java/collections/lists/",
-                "order": 50,
-                "schema": "interactive-code",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Maps in Java — types, choices, and trade-offs",
-                "link": "/java/collections/maps/",
-                "order": 60,
-                "schema": "interactive-code",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Sets in Java — types, choices, and the dedup trap",
-                "link": "/java/collections/sets/",
-                "order": 70,
-                "schema": "interactive-code",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "TreeMap",
-                "link": "/java/collections/treemap/",
-                "order": 80,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
-            "text": "Concurrency",
-            "link": "/java/concurrency/",
-            "order": 30,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "CompletableFuture",
-                "link": "/java/concurrency/completable_future/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "ExecutorService & ThreadPoolExecutor",
-                "link": "/java/concurrency/executor_service/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Java Memory Model (JMM)",
-                "link": "/java/concurrency/jmm/",
-                "order": 30,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Locks",
-                "link": "/java/concurrency/locks/",
-                "order": 40,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Race Conditions, Atomicity, Visibility, Ordering",
-                "link": "/java/concurrency/race_conditions/",
-                "order": 50,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "synchronized",
-                "link": "/java/concurrency/synchronized_keyword/",
-                "order": 60,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Thread Lifecycle",
-                "link": "/java/concurrency/thread_lifecycle/",
-                "order": 70,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "volatile",
-                "link": "/java/concurrency/volatile_keyword/",
-                "order": 80,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
             "text": "Foundations",
             "link": "/java/foundations/",
-            "order": 40,
+            "order": 10,
             "schema": "theory",
             "capabilities": {
               "exercise": false,
@@ -961,63 +630,9 @@
             ]
           },
           {
-            "text": "JVM",
-            "link": "/java/jvm/",
-            "order": 50,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "Garbage Collection",
-                "link": "/java/jvm/gc/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-                "link": "/java/jvm/memory_areas/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
-            "text": "Nested Classes",
-            "link": "/java/nested_classes/",
-            "order": 60,
-            "schema": "interactive-code",
-            "capabilities": {
-              "exercise": true,
-              "solution": true,
-              "design": false,
-              "playground": true,
-              "assets": false
-            }
-          },
-          {
             "text": "OOP Pillar Confusions — the pairs that blur",
             "link": "/java/oop/",
-            "order": 70,
+            "order": 20,
             "schema": "theory",
             "capabilities": {
               "exercise": false,
@@ -1167,6 +782,391 @@
                   "solution": true,
                   "design": false,
                   "playground": true,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Nested Classes",
+            "link": "/java/nested_classes/",
+            "order": 30,
+            "schema": "interactive-code",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": true,
+              "assets": false
+            }
+          },
+          {
+            "text": "Java Collections",
+            "link": "/java/collections/",
+            "order": 40,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Lists in Java — types, choices, and the Array trap",
+                "link": "/java/collections/lists/",
+                "order": 10,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Hashing in Java — what it is and how Java uses it",
+                "link": "/java/collections/hashing/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Maps in Java — types, choices, and trade-offs",
+                "link": "/java/collections/maps/",
+                "order": 30,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Sets in Java — types, choices, and the dedup trap",
+                "link": "/java/collections/sets/",
+                "order": 40,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "HashMap Internals",
+                "link": "/java/collections/hashmap/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "LinkedHashMap",
+                "link": "/java/collections/linked_hashmap/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "TreeMap",
+                "link": "/java/collections/treemap/",
+                "order": 70,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "ConcurrentHashMap",
+                "link": "/java/collections/concurrent_hashmap/",
+                "order": 80,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "JVM",
+            "link": "/java/jvm/",
+            "order": 50,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Garbage Collection",
+                "link": "/java/jvm/gc/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+                "link": "/java/jvm/memory_areas/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Concurrency",
+            "link": "/java/concurrency/",
+            "order": 60,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "CompletableFuture",
+                "link": "/java/concurrency/completable_future/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "ExecutorService & ThreadPoolExecutor",
+                "link": "/java/concurrency/executor_service/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Memory Model (JMM)",
+                "link": "/java/concurrency/jmm/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Locks",
+                "link": "/java/concurrency/locks/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Race Conditions, Atomicity, Visibility, Ordering",
+                "link": "/java/concurrency/race_conditions/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "synchronized",
+                "link": "/java/concurrency/synchronized_keyword/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Thread Lifecycle",
+                "link": "/java/concurrency/thread_lifecycle/",
+                "order": 70,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "volatile",
+                "link": "/java/concurrency/volatile_keyword/",
+                "order": 80,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Coding Fluency",
+            "link": "/java/coding_fluency/",
+            "order": 70,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Immutable Collections — Coding Exercises",
+                "link": "/java/coding_fluency/immutable_collections/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Lombok — Coding Exercises",
+                "link": "/java/coding_fluency/lombok/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Optional — Coding Exercises",
+                "link": "/java/coding_fluency/optional/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Records as DTOs — Coding Exercises",
+                "link": "/java/coding_fluency/records/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Feign Client — Coding Exercises",
+                "link": "/java/coding_fluency/spring_basics/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Method References — Coding Exercises",
+                "link": "/java/coding_fluency/streams/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
                   "assets": false
                 }
               }
@@ -2367,7 +2367,7 @@
             }
           },
           {
-            "text": "Creational Design Patterns — Learning Guide",
+            "text": "Creational Design Patterns",
             "link": "/design_patterns/creational/",
             "order": 20,
             "schema": "practice",
@@ -2380,8 +2380,8 @@
             },
             "items": [
               {
-                "text": "Abstract Factory",
-                "link": "/design_patterns/creational/abstract_factory/",
+                "text": "Singleton Pattern in Java",
+                "link": "/design_patterns/creational/singleton/",
                 "order": 10,
                 "schema": "interactive-code",
                 "capabilities": {
@@ -2393,71 +2393,17 @@
                 }
               },
               {
-                "text": "Builder — Overview",
-                "link": "/design_patterns/creational/builder/",
+                "text": "Static Factory Methods — Effective Java Item 1",
+                "link": "/design_patterns/creational/static_factory_methods/",
                 "order": 20,
-                "schema": "practice",
+                "schema": "interactive-code",
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
                   "design": false,
-                  "playground": false,
+                  "playground": true,
                   "assets": false
-                },
-                "items": [
-                  {
-                    "text": "Builder — Director (simple variant)",
-                    "link": "/design_patterns/creational/builder/director_builder/",
-                    "order": 10,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  },
-                  {
-                    "text": "Builder — Director (GoF flavour)",
-                    "link": "/design_patterns/creational/builder/director_builder_gof/",
-                    "order": 20,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  },
-                  {
-                    "text": "Builder — Lombok variant",
-                    "link": "/design_patterns/creational/builder/lombok_builder/",
-                    "order": 30,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  },
-                  {
-                    "text": "Builder — Basic (EJ Item 2 hand-written)",
-                    "link": "/design_patterns/creational/builder/simple_builder/",
-                    "order": 40,
-                    "schema": "interactive-code",
-                    "capabilities": {
-                      "exercise": true,
-                      "solution": true,
-                      "design": false,
-                      "playground": true,
-                      "assets": false
-                    }
-                  }
-                ]
+                }
               },
               {
                 "text": "Factory Patterns in Java — Three Variants Side by Side",
@@ -2514,21 +2460,75 @@
                 ]
               },
               {
-                "text": "Prototype",
-                "link": "/design_patterns/creational/prototype/",
+                "text": "Builder — Overview",
+                "link": "/design_patterns/creational/builder/",
                 "order": 40,
-                "schema": "interactive-code",
+                "schema": "practice",
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
                   "design": false,
-                  "playground": true,
+                  "playground": false,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Builder — Basic (EJ Item 2 hand-written)",
+                    "link": "/design_patterns/creational/builder/simple_builder/",
+                    "order": 10,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Lombok variant",
+                    "link": "/design_patterns/creational/builder/lombok_builder/",
+                    "order": 20,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Director (simple variant)",
+                    "link": "/design_patterns/creational/builder/director_builder/",
+                    "order": 30,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Builder — Director (GoF flavour)",
+                    "link": "/design_patterns/creational/builder/director_builder_gof/",
+                    "order": 40,
+                    "schema": "interactive-code",
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": true,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
-                "text": "Singleton Pattern in Java",
-                "link": "/design_patterns/creational/singleton/",
+                "text": "Abstract Factory",
+                "link": "/design_patterns/creational/abstract_factory/",
                 "order": 50,
                 "schema": "interactive-code",
                 "capabilities": {
@@ -2540,8 +2540,8 @@
                 }
               },
               {
-                "text": "Static Factory Methods — Effective Java Item 1",
-                "link": "/design_patterns/creational/static_factory_methods/",
+                "text": "Prototype",
+                "link": "/design_patterns/creational/prototype/",
                 "order": 60,
                 "schema": "interactive-code",
                 "capabilities": {
@@ -2717,340 +2717,9 @@
         },
         "items": [
           {
-            "text": "Coding Fluency",
-            "link": "/java/coding_fluency/",
-            "order": 10,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "Immutable Collections — Coding Exercises",
-                "link": "/java/coding_fluency/immutable_collections/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Lombok — Coding Exercises",
-                "link": "/java/coding_fluency/lombok/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Optional — Coding Exercises",
-                "link": "/java/coding_fluency/optional/",
-                "order": 30,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Records as DTOs — Coding Exercises",
-                "link": "/java/coding_fluency/records/",
-                "order": 40,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Feign Client — Coding Exercises",
-                "link": "/java/coding_fluency/spring_basics/",
-                "order": 50,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Method References — Coding Exercises",
-                "link": "/java/coding_fluency/streams/",
-                "order": 60,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
-            "text": "Java Collections",
-            "link": "/java/collections/",
-            "order": 20,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "ConcurrentHashMap",
-                "link": "/java/collections/concurrent_hashmap/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Hashing in Java — what it is and how Java uses it",
-                "link": "/java/collections/hashing/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "HashMap Internals",
-                "link": "/java/collections/hashmap/",
-                "order": 30,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "LinkedHashMap",
-                "link": "/java/collections/linked_hashmap/",
-                "order": 40,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Lists in Java — types, choices, and the Array trap",
-                "link": "/java/collections/lists/",
-                "order": 50,
-                "schema": "interactive-code",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Maps in Java — types, choices, and trade-offs",
-                "link": "/java/collections/maps/",
-                "order": 60,
-                "schema": "interactive-code",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Sets in Java — types, choices, and the dedup trap",
-                "link": "/java/collections/sets/",
-                "order": 70,
-                "schema": "interactive-code",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "TreeMap",
-                "link": "/java/collections/treemap/",
-                "order": 80,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
-            "text": "Concurrency",
-            "link": "/java/concurrency/",
-            "order": 30,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "CompletableFuture",
-                "link": "/java/concurrency/completable_future/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "ExecutorService & ThreadPoolExecutor",
-                "link": "/java/concurrency/executor_service/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Java Memory Model (JMM)",
-                "link": "/java/concurrency/jmm/",
-                "order": 30,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Locks",
-                "link": "/java/concurrency/locks/",
-                "order": 40,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Race Conditions, Atomicity, Visibility, Ordering",
-                "link": "/java/concurrency/race_conditions/",
-                "order": 50,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "synchronized",
-                "link": "/java/concurrency/synchronized_keyword/",
-                "order": 60,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Thread Lifecycle",
-                "link": "/java/concurrency/thread_lifecycle/",
-                "order": 70,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "volatile",
-                "link": "/java/concurrency/volatile_keyword/",
-                "order": 80,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
             "text": "Foundations",
             "link": "/java/foundations/",
-            "order": 40,
+            "order": 10,
             "schema": "theory",
             "capabilities": {
               "exercise": false,
@@ -3154,63 +2823,9 @@
             ]
           },
           {
-            "text": "JVM",
-            "link": "/java/jvm/",
-            "order": 50,
-            "schema": "theory",
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "Garbage Collection",
-                "link": "/java/jvm/gc/",
-                "order": 10,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-                "link": "/java/jvm/memory_areas/",
-                "order": 20,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
-          },
-          {
-            "text": "Nested Classes",
-            "link": "/java/nested_classes/",
-            "order": 60,
-            "schema": "interactive-code",
-            "capabilities": {
-              "exercise": true,
-              "solution": true,
-              "design": false,
-              "playground": true,
-              "assets": false
-            }
-          },
-          {
             "text": "OOP Pillar Confusions — the pairs that blur",
             "link": "/java/oop/",
-            "order": 70,
+            "order": 20,
             "schema": "theory",
             "capabilities": {
               "exercise": false,
@@ -3360,6 +2975,391 @@
                   "solution": true,
                   "design": false,
                   "playground": true,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Nested Classes",
+            "link": "/java/nested_classes/",
+            "order": 30,
+            "schema": "interactive-code",
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": true,
+              "assets": false
+            }
+          },
+          {
+            "text": "Java Collections",
+            "link": "/java/collections/",
+            "order": 40,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Lists in Java — types, choices, and the Array trap",
+                "link": "/java/collections/lists/",
+                "order": 10,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Hashing in Java — what it is and how Java uses it",
+                "link": "/java/collections/hashing/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Maps in Java — types, choices, and trade-offs",
+                "link": "/java/collections/maps/",
+                "order": 30,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Sets in Java — types, choices, and the dedup trap",
+                "link": "/java/collections/sets/",
+                "order": 40,
+                "schema": "interactive-code",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "HashMap Internals",
+                "link": "/java/collections/hashmap/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "LinkedHashMap",
+                "link": "/java/collections/linked_hashmap/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "TreeMap",
+                "link": "/java/collections/treemap/",
+                "order": 70,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "ConcurrentHashMap",
+                "link": "/java/collections/concurrent_hashmap/",
+                "order": 80,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "JVM",
+            "link": "/java/jvm/",
+            "order": 50,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Garbage Collection",
+                "link": "/java/jvm/gc/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+                "link": "/java/jvm/memory_areas/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Concurrency",
+            "link": "/java/concurrency/",
+            "order": 60,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "CompletableFuture",
+                "link": "/java/concurrency/completable_future/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "ExecutorService & ThreadPoolExecutor",
+                "link": "/java/concurrency/executor_service/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Java Memory Model (JMM)",
+                "link": "/java/concurrency/jmm/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Locks",
+                "link": "/java/concurrency/locks/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Race Conditions, Atomicity, Visibility, Ordering",
+                "link": "/java/concurrency/race_conditions/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "synchronized",
+                "link": "/java/concurrency/synchronized_keyword/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Thread Lifecycle",
+                "link": "/java/concurrency/thread_lifecycle/",
+                "order": 70,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "volatile",
+                "link": "/java/concurrency/volatile_keyword/",
+                "order": 80,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Coding Fluency",
+            "link": "/java/coding_fluency/",
+            "order": 70,
+            "schema": "theory",
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Immutable Collections — Coding Exercises",
+                "link": "/java/coding_fluency/immutable_collections/",
+                "order": 10,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Lombok — Coding Exercises",
+                "link": "/java/coding_fluency/lombok/",
+                "order": 20,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Optional — Coding Exercises",
+                "link": "/java/coding_fluency/optional/",
+                "order": 30,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Records as DTOs — Coding Exercises",
+                "link": "/java/coding_fluency/records/",
+                "order": 40,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Feign Client — Coding Exercises",
+                "link": "/java/coding_fluency/spring_basics/",
+                "order": 50,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Method References — Coding Exercises",
+                "link": "/java/coding_fluency/streams/",
+                "order": 60,
+                "schema": "practice",
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": false,
                   "assets": false
                 }
               }
@@ -4396,32 +4396,16 @@
       "link": "/design_patterns/cqrs/"
     },
     {
-      "text": "Creational Design Patterns — Learning Guide",
+      "text": "Creational Design Patterns",
       "link": "/design_patterns/creational/"
     },
     {
-      "text": "Abstract Factory",
-      "link": "/design_patterns/creational/abstract_factory/"
+      "text": "Singleton Pattern in Java",
+      "link": "/design_patterns/creational/singleton/"
     },
     {
-      "text": "Builder — Overview",
-      "link": "/design_patterns/creational/builder/"
-    },
-    {
-      "text": "Builder — Director (simple variant)",
-      "link": "/design_patterns/creational/builder/director_builder/"
-    },
-    {
-      "text": "Builder — Director (GoF flavour)",
-      "link": "/design_patterns/creational/builder/director_builder_gof/"
-    },
-    {
-      "text": "Builder — Lombok variant",
-      "link": "/design_patterns/creational/builder/lombok_builder/"
-    },
-    {
-      "text": "Builder — Basic (EJ Item 2 hand-written)",
-      "link": "/design_patterns/creational/builder/simple_builder/"
+      "text": "Static Factory Methods — Effective Java Item 1",
+      "link": "/design_patterns/creational/static_factory_methods/"
     },
     {
       "text": "Factory Patterns in Java — Three Variants Side by Side",
@@ -4440,16 +4424,32 @@
       "link": "/design_patterns/creational/factory/simple_factory/"
     },
     {
+      "text": "Builder — Overview",
+      "link": "/design_patterns/creational/builder/"
+    },
+    {
+      "text": "Builder — Basic (EJ Item 2 hand-written)",
+      "link": "/design_patterns/creational/builder/simple_builder/"
+    },
+    {
+      "text": "Builder — Lombok variant",
+      "link": "/design_patterns/creational/builder/lombok_builder/"
+    },
+    {
+      "text": "Builder — Director (simple variant)",
+      "link": "/design_patterns/creational/builder/director_builder/"
+    },
+    {
+      "text": "Builder — Director (GoF flavour)",
+      "link": "/design_patterns/creational/builder/director_builder_gof/"
+    },
+    {
+      "text": "Abstract Factory",
+      "link": "/design_patterns/creational/abstract_factory/"
+    },
+    {
       "text": "Prototype",
       "link": "/design_patterns/creational/prototype/"
-    },
-    {
-      "text": "Singleton Pattern in Java",
-      "link": "/design_patterns/creational/singleton/"
-    },
-    {
-      "text": "Static Factory Methods — Effective Java Item 1",
-      "link": "/design_patterns/creational/static_factory_methods/"
     },
     {
       "text": "Event Sourcing & Event-Driven Architecture",
@@ -4500,106 +4500,6 @@
       "link": "/java/"
     },
     {
-      "text": "Coding Fluency",
-      "link": "/java/coding_fluency/"
-    },
-    {
-      "text": "Immutable Collections — Coding Exercises",
-      "link": "/java/coding_fluency/immutable_collections/"
-    },
-    {
-      "text": "Lombok — Coding Exercises",
-      "link": "/java/coding_fluency/lombok/"
-    },
-    {
-      "text": "Optional — Coding Exercises",
-      "link": "/java/coding_fluency/optional/"
-    },
-    {
-      "text": "Records as DTOs — Coding Exercises",
-      "link": "/java/coding_fluency/records/"
-    },
-    {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/"
-    },
-    {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/"
-    },
-    {
-      "text": "Java Collections",
-      "link": "/java/collections/"
-    },
-    {
-      "text": "ConcurrentHashMap",
-      "link": "/java/collections/concurrent_hashmap/"
-    },
-    {
-      "text": "Hashing in Java — what it is and how Java uses it",
-      "link": "/java/collections/hashing/"
-    },
-    {
-      "text": "HashMap Internals",
-      "link": "/java/collections/hashmap/"
-    },
-    {
-      "text": "LinkedHashMap",
-      "link": "/java/collections/linked_hashmap/"
-    },
-    {
-      "text": "Lists in Java — types, choices, and the Array trap",
-      "link": "/java/collections/lists/"
-    },
-    {
-      "text": "Maps in Java — types, choices, and trade-offs",
-      "link": "/java/collections/maps/"
-    },
-    {
-      "text": "Sets in Java — types, choices, and the dedup trap",
-      "link": "/java/collections/sets/"
-    },
-    {
-      "text": "TreeMap",
-      "link": "/java/collections/treemap/"
-    },
-    {
-      "text": "Concurrency",
-      "link": "/java/concurrency/"
-    },
-    {
-      "text": "CompletableFuture",
-      "link": "/java/concurrency/completable_future/"
-    },
-    {
-      "text": "ExecutorService & ThreadPoolExecutor",
-      "link": "/java/concurrency/executor_service/"
-    },
-    {
-      "text": "Java Memory Model (JMM)",
-      "link": "/java/concurrency/jmm/"
-    },
-    {
-      "text": "Locks",
-      "link": "/java/concurrency/locks/"
-    },
-    {
-      "text": "Race Conditions, Atomicity, Visibility, Ordering",
-      "link": "/java/concurrency/race_conditions/"
-    },
-    {
-      "text": "synchronized",
-      "link": "/java/concurrency/synchronized_keyword/"
-    },
-    {
-      "text": "Thread Lifecycle",
-      "link": "/java/concurrency/thread_lifecycle/"
-    },
-    {
-      "text": "volatile",
-      "link": "/java/concurrency/volatile_keyword/"
-    },
-    {
       "text": "Foundations",
       "link": "/java/foundations/"
     },
@@ -4630,22 +4530,6 @@
     {
       "text": "String Immutability — Deep Dive",
       "link": "/java/foundations/string/"
-    },
-    {
-      "text": "JVM",
-      "link": "/java/jvm/"
-    },
-    {
-      "text": "Garbage Collection",
-      "link": "/java/jvm/gc/"
-    },
-    {
-      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/"
-    },
-    {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/"
     },
     {
       "text": "OOP Pillar Confusions — the pairs that blur",
@@ -4694,6 +4578,122 @@
     {
       "text": "Polymorphism — the details",
       "link": "/java/oop/polymorphism/"
+    },
+    {
+      "text": "Nested Classes",
+      "link": "/java/nested_classes/"
+    },
+    {
+      "text": "Java Collections",
+      "link": "/java/collections/"
+    },
+    {
+      "text": "Lists in Java — types, choices, and the Array trap",
+      "link": "/java/collections/lists/"
+    },
+    {
+      "text": "Hashing in Java — what it is and how Java uses it",
+      "link": "/java/collections/hashing/"
+    },
+    {
+      "text": "Maps in Java — types, choices, and trade-offs",
+      "link": "/java/collections/maps/"
+    },
+    {
+      "text": "Sets in Java — types, choices, and the dedup trap",
+      "link": "/java/collections/sets/"
+    },
+    {
+      "text": "HashMap Internals",
+      "link": "/java/collections/hashmap/"
+    },
+    {
+      "text": "LinkedHashMap",
+      "link": "/java/collections/linked_hashmap/"
+    },
+    {
+      "text": "TreeMap",
+      "link": "/java/collections/treemap/"
+    },
+    {
+      "text": "ConcurrentHashMap",
+      "link": "/java/collections/concurrent_hashmap/"
+    },
+    {
+      "text": "JVM",
+      "link": "/java/jvm/"
+    },
+    {
+      "text": "Garbage Collection",
+      "link": "/java/jvm/gc/"
+    },
+    {
+      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+      "link": "/java/jvm/memory_areas/"
+    },
+    {
+      "text": "Concurrency",
+      "link": "/java/concurrency/"
+    },
+    {
+      "text": "CompletableFuture",
+      "link": "/java/concurrency/completable_future/"
+    },
+    {
+      "text": "ExecutorService & ThreadPoolExecutor",
+      "link": "/java/concurrency/executor_service/"
+    },
+    {
+      "text": "Java Memory Model (JMM)",
+      "link": "/java/concurrency/jmm/"
+    },
+    {
+      "text": "Locks",
+      "link": "/java/concurrency/locks/"
+    },
+    {
+      "text": "Race Conditions, Atomicity, Visibility, Ordering",
+      "link": "/java/concurrency/race_conditions/"
+    },
+    {
+      "text": "synchronized",
+      "link": "/java/concurrency/synchronized_keyword/"
+    },
+    {
+      "text": "Thread Lifecycle",
+      "link": "/java/concurrency/thread_lifecycle/"
+    },
+    {
+      "text": "volatile",
+      "link": "/java/concurrency/volatile_keyword/"
+    },
+    {
+      "text": "Coding Fluency",
+      "link": "/java/coding_fluency/"
+    },
+    {
+      "text": "Immutable Collections — Coding Exercises",
+      "link": "/java/coding_fluency/immutable_collections/"
+    },
+    {
+      "text": "Lombok — Coding Exercises",
+      "link": "/java/coding_fluency/lombok/"
+    },
+    {
+      "text": "Optional — Coding Exercises",
+      "link": "/java/coding_fluency/optional/"
+    },
+    {
+      "text": "Records as DTOs — Coding Exercises",
+      "link": "/java/coding_fluency/records/"
+    },
+    {
+      "text": "Feign Client — Coding Exercises",
+      "link": "/java/coding_fluency/spring_basics/"
+    },
+    {
+      "text": "Method References — Coding Exercises",
+      "link": "/java/coding_fluency/streams/"
     },
     {
       "text": "Messaging",
@@ -5584,7 +5584,7 @@
       }
     },
     "/design_patterns/creational/": {
-      "text": "Creational Design Patterns — Learning Guide",
+      "text": "Creational Design Patterns",
       "link": "/design_patterns/creational/",
       "pageType": "theory",
       "parentLink": "/design_patterns/creational/",
@@ -5598,7 +5598,7 @@
       }
     },
     "/design_patterns/creational/exercise/": {
-      "text": "Creational Design Patterns — Learning Guide",
+      "text": "Creational Design Patterns",
       "link": "/design_patterns/creational/exercise/",
       "pageType": "exercise",
       "parentLink": "/design_patterns/creational/",
@@ -5612,7 +5612,7 @@
       }
     },
     "/design_patterns/creational/solution/": {
-      "text": "Creational Design Patterns — Learning Guide",
+      "text": "Creational Design Patterns",
       "link": "/design_patterns/creational/solution/",
       "pageType": "solution",
       "parentLink": "/design_patterns/creational/",
@@ -5625,11 +5625,11 @@
         "assets": false
       }
     },
-    "/design_patterns/creational/abstract_factory/": {
-      "text": "Abstract Factory",
-      "link": "/design_patterns/creational/abstract_factory/",
+    "/design_patterns/creational/singleton/": {
+      "text": "Singleton Pattern in Java",
+      "link": "/design_patterns/creational/singleton/",
       "pageType": "theory",
-      "parentLink": "/design_patterns/creational/abstract_factory/",
+      "parentLink": "/design_patterns/creational/singleton/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -5639,11 +5639,11 @@
         "assets": false
       }
     },
-    "/design_patterns/creational/abstract_factory/exercise/": {
-      "text": "Abstract Factory",
-      "link": "/design_patterns/creational/abstract_factory/exercise/",
+    "/design_patterns/creational/singleton/exercise/": {
+      "text": "Singleton Pattern in Java",
+      "link": "/design_patterns/creational/singleton/exercise/",
       "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/abstract_factory/",
+      "parentLink": "/design_patterns/creational/singleton/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -5653,11 +5653,11 @@
         "assets": false
       }
     },
-    "/design_patterns/creational/abstract_factory/solution/": {
-      "text": "Abstract Factory",
-      "link": "/design_patterns/creational/abstract_factory/solution/",
+    "/design_patterns/creational/singleton/solution/": {
+      "text": "Singleton Pattern in Java",
+      "link": "/design_patterns/creational/singleton/solution/",
       "pageType": "solution",
-      "parentLink": "/design_patterns/creational/abstract_factory/",
+      "parentLink": "/design_patterns/creational/singleton/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -5667,207 +5667,39 @@
         "assets": false
       }
     },
-    "/design_patterns/creational/builder/": {
-      "text": "Builder — Overview",
-      "link": "/design_patterns/creational/builder/",
+    "/design_patterns/creational/static_factory_methods/": {
+      "text": "Static Factory Methods — Effective Java Item 1",
+      "link": "/design_patterns/creational/static_factory_methods/",
       "pageType": "theory",
-      "parentLink": "/design_patterns/creational/builder/",
-      "schema": "practice",
+      "parentLink": "/design_patterns/creational/static_factory_methods/",
+      "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
-        "playground": false,
+        "playground": true,
         "assets": false
       }
     },
-    "/design_patterns/creational/builder/exercise/": {
-      "text": "Builder — Overview",
-      "link": "/design_patterns/creational/builder/exercise/",
+    "/design_patterns/creational/static_factory_methods/exercise/": {
+      "text": "Static Factory Methods — Effective Java Item 1",
+      "link": "/design_patterns/creational/static_factory_methods/exercise/",
       "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/builder/",
-      "schema": "practice",
+      "parentLink": "/design_patterns/creational/static_factory_methods/",
+      "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
-        "playground": false,
+        "playground": true,
         "assets": false
       }
     },
-    "/design_patterns/creational/builder/solution/": {
-      "text": "Builder — Overview",
-      "link": "/design_patterns/creational/builder/solution/",
+    "/design_patterns/creational/static_factory_methods/solution/": {
+      "text": "Static Factory Methods — Effective Java Item 1",
+      "link": "/design_patterns/creational/static_factory_methods/solution/",
       "pageType": "solution",
-      "parentLink": "/design_patterns/creational/builder/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/director_builder/": {
-      "text": "Builder — Director (simple variant)",
-      "link": "/design_patterns/creational/builder/director_builder/",
-      "pageType": "theory",
-      "parentLink": "/design_patterns/creational/builder/director_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/director_builder/exercise/": {
-      "text": "Builder — Director (simple variant)",
-      "link": "/design_patterns/creational/builder/director_builder/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/builder/director_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/director_builder/solution/": {
-      "text": "Builder — Director (simple variant)",
-      "link": "/design_patterns/creational/builder/director_builder/solution/",
-      "pageType": "solution",
-      "parentLink": "/design_patterns/creational/builder/director_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/director_builder_gof/": {
-      "text": "Builder — Director (GoF flavour)",
-      "link": "/design_patterns/creational/builder/director_builder_gof/",
-      "pageType": "theory",
-      "parentLink": "/design_patterns/creational/builder/director_builder_gof/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/director_builder_gof/exercise/": {
-      "text": "Builder — Director (GoF flavour)",
-      "link": "/design_patterns/creational/builder/director_builder_gof/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/builder/director_builder_gof/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/director_builder_gof/solution/": {
-      "text": "Builder — Director (GoF flavour)",
-      "link": "/design_patterns/creational/builder/director_builder_gof/solution/",
-      "pageType": "solution",
-      "parentLink": "/design_patterns/creational/builder/director_builder_gof/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/lombok_builder/": {
-      "text": "Builder — Lombok variant",
-      "link": "/design_patterns/creational/builder/lombok_builder/",
-      "pageType": "theory",
-      "parentLink": "/design_patterns/creational/builder/lombok_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/lombok_builder/exercise/": {
-      "text": "Builder — Lombok variant",
-      "link": "/design_patterns/creational/builder/lombok_builder/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/builder/lombok_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/lombok_builder/solution/": {
-      "text": "Builder — Lombok variant",
-      "link": "/design_patterns/creational/builder/lombok_builder/solution/",
-      "pageType": "solution",
-      "parentLink": "/design_patterns/creational/builder/lombok_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/simple_builder/": {
-      "text": "Builder — Basic (EJ Item 2 hand-written)",
-      "link": "/design_patterns/creational/builder/simple_builder/",
-      "pageType": "theory",
-      "parentLink": "/design_patterns/creational/builder/simple_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/simple_builder/exercise/": {
-      "text": "Builder — Basic (EJ Item 2 hand-written)",
-      "link": "/design_patterns/creational/builder/simple_builder/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/builder/simple_builder/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/builder/simple_builder/solution/": {
-      "text": "Builder — Basic (EJ Item 2 hand-written)",
-      "link": "/design_patterns/creational/builder/simple_builder/solution/",
-      "pageType": "solution",
-      "parentLink": "/design_patterns/creational/builder/simple_builder/",
+      "parentLink": "/design_patterns/creational/static_factory_methods/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -6045,6 +5877,258 @@
         "assets": false
       }
     },
+    "/design_patterns/creational/builder/": {
+      "text": "Builder — Overview",
+      "link": "/design_patterns/creational/builder/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/creational/builder/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/exercise/": {
+      "text": "Builder — Overview",
+      "link": "/design_patterns/creational/builder/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/design_patterns/creational/builder/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/solution/": {
+      "text": "Builder — Overview",
+      "link": "/design_patterns/creational/builder/solution/",
+      "pageType": "solution",
+      "parentLink": "/design_patterns/creational/builder/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/simple_builder/": {
+      "text": "Builder — Basic (EJ Item 2 hand-written)",
+      "link": "/design_patterns/creational/builder/simple_builder/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/creational/builder/simple_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/simple_builder/exercise/": {
+      "text": "Builder — Basic (EJ Item 2 hand-written)",
+      "link": "/design_patterns/creational/builder/simple_builder/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/design_patterns/creational/builder/simple_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/simple_builder/solution/": {
+      "text": "Builder — Basic (EJ Item 2 hand-written)",
+      "link": "/design_patterns/creational/builder/simple_builder/solution/",
+      "pageType": "solution",
+      "parentLink": "/design_patterns/creational/builder/simple_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/lombok_builder/": {
+      "text": "Builder — Lombok variant",
+      "link": "/design_patterns/creational/builder/lombok_builder/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/creational/builder/lombok_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/lombok_builder/exercise/": {
+      "text": "Builder — Lombok variant",
+      "link": "/design_patterns/creational/builder/lombok_builder/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/design_patterns/creational/builder/lombok_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/lombok_builder/solution/": {
+      "text": "Builder — Lombok variant",
+      "link": "/design_patterns/creational/builder/lombok_builder/solution/",
+      "pageType": "solution",
+      "parentLink": "/design_patterns/creational/builder/lombok_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/director_builder/": {
+      "text": "Builder — Director (simple variant)",
+      "link": "/design_patterns/creational/builder/director_builder/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/creational/builder/director_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/director_builder/exercise/": {
+      "text": "Builder — Director (simple variant)",
+      "link": "/design_patterns/creational/builder/director_builder/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/design_patterns/creational/builder/director_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/director_builder/solution/": {
+      "text": "Builder — Director (simple variant)",
+      "link": "/design_patterns/creational/builder/director_builder/solution/",
+      "pageType": "solution",
+      "parentLink": "/design_patterns/creational/builder/director_builder/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/director_builder_gof/": {
+      "text": "Builder — Director (GoF flavour)",
+      "link": "/design_patterns/creational/builder/director_builder_gof/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/creational/builder/director_builder_gof/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/director_builder_gof/exercise/": {
+      "text": "Builder — Director (GoF flavour)",
+      "link": "/design_patterns/creational/builder/director_builder_gof/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/design_patterns/creational/builder/director_builder_gof/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/builder/director_builder_gof/solution/": {
+      "text": "Builder — Director (GoF flavour)",
+      "link": "/design_patterns/creational/builder/director_builder_gof/solution/",
+      "pageType": "solution",
+      "parentLink": "/design_patterns/creational/builder/director_builder_gof/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/abstract_factory/": {
+      "text": "Abstract Factory",
+      "link": "/design_patterns/creational/abstract_factory/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/creational/abstract_factory/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/abstract_factory/exercise/": {
+      "text": "Abstract Factory",
+      "link": "/design_patterns/creational/abstract_factory/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/design_patterns/creational/abstract_factory/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/design_patterns/creational/abstract_factory/solution/": {
+      "text": "Abstract Factory",
+      "link": "/design_patterns/creational/abstract_factory/solution/",
+      "pageType": "solution",
+      "parentLink": "/design_patterns/creational/abstract_factory/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
     "/design_patterns/creational/prototype/": {
       "text": "Prototype",
       "link": "/design_patterns/creational/prototype/",
@@ -6078,90 +6162,6 @@
       "link": "/design_patterns/creational/prototype/solution/",
       "pageType": "solution",
       "parentLink": "/design_patterns/creational/prototype/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/singleton/": {
-      "text": "Singleton Pattern in Java",
-      "link": "/design_patterns/creational/singleton/",
-      "pageType": "theory",
-      "parentLink": "/design_patterns/creational/singleton/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/singleton/exercise/": {
-      "text": "Singleton Pattern in Java",
-      "link": "/design_patterns/creational/singleton/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/singleton/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/singleton/solution/": {
-      "text": "Singleton Pattern in Java",
-      "link": "/design_patterns/creational/singleton/solution/",
-      "pageType": "solution",
-      "parentLink": "/design_patterns/creational/singleton/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/static_factory_methods/": {
-      "text": "Static Factory Methods — Effective Java Item 1",
-      "link": "/design_patterns/creational/static_factory_methods/",
-      "pageType": "theory",
-      "parentLink": "/design_patterns/creational/static_factory_methods/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/static_factory_methods/exercise/": {
-      "text": "Static Factory Methods — Effective Java Item 1",
-      "link": "/design_patterns/creational/static_factory_methods/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/design_patterns/creational/static_factory_methods/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/design_patterns/creational/static_factory_methods/solution/": {
-      "text": "Static Factory Methods — Effective Java Item 1",
-      "link": "/design_patterns/creational/static_factory_methods/solution/",
-      "pageType": "solution",
-      "parentLink": "/design_patterns/creational/static_factory_methods/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -6619,972 +6619,6 @@
         "assets": false
       }
     },
-    "/java/coding_fluency/": {
-      "text": "Coding Fluency",
-      "link": "/java/coding_fluency/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/immutable_collections/": {
-      "text": "Immutable Collections — Coding Exercises",
-      "link": "/java/coding_fluency/immutable_collections/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/immutable_collections/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/immutable_collections/exercise/": {
-      "text": "Immutable Collections — Coding Exercises",
-      "link": "/java/coding_fluency/immutable_collections/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/immutable_collections/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/immutable_collections/solution/": {
-      "text": "Immutable Collections — Coding Exercises",
-      "link": "/java/coding_fluency/immutable_collections/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/immutable_collections/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/lombok/": {
-      "text": "Lombok — Coding Exercises",
-      "link": "/java/coding_fluency/lombok/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/lombok/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/lombok/exercise/": {
-      "text": "Lombok — Coding Exercises",
-      "link": "/java/coding_fluency/lombok/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/lombok/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/lombok/solution/": {
-      "text": "Lombok — Coding Exercises",
-      "link": "/java/coding_fluency/lombok/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/lombok/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/optional/": {
-      "text": "Optional — Coding Exercises",
-      "link": "/java/coding_fluency/optional/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/optional/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/optional/exercise/": {
-      "text": "Optional — Coding Exercises",
-      "link": "/java/coding_fluency/optional/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/optional/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/optional/solution/": {
-      "text": "Optional — Coding Exercises",
-      "link": "/java/coding_fluency/optional/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/optional/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/records/": {
-      "text": "Records as DTOs — Coding Exercises",
-      "link": "/java/coding_fluency/records/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/records/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/records/exercise/": {
-      "text": "Records as DTOs — Coding Exercises",
-      "link": "/java/coding_fluency/records/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/records/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/records/solution/": {
-      "text": "Records as DTOs — Coding Exercises",
-      "link": "/java/coding_fluency/records/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/records/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/spring_basics/": {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/spring_basics/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/spring_basics/exercise/": {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/spring_basics/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/spring_basics/solution/": {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/spring_basics/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/streams/": {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/streams/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/streams/exercise/": {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/streams/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/streams/solution/": {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/streams/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/": {
-      "text": "Java Collections",
-      "link": "/java/collections/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/concurrent_hashmap/": {
-      "text": "ConcurrentHashMap",
-      "link": "/java/collections/concurrent_hashmap/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/concurrent_hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/concurrent_hashmap/exercise/": {
-      "text": "ConcurrentHashMap",
-      "link": "/java/collections/concurrent_hashmap/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/concurrent_hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/concurrent_hashmap/solution/": {
-      "text": "ConcurrentHashMap",
-      "link": "/java/collections/concurrent_hashmap/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/concurrent_hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/hashing/": {
-      "text": "Hashing in Java — what it is and how Java uses it",
-      "link": "/java/collections/hashing/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/hashing/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/hashing/exercise/": {
-      "text": "Hashing in Java — what it is and how Java uses it",
-      "link": "/java/collections/hashing/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/hashing/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/hashing/solution/": {
-      "text": "Hashing in Java — what it is and how Java uses it",
-      "link": "/java/collections/hashing/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/hashing/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/hashmap/": {
-      "text": "HashMap Internals",
-      "link": "/java/collections/hashmap/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/hashmap/exercise/": {
-      "text": "HashMap Internals",
-      "link": "/java/collections/hashmap/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/hashmap/solution/": {
-      "text": "HashMap Internals",
-      "link": "/java/collections/hashmap/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/linked_hashmap/": {
-      "text": "LinkedHashMap",
-      "link": "/java/collections/linked_hashmap/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/linked_hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/linked_hashmap/exercise/": {
-      "text": "LinkedHashMap",
-      "link": "/java/collections/linked_hashmap/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/linked_hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/linked_hashmap/solution/": {
-      "text": "LinkedHashMap",
-      "link": "/java/collections/linked_hashmap/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/linked_hashmap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/lists/": {
-      "text": "Lists in Java — types, choices, and the Array trap",
-      "link": "/java/collections/lists/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/lists/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/lists/exercise/": {
-      "text": "Lists in Java — types, choices, and the Array trap",
-      "link": "/java/collections/lists/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/lists/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/lists/solution/": {
-      "text": "Lists in Java — types, choices, and the Array trap",
-      "link": "/java/collections/lists/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/lists/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/maps/": {
-      "text": "Maps in Java — types, choices, and trade-offs",
-      "link": "/java/collections/maps/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/maps/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/maps/exercise/": {
-      "text": "Maps in Java — types, choices, and trade-offs",
-      "link": "/java/collections/maps/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/maps/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/maps/solution/": {
-      "text": "Maps in Java — types, choices, and trade-offs",
-      "link": "/java/collections/maps/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/maps/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/sets/": {
-      "text": "Sets in Java — types, choices, and the dedup trap",
-      "link": "/java/collections/sets/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/sets/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/sets/exercise/": {
-      "text": "Sets in Java — types, choices, and the dedup trap",
-      "link": "/java/collections/sets/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/sets/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/sets/solution/": {
-      "text": "Sets in Java — types, choices, and the dedup trap",
-      "link": "/java/collections/sets/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/sets/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/collections/treemap/": {
-      "text": "TreeMap",
-      "link": "/java/collections/treemap/",
-      "pageType": "theory",
-      "parentLink": "/java/collections/treemap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/treemap/exercise/": {
-      "text": "TreeMap",
-      "link": "/java/collections/treemap/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/collections/treemap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/collections/treemap/solution/": {
-      "text": "TreeMap",
-      "link": "/java/collections/treemap/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/collections/treemap/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/": {
-      "text": "Concurrency",
-      "link": "/java/concurrency/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/completable_future/": {
-      "text": "CompletableFuture",
-      "link": "/java/concurrency/completable_future/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/completable_future/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/completable_future/exercise/": {
-      "text": "CompletableFuture",
-      "link": "/java/concurrency/completable_future/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/completable_future/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/completable_future/solution/": {
-      "text": "CompletableFuture",
-      "link": "/java/concurrency/completable_future/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/completable_future/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/executor_service/": {
-      "text": "ExecutorService & ThreadPoolExecutor",
-      "link": "/java/concurrency/executor_service/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/executor_service/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/executor_service/exercise/": {
-      "text": "ExecutorService & ThreadPoolExecutor",
-      "link": "/java/concurrency/executor_service/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/executor_service/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/executor_service/solution/": {
-      "text": "ExecutorService & ThreadPoolExecutor",
-      "link": "/java/concurrency/executor_service/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/executor_service/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/jmm/": {
-      "text": "Java Memory Model (JMM)",
-      "link": "/java/concurrency/jmm/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/jmm/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/jmm/exercise/": {
-      "text": "Java Memory Model (JMM)",
-      "link": "/java/concurrency/jmm/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/jmm/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/jmm/solution/": {
-      "text": "Java Memory Model (JMM)",
-      "link": "/java/concurrency/jmm/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/jmm/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/locks/": {
-      "text": "Locks",
-      "link": "/java/concurrency/locks/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/locks/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/locks/exercise/": {
-      "text": "Locks",
-      "link": "/java/concurrency/locks/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/locks/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/locks/solution/": {
-      "text": "Locks",
-      "link": "/java/concurrency/locks/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/locks/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/race_conditions/": {
-      "text": "Race Conditions, Atomicity, Visibility, Ordering",
-      "link": "/java/concurrency/race_conditions/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/race_conditions/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/race_conditions/exercise/": {
-      "text": "Race Conditions, Atomicity, Visibility, Ordering",
-      "link": "/java/concurrency/race_conditions/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/race_conditions/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/race_conditions/solution/": {
-      "text": "Race Conditions, Atomicity, Visibility, Ordering",
-      "link": "/java/concurrency/race_conditions/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/race_conditions/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/synchronized_keyword/": {
-      "text": "synchronized",
-      "link": "/java/concurrency/synchronized_keyword/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/synchronized_keyword/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/synchronized_keyword/exercise/": {
-      "text": "synchronized",
-      "link": "/java/concurrency/synchronized_keyword/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/synchronized_keyword/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/synchronized_keyword/solution/": {
-      "text": "synchronized",
-      "link": "/java/concurrency/synchronized_keyword/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/synchronized_keyword/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/thread_lifecycle/": {
-      "text": "Thread Lifecycle",
-      "link": "/java/concurrency/thread_lifecycle/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/thread_lifecycle/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/thread_lifecycle/exercise/": {
-      "text": "Thread Lifecycle",
-      "link": "/java/concurrency/thread_lifecycle/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/thread_lifecycle/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/thread_lifecycle/solution/": {
-      "text": "Thread Lifecycle",
-      "link": "/java/concurrency/thread_lifecycle/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/thread_lifecycle/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/volatile_keyword/": {
-      "text": "volatile",
-      "link": "/java/concurrency/volatile_keyword/",
-      "pageType": "theory",
-      "parentLink": "/java/concurrency/volatile_keyword/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/volatile_keyword/exercise/": {
-      "text": "volatile",
-      "link": "/java/concurrency/volatile_keyword/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/concurrency/volatile_keyword/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/concurrency/volatile_keyword/solution/": {
-      "text": "volatile",
-      "link": "/java/concurrency/volatile_keyword/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/concurrency/volatile_keyword/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
     "/java/foundations/": {
       "text": "Foundations",
       "link": "/java/foundations/",
@@ -7884,146 +6918,6 @@
       "link": "/java/foundations/string/solution/",
       "pageType": "solution",
       "parentLink": "/java/foundations/string/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/jvm/": {
-      "text": "JVM",
-      "link": "/java/jvm/",
-      "pageType": "theory",
-      "parentLink": "/java/jvm/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/jvm/gc/": {
-      "text": "Garbage Collection",
-      "link": "/java/jvm/gc/",
-      "pageType": "theory",
-      "parentLink": "/java/jvm/gc/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/jvm/gc/exercise/": {
-      "text": "Garbage Collection",
-      "link": "/java/jvm/gc/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/jvm/gc/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/jvm/gc/solution/": {
-      "text": "Garbage Collection",
-      "link": "/java/jvm/gc/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/jvm/gc/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/jvm/memory_areas/": {
-      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/",
-      "pageType": "theory",
-      "parentLink": "/java/jvm/memory_areas/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/jvm/memory_areas/exercise/": {
-      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/jvm/memory_areas/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/jvm/memory_areas/solution/": {
-      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/jvm/memory_areas/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/nested_classes/": {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/",
-      "pageType": "theory",
-      "parentLink": "/java/nested_classes/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/nested_classes/exercise/": {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/nested_classes/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/java/nested_classes/solution/": {
-      "text": "Nested Classes",
-      "link": "/java/nested_classes/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/nested_classes/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -8506,6 +7400,1112 @@
         "solution": true,
         "design": false,
         "playground": true,
+        "assets": false
+      }
+    },
+    "/java/nested_classes/": {
+      "text": "Nested Classes",
+      "link": "/java/nested_classes/",
+      "pageType": "theory",
+      "parentLink": "/java/nested_classes/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/nested_classes/exercise/": {
+      "text": "Nested Classes",
+      "link": "/java/nested_classes/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/nested_classes/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/nested_classes/solution/": {
+      "text": "Nested Classes",
+      "link": "/java/nested_classes/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/nested_classes/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/": {
+      "text": "Java Collections",
+      "link": "/java/collections/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/lists/": {
+      "text": "Lists in Java — types, choices, and the Array trap",
+      "link": "/java/collections/lists/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/lists/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/lists/exercise/": {
+      "text": "Lists in Java — types, choices, and the Array trap",
+      "link": "/java/collections/lists/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/lists/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/lists/solution/": {
+      "text": "Lists in Java — types, choices, and the Array trap",
+      "link": "/java/collections/lists/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/lists/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/hashing/": {
+      "text": "Hashing in Java — what it is and how Java uses it",
+      "link": "/java/collections/hashing/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/hashing/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/hashing/exercise/": {
+      "text": "Hashing in Java — what it is and how Java uses it",
+      "link": "/java/collections/hashing/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/hashing/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/hashing/solution/": {
+      "text": "Hashing in Java — what it is and how Java uses it",
+      "link": "/java/collections/hashing/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/hashing/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/maps/": {
+      "text": "Maps in Java — types, choices, and trade-offs",
+      "link": "/java/collections/maps/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/maps/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/maps/exercise/": {
+      "text": "Maps in Java — types, choices, and trade-offs",
+      "link": "/java/collections/maps/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/maps/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/maps/solution/": {
+      "text": "Maps in Java — types, choices, and trade-offs",
+      "link": "/java/collections/maps/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/maps/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/sets/": {
+      "text": "Sets in Java — types, choices, and the dedup trap",
+      "link": "/java/collections/sets/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/sets/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/sets/exercise/": {
+      "text": "Sets in Java — types, choices, and the dedup trap",
+      "link": "/java/collections/sets/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/sets/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/sets/solution/": {
+      "text": "Sets in Java — types, choices, and the dedup trap",
+      "link": "/java/collections/sets/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/sets/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/java/collections/hashmap/": {
+      "text": "HashMap Internals",
+      "link": "/java/collections/hashmap/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/hashmap/exercise/": {
+      "text": "HashMap Internals",
+      "link": "/java/collections/hashmap/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/hashmap/solution/": {
+      "text": "HashMap Internals",
+      "link": "/java/collections/hashmap/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/linked_hashmap/": {
+      "text": "LinkedHashMap",
+      "link": "/java/collections/linked_hashmap/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/linked_hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/linked_hashmap/exercise/": {
+      "text": "LinkedHashMap",
+      "link": "/java/collections/linked_hashmap/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/linked_hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/linked_hashmap/solution/": {
+      "text": "LinkedHashMap",
+      "link": "/java/collections/linked_hashmap/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/linked_hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/treemap/": {
+      "text": "TreeMap",
+      "link": "/java/collections/treemap/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/treemap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/treemap/exercise/": {
+      "text": "TreeMap",
+      "link": "/java/collections/treemap/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/treemap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/treemap/solution/": {
+      "text": "TreeMap",
+      "link": "/java/collections/treemap/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/treemap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/concurrent_hashmap/": {
+      "text": "ConcurrentHashMap",
+      "link": "/java/collections/concurrent_hashmap/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/concurrent_hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/concurrent_hashmap/exercise/": {
+      "text": "ConcurrentHashMap",
+      "link": "/java/collections/concurrent_hashmap/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/concurrent_hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/concurrent_hashmap/solution/": {
+      "text": "ConcurrentHashMap",
+      "link": "/java/collections/concurrent_hashmap/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/concurrent_hashmap/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/": {
+      "text": "JVM",
+      "link": "/java/jvm/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/gc/": {
+      "text": "Garbage Collection",
+      "link": "/java/jvm/gc/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/gc/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/gc/exercise/": {
+      "text": "Garbage Collection",
+      "link": "/java/jvm/gc/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/jvm/gc/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/gc/solution/": {
+      "text": "Garbage Collection",
+      "link": "/java/jvm/gc/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/jvm/gc/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/memory_areas/": {
+      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+      "link": "/java/jvm/memory_areas/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/memory_areas/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/memory_areas/exercise/": {
+      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+      "link": "/java/jvm/memory_areas/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/jvm/memory_areas/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/memory_areas/solution/": {
+      "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
+      "link": "/java/jvm/memory_areas/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/jvm/memory_areas/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/": {
+      "text": "Concurrency",
+      "link": "/java/concurrency/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/completable_future/": {
+      "text": "CompletableFuture",
+      "link": "/java/concurrency/completable_future/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/completable_future/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/completable_future/exercise/": {
+      "text": "CompletableFuture",
+      "link": "/java/concurrency/completable_future/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/completable_future/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/completable_future/solution/": {
+      "text": "CompletableFuture",
+      "link": "/java/concurrency/completable_future/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/completable_future/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/executor_service/": {
+      "text": "ExecutorService & ThreadPoolExecutor",
+      "link": "/java/concurrency/executor_service/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/executor_service/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/executor_service/exercise/": {
+      "text": "ExecutorService & ThreadPoolExecutor",
+      "link": "/java/concurrency/executor_service/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/executor_service/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/executor_service/solution/": {
+      "text": "ExecutorService & ThreadPoolExecutor",
+      "link": "/java/concurrency/executor_service/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/executor_service/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/jmm/": {
+      "text": "Java Memory Model (JMM)",
+      "link": "/java/concurrency/jmm/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/jmm/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/jmm/exercise/": {
+      "text": "Java Memory Model (JMM)",
+      "link": "/java/concurrency/jmm/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/jmm/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/jmm/solution/": {
+      "text": "Java Memory Model (JMM)",
+      "link": "/java/concurrency/jmm/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/jmm/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/locks/": {
+      "text": "Locks",
+      "link": "/java/concurrency/locks/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/locks/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/locks/exercise/": {
+      "text": "Locks",
+      "link": "/java/concurrency/locks/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/locks/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/locks/solution/": {
+      "text": "Locks",
+      "link": "/java/concurrency/locks/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/locks/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/race_conditions/": {
+      "text": "Race Conditions, Atomicity, Visibility, Ordering",
+      "link": "/java/concurrency/race_conditions/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/race_conditions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/race_conditions/exercise/": {
+      "text": "Race Conditions, Atomicity, Visibility, Ordering",
+      "link": "/java/concurrency/race_conditions/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/race_conditions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/race_conditions/solution/": {
+      "text": "Race Conditions, Atomicity, Visibility, Ordering",
+      "link": "/java/concurrency/race_conditions/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/race_conditions/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/synchronized_keyword/": {
+      "text": "synchronized",
+      "link": "/java/concurrency/synchronized_keyword/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/synchronized_keyword/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/synchronized_keyword/exercise/": {
+      "text": "synchronized",
+      "link": "/java/concurrency/synchronized_keyword/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/synchronized_keyword/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/synchronized_keyword/solution/": {
+      "text": "synchronized",
+      "link": "/java/concurrency/synchronized_keyword/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/synchronized_keyword/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/thread_lifecycle/": {
+      "text": "Thread Lifecycle",
+      "link": "/java/concurrency/thread_lifecycle/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/thread_lifecycle/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/thread_lifecycle/exercise/": {
+      "text": "Thread Lifecycle",
+      "link": "/java/concurrency/thread_lifecycle/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/thread_lifecycle/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/thread_lifecycle/solution/": {
+      "text": "Thread Lifecycle",
+      "link": "/java/concurrency/thread_lifecycle/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/thread_lifecycle/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/volatile_keyword/": {
+      "text": "volatile",
+      "link": "/java/concurrency/volatile_keyword/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/volatile_keyword/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/volatile_keyword/exercise/": {
+      "text": "volatile",
+      "link": "/java/concurrency/volatile_keyword/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/concurrency/volatile_keyword/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/volatile_keyword/solution/": {
+      "text": "volatile",
+      "link": "/java/concurrency/volatile_keyword/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/concurrency/volatile_keyword/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/": {
+      "text": "Coding Fluency",
+      "link": "/java/coding_fluency/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/immutable_collections/": {
+      "text": "Immutable Collections — Coding Exercises",
+      "link": "/java/coding_fluency/immutable_collections/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/immutable_collections/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/immutable_collections/exercise/": {
+      "text": "Immutable Collections — Coding Exercises",
+      "link": "/java/coding_fluency/immutable_collections/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/immutable_collections/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/immutable_collections/solution/": {
+      "text": "Immutable Collections — Coding Exercises",
+      "link": "/java/coding_fluency/immutable_collections/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/immutable_collections/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/lombok/": {
+      "text": "Lombok — Coding Exercises",
+      "link": "/java/coding_fluency/lombok/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/lombok/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/lombok/exercise/": {
+      "text": "Lombok — Coding Exercises",
+      "link": "/java/coding_fluency/lombok/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/lombok/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/lombok/solution/": {
+      "text": "Lombok — Coding Exercises",
+      "link": "/java/coding_fluency/lombok/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/lombok/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/optional/": {
+      "text": "Optional — Coding Exercises",
+      "link": "/java/coding_fluency/optional/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/optional/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/optional/exercise/": {
+      "text": "Optional — Coding Exercises",
+      "link": "/java/coding_fluency/optional/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/optional/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/optional/solution/": {
+      "text": "Optional — Coding Exercises",
+      "link": "/java/coding_fluency/optional/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/optional/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/records/": {
+      "text": "Records as DTOs — Coding Exercises",
+      "link": "/java/coding_fluency/records/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/records/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/records/exercise/": {
+      "text": "Records as DTOs — Coding Exercises",
+      "link": "/java/coding_fluency/records/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/records/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/records/solution/": {
+      "text": "Records as DTOs — Coding Exercises",
+      "link": "/java/coding_fluency/records/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/records/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/spring_basics/": {
+      "text": "Feign Client — Coding Exercises",
+      "link": "/java/coding_fluency/spring_basics/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/spring_basics/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/spring_basics/exercise/": {
+      "text": "Feign Client — Coding Exercises",
+      "link": "/java/coding_fluency/spring_basics/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/spring_basics/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/spring_basics/solution/": {
+      "text": "Feign Client — Coding Exercises",
+      "link": "/java/coding_fluency/spring_basics/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/spring_basics/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/": {
+      "text": "Method References — Coding Exercises",
+      "link": "/java/coding_fluency/streams/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/exercise/": {
+      "text": "Method References — Coding Exercises",
+      "link": "/java/coding_fluency/streams/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/streams/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/solution/": {
+      "text": "Method References — Coding Exercises",
+      "link": "/java/coding_fluency/streams/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/streams/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
         "assets": false
       }
     },

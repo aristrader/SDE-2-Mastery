@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 60
 ---
 
 # LinkedHashMap
@@ -144,5 +144,4 @@ A. After every `put()`. It receives the current head of the linked list — the 
 
 **Q. Is LinkedHashMap thread-safe?**
 A. No. Wrap with `Collections.synchronizedMap()` for basic safety, but manually synchronize any iteration block. For high-concurrency caches, use Caffeine instead.
-
 

@@ -4,15 +4,9 @@ order: 30
 
 # Factory Patterns in Java — Three Variants Side by Side
 
-"Factory" is an umbrella term. This repo has **three distinct implementations** of the same business scenario (hiring developers), each demonstrating a different point on the factory-pattern spectrum:
+"Factory" is an umbrella term. This repo has **three distinct implementations** of the same business scenario (hiring developers), each demonstrating a different point on the factory-pattern spectrum.
 
-| Variant | Package | Dedicated doc |
-| --- | --- | --- |
-| **Simple Factory** — static method with `if`/`else` | `simple_factory/` | `simple_factory/SimpleFactory.md` |
-| **Factory Method (Learning)** — GoF, minimal | `factory_method_basic/` | `factory_method_basic/FactoryMethodBasic.md` |
-| **Factory Method (Production)** — GoF, with interface + DI-ready | `factory_method/` | `factory_method/FactoryMethodProd.md` |
-
-This document is the **overview and comparison** across all three. Each variant has its own doc with the full walkthrough.
+This document is the **overview and comparison** across all three. Use the generated topic cards below to open each variant in navigation order.
 
 ---
 
@@ -265,5 +259,3 @@ Otherwise                                                 ────▶ Learni
 - `../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — the underlying principles that govern these decisions.
 - `../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `abstract`, `private` in each variant.
 - `../../todo/study_plan/deep_dives/PatternSelectionExercise.md` — next step: orchestrating multiple factories (Strategy / Registry / DI).
-
-

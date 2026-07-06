@@ -1,5 +1,5 @@
 ---
-order: 80
+order: 70
 ---
 
 # TreeMap
@@ -138,5 +138,4 @@ A. Remove and return the entry with the smallest (or largest) key in O(log n). U
 
 **Q. When should you choose TreeMap over HashMap?**
 A. When you need sorted iteration, range queries (`subMap`, `headMap`, `tailMap`), or nearest-key navigation (`ceilingKey`, `floorKey`). If all you need is fast lookup with no ordering, HashMap's O(1) average beats TreeMap's O(log n).
-
 

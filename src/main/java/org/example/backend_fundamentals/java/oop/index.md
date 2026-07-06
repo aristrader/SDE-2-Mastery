@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 20
 ---
 
 # OOP Pillar Confusions — the pairs that blur

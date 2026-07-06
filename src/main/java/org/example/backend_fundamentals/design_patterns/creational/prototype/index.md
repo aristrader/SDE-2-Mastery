@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 60
 ---
 
 # Prototype
@@ -265,5 +265,4 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.protot
 - `creational/CreationalPatternsQuickRef.md` — one-paragraph mental model for fast revision.
 - `todo/FoundationsToRead.md` → "Polymorphism — the details" — the virtual dispatch mechanism that makes `PolymorphicPrototypeRun` work.
 - `todo/FoundationsToRead.md` → "Java Collections" — ArrayList copy constructor, `List.of` immutability, and why `new ArrayList<>(list)` is a shallow copy.
-
 

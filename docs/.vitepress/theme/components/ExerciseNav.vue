@@ -1,34 +1,12 @@
 <template>
-  <nav v-if="hasAnyAction" class="exercise-nav" aria-label="Topic actions">
-    <div class="nav-links">
-      <div class="theory-link">
-        <a v-if="!isTheory" :href="modulePath" class="nav-btn">
-          <span class="icon">←</span>
-          <span class="text">Back to Theory</span>
-        </a>
-      </div>
-      <div class="action-links">
-        <a v-if="isTheory && hasExercise" :href="modulePath + 'exercise/'" class="nav-btn primary">
-          <span class="text">{{ exerciseLabel }}</span>
-          <span class="icon">→</span>
-        </a>
-        <a v-if="isExercise && hasSolution" :href="modulePath + 'solution/'" class="nav-btn success">
-          <span class="text">View Solution</span>
-          <span class="icon">→</span>
-        </a>
-        <a v-if="isExercise && hasDesign" :href="modulePath + 'design/'" class="nav-btn success">
-          <span class="text">View Design</span>
-          <span class="icon">→</span>
-        </a>
-      </div>
-    </div>
-    <div class="next-topic" v-if="nextTopic && (isSolution || isDesign)">
-      <div class="next-label">Up Next</div>
-      <a :href="nextTopic.link" class="next-link">
-        <span class="text">{{ nextTopic.text }}</span>
-        <span class="icon">→</span>
-      </a>
-    </div>
+  <nav v-if="hasAnyAction" class="study-tabs" aria-label="Study workspace">
+    <a :href="modulePath" :class="['study-tab', isReadActive ? 'active' : '']">Read</a>
+    <a v-if="hasPlayground" :href="modulePath + '#code'" :class="['study-tab', isCodeActive ? 'active' : '']">Code</a>
+    <a v-if="hasExercise" :href="modulePath + 'exercise/'" :class="['study-tab', isExercise ? 'active' : '']">
+      {{ exerciseLabel }}
+    </a>
+    <a v-if="hasSolution" :href="modulePath + 'solution/'" :class="['study-tab', isSolution ? 'active' : '']">Solution</a>
+    <a v-if="hasDesign" :href="modulePath + 'design/'" :class="['study-tab', isDesign ? 'active' : '']">Design</a>
   </nav>
 </template>
 
@@ -64,93 +42,56 @@ const capabilities = computed(() => moduleMeta.value?.capabilities || {})
 const hasExercise = computed(() => capabilities.value.exercise === true)
 const hasSolution = computed(() => capabilities.value.solution === true)
 const hasDesign = computed(() => capabilities.value.design === true)
-const exerciseLabel = computed(() => moduleMeta.value?.schema === 'system-design' ? 'Design Scenario' : 'Practice Exercise')
+const hasPlayground = computed(() => capabilities.value.playground === true)
+const exerciseLabel = computed(() => moduleMeta.value?.schema === 'system-design' ? 'Scenario' : 'Practice')
 const hasAnyAction = computed(() => {
   if (!moduleMeta.value) return false
-  return (!isTheory.value || hasExercise.value || hasSolution.value || hasDesign.value || nextTopic.value)
+  return hasPlayground.value || hasExercise.value || hasSolution.value || hasDesign.value
 })
-
-const nextTopic = computed(() => {
-  const currentIndex = navData.navMap.findIndex(item => item.link === modulePath.value)
-  if (currentIndex !== -1 && currentIndex < navData.navMap.length - 1) {
-    return navData.navMap[currentIndex + 1]
-  }
-  return null
-})
+const isCodeActive = computed(() => isTheory.value && route.path.includes('#code'))
+const isReadActive = computed(() => isTheory.value && !route.path.includes('#code'))
 </script>
 
 <style scoped>
-.exercise-nav {
-  margin-top: 3rem;
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 1.5rem;
-}
-.nav-links {
+.study-tabs {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
-}
-.nav-btn {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 500;
-  text-decoration: none;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+.study-tab {
+  min-height: 34px;
+  display: inline-grid;
+  place-items: center;
+  padding: 5px 13px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
   background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-1);
-  border: 1px solid var(--vp-c-divider);
-  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
 }
-.nav-btn:hover {
-  background: var(--vp-c-bg-mute);
-  border-color: var(--vp-c-border-hover);
+.study-tab:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
-.nav-btn.primary {
-  background: var(--vp-c-brand-1);
-  color: white;
+.study-tab.active {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
   border-color: var(--vp-c-brand-1);
 }
-.nav-btn.primary:hover {
-  background: var(--vp-c-brand-2);
-}
-.nav-btn.success {
-  background: var(--vp-c-green-1);
-  color: white;
-  border-color: var(--vp-c-green-1);
-}
-.nav-btn.success:hover {
-  background: var(--vp-c-green-2);
-}
-.icon {
-  font-family: var(--vp-font-family-mono);
-}
-.next-topic {
-  margin-top: 2rem;
-  padding: 1rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: 8px;
-  border: 1px solid var(--vp-c-divider);
-}
-.next-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--vp-c-text-2);
-  margin-bottom: 4px;
-}
-.next-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
-}
-.next-link:hover {
-  color: var(--vp-c-brand-2);
+@media (max-width: 520px) {
+  .study-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .study-tab {
+    white-space: normal;
+  }
 }
 </style>

@@ -172,6 +172,36 @@ function assertNoManualHubNavigation(indexFile, content) {
     if (manualLocalList.test(content)) {
         throw new Error(`Hub pages with child topics must not contain manual local topic lists; use generated navigation only: ${indexFile}`);
     }
+    const manualPathTable = /^\|.*`[^`]+\.md`.*\|/m;
+    if (manualPathTable.test(content)) {
+        throw new Error(`Hub pages with child topics must not contain manual path tables; use generated navigation only: ${indexFile}`);
+    }
+    const manualOrderHeading = /^##\s+(Recommended sequence|All docs at a glance|Suggested path|Study order)\s*$/mi;
+    if (manualOrderHeading.test(content)) {
+        throw new Error(`Hub pages with child topics must not contain manual study-order sections; use frontmatter order and generated navigation only: ${indexFile}`);
+    }
+}
+
+function assertNoManualGeneratedWorkspace(indexFile, content) {
+    const manualComponent = content.match(/<(Playground|ExerciseNav|ExerciseWorkspace|AutoTopicGrid)\b/);
+    if (manualComponent) {
+        throw new Error(`Generated study UI must not be embedded manually; remove <${manualComponent[1]}> from: ${indexFile}`);
+    }
+}
+
+function assertNoManualGeneratedWorkspaceInMarkdown(dirPath) {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+        if (entry.name.startsWith('.')) continue;
+        const entryPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+            assertNoManualGeneratedWorkspaceInMarkdown(entryPath);
+            continue;
+        }
+        if (entry.isFile() && path.extname(entry.name) === '.md') {
+            assertNoManualGeneratedWorkspace(entryPath, fs.readFileSync(entryPath, 'utf-8'));
+        }
+    }
 }
 
 async function validateAndScan(dirPath, isRoot = false) {
@@ -271,6 +301,7 @@ async function validateAndScan(dirPath, isRoot = false) {
     // Get the title from index.md H1
     let title = dirName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     const fileContent = fs.readFileSync(indexFile, 'utf-8');
+    assertNoManualGeneratedWorkspace(indexFile, fileContent);
     if (children.length > 0) {
         assertNoManualHubNavigation(indexFile, fileContent);
     }
@@ -302,6 +333,7 @@ async function main() {
         console.log("Starting strict schema validation and generation...");
         assertNoEmptyDirectories(BASE_DIR);
         assertJavaFilesInPlayground(BASE_DIR);
+        assertNoManualGeneratedWorkspaceInMarkdown(BASE_DIR);
         const tree = await validateAndScan(BASE_DIR, true);
         
         // Flatten the tree for navigation_map.json
@@ -394,4 +426,5 @@ module.exports = {
     assertJavaFilesInPlayground,
     assertPlaygroundFiles,
     assertAssetFiles,
+    assertNoManualGeneratedWorkspaceInMarkdown,
 };

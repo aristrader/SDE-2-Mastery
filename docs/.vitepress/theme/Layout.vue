@@ -2,10 +2,6 @@
   <DefaultTheme.Layout>
     <template #doc-top>
       <div v-if="domainLabel" class="page-eyebrow">{{ domainLabel }}</div>
-      <div v-if="hasCode" class="mode-tabs">
-        <button :class="{ active: mode === 'read' }" @click="setMode('read')">Read</button>
-        <button :class="{ active: mode === 'play' }" @click="setMode('play')">⌗ Code</button>
-      </div>
       <ClientOnly><ExerciseNav /></ClientOnly>
       <div v-if="hasCode && mode === 'play'" class="play-wrap">
         <ClientOnly><Playground /></ClientOnly>
@@ -13,6 +9,7 @@
     </template>
 
     <template #doc-after>
+      <ClientOnly><ExerciseWorkspace /></ClientOnly>
       <ClientOnly><AutoTopicGrid /></ClientOnly>
     </template>
 
@@ -56,6 +53,7 @@ import mediumZoom from 'medium-zoom'
 import Playground from './components/Playground.vue'
 import ExerciseNav from './components/ExerciseNav.vue'
 import AutoTopicGrid from './components/AutoTopicGrid.vue'
+import ExerciseWorkspace from './components/ExerciseWorkspace.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.
@@ -141,9 +139,6 @@ syncFromHash()
 
 <style scoped>
 .page-eyebrow { font-family: var(--vp-font-family-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--vp-c-brand-1); margin-bottom: 4px; }
-.mode-tabs { display: flex; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--vp-c-divider); }
-.mode-tabs button { padding: 4px 12px; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); cursor: pointer; }
-.mode-tabs button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); }
 .play-wrap { margin-top: 4px; }
 .home-curriculum { max-width: 1152px; margin: 10px auto 0; padding: 8px 24px 0; }
 .home-curriculum-title { font-size: 1.4rem; font-weight: 700; margin: 0 0 16px; border: none; padding: 0; }

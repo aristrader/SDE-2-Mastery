@@ -218,5 +218,3 @@ A. Separate chaining — each bucket holds a linked list (or red-black tree afte
 - **Sets** — `HashSet` and `LinkedHashSet` are backed by `HashMap`; same contract applies to elements.
 - **`equals` / `hashCode` contract** — Effective Java Items 10 and 11.
 - **`BrokenEqualsHashCodeTrapRun`** in `collections/maps/traps/` — live demo of the contract violation.
-
-
