@@ -39,8 +39,8 @@ Future file-structure changes should start from the learner journey, then choose
 - [x] Migrate `/java/concurrency/index.md`
 - [x] Migrate `/java/coding_fluency/index.md`
 - [x] Migrate `/spring/spring_core/index.md`
-- [x] Migrate `/spring/spring_mvc/index.md`
-- [x] Migrate `/spring/spring_data_jpa/index.md`
+- [x] Removed duplicate Spring MVC stub after merge under the Spring Web MVC module
+- [x] Removed duplicate Spring Data JPA stub after merge under the Spring Data module
 - [x] Migrate `/spring/spring_security/index.md`
 
 ## Phase 3: Module Level (Java - Schema A)
@@ -59,8 +59,8 @@ Future file-structure changes should start from the learner journey, then choose
 ***Critical Rule 2:** Immediately update `package` and `import` statements.*
 ***Critical Rule 3:** You MUST update fully qualified class names in `application.yml`, XML contexts, or `@ComponentScan` configurations that point to these moved beans.*
 - [x] Migrate `spring/spring_core/*`
-- [x] Migrate `spring/spring_mvc/*`
-- [x] Migrate `spring/spring_data_jpa/*`
+- [x] Removed duplicate Spring MVC child stubs after merge under the Spring Web MVC module
+- [x] Removed duplicate Spring Data JPA child stubs after merge under the Spring Data module
 - [x] Migrate `spring/spring_security/*`
 - [x] Migrate `spring_boot/*`
 

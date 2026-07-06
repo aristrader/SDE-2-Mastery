@@ -278,14 +278,10 @@
               },
               {
                 "text": "Spring, WebFlux, and the Threading Model",
-                "link": "/spring/spring_web/spring__web_flux__threading__model/"
+                "link": "/spring/spring_web/webflux_threading_model/"
               }
             ],
             "collapsed": true
-          },
-          {
-            "text": "Spring MVC",
-            "link": "/spring/spring_mvc/"
           },
           {
             "text": "Spring Data",
@@ -309,10 +305,6 @@
               }
             ],
             "collapsed": true
-          },
-          {
-            "text": "Spring Data JPA",
-            "link": "/spring/spring_data_jpa/"
           },
           {
             "text": "Spring Security",
@@ -582,7 +574,7 @@
         "items": [
           {
             "text": "Latency, Throughput & Little's Law",
-            "link": "/performance/latency__throughput__littles_law/"
+            "link": "/performance/latency_throughput_littles_law/"
           }
         ]
       }
@@ -715,7 +707,7 @@
         "items": [
           {
             "text": "OS, Containers & Docker Fundamentals",
-            "link": "/deployments/o_s__containers__docker__notes/"
+            "link": "/deployments/os_containers_docker/"
           },
           {
             "text": "Release & Deployment Strategies",
@@ -1660,7 +1652,7 @@
               },
               {
                 "text": "Spring, WebFlux, and the Threading Model",
-                "link": "/spring/spring_web/spring__web_flux__threading__model/",
+                "link": "/spring/spring_web/webflux_threading_model/",
                 "order": 50,
                 "schema": "practice",
                 "capabilities": {
@@ -1672,19 +1664,6 @@
                 }
               }
             ]
-          },
-          {
-            "text": "Spring MVC",
-            "link": "/spring/spring_mvc/",
-            "order": 30,
-            "schema": "practice",
-            "capabilities": {
-              "exercise": true,
-              "solution": true,
-              "design": false,
-              "playground": false,
-              "assets": false
-            }
           },
           {
             "text": "Spring Data",
@@ -1752,19 +1731,6 @@
                 }
               }
             ]
-          },
-          {
-            "text": "Spring Data JPA",
-            "link": "/spring/spring_data_jpa/",
-            "order": 50,
-            "schema": "practice",
-            "capabilities": {
-              "exercise": true,
-              "solution": true,
-              "design": false,
-              "playground": false,
-              "assets": false
-            }
           },
           {
             "text": "Spring Security",
@@ -2524,7 +2490,7 @@
         "items": [
           {
             "text": "Latency, Throughput & Little's Law",
-            "link": "/performance/latency__throughput__littles_law/",
+            "link": "/performance/latency_throughput_littles_law/",
             "order": 10,
             "schema": "practice",
             "capabilities": {
@@ -2902,7 +2868,7 @@
         "items": [
           {
             "text": "OS, Containers & Docker Fundamentals",
-            "link": "/deployments/o_s__containers__docker__notes/",
+            "link": "/deployments/os_containers_docker/",
             "order": 10,
             "schema": "practice",
             "capabilities": {
@@ -3256,11 +3222,7 @@
     },
     {
       "text": "Spring, WebFlux, and the Threading Model",
-      "link": "/spring/spring_web/spring__web_flux__threading__model/"
-    },
-    {
-      "text": "Spring MVC",
-      "link": "/spring/spring_mvc/"
+      "link": "/spring/spring_web/webflux_threading_model/"
     },
     {
       "text": "Spring Data",
@@ -3281,10 +3243,6 @@
     {
       "text": "Lazy vs Eager Loading & N+1",
       "link": "/spring/spring_data/jpa_lazy_eager/"
-    },
-    {
-      "text": "Spring Data JPA",
-      "link": "/spring/spring_data_jpa/"
     },
     {
       "text": "Spring Security",
@@ -3512,7 +3470,7 @@
     },
     {
       "text": "Latency, Throughput & Little's Law",
-      "link": "/performance/latency__throughput__littles_law/"
+      "link": "/performance/latency_throughput_littles_law/"
     },
     {
       "text": "Security",
@@ -3624,7 +3582,7 @@
     },
     {
       "text": "OS, Containers & Docker Fundamentals",
-      "link": "/deployments/o_s__containers__docker__notes/"
+      "link": "/deployments/os_containers_docker/"
     },
     {
       "text": "Release & Deployment Strategies",
@@ -6085,11 +6043,11 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
-    "/spring/spring_web/spring__web_flux__threading__model/": {
+    "/spring/spring_web/webflux_threading_model/": {
       "text": "Spring, WebFlux, and the Threading Model",
-      "link": "/spring/spring_web/spring__web_flux__threading__model/",
+      "link": "/spring/spring_web/webflux_threading_model/",
       "pageType": "theory",
-      "parentLink": "/spring/spring_web/spring__web_flux__threading__model/",
+      "parentLink": "/spring/spring_web/webflux_threading_model/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -6099,11 +6057,11 @@
         "assets": false
       }
     },
-    "/spring/spring_web/spring__web_flux__threading__model/exercise/": {
+    "/spring/spring_web/webflux_threading_model/exercise/": {
       "text": "Spring, WebFlux, and the Threading Model",
-      "link": "/spring/spring_web/spring__web_flux__threading__model/exercise/",
+      "link": "/spring/spring_web/webflux_threading_model/exercise/",
       "pageType": "exercise",
-      "parentLink": "/spring/spring_web/spring__web_flux__threading__model/",
+      "parentLink": "/spring/spring_web/webflux_threading_model/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -6113,54 +6071,11 @@
         "assets": false
       }
     },
-    "/spring/spring_web/spring__web_flux__threading__model/solution/": {
+    "/spring/spring_web/webflux_threading_model/solution/": {
       "text": "Spring, WebFlux, and the Threading Model",
-      "link": "/spring/spring_web/spring__web_flux__threading__model/solution/",
+      "link": "/spring/spring_web/webflux_threading_model/solution/",
       "pageType": "solution",
-      "parentLink": "/spring/spring_web/spring__web_flux__threading__model/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solution</h1>"
-    },
-    "/spring/spring_mvc/": {
-      "text": "Spring MVC",
-      "link": "/spring/spring_mvc/",
-      "pageType": "theory",
-      "parentLink": "/spring/spring_mvc/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/spring/spring_mvc/exercise/": {
-      "text": "Spring MVC",
-      "link": "/spring/spring_mvc/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/spring/spring_mvc/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/spring/spring_mvc/solution/": {
-      "text": "Spring MVC",
-      "link": "/spring/spring_mvc/solution/",
-      "pageType": "solution",
-      "parentLink": "/spring/spring_mvc/",
+      "parentLink": "/spring/spring_web/webflux_threading_model/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -6347,49 +6262,6 @@
       "link": "/spring/spring_data/jpa_lazy_eager/solution/",
       "pageType": "solution",
       "parentLink": "/spring/spring_data/jpa_lazy_eager/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solution</h1>"
-    },
-    "/spring/spring_data_jpa/": {
-      "text": "Spring Data JPA",
-      "link": "/spring/spring_data_jpa/",
-      "pageType": "theory",
-      "parentLink": "/spring/spring_data_jpa/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/spring/spring_data_jpa/exercise/": {
-      "text": "Spring Data JPA",
-      "link": "/spring/spring_data_jpa/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/spring/spring_data_jpa/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/spring/spring_data_jpa/solution/": {
-      "text": "Spring Data JPA",
-      "link": "/spring/spring_data_jpa/solution/",
-      "pageType": "solution",
-      "parentLink": "/spring/spring_data_jpa/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -8460,11 +8332,11 @@
         "assets": false
       }
     },
-    "/performance/latency__throughput__littles_law/": {
+    "/performance/latency_throughput_littles_law/": {
       "text": "Latency, Throughput & Little's Law",
-      "link": "/performance/latency__throughput__littles_law/",
+      "link": "/performance/latency_throughput_littles_law/",
       "pageType": "theory",
-      "parentLink": "/performance/latency__throughput__littles_law/",
+      "parentLink": "/performance/latency_throughput_littles_law/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -8474,11 +8346,11 @@
         "assets": false
       }
     },
-    "/performance/latency__throughput__littles_law/exercise/": {
+    "/performance/latency_throughput_littles_law/exercise/": {
       "text": "Latency, Throughput & Little's Law",
-      "link": "/performance/latency__throughput__littles_law/exercise/",
+      "link": "/performance/latency_throughput_littles_law/exercise/",
       "pageType": "exercise",
-      "parentLink": "/performance/latency__throughput__littles_law/",
+      "parentLink": "/performance/latency_throughput_littles_law/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -8488,11 +8360,11 @@
         "assets": false
       }
     },
-    "/performance/latency__throughput__littles_law/solution/": {
+    "/performance/latency_throughput_littles_law/solution/": {
       "text": "Latency, Throughput & Little's Law",
-      "link": "/performance/latency__throughput__littles_law/solution/",
+      "link": "/performance/latency_throughput_littles_law/solution/",
       "pageType": "solution",
-      "parentLink": "/performance/latency__throughput__littles_law/",
+      "parentLink": "/performance/latency_throughput_littles_law/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -9577,11 +9449,11 @@
         "assets": false
       }
     },
-    "/deployments/o_s__containers__docker__notes/": {
+    "/deployments/os_containers_docker/": {
       "text": "OS, Containers & Docker Fundamentals",
-      "link": "/deployments/o_s__containers__docker__notes/",
+      "link": "/deployments/os_containers_docker/",
       "pageType": "theory",
-      "parentLink": "/deployments/o_s__containers__docker__notes/",
+      "parentLink": "/deployments/os_containers_docker/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -9591,11 +9463,11 @@
         "assets": false
       }
     },
-    "/deployments/o_s__containers__docker__notes/exercise/": {
+    "/deployments/os_containers_docker/exercise/": {
       "text": "OS, Containers & Docker Fundamentals",
-      "link": "/deployments/o_s__containers__docker__notes/exercise/",
+      "link": "/deployments/os_containers_docker/exercise/",
       "pageType": "exercise",
-      "parentLink": "/deployments/o_s__containers__docker__notes/",
+      "parentLink": "/deployments/os_containers_docker/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -9605,11 +9477,11 @@
         "assets": false
       }
     },
-    "/deployments/o_s__containers__docker__notes/solution/": {
+    "/deployments/os_containers_docker/solution/": {
       "text": "OS, Containers & Docker Fundamentals",
-      "link": "/deployments/o_s__containers__docker__notes/solution/",
+      "link": "/deployments/os_containers_docker/solution/",
       "pageType": "solution",
-      "parentLink": "/deployments/o_s__containers__docker__notes/",
+      "parentLink": "/deployments/os_containers_docker/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
