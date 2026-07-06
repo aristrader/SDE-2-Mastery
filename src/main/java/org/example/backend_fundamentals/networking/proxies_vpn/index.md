@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 80
 ---
 
 # Proxies, DNS Blocking, VPNs, and National Firewalls
@@ -174,5 +174,4 @@ A. Yes — VPN IP blacklists, deep packet inspection, and active probing.
 
 **Q. Reverse proxy vs gateway?**
 A. Reverse proxy ⊂ gateway — the gateway adds API management, auth, policy enforcement, protocol translation.
-
 

@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 60
 ---
 
 # API Technologies Study Notes — Complete Conversation Dump
@@ -1008,4 +1008,3 @@ Part 2 will continue with:
 - gRPC introduction
 - Protobuf introduction
 - All associated misconceptions and corrections
-

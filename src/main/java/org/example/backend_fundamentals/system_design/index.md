@@ -1,5 +1,5 @@
 ---
-order: 120
+order: 70
 sidebar: false
 pageClass: hub-page
 ---

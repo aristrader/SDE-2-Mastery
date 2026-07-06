@@ -1,5 +1,5 @@
 ---
-order: 60
+order: 10
 ---
 
 # Method References — Coding Exercises
@@ -121,5 +121,4 @@ Rewrite both using static method references. Then add a third: parse a `List<Str
 
 **Q.** How does `Comparator.comparing(Order::total)` work and which method reference form is it?
 **A.** It uses an unbound instance reference: `Order::total` is the key extractor — Java calls `total()` on whichever `Order` it receives. Chain `.reversed()` for descending, `.thenComparing(...)` for secondary sort keys.
-
 

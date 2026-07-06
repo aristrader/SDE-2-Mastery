@@ -61,4 +61,3 @@ The *real* reasons are:
 - **Event Versioning:** If you change an event's structure (`MoneyDeposited` now requires a `currency` field), you have to maintain backward compatibility for all historical events.
 - **Overkill for CRUD:** Do not use this for basic admin dashboards or simple internal tools. Use it only when the *journey* of the data is as important as the *current state*.
 
-

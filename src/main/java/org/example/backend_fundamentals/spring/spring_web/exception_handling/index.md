@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 40
 ---
 
 # Spring Exception Handling
@@ -329,5 +329,4 @@ A. `MethodArgumentNotValidException` fires when `@Valid` fails on `@RequestBody`
 
 **Q. What is RFC 7807 Problem Details and how do you enable it in Spring Boot 3?**
 A. A standard JSON error format (`type`, `title`, `status`, `detail`, `instance`). Enable with `spring.mvc.problemdetails.enabled=true`; `ResponseEntityExceptionHandler` then produces `application/problem+json` automatically for all standard Spring MVC exceptions.
-
 

@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 10
 ---
 
 # Java Compilation Pipeline (JDK, JRE, JVM)
@@ -251,6 +251,5 @@ Know:
 - Java is platform independent because of bytecode + JVM.
 
 ---
-
 
 

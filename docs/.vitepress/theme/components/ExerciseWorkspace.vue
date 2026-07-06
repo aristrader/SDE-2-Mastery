@@ -11,12 +11,12 @@
     </div>
     <div :class="['workspace-grid', showReference && referenceHref ? 'with-reference' : '']">
       <Playground />
-      <iframe
-        v-if="showReference && referenceHref"
-        class="reference-frame"
-        :src="referenceHref"
-        :title="referenceLabel"
-      />
+      <aside v-if="showReference && referenceHref" class="reference-panel" :aria-label="referenceLabel">
+        <div class="reference-head">{{ referenceLabel }}</div>
+        <div v-if="referenceError" class="reference-error">{{ referenceError }}</div>
+        <div v-else-if="referenceHtml" class="vp-doc reference-doc" v-html="referenceHtml"></div>
+        <div v-else class="reference-loading">Loading reference...</div>
+      </aside>
     </div>
   </section>
 </template>
@@ -29,6 +29,9 @@ import navData from '../../navigation_map.json'
 
 const route = useRoute()
 const showReference = ref(false)
+const referenceHtml = ref('')
+const referenceError = ref('')
+let referenceToken = 0
 
 function normalizeRoutePath(path) {
   let normalized = path.split('#')[0].split('?')[0]
@@ -54,6 +57,23 @@ const referenceLabel = computed(() => capabilities.value.design ? 'View Design' 
 
 watch(currentPath, () => {
   showReference.value = false
+  referenceHtml.value = ''
+  referenceError.value = ''
+})
+
+watch([showReference, referenceHref], async ([open, href]) => {
+  referenceHtml.value = ''
+  referenceError.value = ''
+  if (!open || !href) return
+  const token = ++referenceToken
+  try {
+    const html = navData.pageMeta?.[href]?.referenceHtml || ''
+    if (!html) throw new Error('Reference content was not found.')
+    if (token !== referenceToken) return
+    referenceHtml.value = html
+  } catch (err) {
+    if (token === referenceToken) referenceError.value = err.message || 'Reference failed to load.'
+  }
 })
 </script>
 
@@ -103,18 +123,44 @@ watch(currentPath, () => {
 .workspace-grid.with-reference {
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
 }
-.reference-frame {
-  width: 100%;
+.reference-panel {
   height: 76vh;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background: var(--vp-c-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.reference-head {
+  flex: none;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-weight: 700;
+  font-size: 13px;
+}
+.reference-doc {
+  flex: 1;
+  overflow: auto;
+  padding: 16px 18px 28px;
+  max-width: none;
+}
+.reference-loading,
+.reference-error {
+  padding: 16px;
+  color: var(--vp-c-text-2);
+  font-size: 0.92rem;
+}
+.reference-error {
+  color: #b91c1c;
 }
 @media (max-width: 1100px) {
   .workspace-grid.with-reference {
     grid-template-columns: 1fr;
   }
-  .reference-frame {
+  .reference-panel {
     height: 65vh;
   }
 }

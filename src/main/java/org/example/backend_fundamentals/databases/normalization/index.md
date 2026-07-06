@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 20
 ---
 
 # Normalization & Denormalization
@@ -119,5 +119,4 @@ A. Avoid expensive joins on read-heavy paths; cost is redundant storage and mult
 
 **Q. What's the update anomaly?**
 A. Duplicated data updated in some rows but not all, leaving conflicting values — the core problem normalization removes.
-
 

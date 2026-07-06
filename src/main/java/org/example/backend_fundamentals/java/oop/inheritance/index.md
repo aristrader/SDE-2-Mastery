@@ -1,5 +1,5 @@
 ---
-order: 80
+order: 60
 ---
 # Inheritance — the details
 
@@ -299,5 +299,4 @@ A. `AndroidHiringProcess extends DeveloperHiringProcess`. The parent's `onboard(
 - **Polymorphism** — the runtime mechanism inheritance enables.
 - **Abstract Class vs Interface** — picks which inheritance flavour fits.
 - **SOLID — LSP** — the formal version of the is-a test.
-
 

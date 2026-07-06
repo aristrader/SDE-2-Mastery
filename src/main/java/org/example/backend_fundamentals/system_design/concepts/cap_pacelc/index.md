@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 40
 ---
 
 # CAP & PACELC
@@ -90,5 +90,4 @@ A. PA/EL favors availability on partition and latency otherwise (Cassandra/Dynam
 
 **Q. Is CAP Consistency the same as ACID Consistency?**
 A. No — CAP-C = nodes agree on the latest write; ACID-C = a transaction keeps constraints valid.
-
 

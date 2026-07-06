@@ -49,7 +49,7 @@ export function analyzeJavaFiles(filesMap) {
     const relDir = dirname(rel)
     const name = basename(rel)
     const { runnable, fqcn } = staticJavaMeta(name, content)
-    const kind = /Practice\.java$/.test(name) ? 'exercise' : 'example'
+    const kind = /(Practice|Exercise)\.java$/.test(name) ? 'exercise' : 'example'
     if (!grouped[relDir]) grouped[relDir] = []
     grouped[relDir].push({ name, rel, content, runnable, fqcn: runnable ? fqcn : null, kind })
   }
@@ -95,4 +95,9 @@ export function filesForPage(grouped, mdFolders, pageDir) {
 /** Whether the page at pageDir surfaces any java files. */
 export function pageHasCode(grouped, mdFolders, pageDir) {
   return filesForPage(grouped, mdFolders, pageDir).length > 0
+}
+
+/** Whether the page has non-exercise sample code. */
+export function pageHasSampleCode(grouped, mdFolders, pageDir) {
+  return filesForPage(grouped, mdFolders, pageDir).some((file) => file.kind !== 'exercise')
 }

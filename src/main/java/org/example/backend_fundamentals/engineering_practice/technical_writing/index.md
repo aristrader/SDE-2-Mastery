@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 10
 ---
 
 # Technical Writing
@@ -55,5 +55,4 @@ A. Explain *why* a piece of code exists, rather than stating what the code obvio
 
 **Q. How should incident updates be communicated?**
 A. Provide actionable context on the symptoms, current investigation focus, and potential mitigation steps, rather than just saying "Looking into it."
-
 

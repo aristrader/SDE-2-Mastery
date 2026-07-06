@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 10
 ---
 
 # SecurityFilterChain
@@ -279,5 +279,4 @@ A. AuthorizationFilter (formerly FilterSecurityInterceptor); it runs last so all
 
 **Q. STATELESS session policy — what does it change beyond not creating sessions?**
 A. SecurityContextPersistenceFilter won't load/save context from a session store; each request must re-authenticate (e.g., re-validate JWT) — no sticky session state.
-
 

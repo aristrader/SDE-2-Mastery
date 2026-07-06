@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 40
 ---
 
 # CQRS (Command Query Responsibility Segregation)
@@ -80,5 +80,4 @@ A. A standard SQL View reruns the underlying joins every time it is queried, whi
 
 **Q. If you need to populate an Elasticsearch read model from a PostgreSQL write database, how do you do it without overloading PostgreSQL?**
 A. Use Change Data Capture (CDC) like Debezium to tail the PostgreSQL transaction log (WAL) and stream changes to Kafka, which Elasticsearch then consumes.
-
 

@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 20
 ---
 
 # System Availability, Reliability & Fault Tolerance
@@ -167,5 +167,4 @@ A. Assume failures will happen and design the system to continue operating.
 
 **Q. How does adding components in sequence vs parallel affect availability?**
 A. Sequence (A → B → C) reduces total availability (all must work). Parallel (A || B) increases total availability (both must fail simultaneously to cause an outage).
-
 

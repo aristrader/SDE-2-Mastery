@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 10
 ---
 
 # Primitive Types
@@ -129,6 +129,5 @@ Primitive:
 - no methods
 
 ---
-
 
 

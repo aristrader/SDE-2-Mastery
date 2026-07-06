@@ -122,6 +122,33 @@ html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .VPSidebarItem.is-active > .item .text,
 .VPSidebarItem.is-link.is-active > .item .link .text { color: var(--vp-c-brand-1); font-weight: 600; }
 .VPSidebarItem .text { transition: color 0.2s ease; }
+.VPSidebarItem.level-0 > .item .text {
+  color: var(--vp-c-text-1);
+  font-weight: 750;
+}
+.VPSidebarItem.level-1 > .item .text {
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+}
+.VPSidebarItem.level-2 > .item .text {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+.VPSidebarItem.level-3 > .item .text,
+.VPSidebarItem.level-4 > .item .text,
+.VPSidebarItem.level-5 > .item .text {
+  color: var(--vp-c-text-2);
+  font-weight: 500;
+  font-size: 13px;
+}
+.VPSidebarItem.collapsible > .item {
+  border-radius: 6px;
+}
+.VPSidebarItem.level-1.collapsible > .item,
+.VPSidebarItem.level-2.collapsible > .item {
+  background: color-mix(in srgb, var(--vp-c-brand-soft) 55%, transparent);
+  padding: 0 6px;
+}
 
 a:focus-visible, button:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; border-radius: 4px; }
 
@@ -166,3 +193,20 @@ html.pg-play .VPContent.has-sidebar { padding-left: 0 !important; padding-right:
 html.pg-play .VPDoc { padding: 72px 24px 16px !important; }
 html.pg-play .VPDoc .container,
 html.pg-play .VPDoc .content { max-width: none !important; }
+
+/* ----- Practice mode: give exercises a real workspace surface ------------ */
+html.pg-practice .VPDocAside,
+html.pg-practice .VPDocAsideOutline,
+html.pg-practice .aside,
+html.pg-practice .aside-container,
+html.pg-practice .aside-content,
+html.pg-practice .VPSidebar { display: none; }
+html.pg-practice .VPContent.has-sidebar { padding-left: 0 !important; padding-right: 0 !important; }
+html.pg-practice .VPDoc { padding: 72px 24px 16px !important; }
+html.pg-practice .VPDoc .container,
+html.pg-practice .VPDoc .content,
+html.pg-practice .VPDoc .content-container { max-width: none !important; }
+html.pg-practice .vp-doc > h1:first-child,
+html.pg-practice .vp-doc > h1:first-child + p {
+  max-width: 960px;
+}

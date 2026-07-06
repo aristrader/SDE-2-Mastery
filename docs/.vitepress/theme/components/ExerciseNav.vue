@@ -5,17 +5,26 @@
     <a v-if="hasExercise" :href="modulePath + 'exercise/'" :class="['study-tab', isExercise ? 'active' : '']">
       {{ exerciseLabel }}
     </a>
-    <a v-if="hasSolution" :href="modulePath + 'solution/'" :class="['study-tab', isSolution ? 'active' : '']">Solution</a>
-    <a v-if="hasDesign" :href="modulePath + 'design/'" :class="['study-tab', isDesign ? 'active' : '']">Design</a>
+    <a v-if="hasSolution && !isExercise" :href="modulePath + 'solution/'" :class="['study-tab', isSolution ? 'active' : '']">Solution</a>
+    <a v-if="hasDesign && !isExercise" :href="modulePath + 'design/'" :class="['study-tab', isDesign ? 'active' : '']">Design</a>
   </nav>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import navData from '../../navigation_map.json'
+import { analyzeJavaFiles, mdFolderSet, pageHasSampleCode } from '../lib/fileDiscovery.mjs'
 
 const route = useRoute()
+const currentHash = ref('')
+const raw = import.meta.glob('../../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default' })
+const grouped = analyzeJavaFiles(raw)
+const mdFolders = mdFolderSet(Object.keys(import.meta.glob('../../../../src/main/java/org/example/backend_fundamentals/**/*.md')))
+
+function syncHash() {
+  currentHash.value = typeof window === 'undefined' ? '' : window.location.hash
+}
 
 function normalizeRoutePath(path) {
   let normalized = path.split('#')[0].split('?')[0]
@@ -42,14 +51,24 @@ const capabilities = computed(() => moduleMeta.value?.capabilities || {})
 const hasExercise = computed(() => capabilities.value.exercise === true)
 const hasSolution = computed(() => capabilities.value.solution === true)
 const hasDesign = computed(() => capabilities.value.design === true)
-const hasPlayground = computed(() => capabilities.value.playground === true)
+const moduleDir = computed(() => modulePath.value.replace(/^\/|\/$/g, ''))
+const hasPlayground = computed(() => capabilities.value.playground === true && pageHasSampleCode(grouped, mdFolders, moduleDir.value))
 const exerciseLabel = computed(() => moduleMeta.value?.schema === 'system-design' ? 'Scenario' : 'Practice')
 const hasAnyAction = computed(() => {
   if (!moduleMeta.value) return false
   return hasPlayground.value || hasExercise.value || hasSolution.value || hasDesign.value
 })
-const isCodeActive = computed(() => isTheory.value && route.path.includes('#code'))
-const isReadActive = computed(() => isTheory.value && !route.path.includes('#code'))
+const isCodeActive = computed(() => isTheory.value && currentHash.value === '#code')
+const isReadActive = computed(() => isTheory.value && currentHash.value !== '#code')
+
+watch(() => route.path, syncHash)
+onMounted(() => {
+  syncHash()
+  window.addEventListener('hashchange', syncHash)
+})
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') window.removeEventListener('hashchange', syncHash)
+})
 </script>
 
 <style scoped>

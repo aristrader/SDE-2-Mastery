@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 50
 ---
 # Abstraction — the details
 
@@ -128,5 +128,4 @@ A. Hold the most abstract type that still does the job. `HR` holds `HiringProces
 - **Encapsulation** — its frequently-confused sibling.
 - **Abstract Class vs Interface** — the Java mechanics for expressing abstraction.
 - **SOLID — DIP** — "depend on abstractions" makes "what *is* an abstraction in this code?" a real question.
-
 

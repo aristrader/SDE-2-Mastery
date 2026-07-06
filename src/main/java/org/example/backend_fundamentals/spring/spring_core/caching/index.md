@@ -1,5 +1,5 @@
 ---
-order: 30
+order: 40
 ---
 
 # Spring Caching Abstraction
@@ -276,5 +276,4 @@ A. Exactly — the AOP proxy is bypassed, so the cache check is skipped and the 
 
 **Q. Caffeine vs Redis — key deciding factor?**
 A. Single node or multiple nodes. Caffeine is in-process (fast, no network, not shared). Redis is distributed (shared across all nodes, survives restarts, ~1ms per operation overhead).
-
 

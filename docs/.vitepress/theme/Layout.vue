@@ -54,7 +54,7 @@ import Playground from './components/Playground.vue'
 import ExerciseNav from './components/ExerciseNav.vue'
 import AutoTopicGrid from './components/AutoTopicGrid.vue'
 import ExerciseWorkspace from './components/ExerciseWorkspace.vue'
-import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
+import { analyzeJavaFiles, mdFolderSet, pageHasSampleCode } from './lib/fileDiscovery.mjs'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.
 const raw = import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default' })
@@ -70,10 +70,12 @@ function pageDir(rel) {
   return i === -1 ? '' : rel.slice(0, i)
 }
 
+const isPracticePage = computed(() => page.value.relativePath.endsWith('/exercise/index.md'))
+
 const hasCode = computed(() => {
   const dir = pageDir(page.value.relativePath)
   if (!dir) return false
-  return pageHasCode(grouped, mdFolders, dir)
+  return pageHasSampleCode(grouped, mdFolders, dir)
 })
 
 // Colored domain kicker above the page title — orientation + a structural splash of colour.
@@ -93,6 +95,7 @@ const domainLabel = computed(() => {
 function applyBodyClass() {
   if (typeof document === 'undefined') return
   document.documentElement.classList.toggle('pg-play', hasCode.value && mode.value === 'play')
+  document.documentElement.classList.toggle('pg-practice', isPracticePage.value)
 }
 
 function setMode(m) {
@@ -118,7 +121,7 @@ function applyZoom() {
   })
 }
 
-const stopZoomWatch = watch([() => page.value.relativePath, hasCode], () => {
+const stopZoomWatch = watch([() => page.value.relativePath, hasCode, isPracticePage], () => {
   syncFromHash()
   applyZoom()
 })

@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 70
 ---
 
 # Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh
@@ -56,5 +56,4 @@ When you call a Kubernetes Service endpoint, it acts as a stable virtual IP that
 * **Service Mesh is Optional**: A Service Mesh is not mandatory for microservices. It introduces significant operational complexity (managing hundreds of sidecar proxies and control plane components). Many organizations successfully rely on Kubernetes Services combined with application-level libraries (e.g., Resilience4j, Feign) for retries and circuit breaking. A mesh becomes attractive only when standardizing networking policies across a large number of services and teams becomes critical.
 * **Finding Instances**: Service Mesh does not exist primarily to locate pods; Kubernetes already solves that. Service Mesh exists to govern *how* those services communicate once they are found.
 * **Single Visible Endpoint**: If a service has multiple pods but exposes only one endpoint, that endpoint is typically backed by a Kubernetes Service that handles discovery and load balancing under the hood.
-
 

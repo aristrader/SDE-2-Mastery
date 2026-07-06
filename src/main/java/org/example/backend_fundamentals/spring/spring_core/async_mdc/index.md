@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 60
 ---
 
 # @Async + Thread Context Propagation
@@ -193,5 +193,4 @@ A. It creates a new OS thread per invocation — no pooling, unbounded under loa
 
 **Q. `@Async` on a method called from within the same class — what happens?**
 A. Self-invocation bypasses the Spring AOP proxy; the method runs synchronously on the caller's thread as if `@Async` wasn't there.
-
 

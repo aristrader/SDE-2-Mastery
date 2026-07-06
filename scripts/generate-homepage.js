@@ -204,6 +204,85 @@ function assertNoManualGeneratedWorkspaceInMarkdown(dirPath) {
     }
 }
 
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function inlineMarkdown(value) {
+    return escapeHtml(value)
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
+
+function markdownToHtml(markdown) {
+    const body = String(markdown).replace(/^---[\s\S]*?---\s*/, '');
+    const lines = body.split(/\r?\n/);
+    const html = [];
+    let inCode = false;
+    let code = [];
+    let inList = false;
+
+    function closeList() {
+        if (inList) {
+            html.push('</ul>');
+            inList = false;
+        }
+    }
+
+    for (const line of lines) {
+        const fence = line.match(/^```(\w+)?/);
+        if (fence) {
+            if (inCode) {
+                html.push(`<pre><code>${escapeHtml(code.join('\n'))}</code></pre>`);
+                code = [];
+                inCode = false;
+            } else {
+                closeList();
+                inCode = true;
+            }
+            continue;
+        }
+        if (inCode) {
+            code.push(line);
+            continue;
+        }
+        if (!line.trim()) {
+            closeList();
+            continue;
+        }
+        const heading = line.match(/^(#{1,4})\s+(.+)$/);
+        if (heading) {
+            closeList();
+            const level = heading[1].length;
+            html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+            continue;
+        }
+        const bullet = line.match(/^\s*[-*]\s+(.+)$/);
+        if (bullet) {
+            if (!inList) {
+                html.push('<ul>');
+                inList = true;
+            }
+            html.push(`<li>${inlineMarkdown(bullet[1])}</li>`);
+            continue;
+        }
+        closeList();
+        html.push(`<p>${inlineMarkdown(line)}</p>`);
+    }
+    closeList();
+    return html.join('\n');
+}
+
+function referenceHtmlForRoute(route) {
+    const rel = route.replace(/^\/|\/$/g, '');
+    const filePath = path.join(BASE_DIR, rel, 'index.md');
+    return fs.existsSync(filePath) ? markdownToHtml(fs.readFileSync(filePath, 'utf-8')) : '';
+}
+
 async function validateAndScan(dirPath, isRoot = false) {
     const dirName = path.basename(dirPath);
     
@@ -359,10 +438,22 @@ async function main() {
                 pageMeta[node.link + 'exercise/'] = { ...toMeta(node), link: node.link + 'exercise/', parentLink: node.link, pageType: 'exercise' };
             }
             if (node.capabilities?.solution) {
-                pageMeta[node.link + 'solution/'] = { ...toMeta(node), link: node.link + 'solution/', parentLink: node.link, pageType: 'solution' };
+                pageMeta[node.link + 'solution/'] = {
+                    ...toMeta(node),
+                    link: node.link + 'solution/',
+                    parentLink: node.link,
+                    pageType: 'solution',
+                    referenceHtml: referenceHtmlForRoute(node.link + 'solution/')
+                };
             }
             if (node.capabilities?.design) {
-                pageMeta[node.link + 'design/'] = { ...toMeta(node), link: node.link + 'design/', parentLink: node.link, pageType: 'design' };
+                pageMeta[node.link + 'design/'] = {
+                    ...toMeta(node),
+                    link: node.link + 'design/',
+                    parentLink: node.link,
+                    pageType: 'design',
+                    referenceHtml: referenceHtmlForRoute(node.link + 'design/')
+                };
             }
             if (node.items) {
                 for (const child of node.items) {
@@ -375,6 +466,18 @@ async function main() {
         
         const multiSidebar = {};
         const topNav = [];
+
+        function sidebarNode(node, depth = 0) {
+            const out = {
+                text: node.text,
+                link: node.link,
+            };
+            if (node.items?.length) {
+                out.items = node.items.map(child => sidebarNode(child, depth + 1));
+                if (depth > 0) out.collapsed = true;
+            }
+            return out;
+        }
         
         if (tree.items) {
             for (const child of tree.items) {
@@ -388,7 +491,7 @@ async function main() {
                 multiSidebar[child.link] = [
                     {
                         text: child.text,
-                        items: child.items || []
+                        items: (child.items || []).map(item => sidebarNode(item, 1))
                     }
                 ];
             }

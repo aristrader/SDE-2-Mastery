@@ -1,5 +1,5 @@
 ---
-order: 30
+order: 10
 ---
 
 # Starter Ecosystem
@@ -237,5 +237,4 @@ A. It imports `AutoConfigurationImportSelector`, which reads every jar's `AutoCo
 
 **Q. Naming convention for third-party starters?**
 A. `{name}-spring-boot-starter` (e.g., `mybatis-spring-boot-starter`), not `spring-boot-starter-{name}` — reserved for official starters.
-
 

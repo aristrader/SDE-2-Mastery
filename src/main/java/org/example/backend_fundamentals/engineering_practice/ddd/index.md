@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 40
 ---
 
 # Domain-Driven Design & Bounded Contexts
@@ -79,5 +79,4 @@ A. Bounded contexts reveal the natural business seams; those seams become micros
 
 **Q. What is DDD fundamentally about?**
 A. Structuring software around business responsibilities (domains) rather than tables/controllers/tech — discovering where responsibilities begin and end.
-
 

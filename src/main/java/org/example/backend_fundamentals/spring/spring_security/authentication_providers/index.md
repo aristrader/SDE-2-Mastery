@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 20
 ---
 
 # Authentication Providers
@@ -267,5 +267,4 @@ A. Implement `AuthenticationProvider` with `supports()` targeting your custom to
 
 **Q. What does AnonymousAuthenticationFilter do and why is it useful?**
 A. If no prior filter authenticated the request, it sets an AnonymousAuthenticationToken so the SecurityContext is never null — downstream code and SpEL expressions like isAnonymous() always have a non-null Authentication to check.
-
 

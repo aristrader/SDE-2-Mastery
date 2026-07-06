@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 30
 ---
 
 # Bean Lifecycle
@@ -262,5 +262,4 @@ A. BFP runs before any bean is instantiated and operates on `BeanDefinition` met
 
 **Q. When do you use `@DependsOn`?**
 A. When a bean relies on a side effect of another bean (e.g., a migration runner) but holds no direct reference to it. Without `@DependsOn`, Spring has no way to infer the ordering.
-
 

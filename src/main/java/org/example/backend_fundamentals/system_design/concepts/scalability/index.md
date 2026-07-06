@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 10
 ---
 
 # Scalability, Redundancy, and Sequential vs Random Access
@@ -841,5 +841,4 @@ A: They avoid repeated seek and positioning overhead, especially on HDDs.
 
 **Q: Why do caches improve performance so dramatically?**  
 A: They replace expensive disk reads with much faster memory lookups.
-
 

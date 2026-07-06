@@ -37,7 +37,7 @@ test('generator emits pageMeta for theory, exercise, solution, and design routes
     write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
     write(path.join(base, 'java', 'oop', 'playground', 'Example.java'), 'class Example {}\n');
     write(path.join(base, 'java', 'oop', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
-    write(path.join(base, 'java', 'oop', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+    write(path.join(base, 'java', 'oop', 'solution', 'index.md'), `${frontmatter(20, 'search: false\n')}\n## Answer\nUse encapsulation.\n`);
 
     write(path.join(base, 'system_design', 'index.md'), frontmatter(20));
     write(path.join(base, 'system_design', 'availability', 'index.md'), frontmatter(10));
@@ -52,8 +52,28 @@ test('generator emits pageMeta for theory, exercise, solution, and design routes
     assert.strictEqual(data.pageMeta['/java/oop/exercise/'].pageType, 'exercise');
     assert.strictEqual(data.pageMeta['/java/oop/exercise/'].parentLink, '/java/oop/');
     assert.strictEqual(data.pageMeta['/java/oop/solution/'].pageType, 'solution');
+    assert.match(data.pageMeta['/java/oop/solution/'].referenceHtml, /<h2>Answer<\/h2>/);
     assert.strictEqual(data.pageMeta['/system_design/availability/'].schema, 'system-design');
     assert.strictEqual(data.pageMeta['/system_design/availability/design/'].pageType, 'design');
+});
+
+test('generator marks nested sidebar groups collapsed by default', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'collections', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'collections', 'maps', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'collections', 'maps', 'hashmap', 'index.md'), frontmatter(10));
+
+    runGenerator(base, out);
+    const data = JSON.parse(fs.readFileSync(out, 'utf8'));
+    const collections = data.sidebar['/java/'][0].items[0];
+    const maps = collections.items[0];
+
+    assert.strictEqual(collections.text, 'Page');
+    assert.strictEqual(collections.collapsed, true);
+    assert.strictEqual(maps.collapsed, true);
 });
 
 test('generator accepts theory-only leaf pages', () => {

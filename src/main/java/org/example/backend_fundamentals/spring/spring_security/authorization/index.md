@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 30
 ---
 
 # Authorization
@@ -235,5 +235,4 @@ A. The AOP proxy is bypassed — `@PreAuthorize` is not evaluated. Same root cau
 
 **Q. Roles vs authorities — which do you use for fine-grained KYC permissions?**
 A. Authorities (`kyc:approve`, `pii:view`). Roles are coarse groupings; authorities are the actual permission checks at method boundaries.
-
 

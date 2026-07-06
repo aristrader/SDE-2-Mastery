@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 30
 ---
 
 # Event-Driven Architecture (EDA)
@@ -81,5 +81,4 @@ A: Message Queues typically route one message to one consumer; EDA often distrib
 
 **Q: What are the biggest operational challenges in EDA?**
 A: Debugging distributed workflows, managing eventual consistency, ensuring consumer idempotency, and handling schema evolution.
-
 

@@ -1,5 +1,5 @@
 ---
-order: 100
+order: 20
 ---
 
 # Java Object Model
@@ -199,5 +199,4 @@ A. JVM zeroes them: `int` → `0`, reference → `null`, `boolean` → `false`. 
 
 **Q. When does a `ClassCastException` occur?**
 A. At runtime during a narrowing cast when the actual type of the object doesn't match the target type.
-
 

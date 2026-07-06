@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 20
 ---
 
 # String Immutability — Deep Dive
@@ -256,5 +256,4 @@ A. Any time you're building a String in a loop or across multiple steps in a sin
 
 **Q. Java 6 `substring()` trap?**
 A. Pre-Java-7u6, `substring()` shared the original `char[]`, keeping the whole backing array alive. Fixed in Java 7u6 — `substring()` now copies. If you're ever asked about String memory leaks, this is the historical answer.
-
 

@@ -1,7 +1,7 @@
 // docs/.vitepress/theme/lib/fileDiscovery.test.mjs
 import { test } from 'node:test'
 import assert from 'node:assert'
-import { analyzeJavaFiles, mdFolderSet, ownerFolder, filesForPage, pageHasCode, toRel } from './fileDiscovery.mjs'
+import { analyzeJavaFiles, mdFolderSet, ownerFolder, filesForPage, pageHasCode, pageHasSampleCode, toRel } from './fileDiscovery.mjs'
 
 const P = (rel) => `../../../../src/main/java/org/example/backend_fundamentals/${rel}`
 
@@ -52,6 +52,14 @@ test('analyzeJavaFiles supports lazy Vite glob loaders without reading content',
 test('Practice files are tagged as exercises', () => {
   const g = analyzeJavaFiles({ [P('java/foundations/generics/GenericPractice.java')]: 'package x;\npublic class GenericPractice {}' })
   assert.strictEqual(g['java/foundations/generics'][0].kind, 'exercise')
+})
+
+test('Exercise files are tagged as exercises and do not count as sample code', () => {
+  const g = analyzeJavaFiles({ [P('java/foundations/control_flow/playground/OperatorsExercise.java')]: 'package x;\npublic class OperatorsExercise {}' })
+  const md = mdFolderSet([P('java/foundations/control_flow/index.md')])
+  assert.strictEqual(g['java/foundations/control_flow/playground'][0].kind, 'exercise')
+  assert.strictEqual(pageHasCode(g, md, 'java/foundations/control_flow'), true)
+  assert.strictEqual(pageHasSampleCode(g, md, 'java/foundations/control_flow'), false)
 })
 
 test('ownerFolder finds nearest md-bearing ancestor', () => {

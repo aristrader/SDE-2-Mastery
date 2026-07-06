@@ -85,10 +85,22 @@ async function assertExerciseWorkspace(page) {
   await page.goto(`${BASE_URL}/java/oop/encapsulation/exercise/`, { waitUntil: 'networkidle' });
   await page.locator('.exercise-workspace').waitFor({ timeout: 15000 });
   await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
-  assert.strictEqual(await page.locator('.reference-frame').count(), 0, 'reference panel should start closed');
+  assert.strictEqual(await page.locator('.reference-panel').count(), 0, 'reference panel should start closed');
   await page.getByRole('button', { name: /View Solution/ }).click();
-  await page.locator('.reference-frame').waitFor({ timeout: 15000 });
-  assert.match(await page.locator('.reference-frame').getAttribute('src'), /\/java\/oop\/encapsulation\/solution\/$/);
+  await page.locator('.reference-panel').waitFor({ timeout: 15000 });
+  await page.locator('.reference-doc').waitFor({ timeout: 15000 });
+  assert.match(await page.locator('.reference-doc h1').innerText(), /Solution/);
+  assert.strictEqual(await page.locator('.reference-panel .VPSidebar').count(), 0, 'reference panel should not embed the full site shell');
+}
+
+async function assertCodeTabActive(page) {
+  await page.goto(`${BASE_URL}/java/oop/encapsulation/#code`, { waitUntil: 'networkidle' });
+  await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
+  const tabs = page.locator('.study-tabs .study-tab');
+  const activeTabs = await tabs.evaluateAll((els) =>
+    els.filter((el) => el.classList.contains('active')).map((el) => el.textContent.trim())
+  );
+  assert.deepStrictEqual(activeTabs, ['Code'], 'Code tab should be active for #code routes');
 }
 
 async function main() {
@@ -102,14 +114,16 @@ async function main() {
   await assertStudyTabs(page, '/java/', []);
   await assertStudyTabs(page, '/java/coding_fluency/', []);
   await assertStudyTabs(page, '/java/oop/encapsulation/', ['Read', 'Code', 'Practice', 'Solution']);
-  await assertStudyTabs(page, '/java/oop/encapsulation/exercise/', ['Read', 'Code', 'Practice', 'Solution']);
+  await assertStudyTabs(page, '/java/oop/encapsulation/exercise/', ['Read', 'Code', 'Practice']);
   await assertStudyTabs(page, '/java/oop/encapsulation/solution/', ['Read', 'Code', 'Practice', 'Solution']);
   await assertStudyTabs(page, '/system_design/concepts/availability/', ['Read', 'Scenario', 'Design']);
-  await assertStudyTabs(page, '/system_design/concepts/availability/exercise/', ['Read', 'Scenario', 'Design']);
+  await assertStudyTabs(page, '/system_design/concepts/availability/exercise/', ['Read', 'Scenario']);
   await assertStudyTabs(page, '/system_design/concepts/availability/design/', ['Read', 'Scenario', 'Design']);
   await assertStudyTabs(page, '/java/concurrency/jmm/', ['Read', 'Practice', 'Solution']);
+  await assertStudyTabs(page, '/java/foundations/control_flow/', ['Read', 'Practice', 'Solution']);
   await assertArchitectureBoardLifecycle(page);
   await assertExerciseWorkspace(page);
+  await assertCodeTabActive(page);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${BASE_URL}/system_design/concepts/availability/design/`, { waitUntil: 'networkidle' });

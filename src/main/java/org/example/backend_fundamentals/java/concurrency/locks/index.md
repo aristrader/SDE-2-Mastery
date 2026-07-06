@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 60
 ---
 
 # Locks
@@ -196,5 +196,4 @@ A. When writes are frequent — the overhead of tracking the reader count exceed
 
 **Q. `StampedLock` vs `ReentrantReadWriteLock` — what's the key trade-off?**
 A. `StampedLock` optimistic reads have lower overhead, but it's non-reentrant and harder to use correctly; `ReentrantReadWriteLock` is reentrant and simpler.
-
 

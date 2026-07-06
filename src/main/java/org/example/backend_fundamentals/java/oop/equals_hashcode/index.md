@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 110
 ---
 
 # Java Interview Notes Dump - Object Class Module (Part 1)
@@ -1745,4 +1745,3 @@ Questions:
 - `@Override`
 - IDE-generated `equals()`/`hashCode()`
 - `System.identityHashCode()` (optional)
-

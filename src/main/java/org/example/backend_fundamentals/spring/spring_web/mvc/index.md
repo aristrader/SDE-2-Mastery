@@ -1,5 +1,5 @@
 ---
-order: 30
+order: 10
 ---
 
 # Spring MVC
@@ -232,5 +232,4 @@ A. Implement `HandlerMethodArgumentResolver`, register via `WebMvcConfigurer.add
 
 **Q. What triggers a 415 Unsupported Media Type vs a 406 Not Acceptable?**
 A. 415: request `Content-Type` doesn't match controller's `consumes`. 406: client's `Accept` header doesn't match controller's `produces`.
-
 

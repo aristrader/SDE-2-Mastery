@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 30
 ---
 
 # DNS — Resolution Flow, Caching, and Traffic Steering
@@ -152,5 +152,3 @@ A. They return different IPs by user location/conditions, steering users to near
 
 **Q. How does DNS provide load balancing and failover?**
 A. Different IPs for the same domain (by geography, latency, health), and record updates that point traffic at backup servers.
-
-

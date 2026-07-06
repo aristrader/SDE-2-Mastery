@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 10
 ---
 
 # Classes, Objects, and Constructors
@@ -97,5 +97,4 @@ What exactly happens when you call `new Person()`?
 ### Instance Initialization Blocks
 Instance blocks `{ ... }` run before the constructor. They were originally used to share initialization logic across multiple constructors.
 However, in modern Java and Spring Boot, they are rarely used. Constructor chaining (`this()`) or lifecycle callbacks (like `@PostConstruct`) are highly preferred for readability.
-
 

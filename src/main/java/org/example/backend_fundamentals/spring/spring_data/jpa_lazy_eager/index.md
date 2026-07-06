@@ -1,5 +1,5 @@
 ---
-order: 30
+order: 40
 ---
 
 # Lazy vs Eager Loading & N+1
@@ -254,5 +254,4 @@ A. Every parent entity load fetches all children (items), and each child's EAGER
 
 **Q. What is the best default fetch strategy?**
 A. Make all associations `LAZY` and use `JOIN FETCH` / `@EntityGraph` explicitly per query. EAGER bakes in a fetch strategy that may be wrong for most callers.
-
 

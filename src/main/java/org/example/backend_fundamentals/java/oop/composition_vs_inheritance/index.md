@@ -1,5 +1,5 @@
 ---
-order: 50
+order: 70
 ---
 # Composition vs Inheritance
 
@@ -28,5 +28,4 @@ class Car {
     private Engine engine; // ElectricMotor, DieselEngine, etc.
 }
 ```
-
 

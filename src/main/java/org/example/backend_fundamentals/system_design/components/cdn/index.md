@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 30
 ---
 
 # CDN — Edge Caching, DNS Routing, Push vs Pull
@@ -125,5 +125,4 @@ A. Pull fetches on demand (most common); push proactively distributes content be
 
 **Q. What is a PoP?**
 A. A Point of Presence — a CDN location containing cache servers.
-
 

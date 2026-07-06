@@ -1,5 +1,5 @@
 ---
-order: 20
+order: 40
 ---
 
 # Clustering — Cooperating Nodes, Heartbeats, Leader Election
@@ -130,5 +130,4 @@ A. Each partition has a leader and followers; a follower is promoted if the lead
 
 **Q. What pattern is common across Redis, Kafka, DB clusters, and Kubernetes?**
 A. Heartbeats + replication + leader election + failover among cooperating nodes.
-
 

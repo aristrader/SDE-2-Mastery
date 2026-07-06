@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 30
 ---
 
 # Circuit Breaker and Resiliency Patterns
@@ -45,5 +45,4 @@ In practice, production systems rarely rely on a single pattern. A typical resil
 4. **Fallback** (graceful degradation if the circuit is open or retries are exhausted)
 
 *Note on Implementation: In Java/Spring Boot ecosystems, libraries like Resilience4j are commonly used to implement these patterns.*
-
 

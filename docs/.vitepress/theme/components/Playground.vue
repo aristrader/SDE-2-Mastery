@@ -75,16 +75,22 @@ async function loadContent(file) {
 
 const files = computed(() => {
   let dir = props.targetDir || props.files
+  let pageType = 'theory'
   if (!dir) {
     dir = pageDir(page.value.relativePath)
     // If we're on an exercise or solution page, resolve to the parent directory
     if (dir.endsWith('/exercise') || dir.endsWith('/solution') || dir.endsWith('/design')) {
+      pageType = dir.split('/').pop()
       dir = dir.split('/').slice(0, -1).join('/')
     }
   }
   dir = normalizeTargetDir(dir)
   if (!dir) return []
-  return filesForPage(grouped, mdFolders, dir)
+  const pageFiles = filesForPage(grouped, mdFolders, dir)
+  if (pageType === 'theory' && !props.targetDir && !props.files) {
+    return pageFiles.filter((file) => file.kind !== 'exercise')
+  }
+  return pageFiles
 })
 
 const selected = ref(null)

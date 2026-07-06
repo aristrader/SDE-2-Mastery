@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 30
 ---
 
 # Records as DTOs — Coding Exercises
@@ -149,5 +149,4 @@ that need frequent partial-copy patterns (e.g., updating status fields in a pipe
 
 **Q.** When should you prefer Lombok `@Value` + `@Builder` over a record?  
 **A.** When you need frequent partial-copy patterns (`toBuilder()`), Jackson deserialization without extra config, or you are on Java < 16. Prefer records for simplicity when the DTO is small, immutable, and Jackson config is already in place.
-
 
