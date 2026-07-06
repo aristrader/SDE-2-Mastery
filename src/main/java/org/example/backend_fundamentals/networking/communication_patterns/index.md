@@ -97,4 +97,3 @@ A. WebSockets are long-lived bidirectional connections typically between a brows
 A. It is fundamentally pull (client initiates the request), but acts as a "fake push" because the server holds the response until data is ready.
 
 
-<ExerciseNav />

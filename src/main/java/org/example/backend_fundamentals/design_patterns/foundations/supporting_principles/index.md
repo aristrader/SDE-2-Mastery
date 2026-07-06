@@ -164,4 +164,3 @@ A. API behaviour matches reasonable caller expectations. `getX()` that mutates s
 - **Encapsulation** — Tell Don't Ask is the behavioural side of encapsulation.
 
 
-<ExerciseNav />

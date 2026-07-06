@@ -180,4 +180,3 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.static
 - `todo/FoundationsToRead.md` &raquo; "Static factory methods (Effective Java Item 1)" &mdash; the foundations checklist entry.
 
 
-<ExerciseNav />

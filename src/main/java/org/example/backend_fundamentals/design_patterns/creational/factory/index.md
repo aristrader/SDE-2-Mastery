@@ -267,4 +267,3 @@ Otherwise                                                 ────▶ Learni
 - `../../todo/study_plan/deep_dives/PatternSelectionExercise.md` — next step: orchestrating multiple factories (Strategy / Registry / DI).
 
 
-<ExerciseNav />

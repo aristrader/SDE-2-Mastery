@@ -1009,4 +1009,3 @@ Part 2 will continue with:
 - Protobuf introduction
 - All associated misconceptions and corrections
 
-<ExerciseNav />

@@ -282,4 +282,3 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.abstra
 - `todo/FoundationsToRead.md` &raquo; "Dependency Inversion (DIP) vs Dependency Injection (DI)" &mdash; the abstract-product return type is a textbook DIP application.
 
 
-<ExerciseNav />

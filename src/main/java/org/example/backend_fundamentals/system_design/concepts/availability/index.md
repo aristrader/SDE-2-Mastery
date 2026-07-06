@@ -169,4 +169,3 @@ A. Assume failures will happen and design the system to continue operating.
 A. Sequence (A → B → C) reduces total availability (all must work). Parallel (A || B) increases total availability (both must fail simultaneously to cause an outage).
 
 
-<ExerciseNav />

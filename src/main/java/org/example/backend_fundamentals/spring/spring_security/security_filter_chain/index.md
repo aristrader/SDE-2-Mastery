@@ -281,4 +281,3 @@ A. AuthorizationFilter (formerly FilterSecurityInterceptor); it runs last so all
 A. SecurityContextPersistenceFilter won't load/save context from a session store; each request must re-authenticate (e.g., re-validate JWT) — no sticky session state.
 
 
-<ExerciseNav />

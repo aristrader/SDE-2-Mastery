@@ -258,4 +258,3 @@ A. Any time you're building a String in a loop or across multiple steps in a sin
 A. Pre-Java-7u6, `substring()` shared the original `char[]`, keeping the whole backing array alive. Fixed in Java 7u6 — `substring()` now copies. If you're ever asked about String memory leaks, this is the historical answer.
 
 
-<ExerciseNav />

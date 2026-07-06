@@ -191,4 +191,3 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.factor
 - `../../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `private`, etc.
 
 
-<ExerciseNav />

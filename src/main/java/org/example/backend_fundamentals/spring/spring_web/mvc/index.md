@@ -234,4 +234,3 @@ A. Implement `HandlerMethodArgumentResolver`, register via `WebMvcConfigurer.add
 A. 415: request `Content-Type` doesn't match controller's `consumes`. 406: client's `Accept` header doesn't match controller's `produces`.
 
 
-<ExerciseNav />

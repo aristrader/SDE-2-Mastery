@@ -92,4 +92,3 @@ A. PA/EL favors availability on partition and latency otherwise (Cassandra/Dynam
 A. No — CAP-C = nodes agree on the latest write; ACID-C = a transaction keeps constraints valid.
 
 
-<ExerciseNav />

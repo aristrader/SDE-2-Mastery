@@ -58,4 +58,3 @@ When you call a Kubernetes Service endpoint, it acts as a stable virtual IP that
 * **Single Visible Endpoint**: If a service has multiple pods but exposes only one endpoint, that endpoint is typically backed by a Kubernetes Service that handles discovery and load balancing under the hood.
 
 
-<ExerciseNav />

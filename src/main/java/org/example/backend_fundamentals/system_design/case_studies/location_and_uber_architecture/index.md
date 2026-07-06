@@ -51,9 +51,6 @@ Large-scale spatial systems (like Uber's) do not calculate the Haversine distanc
   **Fact:** While B+ Trees handle bounding box range queries, true spatial indexes are needed for complex geometric searches, high-density handling, and efficient nearest-neighbor lookups.
 
 
-<ExerciseNav />
-
-
 # Geohashing & Spatial Search Systems
 
 ## 1. What Problem Geohash Solves

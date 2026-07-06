@@ -61,4 +61,3 @@ A. A long-lived Access Token is disastrous if stolen. A Refresh Token allows the
 A. Client Credentials flow. Service A exchanges its Client ID + Secret for an Access Token directly with the Authorization Server, with no user interaction.
 
 
-<ExerciseNav />

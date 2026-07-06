@@ -331,4 +331,3 @@ A. `MethodArgumentNotValidException` fires when `@Valid` fails on `@RequestBody`
 A. A standard JSON error format (`type`, `title`, `status`, `detail`, `instance`). Enable with `spring.mvc.problemdetails.enabled=true`; `ResponseEntityExceptionHandler` then produces `application/problem+json` automatically for all standard Spring MVC exceptions.
 
 
-<ExerciseNav />

@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
-const BASE_DIR = path.join(__dirname, '../src/main/java/org/example/backend_fundamentals');
-const OUT_FILE = path.join(__dirname, '../docs/.vitepress/navigation_map.json');
+const BASE_DIR = process.env.LMS_BASE_DIR || path.join(__dirname, '../src/main/java/org/example/backend_fundamentals');
+const OUT_FILE = process.env.LMS_OUT_FILE || path.join(__dirname, '../docs/.vitepress/navigation_map.json');
 
 const EXCLUDED_DIRS = ['playground', 'exercise', 'solution', 'assets', 'design', 'todo', '.git'];
+const ASSET_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.drawio']);
 
 async function getFrontmatterOrder(filePath) {
     return new Promise((resolve, reject) => {
@@ -51,6 +52,118 @@ async function getFrontmatterOrder(filePath) {
     });
 }
 
+async function getFrontmatter(filePath) {
+    return new Promise((resolve, reject) => {
+        if (!fs.existsSync(filePath)) {
+            return resolve({});
+        }
+
+        const fileStream = fs.createReadStream(filePath);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+
+        let lineCount = 0;
+        let inFrontmatter = false;
+        const data = {};
+
+        rl.on('line', (line) => {
+            lineCount++;
+            if (lineCount === 1 && line.trim() === '---') {
+                inFrontmatter = true;
+                return;
+            }
+            if (inFrontmatter && line.trim() === '---') {
+                rl.close();
+                return;
+            }
+            if (inFrontmatter) {
+                const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+                if (match) {
+                    data[match[1]] = match[2].trim();
+                }
+            }
+        });
+
+        rl.on('close', () => resolve(data));
+        rl.on('error', (err) => reject(err));
+    });
+}
+
+async function assertIndexFrontmatter(filePath, expected) {
+    const frontmatter = await getFrontmatter(filePath);
+    for (const [key, value] of Object.entries(expected)) {
+        if (frontmatter[key] !== value) {
+            throw new Error(`${filePath} must declare '${key}: ${value}' in YAML frontmatter`);
+        }
+    }
+}
+
+function assertNoEmptyDirectories(dirPath) {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true })
+        .filter(entry => !entry.name.startsWith('.'));
+
+    if (entries.length === 0) {
+        throw new Error(`Empty directory is not allowed: ${dirPath}`);
+    }
+
+    for (const entry of entries) {
+        if (entry.isDirectory()) {
+            assertNoEmptyDirectories(path.join(dirPath, entry.name));
+        }
+    }
+}
+
+function assertPlaygroundFiles(dirPath) {
+    if (!fs.existsSync(dirPath)) return;
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+        const entryPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+            assertPlaygroundFiles(entryPath);
+            continue;
+        }
+        if (!entry.isFile() || path.extname(entry.name) !== '.java') {
+            throw new Error(`playground/ may contain only .java files: ${entryPath}`);
+        }
+    }
+}
+
+function assertAssetFiles(dirPath) {
+    if (!fs.existsSync(dirPath)) return;
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+        const entryPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+            assertAssetFiles(entryPath);
+            continue;
+        }
+        if (!entry.isFile() || !ASSET_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
+            throw new Error(`assets/ may contain only image or .drawio files: ${entryPath}`);
+        }
+    }
+}
+
+function assertJavaFilesInPlayground(dirPath, inPlayground = false) {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+        if (entry.name.startsWith('.')) continue;
+        const entryPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+            assertJavaFilesInPlayground(entryPath, inPlayground || entry.name === 'playground');
+            continue;
+        }
+        if (entry.isFile() && path.extname(entry.name) === '.java' && !inPlayground) {
+            throw new Error(`Java playground code must live under playground/: ${entryPath}`);
+        }
+    }
+}
+
+function childDir(subdirNames, name) {
+    return subdirNames.includes(name);
+}
+
 async function validateAndScan(dirPath, isRoot = false) {
     const dirName = path.basename(dirPath);
     
@@ -75,17 +188,25 @@ async function validateAndScan(dirPath, isRoot = false) {
     if (!isRoot && (order === null || isNaN(order))) {
         throw new Error(`Missing or invalid 'order: X' frontmatter in: ${indexFile}`);
     }
+    if (!isRoot && order % 10 !== 0) {
+        throw new Error(`'order: X' must use increments of 10 in: ${indexFile}`);
+    }
 
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     const subdirs = entries.filter(e => e.isDirectory() && !e.name.startsWith('.'));
     
     const subdirNames = subdirs.map(e => e.name);
     
-    const isModule = subdirNames.includes('exercise') || subdirNames.includes('solution') || subdirNames.includes('playground') || subdirNames.includes('design') || subdirNames.includes('assets');
+    const hasExercise = childDir(subdirNames, 'exercise');
+    const hasSolution = childDir(subdirNames, 'solution');
+    const hasPlayground = childDir(subdirNames, 'playground');
+    const hasDesign = childDir(subdirNames, 'design');
+    const hasAssets = childDir(subdirNames, 'assets');
+    const isModule = hasExercise || hasSolution || hasPlayground || hasDesign || hasAssets;
+    const schema = hasDesign ? 'system-design' : (hasPlayground ? 'interactive-code' : (hasExercise || hasSolution ? 'practice' : 'theory'));
 
     if (isModule) {
-        // Pedagogy (Strict): Assert exercise/ and solution/ folders exist and contain index.md
-        if (!subdirNames.includes('exercise')) {
+        if (!hasExercise) {
             throw new Error(`Module is missing 'exercise/' directory: ${dirPath}`);
         }
         
@@ -93,25 +214,25 @@ async function validateAndScan(dirPath, isRoot = false) {
         if (!fs.existsSync(exerciseIndex)) {
             throw new Error(`Missing index.md in ${path.join(dirPath, 'exercise')}`);
         }
-        const exOrder = await getFrontmatterOrder(exerciseIndex);
-        if (exOrder === null || isNaN(exOrder)) {
-             throw new Error(`Missing or invalid 'order: X' frontmatter in: ${exerciseIndex}`);
-        }
+        await assertIndexFrontmatter(exerciseIndex, { order: '10', search: 'false' });
 
-        // Check for solution/ or design/
-        if (!subdirNames.includes('solution') && !subdirNames.includes('design')) {
+        if (!hasSolution && !hasDesign) {
             throw new Error(`Module is missing 'solution/' (or 'design/') directory: ${dirPath}`);
         }
         
-        const targetDir = subdirNames.includes('solution') ? 'solution' : 'design';
+        if (hasSolution && hasDesign) {
+            throw new Error(`Module cannot contain both solution/ and design/: ${dirPath}`);
+        }
+
+        const targetDir = hasSolution ? 'solution' : 'design';
         const targetIndex = path.join(dirPath, targetDir, 'index.md');
         if (!fs.existsSync(targetIndex)) {
             throw new Error(`Missing index.md in ${path.join(dirPath, targetDir)}`);
         }
-        const targetOrder = await getFrontmatterOrder(targetIndex);
-        if (targetOrder === null || isNaN(targetOrder)) {
-             throw new Error(`Missing or invalid 'order: X' frontmatter in: ${targetIndex}`);
-        }
+        await assertIndexFrontmatter(targetIndex, { order: '20', search: 'false' });
+
+        if (hasPlayground) assertPlaygroundFiles(path.join(dirPath, 'playground'));
+        if (hasAssets) assertAssetFiles(path.join(dirPath, 'assets'));
     }
 
     let children = [];
@@ -151,6 +272,14 @@ async function validateAndScan(dirPath, isRoot = false) {
         text: title,
         link: route,
         order: order,
+        schema,
+        capabilities: {
+            exercise: hasExercise,
+            solution: hasSolution,
+            design: hasDesign,
+            playground: hasPlayground,
+            assets: hasAssets
+        },
         items: children.length > 0 ? children : undefined
     };
 }
@@ -158,13 +287,38 @@ async function validateAndScan(dirPath, isRoot = false) {
 async function main() {
     try {
         console.log("Starting strict schema validation and generation...");
+        assertNoEmptyDirectories(BASE_DIR);
+        assertJavaFilesInPlayground(BASE_DIR);
         const tree = await validateAndScan(BASE_DIR, true);
         
         // Flatten the tree for navigation_map.json
         const flatMap = [];
         
+        const pageMeta = {};
+
+        function toMeta(node) {
+            return {
+                text: node.text,
+                link: node.link,
+                pageType: 'theory',
+                parentLink: node.link,
+                schema: node.schema,
+                capabilities: node.capabilities
+            };
+        }
+
         function flatten(node) {
             flatMap.push({ text: node.text, link: node.link });
+            pageMeta[node.link] = toMeta(node);
+            if (node.capabilities?.exercise) {
+                pageMeta[node.link + 'exercise/'] = { ...toMeta(node), link: node.link + 'exercise/', parentLink: node.link, pageType: 'exercise' };
+            }
+            if (node.capabilities?.solution) {
+                pageMeta[node.link + 'solution/'] = { ...toMeta(node), link: node.link + 'solution/', parentLink: node.link, pageType: 'solution' };
+            }
+            if (node.capabilities?.design) {
+                pageMeta[node.link + 'design/'] = { ...toMeta(node), link: node.link + 'design/', parentLink: node.link, pageType: 'design' };
+            }
             if (node.items) {
                 for (const child of node.items) {
                     flatten(child);
@@ -199,7 +353,8 @@ async function main() {
         fs.writeFileSync(OUT_FILE, JSON.stringify({
             sidebar: multiSidebar,
             nav: topNav,
-            navMap: flatMap
+            navMap: flatMap,
+            pageMeta
         }, null, 2));
         
         console.log("Validation passed! Generated navigation_map.json.");
@@ -213,4 +368,16 @@ async function main() {
     }
 }
 
-main();
+if (require.main === module) {
+    main();
+}
+
+module.exports = {
+    validateAndScan,
+    getFrontmatter,
+    getFrontmatterOrder,
+    assertNoEmptyDirectories,
+    assertJavaFilesInPlayground,
+    assertPlaygroundFiles,
+    assertAssetFiles,
+};

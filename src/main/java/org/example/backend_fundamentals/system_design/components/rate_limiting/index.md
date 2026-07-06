@@ -74,4 +74,3 @@ A. A single key receives massive traffic, overloading one node in the cluster. M
 - [YouTube: Distributed Rate Limiter](https://www.youtube.com/watch?v=MIJFyUPG4Z4&t=752s) - Video walkthrough of the distributed rate limiter architecture.
 
 
-<ExerciseNav />

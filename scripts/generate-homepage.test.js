@@ -1,0 +1,156 @@
+const { execFileSync } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const test = require('node:test');
+const assert = require('node:assert');
+
+const SCRIPT = path.join(__dirname, 'generate-homepage.js');
+
+function write(filePath, content) {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, content);
+}
+
+function frontmatter(order, extra = '') {
+    return `---\norder: ${order}\n${extra}---\n# Page\n`;
+}
+
+function makeBase() {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lms-nav-'));
+    write(path.join(dir, 'index.md'), '# Root\n');
+    return dir;
+}
+
+function runGenerator(baseDir, outFile) {
+    execFileSync(process.execPath, [SCRIPT], {
+        env: { ...process.env, LMS_BASE_DIR: baseDir, LMS_OUT_FILE: outFile },
+        stdio: 'pipe',
+    });
+}
+
+test('generator emits pageMeta for theory, exercise, solution, and design routes', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'oop', 'playground', 'Example.java'), 'class Example {}\n');
+    write(path.join(base, 'java', 'oop', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+    write(path.join(base, 'java', 'oop', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+
+    write(path.join(base, 'system_design', 'index.md'), frontmatter(20));
+    write(path.join(base, 'system_design', 'availability', 'index.md'), frontmatter(10));
+    write(path.join(base, 'system_design', 'availability', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+    write(path.join(base, 'system_design', 'availability', 'design', 'index.md'), frontmatter(20, 'search: false\n'));
+
+    runGenerator(base, out);
+    const data = JSON.parse(fs.readFileSync(out, 'utf8'));
+
+    assert.strictEqual(data.pageMeta['/java/oop/'].schema, 'interactive-code');
+    assert.strictEqual(data.pageMeta['/java/oop/'].pageType, 'theory');
+    assert.strictEqual(data.pageMeta['/java/oop/exercise/'].pageType, 'exercise');
+    assert.strictEqual(data.pageMeta['/java/oop/exercise/'].parentLink, '/java/oop/');
+    assert.strictEqual(data.pageMeta['/java/oop/solution/'].pageType, 'solution');
+    assert.strictEqual(data.pageMeta['/system_design/availability/'].schema, 'system-design');
+    assert.strictEqual(data.pageMeta['/system_design/availability/design/'].pageType, 'design');
+});
+
+test('generator accepts theory-only leaf pages', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'networking', 'index.md'), frontmatter(10));
+    write(path.join(base, 'networking', 'dns', 'index.md'), frontmatter(10));
+
+    runGenerator(base, out);
+    const data = JSON.parse(fs.readFileSync(out, 'utf8'));
+    assert.strictEqual(data.pageMeta['/networking/dns/'].schema, 'theory');
+    assert.deepStrictEqual(data.pageMeta['/networking/dns/'].capabilities, {
+        exercise: false,
+        solution: false,
+        design: false,
+        playground: false,
+        assets: false,
+    });
+});
+
+test('generator rejects Java files outside playground directories', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'oop', 'Example.java'), 'class Example {}\n');
+    write(path.join(base, 'java', 'oop', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+    write(path.join(base, 'java', 'oop', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+
+    assert.throws(() => runGenerator(base, out), /Java playground code must live under playground/);
+});
+
+test('generator rejects missing order, non-numeric order, and non-increment order', () => {
+    for (const [name, content, message] of [
+        ['missing_order', '---\n---\n# Page\n', /Missing or invalid 'order: X'/],
+        ['bad_order', '---\norder: abc\n---\n# Page\n', /Missing or invalid 'order: X'/],
+        ['wrong_increment', frontmatter(11), /must use increments of 10/],
+    ]) {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', name, 'index.md'), content);
+        assert.throws(() => runGenerator(base, out), message);
+    }
+});
+
+test('generator rejects duplicate sibling orders and invalid folder names', () => {
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'jvm', 'index.md'), frontmatter(10));
+        assert.throws(() => runGenerator(base, out), /Duplicate order 10/);
+    }
+
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'bad folder!', 'index.md'), frontmatter(10));
+        assert.throws(() => runGenerator(base, out), /Invalid folder name/);
+    }
+});
+
+test('generator rejects invalid child frontmatter and schema contents', () => {
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'playground', 'Example.java'), 'class Example {}\n');
+        write(path.join(base, 'java', 'oop', 'exercise', 'index.md'), frontmatter(20, 'search: false\n'));
+        write(path.join(base, 'java', 'oop', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+        assert.throws(() => runGenerator(base, out), /order: 10/);
+    }
+
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'oop', 'playground', 'notes.md'), '# no\n');
+        write(path.join(base, 'java', 'oop', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+        write(path.join(base, 'java', 'oop', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+        assert.throws(() => runGenerator(base, out), /playground\/ may contain only \.java files/);
+    }
+
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'system_design', 'index.md'), frontmatter(10));
+        write(path.join(base, 'system_design', 'availability', 'index.md'), frontmatter(10));
+        write(path.join(base, 'system_design', 'availability', 'assets', 'notes.txt'), 'no\n');
+        write(path.join(base, 'system_design', 'availability', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+        write(path.join(base, 'system_design', 'availability', 'design', 'index.md'), frontmatter(20, 'search: false\n'));
+        assert.throws(() => runGenerator(base, out), /assets\/ may contain only image or \.drawio files/);
+    }
+});

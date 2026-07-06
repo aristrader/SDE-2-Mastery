@@ -1,6 +1,10 @@
 import { withMermaid } from 'vitepress-plugin-mermaid'
 import navData from './navigation_map.json'
 import monacoEditorPlugin from 'vite-plugin-monaco-editor'
+import path from 'node:path'
+
+const monacoPlugin = monacoEditorPlugin.default ? monacoEditorPlugin.default : monacoEditorPlugin
+const monacoPublicPath = 'monacoeditorwork'
 
 export default withMermaid({
   title: 'SDE-2 Mastery',
@@ -11,7 +15,13 @@ export default withMermaid({
   cleanUrls: true,
   vite: {
     plugins: [
-      monacoEditorPlugin.default ? monacoEditorPlugin.default({}) : monacoEditorPlugin({})
+      monacoPlugin({
+        publicPath: monacoPublicPath,
+        customDistPath: (root, buildOutDir) => {
+          const outDir = path.isAbsolute(buildOutDir) ? buildOutDir : path.join(root, buildOutDir)
+          return path.join(outDir, monacoPublicPath)
+        },
+      })
     ]
   },
   // Calm, neutral diagrams that don't fight the teal theme (default mermaid is purple).

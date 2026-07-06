@@ -260,4 +260,3 @@ A. When you need immediate revocation — e.g., invalidating a session after a K
 A. The Spring Security filter that extracts the Bearer token from the `Authorization` header and hands it to the `AuthenticationManager` for validation. On success it populates `SecurityContextHolder`; on failure it returns a 401 via `AuthenticationEntryPoint`.
 
 
-<ExerciseNav />

@@ -140,4 +140,3 @@ A. New position updates quickly replace old ones, making occasional packet loss 
 A. They add reliability mechanisms such as acknowledgements, retries, and server-side confirmation logic on top of UDP.
 
 
-<ExerciseNav />

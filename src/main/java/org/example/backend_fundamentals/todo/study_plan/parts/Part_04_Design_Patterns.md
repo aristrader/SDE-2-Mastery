@@ -4,7 +4,7 @@
 
 ## 4 Design Patterns, LLD & Machine Coding — topic inventory
 
-> Many topics here are already in flight or completed via your active creational-patterns track + foundations docs (see `CLAUDE.md` for status). Expect a large fraction to be ✅ Done at Survey time.
+> Many topics here are already in flight or completed via your active creational-patterns track + foundations docs. Expect a large fraction to be ✅ Done at Survey time.
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|

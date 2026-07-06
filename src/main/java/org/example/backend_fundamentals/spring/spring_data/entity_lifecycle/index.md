@@ -262,4 +262,3 @@ A. Each INSERT needs an immediate round-trip to retrieve the DB-generated key; H
 A. @PostLoad fires after an entity is loaded/refreshed from DB; @PrePersist fires before the first INSERT (not on load).
 
 
-<ExerciseNav />

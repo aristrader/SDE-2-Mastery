@@ -195,4 +195,3 @@ A. It creates a new OS thread per invocation — no pooling, unbounded under loa
 A. Self-invocation bypasses the Spring AOP proxy; the method runs synchronously on the caller's thread as if `@Async` wasn't there.
 
 
-<ExerciseNav />

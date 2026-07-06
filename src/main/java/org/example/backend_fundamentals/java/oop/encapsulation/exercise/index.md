@@ -6,4 +6,3 @@ search: false
 Pending AI generation.
 
 <Playground files="java/oop/encapsulation/playground/" />
-<ExerciseNav />

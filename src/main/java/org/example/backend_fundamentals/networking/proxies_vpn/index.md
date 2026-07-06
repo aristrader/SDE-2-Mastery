@@ -176,4 +176,3 @@ A. Yes — VPN IP blacklists, deep packet inspection, and active probing.
 A. Reverse proxy ⊂ gateway — the gateway adds API management, auth, policy enforcement, protocol translation.
 
 
-<ExerciseNav />

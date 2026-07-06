@@ -184,4 +184,3 @@ A. New entity (null id): `EntityManager.persist()` — direct INSERT, no SELECT.
 A. In multi-datasource setups to bind specific repository packages to a specific `EntityManagerFactory`/`TransactionManager`. Boot's auto-configuration handles single-datasource projects automatically.
 
 
-<ExerciseNav />

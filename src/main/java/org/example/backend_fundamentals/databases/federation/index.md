@@ -81,4 +81,3 @@ A. It removes the centralized DB-level federation layer, but read-side aggregati
 A. Same "combine many sources into one response" idea, but BFF aggregates at the service/API layer (calling service APIs), not at the database layer.
 
 
-<ExerciseNav />

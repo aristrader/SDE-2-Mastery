@@ -159,4 +159,3 @@ Abstract Factory earns its keep when you interview or when you encounter JDBC / 
 - `todo/study_plan/deep_dives/PatternSelectionScenarios.md` — 25 production scenario exercises across the creational patterns
 
 
-<ExerciseNav />

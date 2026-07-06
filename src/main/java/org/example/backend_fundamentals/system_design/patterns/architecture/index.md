@@ -101,4 +101,3 @@ A. SOA is enterprise-wide with a central ESB and reuse focus; microservices are 
 A. Small teams/products — the distributed-systems overhead (discovery, tracing, retries, orchestration) outweighs the benefit; microservices mainly solve organizational scaling.
 
 
-<ExerciseNav />

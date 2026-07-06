@@ -129,4 +129,3 @@ public class DocumentTypeConfig {
 **A.** No. `List.of` returns internal implementation classes, not `ArrayList`. Check mutability by catching `UnsupportedOperationException` or by tracking the source of the list.
 
 
-<ExerciseNav />

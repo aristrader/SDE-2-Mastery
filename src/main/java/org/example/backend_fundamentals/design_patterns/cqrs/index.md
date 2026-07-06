@@ -82,4 +82,3 @@ A. A standard SQL View reruns the underlying joins every time it is queried, whi
 A. Use Change Data Capture (CDC) like Debezium to tail the PostgreSQL transaction log (WAL) and stream changes to Kafka, which Elasticsearch then consumes.
 
 
-<ExerciseNav />

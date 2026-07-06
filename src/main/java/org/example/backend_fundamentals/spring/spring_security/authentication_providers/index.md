@@ -269,4 +269,3 @@ A. Implement `AuthenticationProvider` with `supports()` targeting your custom to
 A. If no prior filter authenticated the request, it sets an AnonymousAuthenticationToken so the SecurityContext is never null — downstream code and SpEL expressions like isAnonymous() always have a non-null Authentication to check.
 
 
-<ExerciseNav />

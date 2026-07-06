@@ -29,4 +29,3 @@ System.out.println(a.name); // Prints Animal's name field (Not Polymorphic)
 ```
 
 
-<ExerciseNav />

@@ -1746,4 +1746,3 @@ Questions:
 - IDE-generated `equals()`/`hashCode()`
 - `System.identityHashCode()` (optional)
 
-<ExerciseNav />

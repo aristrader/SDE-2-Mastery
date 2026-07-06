@@ -81,4 +81,3 @@ Once Passive Authentication confirms that the AA Public Key in DG15 is legitimat
 If the signature matches the random challenge, the chip is proven authentic. If a fraudster clones the passport files onto a standard blank chip, the cloned chip will lack the unreadable hardware private key. When challenged, it will fail to produce a valid signature, causing the system to flag the passport as a clone.
 
 
-<ExerciseNav />

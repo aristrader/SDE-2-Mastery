@@ -1,6 +1,6 @@
 # ChatGPT Doc-Import Prompt
 
-Paste this at the end of any ChatGPT study thread to get a raw, complete dump of the discussion. Bring the output back here via `temp.md` (repo root) — Claude does ALL the structuring, standards pass, splitting, and Notion formatting during import (routine in `CLAUDE.md` under "ChatGPT doc-import workflow"). ChatGPT's only job is complete, faithful capture.
+Paste this at the end of any ChatGPT study thread to get a raw, complete dump of the discussion. Bring the output back here via `temp.md` (repo root) — the importing agent does ALL the structuring, standards pass, splitting, and Notion formatting during import (routine in root `AGENTS.md` under "Temp Doc Import Workflow"). ChatGPT's only job is complete, faithful capture.
 
 > History: an earlier version of this prompt asked ChatGPT to structure the page (sections, Quick recall, format rules). Dropped deliberately — structuring happens at import time anyway, and source-side filtering ("skip basics") risked silent content loss.
 

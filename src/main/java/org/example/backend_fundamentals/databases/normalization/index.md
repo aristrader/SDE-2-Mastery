@@ -121,4 +121,3 @@ A. Avoid expensive joins on read-heavy paths; cost is redundant storage and mult
 A. Duplicated data updated in some rows but not all, leaving conflicting values — the core problem normalization removes.
 
 
-<ExerciseNav />

@@ -77,4 +77,3 @@ A. Old and new application versions coexist during deployment. Renaming directly
 A. (1) Expand (add new), (2) Dual Write (write to both), (3) Backfill (populate existing), (4) Switch Reads, (5) Contract (delete old).
 
 
-<ExerciseNav />

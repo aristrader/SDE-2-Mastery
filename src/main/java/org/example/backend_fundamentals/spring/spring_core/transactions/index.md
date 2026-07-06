@@ -238,4 +238,3 @@ A. `NESTED` is a savepoint inside the same physical TX (outer rollback takes inn
 A. No — CGLIB/JDK proxies can't intercept private methods. The annotation is silently ignored.
 
 
-<ExerciseNav />

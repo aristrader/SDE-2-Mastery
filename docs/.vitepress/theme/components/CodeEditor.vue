@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onBeforeUnmount, shallowRef } from 'vue'
+import { watch, onBeforeUnmount, shallowRef } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import { useData } from 'vitepress'
 
@@ -41,6 +41,7 @@ watch(() => props.modelValue, (val) => {
 
 onBeforeUnmount(() => {
   if (editorRef.value) {
+    editorRef.value.getModel()?.dispose()
     editorRef.value.dispose()
   }
 })

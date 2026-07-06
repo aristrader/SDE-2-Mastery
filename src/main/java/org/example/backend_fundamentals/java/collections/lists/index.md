@@ -78,4 +78,3 @@ Compile-time errors beat runtime errors — the strongest single argument for `L
 - **Encapsulation** — returning a mutable internal collection is a classic encapsulation violation; use `Collections.unmodifiableList(...)` or `List.copyOf(...)` to fix it.
 
 
-<ExerciseNav />

@@ -162,4 +162,3 @@ See `traps/BrokenEqualsHashCodeSetTrapRun` for the live demonstration.
 - **`equals` / `hashCode` contract** — Effective Java Items 10 and 11.
 
 
-<ExerciseNav />

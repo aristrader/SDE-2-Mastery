@@ -147,4 +147,3 @@ A. Block form: lets you choose the lock object, narrow the critical section, and
 A. (1) Locking on a String literal (`synchronized ("LOCK")`) — interned literals are shared JVM-wide, so unrelated classes can deadlock each other. (2) Locking on a boxed `Integer` in the -128..127 range — `Integer.valueOf()` returns a cached instance shared across code, causing unintended cross-class interference. Both are fixed by using a dedicated `private final Object lock`.
 
 
-<ExerciseNav />

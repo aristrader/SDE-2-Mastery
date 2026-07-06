@@ -183,4 +183,3 @@ Common backend usage:
 
 
 
-<ExerciseNav />

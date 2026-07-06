@@ -152,4 +152,3 @@ A. On 32-bit JVMs, a `long`/`double` write can split into two 32-bit ops; a read
 A. Yes — volatile provides no mutual exclusion. Both run concurrently; they just see each other's latest writes.
 
 
-<ExerciseNav />

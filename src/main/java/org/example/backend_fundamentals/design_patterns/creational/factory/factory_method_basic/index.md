@@ -169,4 +169,3 @@ See `../factory_method/FactoryMethodProd.md` for the step-by-step differences an
 - `../../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `abstract`, etc.
 
 
-<ExerciseNav />

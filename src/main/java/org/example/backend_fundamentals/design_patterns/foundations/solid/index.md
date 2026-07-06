@@ -146,4 +146,3 @@ A. Hold the most abstract type that still does the job. `HR` holds `HiringProces
 - **Coupling and Cohesion** — SRP is fundamentally about high cohesion.
 
 
-<ExerciseNav />

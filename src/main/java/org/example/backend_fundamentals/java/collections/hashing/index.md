@@ -220,4 +220,3 @@ A. Separate chaining — each bucket holds a linked list (or red-black tree afte
 - **`BrokenEqualsHashCodeTrapRun`** in `collections/maps/traps/` — live demo of the contract violation.
 
 
-<ExerciseNav />

@@ -178,4 +178,3 @@ need the supplier form?
 **A.** The no-arg form (Java 10+) throws `NoSuchElementException` with a generic message. The supplier form throws whatever exception you provide — always prefer the supplier form in production so the exception message is actionable.
 
 
-<ExerciseNav />

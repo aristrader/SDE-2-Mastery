@@ -193,4 +193,3 @@ A. Always at `table[0]` — `hash(null)` is defined as 0.
 A. The map cached the hash at insert time. After mutation, `hashCode()` returns a different value, the map looks in the wrong bucket, and returns null. The entry is orphaned in the original bucket — silent data loss, no exception.
 
 
-<ExerciseNav />

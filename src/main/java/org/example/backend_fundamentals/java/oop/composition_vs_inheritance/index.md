@@ -30,4 +30,3 @@ class Car {
 ```
 
 
-<ExerciseNav />

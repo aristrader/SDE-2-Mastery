@@ -157,8 +157,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--vp-c-brand-1); 
 /* ----- Playground mode: full-bleed --------------------------------------- */
 html.pg-play .vp-doc,
 html.pg-play .VPDocAside,
+html.pg-play .VPDocAsideOutline,
+html.pg-play .aside,
+html.pg-play .aside-container,
+html.pg-play .aside-content,
 html.pg-play .VPSidebar { display: none; }
 html.pg-play .VPContent.has-sidebar { padding-left: 0 !important; padding-right: 0 !important; }
-html.pg-play .VPDoc { padding: 16px 24px !important; }
+html.pg-play .VPDoc { padding: 72px 24px 16px !important; }
 html.pg-play .VPDoc .container,
 html.pg-play .VPDoc .content { max-width: none !important; }

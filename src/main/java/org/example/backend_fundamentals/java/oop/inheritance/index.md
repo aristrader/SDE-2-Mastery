@@ -301,4 +301,3 @@ A. `AndroidHiringProcess extends DeveloperHiringProcess`. The parent's `onboard(
 - **SOLID — LSP** — the formal version of the is-a test.
 
 
-<ExerciseNav />

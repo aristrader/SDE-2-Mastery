@@ -67,4 +67,3 @@ For an SLO of 99.9% uptime over a standard 30-day month:
    * **Correction:** They depend on one another. The SLA dictates the business promise, which defines the target SLO, which is monitored using measured SLIs.
 
 
-<ExerciseNav />

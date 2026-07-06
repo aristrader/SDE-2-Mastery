@@ -285,4 +285,3 @@ A. When your class has no no-arg constructor (immutable classes, records, Lombok
 A. Declare it as a `@Bean` — Spring Boot auto-discovers and registers `Module` beans into the `ObjectMapper` automatically.
 
 
-<ExerciseNav />

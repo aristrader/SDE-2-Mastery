@@ -130,4 +130,3 @@ A. JVM is spending almost all its time in GC but reclaiming almost nothing — e
 A. Prevents JVM from repeatedly resizing the heap. Each resize can trigger a Full GC and introduces latency spikes.
 
 
-<ExerciseNav />

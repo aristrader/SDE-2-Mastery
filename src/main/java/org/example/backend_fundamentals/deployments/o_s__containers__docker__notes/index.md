@@ -56,4 +56,3 @@ Containers are fundamentally just regular Linux processes with applied isolation
 *   **JDK (Java Development Kit):** Contains the compiler (`javac`), developer tools, and the runtime. Used to build applications. (Interview simplification: JDK = Development + Runtime; JVM = Executes Bytecode).
 
 
-<ExerciseNav />

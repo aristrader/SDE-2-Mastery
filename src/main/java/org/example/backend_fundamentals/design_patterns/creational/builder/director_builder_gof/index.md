@@ -182,4 +182,3 @@ Three scenarios:
 - `todo/AccessModifiersDeepDive.md` &raquo; "Class-level modifier decisions" &mdash; covers `final`, `static`, and chokepoint constructors.
 
 
-<ExerciseNav />

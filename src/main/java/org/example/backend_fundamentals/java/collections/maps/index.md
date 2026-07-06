@@ -191,4 +191,3 @@ See `traps/BrokenEqualsHashCodeTrapRun` for the live failure and the side-by-sid
 - **`equals` / `hashCode` contract** — Effective Java Items 10 and 11.
 
 
-<ExerciseNav />

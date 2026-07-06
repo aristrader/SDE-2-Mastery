@@ -175,4 +175,3 @@ A. A data race is a JMM-level violation (unsynchronized concurrent access with a
 A. No — two separate method calls are not atomic. Use `putIfAbsent(k, v)` for a single atomic operation.
 
 
-<ExerciseNav />

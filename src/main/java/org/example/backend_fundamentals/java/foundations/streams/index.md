@@ -180,4 +180,3 @@ See `joining/JoiningBasicsRun`.
 - **Functional interfaces and lambdas** — `keyFn`, `valueFn`, `classifier`, `mergeFunction` are all functional-interface arguments. Separate Java Foundations topic, worth a refresher if these feel opaque.
 
 
-<ExerciseNav />

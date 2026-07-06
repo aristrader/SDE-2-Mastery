@@ -53,7 +53,7 @@ import ExerciseNav from './components/ExerciseNav.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasCode } from './lib/fileDiscovery.mjs'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.
-const raw = import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default', eager: true })
+const raw = import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default' })
 const grouped = analyzeJavaFiles(raw)
 // md folders only need their paths (keys), not content — keep this non-eager.
 const mdFolders = mdFolderSet(Object.keys(import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.md')))
@@ -80,7 +80,7 @@ const DOMAINS = {
 }
 const domainLabel = computed(() => {
   const rel = page.value.relativePath
-  if (!rel || rel === 'index.md' || rel.endsWith('/index.md')) return ''
+  if (!rel || rel === 'index.md') return ''
   return DOMAINS[rel.split('/')[0]] || ''
 })
 
@@ -114,10 +114,22 @@ function applyZoom() {
   })
 }
 
-const stopZoomWatch = watch([() => page.value.relativePath, hasCode], () => { syncFromHash(); applyZoom() })
-watch(mode, applyBodyClass)
-onMounted(applyZoom)
-onBeforeUnmount(() => { if (zoom) { zoom.detach(); zoom = null } stopZoomWatch() })
+const stopZoomWatch = watch([() => page.value.relativePath, hasCode], () => {
+  syncFromHash()
+  applyZoom()
+})
+watch(mode, () => {
+  applyBodyClass()
+})
+onMounted(() => {
+  applyZoom()
+  if (typeof window !== 'undefined') window.addEventListener('hashchange', syncFromHash)
+})
+onBeforeUnmount(() => {
+  if (zoom) { zoom.detach(); zoom = null }
+  stopZoomWatch()
+  if (typeof window !== 'undefined') window.removeEventListener('hashchange', syncFromHash)
+})
 syncFromHash()
 </script>
 

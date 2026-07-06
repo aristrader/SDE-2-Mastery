@@ -130,4 +130,3 @@ A. Hold the most abstract type that still does the job. `HR` holds `HiringProces
 - **SOLID — DIP** — "depend on abstractions" makes "what *is* an abstraction in this code?" a real question.
 
 
-<ExerciseNav />

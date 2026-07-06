@@ -843,4 +843,3 @@ A: They avoid repeated seek and positioning overhead, especially on HDDs.
 A: They replace expensive disk reads with much faster memory lookups.
 
 
-<ExerciseNav />

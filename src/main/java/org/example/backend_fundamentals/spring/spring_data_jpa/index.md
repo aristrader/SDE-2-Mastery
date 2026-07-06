@@ -7,4 +7,3 @@ order: 40
 Overview of Spring Data Jpa.
 
 
-<ExerciseNav />

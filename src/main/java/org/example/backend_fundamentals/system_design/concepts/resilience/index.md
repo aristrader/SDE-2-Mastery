@@ -47,4 +47,3 @@ In practice, production systems rarely rely on a single pattern. A typical resil
 *Note on Implementation: In Java/Spring Boot ecosystems, libraries like Resilience4j are commonly used to implement these patterns.*
 
 
-<ExerciseNav />

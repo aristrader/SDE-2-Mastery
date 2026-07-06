@@ -1,1 +1,2 @@
-// Clear per CLAUDE.md guidelines
+<!-- ChatGPT export -->
+<!-- Paste content below -->

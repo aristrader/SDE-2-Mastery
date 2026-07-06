@@ -294,4 +294,3 @@ A. A tampered token sets `"alg": "none"` to claim it needs no signature. `Nimbus
 A. `NimbusJwtDecoder` throws `JwtException`; `ExceptionTranslationFilter` converts it to a 401 response. The calling client must re-authenticate; never forward an expired token downstream.
 
 
-<ExerciseNav />

@@ -324,4 +324,3 @@ A. NONE, BASIC, HEADERS, FULL. Use BASIC in production — FULL logs request/res
 A. When only `name` is set, Spring Cloud LoadBalancer resolves the service name to an instance via the registry. Supplying `url` bypasses discovery and load balancing entirely.
 
 
-<ExerciseNav />

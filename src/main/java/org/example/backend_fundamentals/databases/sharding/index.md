@@ -107,4 +107,3 @@ A. Shard key finds the machine; index finds the row within that machine — diff
 A. `hash % N` remaps most keys when N changes; a hash ring moves only ~1/N keys on add/remove. Virtual nodes (many positions per server) smooth out uneven distribution.
 
 
-<ExerciseNav />

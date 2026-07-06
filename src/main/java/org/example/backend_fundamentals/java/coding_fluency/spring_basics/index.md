@@ -159,4 +159,3 @@ Use `@AutoConfigureWireMock` (Spring Cloud Contract WireMock) or `WireMockServer
 **A.** Default is `Retryer.NEVER_RETRY`. Add a `Retryer.Default` bean to enable retries. Avoid retrying non-idempotent methods (`POST`, `PATCH`) — a retry after a timeout can create duplicate records.
 
 
-<ExerciseNav />

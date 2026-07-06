@@ -81,4 +81,3 @@ A. Bounded contexts reveal the natural business seams; those seams become micros
 A. Structuring software around business responsibilities (domains) rather than tables/controllers/tech — discovering where responsibilities begin and end.
 
 
-<ExerciseNav />

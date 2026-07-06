@@ -93,4 +93,3 @@ A. The materialized view's data is derived automatically from a query; the datab
 A. Use a view to simplify query logic or restrict column access when live data is required. Use a materialized view for heavy analytical dashboards where read speed is critical and slight staleness is acceptable.
 
 
-<ExerciseNav />

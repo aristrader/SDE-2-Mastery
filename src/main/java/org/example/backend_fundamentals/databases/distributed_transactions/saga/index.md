@@ -67,4 +67,3 @@ A: A Saga controlled by a central orchestrator that actively commands services a
 A: Yes, orchestration Sagas often use synchronous protocols like REST or gRPC to command downstream services.
 
 
-<ExerciseNav />

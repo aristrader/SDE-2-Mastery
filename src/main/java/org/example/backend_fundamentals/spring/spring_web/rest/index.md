@@ -297,4 +297,3 @@ A. Spring Security filter chain runs before `DispatcherServlet`. If security is 
 A. 409 = state conflict (duplicate resource, optimistic lock failure). 422 = well-formed body that fails semantic/business validation (`MethodArgumentNotValidException`). Many APIs use 400 for both; 422 is the precise choice for validation errors.
 
 
-<ExerciseNav />

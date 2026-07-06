@@ -62,4 +62,3 @@ The *real* reasons are:
 - **Overkill for CRUD:** Do not use this for basic admin dashboards or simple internal tools. Use it only when the *journey* of the data is as important as the *current state*.
 
 
-<ExerciseNav />

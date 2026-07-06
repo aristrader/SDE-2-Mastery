@@ -25,7 +25,19 @@ export function toRel(globPath) {
   return i === -1 ? globPath.replace(/^.*?\/?/, '') : globPath.slice(i + MARKER.length)
 }
 
-/** Turn a { globPath: content } map into { relDir: [ {name, rel, content, runnable, fqcn} ] }. */
+function staticJavaMeta(name, content) {
+  if (typeof content !== 'string') {
+    return { runnable: null, fqcn: null }
+  }
+  const className = name.replace(/\.java$/, '')
+  const pkgMatch = content.match(/package\s+([\w.]+)\s*;/)
+  const pkg = pkgMatch ? pkgMatch[1] : ''
+  const runnable = /public\s+static\s+void\s+main\s*\(/.test(content)
+  const fqcn = pkg ? `${pkg}.${className}` : className
+  return { runnable, fqcn: runnable ? fqcn : null }
+}
+
+/** Turn a { globPath: content|loader } map into { relDir: [ {name, rel, content, runnable, fqcn} ] }. */
 export function analyzeJavaFiles(filesMap) {
   const grouped = {}
   for (const path of Object.keys(filesMap)) {
@@ -36,11 +48,7 @@ export function analyzeJavaFiles(filesMap) {
     const rel = toRel(path)                       // e.g. design_patterns/.../X.java
     const relDir = dirname(rel)
     const name = basename(rel)
-    const className = name.replace(/\.java$/, '')
-    const pkgMatch = content.match(/package\s+([\w.]+)\s*;/)
-    const pkg = pkgMatch ? pkgMatch[1] : ''
-    const runnable = /public\s+static\s+void\s+main\s*\(/.test(content)
-    const fqcn = pkg ? `${pkg}.${className}` : className
+    const { runnable, fqcn } = staticJavaMeta(name, content)
     const kind = /Practice\.java$/.test(name) ? 'exercise' : 'example'
     if (!grouped[relDir]) grouped[relDir] = []
     grouped[relDir].push({ name, rel, content, runnable, fqcn: runnable ? fqcn : null, kind })

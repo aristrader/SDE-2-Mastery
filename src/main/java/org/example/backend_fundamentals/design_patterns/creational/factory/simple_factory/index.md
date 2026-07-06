@@ -101,4 +101,3 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.simple
 - `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — principles behind the trade-offs here.
 
 
-<ExerciseNav />

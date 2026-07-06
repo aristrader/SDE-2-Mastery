@@ -129,4 +129,3 @@ A. Both: leaves are dense (every key), internal levels are sparse (separator key
 A. Usually local (leaf + parent). They only cascade upward when parents are full; a full root splits and increases tree height by one — the only way the tree grows taller.
 
 
-<ExerciseNav />

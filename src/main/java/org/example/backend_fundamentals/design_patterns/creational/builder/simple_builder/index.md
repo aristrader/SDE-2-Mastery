@@ -129,4 +129,3 @@ To close the immutability contract. Without `final`, a subclass could:
 - `director_builder_gof/BuilderDirectorGof.md` &mdash; the GoF flavour with a shared step interface enabling multi-product polymorphism.
 
 
-<ExerciseNav />

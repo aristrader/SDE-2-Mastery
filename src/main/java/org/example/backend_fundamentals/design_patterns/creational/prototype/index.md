@@ -267,4 +267,3 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.protot
 - `todo/FoundationsToRead.md` → "Java Collections" — ArrayList copy constructor, `List.of` immutability, and why `new ArrayList<>(list)` is a shallow copy.
 
 
-<ExerciseNav />

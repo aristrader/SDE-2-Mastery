@@ -264,4 +264,3 @@ A. BFP runs before any bean is instantiated and operates on `BeanDefinition` met
 A. When a bean relies on a side effect of another bean (e.g., a migration runner) but holds no direct reference to it. Without `@DependsOn`, Spring has no way to infer the ordering.
 
 
-<ExerciseNav />

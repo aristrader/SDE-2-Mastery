@@ -201,4 +201,3 @@ A. JVM zeroes them: `int` → `0`, reference → `null`, `boolean` → `false`. 
 A. At runtime during a narrowing cast when the actual type of the object doesn't match the target type.
 
 
-<ExerciseNav />

@@ -127,4 +127,3 @@ A. Pull fetches on demand (most common); push proactively distributes content be
 A. A Point of Presence — a CDN location containing cache servers.
 
 
-<ExerciseNav />

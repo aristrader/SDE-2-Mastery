@@ -1,6 +1,7 @@
 # AGENTS.md
 
 Main Codex instructions for this repository. Keep this file short; add only durable rules that prevent repeated mistakes.
+This is the authoritative agent instruction file for the repo.
 
 ## Repository Shape
 
@@ -51,10 +52,12 @@ codegraph sync .
 
 ## LMS / Website Structure
 
-Follow this schema for modules under `backend_fundamentals`:
+Use schema families under `backend_fundamentals`; choose the lightest schema that fits the learning mode.
 
-- Interactive module: `index.md`, `playground/` Java-only files, `exercise/index.md`, `solution/index.md`.
+- Interactive/code module: `index.md`, `playground/` Java-only files, `exercise/index.md`, `solution/index.md`.
+- Practice module: `index.md`, `exercise/index.md`, `solution/index.md` for non-code practice topics.
 - System design module: `index.md`, `design/index.md`, `exercise/index.md`, optional `assets/`.
+- Theory-only module: `index.md` only, for topics where exercises would be artificial. Add exercise/solution later only when there is real practice value.
 - Module `index.md` files need valid YAML frontmatter and `order: X`.
 - `exercise/index.md` uses `search: false` and `order: 10`.
 - `solution/index.md` uses `search: false` and `order: 20`.
@@ -62,6 +65,9 @@ Follow this schema for modules under `backend_fundamentals`:
 - Never create empty folders; they can break navigation generation.
 - Do not manually edit generated navigation data. `scripts/generate-homepage.js` writes `docs/.vitepress/navigation_map.json`, and `docs/.vitepress/config.mjs` consumes it.
 - Java playground code belongs in `playground/`; do not place `Main.java` beside module `index.md`.
+- Validation must be project-wide: new, moved, or renamed curriculum content should fail `node scripts/generate-homepage.js`, docs dev, docs build, and pre-commit if it violates its schema family.
+- UX changes should be judged by navigation clarity: domain discovery, readable sidebars, clear topic-level tabs/actions, and predictable theory/practice/answer/code flows.
+- Do not reintroduce local Java run/save endpoints without the documented sidecar hardening: loopback-only, Host/Origin checks, strict FQCN/path validation, process-tree kill on timeout/disconnect, output caps, and tests.
 
 ## Markdown Rules
 
@@ -94,16 +100,19 @@ Follow this schema for modules under `backend_fundamentals`:
 Use this when the user asks to process `temp.md` or `temp1.md` through `temp4.md`.
 
 - Read every staged temp file completely before processing.
+- If a staged temp file is long, page through it in chunks until EOF; never assume the first view is the whole file.
 - Read `src/main/java/org/example/backend_fundamentals/todo/study_plan/reference/DocCreationStandard.md`.
 - Decide destination paths yourself unless truly blocked.
 - Merge related dumps into existing docs; split one dump if it clearly covers multiple topics.
-- Do not drop substantive discussion points. Reorganize, dedupe, and deepen only topics actually discussed.
+- Do not drop substantive discussion points, struggle points, misconceptions, analogies, or flowchart-style reasoning. Reorganize, dedupe, and deepen only topics actually discussed.
+- Do not add undiscussed subtopics just to complete a Part-row gap. If a row is only partly covered, mark it `Partial` and report the gap.
 - Write docs under `src/main/java/org/example/backend_fundamentals/`.
 - Clear processed temp files back to their placeholder comments; do not delete the temp files.
 - For covered Part rows, add the doc link in Resources.
 - Tick `Done` only when substantially covered. For partial coverage, tick `Partial`, leave `Done` unticked, and note covered vs pending.
 - Track actual time only in the `Full Part` actual-time cell, as a single cumulative estimate.
-- End with a compact report: files created, rows covered, partial gaps, and timeline position.
+- Use absolute paths for temp-file clearing or similar file operations; do not rely on shell CWD.
+- End with a compact report: files created, rows covered, partial gaps, and timeline position. Sprint anchor: Monday, May 18, 2026 = Week 1 start.
 
 ## Durable Insight Routing
 

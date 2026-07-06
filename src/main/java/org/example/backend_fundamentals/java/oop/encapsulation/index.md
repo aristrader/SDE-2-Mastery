@@ -92,4 +92,3 @@ A. The object is born valid (constructor checks the invariant) and a `final` fie
 - **Java Collections** — `Collections.unmodifiableList(...)` and `List.copyOf(...)` are the practical tools for fixing the "returning a mutable field" violation.
 
 
-<ExerciseNav />

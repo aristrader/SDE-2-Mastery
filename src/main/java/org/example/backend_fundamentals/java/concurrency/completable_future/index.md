@@ -192,4 +192,3 @@ A. `join()` — throws unchecked `CompletionException`, no need to catch checked
 A. IO tasks block common pool threads and can starve parallel streams and other FJ work across the JVM; always pass a dedicated executor.
 
 
-<ExerciseNav />

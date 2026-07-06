@@ -91,4 +91,3 @@ A. To gather engineering feedback early on architecture, risks, and tradeoffs be
 A. Document the proposal, discuss tradeoffs, collect stakeholder feedback, revise the design, and proceed after agreement.
 
 
-<ExerciseNav />

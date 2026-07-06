@@ -5,4 +5,3 @@ search: false
 
 # Exercise
 
-<ExerciseNav />

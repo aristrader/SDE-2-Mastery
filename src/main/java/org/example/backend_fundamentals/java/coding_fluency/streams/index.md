@@ -123,4 +123,3 @@ Rewrite both using static method references. Then add a third: parse a `List<Str
 **A.** It uses an unbound instance reference: `Order::total` is the key extractor — Java calls `total()` on whichever `Order` it receives. Chain `.reversed()` for descending, `.thenComparing(...)` for secondary sort keys.
 
 
-<ExerciseNav />

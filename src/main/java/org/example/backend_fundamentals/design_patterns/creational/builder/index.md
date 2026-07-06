@@ -48,4 +48,3 @@ The variants differ in *how strictly* each of these is enforced and *what additi
 - `todo/FoundationsToRead.md` &mdash; LSP entry covers why `OfferLetter extends JobOffer` would be wrong, an insight that shaped `BuilderDirectorGof.md`.
 
 
-<ExerciseNav />

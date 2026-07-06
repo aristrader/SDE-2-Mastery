@@ -1,5 +1,5 @@
 <template>
-  <nav class="exercise-nav" aria-label="Pagination">
+  <nav v-if="hasAnyAction" class="exercise-nav" aria-label="Topic actions">
     <div class="nav-links">
       <div class="theory-link">
         <a v-if="!isTheory" :href="modulePath" class="nav-btn">
@@ -9,14 +9,14 @@
       </div>
       <div class="action-links">
         <a v-if="isTheory && hasExercise" :href="modulePath + 'exercise/'" class="nav-btn primary">
-          <span class="text">Practice Exercise</span>
+          <span class="text">{{ exerciseLabel }}</span>
           <span class="icon">→</span>
         </a>
-        <a v-if="isExercise && !isSystemDesign" :href="modulePath + 'solution/'" class="nav-btn success">
+        <a v-if="isExercise && hasSolution" :href="modulePath + 'solution/'" class="nav-btn success">
           <span class="text">View Solution</span>
           <span class="icon">→</span>
         </a>
-        <a v-if="isExercise && isSystemDesign" :href="modulePath + 'design/'" class="nav-btn success">
+        <a v-if="isExercise && hasDesign" :href="modulePath + 'design/'" class="nav-btn success">
           <span class="text">View Design</span>
           <span class="icon">→</span>
         </a>
@@ -34,28 +34,44 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRoute, useData } from 'vitepress'
+import { useRoute } from 'vitepress'
 import navData from '../../navigation_map.json'
 
 const route = useRoute()
 
-// Some basic routing states
-const isExercise = computed(() => route.path.endsWith('/exercise/') || route.path.endsWith('/exercise/index.html'))
-const isSolution = computed(() => route.path.endsWith('/solution/') || route.path.endsWith('/solution/index.html'))
-const isDesign = computed(() => route.path.endsWith('/design/') || route.path.endsWith('/design/index.html'))
+function normalizeRoutePath(path) {
+  let normalized = path.split('#')[0].split('?')[0]
+  normalized = normalized.replace(/\/index\.html$/, '/')
+  if (!normalized.endsWith('/')) normalized += '/'
+  return normalized
+}
+
+const currentPath = computed(() => normalizeRoutePath(route.path))
+const pageMeta = computed(() => navData.pageMeta?.[currentPath.value] || null)
+const pageType = computed(() => pageMeta.value?.pageType || 'theory')
+const modulePath = computed(() => {
+  if (pageMeta.value?.parentLink) return pageMeta.value.parentLink
+  return currentPath.value.replace(/\/(exercise|solution|design)\/$/, '/')
+})
+const moduleMeta = computed(() => navData.pageMeta?.[modulePath.value] || pageMeta.value)
+
+const isExercise = computed(() => pageType.value === 'exercise')
+const isSolution = computed(() => pageType.value === 'solution')
+const isDesign = computed(() => pageType.value === 'design')
 const isTheory = computed(() => !isExercise.value && !isSolution.value && !isDesign.value)
 
-const modulePath = computed(() => {
-  return route.path.replace(/\/(exercise|solution|design)\/?(index\.html)?$/, '/')
+const capabilities = computed(() => moduleMeta.value?.capabilities || {})
+const hasExercise = computed(() => capabilities.value.exercise === true)
+const hasSolution = computed(() => capabilities.value.solution === true)
+const hasDesign = computed(() => capabilities.value.design === true)
+const exerciseLabel = computed(() => moduleMeta.value?.schema === 'system-design' ? 'Design Scenario' : 'Practice Exercise')
+const hasAnyAction = computed(() => {
+  if (!moduleMeta.value) return false
+  return (!isTheory.value || hasExercise.value || hasSolution.value || hasDesign.value || nextTopic.value)
 })
 
-const isSystemDesign = computed(() => route.path.includes('/system_design/'))
-const hasExercise = computed(() => true) // Assuming all modules have exercise due to our strict validation
-
 const nextTopic = computed(() => {
-  // Normalize modulePath to match what generate-homepage outputs
-  const link = modulePath.value.replace(/\/index\.html$/, '/')
-  const currentIndex = navData.navMap.findIndex(item => item.link === link)
+  const currentIndex = navData.navMap.findIndex(item => item.link === modulePath.value)
   if (currentIndex !== -1 && currentIndex < navData.navMap.length - 1) {
     return navData.navMap[currentIndex + 1]
   }

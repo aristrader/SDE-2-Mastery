@@ -38,6 +38,17 @@ test('analyzeJavaFiles groups by rel dir and detects mains + rel path', () => {
   assert.strictEqual(bp.kind, 'example')
 })
 
+test('analyzeJavaFiles supports lazy Vite glob loaders without reading content', () => {
+  const g = analyzeJavaFiles({
+    [P('java/oop/encapsulation/playground/EncapsulationDemo.java')]: async () => 'public class EncapsulationDemo {}',
+  })
+  const file = g['java/oop/encapsulation/playground'][0]
+  assert.strictEqual(file.name, 'EncapsulationDemo.java')
+  assert.strictEqual(typeof file.content, 'function')
+  assert.strictEqual(file.runnable, null)
+  assert.strictEqual(file.fqcn, null)
+})
+
 test('Practice files are tagged as exercises', () => {
   const g = analyzeJavaFiles({ [P('java/foundations/generics/GenericPractice.java')]: 'package x;\npublic class GenericPractice {}' })
   assert.strictEqual(g['java/foundations/generics'][0].kind, 'exercise')

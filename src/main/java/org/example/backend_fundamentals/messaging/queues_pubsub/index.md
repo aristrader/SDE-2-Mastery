@@ -132,4 +132,3 @@ A. New consumers just subscribe to the topic; the producer publishes one event a
 A. Multiple consumer groups on a topic = pub/sub (each group sees all events); multiple workers within a group share partitions = queue-style work distribution.
 
 
-<ExerciseNav />

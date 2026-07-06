@@ -198,4 +198,3 @@ A. When writes are frequent — the overhead of tracking the reader count exceed
 A. `StampedLock` optimistic reads have lower overhead, but it's non-reentrant and harder to use correctly; `ReentrantReadWriteLock` is reentrant and simpler.
 
 
-<ExerciseNav />

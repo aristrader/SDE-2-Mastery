@@ -132,4 +132,3 @@ A. The compiler nests each resource in its own `finally` block — inner closes 
 A. Body exception is primary. Close exception is attached as suppressed via `getSuppressed()`. Both are preserved.
 
 
-<ExerciseNav />

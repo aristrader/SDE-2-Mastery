@@ -132,4 +132,3 @@ A. Each partition has a leader and followers; a follower is promoted if the lead
 A. Heartbeats + replication + leader election + failover among cooperating nodes.
 
 
-<ExerciseNav />

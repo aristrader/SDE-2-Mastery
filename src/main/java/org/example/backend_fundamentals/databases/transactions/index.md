@@ -104,4 +104,3 @@ A. Distributed ACID/2PC is slow, fragile, and lock-heavy; Saga uses local transa
 A. It fails → aborts → rolls back entirely; statements that "succeeded" earlier are undone because COMMIT was never reached.
 
 
-<ExerciseNav />

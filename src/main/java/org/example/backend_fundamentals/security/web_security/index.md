@@ -68,4 +68,3 @@ A. Yes, usually. The request is sent, processed, and the server returns a respon
 A. No. CORS is strictly enforced by web browsers to prevent cross-origin reads. Server-to-server communication bypasses browsers entirely.
 
 
-<ExerciseNav />

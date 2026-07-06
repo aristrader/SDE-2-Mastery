@@ -104,4 +104,3 @@ A. The smell *is* the pain; the pattern *is* the cure. Naming the smell is Step 
 - **SOLID — SRP** — Large Class is the canonical SRP violation.
 
 
-<ExerciseNav />

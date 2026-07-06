@@ -178,4 +178,3 @@ A. IO-bound tasks in Java 21+ — virtual threads park on blocking IO without co
 A. `ArrayBlockingQueue` with a finite bound — it triggers the max-thread and rejection policy paths, giving real backpressure instead of unbounded queuing.
 
 
-<ExerciseNav />

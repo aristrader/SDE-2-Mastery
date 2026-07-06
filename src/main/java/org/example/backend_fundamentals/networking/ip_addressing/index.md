@@ -245,4 +245,3 @@ A. IP identifies network location; MAC identifies a local network interface. MAC
 A. Yes. DNS allows hostname-to-IP mappings to change over time.
 
 
-<ExerciseNav />

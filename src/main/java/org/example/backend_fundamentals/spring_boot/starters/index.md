@@ -239,4 +239,3 @@ A. It imports `AutoConfigurationImportSelector`, which reads every jar's `AutoCo
 A. `{name}-spring-boot-starter` (e.g., `mybatis-spring-boot-starter`), not `spring-boot-starter-{name}` — reserved for official starters.
 
 
-<ExerciseNav />

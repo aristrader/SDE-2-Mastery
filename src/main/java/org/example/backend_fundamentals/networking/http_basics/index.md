@@ -44,4 +44,3 @@ A. HTTPS is HTTP running over TLS, providing encryption, integrity, and authenti
 A. Technically the spec doesn't forbid it, but it is heavily discouraged and many systems will ignore or reject it.
 
 
-<ExerciseNav />

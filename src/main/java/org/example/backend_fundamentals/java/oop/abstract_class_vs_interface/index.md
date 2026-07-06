@@ -144,4 +144,3 @@ A. (1) Need state across implementations? (2) Taxonomy or capability? (3) Could 
 - **Inheritance** — covers `extends` mechanics that abstract classes use; interfaces use `implements`.
 
 
-<ExerciseNav />

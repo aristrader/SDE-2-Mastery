@@ -7,4 +7,3 @@ order: 50
 Overview of Spring Mvc.
 
 
-<ExerciseNav />

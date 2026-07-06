@@ -155,4 +155,3 @@ the dependency is not injected and remains null at runtime.
 **A.** Run `mvn lombok:delombok` — it writes the expanded source under `target/generated-sources/delombok/` so you can see exactly what was synthesised.
 
 
-<ExerciseNav />
