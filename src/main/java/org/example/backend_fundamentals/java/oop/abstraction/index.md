@@ -1,7 +1,7 @@
 ---
 order: 50
 ---
-# Abstraction — the details
+# Abstraction
 
 > One of the four OOP pillars. Often confused with encapsulation — they are different things.
 

@@ -179,5 +179,5 @@ Three scenarios:
 - `director_builder/BuilderDirector.md` &mdash; the simple variant where each recipe takes a concrete builder.
 - `simple_builder/BuilderBasic.md` &mdash; the underlying EJ Builder shape.
 - `todo/FoundationsToRead.md` &raquo; LSP &mdash; the principle behind why `OfferLetter extends JobOffer` is wrong.
-- `todo/AccessModifiersDeepDive.md` &raquo; "Class-level modifier decisions" &mdash; covers `final`, `static`, and chokepoint constructors.
+- `/java/oop/access_modifiers/access_modifiers_deep_dive/` &raquo; "Class-level modifier decisions" &mdash; covers `final`, `static`, and chokepoint constructors.
 

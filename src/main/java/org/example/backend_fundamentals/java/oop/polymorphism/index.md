@@ -1,7 +1,7 @@
 ---
 order: 80
 ---
-# Polymorphism — the details
+# Polymorphism
 
 > One of the four OOP pillars. Does the heaviest lifting in design patterns — virtual dispatch is the mechanism that replaces `if`/`else` chains.
 

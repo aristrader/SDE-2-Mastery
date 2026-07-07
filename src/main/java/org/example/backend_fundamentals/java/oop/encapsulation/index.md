@@ -1,7 +1,7 @@
 ---
 order: 40
 ---
-# Encapsulation — the details
+# Encapsulation
 
 > First of the four OOP pillars. Builds on access modifiers, paired with Abstraction.
 

@@ -257,5 +257,5 @@ Otherwise                                                 ────▶ Learni
 - `factory_method/FactoryMethodProd.md` — dedicated walkthrough.
 - `CreationalPatternsRoadmap.md` — where factories sit in the overall learning order.
 - `../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — the underlying principles that govern these decisions.
-- `../../java/foundations/access_modifiers/AccessModifiersDeepDive.md` — why `protected`, `final`, `abstract`, `private` in each variant.
+- `/java/oop/access_modifiers/access_modifiers_deep_dive/` — why `protected`, `final`, `abstract`, `private` in each variant.
 - `../../todo/study_plan/deep_dives/PatternSelectionExercise.md` — next step: orchestrating multiple factories (Strategy / Registry / DI).

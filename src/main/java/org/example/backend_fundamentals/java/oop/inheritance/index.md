@@ -1,7 +1,7 @@
 ---
 order: 60
 ---
-# Inheritance — the details
+# Inheritance
 
 > One of the four OOP pillars and the one most often misused. The right framing isn't "inheritance vs composition" — it's "when does each one fit?"
 

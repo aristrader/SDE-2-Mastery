@@ -10,15 +10,44 @@
             "items": [
               {
                 "text": "Primitive Types",
-                "link": "/java/foundations/primitives/"
+                "link": "/java/foundations/primitives/",
+                "items": [
+                  {
+                    "text": "Wrapper Classes",
+                    "link": "/java/foundations/primitives/wrapper_classes/"
+                  }
+                ],
+                "collapsed": true
               },
               {
                 "text": "String Immutability — Deep Dive",
-                "link": "/java/foundations/string/"
+                "link": "/java/foundations/string/",
+                "items": [
+                  {
+                    "text": "Strings",
+                    "link": "/java/foundations/string/strings/"
+                  },
+                  {
+                    "text": "Follow-up Discussion: String Pool and Integer Cache",
+                    "link": "/java/foundations/string/string_pool_and_cache/"
+                  },
+                  {
+                    "text": "StringBuilder",
+                    "link": "/java/foundations/string/stringbuilder/"
+                  }
+                ],
+                "collapsed": true
               },
               {
                 "text": "Control Flow",
-                "link": "/java/foundations/control_flow/"
+                "link": "/java/foundations/control_flow/",
+                "items": [
+                  {
+                    "text": "Operators",
+                    "link": "/java/foundations/control_flow/operators/"
+                  }
+                ],
+                "collapsed": true
               },
               {
                 "text": "Enums",
@@ -45,26 +74,59 @@
             "items": [
               {
                 "text": "Classes, Objects, and Constructors",
-                "link": "/java/oop/classes_and_objects/"
+                "link": "/java/oop/classes_and_objects/",
+                "items": [
+                  {
+                    "text": "Static and Final",
+                    "link": "/java/oop/classes_and_objects/static_and_final/"
+                  }
+                ],
+                "collapsed": true
               },
               {
                 "text": "Java Object Model",
-                "link": "/java/oop/object_model/"
+                "link": "/java/oop/object_model/",
+                "items": [
+                  {
+                    "text": "Methods",
+                    "link": "/java/oop/object_model/methods/"
+                  },
+                  {
+                    "text": "Type Casting",
+                    "link": "/java/oop/object_model/type_casting/"
+                  },
+                  {
+                    "text": "Variable Arguments (Varargs)",
+                    "link": "/java/oop/object_model/varargs/"
+                  }
+                ],
+                "collapsed": true
               },
               {
                 "text": "Variables and Scope",
-                "link": "/java/oop/access_modifiers/"
+                "link": "/java/oop/access_modifiers/",
+                "items": [
+                  {
+                    "text": "Source File Structure",
+                    "link": "/java/oop/access_modifiers/source_structure/"
+                  },
+                  {
+                    "text": "Access Modifiers and Method Attributes — Deep Dive",
+                    "link": "/java/oop/access_modifiers/access_modifiers_deep_dive/"
+                  }
+                ],
+                "collapsed": true
               },
               {
-                "text": "Encapsulation — the details",
+                "text": "Encapsulation",
                 "link": "/java/oop/encapsulation/"
               },
               {
-                "text": "Abstraction — the details",
+                "text": "Abstraction",
                 "link": "/java/oop/abstraction/"
               },
               {
-                "text": "Inheritance — the details",
+                "text": "Inheritance",
                 "link": "/java/oop/inheritance/"
               },
               {
@@ -72,7 +134,7 @@
                 "link": "/java/oop/composition_vs_inheritance/"
               },
               {
-                "text": "Polymorphism — the details",
+                "text": "Polymorphism",
                 "link": "/java/oop/polymorphism/"
               },
               {
@@ -89,7 +151,14 @@
               },
               {
                 "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
-                "link": "/java/oop/equals_hashcode/"
+                "link": "/java/oop/equals_hashcode/",
+                "items": [
+                  {
+                    "text": "equals / hashCode / Comparable / Comparator",
+                    "link": "/java/oop/equals_hashcode/contracts/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -139,7 +208,7 @@
             "items": [
               {
                 "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-                "link": "/java/jvm/memory_areas/"
+                "link": "/java/jvm/compilation_pipeline/"
               },
               {
                 "text": "Garbage Collection",
@@ -192,28 +261,24 @@
             "link": "/java/coding_fluency/",
             "items": [
               {
-                "text": "Method References — Coding Exercises",
-                "link": "/java/coding_fluency/streams/"
+                "text": "Method References",
+                "link": "/java/coding_fluency/method_references/"
               },
               {
-                "text": "Optional — Coding Exercises",
+                "text": "Optional",
                 "link": "/java/coding_fluency/optional/"
               },
               {
-                "text": "Records as DTOs — Coding Exercises",
+                "text": "Records as DTOs",
                 "link": "/java/coding_fluency/records/"
               },
               {
-                "text": "Immutable Collections — Coding Exercises",
+                "text": "Immutable Collections",
                 "link": "/java/coding_fluency/immutable_collections/"
               },
               {
-                "text": "Lombok — Coding Exercises",
+                "text": "Lombok",
                 "link": "/java/coding_fluency/lombok/"
-              },
-              {
-                "text": "Feign Client — Coding Exercises",
-                "link": "/java/coding_fluency/spring_basics/"
               }
             ],
             "collapsed": true
@@ -447,6 +512,18 @@
               {
                 "text": "Graph Databases & GraphQL — Related in Name Only",
                 "link": "/networking/api_design/graphql/"
+              },
+              {
+                "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+                "link": "/networking/api_design/api_technologies_summary/"
+              },
+              {
+                "text": "API Technologies Study Notes — Complete Conversation Dump",
+                "link": "/networking/api_design/protobuf_grpc/"
+              },
+              {
+                "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+                "link": "/networking/api_design/api_technologies_comparison/"
               }
             ],
             "collapsed": true
@@ -589,7 +666,14 @@
           },
           {
             "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
-            "link": "/security/cryptography/"
+            "link": "/security/cryptography/",
+            "items": [
+              {
+                "text": "TLS, HTTPS, and Public Key Infrastructure (PKI)",
+                "link": "/security/cryptography/tls_https_pki/"
+              }
+            ],
+            "collapsed": true
           },
           {
             "text": "Web Security: XSS, SOP, and CORS",
@@ -738,6 +822,18 @@
           }
         ]
       }
+    ],
+    "/resources/": [
+      {
+        "text": "General Study Resources",
+        "items": []
+      }
+    ],
+    "/progress/": [
+      {
+        "text": "Live Progress Dashboard",
+        "items": []
+      }
     ]
   },
   "nav": [
@@ -800,6 +896,16 @@
       "text": "Engineering Practice & Communication",
       "link": "/engineering_practice/",
       "activeMatch": "/engineering_practice/"
+    },
+    {
+      "text": "General Study Resources",
+      "link": "/resources/",
+      "activeMatch": "/resources/"
+    },
+    {
+      "text": "Live Progress Dashboard",
+      "link": "/progress/",
+      "activeMatch": "/progress/"
     }
   ],
   "tree": {
@@ -852,7 +958,22 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Wrapper Classes",
+                    "link": "/java/foundations/primitives/wrapper_classes/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
                 "text": "String Immutability — Deep Dive",
@@ -865,7 +986,48 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Strings",
+                    "link": "/java/foundations/string/strings/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Follow-up Discussion: String Pool and Integer Cache",
+                    "link": "/java/foundations/string/string_pool_and_cache/",
+                    "order": 40,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "StringBuilder",
+                    "link": "/java/foundations/string/stringbuilder/",
+                    "order": 50,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
                 "text": "Control Flow",
@@ -878,7 +1040,22 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Operators",
+                    "link": "/java/foundations/control_flow/operators/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
                 "text": "Enums",
@@ -958,7 +1135,22 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Static and Final",
+                    "link": "/java/oop/classes_and_objects/static_and_final/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
                 "text": "Java Object Model",
@@ -971,7 +1163,48 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Methods",
+                    "link": "/java/oop/object_model/methods/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Type Casting",
+                    "link": "/java/oop/object_model/type_casting/",
+                    "order": 40,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Variable Arguments (Varargs)",
+                    "link": "/java/oop/object_model/varargs/",
+                    "order": 50,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
                 "text": "Variables and Scope",
@@ -984,10 +1217,38 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Source File Structure",
+                    "link": "/java/oop/access_modifiers/source_structure/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Access Modifiers and Method Attributes — Deep Dive",
+                    "link": "/java/oop/access_modifiers/access_modifiers_deep_dive/",
+                    "order": 40,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
-                "text": "Encapsulation — the details",
+                "text": "Encapsulation",
                 "link": "/java/oop/encapsulation/",
                 "order": 40,
                 "schema": "interactive-code",
@@ -1000,7 +1261,7 @@
                 }
               },
               {
-                "text": "Abstraction — the details",
+                "text": "Abstraction",
                 "link": "/java/oop/abstraction/",
                 "order": 50,
                 "schema": "interactive-code",
@@ -1013,7 +1274,7 @@
                 }
               },
               {
-                "text": "Inheritance — the details",
+                "text": "Inheritance",
                 "link": "/java/oop/inheritance/",
                 "order": 60,
                 "schema": "interactive-code",
@@ -1039,7 +1300,7 @@
                 }
               },
               {
-                "text": "Polymorphism — the details",
+                "text": "Polymorphism",
                 "link": "/java/oop/polymorphism/",
                 "order": 80,
                 "schema": "interactive-code",
@@ -1101,7 +1362,22 @@
                   "design": false,
                   "playground": true,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "equals / hashCode / Comparable / Comparator",
+                    "link": "/java/oop/equals_hashcode/contracts/",
+                    "order": 30,
+                    "schema": "theory",
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -1239,7 +1515,7 @@
             "items": [
               {
                 "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-                "link": "/java/jvm/memory_areas/",
+                "link": "/java/jvm/compilation_pipeline/",
                 "order": 10,
                 "schema": "practice",
                 "capabilities": {
@@ -1398,8 +1674,8 @@
             },
             "items": [
               {
-                "text": "Method References — Coding Exercises",
-                "link": "/java/coding_fluency/streams/",
+                "text": "Method References",
+                "link": "/java/coding_fluency/method_references/",
                 "order": 10,
                 "schema": "practice",
                 "capabilities": {
@@ -1411,7 +1687,7 @@
                 }
               },
               {
-                "text": "Optional — Coding Exercises",
+                "text": "Optional",
                 "link": "/java/coding_fluency/optional/",
                 "order": 20,
                 "schema": "practice",
@@ -1424,7 +1700,7 @@
                 }
               },
               {
-                "text": "Records as DTOs — Coding Exercises",
+                "text": "Records as DTOs",
                 "link": "/java/coding_fluency/records/",
                 "order": 30,
                 "schema": "practice",
@@ -1437,7 +1713,7 @@
                 }
               },
               {
-                "text": "Immutable Collections — Coding Exercises",
+                "text": "Immutable Collections",
                 "link": "/java/coding_fluency/immutable_collections/",
                 "order": 40,
                 "schema": "practice",
@@ -1450,22 +1726,9 @@
                 }
               },
               {
-                "text": "Lombok — Coding Exercises",
+                "text": "Lombok",
                 "link": "/java/coding_fluency/lombok/",
                 "order": 50,
-                "schema": "practice",
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Feign Client — Coding Exercises",
-                "link": "/java/coding_fluency/spring_basics/",
-                "order": 60,
                 "schema": "practice",
                 "capabilities": {
                   "exercise": true,
@@ -2146,6 +2409,45 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+                "link": "/networking/api_design/api_technologies_summary/",
+                "order": 20,
+                "schema": "theory",
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "API Technologies Study Notes — Complete Conversation Dump",
+                "link": "/networking/api_design/protobuf_grpc/",
+                "order": 30,
+                "schema": "theory",
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+                "link": "/networking/api_design/api_technologies_comparison/",
+                "order": 40,
+                "schema": "theory",
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
               }
             ]
           },
@@ -2540,7 +2842,22 @@
               "design": false,
               "playground": false,
               "assets": false
-            }
+            },
+            "items": [
+              {
+                "text": "TLS, HTTPS, and Public Key Infrastructure (PKI)",
+                "link": "/security/cryptography/tls_https_pki/",
+                "order": 30,
+                "schema": "theory",
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
           },
           {
             "text": "Web Security: XSS, SOP, and CORS",
@@ -2960,6 +3277,32 @@
             }
           }
         ]
+      },
+      {
+        "text": "General Study Resources",
+        "link": "/resources/",
+        "order": 130,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        }
+      },
+      {
+        "text": "Live Progress Dashboard",
+        "link": "/progress/",
+        "order": 140,
+        "schema": "theory",
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        }
       }
     ]
   },
@@ -2981,12 +3324,32 @@
       "link": "/java/foundations/primitives/"
     },
     {
+      "text": "Wrapper Classes",
+      "link": "/java/foundations/primitives/wrapper_classes/"
+    },
+    {
       "text": "String Immutability — Deep Dive",
       "link": "/java/foundations/string/"
     },
     {
+      "text": "Strings",
+      "link": "/java/foundations/string/strings/"
+    },
+    {
+      "text": "Follow-up Discussion: String Pool and Integer Cache",
+      "link": "/java/foundations/string/string_pool_and_cache/"
+    },
+    {
+      "text": "StringBuilder",
+      "link": "/java/foundations/string/stringbuilder/"
+    },
+    {
       "text": "Control Flow",
       "link": "/java/foundations/control_flow/"
+    },
+    {
+      "text": "Operators",
+      "link": "/java/foundations/control_flow/operators/"
     },
     {
       "text": "Enums",
@@ -3013,23 +3376,47 @@
       "link": "/java/oop/classes_and_objects/"
     },
     {
+      "text": "Static and Final",
+      "link": "/java/oop/classes_and_objects/static_and_final/"
+    },
+    {
       "text": "Java Object Model",
       "link": "/java/oop/object_model/"
+    },
+    {
+      "text": "Methods",
+      "link": "/java/oop/object_model/methods/"
+    },
+    {
+      "text": "Type Casting",
+      "link": "/java/oop/object_model/type_casting/"
+    },
+    {
+      "text": "Variable Arguments (Varargs)",
+      "link": "/java/oop/object_model/varargs/"
     },
     {
       "text": "Variables and Scope",
       "link": "/java/oop/access_modifiers/"
     },
     {
-      "text": "Encapsulation — the details",
+      "text": "Source File Structure",
+      "link": "/java/oop/access_modifiers/source_structure/"
+    },
+    {
+      "text": "Access Modifiers and Method Attributes — Deep Dive",
+      "link": "/java/oop/access_modifiers/access_modifiers_deep_dive/"
+    },
+    {
+      "text": "Encapsulation",
       "link": "/java/oop/encapsulation/"
     },
     {
-      "text": "Abstraction — the details",
+      "text": "Abstraction",
       "link": "/java/oop/abstraction/"
     },
     {
-      "text": "Inheritance — the details",
+      "text": "Inheritance",
       "link": "/java/oop/inheritance/"
     },
     {
@@ -3037,7 +3424,7 @@
       "link": "/java/oop/composition_vs_inheritance/"
     },
     {
-      "text": "Polymorphism — the details",
+      "text": "Polymorphism",
       "link": "/java/oop/polymorphism/"
     },
     {
@@ -3055,6 +3442,10 @@
     {
       "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
       "link": "/java/oop/equals_hashcode/"
+    },
+    {
+      "text": "equals / hashCode / Comparable / Comparator",
+      "link": "/java/oop/equals_hashcode/contracts/"
     },
     {
       "text": "Java Collections",
@@ -3098,7 +3489,7 @@
     },
     {
       "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/"
+      "link": "/java/jvm/compilation_pipeline/"
     },
     {
       "text": "Garbage Collection",
@@ -3145,28 +3536,24 @@
       "link": "/java/coding_fluency/"
     },
     {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/"
+      "text": "Method References",
+      "link": "/java/coding_fluency/method_references/"
     },
     {
-      "text": "Optional — Coding Exercises",
+      "text": "Optional",
       "link": "/java/coding_fluency/optional/"
     },
     {
-      "text": "Records as DTOs — Coding Exercises",
+      "text": "Records as DTOs",
       "link": "/java/coding_fluency/records/"
     },
     {
-      "text": "Immutable Collections — Coding Exercises",
+      "text": "Immutable Collections",
       "link": "/java/coding_fluency/immutable_collections/"
     },
     {
-      "text": "Lombok — Coding Exercises",
+      "text": "Lombok",
       "link": "/java/coding_fluency/lombok/"
-    },
-    {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/"
     },
     {
       "text": "Spring",
@@ -3369,6 +3756,18 @@
       "link": "/networking/api_design/graphql/"
     },
     {
+      "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+      "link": "/networking/api_design/api_technologies_summary/"
+    },
+    {
+      "text": "API Technologies Study Notes — Complete Conversation Dump",
+      "link": "/networking/api_design/protobuf_grpc/"
+    },
+    {
+      "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+      "link": "/networking/api_design/api_technologies_comparison/"
+    },
+    {
       "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
       "link": "/networking/api_gateway/"
     },
@@ -3483,6 +3882,10 @@
     {
       "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
       "link": "/security/cryptography/"
+    },
+    {
+      "text": "TLS, HTTPS, and Public Key Infrastructure (PKI)",
+      "link": "/security/cryptography/tls_https_pki/"
     },
     {
       "text": "Web Security: XSS, SOP, and CORS",
@@ -3607,6 +4010,14 @@
     {
       "text": "Domain-Driven Design & Bounded Contexts",
       "link": "/engineering_practice/ddd/"
+    },
+    {
+      "text": "General Study Resources",
+      "link": "/resources/"
+    },
+    {
+      "text": "Live Progress Dashboard",
+      "link": "/progress/"
     }
   ],
   "pageMeta": {
@@ -3695,6 +4106,20 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
+    "/java/foundations/primitives/wrapper_classes/": {
+      "text": "Wrapper Classes",
+      "link": "/java/foundations/primitives/wrapper_classes/",
+      "pageType": "theory",
+      "parentLink": "/java/foundations/primitives/wrapper_classes/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/foundations/string/": {
       "text": "String Immutability — Deep Dive",
       "link": "/java/foundations/string/",
@@ -3738,6 +4163,48 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
+    "/java/foundations/string/strings/": {
+      "text": "Strings",
+      "link": "/java/foundations/string/strings/",
+      "pageType": "theory",
+      "parentLink": "/java/foundations/string/strings/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/foundations/string/string_pool_and_cache/": {
+      "text": "Follow-up Discussion: String Pool and Integer Cache",
+      "link": "/java/foundations/string/string_pool_and_cache/",
+      "pageType": "theory",
+      "parentLink": "/java/foundations/string/string_pool_and_cache/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/foundations/string/stringbuilder/": {
+      "text": "StringBuilder",
+      "link": "/java/foundations/string/stringbuilder/",
+      "pageType": "theory",
+      "parentLink": "/java/foundations/string/stringbuilder/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/foundations/control_flow/": {
       "text": "Control Flow",
       "link": "/java/foundations/control_flow/",
@@ -3780,6 +4247,20 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/java/foundations/control_flow/operators/": {
+      "text": "Operators",
+      "link": "/java/foundations/control_flow/operators/",
+      "pageType": "theory",
+      "parentLink": "/java/foundations/control_flow/operators/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/java/foundations/enums/": {
       "text": "Enums",
@@ -3865,7 +4346,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Exception Handling Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/foundations/generics/": {
       "text": "Generics",
@@ -3908,7 +4389,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Generics Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/foundations/streams/": {
       "text": "Stream Terminal Operations — Collectors",
@@ -3951,7 +4432,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Stream Collectors Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/oop/": {
       "text": "OOP Pillar Confusions — the pairs that blur",
@@ -4010,6 +4491,20 @@
       },
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
     },
+    "/java/oop/classes_and_objects/static_and_final/": {
+      "text": "Static and Final",
+      "link": "/java/oop/classes_and_objects/static_and_final/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/classes_and_objects/static_and_final/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/oop/object_model/": {
       "text": "Java Object Model",
       "link": "/java/oop/object_model/",
@@ -4052,6 +4547,48 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
+    },
+    "/java/oop/object_model/methods/": {
+      "text": "Methods",
+      "link": "/java/oop/object_model/methods/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/object_model/methods/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/oop/object_model/type_casting/": {
+      "text": "Type Casting",
+      "link": "/java/oop/object_model/type_casting/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/object_model/type_casting/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/oop/object_model/varargs/": {
+      "text": "Variable Arguments (Varargs)",
+      "link": "/java/oop/object_model/varargs/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/object_model/varargs/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/java/oop/access_modifiers/": {
       "text": "Variables and Scope",
@@ -4096,8 +4633,36 @@
       },
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
     },
+    "/java/oop/access_modifiers/source_structure/": {
+      "text": "Source File Structure",
+      "link": "/java/oop/access_modifiers/source_structure/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/access_modifiers/source_structure/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/oop/access_modifiers/access_modifiers_deep_dive/": {
+      "text": "Access Modifiers and Method Attributes — Deep Dive",
+      "link": "/java/oop/access_modifiers/access_modifiers_deep_dive/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/access_modifiers/access_modifiers_deep_dive/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/oop/encapsulation/": {
-      "text": "Encapsulation — the details",
+      "text": "Encapsulation",
       "link": "/java/oop/encapsulation/",
       "pageType": "theory",
       "parentLink": "/java/oop/encapsulation/",
@@ -4111,7 +4676,7 @@
       }
     },
     "/java/oop/encapsulation/exercise/": {
-      "text": "Encapsulation — the details",
+      "text": "Encapsulation",
       "link": "/java/oop/encapsulation/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/oop/encapsulation/",
@@ -4125,7 +4690,7 @@
       }
     },
     "/java/oop/encapsulation/solution/": {
-      "text": "Encapsulation — the details",
+      "text": "Encapsulation",
       "link": "/java/oop/encapsulation/solution/",
       "pageType": "solution",
       "parentLink": "/java/oop/encapsulation/",
@@ -4140,7 +4705,7 @@
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
     },
     "/java/oop/abstraction/": {
-      "text": "Abstraction — the details",
+      "text": "Abstraction",
       "link": "/java/oop/abstraction/",
       "pageType": "theory",
       "parentLink": "/java/oop/abstraction/",
@@ -4154,7 +4719,7 @@
       }
     },
     "/java/oop/abstraction/exercise/": {
-      "text": "Abstraction — the details",
+      "text": "Abstraction",
       "link": "/java/oop/abstraction/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/oop/abstraction/",
@@ -4168,7 +4733,7 @@
       }
     },
     "/java/oop/abstraction/solution/": {
-      "text": "Abstraction — the details",
+      "text": "Abstraction",
       "link": "/java/oop/abstraction/solution/",
       "pageType": "solution",
       "parentLink": "/java/oop/abstraction/",
@@ -4183,7 +4748,7 @@
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
     },
     "/java/oop/inheritance/": {
-      "text": "Inheritance — the details",
+      "text": "Inheritance",
       "link": "/java/oop/inheritance/",
       "pageType": "theory",
       "parentLink": "/java/oop/inheritance/",
@@ -4197,7 +4762,7 @@
       }
     },
     "/java/oop/inheritance/exercise/": {
-      "text": "Inheritance — the details",
+      "text": "Inheritance",
       "link": "/java/oop/inheritance/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/oop/inheritance/",
@@ -4211,7 +4776,7 @@
       }
     },
     "/java/oop/inheritance/solution/": {
-      "text": "Inheritance — the details",
+      "text": "Inheritance",
       "link": "/java/oop/inheritance/solution/",
       "pageType": "solution",
       "parentLink": "/java/oop/inheritance/",
@@ -4269,7 +4834,7 @@
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
     },
     "/java/oop/polymorphism/": {
-      "text": "Polymorphism — the details",
+      "text": "Polymorphism",
       "link": "/java/oop/polymorphism/",
       "pageType": "theory",
       "parentLink": "/java/oop/polymorphism/",
@@ -4283,7 +4848,7 @@
       }
     },
     "/java/oop/polymorphism/exercise/": {
-      "text": "Polymorphism — the details",
+      "text": "Polymorphism",
       "link": "/java/oop/polymorphism/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/oop/polymorphism/",
@@ -4297,7 +4862,7 @@
       }
     },
     "/java/oop/polymorphism/solution/": {
-      "text": "Polymorphism — the details",
+      "text": "Polymorphism",
       "link": "/java/oop/polymorphism/solution/",
       "pageType": "solution",
       "parentLink": "/java/oop/polymorphism/",
@@ -4438,7 +5003,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
+      "referenceHtml": "<h1>Abstract Class vs Interface Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/oop/equals_hashcode/": {
       "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
@@ -4482,6 +5047,20 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>\n<p>Pending AI generation.</p>"
+    },
+    "/java/oop/equals_hashcode/contracts/": {
+      "text": "equals / hashCode / Comparable / Comparator",
+      "link": "/java/oop/equals_hashcode/contracts/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/equals_hashcode/contracts/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/java/collections/": {
       "text": "Java Collections",
@@ -4855,11 +5434,11 @@
         "assets": false
       }
     },
-    "/java/jvm/memory_areas/": {
+    "/java/jvm/compilation_pipeline/": {
       "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/",
+      "link": "/java/jvm/compilation_pipeline/",
       "pageType": "theory",
-      "parentLink": "/java/jvm/memory_areas/",
+      "parentLink": "/java/jvm/compilation_pipeline/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -4869,11 +5448,11 @@
         "assets": false
       }
     },
-    "/java/jvm/memory_areas/exercise/": {
+    "/java/jvm/compilation_pipeline/exercise/": {
       "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/exercise/",
+      "link": "/java/jvm/compilation_pipeline/exercise/",
       "pageType": "exercise",
-      "parentLink": "/java/jvm/memory_areas/",
+      "parentLink": "/java/jvm/compilation_pipeline/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -4883,11 +5462,11 @@
         "assets": false
       }
     },
-    "/java/jvm/memory_areas/solution/": {
+    "/java/jvm/compilation_pipeline/solution/": {
       "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
-      "link": "/java/jvm/memory_areas/solution/",
+      "link": "/java/jvm/compilation_pipeline/solution/",
       "pageType": "solution",
-      "parentLink": "/java/jvm/memory_areas/",
+      "parentLink": "/java/jvm/compilation_pipeline/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -5313,11 +5892,11 @@
         "assets": false
       }
     },
-    "/java/coding_fluency/streams/": {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/",
+    "/java/coding_fluency/method_references/": {
+      "text": "Method References",
+      "link": "/java/coding_fluency/method_references/",
       "pageType": "theory",
-      "parentLink": "/java/coding_fluency/streams/",
+      "parentLink": "/java/coding_fluency/method_references/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -5327,11 +5906,11 @@
         "assets": false
       }
     },
-    "/java/coding_fluency/streams/exercise/": {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/exercise/",
+    "/java/coding_fluency/method_references/exercise/": {
+      "text": "Method References",
+      "link": "/java/coding_fluency/method_references/exercise/",
       "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/streams/",
+      "parentLink": "/java/coding_fluency/method_references/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -5341,11 +5920,11 @@
         "assets": false
       }
     },
-    "/java/coding_fluency/streams/solution/": {
-      "text": "Method References — Coding Exercises",
-      "link": "/java/coding_fluency/streams/solution/",
+    "/java/coding_fluency/method_references/solution/": {
+      "text": "Method References",
+      "link": "/java/coding_fluency/method_references/solution/",
       "pageType": "solution",
-      "parentLink": "/java/coding_fluency/streams/",
+      "parentLink": "/java/coding_fluency/method_references/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
@@ -5354,10 +5933,10 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Method References Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/coding_fluency/optional/": {
-      "text": "Optional — Coding Exercises",
+      "text": "Optional",
       "link": "/java/coding_fluency/optional/",
       "pageType": "theory",
       "parentLink": "/java/coding_fluency/optional/",
@@ -5371,7 +5950,7 @@
       }
     },
     "/java/coding_fluency/optional/exercise/": {
-      "text": "Optional — Coding Exercises",
+      "text": "Optional",
       "link": "/java/coding_fluency/optional/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/coding_fluency/optional/",
@@ -5385,7 +5964,7 @@
       }
     },
     "/java/coding_fluency/optional/solution/": {
-      "text": "Optional — Coding Exercises",
+      "text": "Optional",
       "link": "/java/coding_fluency/optional/solution/",
       "pageType": "solution",
       "parentLink": "/java/coding_fluency/optional/",
@@ -5397,10 +5976,10 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Optional Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/coding_fluency/records/": {
-      "text": "Records as DTOs — Coding Exercises",
+      "text": "Records as DTOs",
       "link": "/java/coding_fluency/records/",
       "pageType": "theory",
       "parentLink": "/java/coding_fluency/records/",
@@ -5414,7 +5993,7 @@
       }
     },
     "/java/coding_fluency/records/exercise/": {
-      "text": "Records as DTOs — Coding Exercises",
+      "text": "Records as DTOs",
       "link": "/java/coding_fluency/records/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/coding_fluency/records/",
@@ -5428,7 +6007,7 @@
       }
     },
     "/java/coding_fluency/records/solution/": {
-      "text": "Records as DTOs — Coding Exercises",
+      "text": "Records as DTOs",
       "link": "/java/coding_fluency/records/solution/",
       "pageType": "solution",
       "parentLink": "/java/coding_fluency/records/",
@@ -5440,10 +6019,10 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Records as DTOs Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/coding_fluency/immutable_collections/": {
-      "text": "Immutable Collections — Coding Exercises",
+      "text": "Immutable Collections",
       "link": "/java/coding_fluency/immutable_collections/",
       "pageType": "theory",
       "parentLink": "/java/coding_fluency/immutable_collections/",
@@ -5457,7 +6036,7 @@
       }
     },
     "/java/coding_fluency/immutable_collections/exercise/": {
-      "text": "Immutable Collections — Coding Exercises",
+      "text": "Immutable Collections",
       "link": "/java/coding_fluency/immutable_collections/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/coding_fluency/immutable_collections/",
@@ -5471,7 +6050,7 @@
       }
     },
     "/java/coding_fluency/immutable_collections/solution/": {
-      "text": "Immutable Collections — Coding Exercises",
+      "text": "Immutable Collections",
       "link": "/java/coding_fluency/immutable_collections/solution/",
       "pageType": "solution",
       "parentLink": "/java/coding_fluency/immutable_collections/",
@@ -5483,10 +6062,10 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Immutable Collections Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/java/coding_fluency/lombok/": {
-      "text": "Lombok — Coding Exercises",
+      "text": "Lombok",
       "link": "/java/coding_fluency/lombok/",
       "pageType": "theory",
       "parentLink": "/java/coding_fluency/lombok/",
@@ -5500,7 +6079,7 @@
       }
     },
     "/java/coding_fluency/lombok/exercise/": {
-      "text": "Lombok — Coding Exercises",
+      "text": "Lombok",
       "link": "/java/coding_fluency/lombok/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/coding_fluency/lombok/",
@@ -5514,7 +6093,7 @@
       }
     },
     "/java/coding_fluency/lombok/solution/": {
-      "text": "Lombok — Coding Exercises",
+      "text": "Lombok",
       "link": "/java/coding_fluency/lombok/solution/",
       "pageType": "solution",
       "parentLink": "/java/coding_fluency/lombok/",
@@ -5526,50 +6105,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
-    },
-    "/java/coding_fluency/spring_basics/": {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/",
-      "pageType": "theory",
-      "parentLink": "/java/coding_fluency/spring_basics/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/spring_basics/exercise/": {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/spring_basics/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/java/coding_fluency/spring_basics/solution/": {
-      "text": "Feign Client — Coding Exercises",
-      "link": "/java/coding_fluency/spring_basics/solution/",
-      "pageType": "solution",
-      "parentLink": "/java/coding_fluency/spring_basics/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Lombok Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/spring/": {
       "text": "Spring",
@@ -5640,7 +6176,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Dependency Injection Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/spring/spring_core/ioc_container/": {
       "text": "IoC Container",
@@ -6041,7 +6577,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Spring Exception Handling Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/spring/spring_web/webflux_threading_model/": {
       "text": "Spring, WebFlux, and the Threading Model",
@@ -6184,7 +6720,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>JPA Repository Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/spring/spring_data/derived_queries/": {
       "text": "Derived Queries & @Query",
@@ -6556,7 +7092,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Feign / OpenFeign Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
     },
     "/spring_boot/": {
       "text": "Spring Boot",
@@ -7459,6 +7995,48 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/networking/api_design/api_technologies_summary/": {
+      "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+      "link": "/networking/api_design/api_technologies_summary/",
+      "pageType": "theory",
+      "parentLink": "/networking/api_design/api_technologies_summary/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/networking/api_design/protobuf_grpc/": {
+      "text": "API Technologies Study Notes — Complete Conversation Dump",
+      "link": "/networking/api_design/protobuf_grpc/",
+      "pageType": "theory",
+      "parentLink": "/networking/api_design/protobuf_grpc/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/networking/api_design/api_technologies_comparison/": {
+      "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+      "link": "/networking/api_design/api_technologies_comparison/",
+      "pageType": "theory",
+      "parentLink": "/networking/api_design/api_technologies_comparison/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/networking/api_gateway/": {
       "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -8474,6 +9052,20 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/security/cryptography/tls_https_pki/": {
+      "text": "TLS, HTTPS, and Public Key Infrastructure (PKI)",
+      "link": "/security/cryptography/tls_https_pki/",
+      "pageType": "theory",
+      "parentLink": "/security/cryptography/tls_https_pki/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/security/web_security/": {
       "text": "Web Security: XSS, SOP, and CORS",
@@ -9720,6 +10312,34 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/resources/": {
+      "text": "General Study Resources",
+      "link": "/resources/",
+      "pageType": "theory",
+      "parentLink": "/resources/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/progress/": {
+      "text": "Live Progress Dashboard",
+      "link": "/progress/",
+      "pageType": "theory",
+      "parentLink": "/progress/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     }
   }
 }

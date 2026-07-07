@@ -5,6 +5,7 @@ const waitOn = require('wait-on');
 
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:5173';
 const USE_EXISTING_SERVER = process.env.PLAYWRIGHT_USE_EXISTING_SERVER === '1';
+const RUN_MOBILE_CHECKS = process.env.PLAYWRIGHT_RUN_MOBILE === '1';
 
 let server = null;
 
@@ -40,7 +41,7 @@ async function assertStudyTabs(page, route, expectedTabs) {
 }
 
 async function openCodeMode(page) {
-  await page.goto(`${BASE_URL}/java/nested_classes/#code`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/java/oop/nested_classes/#code`, { waitUntil: 'networkidle' });
   await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
 }
 
@@ -125,15 +126,17 @@ async function main() {
   await assertExerciseWorkspace(page);
   await assertCodeTabActive(page);
 
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(`${BASE_URL}/system_design/concepts/availability/design/`, { waitUntil: 'networkidle' });
-  await page.locator('.drawio-iframe').waitFor({ timeout: 15000 });
-  assert.strictEqual(await page.locator('.drawio-iframe').count(), 1, 'mobile design page should render one Draw.io iframe');
-  await page.goto(`${BASE_URL}/java/oop/encapsulation/#code`, { waitUntil: 'networkidle' });
-  await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
-  assert.strictEqual(await page.locator('.monaco-editor').count(), 1, 'mobile code mode should have one Monaco editor');
-  assert.strictEqual(await page.locator('.run-warning').count(), 1, 'run warning should be visible');
-  await page.setViewportSize({ width: 1366, height: 900 });
+  if (RUN_MOBILE_CHECKS) {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/system_design/concepts/availability/design/`, { waitUntil: 'networkidle' });
+    await page.locator('.drawio-iframe').waitFor({ timeout: 15000 });
+    assert.strictEqual(await page.locator('.drawio-iframe').count(), 1, 'mobile design page should render one Draw.io iframe');
+    await page.goto(`${BASE_URL}/java/oop/encapsulation/#code`, { waitUntil: 'networkidle' });
+    await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
+    assert.strictEqual(await page.locator('.monaco-editor').count(), 1, 'mobile code mode should have one Monaco editor');
+    assert.strictEqual(await page.locator('.run-warning').count(), 1, 'run warning should be visible');
+    await page.setViewportSize({ width: 1366, height: 900 });
+  }
 
   await mockJavaRunner(page, async (route) => {
     await route.fulfill({

@@ -156,6 +156,30 @@ test('generator rejects manual generated workspace components in curriculum mark
     }
 });
 
+test('generator rejects worksheet content in topic index pages', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'records', 'index.md'), `${frontmatter(10)}\n# Records — Coding Exercises\n\n## Exercise 1: Build a DTO\n`);
+    write(path.join(base, 'java', 'records', 'exercise', 'index.md'), frontmatter(10, 'search: false\n'));
+    write(path.join(base, 'java', 'records', 'solution', 'index.md'), frontmatter(20, 'search: false\n'));
+
+    assert.throws(() => runGenerator(base, out), /must not be titled as a coding exercise sheet/);
+});
+
+test('generator rejects loose markdown files outside todo', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'oop', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'oop', 'Notes.md'), '# Hidden note\n');
+    write(path.join(base, 'todo', 'draft.md'), '# Draft ok\n');
+
+    assert.throws(() => runGenerator(base, out), /Curriculum markdown must be routed as index\.md/);
+});
+
 test('generator rejects Java files outside playground directories', () => {
     const base = makeBase();
     const out = path.join(base, 'navigation_map.json');

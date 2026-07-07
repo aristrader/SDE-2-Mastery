@@ -189,6 +189,18 @@ function assertNoManualGeneratedWorkspace(indexFile, content) {
     }
 }
 
+function assertTopicIndexIsNotWorksheet(indexFile, content) {
+    const parentDir = path.basename(path.dirname(indexFile));
+    if (['exercise', 'solution', 'design'].includes(parentDir)) return;
+
+    if (/^#\s+.+Coding Exercises\s*$/mi.test(content)) {
+        throw new Error(`Topic index.md must not be titled as a coding exercise sheet; move prompts to exercise/index.md: ${indexFile}`);
+    }
+    if (/^##\s+(Exercise|Exercises|Practice exercises)\b/mi.test(content)) {
+        throw new Error(`Topic index.md must not contain exercise sections; move prompts to exercise/index.md: ${indexFile}`);
+    }
+}
+
 function assertNoManualGeneratedWorkspaceInMarkdown(dirPath) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     for (const entry of entries) {
@@ -200,6 +212,22 @@ function assertNoManualGeneratedWorkspaceInMarkdown(dirPath) {
         }
         if (entry.isFile() && path.extname(entry.name) === '.md') {
             assertNoManualGeneratedWorkspace(entryPath, fs.readFileSync(entryPath, 'utf-8'));
+        }
+    }
+}
+
+function assertNoLooseMarkdownFiles(dirPath, ignored = false) {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+        if (entry.name.startsWith('.')) continue;
+        const entryPath = path.join(dirPath, entry.name);
+        const nextIgnored = ignored || (entry.isDirectory() && ['todo', 'playground', 'assets'].includes(entry.name));
+        if (entry.isDirectory()) {
+            assertNoLooseMarkdownFiles(entryPath, nextIgnored);
+            continue;
+        }
+        if (!nextIgnored && entry.isFile() && path.extname(entry.name) === '.md' && entry.name !== 'index.md') {
+            throw new Error(`Curriculum markdown must be routed as index.md, or moved under todo/archive: ${entryPath}`);
         }
     }
 }
@@ -381,6 +409,7 @@ async function validateAndScan(dirPath, isRoot = false) {
     let title = dirName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     const fileContent = fs.readFileSync(indexFile, 'utf-8');
     assertNoManualGeneratedWorkspace(indexFile, fileContent);
+    assertTopicIndexIsNotWorksheet(indexFile, fileContent);
     if (children.length > 0) {
         assertNoManualHubNavigation(indexFile, fileContent);
     }
@@ -413,6 +442,7 @@ async function main() {
         assertNoEmptyDirectories(BASE_DIR);
         assertJavaFilesInPlayground(BASE_DIR);
         assertNoManualGeneratedWorkspaceInMarkdown(BASE_DIR);
+        assertNoLooseMarkdownFiles(BASE_DIR);
         const tree = await validateAndScan(BASE_DIR, true);
         
         // Flatten the tree for navigation_map.json
@@ -530,4 +560,5 @@ module.exports = {
     assertPlaygroundFiles,
     assertAssetFiles,
     assertNoManualGeneratedWorkspaceInMarkdown,
+    assertNoLooseMarkdownFiles,
 };

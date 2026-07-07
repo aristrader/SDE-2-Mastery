@@ -2,5 +2,7 @@
 order: 20
 search: false
 ---
-# Solution
-Pending AI generation.
+
+# Abstract Class vs Interface Solutions
+
+Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.
