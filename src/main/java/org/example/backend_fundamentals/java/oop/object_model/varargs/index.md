@@ -4,113 +4,25 @@ order: 50
 
 # Variable Arguments (Varargs)
 
-## User understanding
-
-Initially confused.
-
-Thought perhaps related to var.
-
-Then guessed:
-
-Variable number of arguments.
-
----
-
-## Review
-
-Correct.
-
----
-
-Example:
-
-Instead of writing:
-
-```java
-void print(int a)
-
-void print(int a,int b)
-
-void print(int a,int b,int c)
-```
-
-Use:
-
-```java
-void print(int... nums)
-```
-
-Allows:
-
-```java
-print()
-
-print(1)
-
-print(1,2)
-
-print(1,2,3)
-
-print(1,2,3,4,5)
-```
-
----
+Varargs (`...`) allow a method to accept zero or multiple arguments of the same type, saving you from writing dozens of overloaded methods.
 
 ## Internal Behavior
-
-Compiler treats:
-
+Under the hood, the compiler treats a varargs parameter as an array.
 ```java
-int...
+public void print(int... nums) {
+    for (int n : nums) {
+        System.out.println(n);
+    }
+}
 ```
+Inside the method, `nums` is exactly the same as `int[] nums`. If you call `print()`, the compiler passes an empty array `new int[0]`. If you call `print(1, 2)`, the compiler passes `new int[]{1, 2}`.
 
-like
+## The Rules of Varargs
+1. **Must be the last parameter:** A method can have other parameters, but the varargs parameter must always be the very last one. 
+   - `void foo(String name, int... nums)` -> Valid
+   - `void foo(int... nums, String name)` -> Invalid
+2. **Only one per method:** Because it must be the last parameter, you can only have a maximum of one varargs parameter per method.
 
-```java
-int[]
-```
-
-Inside method it behaves exactly like an array.
-
----
-
-## Rules
-
-Only one varargs parameter.
-
----
-
-Must be the last parameter.
-
-Valid:
-
-```java
-foo(String name,int... nums)
-```
-
-Invalid:
-
-```java
-foo(int... nums,String name)
-```
-
----
-
-## Real-world Examples
-
-String.format(...)
-
-System.out.printf(...)
-
----
-
-## Final Revision
-
-Know:
-
-- variable number of arguments
-- internally an array
-- one varargs only
-- must be last parameter
-
----
+## Real-world usage
+- `String.format(String format, Object... args)`
+- `System.out.printf(String format, Object... args)`

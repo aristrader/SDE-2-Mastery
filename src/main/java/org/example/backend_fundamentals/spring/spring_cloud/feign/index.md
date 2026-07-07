@@ -324,3 +324,68 @@ A. NONE, BASIC, HEADERS, FULL. Use BASIC in production — FULL logs request/res
 A. When only `name` is set, Spring Cloud LoadBalancer resolves the service name to an instance via the registry. Supplying `url` bypasses discovery and load balancing entirely.
 
 
+
+
+## Why this matters
+Your KYC platform calls external identity and document verification APIs on every onboarding request. Feign turns those HTTP contracts into type-safe Java interfaces, eliminating RestTemplate boilerplate. Getting the error decoder and timeout config right is what separates a resilient integration from one that leaks threads or swallows upstream failures.
+
+---
+
+## Feign configuration — scoping and advanced knobs
+
+### `@Configuration` on a Feign config class scopes it globally
+
+A Feign config class annotated `@Configuration` gets picked up by component scan and applied to **every** Feign client — not just the one you intended. To scope it to a single client, omit `@Configuration` and pass it via `configuration = MyFeignConfig.class` in the `@FeignClient` annotation.
+
+```java
+// Correct: no @Configuration — applies only to IdentityServiceClient
+public class IdentityFeignConfig {
+    @Bean
+    public ErrorDecoder errorDecoder() { return new IdentityErrorDecoder(); }
+}
+
+@FeignClient(name = "identity-service", url = "${identity.service.url}",
+             configuration = IdentityFeignConfig.class)
+public interface IdentityServiceClient { ... }
+```
+
+### Retry default — be careful with non-idempotent methods
+
+Feign's default `Retryer` is `Retryer.NEVER_RETRY`. If you register a `Retryer.Default` bean, be cautious with non-idempotent calls (`POST`, `PATCH`) — a retry after a timeout can create duplicate records.
+
+## Practice recall
+
+**Q.** Why use `@GetMapping` on Feign methods instead of `@RequestMapping` on the interface?
+**A.** `@RequestMapping` on the interface causes Spring MVC to register the Feign client as a controller in some Spring Boot versions, leading to ambiguous mapping errors at startup.
+
+**Q.** What does `ErrorDecoder.decode()` receive, and what is the key constraint when reading the response body?
+**A.** It receives a `feign.Response` with a streaming body. The stream is closed after `decode()` returns, so you must read the bytes inside the method — not lazily in a catch block higher up.
+
+**Q.** What happens to a thread pool when Feign has no read timeout and the upstream hangs?
+**A.** Every in-flight call holds a thread. Without a read timeout, threads pile up waiting indefinitely, exhausting the pool and causing cascading failures across all endpoints.
+
+**Q.** How do you forward the caller's auth token to a downstream Feign call?
+**A.** Implement `RequestInterceptor`, read the `Authorization` header from `RequestContextHolder`, and apply it to the `RequestTemplate`. Guard for null when outside a servlet scope.
+
+**Q.** How is the `identity-service` Feign client timeout scoped — does it apply globally or per-client?
+**A.** Per-client. `spring.cloud.openfeign.client.config.identity-service.*` applies only to that named client; `spring.cloud.openfeign.client.config.default.*` applies globally to all clients.
+
+**Q.** You write a Feign config class with `@Configuration`. What unintended effect does that have?
+**A.** Component scan picks it up and applies it to all Feign clients in the app. Omit `@Configuration` and pass the class via `@FeignClient(configuration = ...)` to scope it to one client.
+
+**Q.** What is Feign's default retry behaviour, and when should you be careful adding retries?
+**A.** Default is `Retryer.NEVER_RETRY`. Add a `Retryer.Default` bean to enable retries. Avoid retrying non-idempotent methods (`POST`, `PATCH`) — a retry after a timeout can create duplicate records.
+
+
+## Common Gotchas
+
+- `@PathVariable`, `@RequestParam`, and `@RequestBody` work the same as in Spring MVC because Feign reuses Spring Web annotations. `name` is still required as the client bean id even when `url` is hard-coded.
+- Use method-level `@GetMapping` / `@PostMapping` on Feign interfaces. Avoid interface-level `@RequestMapping`.
+- `@RequestMapping` on the interface alongside `@FeignClient` causes Spring MVC to also register it as a controller in some Spring Boot versions. Stick to method-level mappings.
+- `RequestContextHolder` returns `null` outside a servlet request scope. Null-check before forwarding — otherwise a background thread calling a Feign client throws `NullPointerException` at runtime.
+- `Response.body()` is a stream that Spring/Feign closes after `decode()` returns. Read the bytes inside the method — `EntityUtils`-style — before returning or throwing. Reading later (e.g., in a catch block up the stack) fails because the stream is already closed.
+- In an `ErrorDecoder`, `response.status()` gives the HTTP status code. Include useful context where possible: user id from `methodKey` for 404s, and the upstream response body for 400 validation failures.
+- Feign is synchronous — each in-flight call holds a thread from the web server's pool. A slow or hung upstream with no readTimeout exhausts the pool under moderate load, causing cascading 503s even for endpoints that don't touch identity-service.
+- For user-facing endpoints, tighten connect/read timeouts aggressively; batch jobs may tolerate longer reads but still need a finite timeout.
+- The WireMock port must be injected into `identity.service.url` before the Feign client initializes. `@AutoConfigureWireMock(port = 0)` handles this automatically; a manual `WireMockServer` needs the property set in a `@DynamicPropertySource` method.
+- Use either Spring Cloud Contract's `@AutoConfigureWireMock` or a manual `WireMockServer`; the key is keeping the Feign client pointed at the random test port before the bean initializes.

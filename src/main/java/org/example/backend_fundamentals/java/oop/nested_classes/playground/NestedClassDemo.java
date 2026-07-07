@@ -1,4 +1,4 @@
-package org.example.backend_fundamentals.java.oop.nested_classes;
+package org.example.backend_fundamentals.java.oop.nested_classes.playground;
 
 /**
  * Demonstrates static nested class creation, inner class creation, and the outer-instance rule.

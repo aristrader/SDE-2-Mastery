@@ -4,214 +4,51 @@ order: 30
 
 # Operators
 
-## User understanding
-
-Operators are essentially the same as C++.
-
-Mentioned:
-
-- +
-- -
-- =
-- ==
-- &&
-- &
-- Bitwise operators
-- Logical operators
+Java operators perform operations on one, two, or three operands. They are fundamental to manipulating primitive values and object references.
 
 ---
 
-## Review
+## Types of Operators
 
-Correct.
+### 1. Arithmetic Operators
+`+`, `-`, `*`, `/`, `%`
+Be careful with integer division (`/`): `5 / 2` evaluates to `2` (the decimal part is truncated).
+The modulo operator (`%`) returns the remainder: `5 % 2` evaluates to `1`.
 
-Java operators are almost identical to C++.
+### 2. Relational Operators
+`==`, `!=`, `>`, `<`, `>=`, `<=`
+Always use `==` for primitives. **Never use `==` to compare object values** (like Strings or wrapper classes), as it compares reference identity, not content equality.
 
-Includes:
+### 3. Logical Operators (Short-Circuit)
+`&&` (AND), `||` (OR), `!` (NOT)
+These operators **short-circuit**.
+- In `A && B`, if `A` is false, `B` is never evaluated because the entire expression must be false.
+- In `A || B`, if `A` is true, `B` is never evaluated because the entire expression must be true.
 
-Arithmetic:
-- +
-- -
-- *
-- /
-- %
-
-Comparison:
-- ==
-- !=
-- >
-- <
-- >=
-- <=
-
-Logical:
-- &&
-- ||
-- !
-
-Bitwise:
-- &
-- |
-- ^
-- ~
-
-Assignment:
-- =
-- +=
-- -=
-- *=
-- /=
-
-Increment/Decrement:
-- ++
-- --
-
-Ternary:
-- ?:
-
----
-
-## Important Interview Point
-
-### && vs &
-
-Example:
-
+This is critical for safety checks:
 ```java
-if (a != null && a.isValid()) {
-
-}
+if (person != null && person.getAge() >= 18) { ... }
 ```
+If `person` is null, the right side is not evaluated, preventing a `NullPointerException`.
 
-Short-circuit evaluation.
+### 4. Bitwise Operators
+`&` (AND), `|` (OR), `^` (XOR), `~` (Complement), `<<` (Left shift), `>>` (Signed right shift), `>>>` (Unsigned right shift).
+These operate on individual bits. Unlike `&&` and `||`, the bitwise `&` and `|` **do not short-circuit** when used with booleans.
 
-If first condition is false:
+### 5. Assignment Operators
+`=`, `+=`, `-=`, `*=`, `/=`, `%=`
+Compound assignments contain an implicit cast. `byte b = 1; b += 2;` compiles, whereas `b = b + 2;` does not (because `b + 2` is evaluated as an `int`).
 
-Second condition is never evaluated.
+### 6. Ternary Operator
+`condition ? trueValue : falseValue`
+A shorthand for if-else that returns a value.
 
 ---
 
-Example:
+## Quick recall
 
-```java
-if (a != null & a.isValid()) {
+**Q. What is short-circuit evaluation?**
+A. When evaluating `&&` or `||`, if the result is determined by the left operand, the right operand is completely skipped. This prevents unnecessary work and runtime exceptions.
 
-}
-```
-
-Both sides always execute.
-
-Can cause:
-
-NullPointerException
-
-Example:
-
-```java
-Person p = null;
-
-if (p != null && p.getAge() > 18)
-```
-
-Safe.
-
----
-
-```java
-Person p = null;
-
-if (p != null & p.getAge() > 18)
-```
-
-Throws:
-
-NullPointerException
-
----
-
-Same applies to:
-
-|| vs |
-
----
-
-## == for primitives vs objects
-
-Primitive:
-
-```java
-int a = 5;
-int b = 5;
-```
-
-a == b
-
-true
-
----
-
-Objects:
-
-```java
-Integer a = new Integer(5);
-Integer b = new Integer(5);
-```
-
-a == b
-
-false
-
-Reason:
-
-Reference comparison.
-
-Use:
-
-equals()
-
-for value comparison.
-
----
-
-## Integer Division
-
-Example:
-
-```java
-5 / 2
-```
-
-Result:
-
-2
-
-not
-
-2.5
-
----
-
-Need:
-
-```java
-5 / 2.0
-```
-
-or
-
-```java
-(double)5 / 2
-```
-
----
-
-## Final Revision
-
-Know:
-
-- && vs &
-- || vs |
-- == vs equals()
-- Integer division truncates.
-
----
+**Q. Why does `byte b = 1; b = b + 1;` fail to compile?**
+A. Any arithmetic operation involving types smaller than `int` (like `byte` or `short`) promotes them to `int` before the calculation. The result is an `int`, which cannot be directly assigned back to a `byte` without a manual cast.

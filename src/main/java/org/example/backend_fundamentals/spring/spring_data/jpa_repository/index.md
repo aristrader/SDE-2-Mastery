@@ -183,3 +183,74 @@ A. New entity (null id): `EntityManager.persist()` — direct INSERT, no SELECT.
 **Q. When do you need `@EnableJpaRepositories` explicitly in Spring Boot?**
 A. In multi-datasource setups to bind specific repository packages to a specific `EntityManagerFactory`/`TransactionManager`. Boot's auto-configuration handles single-datasource projects automatically.
 
+
+
+## Why this matters
+Every KYC event — identity checks, document uploads, status transitions — ends up persisted. Knowing the JPA annotation contracts cold means you stop second-guessing nullability, sequence strategies, and why your JDBC batch update silently broke.
+
+---
+
+## Domain model
+
+```java
+// The entity you'll build out across the exercises.
+// Start with a skeleton and add annotations exercise by exercise.
+
+// @Entity                          // Exercise 1
+// @Table(name = "transactions")    // Exercise 1
+public class Transaction {
+
+    // @Id                                          // Exercise 1
+    // @GeneratedValue(strategy = GenerationType.IDENTITY) // Exercise 1
+    private Long id;
+
+    // @Column(nullable = false, unique = true)     // Exercise 1
+    private String referenceId;
+
+    // @Column(nullable = false)                    // Exercise 1
+    private String status;
+
+    // @Column(precision = 19, scale = 4)           // Exercise 1
+    private BigDecimal amount;
+
+    // @Column(nullable = false, updatable = false) // Exercise 1
+    private LocalDateTime createdAt;
+
+    // @Transient                                   // Exercise 5
+    // private boolean highValue; — computed, not stored
+
+    // JPA needs this — add it with Lombok: @NoArgsConstructor
+    // If using @Builder, also add @AllArgsConstructor
+}
+```
+
+## Practice recall
+
+**Q.** Why does a JPA entity need a no-arg constructor?
+**A.** The JPA provider (Hibernate) instantiates entities via reflection using `Class.newInstance()` — it must have a no-arg constructor (public or protected).
+
+**Q.** `@GeneratedValue(strategy = IDENTITY)` vs `SEQUENCE` — what does IDENTITY break?
+**A.** IDENTITY requires the DB to assign the key after each INSERT, which prevents JDBC batch inserts. SEQUENCE pre-allocates keys in blocks, enabling batching.
+
+**Q.** What does `@GeneratedValue(strategy = AUTO)` actually do?
+**A.** Hibernate inspects the dialect and picks IDENTITY, SEQUENCE, or TABLE. In practice it often picks TABLE (a slow lock-based approach), so prefer SEQUENCE or IDENTITY explicitly.
+
+**Q.** A derived query method is named `findByReferenceNo` but the field is `referenceId` — when does this fail?
+**A.** At application startup, with `PropertyReferenceException` — not at query time.
+
+**Q.** What happens if you omit `@Transactional` from a `@Modifying` repository method?
+**A.** Spring throws `TransactionRequiredException` at runtime when the method is called outside an active transaction.
+
+**Q.** Does `@Transient` (JPA annotation) and `transient` (Java keyword) do the same thing?
+**A.** No. `@Transient` tells JPA to skip column mapping. `transient` tells Java serialization to skip the field. JPA ignores the `transient` keyword — you need the annotation for JPA exclusion.
+
+
+## Common Gotchas
+
+- `@Column` defaults to `length = 255`. Fine for UUIDs or structured keys, but `description` or `notes` fields get silently truncated by some databases. Always set `length` explicitly for string fields you didn't design as short.
+- Spring Data parses method names at startup, not at call time. A typo (e.g., `findByRefId` when the field is `referenceId`) fails startup with `PropertyReferenceException` — loud, but the cause can be non-obvious.
+- Keep repository calls behind a service transaction. A `TransactionService` with `@RequiredArgsConstructor` should call derived queries, `save(...)`, and `@Modifying` methods; service-level `@Transactional` gives one atomic boundary and avoids per-call transaction churn.
+- `@Modifying` without an active transaction throws `TransactionRequiredException` at runtime. Repository-level `@Transactional` makes the modifying method independently usable; service-level `@Transactional` wraps the larger use case.
+- After `save()`, the returned entity is the JPA-managed version with the generated `id` populated. The object you passed in may not have `id` set yet (depends on flush timing) — always use the returned instance.
+- `@Transient` is for computed object state such as `highValueCache` populated in `@PostLoad`; JPA will not create a column for it.
+- The Java `transient` keyword alone does NOT prevent JPA mapping. It only affects Java serialization. Use `@Transient` for JPA exclusion; the two concepts are orthogonal.

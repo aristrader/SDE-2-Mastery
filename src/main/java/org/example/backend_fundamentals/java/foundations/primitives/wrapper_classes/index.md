@@ -4,117 +4,70 @@ order: 30
 
 # Wrapper Classes
 
-## User understanding
-
-Wrapper classes provide utility methods like:
-
-- parseInt
-- Boolean.valueOf
-
-Useful when additional methods are required.
+Every primitive in Java (`int`, `boolean`, `double`, etc.) has a corresponding object "Wrapper" class (`Integer`, `Boolean`, `Double`, etc.).
 
 ---
 
-## Correction
+## Why Wrapper Classes exist
 
-### Misconception
-
-Main reason wrappers exist is because they provide methods.
-
-### Correction
-
-Primary reason:
-
-Collections and generics work only with objects.
-
-Example:
-
-`List<int>`
-
-Invalid.
-
-`List<Integer>`
-
-Valid.
+1. **Generics:** Java Generics (`List<T>`, `Map<K, V>`) do not support primitives. You cannot write `List<int>`. You must use `List<Integer>`.
+2. **Nullability:** Primitives cannot be `null`. An `int` defaults to `0`. If you need to represent the *absence* of a value (e.g., in a database mapping or API payload), you must use the `Integer` object, which can be `null`.
+3. **Utility Methods:** Wrapper classes provide helpful static methods, like `Integer.parseInt("123")` or `Double.isNaN(value)`.
 
 ---
 
-## Wrapper Mapping
+## Autoboxing and Unboxing
 
-int → Integer
+Since Java 5, the compiler automatically converts between primitives and their wrapper objects to make code cleaner.
 
-long → Long
+**Autoboxing:** Converting a primitive to a wrapper.
+```java
+Integer a = 10; // Compiler rewrites to: Integer.valueOf(10)
+```
 
-double → Double
+**Unboxing:** Converting a wrapper to a primitive.
+```java
+int b = a; // Compiler rewrites to: a.intValue()
+```
 
-float → Float
-
-boolean → Boolean
-
-char → Character
-
-byte → Byte
-
-short → Short
-
----
-
-## Autoboxing
-
-Integer x = 10;
-
-Compiler converts to:
-
-Integer.valueOf(10)
+**The Danger of Unboxing:** If the wrapper object is `null`, unboxing it throws a `NullPointerException`.
+```java
+Integer count = null;
+int c = count; // Throws NullPointerException! (Calling null.intValue())
+```
 
 ---
 
-## Unboxing
+## The Integer Cache Trap
 
-Integer x = 10;
+Wrapper classes are Objects. To compare objects, you should always use `.equals()`.
+However, because of the "Integer Cache", using `==` sometimes gives the illusion that it works.
 
-int y = x;
+Java caches `Integer` objects for values between **-128 and 127**.
+When you use autoboxing (`Integer a = 100`), Java returns a shared, pre-allocated object from the cache.
 
-Compiler converts to:
+```java
+Integer a = 100;
+Integer b = 100;
+System.out.println(a == b); // true! Both point to the exact same cached object.
 
-x.intValue()
+Integer x = 1000;
+Integer y = 1000;
+System.out.println(x == y); // false! 1000 is outside the cache. Two separate objects are created.
+System.out.println(x.equals(y)); // true. Content is identical.
+```
 
----
-
-## Primitive vs Wrapper
-
-Primitive:
-
-- faster
-- no null
-- calculations
-
-Wrapper:
-
-- collections
-- null allowed
-- optional values
-
-Example:
-
-Integer age
-
-null = unknown
-
-0 = newborn
+**Rule:** Never use `==` to compare Wrapper objects. Always use `.equals()`.
 
 ---
 
-## Interview Trap
+## Quick recall
 
-Integer x = null;
+**Q. What is autoboxing?**
+A. The automatic conversion the Java compiler makes between the primitive types and their corresponding object wrapper classes (e.g., `int` to `Integer`).
 
-int y = x;
+**Q. When does unboxing throw a NullPointerException?**
+A. When the wrapper reference is `null` and the compiler attempts to extract the primitive value (e.g., assigning a `null` `Integer` to an `int` variable).
 
-Throws:
-
-NullPointerException
-
-because of auto-unboxing.
-
----
+**Q. Why does `Integer a = 100; Integer b = 100; a == b;` return true, but fails for 1000?**
+A. Java caches wrapper objects for values between -128 and 127. Values in this range return the exact same cached reference, so `==` (reference comparison) succeeds. 1000 is outside the cache, so two distinct objects are created.

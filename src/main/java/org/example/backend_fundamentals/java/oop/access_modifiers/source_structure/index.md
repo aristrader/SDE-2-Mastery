@@ -4,205 +4,25 @@ order: 30
 
 # Source File Structure
 
-## User understanding
+Java enforces strict rules on how `.java` files are structured and how classes are organized within them.
 
-- Packages within packages.
-- Imports at the top.
-- Class declaration.
-- Main method.
-- Public/private methods.
-- Class should always be public.
-- Only one public class per file.
-- Other classes should be private.
-- File name matches class name.
-- Package-private discussed.
-- Nested classes explained using Card/CardDetails example.
-
----
-
-## Corrections
-
-### Misconception
-
-Every top-level class must be public.
-
-### Correction
-
-Top-level classes may be:
-
-- public
-- package-private
-
-They cannot be:
-
-- private
-- protected
-
----
-
-### Misconception
-
-Private classes are disallowed because they cannot be instantiated.
-
-### Correction
-
-Not true.
-
-Private nested classes are completely valid.
-
-Example:
-
-public class Card {
-
-    private static class CardDetails {
-
-    }
-
-}
-
-Private does NOT prevent instantiation.
-
----
-
-### Misconception
-
-Other classes in the same file must be private.
-
-### Correction
-
-They are package-private.
-
-Example:
-
-public class A {
-
-}
-
-class B {
-
-}
-
-class C {
-
-}
-
-B and C are package-private.
-
----
-
-### Misconception
-
-Package-private applies only to methods.
-
-### Correction
-
-Package-private applies to:
-
-- classes
-- methods
-- constructors
-- variables
-
----
-
-## Main Method
-
-Signature:
-
-public static void main(String[] args)
-
-Spring Boot still has a main method:
-
-SpringApplication.run(...)
-
----
+## Top-Level Classes
+A top-level class is a class declared at the root of a file (not inside another class).
+1. **One public class per file:** You can only have one `public` top-level class per `.java` file.
+2. **Filename must match:** The name of the `.java` file must exactly match the name of the `public` class inside it.
+3. **Other classes:** You can have multiple other top-level classes in the same file, but they **must be package-private** (no access modifier).
+4. **No private or protected:** Top-level classes **cannot** be `private` or `protected`. A private top-level class would be invisible to everyone, making it useless.
 
 ## Nested Classes
+Classes declared *inside* another class (nested classes) have different rules.
+- Nested classes **can** be `private`, `protected`, `public`, or package-private.
+- A `private` nested class is perfectly valid and can be instantiated by the outer class. It is completely hidden from the outside world.
 
-Good intuition:
-
-Use nested classes when they only make sense inside the enclosing class.
-
-Example:
-
-Card
-
-↓
-
-CardDetails
-
----
-
-## Source File Ordering
-
-Order:
-
-package
-
-↓
-
-imports
-
-↓
-
-class
-
-Only one package declaration.
-
-Package declaration must be first non-comment statement.
-
----
-
-## Follow-up Question
-
-User asked:
-
-"Why can't top-level classes be private? Is it because they can't be instantiated?"
-
-### Misconception
-
-Private classes are forbidden because they cannot be instantiated.
-
-### Correction
-
-Private has meaning only relative to an enclosing class.
-
-Top-level classes have no enclosing class.
-
-Therefore:
-
-"Private top-level class"
-
-has no meaningful scope.
-
-That is why Java simply disallows it.
-
----
-
-## Comparison
-
-Private nested class:
-
-public class Card {
-
-    private class CardDetails {
-
+```java
+public class Card { // Top-level (Public)
+    private class CardDetails { // Nested (Private)
+        // Only Card can see and use this class
     }
-
 }
-
-Makes perfect sense because CardDetails belongs to Card.
-
----
-
-## Final revision
-
-Know:
-
-- One public class per file.
-- File name matches public class.
-- Other top-level classes are package-private.
-- Top-level classes cannot be private/protected.
-- Nested classes may be private.
-
----
+class Helper { } // Top-level (Package-Private)
+```

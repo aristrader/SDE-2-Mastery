@@ -3,49 +3,51 @@ order: 20
 search: false
 ---
 
-# Solution
+# Solutions
 
-One possible structure:
+## Solution: nested-classes - Nested classes test
 
 ```java
 public class InterviewQuestion {
-  private final String text;
-
-  public InterviewQuestion(String text) {
-    this.text = text;
-  }
-
-  static class AnswerKey {
-    private final String expected;
-
-    AnswerKey(String expected) {
-      this.expected = expected;
+    private final String text;
+    
+    public InterviewQuestion(String text) {
+        this.text = text;
     }
-  }
-
-  class Attempt {
-    private final String submitted;
-
-    Attempt(String submitted) {
-      this.submitted = submitted;
+    
+    // Static nested class: Does NOT have access to enclosing instance's 'text'
+    public static class AnswerKey {
+        private final String answer;
+        public AnswerKey(String answer) {
+            this.answer = answer;
+        }
+        public String getAnswer() { return answer; }
     }
-
-    void print(AnswerKey key) {
-      System.out.println("Question: " + text);
-      System.out.println("Expected: " + key.expected);
-      System.out.println("Submitted: " + submitted);
+    
+    // Inner class: HAS access to enclosing instance's 'text'
+    public class Attempt {
+        private final String submission;
+        public Attempt(String submission) {
+            this.submission = submission;
+        }
+        public void grade(AnswerKey key) {
+            System.out.println("Q: " + text); // Accessing outer field
+            System.out.println("Expected: " + key.getAnswer());
+            System.out.println("Got: " + submission);
+            System.out.println("Match? " + key.getAnswer().equals(submission));
+        }
     }
-  }
-
-  public static void main(String[] args) {
-    AnswerKey key = new AnswerKey("Use outer.new Inner() for inner classes");
-
-    InterviewQuestion question = new InterviewQuestion("How do you create an inner class?");
-    Attempt attempt = question.new Attempt("Create outer first, then outer.new Attempt()");
-
-    attempt.print(key);
-  }
+    
+    public static void main(String[] args) {
+        InterviewQuestion q = new InterviewQuestion("What is 2 + 2?");
+        
+        // Created WITHOUT an outer instance reference
+        AnswerKey key = new AnswerKey("4");
+        
+        // Created WITH an outer instance reference (q.new)
+        Attempt attempt = q.new Attempt("4");
+        
+        attempt.grade(key);
+    }
 }
 ```
-
-`AnswerKey` is static, so it is created as `new AnswerKey(...)` from inside the outer class. `Attempt` is an inner class, so it is created as `question.new Attempt(...)`.

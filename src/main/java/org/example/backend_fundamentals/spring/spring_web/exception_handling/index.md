@@ -330,3 +330,75 @@ A. `MethodArgumentNotValidException` fires when `@Valid` fails on `@RequestBody`
 **Q. What is RFC 7807 Problem Details and how do you enable it in Spring Boot 3?**
 A. A standard JSON error format (`type`, `title`, `status`, `detail`, `instance`). Enable with `spring.mvc.problemdetails.enabled=true`; `ResponseEntityExceptionHandler` then produces `application/problem+json` automatically for all standard Spring MVC exceptions.
 
+
+
+## Why this matters
+A KYC platform calls external document and identity APIs, runs validation pipelines, and enforces access control — all of which fail in different ways. A global exception handler is the single place that translates those failures into structured, machine-readable responses. Getting it wrong means clients see raw Spring error pages, swallowed upstream errors, or inconsistent status codes that break retries and alerting.
+
+---
+
+## Domain model
+
+```java
+// Use these types across the exercises
+record ApiError(
+    Instant timestamp,
+    int status,
+    String error,
+    String message,
+    String path
+) {}
+
+class EntityNotFoundException extends RuntimeException {
+    public EntityNotFoundException(String message) { super(message); }
+}
+
+enum KycErrorCode { DOCUMENT_EXPIRED, COUNTRY_NOT_SUPPORTED, IDENTITY_MISMATCH }
+
+class KycVerificationException extends RuntimeException {
+    private final KycErrorCode errorCode;
+    public KycVerificationException(KycErrorCode code, String message) {
+        super(message);
+        this.errorCode = code;
+    }
+    public KycErrorCode getErrorCode() { return errorCode; }
+}
+```
+
+## Practice recall
+
+**Q.** What is the difference between `@RestControllerAdvice` and `@ControllerAdvice`?
+**A.** `@RestControllerAdvice` = `@ControllerAdvice` + `@ResponseBody`. It serialises the return value to JSON/XML. `@ControllerAdvice` alone routes through view resolution — only useful for HTML MVC apps.
+
+**Q.** `@Valid` on a controller param throws X; `@Validated` on a service method throws Y. What are X and Y?
+**A.** X = `MethodArgumentNotValidException` (a `BindException`). Y = `ConstraintViolationException` (a `RuntimeException`). They have different parent types and different APIs for extracting violations.
+
+**Q.** Why doesn't `@ControllerAdvice` catch 401/403 errors from Spring Security?
+**A.** Spring Security filters run before `DispatcherServlet`. By the time an auth failure is raised, the advice is not yet in the call stack. Use `AuthenticationEntryPoint` and `AccessDeniedHandler` for those.
+
+**Q.** You extend `ResponseEntityExceptionHandler`. Where should you handle `MethodArgumentNotValidException`?
+**A.** Override its existing `handleMethodArgumentNotValid` method — do not add a new `@ExceptionHandler` for it. Spring's base class already handles it; a duplicate `@ExceptionHandler` causes an ambiguous handler exception at startup.
+
+**Q.** Two handlers exist: one for `RuntimeException`, one for `EntityNotFoundException extends RuntimeException`. Which runs when an `EntityNotFoundException` is thrown?
+**A.** The `EntityNotFoundException` handler — Spring always picks the most specific matching type, regardless of method declaration order.
+
+**Q.** How do you attach a `Retry-After` header to a `ResponseEntity` returned from an exception handler?
+**A.** Build the response with `ResponseEntity.status(503).header(HttpHeaders.RETRY_AFTER, "30").body(apiError)`.
+
+**Q.** Why return an error code enum in a 422 response instead of just the message string?
+**A.** Clients can programmatically switch on a stable code (`DOCUMENT_EXPIRED`) without parsing human-readable messages, which can change across versions or locales.
+
+
+## Common Gotchas
+
+- `@RestControllerAdvice` is `@ControllerAdvice` plus `@ResponseBody`. Plain `@ControllerAdvice` routes return values through view resolution, which is usually wrong for REST APIs.
+- In an `ApiError`, the `error` field should carry the HTTP reason phrase such as `"Not Found"` or `"Forbidden"`, not the exception class name. `timestamp` should be `Instant.now()` when the handler runs.
+- Handler resolution picks the most specific exception type. If `EntityNotFoundException` extends `RuntimeException`, the `EntityNotFoundException` handler wins — Spring does not call both. Method declaration order does not matter; order them most-specific-first for readability.
+- `HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()` gives you `"Internal Server Error"` — no magic strings.
+- Validation errors should not silently drop field details. Either add `List<String> fieldErrors` / a separate validation error record, or concatenate all violations into the message and return HTTP 400.
+- `MethodArgumentNotValidException` comes from `@Valid` on controller method parameters and exposes `getBindingResult().getFieldErrors()`. `ConstraintViolationException` comes from `@Validated` bean method parameters/return values and exposes `getConstraintViolations()`. Handle both.
+- `MethodArgumentNotValidException` extends `BindException` → `Exception` — not a `RuntimeException`. A catch-all that only catches `RuntimeException` lets this fall through to Spring's default error handling, returning a generic 400 body instead of your structured `ApiError`.
+- `ResponseEntityExceptionHandler` pre-handles standard Spring MVC exceptions such as `MethodArgumentNotValidException` and unreadable message bodies. Extend it when you want Spring's defaults plus selected overrides.
+- `FeignException.NotFound` extends `FeignException` (a `RuntimeException`). Spring resolves to the most-specific type, so declaration order doesn't matter. But forget the specific handler and the `RuntimeException` catch-all silently swallows the 404 as a 500 — the upstream failure becomes invisible to your client.
+- 422 isn't a standard `HttpStatus` in older Spring versions — confirm `HttpStatus.UNPROCESSABLE_ENTITY` exists; otherwise use `ResponseEntity.status(422)` directly.
+- Use `ResponseEntity` headers for protocol hints such as `Retry-After` on 503 responses.

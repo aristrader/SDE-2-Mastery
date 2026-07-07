@@ -223,3 +223,80 @@ A. A Spring wrapper for lazy or optional injection. Use `getIfAvailable()` / `if
 **Q. How does `@Lazy` break a constructor circular dependency?**
 A. Spring injects a CGLIB proxy instead of the real bean at construction time. The real bean is resolved on the first method call. It's a workaround — prefer redesigning to remove the cycle.
 
+
+
+## Why this matters
+Constructor injection is the Spring team's recommended wiring style for exactly the reasons you hit on a KYC platform: services have 5-8 mandatory dependencies, and field injection hides them all. Getting this pattern into muscle memory means you never write an untestable service again — every dependency is visible at the call site, and unit tests spin up in milliseconds with no Spring context.
+
+---
+
+## Domain model
+
+```java
+// The collaborators a real KYC service would depend on.
+// You'll wire these in the exercises below.
+
+public interface UserRepository {
+    Optional<User> findById(String userId);
+}
+
+public interface DocumentValidator {
+    boolean validate(String documentType, byte[] content);
+}
+
+// Optional collaborator — may not be configured in all environments.
+public interface NotificationService {
+    void sendAlert(String userId, String message);
+}
+```
+
+## Circular dependency — what happens and how to fix it
+
+If `ServiceA` requires `ServiceB` in its constructor and `ServiceB` requires `ServiceA`, Spring fails at startup with `BeanCurrentlyInCreationException` — caught eagerly at boot, not at first use. A feature, not a bug.
+
+Two fixes:
+1. **`@Lazy` on one constructor parameter** — Spring injects a proxy and resolves the real bean only on first call.
+2. **Convert one dependency to setter injection** — break the cycle by wiring one collaborator after construction.
+
+The cleaner long-term fix is to refactor: extract a third component both services depend on instead of depending on each other.
+
+## Practice recall
+
+**Q.** Why pair `@RequiredArgsConstructor` with `final` fields?
+**A.** Lombok only generates the constructor for `final` (and `@NonNull`) fields — non-final fields are silently excluded and will be `null`.
+
+**Q.** Since Spring 4.3, when can you omit `@Autowired` on a constructor?
+**A.** When the class has exactly one constructor — Spring injects it automatically.
+
+**Q.** How does Spring inject constructor dependencies — does it use reflection on private fields?
+**A.** No. Spring calls the constructor directly. Dependencies become `final` the moment the constructor returns; there is no reflective field-writing after the fact.
+
+**Q.** What are the two benefits of declaring injected fields `final`?
+**A.** Immutability (the field can never be reassigned) and testability (you can construct the object in plain Java with `new Service(dep1, dep2)`).
+
+**Q.** What exception does Spring throw for a circular constructor dependency, and when?
+**A.** `BeanCurrentlyInCreationException`, thrown at application startup — not at first use.
+
+**Q.** How do you break a constructor-injection circular dependency?
+**A.** Add `@Lazy` to one constructor parameter (Spring injects a proxy), or convert one side to setter injection. The root fix is to refactor the cycle away entirely.
+
+**Q.** What is the main testability advantage of constructor injection over field injection?
+**A.** You can instantiate the class in plain Java (`new Service(dep1, dep2)`) with no Spring context or reflection tricks.
+
+**Q.** When is setter injection appropriate instead of constructor injection?
+**A.** For genuinely optional dependencies where the service must function even when the collaborator is absent.
+
+**Q.** If two beans implement the same interface, how does Spring decide which to inject?
+**A.** It prefers the `@Primary` bean; use `@Qualifier("beanName")` at the injection point to override that default.
+
+
+## Common Gotchas
+
+- `@RequiredArgsConstructor` only generates a constructor for `final` and `@NonNull` fields. Non-final fields are silently skipped — they will be `null` at runtime. Always pair `@RequiredArgsConstructor` with `final`.
+- A plain Java test of a constructor-injected service needs no Spring extension: instantiate fake collaborators and call `new KycVerificationService(repo, validator)`.
+- The same test shape does not work for field injection. Private fields have no constructor API, and the default no-arg constructor leaves them null unless Spring or reflection sets them.
+- With field injection (Exercise 3 below) you cannot do this — you'd need Mockito's `@InjectMocks` or a Spring test context. Constructor injection removes that dependency entirely.
+- Field injection works fine in a running Spring app — the cost is purely testability and an obscured dependency graph. The pain surfaces during refactoring and onboarding, not in greenfield happy-path code.
+- `@Autowired(required = false)` means Spring skips injection if no bean of that type exists — it does NOT mean the field gets a default. The field starts `null` and stays `null` if nothing is wired. Always null-check before use.
+- Optional collaborators can be setter-injected or wrapped in `ObjectProvider<T>`. Guard calls like `if (notificationService != null) { ... }` when using nullable setter injection.
+- The `@Qualifier` value defaults to the bean name, which defaults to the uncapitalised class name (`aiDocumentValidator`). Rename the class and the qualifier breaks silently at startup. Prefer a named constant or explicit `@Component("name")` to avoid this fragility.

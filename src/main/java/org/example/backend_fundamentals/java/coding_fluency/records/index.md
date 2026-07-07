@@ -30,3 +30,34 @@ inheritance limits) determines when to reach for which tool.
 
 **Q.** When should you prefer Lombok `@Value` + `@Builder` over a record?  
 **A.** When you need frequent partial-copy patterns (`toBuilder()`), Jackson deserialization without extra config, or you are on Java < 16. Prefer records for simplicity when the DTO is small, immutable, and Jackson config is already in place.
+
+
+## Domain model
+
+```java
+import java.math.BigDecimal;
+
+// You will define this as a record and experiment with its constraints.
+// Records are implicitly final — they cannot be subclassed.
+record TransactionDto(
+    String id,
+    BigDecimal amount,
+    String currency   // ISO-4217, e.g. "USD", "IDR"
+) {}
+
+// A user identity snapshot used in KYC checks
+record KycSubjectDto(
+    String userId,
+    String fullName,
+    String nationalId
+) {}
+```
+
+
+## Common Gotchas
+
+- Jackson 2.11 and earlier cannot map JSON keys to record constructor parameters by name without the `jackson-module-parameter-names` module or a `@JsonCreator`-annotated constructor. Jackson 2.12+ (Spring Boot 2.7+) handles records out of the box — check your version before adding anything.
+- The compact constructor does NOT redeclare parameters — write `TransactionDto { ... }`, not `TransactionDto(String id, ...) { ... }`.
+- To normalize a record component in a compact constructor, assign to the parameter name, for example `currency = currency.toUpperCase();`. Writing `this.currency = ...` is a compile error because record fields are final and assigned after the compact constructor body.
+- Records implicitly extend `java.lang.Record` and cannot extend any other class. Use records for small immutable DTOs, not for hierarchies.
+- There is no language shortcut for partial copies. Each `withX` method must name every other field explicitly; this becomes unpleasant on large records and is where Lombok `toBuilder()` may be more practical.

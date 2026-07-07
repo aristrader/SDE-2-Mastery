@@ -2,125 +2,27 @@
 order: 30
 ---
 
-# Methods
+# Methods and Signatures
 
-## User response
+Methods are Java's functions attached to classes. 
 
-User felt there wasn't much to discuss.
+## Method Signatures
+A method signature in Java consists of **only** two things:
+1. The method name.
+2. The parameter types and their order.
 
-Methods are simply Java functions.
-
-Asked if there was anything specific.
-
----
-
-## Review
-
-Agreed.
-
-Very little to revise.
-
----
-
-Covered:
-
-### Access Modifiers
-
-- public
-- private
-- protected
-- package-private
-
----
-
-### Return Types
-
-Examples:
-
-void
-
-int
-
-String
-
----
-
-### Method Overloading
-
-Examples:
+**Crucially, the return type is NOT part of the method signature.** 
+This means you cannot overload a method by only changing its return type. The compiler will reject it because it cannot figure out which method to call if you ignore the return value.
 
 ```java
-print(int)
+// Valid overload (different parameters)
+public void print(int x) { ... }
+public void print(String x) { ... }
 
-print(String)
-
-print(int,int)
+// INVALID overload (same signature, different return type)
+public int calculate(int x) { ... }
+public double calculate(int x) { ... } // Compile Error!
 ```
 
-Same method name.
-
-Different parameter list.
-
----
-
-### Static Methods
-
-Example:
-
-Math.max()
-
-Belong to class.
-
-Not object.
-
----
-
-### Pass-by-value
-
-Revisited briefly.
-
-Methods always receive copied values.
-
----
-
-### Method Signature
-
-Important interview point.
-
-Signature includes:
-
-- method name
-- parameter types
-
-NOT return type.
-
-Therefore:
-
-```java
-int foo(int x)
-```
-
-and
-
-```java
-String foo(int x)
-```
-
-Cannot coexist.
-
-Changing only return type is not overloading.
-
----
-
-## Final Revision
-
-Know:
-
-- access modifiers
-- return types
-- overloading
-- static methods
-- method signature
-- pass-by-value
-
----
+## Pass-by-value
+Java methods always receive a copy of the arguments (pass-by-value). For primitives, the value itself is copied. For objects, the reference (pointer) is copied.

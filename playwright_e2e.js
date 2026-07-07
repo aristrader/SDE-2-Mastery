@@ -90,7 +90,7 @@ async function assertExerciseWorkspace(page) {
   await page.getByRole('button', { name: /View Solution/ }).click();
   await page.locator('.reference-panel').waitFor({ timeout: 15000 });
   await page.locator('.reference-doc').waitFor({ timeout: 15000 });
-  assert.match(await page.locator('.reference-doc h1').innerText(), /Solution/);
+  assert.match(await page.locator('.reference-doc').innerText(), /Solution:/);
   assert.strictEqual(await page.locator('.reference-panel .VPSidebar').count(), 0, 'reference panel should not embed the full site shell');
 }
 
