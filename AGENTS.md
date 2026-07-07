@@ -114,6 +114,23 @@ Use this when the user asks to process `temp.md` or `temp1.md` through `temp4.md
 - Use absolute paths for temp-file clearing or similar file operations; do not rely on shell CWD.
 - End with a compact report: files created, rows covered, partial gaps, and timeline position. Sprint anchor: Monday, May 18, 2026 = Week 1 start.
 
+## ChatGPT Study Import Workflow
+
+Use this when the user says they pasted study output into `theory.md` and `exercise.md`.
+
+- Read both files completely before processing; page through long files until EOF.
+- Treat `theory.md` like the temp-doc import workflow: preserve substantive notes, struggle points, misconceptions, analogies, and flowchart-style reasoning; merge or split into the right topic docs under `backend_fundamentals`.
+- Treat `exercise.md` as a source list of already-defined tasks owned by the study AI. Do not redesign, broaden, or replace them; split them into the right module `exercise/index.md` files and preserve intent, order, constraints, requirements, and concepts tested.
+- Create matching `solution/index.md` files for every exercise by deriving answers from `theory.md`, existing repo material, and standard Java/Spring knowledge. Do not skip solution files unless explicitly blocked; report any uncertainty as a partial gap.
+- Prefer interactive/code modules when exercises should run on-site: `index.md`, Java-only files under `playground/`, `exercise/index.md`, and `solution/index.md`.
+- For every structured exercise, use headings exactly as `## Exercise: kebab-id - Title` and `## Solution: same-kebab-id - Title`; each exercise ID must have exactly one matching solution ID.
+- Preserve ordering: module `index.md` has `order: X`; `exercise/index.md` has `order: 10` and `search: false`; `solution/index.md` has `order: 20` and `search: false`.
+- Keep exercise files task-focused. Put lessons and long explanations in topic `index.md`, not inside exercises unless needed to attempt the task.
+- Do not invent broad new exercises unrelated to pasted content. Small clarifying acceptance criteria, starter code, and runnable playground scaffolding are allowed when they preserve the intended task.
+- After processing, clear `theory.md` and `exercise.md` back to placeholder comments; do not delete them.
+- Run `node scripts/generate-homepage.js`; run relevant docs/build or Java sanity commands when structure or runnable code changed.
+- End with a compact report: docs updated, exercises created, solutions created, playground files created, study-plan rows touched, partial gaps.
+
 ## Durable Insight Routing
 
 - Pattern-specific mechanics go in that module/topic doc.
