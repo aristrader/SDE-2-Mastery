@@ -1,5 +1,65 @@
 <template>
-  <section v-if="isPracticePage && hasPlayground" class="exercise-workspace" aria-label="Practice workspace">
+  <section v-if="isPracticePage && hasStructuredPractice" class="exercise-workspace structured" aria-label="Practice workspace">
+    <div class="workspace-head">
+      <div>
+        <h2>Practice Workspace</h2>
+        <p>Pick one exercise, edit the starter code, run it locally, then reveal the matching solution.</p>
+      </div>
+    </div>
+
+    <aside class="question-list" aria-label="Practice questions">
+      <button
+        v-for="question in questions"
+        :key="question.id"
+        type="button"
+        :class="['question-item', selectedQuestion?.id === question.id ? 'active' : '']"
+        @click="selectQuestion(question)"
+      >
+        <span class="question-id">{{ question.id }}</span>
+        <span class="question-title">{{ question.title }}</span>
+      </button>
+    </aside>
+
+    <div :class="['structured-grid', showReference ? 'with-reference' : '']">
+      <section class="question-panel">
+        <div v-if="selectedQuestion" class="vp-doc question-doc" v-html="selectedQuestion.exerciseHtml"></div>
+      </section>
+
+      <section class="practice-code">
+        <div class="editor-head">
+          <div class="file-status">
+            <span>{{ scratchFileName }}</span>
+            <span :class="['run-state', scratchRunnable ? 'runnable' : 'support']">
+              {{ scratchRunnable ? 'runnable' : 'scratch' }}
+            </span>
+          </div>
+          <button class="run-btn" type="button" @click="runScratch" :disabled="!canRunScratch">
+            {{ runButtonLabel }}
+          </button>
+        </div>
+        <p class="run-warning">{{ runnerNotice }}</p>
+        <ClientOnly>
+          <CodeEditor v-model="scratchCode" :readonly="false" />
+        </ClientOnly>
+        <div class="solution-row">
+          <button type="button" class="solution-toggle" @click="showReference = !showReference">
+            {{ showReference ? 'Hide Solution' : 'View Solution' }}
+          </button>
+        </div>
+        <div class="console" v-if="output">
+          <div class="console-head">{{ outputLabel }}</div>
+          <pre class="console-out">{{ output }}</pre>
+        </div>
+      </section>
+
+      <aside v-if="showReference && selectedQuestion" class="reference-panel structured-reference" aria-label="Selected solution">
+        <div class="reference-head">Solution: {{ selectedQuestion.title }}</div>
+        <div class="vp-doc reference-doc" v-html="selectedQuestion.solutionHtml"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section v-else-if="isPracticePage && hasPlayground" class="exercise-workspace" aria-label="Practice workspace">
     <div class="workspace-head">
       <div>
         <h2>Code Workspace</h2>
@@ -22,16 +82,32 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vitepress'
 import Playground from './Playground.vue'
+import CodeEditor from './CodeEditor.vue'
 import navData from '../../navigation_map.json'
 
 const route = useRoute()
 const showReference = ref(false)
 const referenceHtml = ref('')
 const referenceError = ref('')
+const selectedQuestion = ref(null)
+const scratchCode = ref('')
+const output = ref('')
+const outputLabel = ref('Console')
+const isRunning = ref(false)
+const isRateLimited = ref(false)
+const rateLimitSeconds = ref(0)
 let referenceToken = 0
+let abortController = null
+let rateLimitInterval = null
+let runTimeout = null
+let runToken = 0
+const RUN_TIMEOUT_MS = 15000
+const OUTPUT_LIMIT = 10000
+const PISTON_EXECUTE_URL = import.meta.env.VITE_PISTON_EXECUTE_URL || ''
+const JAVA_RUNNER_URL = import.meta.env.VITE_JAVA_RUNNER_URL || '/api/run-java'
 
 function normalizeRoutePath(path) {
   let normalized = path.split('#')[0].split('?')[0]
@@ -48,20 +124,205 @@ const capabilities = computed(() => moduleMeta.value?.capabilities || {})
 
 const isPracticePage = computed(() => pageMeta.value?.pageType === 'exercise')
 const hasPlayground = computed(() => capabilities.value.playground === true)
+const practiceSet = computed(() => pageMeta.value?.practiceSet || null)
+const questions = computed(() => practiceSet.value?.questions || [])
+const hasStructuredPractice = computed(() => questions.value.length > 0)
 const referenceHref = computed(() => {
   if (capabilities.value.solution) return modulePath.value + 'solution/'
   if (capabilities.value.design) return modulePath.value + 'design/'
   return ''
 })
 const referenceLabel = computed(() => capabilities.value.design ? 'View Design' : 'View Solution')
+const usesPiston = computed(() => Boolean(PISTON_EXECUTE_URL))
+const scratchClassName = computed(() => {
+  const match = scratchCode.value.match(/public\s+class\s+([A-Za-z_$][\w$]*)/)
+  return match ? match[1] : 'PracticeScratch'
+})
+const scratchPackage = computed(() => {
+  const match = scratchCode.value.match(/package\s+([\w.]+)\s*;/)
+  return match ? match[1] : ''
+})
+const scratchFileName = computed(() => `${scratchClassName.value}.java`)
+const scratchMainClass = computed(() => scratchPackage.value ? `${scratchPackage.value}.${scratchClassName.value}` : scratchClassName.value)
+const scratchRunnable = computed(() => /public\s+static\s+void\s+main\s*\(/.test(scratchCode.value))
+const canRunScratch = computed(() => scratchCode.value.trim() && scratchRunnable.value && !isRunning.value && !isRateLimited.value)
+const runButtonLabel = computed(() => {
+  if (isRunning.value) return 'Running...'
+  if (isRateLimited.value) return `Wait ${rateLimitSeconds.value}s`
+  if (!scratchCode.value.trim()) return 'No code'
+  if (!scratchRunnable.value) return 'No main'
+  return 'Run'
+})
+const runnerNotice = computed(() => {
+  if (!usesPiston.value) {
+    return 'Local study mode: edited Java is compiled in a temporary directory and run through the local JDK. Do not run untrusted code.'
+  }
+  return 'Hosted execution uses a remote sandbox. Do not submit proprietary code, API keys, credentials, or PII.'
+})
+
+function boundedOutput(text) {
+  if (!text) return ''
+  if (text.length <= OUTPUT_LIMIT) return text
+  return text.slice(0, OUTPUT_LIMIT) + '\n...[Output truncated]...'
+}
+
+function formatLocalOutput(data) {
+  if (data.phase === 'compile' && !data.ok) {
+    return { label: 'Compile Error', text: data.stderr || data.stdout || data.error || 'Compilation failed.' }
+  }
+  if (!data.ok) {
+    return {
+      label: data.error && /timed out/i.test(data.error) ? 'Timeout' : 'Runtime Error',
+      text: [data.stderr, data.stdout, data.error].filter(Boolean).join('\n') || 'Execution failed.',
+    }
+  }
+  return { label: 'Success', text: data.stdout || data.stderr || 'Process finished with no output.' }
+}
+
+function formatPistonOutput(data) {
+  const compile = data.compile || {}
+  const run = data.run || {}
+  const serviceText = run.output || run.stderr || data.message || ''
+  if (compile.code && compile.code !== 0) {
+    return { label: 'Compile Error', text: compile.stderr || compile.output || data.message || 'Compilation failed.' }
+  }
+  if (run.code && run.code !== 0) {
+    return { label: 'Runtime Error', text: run.stderr || run.output || data.message || 'Execution failed.' }
+  }
+  return { label: 'Success', text: run.output || run.stdout || compile.output || data.message || 'No output.' }
+}
+
+function clearRunTimeout() {
+  if (runTimeout) {
+    clearTimeout(runTimeout)
+    runTimeout = null
+  }
+}
+
+function clearRateLimit() {
+  if (rateLimitInterval) {
+    clearInterval(rateLimitInterval)
+    rateLimitInterval = null
+  }
+  isRateLimited.value = false
+  rateLimitSeconds.value = 0
+}
+
+function resetRunState() {
+  runToken++
+  if (abortController) {
+    abortController.abort()
+    abortController = null
+  }
+  clearRunTimeout()
+  clearRateLimit()
+  output.value = ''
+  outputLabel.value = 'Console'
+  isRunning.value = false
+}
+
+function selectQuestion(question) {
+  selectedQuestion.value = question
+  scratchCode.value = question?.starterCode || ''
+  showReference.value = false
+  resetRunState()
+}
 
 watch(currentPath, () => {
   showReference.value = false
   referenceHtml.value = ''
   referenceError.value = ''
+  selectedQuestion.value = null
+  scratchCode.value = ''
+  resetRunState()
 })
 
+watch(questions, (list) => {
+  if (list.length) {
+    const existing = list.find(question => question.id === selectedQuestion.value?.id)
+    selectQuestion(existing || list[0])
+  }
+}, { immediate: true })
+
+async function runScratch() {
+  if (isRunning.value || isRateLimited.value) return
+  if (!scratchCode.value.trim()) {
+    outputLabel.value = 'Input Required'
+    output.value = 'Add Java code before running.'
+    return
+  }
+  if (!scratchRunnable.value) {
+    outputLabel.value = 'Not Runnable'
+    output.value = 'This starter has no public static void main method yet.'
+    return
+  }
+
+  const token = ++runToken
+  isRunning.value = true
+  outputLabel.value = 'Running'
+  output.value = 'Compiling and running...'
+
+  if (abortController) abortController.abort()
+  abortController = new AbortController()
+  let timedOut = false
+  clearRunTimeout()
+  runTimeout = setTimeout(() => {
+    timedOut = true
+    abortController?.abort()
+  }, RUN_TIMEOUT_MS)
+
+  try {
+    const files = [{ name: scratchFileName.value, content: scratchCode.value }]
+    const res = await fetch(usesPiston.value ? PISTON_EXECUTE_URL : JAVA_RUNNER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: abortController.signal,
+      body: JSON.stringify(usesPiston.value
+        ? { language: 'java', version: '15.0.2', files }
+        : { mainClass: scratchMainClass.value, files })
+    })
+
+    if (res.status === 429) {
+      if (token !== runToken) return
+      const retryAfter = parseInt(res.headers.get('Retry-After') || '10', 10)
+      isRateLimited.value = true
+      rateLimitSeconds.value = retryAfter
+      outputLabel.value = 'Rate Limited'
+      output.value = `Rate limited. Please wait ${retryAfter} seconds.`
+      rateLimitInterval = setInterval(() => {
+        rateLimitSeconds.value--
+        if (rateLimitSeconds.value <= 0) clearRateLimit()
+      }, 1000)
+      return
+    }
+
+    const data = await res.json()
+    if (token !== runToken) return
+    const formatted = usesPiston.value ? formatPistonOutput(data) : formatLocalOutput(data)
+    outputLabel.value = formatted.label
+    output.value = boundedOutput(formatted.text)
+  } catch (err) {
+    if (token !== runToken) return
+    if (err.name === 'AbortError' && timedOut) {
+      outputLabel.value = 'Timeout'
+      output.value = 'Execution timed out. Try a smaller example or rerun later.'
+    } else if (err.name === 'AbortError') {
+      outputLabel.value = 'Aborted'
+      output.value = 'Execution aborted.'
+    } else {
+      outputLabel.value = 'Error'
+      output.value = `Error: ${err.message}`
+    }
+  } finally {
+    if (token === runToken) {
+      isRunning.value = false
+      clearRunTimeout()
+    }
+  }
+}
+
 watch([showReference, referenceHref], async ([open, href]) => {
+  if (hasStructuredPractice.value) return
   referenceHtml.value = ''
   referenceError.value = ''
   if (!open || !href) return
@@ -74,6 +335,10 @@ watch([showReference, referenceHref], async ([open, href]) => {
   } catch (err) {
     if (token === referenceToken) referenceError.value = err.message || 'Reference failed to load.'
   }
+})
+
+onBeforeUnmount(() => {
+  resetRunState()
 })
 </script>
 
@@ -156,7 +421,183 @@ watch([showReference, referenceHref], async ([open, href]) => {
 .reference-error {
   color: #b91c1c;
 }
+.structured-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.82fr) minmax(520px, 1.18fr);
+  gap: 16px;
+  align-items: start;
+}
+.structured-grid.with-reference {
+  grid-template-columns: minmax(520px, 1fr) minmax(420px, 0.95fr);
+}
+.structured-grid.with-reference .question-panel {
+  display: none;
+}
+.question-list {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  overflow-x: auto;
+  background: var(--vp-c-bg);
+}
+.question-item {
+  flex: 0 0 220px;
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  text-align: left;
+  cursor: pointer;
+}
+.question-item:hover,
+.question-item.active {
+  background: var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-1);
+}
+.question-id {
+  color: var(--vp-c-brand-1);
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+.question-title {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.question-panel,
+.practice-code,
+.structured-reference {
+  min-width: 0;
+}
+.question-doc {
+  max-width: none;
+  max-height: 72vh;
+  overflow: auto;
+  padding: 14px 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+}
+.practice-code {
+  display: flex;
+  flex-direction: column;
+}
+.editor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+}
+.file-status {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+.file-status > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.run-state {
+  flex: none;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.run-state.runnable {
+  color: #166534;
+  background: rgba(34, 197, 94, 0.14);
+}
+.run-state.support {
+  color: #854d0e;
+  background: rgba(245, 158, 11, 0.16);
+}
+.run-btn {
+  background: var(--vp-c-brand-1);
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.run-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.run-warning {
+  margin: 0 0 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-top: none;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.solution-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.console {
+  margin-top: 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+.console-head {
+  padding: 4px 10px;
+  background: #2d2d2d;
+  font-size: 12px;
+  font-family: var(--vp-font-family-mono);
+}
+.console-out {
+  padding: 12px;
+  margin: 0;
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.structured-reference {
+  height: 72vh;
+}
 @media (max-width: 1100px) {
+  .structured-grid {
+    grid-template-columns: 1fr;
+  }
+  .structured-grid.with-reference {
+    grid-template-columns: 1fr;
+  }
+  .structured-reference {
+    height: 65vh;
+  }
+  .question-item {
+    flex-basis: 190px;
+  }
   .workspace-grid.with-reference {
     grid-template-columns: 1fr;
   }

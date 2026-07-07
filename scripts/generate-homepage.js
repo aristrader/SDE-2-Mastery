@@ -305,6 +305,90 @@ function markdownToHtml(markdown) {
     return html.join('\n');
 }
 
+function stripFrontmatter(markdown) {
+    return String(markdown).replace(/^---[\s\S]*?---\s*/, '');
+}
+
+function collectStructuredSections(markdown, kind) {
+    const body = stripFrontmatter(markdown);
+    const lines = body.split(/\r?\n/);
+    const headingPattern = new RegExp(`^##\\s+${kind}:\\s+([a-z0-9][a-z0-9-]*)\\s+-\\s+(.+?)\\s*$`);
+    const sections = [];
+    let current = null;
+
+    function flush() {
+        if (!current) return;
+        current.markdown = current.lines.join('\n').trim();
+        delete current.lines;
+        sections.push(current);
+    }
+
+    for (const line of lines) {
+        const match = line.match(headingPattern);
+        if (match) {
+            flush();
+            current = { id: match[1], title: match[2].trim(), lines: [line] };
+            continue;
+        }
+        if (current) current.lines.push(line);
+    }
+    flush();
+    return sections;
+}
+
+function extractFirstCodeFence(markdown, language = 'java') {
+    const pattern = new RegExp('```' + language + '\\s*\\n([\\s\\S]*?)\\n```', 'i');
+    const match = String(markdown).match(pattern);
+    return match ? match[1].trim() : '';
+}
+
+function assertUniqueIds(sections, filePath, kind) {
+    const seen = new Set();
+    for (const section of sections) {
+        if (seen.has(section.id)) {
+            throw new Error(`Duplicate structured ${kind} id '${section.id}' in: ${filePath}`);
+        }
+        seen.add(section.id);
+    }
+}
+
+function structuredPracticeForModule(moduleDir) {
+    const exerciseFile = path.join(moduleDir, 'exercise', 'index.md');
+    const solutionFile = path.join(moduleDir, 'solution', 'index.md');
+    if (!fs.existsSync(exerciseFile) || !fs.existsSync(solutionFile)) return null;
+
+    const exerciseMarkdown = fs.readFileSync(exerciseFile, 'utf-8');
+    const exerciseSections = collectStructuredSections(exerciseMarkdown, 'Exercise');
+    if (exerciseSections.length === 0) return null;
+
+    const solutionMarkdown = fs.readFileSync(solutionFile, 'utf-8');
+    const solutionSections = collectStructuredSections(solutionMarkdown, 'Solution');
+    assertUniqueIds(exerciseSections, exerciseFile, 'exercise');
+    assertUniqueIds(solutionSections, solutionFile, 'solution');
+
+    const solutionById = new Map(solutionSections.map(section => [section.id, section]));
+    for (const section of exerciseSections) {
+        if (!solutionById.has(section.id)) {
+            throw new Error(`Structured exercise '${section.id}' has no matching solution in: ${solutionFile}`);
+        }
+    }
+    for (const section of solutionSections) {
+        if (!exerciseSections.some(exercise => exercise.id === section.id)) {
+            throw new Error(`Structured solution '${section.id}' has no matching exercise in: ${exerciseFile}`);
+        }
+    }
+
+    return {
+        questions: exerciseSections.map(section => ({
+            id: section.id,
+            title: section.title,
+            exerciseHtml: markdownToHtml(section.markdown),
+            starterCode: extractFirstCodeFence(section.markdown),
+            solutionHtml: markdownToHtml(solutionById.get(section.id).markdown)
+        }))
+    };
+}
+
 function referenceHtmlForRoute(route) {
     const rel = route.replace(/^\/|\/$/g, '');
     const filePath = path.join(BASE_DIR, rel, 'index.md');
@@ -425,6 +509,7 @@ async function validateAndScan(dirPath, isRoot = false) {
         link: route,
         order: order,
         schema,
+        practiceSet: isModule && hasSolution ? structuredPracticeForModule(dirPath) : null,
         capabilities: {
             exercise: hasExercise,
             solution: hasSolution,
@@ -465,7 +550,13 @@ async function main() {
             flatMap.push({ text: node.text, link: node.link });
             pageMeta[node.link] = toMeta(node);
             if (node.capabilities?.exercise) {
-                pageMeta[node.link + 'exercise/'] = { ...toMeta(node), link: node.link + 'exercise/', parentLink: node.link, pageType: 'exercise' };
+                pageMeta[node.link + 'exercise/'] = {
+                    ...toMeta(node),
+                    link: node.link + 'exercise/',
+                    parentLink: node.link,
+                    pageType: 'exercise',
+                    practiceSet: node.practiceSet
+                };
             }
             if (node.capabilities?.solution) {
                 pageMeta[node.link + 'solution/'] = {

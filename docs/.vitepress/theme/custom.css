@@ -198,6 +198,7 @@ html.pg-play .VPDoc .content { max-width: none !important; }
 html.pg-practice .VPDocAside,
 html.pg-practice .VPDocAsideOutline,
 html.pg-practice .aside,
+html.pg-practice .VPDoc .aside,
 html.pg-practice .aside-container,
 html.pg-practice .aside-content,
 html.pg-practice .VPSidebar { display: none; }
@@ -206,7 +207,27 @@ html.pg-practice .VPDoc { padding: 72px 24px 16px !important; }
 html.pg-practice .VPDoc .container,
 html.pg-practice .VPDoc .content,
 html.pg-practice .VPDoc .content-container { max-width: none !important; }
+html.pg-practice .VPDoc.has-sidebar.has-aside .content,
+html.pg-practice .VPDoc.has-sidebar .content,
+html.pg-practice .VPDoc.has-aside .content,
+html.pg-practice .VPDoc .content {
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+html.pg-practice .VPDoc .container > .content {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+}
+html.pg-practice .VPDoc .content-container {
+  width: 100% !important;
+}
 html.pg-practice .vp-doc > h1:first-child,
 html.pg-practice .vp-doc > h1:first-child + p {
   max-width: 960px;
+}
+html.pg-structured-practice main > .vp-doc {
+  display: none;
 }

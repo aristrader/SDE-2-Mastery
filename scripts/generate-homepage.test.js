@@ -57,6 +57,76 @@ test('generator emits pageMeta for theory, exercise, solution, and design routes
     assert.strictEqual(data.pageMeta['/system_design/availability/design/'].pageType, 'design');
 });
 
+test('generator emits structured practice metadata when exercise and solution ids match', () => {
+    const base = makeBase();
+    const out = path.join(base, 'navigation_map.json');
+
+    write(path.join(base, 'java', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'generics', 'index.md'), frontmatter(10));
+    write(path.join(base, 'java', 'generics', 'exercise', 'index.md'), `---
+order: 10
+search: false
+---
+# Practice
+
+## Exercise: generic-pair - Generic pair
+
+### Goal
+Use two type parameters.
+
+\`\`\`java
+public class GenericPairPractice {
+    public static void main(String[] args) {
+        System.out.println("ok");
+    }
+}
+\`\`\`
+`);
+    write(path.join(base, 'java', 'generics', 'solution', 'index.md'), `---
+order: 20
+search: false
+---
+# Solutions
+
+## Solution: generic-pair - Generic pair
+
+Return the typed values.
+`);
+
+    runGenerator(base, out);
+    const data = JSON.parse(fs.readFileSync(out, 'utf8'));
+    const practiceSet = data.pageMeta['/java/generics/exercise/'].practiceSet;
+
+    assert.strictEqual(practiceSet.questions.length, 1);
+    assert.strictEqual(practiceSet.questions[0].id, 'generic-pair');
+    assert.match(practiceSet.questions[0].starterCode, /public class GenericPairPractice/);
+    assert.match(practiceSet.questions[0].solutionHtml, /Return the typed values/);
+});
+
+test('generator rejects structured practice id mismatches and duplicates', () => {
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'generics', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'generics', 'exercise', 'index.md'), `${frontmatter(10, 'search: false\n')}\n## Exercise: one - One\n`);
+        write(path.join(base, 'java', 'generics', 'solution', 'index.md'), `${frontmatter(20, 'search: false\n')}\n## Solution: two - Two\n`);
+
+        assert.throws(() => runGenerator(base, out), /has no matching solution/);
+    }
+
+    {
+        const base = makeBase();
+        const out = path.join(base, 'navigation_map.json');
+        write(path.join(base, 'java', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'generics', 'index.md'), frontmatter(10));
+        write(path.join(base, 'java', 'generics', 'exercise', 'index.md'), `${frontmatter(10, 'search: false\n')}\n## Exercise: one - One\n## Exercise: one - Duplicate\n`);
+        write(path.join(base, 'java', 'generics', 'solution', 'index.md'), `${frontmatter(20, 'search: false\n')}\n## Solution: one - One\n`);
+
+        assert.throws(() => runGenerator(base, out), /Duplicate structured exercise id 'one'/);
+    }
+});
+
 test('generator marks nested sidebar groups collapsed by default', () => {
     const base = makeBase();
     const out = path.join(base, 'navigation_map.json');

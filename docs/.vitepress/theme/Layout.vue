@@ -55,6 +55,7 @@ import ExerciseNav from './components/ExerciseNav.vue'
 import AutoTopicGrid from './components/AutoTopicGrid.vue'
 import ExerciseWorkspace from './components/ExerciseWorkspace.vue'
 import { analyzeJavaFiles, mdFolderSet, pageHasSampleCode } from './lib/fileDiscovery.mjs'
+import navData from '../navigation_map.json'
 
 // Relative globs from this file (theme/) up to repo root, then into the java tree.
 const raw = import.meta.glob('../../../src/main/java/org/example/backend_fundamentals/**/*.java', { query: '?raw', import: 'default' })
@@ -71,6 +72,11 @@ function pageDir(rel) {
 }
 
 const isPracticePage = computed(() => page.value.relativePath.endsWith('/exercise/index.md'))
+const routePath = computed(() => {
+  const rel = page.value.relativePath.replace(/index\.md$/, '')
+  return rel ? `/${rel}` : '/'
+})
+const isStructuredPracticePage = computed(() => Boolean(navData.pageMeta?.[routePath.value]?.practiceSet))
 
 const hasCode = computed(() => {
   const dir = pageDir(page.value.relativePath)
@@ -96,6 +102,7 @@ function applyBodyClass() {
   if (typeof document === 'undefined') return
   document.documentElement.classList.toggle('pg-play', hasCode.value && mode.value === 'play')
   document.documentElement.classList.toggle('pg-practice', isPracticePage.value)
+  document.documentElement.classList.toggle('pg-structured-practice', isStructuredPracticePage.value)
 }
 
 function setMode(m) {
@@ -121,7 +128,7 @@ function applyZoom() {
   })
 }
 
-const stopZoomWatch = watch([() => page.value.relativePath, hasCode, isPracticePage], () => {
+const stopZoomWatch = watch([() => page.value.relativePath, hasCode, isPracticePage, isStructuredPracticePage], () => {
   syncFromHash()
   applyZoom()
 })

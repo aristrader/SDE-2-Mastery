@@ -94,6 +94,33 @@ async function assertExerciseWorkspace(page) {
   assert.strictEqual(await page.locator('.reference-panel .VPSidebar').count(), 0, 'reference panel should not embed the full site shell');
 }
 
+async function assertStructuredExerciseWorkspace(page) {
+  await page.goto(`${BASE_URL}/java/foundations/generics/exercise/`, { waitUntil: 'networkidle' });
+  await page.locator('.exercise-workspace.structured').waitFor({ timeout: 15000 });
+  assert.strictEqual(await page.locator('.question-item').count(), 5, 'structured practice should list each question');
+  assert.strictEqual(
+    await page.locator('main > .vp-doc').evaluate((el) => getComputedStyle(el).display),
+    'none',
+    'structured practice should hide the raw worksheet body'
+  );
+  assert.strictEqual(
+    await page.locator('.VPDoc .aside').evaluate((el) => getComputedStyle(el).display),
+    'none',
+    'structured practice should hide the aside column'
+  );
+  assert.ok(
+    await page.locator('.exercise-workspace').evaluate((el) => el.getBoundingClientRect().width > 1200),
+    'structured practice should use the available desktop width'
+  );
+  await page.getByRole('button', { name: /bounded-max-sum/i }).click();
+  await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
+  assert.match(await page.locator('.question-item.active .question-id').innerText(), /bounded-max-sum/);
+  assert.strictEqual(await page.locator('.structured-reference').count(), 0, 'selected solution should start closed');
+  await page.getByRole('button', { name: /View Solution/ }).click();
+  await page.locator('.structured-reference').waitFor({ timeout: 15000 });
+  assert.match(await page.locator('.reference-head').innerText(), /Bounds with extends/);
+}
+
 async function assertCodeTabActive(page) {
   await page.goto(`${BASE_URL}/java/oop/encapsulation/#code`, { waitUntil: 'networkidle' });
   await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
@@ -124,6 +151,7 @@ async function main() {
   await assertStudyTabs(page, '/java/foundations/control_flow/', ['Read', 'Practice', 'Solution']);
   await assertArchitectureBoardLifecycle(page);
   await assertExerciseWorkspace(page);
+  await assertStructuredExerciseWorkspace(page);
   await assertCodeTabActive(page);
 
   if (RUN_MOBILE_CHECKS) {

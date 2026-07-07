@@ -5,84 +5,272 @@ search: false
 
 # Generics Practice
 
-Exercises are grouped by topic. Write code in the matching `*Practice.java` file in this folder. After discussion, the code gets cleaned up into the final demo file.
+Use the question list in the practice workspace. Each exercise has a focused goal, starter code, and matching solution.
 
----
+## Exercise: generic-pair-stack - Generic containers
 
-## Topic 1 — Generics basics
+### Goal
+Build small generic types and see how type parameters remove casts at the call site.
 
-1. **`Pair<A, B>`** — holds two values of potentially *different* types. Methods: `getFirst()`, `getSecond()`, `swap()` returns a `Pair<B, A>`.
-2. **`Stack<T>`** — backed by `ArrayList`. Methods: `push(T)`, `pop()` (throws if empty), `peek()`, `isEmpty()`.
-3. **Spot the bug** — rewrite this using generics:
-   ```java
-   List names = new ArrayList();
-   names.add("Alice");
-   names.add("Bob");
-   for (Object name : names) {
-       String upper = ((String) name).toUpperCase();
-   }
-   ```
+### Task
+Implement:
 
----
+- `Pair<A, B>` with `getFirst()`, `getSecond()`, and `swap()` returning `Pair<B, A>`.
+- `SimpleStack<T>` backed by `ArrayList` with `push`, `pop`, `peek`, and `isEmpty`.
+- A raw-list bug fix: replace a raw `List` with `List<String>` so bad inserts fail at compile time.
 
-## Topic 2 — Bounds (`extends`)
+### Starter code
 
-1. **`findMax(List<T> list)`** — returns the largest element. Bound `T` appropriately so you can compare elements.
-2. **`sumList(List<T> list)`** — returns the sum as a `double`. Bound `T` so you can call `.doubleValue()` on each element.
-3. **Spot the issue** — what's wrong here and how do you fix it?
-   ```java
-   public <T> T findMax(List<T> list) {
-       T max = list.get(0);
-       for (T item : list) {
-           if (item > max) { // problem?
-               max = item;
-           }
-       }
-       return max;
-   }
-   ```
+```java
+import java.util.ArrayList;
+import java.util.List;
 
----
+public class GenericPairStackPractice {
+    static final class Pair<A, B> {
+        private final A first;
+        private final B second;
 
-## Topic 3 — Wildcards
+        Pair(A first, B second) {
+            this.first = first;
+            this.second = second;
+        }
 
-### 3a — Unbounded wildcard
+        A getFirst() {
+            return null;
+        }
 
-1. **`printAll` — bounds vs wildcard comparison.** Write the same method two ways and call both:
-   ```java
-   // Version A — bounded type parameter (you name the type)
-   <T> void printAll(List<T> list)
+        B getSecond() {
+            return null;
+        }
 
-   // Version B — wildcard (you don't name the type)
-   void printAll(List<?> list)
-   ```
-   Call each with `List<String>`, `List<Integer>`, `List<Double>`. Observe: does the call site look different? Can you pass `List<Integer>` to a `List<Number>` parameter? Try it with both versions and see what compiles.
+        Pair<B, A> swap() {
+            return null;
+        }
+    }
 
-### 3b — Upper-bounded wildcard (`? extends`)
+    static final class SimpleStack<T> {
+        private final List<T> values = new ArrayList<>();
 
-2. **`sumList(List<? extends Number> list)`** — returns sum as `double`. The `? extends Number` means: accept any list whose elements are Numbers — `List<Integer>`, `List<Double>`, `List<BigDecimal>` all work. Compare with your `BoundsPractice.sumStream` — what's the difference in the method signature?
+        void push(T value) {
+        }
 
-3. **`printNumbers(List<? extends Number> list)`** — prints each element after calling `.doubleValue()` on it. Try calling it with `List<Integer>` and `List<Double>`. Then try adding an element inside the method — observe the compile error and explain why it happens.
+        T pop() {
+            return null;
+        }
 
-### 3c — Lower-bounded wildcard (`? super`)
+        T peek() {
+            return null;
+        }
 
-4. **`addNumbers(List<? super Integer> list)`** — adds integers 1 to 5 into the list. Call it with a `List<Integer>`, `List<Number>`, and `List<Object>` — all three should work. Try calling it with a `List<String>` and see the compile error. Inside the method, try reading an element back and assigning it to an `Integer` variable — observe and explain.
+        boolean isEmpty() {
+            return true;
+        }
+    }
 
-5. **`fill(List<? super Integer> list, int value, int count)`** — adds `value` to the list `count` times. Call it with `List<Number>` and confirm the list contains the right elements after.
+    public static void main(String[] args) {
+        Pair<String, Integer> pair = new Pair<>("age", 30);
+        Pair<Integer, String> swapped = pair.swap();
+        System.out.println(pair.getFirst() + "=" + pair.getSecond());
+        System.out.println(swapped.getFirst() + "=" + swapped.getSecond());
 
----
+        SimpleStack<String> stack = new SimpleStack<>();
+        stack.push("first");
+        stack.push("second");
+        System.out.println(stack.peek());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
 
-## Topic 4 — PECS
+        List<String> names = new ArrayList<>();
+        names.add("Alice");
+        names.add("Bob");
+        // names.add(42); // should be a compile error
+        for (String name : names) {
+            System.out.println(name.toUpperCase());
+        }
+    }
+}
+```
 
-1. **`copy(src, dst)`** — write a generic copy method. Decide which wildcard goes on `src` and which on `dst` before writing. Test copying `List<Integer>` into `List<Number>`.
-2. **`addDefaults(list, value, count)`** — adds `value` into the list `count` times. Which role does the list play?
-3. **`findMax(List<? extends T> list)`** — returns the largest element using PECS. Bound `T` so you can compare.
+### Checks
+- Output starts with `age=30` and `30=age`.
+- Stack pops in LIFO order: `second`, then `first`.
+- `names.add(42)` fails at compile time when uncommented.
 
----
+## Exercise: bounded-max-sum - Bounds with extends
 
-## Topic 5 — Type Erasure
+### Goal
+Use bounds to unlock methods on `T`: `compareTo` for max and `doubleValue` for sums.
 
-1. **`instanceof` trap** — try `list instanceof List<Integer>`. Observe the compile error. Write the correct runtime check using the raw type.
-2. **Same erasure overload** — write `process(List<Integer>)` and `process(List<String>)` as two methods. Observe the compile error. Fix using different method names.
-3. **`.getClass()` demo** — create `List<Integer>` and `List<String>`, compare `.getClass()` with `==`. Explain the result.
-4. **Unchecked cast** — write a method that takes `Object`, casts it to `List<String>`, and returns it. Explain why the compiler warns but doesn't error, and when the runtime crash actually happens.
+### Task
+Implement:
+
+- `findMax(List<T>)` where `T` can be compared.
+- `sumList(List<T>)` where `T` is a `Number`.
+- Fix the common bug where someone writes `item > max` for generic objects.
+
+### Starter code
+
+```java
+import java.util.List;
+
+public class BoundedMaxSumPractice {
+    static <T extends Comparable<T>> T findMax(List<T> values) {
+        return null;
+    }
+
+    static <T extends Number> double sumList(List<T> values) {
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(findMax(List.of(3, 10, 2)));
+        System.out.println(sumList(List.of(1, 2, 3)));
+
+        // Why is this invalid for generic T?
+        // if (item > max) { ... }
+    }
+}
+```
+
+### Checks
+- Max prints `10`.
+- Sum prints `6.0`.
+- Your explanation names both issues: `>` works on primitives, and unbounded `T` has no comparison contract.
+
+## Exercise: wildcard-producer - Upper-bounded wildcards
+
+### Goal
+Practice `? extends` for producer inputs: read values safely, but do not add values.
+
+### Task
+Implement:
+
+- `printNumbers(List<? extends Number>)`
+- `sumList(List<? extends Number>)`
+
+Then try to add an `Integer` inside `printNumbers` and explain the compiler error.
+
+### Starter code
+
+```java
+import java.util.List;
+
+public class WildcardProducerPractice {
+    static void printNumbers(List<? extends Number> values) {
+    }
+
+    static double sumList(List<? extends Number> values) {
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        printNumbers(List.of(1, 2, 3));
+        printNumbers(List.of(1.5, 2.5));
+        System.out.println(sumList(List.of(1, 2, 3)));
+        System.out.println(sumList(List.of(1.5, 2.5)));
+    }
+}
+```
+
+### Checks
+- Both `List<Integer>` and `List<Double>` compile.
+- The sums print `6.0` and `4.0`.
+- You can explain why `values.add(1)` is unsafe for `List<? extends Number>`.
+
+## Exercise: wildcard-consumer - Lower-bounded wildcards
+
+### Goal
+Practice `? super` for consumer inputs: add integers safely, but read back only as `Object`.
+
+### Task
+Implement:
+
+- `addNumbers(List<? super Integer>)` adding `1` through `5`.
+- `fill(List<? super Integer>, int value, int count)`.
+
+Call both with `List<Integer>`, `List<Number>`, and `List<Object>`. Try `List<String>` and confirm it does not compile.
+
+### Starter code
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class WildcardConsumerPractice {
+    static void addNumbers(List<? super Integer> values) {
+    }
+
+    static void fill(List<? super Integer> values, int value, int count) {
+    }
+
+    public static void main(String[] args) {
+        List<Integer> integers = new ArrayList<>();
+        List<Number> numbers = new ArrayList<>();
+        List<Object> objects = new ArrayList<>();
+
+        addNumbers(integers);
+        addNumbers(numbers);
+        fill(objects, 9, 3);
+
+        System.out.println(integers);
+        System.out.println(numbers);
+        System.out.println(objects);
+
+        Object first = objects.get(0);
+        System.out.println(first.getClass().getSimpleName());
+    }
+}
+```
+
+### Checks
+- `integers` and `numbers` contain `[1, 2, 3, 4, 5]`.
+- `objects` contains `[9, 9, 9]`.
+- Reading from `List<? super Integer>` is treated as `Object`, not `Integer`.
+
+## Exercise: erasure-traps - Type erasure traps
+
+### Goal
+See what generic type information survives at runtime and what gets erased.
+
+### Task
+Demonstrate three erasure rules:
+
+- `list instanceof List<Integer>` is illegal; raw `List` is the runtime check.
+- `process(List<Integer>)` and `process(List<String>)` cannot be overloaded together.
+- `List<Integer>` and `List<String>` have the same runtime class.
+
+### Starter code
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ErasureTrapsPractice {
+    static void processIntegers(List<Integer> values) {
+        System.out.println("integers=" + values);
+    }
+
+    static void processStrings(List<String> values) {
+        System.out.println("strings=" + values);
+    }
+
+    public static void main(String[] args) {
+        Object unknown = List.of(1, 2, 3);
+
+        if (unknown instanceof List) {
+            System.out.println("It is a List at runtime");
+        }
+
+        List<Integer> ints = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
+        System.out.println(ints.getClass() == strings.getClass());
+
+        processIntegers(List.of(1, 2));
+        processStrings(List.of("a", "b"));
+    }
+}
+```
+
+### Checks
+- Runtime class comparison prints `true`.
+- You can explain why overloaded `process(List<Integer>)` and `process(List<String>)` have the same erased signature.

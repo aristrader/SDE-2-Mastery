@@ -913,6 +913,7 @@
     "link": "/",
     "order": 1,
     "schema": "theory",
+    "practiceSet": null,
     "capabilities": {
       "exercise": false,
       "solution": false,
@@ -926,6 +927,7 @@
         "link": "/java/",
         "order": 10,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -939,6 +941,7 @@
             "link": "/java/foundations/",
             "order": 10,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -952,6 +955,7 @@
                 "link": "/java/foundations/primitives/",
                 "order": 10,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -965,6 +969,7 @@
                     "link": "/java/foundations/primitives/wrapper_classes/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -980,6 +985,7 @@
                 "link": "/java/foundations/string/",
                 "order": 20,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -993,6 +999,7 @@
                     "link": "/java/foundations/string/strings/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1006,6 +1013,7 @@
                     "link": "/java/foundations/string/string_pool_and_cache/",
                     "order": 40,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1019,6 +1027,7 @@
                     "link": "/java/foundations/string/stringbuilder/",
                     "order": 50,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1034,6 +1043,7 @@
                 "link": "/java/foundations/control_flow/",
                 "order": 30,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1047,6 +1057,7 @@
                     "link": "/java/foundations/control_flow/operators/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1062,6 +1073,7 @@
                 "link": "/java/foundations/enums/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1075,6 +1087,7 @@
                 "link": "/java/foundations/exceptions/",
                 "order": 50,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1088,6 +1101,45 @@
                 "link": "/java/foundations/generics/",
                 "order": 60,
                 "schema": "interactive-code",
+                "practiceSet": {
+                  "questions": [
+                    {
+                      "id": "generic-pair-stack",
+                      "title": "Generic containers",
+                      "exerciseHtml": "<h2>Exercise: generic-pair-stack - Generic containers</h2>\n<h3>Goal</h3>\n<p>Build small generic types and see how type parameters remove casts at the call site.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>Pair&lt;A, B&gt;</code> with <code>getFirst()</code>, <code>getSecond()</code>, and <code>swap()</code> returning <code>Pair&lt;B, A&gt;</code>.</li>\n<li><code>SimpleStack&lt;T&gt;</code> backed by <code>ArrayList</code> with <code>push</code>, <code>pop</code>, <code>peek</code>, and <code>isEmpty</code>.</li>\n<li>A raw-list bug fix: replace a raw <code>List</code> with <code>List&lt;String&gt;</code> so bad inserts fail at compile time.</li>\n</ul>\n<h3>Starter code</h3>\n<pre><code>import java.util.ArrayList;\nimport java.util.List;\n\npublic class GenericPairStackPractice {\n    static final class Pair&lt;A, B&gt; {\n        private final A first;\n        private final B second;\n\n        Pair(A first, B second) {\n            this.first = first;\n            this.second = second;\n        }\n\n        A getFirst() {\n            return null;\n        }\n\n        B getSecond() {\n            return null;\n        }\n\n        Pair&lt;B, A&gt; swap() {\n            return null;\n        }\n    }\n\n    static final class SimpleStack&lt;T&gt; {\n        private final List&lt;T&gt; values = new ArrayList&lt;&gt;();\n\n        void push(T value) {\n        }\n\n        T pop() {\n            return null;\n        }\n\n        T peek() {\n            return null;\n        }\n\n        boolean isEmpty() {\n            return true;\n        }\n    }\n\n    public static void main(String[] args) {\n        Pair&lt;String, Integer&gt; pair = new Pair&lt;&gt;(&quot;age&quot;, 30);\n        Pair&lt;Integer, String&gt; swapped = pair.swap();\n        System.out.println(pair.getFirst() + &quot;=&quot; + pair.getSecond());\n        System.out.println(swapped.getFirst() + &quot;=&quot; + swapped.getSecond());\n\n        SimpleStack&lt;String&gt; stack = new SimpleStack&lt;&gt;();\n        stack.push(&quot;first&quot;);\n        stack.push(&quot;second&quot;);\n        System.out.println(stack.peek());\n        System.out.println(stack.pop());\n        System.out.println(stack.pop());\n\n        List&lt;String&gt; names = new ArrayList&lt;&gt;();\n        names.add(&quot;Alice&quot;);\n        names.add(&quot;Bob&quot;);\n        // names.add(42); // should be a compile error\n        for (String name : names) {\n            System.out.println(name.toUpperCase());\n        }\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Output starts with <code>age=30</code> and <code>30=age</code>.</li>\n<li>Stack pops in LIFO order: <code>second</code>, then <code>first</code>.</li>\n<li><code>names.add(42)</code> fails at compile time when uncommented.</li>\n</ul>",
+                      "starterCode": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class GenericPairStackPractice {\n    static final class Pair<A, B> {\n        private final A first;\n        private final B second;\n\n        Pair(A first, B second) {\n            this.first = first;\n            this.second = second;\n        }\n\n        A getFirst() {\n            return null;\n        }\n\n        B getSecond() {\n            return null;\n        }\n\n        Pair<B, A> swap() {\n            return null;\n        }\n    }\n\n    static final class SimpleStack<T> {\n        private final List<T> values = new ArrayList<>();\n\n        void push(T value) {\n        }\n\n        T pop() {\n            return null;\n        }\n\n        T peek() {\n            return null;\n        }\n\n        boolean isEmpty() {\n            return true;\n        }\n    }\n\n    public static void main(String[] args) {\n        Pair<String, Integer> pair = new Pair<>(\"age\", 30);\n        Pair<Integer, String> swapped = pair.swap();\n        System.out.println(pair.getFirst() + \"=\" + pair.getSecond());\n        System.out.println(swapped.getFirst() + \"=\" + swapped.getSecond());\n\n        SimpleStack<String> stack = new SimpleStack<>();\n        stack.push(\"first\");\n        stack.push(\"second\");\n        System.out.println(stack.peek());\n        System.out.println(stack.pop());\n        System.out.println(stack.pop());\n\n        List<String> names = new ArrayList<>();\n        names.add(\"Alice\");\n        names.add(\"Bob\");\n        // names.add(42); // should be a compile error\n        for (String name : names) {\n            System.out.println(name.toUpperCase());\n        }\n    }\n}",
+                      "solutionHtml": "<h2>Solution: generic-pair-stack - Generic containers</h2>\n<p><code>Pair&lt;A, B&gt;</code> keeps the two component types separate, so <code>Pair&lt;String, Integer&gt;</code> does not lose the fact that the first value is a <code>String</code> and the second is an <code>Integer</code>.</p>\n<pre><code>A getFirst() {\n    return first;\n}\n\nB getSecond() {\n    return second;\n}\n\nPair&lt;B, A&gt; swap() {\n    return new Pair&lt;&gt;(second, first);\n}</code></pre>\n<p><code>SimpleStack&lt;T&gt;</code> should delegate to the end of the backing list so push/pop are LIFO:</p>\n<pre><code>void push(T value) {\n    values.add(value);\n}\n\nT pop() {\n    return values.remove(values.size() - 1);\n}\n\nT peek() {\n    return values.get(values.size() - 1);\n}\n\nboolean isEmpty() {\n    return values.isEmpty();\n}</code></pre>\n<p>The raw-list bug disappears because <code>List&lt;String&gt;</code> moves the failure from runtime to compile time. <code>names.add(42)</code> cannot compile, and the loop no longer needs a cast.</p>"
+                    },
+                    {
+                      "id": "bounded-max-sum",
+                      "title": "Bounds with extends",
+                      "exerciseHtml": "<h2>Exercise: bounded-max-sum - Bounds with extends</h2>\n<h3>Goal</h3>\n<p>Use bounds to unlock methods on <code>T</code>: <code>compareTo</code> for max and <code>doubleValue</code> for sums.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>findMax(List&lt;T&gt;)</code> where <code>T</code> can be compared.</li>\n<li><code>sumList(List&lt;T&gt;)</code> where <code>T</code> is a <code>Number</code>.</li>\n<li>Fix the common bug where someone writes <code>item &gt; max</code> for generic objects.</li>\n</ul>\n<h3>Starter code</h3>\n<pre><code>import java.util.List;\n\npublic class BoundedMaxSumPractice {\n    static &lt;T extends Comparable&lt;T&gt;&gt; T findMax(List&lt;T&gt; values) {\n        return null;\n    }\n\n    static &lt;T extends Number&gt; double sumList(List&lt;T&gt; values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(findMax(List.of(3, 10, 2)));\n        System.out.println(sumList(List.of(1, 2, 3)));\n\n        // Why is this invalid for generic T?\n        // if (item &gt; max) { ... }\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Max prints <code>10</code>.</li>\n<li>Sum prints <code>6.0</code>.</li>\n<li>Your explanation names both issues: <code>&gt;</code> works on primitives, and unbounded <code>T</code> has no comparison contract.</li>\n</ul>",
+                      "starterCode": "import java.util.List;\n\npublic class BoundedMaxSumPractice {\n    static <T extends Comparable<T>> T findMax(List<T> values) {\n        return null;\n    }\n\n    static <T extends Number> double sumList(List<T> values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(findMax(List.of(3, 10, 2)));\n        System.out.println(sumList(List.of(1, 2, 3)));\n\n        // Why is this invalid for generic T?\n        // if (item > max) { ... }\n    }\n}",
+                      "solutionHtml": "<h2>Solution: bounded-max-sum - Bounds with extends</h2>\n<p>Use one bound for comparison and one bound for numeric conversion:</p>\n<pre><code>static &lt;T extends Comparable&lt;T&gt;&gt; T findMax(List&lt;T&gt; values) {\n    if (values.isEmpty()) {\n        throw new IllegalArgumentException(&quot;values must not be empty&quot;);\n    }\n    T max = values.get(0);\n    for (T value : values) {\n        if (value.compareTo(max) &gt; 0) {\n            max = value;\n        }\n    }\n    return max;\n}\n\nstatic &lt;T extends Number&gt; double sumList(List&lt;T&gt; values) {\n    double total = 0;\n    for (T value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>item &gt; max</code> is wrong because generics are object types, and <code>&gt;</code> works on primitives. Also, plain <code>T</code> is only known as <code>Object</code>, so the compiler cannot assume it has <code>compareTo</code>.</p>"
+                    },
+                    {
+                      "id": "wildcard-producer",
+                      "title": "Upper-bounded wildcards",
+                      "exerciseHtml": "<h2>Exercise: wildcard-producer - Upper-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? extends</code> for producer inputs: read values safely, but do not add values.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>printNumbers(List&lt;? extends Number&gt;)</code></li>\n<li><code>sumList(List&lt;? extends Number&gt;)</code></li>\n</ul>\n<p>Then try to add an <code>Integer</code> inside <code>printNumbers</code> and explain the compiler error.</p>\n<h3>Starter code</h3>\n<pre><code>import java.util.List;\n\npublic class WildcardProducerPractice {\n    static void printNumbers(List&lt;? extends Number&gt; values) {\n    }\n\n    static double sumList(List&lt;? extends Number&gt; values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        printNumbers(List.of(1, 2, 3));\n        printNumbers(List.of(1.5, 2.5));\n        System.out.println(sumList(List.of(1, 2, 3)));\n        System.out.println(sumList(List.of(1.5, 2.5)));\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Both <code>List&lt;Integer&gt;</code> and <code>List&lt;Double&gt;</code> compile.</li>\n<li>The sums print <code>6.0</code> and <code>4.0</code>.</li>\n<li>You can explain why <code>values.add(1)</code> is unsafe for <code>List&lt;? extends Number&gt;</code>.</li>\n</ul>",
+                      "starterCode": "import java.util.List;\n\npublic class WildcardProducerPractice {\n    static void printNumbers(List<? extends Number> values) {\n    }\n\n    static double sumList(List<? extends Number> values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        printNumbers(List.of(1, 2, 3));\n        printNumbers(List.of(1.5, 2.5));\n        System.out.println(sumList(List.of(1, 2, 3)));\n        System.out.println(sumList(List.of(1.5, 2.5)));\n    }\n}",
+                      "solutionHtml": "<h2>Solution: wildcard-producer - Upper-bounded wildcards</h2>\n<p>For <code>? extends Number</code>, the list produces <code>Number</code> values safely:</p>\n<pre><code>static void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value.doubleValue());\n    }\n}\n\nstatic double sumList(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p>You cannot add <code>1</code> to <code>List&lt;? extends Number&gt;</code> because the actual list might be <code>List&lt;Double&gt;</code>, <code>List&lt;BigDecimal&gt;</code>, or another <code>Number</code> subtype list. Adding an <code>Integer</code> would break that list's real element type.</p>"
+                    },
+                    {
+                      "id": "wildcard-consumer",
+                      "title": "Lower-bounded wildcards",
+                      "exerciseHtml": "<h2>Exercise: wildcard-consumer - Lower-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? super</code> for consumer inputs: add integers safely, but read back only as <code>Object</code>.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>addNumbers(List&lt;? super Integer&gt;)</code> adding <code>1</code> through <code>5</code>.</li>\n<li><code>fill(List&lt;? super Integer&gt;, int value, int count)</code>.</li>\n</ul>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>. Try <code>List&lt;String&gt;</code> and confirm it does not compile.</p>\n<h3>Starter code</h3>\n<pre><code>import java.util.ArrayList;\nimport java.util.List;\n\npublic class WildcardConsumerPractice {\n    static void addNumbers(List&lt;? super Integer&gt; values) {\n    }\n\n    static void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    }\n\n    public static void main(String[] args) {\n        List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\n        List&lt;Number&gt; numbers = new ArrayList&lt;&gt;();\n        List&lt;Object&gt; objects = new ArrayList&lt;&gt;();\n\n        addNumbers(integers);\n        addNumbers(numbers);\n        fill(objects, 9, 3);\n\n        System.out.println(integers);\n        System.out.println(numbers);\n        System.out.println(objects);\n\n        Object first = objects.get(0);\n        System.out.println(first.getClass().getSimpleName());\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li><code>integers</code> and <code>numbers</code> contain <code>[1, 2, 3, 4, 5]</code>.</li>\n<li><code>objects</code> contains <code>[9, 9, 9]</code>.</li>\n<li>Reading from <code>List&lt;? super Integer&gt;</code> is treated as <code>Object</code>, not <code>Integer</code>.</li>\n</ul>",
+                      "starterCode": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class WildcardConsumerPractice {\n    static void addNumbers(List<? super Integer> values) {\n    }\n\n    static void fill(List<? super Integer> values, int value, int count) {\n    }\n\n    public static void main(String[] args) {\n        List<Integer> integers = new ArrayList<>();\n        List<Number> numbers = new ArrayList<>();\n        List<Object> objects = new ArrayList<>();\n\n        addNumbers(integers);\n        addNumbers(numbers);\n        fill(objects, 9, 3);\n\n        System.out.println(integers);\n        System.out.println(numbers);\n        System.out.println(objects);\n\n        Object first = objects.get(0);\n        System.out.println(first.getClass().getSimpleName());\n    }\n}",
+                      "solutionHtml": "<h2>Solution: wildcard-consumer - Lower-bounded wildcards</h2>\n<p>For <code>? super Integer</code>, the list can safely consume integers:</p>\n<pre><code>static void addNumbers(List&lt;? super Integer&gt; values) {\n    for (int i = 1; i &lt;= 5; i++) {\n        values.add(i);\n    }\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p>Reading is less specific. The list might be <code>List&lt;Object&gt;</code>, so the compiler only promises that <code>get</code> returns <code>Object</code>. Assigning directly to <code>Integer</code> is unsafe without a cast and runtime check.</p>"
+                    },
+                    {
+                      "id": "erasure-traps",
+                      "title": "Type erasure traps",
+                      "exerciseHtml": "<h2>Exercise: erasure-traps - Type erasure traps</h2>\n<h3>Goal</h3>\n<p>See what generic type information survives at runtime and what gets erased.</p>\n<h3>Task</h3>\n<p>Demonstrate three erasure rules:</p>\n<ul>\n<li><code>list instanceof List&lt;Integer&gt;</code> is illegal; raw <code>List</code> is the runtime check.</li>\n<li><code>process(List&lt;Integer&gt;)</code> and <code>process(List&lt;String&gt;)</code> cannot be overloaded together.</li>\n<li><code>List&lt;Integer&gt;</code> and <code>List&lt;String&gt;</code> have the same runtime class.</li>\n</ul>\n<h3>Starter code</h3>\n<pre><code>import java.util.ArrayList;\nimport java.util.List;\n\npublic class ErasureTrapsPractice {\n    static void processIntegers(List&lt;Integer&gt; values) {\n        System.out.println(&quot;integers=&quot; + values);\n    }\n\n    static void processStrings(List&lt;String&gt; values) {\n        System.out.println(&quot;strings=&quot; + values);\n    }\n\n    public static void main(String[] args) {\n        Object unknown = List.of(1, 2, 3);\n\n        if (unknown instanceof List) {\n            System.out.println(&quot;It is a List at runtime&quot;);\n        }\n\n        List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();\n        List&lt;String&gt; strings = new ArrayList&lt;&gt;();\n        System.out.println(ints.getClass() == strings.getClass());\n\n        processIntegers(List.of(1, 2));\n        processStrings(List.of(&quot;a&quot;, &quot;b&quot;));\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Runtime class comparison prints <code>true</code>.</li>\n<li>You can explain why overloaded <code>process(List&lt;Integer&gt;)</code> and <code>process(List&lt;String&gt;)</code> have the same erased signature.</li>\n</ul>",
+                      "starterCode": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class ErasureTrapsPractice {\n    static void processIntegers(List<Integer> values) {\n        System.out.println(\"integers=\" + values);\n    }\n\n    static void processStrings(List<String> values) {\n        System.out.println(\"strings=\" + values);\n    }\n\n    public static void main(String[] args) {\n        Object unknown = List.of(1, 2, 3);\n\n        if (unknown instanceof List) {\n            System.out.println(\"It is a List at runtime\");\n        }\n\n        List<Integer> ints = new ArrayList<>();\n        List<String> strings = new ArrayList<>();\n        System.out.println(ints.getClass() == strings.getClass());\n\n        processIntegers(List.of(1, 2));\n        processStrings(List.of(\"a\", \"b\"));\n    }\n}",
+                      "solutionHtml": "<h2>Solution: erasure-traps - Type erasure traps</h2>\n<p>At runtime, both <code>List&lt;Integer&gt;</code> and <code>List&lt;String&gt;</code> are just <code>List</code>:</p>\n<pre><code>Object unknown = List.of(1, 2, 3);\nif (unknown instanceof List) {\n    System.out.println(&quot;It is a List at runtime&quot;);\n}\n\nList&lt;Integer&gt; ints = new ArrayList&lt;&gt;();\nList&lt;String&gt; strings = new ArrayList&lt;&gt;();\nSystem.out.println(ints.getClass() == strings.getClass()); // true</code></pre>\n<p>The overload trap has the same cause. These two methods cannot live together:</p>\n<pre><code>void process(List&lt;Integer&gt; values) {}\nvoid process(List&lt;String&gt; values) {}</code></pre>\n<p>After erasure, both look like <code>process(List values)</code>, so the JVM would see duplicate signatures. Use distinct names, a discriminator parameter, or a different abstraction.</p>"
+                    }
+                  ]
+                },
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1101,6 +1153,7 @@
                 "link": "/java/foundations/streams/",
                 "order": 70,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1116,6 +1169,7 @@
             "link": "/java/oop/",
             "order": 20,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1129,6 +1183,7 @@
                 "link": "/java/oop/classes_and_objects/",
                 "order": 10,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1142,6 +1197,7 @@
                     "link": "/java/oop/classes_and_objects/static_and_final/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1157,6 +1213,7 @@
                 "link": "/java/oop/object_model/",
                 "order": 20,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1170,6 +1227,7 @@
                     "link": "/java/oop/object_model/methods/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1183,6 +1241,7 @@
                     "link": "/java/oop/object_model/type_casting/",
                     "order": 40,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1196,6 +1255,7 @@
                     "link": "/java/oop/object_model/varargs/",
                     "order": 50,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1211,6 +1271,7 @@
                 "link": "/java/oop/access_modifiers/",
                 "order": 30,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1224,6 +1285,7 @@
                     "link": "/java/oop/access_modifiers/source_structure/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1237,6 +1299,7 @@
                     "link": "/java/oop/access_modifiers/access_modifiers_deep_dive/",
                     "order": 40,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1252,6 +1315,7 @@
                 "link": "/java/oop/encapsulation/",
                 "order": 40,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1265,6 +1329,7 @@
                 "link": "/java/oop/abstraction/",
                 "order": 50,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1278,6 +1343,7 @@
                 "link": "/java/oop/inheritance/",
                 "order": 60,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1291,6 +1357,7 @@
                 "link": "/java/oop/composition_vs_inheritance/",
                 "order": 70,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1304,6 +1371,7 @@
                 "link": "/java/oop/polymorphism/",
                 "order": 80,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1317,6 +1385,7 @@
                 "link": "/java/oop/nested_classes/",
                 "order": 90,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1330,6 +1399,7 @@
                 "link": "/java/oop/method_dispatch/",
                 "order": 100,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1343,6 +1413,7 @@
                 "link": "/java/oop/abstract_class_vs_interface/",
                 "order": 110,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1356,6 +1427,7 @@
                 "link": "/java/oop/equals_hashcode/",
                 "order": 120,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1369,6 +1441,7 @@
                     "link": "/java/oop/equals_hashcode/contracts/",
                     "order": 30,
                     "schema": "theory",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": false,
                       "solution": false,
@@ -1386,6 +1459,7 @@
             "link": "/java/collections/",
             "order": 40,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1399,6 +1473,7 @@
                 "link": "/java/collections/lists/",
                 "order": 10,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1412,6 +1487,7 @@
                 "link": "/java/collections/hashing/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1425,6 +1501,7 @@
                 "link": "/java/collections/maps/",
                 "order": 30,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1438,6 +1515,7 @@
                 "link": "/java/collections/sets/",
                 "order": 40,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1451,6 +1529,7 @@
                 "link": "/java/collections/hashmap/",
                 "order": 50,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1464,6 +1543,7 @@
                 "link": "/java/collections/linked_hashmap/",
                 "order": 60,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1477,6 +1557,7 @@
                 "link": "/java/collections/treemap/",
                 "order": 70,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1490,6 +1571,7 @@
                 "link": "/java/collections/concurrent_hashmap/",
                 "order": 80,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1505,6 +1587,7 @@
             "link": "/java/jvm/",
             "order": 50,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1518,6 +1601,7 @@
                 "link": "/java/jvm/compilation_pipeline/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1531,6 +1615,7 @@
                 "link": "/java/jvm/gc/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1546,6 +1631,7 @@
             "link": "/java/concurrency/",
             "order": 60,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1559,6 +1645,7 @@
                 "link": "/java/concurrency/thread_lifecycle/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1572,6 +1659,7 @@
                 "link": "/java/concurrency/race_conditions/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1585,6 +1673,7 @@
                 "link": "/java/concurrency/jmm/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1598,6 +1687,7 @@
                 "link": "/java/concurrency/volatile_keyword/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1611,6 +1701,7 @@
                 "link": "/java/concurrency/synchronized_keyword/",
                 "order": 50,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1624,6 +1715,7 @@
                 "link": "/java/concurrency/locks/",
                 "order": 60,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1637,6 +1729,7 @@
                 "link": "/java/concurrency/executor_service/",
                 "order": 70,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1650,6 +1743,7 @@
                 "link": "/java/concurrency/completable_future/",
                 "order": 80,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1665,6 +1759,7 @@
             "link": "/java/coding_fluency/",
             "order": 70,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1678,6 +1773,7 @@
                 "link": "/java/coding_fluency/method_references/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1691,6 +1787,7 @@
                 "link": "/java/coding_fluency/optional/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1704,6 +1801,7 @@
                 "link": "/java/coding_fluency/records/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1717,6 +1815,7 @@
                 "link": "/java/coding_fluency/immutable_collections/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1730,6 +1829,7 @@
                 "link": "/java/coding_fluency/lombok/",
                 "order": 50,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1747,6 +1847,7 @@
         "link": "/spring/",
         "order": 20,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -1760,6 +1861,7 @@
             "link": "/spring/spring_core/",
             "order": 10,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1773,6 +1875,7 @@
                 "link": "/spring/spring_core/dependency_injection/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1786,6 +1889,7 @@
                 "link": "/spring/spring_core/ioc_container/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1799,6 +1903,7 @@
                 "link": "/spring/spring_core/bean_lifecycle/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1812,6 +1917,7 @@
                 "link": "/spring/spring_core/caching/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1825,6 +1931,7 @@
                 "link": "/spring/spring_core/transactions/",
                 "order": 50,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1838,6 +1945,7 @@
                 "link": "/spring/spring_core/async_mdc/",
                 "order": 60,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1853,6 +1961,7 @@
             "link": "/spring/spring_web/",
             "order": 20,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1866,6 +1975,7 @@
                 "link": "/spring/spring_web/mvc/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1879,6 +1989,7 @@
                 "link": "/spring/spring_web/rest/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1892,6 +2003,7 @@
                 "link": "/spring/spring_web/jackson/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1905,6 +2017,7 @@
                 "link": "/spring/spring_web/exception_handling/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1918,6 +2031,7 @@
                 "link": "/spring/spring_web/webflux_threading_model/",
                 "order": 50,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1933,6 +2047,7 @@
             "link": "/spring/spring_data/",
             "order": 40,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -1946,6 +2061,7 @@
                 "link": "/spring/spring_data/entity_lifecycle/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1959,6 +2075,7 @@
                 "link": "/spring/spring_data/jpa_repository/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1972,6 +2089,7 @@
                 "link": "/spring/spring_data/derived_queries/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -1985,6 +2103,7 @@
                 "link": "/spring/spring_data/jpa_lazy_eager/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2000,6 +2119,7 @@
             "link": "/spring/spring_security/",
             "order": 60,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -2013,6 +2133,7 @@
                 "link": "/spring/spring_security/security_filter_chain/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2026,6 +2147,7 @@
                 "link": "/spring/spring_security/authentication_providers/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2039,6 +2161,7 @@
                 "link": "/spring/spring_security/authorization/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2052,6 +2175,7 @@
                 "link": "/spring/spring_security/jwt_validation/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2065,6 +2189,7 @@
                 "link": "/spring/spring_security/o_auth2_resource_server/",
                 "order": 50,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2080,6 +2205,7 @@
             "link": "/spring/spring_cloud/",
             "order": 70,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -2093,6 +2219,7 @@
                 "link": "/spring/spring_cloud/feign/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2110,6 +2237,7 @@
         "link": "/spring_boot/",
         "order": 30,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2123,6 +2251,7 @@
             "link": "/spring_boot/starters/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2136,6 +2265,7 @@
             "link": "/spring_boot/auto_configuration/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2149,6 +2279,7 @@
             "link": "/spring_boot/actuator/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2164,6 +2295,7 @@
         "link": "/databases/",
         "order": 40,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2177,6 +2309,7 @@
             "link": "/databases/sql_vs_nosql/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2190,6 +2323,7 @@
             "link": "/databases/normalization/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2203,6 +2337,7 @@
             "link": "/databases/indexes/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2216,6 +2351,7 @@
             "link": "/databases/transactions/",
             "order": 40,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2229,6 +2365,7 @@
             "link": "/databases/replication/",
             "order": 50,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2242,6 +2379,7 @@
             "link": "/databases/sharding/",
             "order": 60,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2255,6 +2393,7 @@
             "link": "/databases/distributed_transactions/",
             "order": 70,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2268,6 +2407,7 @@
                 "link": "/databases/distributed_transactions/saga/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2283,6 +2423,7 @@
             "link": "/databases/federation/",
             "order": 80,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2296,6 +2437,7 @@
             "link": "/databases/views/",
             "order": 90,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2311,6 +2453,7 @@
         "link": "/networking/",
         "order": 50,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2324,6 +2467,7 @@
             "link": "/networking/ip_addressing/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2337,6 +2481,7 @@
             "link": "/networking/tcp_vs_udp/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2350,6 +2495,7 @@
             "link": "/networking/dns/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2363,6 +2509,7 @@
             "link": "/networking/http_basics/",
             "order": 40,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2376,6 +2523,7 @@
             "link": "/networking/communication_patterns/",
             "order": 50,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2389,6 +2537,7 @@
             "link": "/networking/api_design/",
             "order": 60,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2402,6 +2551,7 @@
                 "link": "/networking/api_design/graphql/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2415,6 +2565,7 @@
                 "link": "/networking/api_design/api_technologies_summary/",
                 "order": 20,
                 "schema": "theory",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": false,
                   "solution": false,
@@ -2428,6 +2579,7 @@
                 "link": "/networking/api_design/protobuf_grpc/",
                 "order": 30,
                 "schema": "theory",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": false,
                   "solution": false,
@@ -2441,6 +2593,7 @@
                 "link": "/networking/api_design/api_technologies_comparison/",
                 "order": 40,
                 "schema": "theory",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": false,
                   "solution": false,
@@ -2456,6 +2609,7 @@
             "link": "/networking/api_gateway/",
             "order": 70,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2469,6 +2623,7 @@
             "link": "/networking/proxies_vpn/",
             "order": 80,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2484,6 +2639,7 @@
         "link": "/messaging/",
         "order": 60,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2497,6 +2653,7 @@
             "link": "/messaging/message_brokers/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2510,6 +2667,7 @@
             "link": "/messaging/queues_pubsub/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2523,6 +2681,7 @@
             "link": "/messaging/eda/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2538,6 +2697,7 @@
         "link": "/system_design/",
         "order": 70,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2551,6 +2711,7 @@
             "link": "/system_design/concepts/",
             "order": 10,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -2564,6 +2725,7 @@
                 "link": "/system_design/concepts/scalability/",
                 "order": 10,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2577,6 +2739,7 @@
                 "link": "/system_design/concepts/availability/",
                 "order": 20,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2590,6 +2753,7 @@
                 "link": "/system_design/concepts/resilience/",
                 "order": 30,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2603,6 +2767,7 @@
                 "link": "/system_design/concepts/cap_pacelc/",
                 "order": 40,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2616,6 +2781,7 @@
                 "link": "/system_design/concepts/observability/",
                 "order": 50,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2631,6 +2797,7 @@
             "link": "/system_design/components/",
             "order": 20,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -2644,6 +2811,7 @@
                 "link": "/system_design/components/load_balancing/",
                 "order": 10,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2657,6 +2825,7 @@
                 "link": "/system_design/components/caching/",
                 "order": 20,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2670,6 +2839,7 @@
                 "link": "/system_design/components/cdn/",
                 "order": 30,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2683,6 +2853,7 @@
                 "link": "/system_design/components/rate_limiting/",
                 "order": 40,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2698,6 +2869,7 @@
             "link": "/system_design/patterns/",
             "order": 30,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -2711,6 +2883,7 @@
                 "link": "/system_design/patterns/architecture/",
                 "order": 10,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2724,6 +2897,7 @@
                 "link": "/system_design/patterns/n_tier/",
                 "order": 20,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2739,6 +2913,7 @@
             "link": "/system_design/clustering/",
             "order": 40,
             "schema": "system-design",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": false,
@@ -2752,6 +2927,7 @@
             "link": "/system_design/case_studies/",
             "order": 50,
             "schema": "theory",
+            "practiceSet": null,
             "capabilities": {
               "exercise": false,
               "solution": false,
@@ -2765,6 +2941,7 @@
                 "link": "/system_design/case_studies/location_and_uber_architecture/",
                 "order": 10,
                 "schema": "system-design",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": false,
@@ -2782,6 +2959,7 @@
         "link": "/performance/",
         "order": 80,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2795,6 +2973,7 @@
             "link": "/performance/latency_throughput_littles_law/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2810,6 +2989,7 @@
         "link": "/security/",
         "order": 90,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2823,6 +3003,7 @@
             "link": "/security/authentication/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2836,6 +3017,7 @@
             "link": "/security/cryptography/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2849,6 +3031,7 @@
                 "link": "/security/cryptography/tls_https_pki/",
                 "order": 30,
                 "schema": "theory",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": false,
                   "solution": false,
@@ -2864,6 +3047,7 @@
             "link": "/security/web_security/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2879,6 +3063,7 @@
         "link": "/design_patterns/",
         "order": 100,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -2892,6 +3077,7 @@
             "link": "/design_patterns/foundations/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2905,6 +3091,7 @@
                 "link": "/design_patterns/foundations/coupling_cohesion_smells/",
                 "order": 10,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2918,6 +3105,7 @@
                 "link": "/design_patterns/foundations/solid/",
                 "order": 20,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2931,6 +3119,7 @@
                 "link": "/design_patterns/foundations/dip_vs_di/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2944,6 +3133,7 @@
                 "link": "/design_patterns/foundations/supporting_principles/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2959,6 +3149,7 @@
             "link": "/design_patterns/creational/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -2972,6 +3163,7 @@
                 "link": "/design_patterns/creational/static_factory_methods/",
                 "order": 10,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2985,6 +3177,7 @@
                 "link": "/design_patterns/creational/singleton/",
                 "order": 20,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -2998,6 +3191,7 @@
                 "link": "/design_patterns/creational/factory/",
                 "order": 30,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -3011,6 +3205,7 @@
                     "link": "/design_patterns/creational/factory/simple_factory/",
                     "order": 10,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3024,6 +3219,7 @@
                     "link": "/design_patterns/creational/factory/factory_method_basic/",
                     "order": 20,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3037,6 +3233,7 @@
                     "link": "/design_patterns/creational/factory/factory_method/",
                     "order": 30,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3052,6 +3249,7 @@
                 "link": "/design_patterns/creational/builder/",
                 "order": 40,
                 "schema": "practice",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -3065,6 +3263,7 @@
                     "link": "/design_patterns/creational/builder/simple_builder/",
                     "order": 10,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3078,6 +3277,7 @@
                     "link": "/design_patterns/creational/builder/lombok_builder/",
                     "order": 20,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3091,6 +3291,7 @@
                     "link": "/design_patterns/creational/builder/director_builder/",
                     "order": 30,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3104,6 +3305,7 @@
                     "link": "/design_patterns/creational/builder/director_builder_gof/",
                     "order": 40,
                     "schema": "interactive-code",
+                    "practiceSet": null,
                     "capabilities": {
                       "exercise": true,
                       "solution": true,
@@ -3119,6 +3321,7 @@
                 "link": "/design_patterns/creational/abstract_factory/",
                 "order": 50,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -3132,6 +3335,7 @@
                 "link": "/design_patterns/creational/prototype/",
                 "order": 60,
                 "schema": "interactive-code",
+                "practiceSet": null,
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -3147,6 +3351,7 @@
             "link": "/design_patterns/event_sourcing/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3160,6 +3365,7 @@
             "link": "/design_patterns/cqrs/",
             "order": 40,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3175,6 +3381,7 @@
         "link": "/deployments/",
         "order": 110,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -3188,6 +3395,7 @@
             "link": "/deployments/os_containers_docker/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3201,6 +3409,7 @@
             "link": "/deployments/release_and_deployment_strategies/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3216,6 +3425,7 @@
         "link": "/engineering_practice/",
         "order": 120,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -3229,6 +3439,7 @@
             "link": "/engineering_practice/technical_writing/",
             "order": 10,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3242,6 +3453,7 @@
             "link": "/engineering_practice/code_reviews/",
             "order": 20,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3255,6 +3467,7 @@
             "link": "/engineering_practice/design_docs_and_r_f_cs/",
             "order": 30,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3268,6 +3481,7 @@
             "link": "/engineering_practice/ddd/",
             "order": 40,
             "schema": "practice",
+            "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -3283,6 +3497,7 @@
         "link": "/resources/",
         "order": 130,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -3296,6 +3511,7 @@
         "link": "/progress/",
         "order": 140,
         "schema": "theory",
+        "practiceSet": null,
         "capabilities": {
           "exercise": false,
           "solution": false,
@@ -4089,7 +4305,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/foundations/primitives/solution/": {
       "text": "Primitive Types",
@@ -4146,7 +4363,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/foundations/string/solution/": {
       "text": "String Immutability — Deep Dive",
@@ -4231,7 +4449,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/foundations/control_flow/solution/": {
       "text": "Control Flow",
@@ -4288,7 +4507,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/foundations/enums/solution/": {
       "text": "Enums",
@@ -4331,7 +4551,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/foundations/exceptions/solution/": {
       "text": "Exception Handling",
@@ -4374,6 +4595,45 @@
         "design": false,
         "playground": true,
         "assets": false
+      },
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "generic-pair-stack",
+            "title": "Generic containers",
+            "exerciseHtml": "<h2>Exercise: generic-pair-stack - Generic containers</h2>\n<h3>Goal</h3>\n<p>Build small generic types and see how type parameters remove casts at the call site.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>Pair&lt;A, B&gt;</code> with <code>getFirst()</code>, <code>getSecond()</code>, and <code>swap()</code> returning <code>Pair&lt;B, A&gt;</code>.</li>\n<li><code>SimpleStack&lt;T&gt;</code> backed by <code>ArrayList</code> with <code>push</code>, <code>pop</code>, <code>peek</code>, and <code>isEmpty</code>.</li>\n<li>A raw-list bug fix: replace a raw <code>List</code> with <code>List&lt;String&gt;</code> so bad inserts fail at compile time.</li>\n</ul>\n<h3>Starter code</h3>\n<pre><code>import java.util.ArrayList;\nimport java.util.List;\n\npublic class GenericPairStackPractice {\n    static final class Pair&lt;A, B&gt; {\n        private final A first;\n        private final B second;\n\n        Pair(A first, B second) {\n            this.first = first;\n            this.second = second;\n        }\n\n        A getFirst() {\n            return null;\n        }\n\n        B getSecond() {\n            return null;\n        }\n\n        Pair&lt;B, A&gt; swap() {\n            return null;\n        }\n    }\n\n    static final class SimpleStack&lt;T&gt; {\n        private final List&lt;T&gt; values = new ArrayList&lt;&gt;();\n\n        void push(T value) {\n        }\n\n        T pop() {\n            return null;\n        }\n\n        T peek() {\n            return null;\n        }\n\n        boolean isEmpty() {\n            return true;\n        }\n    }\n\n    public static void main(String[] args) {\n        Pair&lt;String, Integer&gt; pair = new Pair&lt;&gt;(&quot;age&quot;, 30);\n        Pair&lt;Integer, String&gt; swapped = pair.swap();\n        System.out.println(pair.getFirst() + &quot;=&quot; + pair.getSecond());\n        System.out.println(swapped.getFirst() + &quot;=&quot; + swapped.getSecond());\n\n        SimpleStack&lt;String&gt; stack = new SimpleStack&lt;&gt;();\n        stack.push(&quot;first&quot;);\n        stack.push(&quot;second&quot;);\n        System.out.println(stack.peek());\n        System.out.println(stack.pop());\n        System.out.println(stack.pop());\n\n        List&lt;String&gt; names = new ArrayList&lt;&gt;();\n        names.add(&quot;Alice&quot;);\n        names.add(&quot;Bob&quot;);\n        // names.add(42); // should be a compile error\n        for (String name : names) {\n            System.out.println(name.toUpperCase());\n        }\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Output starts with <code>age=30</code> and <code>30=age</code>.</li>\n<li>Stack pops in LIFO order: <code>second</code>, then <code>first</code>.</li>\n<li><code>names.add(42)</code> fails at compile time when uncommented.</li>\n</ul>",
+            "starterCode": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class GenericPairStackPractice {\n    static final class Pair<A, B> {\n        private final A first;\n        private final B second;\n\n        Pair(A first, B second) {\n            this.first = first;\n            this.second = second;\n        }\n\n        A getFirst() {\n            return null;\n        }\n\n        B getSecond() {\n            return null;\n        }\n\n        Pair<B, A> swap() {\n            return null;\n        }\n    }\n\n    static final class SimpleStack<T> {\n        private final List<T> values = new ArrayList<>();\n\n        void push(T value) {\n        }\n\n        T pop() {\n            return null;\n        }\n\n        T peek() {\n            return null;\n        }\n\n        boolean isEmpty() {\n            return true;\n        }\n    }\n\n    public static void main(String[] args) {\n        Pair<String, Integer> pair = new Pair<>(\"age\", 30);\n        Pair<Integer, String> swapped = pair.swap();\n        System.out.println(pair.getFirst() + \"=\" + pair.getSecond());\n        System.out.println(swapped.getFirst() + \"=\" + swapped.getSecond());\n\n        SimpleStack<String> stack = new SimpleStack<>();\n        stack.push(\"first\");\n        stack.push(\"second\");\n        System.out.println(stack.peek());\n        System.out.println(stack.pop());\n        System.out.println(stack.pop());\n\n        List<String> names = new ArrayList<>();\n        names.add(\"Alice\");\n        names.add(\"Bob\");\n        // names.add(42); // should be a compile error\n        for (String name : names) {\n            System.out.println(name.toUpperCase());\n        }\n    }\n}",
+            "solutionHtml": "<h2>Solution: generic-pair-stack - Generic containers</h2>\n<p><code>Pair&lt;A, B&gt;</code> keeps the two component types separate, so <code>Pair&lt;String, Integer&gt;</code> does not lose the fact that the first value is a <code>String</code> and the second is an <code>Integer</code>.</p>\n<pre><code>A getFirst() {\n    return first;\n}\n\nB getSecond() {\n    return second;\n}\n\nPair&lt;B, A&gt; swap() {\n    return new Pair&lt;&gt;(second, first);\n}</code></pre>\n<p><code>SimpleStack&lt;T&gt;</code> should delegate to the end of the backing list so push/pop are LIFO:</p>\n<pre><code>void push(T value) {\n    values.add(value);\n}\n\nT pop() {\n    return values.remove(values.size() - 1);\n}\n\nT peek() {\n    return values.get(values.size() - 1);\n}\n\nboolean isEmpty() {\n    return values.isEmpty();\n}</code></pre>\n<p>The raw-list bug disappears because <code>List&lt;String&gt;</code> moves the failure from runtime to compile time. <code>names.add(42)</code> cannot compile, and the loop no longer needs a cast.</p>"
+          },
+          {
+            "id": "bounded-max-sum",
+            "title": "Bounds with extends",
+            "exerciseHtml": "<h2>Exercise: bounded-max-sum - Bounds with extends</h2>\n<h3>Goal</h3>\n<p>Use bounds to unlock methods on <code>T</code>: <code>compareTo</code> for max and <code>doubleValue</code> for sums.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>findMax(List&lt;T&gt;)</code> where <code>T</code> can be compared.</li>\n<li><code>sumList(List&lt;T&gt;)</code> where <code>T</code> is a <code>Number</code>.</li>\n<li>Fix the common bug where someone writes <code>item &gt; max</code> for generic objects.</li>\n</ul>\n<h3>Starter code</h3>\n<pre><code>import java.util.List;\n\npublic class BoundedMaxSumPractice {\n    static &lt;T extends Comparable&lt;T&gt;&gt; T findMax(List&lt;T&gt; values) {\n        return null;\n    }\n\n    static &lt;T extends Number&gt; double sumList(List&lt;T&gt; values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(findMax(List.of(3, 10, 2)));\n        System.out.println(sumList(List.of(1, 2, 3)));\n\n        // Why is this invalid for generic T?\n        // if (item &gt; max) { ... }\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Max prints <code>10</code>.</li>\n<li>Sum prints <code>6.0</code>.</li>\n<li>Your explanation names both issues: <code>&gt;</code> works on primitives, and unbounded <code>T</code> has no comparison contract.</li>\n</ul>",
+            "starterCode": "import java.util.List;\n\npublic class BoundedMaxSumPractice {\n    static <T extends Comparable<T>> T findMax(List<T> values) {\n        return null;\n    }\n\n    static <T extends Number> double sumList(List<T> values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(findMax(List.of(3, 10, 2)));\n        System.out.println(sumList(List.of(1, 2, 3)));\n\n        // Why is this invalid for generic T?\n        // if (item > max) { ... }\n    }\n}",
+            "solutionHtml": "<h2>Solution: bounded-max-sum - Bounds with extends</h2>\n<p>Use one bound for comparison and one bound for numeric conversion:</p>\n<pre><code>static &lt;T extends Comparable&lt;T&gt;&gt; T findMax(List&lt;T&gt; values) {\n    if (values.isEmpty()) {\n        throw new IllegalArgumentException(&quot;values must not be empty&quot;);\n    }\n    T max = values.get(0);\n    for (T value : values) {\n        if (value.compareTo(max) &gt; 0) {\n            max = value;\n        }\n    }\n    return max;\n}\n\nstatic &lt;T extends Number&gt; double sumList(List&lt;T&gt; values) {\n    double total = 0;\n    for (T value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>item &gt; max</code> is wrong because generics are object types, and <code>&gt;</code> works on primitives. Also, plain <code>T</code> is only known as <code>Object</code>, so the compiler cannot assume it has <code>compareTo</code>.</p>"
+          },
+          {
+            "id": "wildcard-producer",
+            "title": "Upper-bounded wildcards",
+            "exerciseHtml": "<h2>Exercise: wildcard-producer - Upper-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? extends</code> for producer inputs: read values safely, but do not add values.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>printNumbers(List&lt;? extends Number&gt;)</code></li>\n<li><code>sumList(List&lt;? extends Number&gt;)</code></li>\n</ul>\n<p>Then try to add an <code>Integer</code> inside <code>printNumbers</code> and explain the compiler error.</p>\n<h3>Starter code</h3>\n<pre><code>import java.util.List;\n\npublic class WildcardProducerPractice {\n    static void printNumbers(List&lt;? extends Number&gt; values) {\n    }\n\n    static double sumList(List&lt;? extends Number&gt; values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        printNumbers(List.of(1, 2, 3));\n        printNumbers(List.of(1.5, 2.5));\n        System.out.println(sumList(List.of(1, 2, 3)));\n        System.out.println(sumList(List.of(1.5, 2.5)));\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Both <code>List&lt;Integer&gt;</code> and <code>List&lt;Double&gt;</code> compile.</li>\n<li>The sums print <code>6.0</code> and <code>4.0</code>.</li>\n<li>You can explain why <code>values.add(1)</code> is unsafe for <code>List&lt;? extends Number&gt;</code>.</li>\n</ul>",
+            "starterCode": "import java.util.List;\n\npublic class WildcardProducerPractice {\n    static void printNumbers(List<? extends Number> values) {\n    }\n\n    static double sumList(List<? extends Number> values) {\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        printNumbers(List.of(1, 2, 3));\n        printNumbers(List.of(1.5, 2.5));\n        System.out.println(sumList(List.of(1, 2, 3)));\n        System.out.println(sumList(List.of(1.5, 2.5)));\n    }\n}",
+            "solutionHtml": "<h2>Solution: wildcard-producer - Upper-bounded wildcards</h2>\n<p>For <code>? extends Number</code>, the list produces <code>Number</code> values safely:</p>\n<pre><code>static void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value.doubleValue());\n    }\n}\n\nstatic double sumList(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p>You cannot add <code>1</code> to <code>List&lt;? extends Number&gt;</code> because the actual list might be <code>List&lt;Double&gt;</code>, <code>List&lt;BigDecimal&gt;</code>, or another <code>Number</code> subtype list. Adding an <code>Integer</code> would break that list's real element type.</p>"
+          },
+          {
+            "id": "wildcard-consumer",
+            "title": "Lower-bounded wildcards",
+            "exerciseHtml": "<h2>Exercise: wildcard-consumer - Lower-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? super</code> for consumer inputs: add integers safely, but read back only as <code>Object</code>.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>addNumbers(List&lt;? super Integer&gt;)</code> adding <code>1</code> through <code>5</code>.</li>\n<li><code>fill(List&lt;? super Integer&gt;, int value, int count)</code>.</li>\n</ul>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>. Try <code>List&lt;String&gt;</code> and confirm it does not compile.</p>\n<h3>Starter code</h3>\n<pre><code>import java.util.ArrayList;\nimport java.util.List;\n\npublic class WildcardConsumerPractice {\n    static void addNumbers(List&lt;? super Integer&gt; values) {\n    }\n\n    static void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    }\n\n    public static void main(String[] args) {\n        List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\n        List&lt;Number&gt; numbers = new ArrayList&lt;&gt;();\n        List&lt;Object&gt; objects = new ArrayList&lt;&gt;();\n\n        addNumbers(integers);\n        addNumbers(numbers);\n        fill(objects, 9, 3);\n\n        System.out.println(integers);\n        System.out.println(numbers);\n        System.out.println(objects);\n\n        Object first = objects.get(0);\n        System.out.println(first.getClass().getSimpleName());\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li><code>integers</code> and <code>numbers</code> contain <code>[1, 2, 3, 4, 5]</code>.</li>\n<li><code>objects</code> contains <code>[9, 9, 9]</code>.</li>\n<li>Reading from <code>List&lt;? super Integer&gt;</code> is treated as <code>Object</code>, not <code>Integer</code>.</li>\n</ul>",
+            "starterCode": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class WildcardConsumerPractice {\n    static void addNumbers(List<? super Integer> values) {\n    }\n\n    static void fill(List<? super Integer> values, int value, int count) {\n    }\n\n    public static void main(String[] args) {\n        List<Integer> integers = new ArrayList<>();\n        List<Number> numbers = new ArrayList<>();\n        List<Object> objects = new ArrayList<>();\n\n        addNumbers(integers);\n        addNumbers(numbers);\n        fill(objects, 9, 3);\n\n        System.out.println(integers);\n        System.out.println(numbers);\n        System.out.println(objects);\n\n        Object first = objects.get(0);\n        System.out.println(first.getClass().getSimpleName());\n    }\n}",
+            "solutionHtml": "<h2>Solution: wildcard-consumer - Lower-bounded wildcards</h2>\n<p>For <code>? super Integer</code>, the list can safely consume integers:</p>\n<pre><code>static void addNumbers(List&lt;? super Integer&gt; values) {\n    for (int i = 1; i &lt;= 5; i++) {\n        values.add(i);\n    }\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p>Reading is less specific. The list might be <code>List&lt;Object&gt;</code>, so the compiler only promises that <code>get</code> returns <code>Object</code>. Assigning directly to <code>Integer</code> is unsafe without a cast and runtime check.</p>"
+          },
+          {
+            "id": "erasure-traps",
+            "title": "Type erasure traps",
+            "exerciseHtml": "<h2>Exercise: erasure-traps - Type erasure traps</h2>\n<h3>Goal</h3>\n<p>See what generic type information survives at runtime and what gets erased.</p>\n<h3>Task</h3>\n<p>Demonstrate three erasure rules:</p>\n<ul>\n<li><code>list instanceof List&lt;Integer&gt;</code> is illegal; raw <code>List</code> is the runtime check.</li>\n<li><code>process(List&lt;Integer&gt;)</code> and <code>process(List&lt;String&gt;)</code> cannot be overloaded together.</li>\n<li><code>List&lt;Integer&gt;</code> and <code>List&lt;String&gt;</code> have the same runtime class.</li>\n</ul>\n<h3>Starter code</h3>\n<pre><code>import java.util.ArrayList;\nimport java.util.List;\n\npublic class ErasureTrapsPractice {\n    static void processIntegers(List&lt;Integer&gt; values) {\n        System.out.println(&quot;integers=&quot; + values);\n    }\n\n    static void processStrings(List&lt;String&gt; values) {\n        System.out.println(&quot;strings=&quot; + values);\n    }\n\n    public static void main(String[] args) {\n        Object unknown = List.of(1, 2, 3);\n\n        if (unknown instanceof List) {\n            System.out.println(&quot;It is a List at runtime&quot;);\n        }\n\n        List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();\n        List&lt;String&gt; strings = new ArrayList&lt;&gt;();\n        System.out.println(ints.getClass() == strings.getClass());\n\n        processIntegers(List.of(1, 2));\n        processStrings(List.of(&quot;a&quot;, &quot;b&quot;));\n    }\n}</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Runtime class comparison prints <code>true</code>.</li>\n<li>You can explain why overloaded <code>process(List&lt;Integer&gt;)</code> and <code>process(List&lt;String&gt;)</code> have the same erased signature.</li>\n</ul>",
+            "starterCode": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class ErasureTrapsPractice {\n    static void processIntegers(List<Integer> values) {\n        System.out.println(\"integers=\" + values);\n    }\n\n    static void processStrings(List<String> values) {\n        System.out.println(\"strings=\" + values);\n    }\n\n    public static void main(String[] args) {\n        Object unknown = List.of(1, 2, 3);\n\n        if (unknown instanceof List) {\n            System.out.println(\"It is a List at runtime\");\n        }\n\n        List<Integer> ints = new ArrayList<>();\n        List<String> strings = new ArrayList<>();\n        System.out.println(ints.getClass() == strings.getClass());\n\n        processIntegers(List.of(1, 2));\n        processStrings(List.of(\"a\", \"b\"));\n    }\n}",
+            "solutionHtml": "<h2>Solution: erasure-traps - Type erasure traps</h2>\n<p>At runtime, both <code>List&lt;Integer&gt;</code> and <code>List&lt;String&gt;</code> are just <code>List</code>:</p>\n<pre><code>Object unknown = List.of(1, 2, 3);\nif (unknown instanceof List) {\n    System.out.println(&quot;It is a List at runtime&quot;);\n}\n\nList&lt;Integer&gt; ints = new ArrayList&lt;&gt;();\nList&lt;String&gt; strings = new ArrayList&lt;&gt;();\nSystem.out.println(ints.getClass() == strings.getClass()); // true</code></pre>\n<p>The overload trap has the same cause. These two methods cannot live together:</p>\n<pre><code>void process(List&lt;Integer&gt; values) {}\nvoid process(List&lt;String&gt; values) {}</code></pre>\n<p>After erasure, both look like <code>process(List values)</code>, so the JVM would see duplicate signatures. Use distinct names, a discriminator parameter, or a different abstraction.</p>"
+          }
+        ]
       }
     },
     "/java/foundations/generics/solution/": {
@@ -4389,7 +4649,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Generics Solutions</h1>\n<p>Solutions for these prompts are pending. Keep this page paired with the practice set; do not add unrelated reference material here.</p>"
+      "referenceHtml": "<h1>Generics Solutions</h1>\n<p>Each solution matches one structured practice question by ID.</p>\n<h2>Solution: generic-pair-stack - Generic containers</h2>\n<p><code>Pair&lt;A, B&gt;</code> keeps the two component types separate, so <code>Pair&lt;String, Integer&gt;</code> does not lose the fact that the first value is a <code>String</code> and the second is an <code>Integer</code>.</p>\n<pre><code>A getFirst() {\n    return first;\n}\n\nB getSecond() {\n    return second;\n}\n\nPair&lt;B, A&gt; swap() {\n    return new Pair&lt;&gt;(second, first);\n}</code></pre>\n<p><code>SimpleStack&lt;T&gt;</code> should delegate to the end of the backing list so push/pop are LIFO:</p>\n<pre><code>void push(T value) {\n    values.add(value);\n}\n\nT pop() {\n    return values.remove(values.size() - 1);\n}\n\nT peek() {\n    return values.get(values.size() - 1);\n}\n\nboolean isEmpty() {\n    return values.isEmpty();\n}</code></pre>\n<p>The raw-list bug disappears because <code>List&lt;String&gt;</code> moves the failure from runtime to compile time. <code>names.add(42)</code> cannot compile, and the loop no longer needs a cast.</p>\n<h2>Solution: bounded-max-sum - Bounds with extends</h2>\n<p>Use one bound for comparison and one bound for numeric conversion:</p>\n<pre><code>static &lt;T extends Comparable&lt;T&gt;&gt; T findMax(List&lt;T&gt; values) {\n    if (values.isEmpty()) {\n        throw new IllegalArgumentException(&quot;values must not be empty&quot;);\n    }\n    T max = values.get(0);\n    for (T value : values) {\n        if (value.compareTo(max) &gt; 0) {\n            max = value;\n        }\n    }\n    return max;\n}\n\nstatic &lt;T extends Number&gt; double sumList(List&lt;T&gt; values) {\n    double total = 0;\n    for (T value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>item &gt; max</code> is wrong because generics are object types, and <code>&gt;</code> works on primitives. Also, plain <code>T</code> is only known as <code>Object</code>, so the compiler cannot assume it has <code>compareTo</code>.</p>\n<h2>Solution: wildcard-producer - Upper-bounded wildcards</h2>\n<p>For <code>? extends Number</code>, the list produces <code>Number</code> values safely:</p>\n<pre><code>static void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value.doubleValue());\n    }\n}\n\nstatic double sumList(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p>You cannot add <code>1</code> to <code>List&lt;? extends Number&gt;</code> because the actual list might be <code>List&lt;Double&gt;</code>, <code>List&lt;BigDecimal&gt;</code>, or another <code>Number</code> subtype list. Adding an <code>Integer</code> would break that list's real element type.</p>\n<h2>Solution: wildcard-consumer - Lower-bounded wildcards</h2>\n<p>For <code>? super Integer</code>, the list can safely consume integers:</p>\n<pre><code>static void addNumbers(List&lt;? super Integer&gt; values) {\n    for (int i = 1; i &lt;= 5; i++) {\n        values.add(i);\n    }\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p>Reading is less specific. The list might be <code>List&lt;Object&gt;</code>, so the compiler only promises that <code>get</code> returns <code>Object</code>. Assigning directly to <code>Integer</code> is unsafe without a cast and runtime check.</p>\n<h2>Solution: erasure-traps - Type erasure traps</h2>\n<p>At runtime, both <code>List&lt;Integer&gt;</code> and <code>List&lt;String&gt;</code> are just <code>List</code>:</p>\n<pre><code>Object unknown = List.of(1, 2, 3);\nif (unknown instanceof List) {\n    System.out.println(&quot;It is a List at runtime&quot;);\n}\n\nList&lt;Integer&gt; ints = new ArrayList&lt;&gt;();\nList&lt;String&gt; strings = new ArrayList&lt;&gt;();\nSystem.out.println(ints.getClass() == strings.getClass()); // true</code></pre>\n<p>The overload trap has the same cause. These two methods cannot live together:</p>\n<pre><code>void process(List&lt;Integer&gt; values) {}\nvoid process(List&lt;String&gt; values) {}</code></pre>\n<p>After erasure, both look like <code>process(List values)</code>, so the JVM would see duplicate signatures. Use distinct names, a discriminator parameter, or a different abstraction.</p>"
     },
     "/java/foundations/streams/": {
       "text": "Stream Terminal Operations — Collectors",
@@ -4417,7 +4677,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/foundations/streams/solution/": {
       "text": "Stream Terminal Operations — Collectors",
@@ -4474,7 +4735,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/classes_and_objects/solution/": {
       "text": "Classes, Objects, and Constructors",
@@ -4531,7 +4793,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/object_model/solution/": {
       "text": "Java Object Model",
@@ -4616,7 +4879,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/access_modifiers/solution/": {
       "text": "Variables and Scope",
@@ -4687,7 +4951,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/encapsulation/solution/": {
       "text": "Encapsulation",
@@ -4730,7 +4995,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/abstraction/solution/": {
       "text": "Abstraction",
@@ -4773,7 +5039,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/inheritance/solution/": {
       "text": "Inheritance",
@@ -4816,7 +5083,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/composition_vs_inheritance/solution/": {
       "text": "Composition vs Inheritance",
@@ -4859,7 +5127,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/polymorphism/solution/": {
       "text": "Polymorphism",
@@ -4902,7 +5171,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/nested_classes/solution/": {
       "text": "Nested Classes",
@@ -4945,7 +5215,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/method_dispatch/solution/": {
       "text": "Method Overloading vs Overriding & Dynamic Dispatch",
@@ -4988,7 +5259,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/abstract_class_vs_interface/solution/": {
       "text": "Abstract Class vs. Interface — the decision",
@@ -5031,7 +5303,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/oop/equals_hashcode/solution/": {
       "text": "Java Interview Notes Dump - Object Class Module (Part 1)",
@@ -5102,7 +5375,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/lists/solution/": {
       "text": "Lists in Java — types, choices, and the Array trap",
@@ -5145,7 +5419,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/hashing/solution/": {
       "text": "Hashing in Java — what it is and how Java uses it",
@@ -5188,7 +5463,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/maps/solution/": {
       "text": "Maps in Java — types, choices, and trade-offs",
@@ -5231,7 +5507,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/sets/solution/": {
       "text": "Sets in Java — types, choices, and the dedup trap",
@@ -5274,7 +5551,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/hashmap/solution/": {
       "text": "HashMap Internals",
@@ -5317,7 +5595,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/linked_hashmap/solution/": {
       "text": "LinkedHashMap",
@@ -5360,7 +5639,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/treemap/solution/": {
       "text": "TreeMap",
@@ -5403,7 +5683,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/collections/concurrent_hashmap/solution/": {
       "text": "ConcurrentHashMap",
@@ -5460,7 +5741,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/jvm/compilation_pipeline/solution/": {
       "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
@@ -5503,7 +5785,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/jvm/gc/solution/": {
       "text": "Garbage Collection",
@@ -5560,7 +5843,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/thread_lifecycle/solution/": {
       "text": "Thread Lifecycle",
@@ -5603,7 +5887,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/race_conditions/solution/": {
       "text": "Race Conditions, Atomicity, Visibility, Ordering",
@@ -5646,7 +5931,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/jmm/solution/": {
       "text": "Java Memory Model (JMM)",
@@ -5689,7 +5975,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/volatile_keyword/solution/": {
       "text": "volatile",
@@ -5732,7 +6019,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/synchronized_keyword/solution/": {
       "text": "synchronized",
@@ -5775,7 +6063,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/locks/solution/": {
       "text": "Locks",
@@ -5818,7 +6107,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/executor_service/solution/": {
       "text": "ExecutorService & ThreadPoolExecutor",
@@ -5861,7 +6151,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/concurrency/completable_future/solution/": {
       "text": "CompletableFuture",
@@ -5918,7 +6209,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/coding_fluency/method_references/solution/": {
       "text": "Method References",
@@ -5961,7 +6253,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/coding_fluency/optional/solution/": {
       "text": "Optional",
@@ -6004,7 +6297,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/coding_fluency/records/solution/": {
       "text": "Records as DTOs",
@@ -6047,7 +6341,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/coding_fluency/immutable_collections/solution/": {
       "text": "Immutable Collections",
@@ -6090,7 +6385,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/java/coding_fluency/lombok/solution/": {
       "text": "Lombok",
@@ -6161,7 +6457,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_core/dependency_injection/solution/": {
       "text": "Dependency Injection",
@@ -6204,7 +6501,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_core/ioc_container/solution/": {
       "text": "IoC Container",
@@ -6247,7 +6545,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_core/bean_lifecycle/solution/": {
       "text": "Bean Lifecycle",
@@ -6290,7 +6589,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_core/caching/solution/": {
       "text": "Spring Caching Abstraction",
@@ -6333,7 +6633,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_core/transactions/solution/": {
       "text": "Spring Transactions — @Transactional Deep Dive",
@@ -6376,7 +6677,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_core/async_mdc/solution/": {
       "text": "@Async + Thread Context Propagation",
@@ -6433,7 +6735,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_web/mvc/solution/": {
       "text": "Spring MVC",
@@ -6476,7 +6779,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_web/rest/solution/": {
       "text": "Spring REST",
@@ -6519,7 +6823,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_web/jackson/solution/": {
       "text": "Jackson Customization",
@@ -6562,7 +6867,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_web/exception_handling/solution/": {
       "text": "Spring Exception Handling",
@@ -6605,7 +6911,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_web/webflux_threading_model/solution/": {
       "text": "Spring, WebFlux, and the Threading Model",
@@ -6662,7 +6969,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_data/entity_lifecycle/solution/": {
       "text": "JPA Entity Lifecycle",
@@ -6705,7 +7013,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_data/jpa_repository/solution/": {
       "text": "JPA Repository Hierarchy",
@@ -6748,7 +7057,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_data/derived_queries/solution/": {
       "text": "Derived Queries & @Query",
@@ -6791,7 +7101,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_data/jpa_lazy_eager/solution/": {
       "text": "Lazy vs Eager Loading & N+1",
@@ -6848,7 +7159,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_security/security_filter_chain/solution/": {
       "text": "SecurityFilterChain",
@@ -6891,7 +7203,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_security/authentication_providers/solution/": {
       "text": "Authentication Providers",
@@ -6934,7 +7247,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_security/authorization/solution/": {
       "text": "Authorization",
@@ -6977,7 +7291,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_security/jwt_validation/solution/": {
       "text": "JWT Validation, JWK Set, Custom Claims",
@@ -7020,7 +7335,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_security/o_auth2_resource_server/solution/": {
       "text": "OAuth2 Resource Server & Client",
@@ -7077,7 +7393,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring/spring_cloud/feign/solution/": {
       "text": "Feign / OpenFeign",
@@ -7134,7 +7451,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring_boot/starters/solution/": {
       "text": "Starter Ecosystem",
@@ -7177,7 +7495,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring_boot/auto_configuration/solution/": {
       "text": "Auto-Configuration",
@@ -7220,7 +7539,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/spring_boot/actuator/solution/": {
       "text": "Actuator",
@@ -7277,7 +7597,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/sql_vs_nosql/solution/": {
       "text": "SQL vs NoSQL — Schemas, Transactions, Relationships, Sharding",
@@ -7320,7 +7641,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/normalization/solution/": {
       "text": "Normalization & Denormalization",
@@ -7363,7 +7685,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/indexes/solution/": {
       "text": "Database Indexes (B+ Trees)",
@@ -7406,7 +7729,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/transactions/solution/": {
       "text": "Transactions, ACID Consistency & Distributed Commit",
@@ -7449,7 +7773,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/replication/solution/": {
       "text": "Database Replication",
@@ -7492,7 +7817,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/sharding/solution/": {
       "text": "Sharding, Data Partitioning & Consistent Hashing",
@@ -7535,7 +7861,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/distributed_transactions/solution/": {
       "text": "Distributed Transactions — 2PC, 3PC & Saga",
@@ -7578,7 +7905,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/distributed_transactions/saga/solution/": {
       "text": "Saga vs Publish-Subscribe",
@@ -7621,7 +7949,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/federation/solution/": {
       "text": "Database Federation",
@@ -7664,7 +7993,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/databases/views/solution/": {
       "text": "Views and Materialized Views",
@@ -7721,7 +8051,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/ip_addressing/solution/": {
       "text": "IP Addressing, NAT, DHCP, CGNAT, MAC Addresses, and Internet Reachability",
@@ -7764,7 +8095,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/tcp_vs_udp/solution/": {
       "text": "TCP vs UDP — Transport Protocol Choice (and the OSI Model in Practice)",
@@ -7807,7 +8139,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/dns/solution/": {
       "text": "DNS — Resolution Flow, Caching, and Traffic Steering",
@@ -7850,7 +8183,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/http_basics/solution/": {
       "text": "HTTP Fundamentals",
@@ -7893,7 +8227,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/communication_patterns/solution/": {
       "text": "Client ↔ Server Communication Patterns",
@@ -7936,7 +8271,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/api_design/solution/": {
       "text": "API Technologies Study Notes — Complete Conversation Dump",
@@ -7979,7 +8315,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/api_design/graphql/solution/": {
       "text": "Graph Databases & GraphQL — Related in Name Only",
@@ -8064,7 +8401,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/api_gateway/solution/": {
       "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -8107,7 +8445,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/networking/proxies_vpn/solution/": {
       "text": "Proxies, DNS Blocking, VPNs, and National Firewalls",
@@ -8164,7 +8503,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/messaging/message_brokers/solution/": {
       "text": "Message Brokers & Event Streaming",
@@ -8207,7 +8547,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/messaging/queues_pubsub/solution/": {
       "text": "Message Queues & Publish-Subscribe",
@@ -8250,7 +8591,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/messaging/eda/solution/": {
       "text": "Event-Driven Architecture (EDA)",
@@ -8321,7 +8663,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/concepts/scalability/design/": {
       "text": "Scalability, Redundancy, and Sequential vs Random Access",
@@ -8364,7 +8707,8 @@
         "design": true,
         "playground": false,
         "assets": true
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/concepts/availability/design/": {
       "text": "System Availability, Reliability & Fault Tolerance",
@@ -8407,7 +8751,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/concepts/resilience/design/": {
       "text": "Circuit Breaker and Resiliency Patterns",
@@ -8450,7 +8795,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/concepts/cap_pacelc/design/": {
       "text": "CAP & PACELC",
@@ -8493,7 +8839,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/concepts/observability/design/": {
       "text": "SLA, SLO, and SLI: Technical Overview",
@@ -8550,7 +8897,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/components/load_balancing/design/": {
       "text": "Load Balancer SPOF & The Infinite Recursion Problem",
@@ -8593,7 +8941,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/components/caching/design/": {
       "text": "Caching, Distributed Cache, Redis Cluster, and Consistent Hashing",
@@ -8636,7 +8985,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/components/cdn/design/": {
       "text": "CDN — Edge Caching, DNS Routing, Push vs Pull",
@@ -8679,7 +9029,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/components/rate_limiting/design/": {
       "text": "Rate Limiting",
@@ -8736,7 +9087,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/patterns/architecture/design/": {
       "text": "Monoliths vs Microservices",
@@ -8779,7 +9131,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/patterns/n_tier/design/": {
       "text": "N-Tier Architecture",
@@ -8822,7 +9175,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/clustering/design/": {
       "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
@@ -8879,7 +9233,8 @@
         "design": true,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/system_design/case_studies/location_and_uber_architecture/design/": {
       "text": "Consolidated Notes: Location Fundamentals and Spatial Indexing (Part 1)",
@@ -8936,7 +9291,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/performance/latency_throughput_littles_law/solution/": {
       "text": "Latency, Throughput & Little's Law",
@@ -8993,7 +9349,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/security/authentication/solution/": {
       "text": "Authentication: OAuth, JWT, and API Keys",
@@ -9036,7 +9393,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/security/cryptography/solution/": {
       "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
@@ -9093,7 +9451,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/security/web_security/solution/": {
       "text": "Web Security: XSS, SOP, and CORS",
@@ -9150,7 +9509,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/foundations/solution/": {
       "text": "Foundations",
@@ -9193,7 +9553,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/foundations/coupling_cohesion_smells/solution/": {
       "text": "Coupling, Cohesion, and Code Smells",
@@ -9236,7 +9597,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/foundations/solid/solution/": {
       "text": "SOLID Principles",
@@ -9279,7 +9641,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/foundations/dip_vs_di/solution/": {
       "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
@@ -9322,7 +9685,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/foundations/supporting_principles/solution/": {
       "text": "Supporting Principles",
@@ -9365,7 +9729,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/solution/": {
       "text": "Creational Design Patterns",
@@ -9408,7 +9773,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/static_factory_methods/solution/": {
       "text": "Static Factory Methods — Effective Java Item 1",
@@ -9451,7 +9817,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/singleton/solution/": {
       "text": "Singleton Pattern in Java",
@@ -9494,7 +9861,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/factory/solution/": {
       "text": "Factory Patterns in Java — Three Variants Side by Side",
@@ -9537,7 +9905,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/factory/simple_factory/solution/": {
       "text": "Simple Factory",
@@ -9580,7 +9949,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/factory/factory_method_basic/solution/": {
       "text": "Factory Method — Learning Variant",
@@ -9623,7 +9993,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/factory/factory_method/solution/": {
       "text": "Factory Method — Production Variant",
@@ -9666,7 +10037,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/builder/solution/": {
       "text": "Builder — Overview",
@@ -9709,7 +10081,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/builder/simple_builder/solution/": {
       "text": "Builder — Basic (EJ Item 2 hand-written)",
@@ -9752,7 +10125,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/builder/lombok_builder/solution/": {
       "text": "Builder — Lombok variant",
@@ -9795,7 +10169,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/builder/director_builder/solution/": {
       "text": "Builder — Director (simple variant)",
@@ -9838,7 +10213,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/builder/director_builder_gof/solution/": {
       "text": "Builder — Director (GoF flavour)",
@@ -9881,7 +10257,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/abstract_factory/solution/": {
       "text": "Abstract Factory",
@@ -9924,7 +10301,8 @@
         "design": false,
         "playground": true,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/creational/prototype/solution/": {
       "text": "Prototype",
@@ -9967,7 +10345,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/event_sourcing/solution/": {
       "text": "Event Sourcing & Event-Driven Architecture",
@@ -10010,7 +10389,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/design_patterns/cqrs/solution/": {
       "text": "CQRS (Command Query Responsibility Segregation)",
@@ -10067,7 +10447,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/deployments/os_containers_docker/solution/": {
       "text": "OS, Containers & Docker Fundamentals",
@@ -10110,7 +10491,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/deployments/release_and_deployment_strategies/solution/": {
       "text": "Release & Deployment Strategies",
@@ -10167,7 +10549,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/engineering_practice/technical_writing/solution/": {
       "text": "Technical Writing",
@@ -10210,7 +10593,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/engineering_practice/code_reviews/solution/": {
       "text": "Code Reviews",
@@ -10253,7 +10637,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/engineering_practice/design_docs_and_r_f_cs/solution/": {
       "text": "Design Documents and RFCs",
@@ -10296,7 +10681,8 @@
         "design": false,
         "playground": false,
         "assets": false
-      }
+      },
+      "practiceSet": null
     },
     "/engineering_practice/ddd/solution/": {
       "text": "Domain-Driven Design & Bounded Contexts",
