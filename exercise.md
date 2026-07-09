@@ -1,2 +1,1 @@
-<!-- ChatGPT exercise export -->
-<!-- Paste exercise content below -->
+<!-- Paste ChatGPT exercise output here. -->

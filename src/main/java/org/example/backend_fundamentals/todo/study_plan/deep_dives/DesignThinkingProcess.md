@@ -367,6 +367,6 @@ Bad candidates for updates here:
 - `design_patterns/foundations/supporting_principles/SupportingPrinciples.md` — DRY, KISS, YAGNI, Rule of Three, SLAP.
 - `design_patterns/foundations/oop_pillars/` — Encapsulation, Polymorphism, Abstraction, Inheritance.
 - `design_patterns/foundations/coupling_cohesion_smells/CouplingCohesionSmells.md` — smell-vocabulary for Step 1 ("name the pain").
-- `study_plan/deep_dives/PatternSelectionExercise.md` — Strategy / Registry / DI for "one HR, many factories" — applied case study.
-- `study_plan/deep_dives/PatternSelectionScenarios.md` — 25 scenario-based pattern-selection exercises across the creational patterns.
+- `design_patterns/pattern_selection/index.md` — Strategy / Registry / DI for "one HR, many factories" — applied case study.
+- `design_patterns/pattern_selection_scenarios/index.md` — 25 scenario-based pattern-selection exercises across the creational patterns.
 - `design_patterns/creational/CreationalPatternsRoadmap.md` — pattern-learning order.

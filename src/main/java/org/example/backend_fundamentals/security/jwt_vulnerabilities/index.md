@@ -1,3 +1,7 @@
+---
+order: 70
+---
+
 # JWT: Mechanics, Architectures, and Vulnerabilities
 
 This document explores the mechanics of JSON Web Tokens (JWT), the difference between JWS and JWE, architectural choices (HS256 vs RS256), and classic vulnerabilities that arise from poor implementations.

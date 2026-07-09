@@ -15,14 +15,14 @@
 | 5 | Interface Segregation | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Dependency Inversion — vs dependency injection | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | DRY, KISS, YAGNI — and when each is misapplied | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Singleton — and its problems (testability, hidden coupling) | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (creational track: 5 variants + thread-safety demo + doc) | 💻 repo demo: `creational/singleton/` · 💻 Warm-up: Singleton three ways (eager / DCL + volatile / Bill Pugh) (20 min) · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Singleton (5 production scenarios: config, logger, pool, session, ID-generator) |
-| 9 | Factory Method, Abstract Factory | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (simple factory + basic + prod variants, abstract factory; demos + docs) | 💻 repo demos: `creational/factory/`, `creational/abstract_factory/` · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Simple Factory + § Factory Method + § Abstract Factory (15 production scenarios across the three) |
-| 10 | Builder — especially for many optional params | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (4 variants: basic, Lombok, director, GoF director; demos + docs) | 💻 repo demo: `creational/builder/` (4 variants) · 📖 Scenarios: `study_plan/deep_dives/PatternSelectionScenarios.md` § Builder (5 production scenarios: HTTP request, insurance policy, test data factories, email, SQL) |
+| 8 | Singleton — and its problems (testability, hidden coupling) | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (creational track: 5 variants + thread-safety demo + doc) | 💻 repo demo: `creational/singleton/` · 💻 Warm-up: Singleton three ways (eager / DCL + volatile / Bill Pugh) (20 min) · 📖 Scenarios: `design_patterns/pattern_selection_scenarios/index.md` § Singleton (5 production scenarios: config, logger, pool, session, ID-generator) |
+| 9 | Factory Method, Abstract Factory | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (simple factory + basic + prod variants, abstract factory; demos + docs) | 💻 repo demos: `creational/factory/`, `creational/abstract_factory/` · 📖 Scenarios: `design_patterns/pattern_selection_scenarios/index.md` § Simple Factory + § Factory Method + § Abstract Factory (15 production scenarios across the three) |
+| 10 | Builder — especially for many optional params | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (4 variants: basic, Lombok, director, GoF director; demos + docs) | 💻 repo demo: `creational/builder/` (4 variants) · 📖 Scenarios: `design_patterns/pattern_selection_scenarios/index.md` § Builder (5 production scenarios: HTTP request, insurance policy, test data factories, email, SQL) |
 | 11 | Adapter | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Decorator | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Coffee with Milk/Sugar decorators — verify composed price/desc (25 min) |
 | 13 | Facade | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Proxy — virtual, remote, protection | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Strategy | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: PaymentStrategy interface + Card/UPI/Wallet impls (25 min) · 📖 Deep-dive: `study_plan/deep_dives/PatternSelectionExercise.md` (Strategy vs Registry vs DI for "one HR, many factories" — 4 exercises) |
+| 15 | Strategy | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: PaymentStrategy interface + Card/UPI/Wallet impls (25 min) · 📖 Deep-dive: `design_patterns/pattern_selection/index.md` (Strategy vs Registry vs DI for "one HR, many factories" — 4 exercises) |
 | 16 | Observer / Pub-Sub | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: minimal EventBus with `subscribe(Class<T>, Consumer<T>)` + publish (25 min) |
 | 17 | Template Method | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | State — perfect fit for KYC status machines | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -30,7 +30,7 @@
 | 20 | Command | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Repository pattern | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Unit of Work | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Dependency Injection — incl. `Map<String, T>` auto-injection of all beans implementing an interface (registry-via-DI pattern) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 Deep-dive: `study_plan/deep_dives/PatternSelectionExercise.md` |
+| 23 | Dependency Injection — incl. `Map<String, T>` auto-injection of all beans implementing an interface (registry-via-DI pattern) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 Deep-dive: `design_patterns/pattern_selection/index.md` |
 | 24 | God class, anemic domain model, primitive obsession | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Tight coupling, circular dependencies | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Law of Demeter | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -46,7 +46,7 @@
 | 36 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
 | 38 | Event Sourcing — same | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
-| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `messaging/saga/SagaVsPubSub.md` |
+| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `databases/distributed_transactions/saga/index.md` |
 | 40 | Outbox pattern — reliable event publishing | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 microservices.io — "Pattern: Transactional outbox" |
 | 41 | Idempotent receiver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 42 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -206,7 +206,7 @@ sequenceDiagram
 - **State pattern applied to your KYC status machine** (~2.5 hrs) — directly job-relevant. Walk through the formal State pattern, then map it to your IN_PROGRESS / VERIFIED / REVIEW / ERROR / FAILED transitions. Becomes a STAR-story.
 - **LLD: 8–10 problems from the practice list** (~16–20 hrs total across all weeks) — the actual interview rehearsal work. See `reference/PracticeProblems.md` for the curated list. Recommend: 3 Easy (warm-up: Snake & Ladder, Tic-Tac-Toe, Logger) + 4 Medium (Parking Lot, Splitwise, Elevator, Rate Limiter) + 2-3 Hard (BookMyShow, Chess, Food Ordering).
 - **Strategy vs State + Template Method side-by-side** (~2.5 hrs combined) — interview-canonical confusion. One worked example contrasting all three on the same domain (e.g., document verification flow).
-- **Pattern selection — Strategy vs Registry vs Spring DI** (~3-4 hrs across 4 exercises, see `study_plan/deep_dives/PatternSelectionExercise.md`) — "one HR, many factories" mini-project. Refactors `creational/factory_method/HR` three ways (caller-passed strategy, HR-held map, framework-injected `Map<String, T>`). Touches Factory Method + Strategy + Registry + DI on a single domain — high ROI for "when to reach for which."
+- **Pattern selection — Strategy vs Registry vs Spring DI** (~3-4 hrs across 4 exercises, see `design_patterns/pattern_selection/index.md`) — "one HR, many factories" mini-project. Refactors `creational/factory_method/HR` three ways (caller-passed strategy, HR-held map, framework-injected `Map<String, T>`). Touches Factory Method + Strategy + Registry + DI on a single domain — high ROI for "when to reach for which."
 
 ## Hands-on exercises (Practice + Advanced)
 

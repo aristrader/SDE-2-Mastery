@@ -44,6 +44,283 @@ Compile-time errors beat runtime errors — the strongest single argument for `L
 
 ---
 
+## 1. List Mental Model
+
+`List` is an ordered collection.
+
+Properties:
+
+* Maintains insertion order
+* Allows duplicates
+* Supports index-based access
+* Common implementations:
+
+    * `ArrayList`
+    * `LinkedList`
+
+Preferred declaration:
+
+```java
+List<Integer> nums = new ArrayList<>();
+```
+
+Why?
+
+Code depends on the `List` interface, not the concrete implementation.
+
+---
+
+## 2. ArrayList
+
+`ArrayList` is backed by a dynamic array.
+
+Good for:
+
+* Random access
+* Iteration
+* Adding at the end
+
+Weak for:
+
+* Insert/delete in middle
+* Insert/delete at beginning
+
+Time complexity:
+
+```text
+get(index)       O(1)
+add(end)         amortized O(1)
+add(index, val)  O(n)
+remove(index)    O(n)
+contains(value)  O(n)
+```
+
+Default choice in most backend/interview code.
+
+---
+
+## 3. LinkedList
+
+`LinkedList` is backed by a doubly linked list.
+
+Each internal node has:
+
+```text
+prev, value, next
+```
+
+But as Java users, we do not manipulate `prev` and `next` directly.
+
+Good for:
+
+* Adding/removing from ends
+* Queue/deque style operations
+
+Weak for:
+
+* Random access
+* Cache locality
+* Most normal list use cases
+
+Time complexity:
+
+```text
+get(index)       O(n)
+add(end)         O(1)
+remove(end)      O(1)
+add(index, val)  O(n) to reach position
+remove(index)    O(n) to reach position
+```
+
+In practice, `ArrayList` is usually preferred.
+
+---
+
+## 4. Common List Operations
+
+```java
+List<String> names = new ArrayList<>();
+
+names.add("A");
+names.add("B");
+names.add("C");
+
+names.get(0);
+names.set(1, "X");
+names.remove(0);
+names.remove("C");
+names.contains("X");
+names.size();
+names.isEmpty();
+```
+
+---
+
+## 5. Important Gotcha: remove(index) vs remove(value)
+
+For `List<Integer>`:
+
+```java
+List<Integer> nums = new ArrayList<>();
+nums.add(10);
+nums.add(20);
+nums.add(30);
+
+nums.remove(1); // removes index 1 => 20
+nums.remove(Integer.valueOf(10)); // removes value 10
+```
+
+This is a common interview/code bug.
+
+---
+
+## 6. Iteration
+
+Index-based loop:
+
+```java
+for (int i = 0; i < list.size(); i++) {
+    System.out.println(list.get(i));
+}
+```
+
+Enhanced for loop:
+
+```java
+for (Integer x : list) {
+    System.out.println(x);
+}
+```
+
+Iterator:
+
+```java
+Iterator<Integer> it = list.iterator();
+
+while (it.hasNext()) {
+    Integer x = it.next();
+}
+```
+
+---
+
+## 7. Safe Removal During Iteration
+
+Unsafe:
+
+```java
+for (Integer x : list) {
+    if (x % 2 == 0) {
+        list.remove(x);
+    }
+}
+```
+
+This can cause `ConcurrentModificationException`.
+
+Safe:
+
+```java
+Iterator<Integer> it = list.iterator();
+
+while (it.hasNext()) {
+    if (it.next() % 2 == 0) {
+        it.remove();
+    }
+}
+```
+
+Use `Iterator.remove()` when removing while iterating.
+
+---
+
+## 8. Sorting and Reversing
+
+Sorting:
+
+```java
+Collections.sort(list);
+```
+
+or:
+
+```java
+list.sort(null);
+```
+
+Reverse:
+
+```java
+Collections.reverse(list);
+```
+
+Example:
+
+```java
+List<Integer> nums = new ArrayList<>(List.of(3, 1, 2));
+Collections.sort(nums);     // [1, 2, 3]
+Collections.reverse(nums);  // [3, 2, 1]
+```
+
+Custom sorting will be covered later with `Comparator`.
+
+---
+
+## 9. subList()
+
+```java
+List<Integer> sub = list.subList(1, 3);
+```
+
+Range:
+
+```text
+start index inclusive
+end index exclusive
+```
+
+Important:
+
+`subList()` returns a view backed by the original list.
+
+Changes to the sublist can affect the original list.
+
+---
+
+## 10. ArrayList vs LinkedList Interview Rule
+
+Use `ArrayList` by default.
+
+Use `LinkedList` only when:
+
+* You specifically need linked-list behavior
+* You need frequent operations at ends
+* You are using it as a queue/deque, though `ArrayDeque` is usually better
+
+SDE-2 answer:
+
+```text
+ArrayList is usually preferred because random access and iteration are fast, memory locality is better, and most real-world list operations are read/iterate-heavy.
+```
+
+---
+
+## Definition of Done
+
+You are done with this checkpoint only when:
+
+* You can create and use `ArrayList` from memory.
+* You can create and use `LinkedList` from memory.
+* You know when to prefer `ArrayList`.
+* You know the time complexities.
+* You can explain `remove(index)` vs `remove(value)`.
+* You can safely remove elements using `Iterator`.
+* You can sort and reverse a list.
+* You can explain why `subList()` is risky.
+
+
+---
+
 ## Demo code in this folder
 
 | Demo | Shows |

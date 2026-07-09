@@ -6,14 +6,14 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 0 | TLS/SSL Basics (Encryption, Auth, Integrity, CA, HTTPS) | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | High-level TLS concepts | 📖 `../TLS_SSL_mTLS_Notes.md` |
+| 0 | TLS/SSL Basics (Encryption, Auth, Integrity, CA, HTTPS) | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | High-level TLS concepts | 📖 `security/cryptography/tls_https_pki/index.md` |
 | 1 | TLS 1.2 vs TLS 1.3 — handshake differences (1-RTT, 0-RTT) | 🔴 💼 🔐 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: capture a TLS 1.2 handshake and a TLS 1.3 handshake with tcpdump or Wireshark; count RTTs to first byte (30 min) |
-| 2 | Full handshake walkthrough — ClientHello, ServerHello, key exchange | 🔴 💼 🔐 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | High-level overview covered | 📖 `security/cryptography/tls_https_pki/index.md`, 📖 `../TLS_SSL_mTLS_Notes.md` · 💻 Warm-up: `openssl s_client -connect google.com:443 -tls1_3 -trace` — identify ClientHello, ServerHello, key exchange in the trace output (30 min) |
+| 2 | Full handshake walkthrough — ClientHello, ServerHello, key exchange | 🔴 💼 🔐 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | High-level overview covered | 📖 `security/cryptography/tls_https_pki/index.md`, 📖 `security/cryptography/tls_https_pki/index.md` · 💻 Warm-up: `openssl s_client -connect google.com:443 -tls1_3 -trace` — identify ClientHello, ServerHello, key exchange in the trace output (30 min) |
 | 3 | Cipher suites — naming convention, what each component does  (Basic concept only)| 🔴 💼 🔐 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run `nmap --script ssl-enum-ciphers -p 443 yourdomain.com` against your service; identify which suites are weak and how to disable them in Spring Boot (30 min) |
 | 5 | SNI — Server Name Indication, ESNI / ECH  (Basic concept only)| 🔴 💼 🔐 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Session resumption — session IDs, session tickets | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | HSTS, preload lists | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Mutual TLS (mTLS) — when, how, cert rotation | 🟠 💼 🔐 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Basics covered | 📖 `../TLS_SSL_mTLS_Notes.md` (Cross-ref Part 17 PKI) · 💻 Warm-up: configure Spring Boot with server.ssl.client-auth=need; generate client cert with openssl; curl with --cert/--key; observe rejection without cert (30 min) |
+| 10 | Mutual TLS (mTLS) — when, how, cert rotation | 🟠 💼 🔐 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Basics covered | 📖 `security/cryptography/tls_https_pki/index.md` (Cross-ref Part 17 PKI) · 💻 Warm-up: configure Spring Boot with server.ssl.client-auth=need; generate client cert with openssl; curl with --cert/--key; observe rejection without cert (30 min) |
 | 11 | Common attacks — BEAST, CRIME, POODLE, Heartbleed, downgrade attacks | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | TLS terminator placement (LB, sidecar, app) | 🟠 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 

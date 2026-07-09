@@ -188,6 +188,10 @@
             "link": "/java/jvm/",
             "items": [
               {
+                "text": "Deep Dive: JDK, JRE, and JVM",
+                "link": "/java/jvm/jdk_jre_jvm/"
+              },
+              {
                 "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
                 "link": "/java/jvm/compilation_pipeline/"
               },
@@ -458,6 +462,10 @@
           {
             "text": "Views and Materialized Views",
             "link": "/databases/views/"
+          },
+          {
+            "text": "Graph Databases",
+            "link": "/databases/graph/"
           }
         ]
       }
@@ -566,6 +574,14 @@
               {
                 "text": "SLA, SLO, and SLI: Technical Overview",
                 "link": "/system_design/concepts/observability/"
+              },
+              {
+                "text": "Observability & Operations (SDE-2 Backend Interview Guide)",
+                "link": "/system_design/concepts/observability_operations/"
+              },
+              {
+                "text": "System Design: Disaster Recovery (DR)",
+                "link": "/system_design/concepts/disaster_recovery/"
               }
             ],
             "collapsed": true
@@ -646,12 +662,20 @@
             "link": "/security/authentication/"
           },
           {
+            "text": "Authentication & Authorization Study Notes",
+            "link": "/security/authorization/"
+          },
+          {
             "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
             "link": "/security/cryptography/",
             "items": [
               {
                 "text": "TLS, HTTPS, and Public Key Infrastructure (PKI)",
                 "link": "/security/cryptography/tls_https_pki/"
+              },
+              {
+                "text": "TLS Deep Dive: Certificates & Diffie-Hellman",
+                "link": "/security/cryptography/tls_certificates_diffie_hellman/"
               }
             ],
             "collapsed": true
@@ -659,6 +683,26 @@
           {
             "text": "Web Security: XSS, SOP, and CORS",
             "link": "/security/web_security/"
+          },
+          {
+            "text": "Deep Dive: OAuth 2.0, JWT, and API Keys",
+            "link": "/security/oauth_jwt_api_keys/"
+          },
+          {
+            "text": "OAuth 2.0 & PKCE Deep Dive",
+            "link": "/security/oauth_pkce/"
+          },
+          {
+            "text": "JWT: Mechanics, Architectures, and Vulnerabilities",
+            "link": "/security/jwt_vulnerabilities/"
+          },
+          {
+            "text": "JWT Validation, Refresh Tokens, MFA & API Security",
+            "link": "/security/mfa_refresh_tokens_hmac/"
+          },
+          {
+            "text": "Deep Dive: SSO, SAML, OAuth2, OIDC, Identity Providers, Identity Brokers",
+            "link": "/security/sso_saml_oidc_identity_brokers/"
           }
         ]
       }
@@ -762,6 +806,14 @@
           {
             "text": "CQRS (Command Query Responsibility Segregation)",
             "link": "/design_patterns/cqrs/"
+          },
+          {
+            "text": "Pattern Selection Exercise — One Client, Many Factories",
+            "link": "/design_patterns/pattern_selection/"
+          },
+          {
+            "text": "Design Pattern Practice — Production Scenarios",
+            "link": "/design_patterns/pattern_selection_scenarios/"
           }
         ]
       }
@@ -771,8 +823,16 @@
         "text": "Deployments Hub",
         "items": [
           {
+            "text": "OS, Virtualization, and Containers Fundamentals",
+            "link": "/deployments/os_virtualization_containers/"
+          },
+          {
             "text": "OS, Containers & Docker Fundamentals",
             "link": "/deployments/os_containers_docker/"
+          },
+          {
+            "text": "Deep Dive: Kubernetes, Containers, and ArgoCD",
+            "link": "/deployments/kubernetes_and_containers/"
           },
           {
             "text": "Release & Deployment Strategies",
@@ -1855,6 +1915,90 @@
                       "exerciseHtml": "<h2>Exercise: list-of-immutability - Fully Immutable Lists</h2>\n<h3>Goal</h3>\n<p>Experience the strict immutability provided by the Java 9 <code>List.of()</code> factory methods.</p>\n<h3>Task</h3>\n<p>Create a list using <code>List&lt;String&gt; list = List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);</code>.</p>\n<p>Attempt to modify an existing element: <code>list.set(0, &quot;X&quot;);</code>.</p>\n<p>Attempt to add a <code>null</code> element: <code>List.of(&quot;A&quot;, null);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Do any mutation operations succeed on a <code>List.of</code> instance?</li>\n<li>What happens when you try to pass <code>null</code> to the factory method?</li>\n</ul>",
                       "starterCode": "",
                       "solutionHtml": "<h2>Solution: list-of-immutability - Fully Immutable Lists</h2>\n<pre><code>List&lt;String&gt; list = List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);\n// list.set(0, &quot;X&quot;); // Throws UnsupportedOperationException\n// list.add(&quot;D&quot;);    // Throws UnsupportedOperationException\n\n// List.of(&quot;A&quot;, null); // Throws NullPointerException at construction</code></pre>\n<p><code>List.of()</code> returns a genuinely immutable collection. All mutation operations (add, remove, set, clear) throw <code>UnsupportedOperationException</code>. Furthermore, it proactively guards against <code>null</code> values by throwing a <code>NullPointerException</code> immediately at construction if any element is null.</p>"
+                    },
+                    {
+                      "id": "basic-arraylist-operations",
+                      "title": "Basic ArrayList Operations",
+                      "exerciseHtml": "<h2>Exercise: basic-arraylist-operations - Basic ArrayList Operations</h2>\n<h3>Objective</h3>\n<p>Practice basic <code>ArrayList</code> creation and operations.</p>\n<h3>Problem</h3>\n<p>Create a method that takes a list of integers and performs basic list operations.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Create an <code>ArrayList&lt;Integer&gt;</code>.</li>\n<li>Add at least 5 integers.</li>\n<li>Return:</li>\n</ul>\n<ul>\n<li>first element</li>\n<li>last element</li>\n<li>size of the list</li>\n<li>whether the list contains a given target</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Use <code>List&lt;Integer&gt;</code> as the reference type.</li>\n<li>Use <code>ArrayList&lt;Integer&gt;</code> as the implementation.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>List</code></li>\n<li><code>ArrayList</code></li>\n<li><code>add</code></li>\n<li><code>get</code></li>\n<li><code>size</code></li>\n<li><code>contains</code></li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: basic-arraylist-operations - Basic ArrayList Operations</h2>\n<pre><code>public record ListSummary(int first, int last, int size, boolean containsTarget) {\n}\n\npublic ListSummary basicOperations(int target) {\n    List&lt;Integer&gt; numbers = new ArrayList&lt;&gt;();\n    numbers.add(10);\n    numbers.add(20);\n    numbers.add(30);\n    numbers.add(40);\n    numbers.add(50);\n\n    return new ListSummary(\n            numbers.get(0),\n            numbers.get(numbers.size() - 1),\n            numbers.size(),\n            numbers.contains(target)\n    );\n}</code></pre>"
+                    },
+                    {
+                      "id": "insert-update-and-remove",
+                      "title": "Insert, Update, and Remove",
+                      "exerciseHtml": "<h2>Exercise: insert-update-and-remove - Insert, Update, and Remove</h2>\n<h3>Objective</h3>\n<p>Practice modifying a list.</p>\n<h3>Problem</h3>\n<p>Given a list of strings, perform these operations in order:</p>\n<p>1. Add one element at the end.</p>\n<p>2. Add one element at index <code>1</code>.</p>\n<p>3. Replace the element at index <code>2</code>.</p>\n<p>4. Remove one element by index.</p>\n<p>5. Remove one element by value.</p>\n<p>6. Return the final list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>ArrayList&lt;String&gt;</code>.</li>\n<li>Preserve operation order exactly.</li>\n<li>Handle lists with at least 3 elements.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not create a new list for every operation.</li>\n<li>Mutate the existing list.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>add(index, value)</code></li>\n<li><code>set</code></li>\n<li><code>remove(index)</code></li>\n<li><code>remove(value)</code></li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: insert-update-and-remove - Insert, Update, and Remove</h2>\n<pre><code>public List&lt;String&gt; modifyList(List&lt;String&gt; list) {\n    ArrayList&lt;String&gt; names = (ArrayList&lt;String&gt;) list;\n\n    names.add(&quot;End&quot;);\n    names.add(1, &quot;Inserted&quot;);\n    names.set(2, &quot;Updated&quot;);\n    names.remove(0);\n    names.remove(&quot;End&quot;);\n    return names;\n}</code></pre>"
+                    },
+                    {
+                      "id": "integer-remove-gotcha",
+                      "title": "Integer Remove Gotcha",
+                      "exerciseHtml": "<h2>Exercise: integer-remove-gotcha - Integer Remove Gotcha</h2>\n<h3>Objective</h3>\n<p>Understand <code>remove(index)</code> vs <code>remove(value)</code> for <code>List&lt;Integer&gt;</code>.</p>\n<h3>Problem</h3>\n<p>Given a list of integers and a value, remove the first occurrence of that value.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>List&lt;Integer&gt;</code>.</li>\n<li>Remove by value, not by index.</li>\n<li>Return the modified list.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not create a new list.</li>\n<li>Must work correctly when the value is also a valid index.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>remove(Integer.valueOf(x))</code></li>\n<li>overloaded methods</li>\n<li>wrapper class behavior</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: integer-remove-gotcha - Integer Remove Gotcha</h2>\n<pre><code>public List&lt;Integer&gt; removeByValue(List&lt;Integer&gt; list, int target) {\n    list.remove(Integer.valueOf(target));\n    return list;\n}</code></pre>"
+                    },
+                    {
+                      "id": "iterate-three-ways",
+                      "title": "Iterate Three Ways",
+                      "exerciseHtml": "<h2>Exercise: iterate-three-ways - Iterate Three Ways</h2>\n<h3>Objective</h3>\n<p>Practice different list iteration styles.</p>\n<h3>Problem</h3>\n<p>Given a list of integers, return the sum of all elements using three separate methods:</p>\n<p>1. Index-based <code>for</code> loop</p>\n<p>2. Enhanced <code>for</code> loop</p>\n<p>3. <code>Iterator</code></p>\n<h3>Requirements</h3>\n<ul>\n<li>Implement three methods.</li>\n<li>All three methods should return the same sum.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not use recursion.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>index loop</li>\n<li>enhanced for loop</li>\n<li><code>Iterator</code></li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: iterate-three-ways - Iterate Three Ways</h2>\n<pre><code>public int sumUsingIndexLoop(List&lt;Integer&gt; list) {\n    int sum1 = 0;\n    for (int i = 0; i &lt; list.size(); i++) {\n        sum1 += list.get(i);\n    }\n    return sum1;\n}\n\npublic int sumUsingEnhancedFor(List&lt;Integer&gt; list) {\n    int sum2 = 0;\n    for (Integer num : list) {\n        sum2 += num;\n    }\n    return sum2;\n}\n\npublic int sumUsingIterator(List&lt;Integer&gt; list) {\n    int sum3 = 0;\n    Iterator&lt;Integer&gt; it = list.iterator();\n    while (it.hasNext()) {\n        sum3 += it.next();\n    }\n    return sum3;\n}</code></pre>"
+                    },
+                    {
+                      "id": "safe-removal-using-iterator",
+                      "title": "Safe Removal Using Iterator",
+                      "exerciseHtml": "<h2>Exercise: safe-removal-using-iterator - Safe Removal Using Iterator</h2>\n<h3>Objective</h3>\n<p>Practice removing elements safely while iterating.</p>\n<h3>Problem</h3>\n<p>Given a list of integers, remove all even numbers from the list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>Iterator</code>.</li>\n<li>Mutate the original list.</li>\n<li>Return the modified list.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not create a new list.</li>\n<li>Do not use <code>removeIf</code>.</li>\n<li>Do not use streams.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>Iterator</code></li>\n<li><code>hasNext</code></li>\n<li><code>next</code></li>\n<li><code>Iterator.remove</code></li>\n<li>safe mutation during iteration</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: safe-removal-using-iterator - Safe Removal Using Iterator</h2>\n<pre><code>public List&lt;Integer&gt; removeEvens(List&lt;Integer&gt; list) {\n    Iterator&lt;Integer&gt; it = list.iterator();\n    while (it.hasNext()) {\n        if (it.next() % 2 == 0) {\n            it.remove();\n        }\n    }\n    return list;\n}</code></pre>"
+                    },
+                    {
+                      "id": "sort-and-reverse",
+                      "title": "Sort and Reverse",
+                      "exerciseHtml": "<h2>Exercise: sort-and-reverse - Sort and Reverse</h2>\n<h3>Objective</h3>\n<p>Practice sorting and reversing lists.</p>\n<h3>Problem</h3>\n<p>Given a list of integers:</p>\n<p>1. Sort it in ascending order.</p>\n<p>2. Create another list in descending order.</p>\n<p>3. Return both lists.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>Collections.sort</code>.</li>\n<li>Use <code>Collections.reverse</code>.</li>\n<li>Do not manually sort.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not mutate the original input list directly.</li>\n<li>Return both ascending and descending versions.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>Collections.sort</code></li>\n<li><code>Collections.reverse</code></li>\n<li>copying lists</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: sort-and-reverse - Sort and Reverse</h2>\n<pre><code>public record SortedLists(List&lt;Integer&gt; ascending, List&lt;Integer&gt; descending) {\n}\n\npublic SortedLists sortAndReverse(List&lt;Integer&gt; input) {\n    List&lt;Integer&gt; ascending = new ArrayList&lt;&gt;(input);\n    Collections.sort(ascending);\n\n    List&lt;Integer&gt; descending = new ArrayList&lt;&gt;(ascending);\n    Collections.reverse(descending);\n\n    return new SortedLists(ascending, descending);\n}</code></pre>"
+                    },
+                    {
+                      "id": "sublist-practice",
+                      "title": "subList Practice",
+                      "exerciseHtml": "<h2>Exercise: sublist-practice - subList Practice</h2>\n<h3>Objective</h3>\n<p>Understand how <code>subList()</code> works.</p>\n<h3>Problem</h3>\n<p>Given a list of strings and two indices <code>from</code> and <code>to</code>, return a sublist from <code>from</code> inclusive to <code>to</code> exclusive.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>subList(from, to)</code>.</li>\n<li>Return a new independent list copied from the sublist.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not return the raw <code>subList</code> view directly.</li>\n<li>Assume indices are valid.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>subList</code></li>\n<li>inclusive/exclusive ranges</li>\n<li>defensive copy</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: sublist-practice - subList Practice</h2>\n<pre><code>public List&lt;String&gt; getSublist(List&lt;String&gt; list, int from, int to) {\n    return new ArrayList&lt;&gt;(list.subList(from, to)); // Defensive copy\n}</code></pre>"
+                    },
+                    {
+                      "id": "merge-two-lists",
+                      "title": "Merge Two Lists",
+                      "exerciseHtml": "<h2>Exercise: merge-two-lists - Merge Two Lists</h2>\n<h3>Objective</h3>\n<p>Practice combining lists.</p>\n<h3>Problem</h3>\n<p>Given two lists of integers, return a new list containing all elements of the first list followed by all elements of the second list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>ArrayList</code>.</li>\n<li>Do not modify the input lists.</li>\n<li>Preserve order.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not sort.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>addAll</code></li>\n<li>copying lists</li>\n<li>preserving order</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: merge-two-lists - Merge Two Lists</h2>\n<pre><code>public List&lt;Integer&gt; mergeLists(List&lt;Integer&gt; list1, List&lt;Integer&gt; list2) {\n    List&lt;Integer&gt; merged = new ArrayList&lt;&gt;(list1);\n    merged.addAll(list2);\n    return merged;\n}</code></pre>"
+                    },
+                    {
+                      "id": "remove-duplicates-while-preserving-order",
+                      "title": "Remove Duplicates While Preserving Order",
+                      "exerciseHtml": "<h2>Exercise: remove-duplicates-while-preserving-order - Remove Duplicates While Preserving Order</h2>\n<h3>Objective</h3>\n<p>Practice list traversal and duplicate handling.</p>\n<h3>Problem</h3>\n<p>Given a list of integers, return a new list with duplicates removed while preserving first occurrence order.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Preserve original order.</li>\n<li>Keep only the first occurrence of each value.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not sort.</li>\n<li>You may use another collection if needed.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>list traversal</li>\n<li>duplicate detection</li>\n<li>order preservation</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: remove-duplicates-while-preserving-order - Remove Duplicates While Preserving Order</h2>\n<pre><code>public List&lt;Integer&gt; removeDuplicates(List&lt;Integer&gt; list) {\n    List&lt;Integer&gt; uniqueList = new ArrayList&lt;&gt;();\n    Set&lt;Integer&gt; seen = new HashSet&lt;&gt;();\n    for (Integer num : list) {\n        if (seen.add(num)) {\n            uniqueList.add(num);\n        }\n    }\n    return uniqueList;\n}</code></pre>"
+                    },
+                    {
+                      "id": "rotate-list-right",
+                      "title": "Rotate List Right",
+                      "exerciseHtml": "<h2>Exercise: rotate-list-right - Rotate List Right</h2>\n<h3>Objective</h3>\n<p>Practice index-based list manipulation.</p>\n<h3>Problem</h3>\n<p>Given a list of integers and an integer <code>k</code>, rotate the list to the right by <code>k</code> positions.</p>\n<h3>Example</h3>\n<p>Input:</p>\n<pre><code>list = [1, 2, 3, 4, 5]\nk = 2</code></pre>\n<p>Output:</p>\n<pre><code>[4, 5, 1, 2, 3]</code></pre>\n<h3>Requirements</h3>\n<ul>\n<li>Handle <code>k &gt; list.size()</code>.</li>\n<li>Return a new list.</li>\n<li>Do not modify the original list.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not use recursion.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>index calculation</li>\n<li><code>subList</code></li>\n<li><code>addAll</code></li>\n<li>list copying</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: rotate-list-right - Rotate List Right</h2>\n<pre><code>public List&lt;Integer&gt; rotateRight(List&lt;Integer&gt; list, int k) {\n    if (list.isEmpty()) return new ArrayList&lt;&gt;();\n    k = k % list.size();\n    if (k == 0) return new ArrayList&lt;&gt;(list);\n    \n    int splitPoint = list.size() - k;\n    List&lt;Integer&gt; result = new ArrayList&lt;&gt;(list.subList(splitPoint, list.size()));\n    result.addAll(list.subList(0, splitPoint));\n    return result;\n}</code></pre>"
+                    },
+                    {
+                      "id": "arraylist-vs-linkedlist-experiment",
+                      "title": "ArrayList vs LinkedList Experiment",
+                      "exerciseHtml": "<h2>Exercise: arraylist-vs-linkedlist-experiment - ArrayList vs LinkedList Experiment</h2>\n<h3>Objective</h3>\n<p>Build intuition for <code>ArrayList</code> vs <code>LinkedList</code>.</p>\n<h3>Problem</h3>\n<p>Write a small program that performs these operations on both <code>ArrayList</code> and <code>LinkedList</code>:</p>\n<p>1. Add 10,000 integers.</p>\n<p>2. Access elements by index.</p>\n<p>3. Add elements at the beginning.</p>\n<p>4. Remove elements from the beginning.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Print time taken for each operation.</li>\n<li>Use <code>System.nanoTime()</code> or <code>System.currentTimeMillis()</code>.</li>\n<li>Compare the result briefly in comments.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>This is an experiment, not a benchmark.</li>\n<li>Do not over-optimize.</li>\n<li>Keep the code simple.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>ArrayList</code></li>\n<li><code>LinkedList</code></li>\n<li>performance intuition</li>\n<li>practical trade-offs</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: arraylist-vs-linkedlist-experiment - ArrayList vs LinkedList Experiment</h2>\n<pre><code>public void experiment() {\n    List&lt;Integer&gt; arrayList = new ArrayList&lt;&gt;();\n    List&lt;Integer&gt; linkedList = new LinkedList&lt;&gt;();\n\n    long arrayAdd = timeAddAtEnd(arrayList);\n    long linkedAdd = timeAddAtEnd(linkedList);\n    long arrayAccess = timeRandomAccess(arrayList);\n    long linkedAccess = timeRandomAccess(linkedList);\n    long arrayAddBeginning = timeAddBeginning(arrayList);\n    long linkedAddBeginning = timeAddBeginning(linkedList);\n    long arrayRemoveBeginning = timeRemoveBeginning(arrayList);\n    long linkedRemoveBeginning = timeRemoveBeginning(linkedList);\n\n    System.out.println(&quot;ArrayList add end: &quot; + arrayAdd);\n    System.out.println(&quot;LinkedList add end: &quot; + linkedAdd);\n    System.out.println(&quot;ArrayList index access: &quot; + arrayAccess);\n    System.out.println(&quot;LinkedList index access: &quot; + linkedAccess);\n    System.out.println(&quot;ArrayList add beginning: &quot; + arrayAddBeginning);\n    System.out.println(&quot;LinkedList add beginning: &quot; + linkedAddBeginning);\n    System.out.println(&quot;ArrayList remove beginning: &quot; + arrayRemoveBeginning);\n    System.out.println(&quot;LinkedList remove beginning: &quot; + linkedRemoveBeginning);\n\n    // Expect ArrayList to win index access; beginning operations can favor LinkedList.\n}\n\nprivate long timeAddAtEnd(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; 10_000; i++) {\n        list.add(i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeRandomAccess(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; list.size(); i++) {\n        list.get(i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeAddBeginning(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; 1_000; i++) {\n        list.add(0, i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeRemoveBeginning(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    while (!list.isEmpty()) {\n        list.remove(0);\n    }\n    return System.nanoTime() - start;\n}</code></pre>"
+                    },
+                    {
+                      "id": "mini-problem-student-names",
+                      "title": "Mini Problem: Student Names",
+                      "exerciseHtml": "<h2>Exercise: mini-problem-student-names - Mini Problem: Student Names</h2>\n<h3>Objective</h3>\n<p>Use list operations in a realistic small problem.</p>\n<h3>Problem</h3>\n<p>Given a list of student names:</p>\n<p>1. Remove blank names.</p>\n<p>2. Trim extra spaces.</p>\n<p>3. Sort names alphabetically.</p>\n<p>4. Return the cleaned list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>ArrayList</code>.</li>\n<li>Use <code>Iterator</code> for removing blank names.</li>\n<li>Use <code>Collections.sort</code>.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not mutate the original input list.</li>\n<li>Blank means empty string after trimming.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>copying lists</li>\n<li>trimming strings</li>\n<li>iterator removal</li>\n<li>sorting</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: mini-problem-student-names - Mini Problem: Student Names</h2>\n<pre><code>public List&lt;String&gt; cleanNames(List&lt;String&gt; names) {\n    List&lt;String&gt; cleaned = new ArrayList&lt;&gt;();\n    for (String name : names) {\n        cleaned.add(name.trim());\n    }\n\n    Iterator&lt;String&gt; iterator = cleaned.iterator();\n    while (iterator.hasNext()) {\n        if (iterator.next().isEmpty()) {\n            iterator.remove();\n        }\n    }\n\n    Collections.sort(cleaned);\n    return cleaned;\n}</code></pre>"
                     }
                   ]
                 },
@@ -2100,9 +2244,23 @@
             },
             "items": [
               {
+                "text": "Deep Dive: JDK, JRE, and JVM",
+                "link": "/java/jvm/jdk_jre_jvm/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
                 "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
                 "link": "/java/jvm/compilation_pipeline/",
-                "order": 10,
+                "order": 20,
                 "schema": "practice",
                 "practiceSet": null,
                 "capabilities": {
@@ -2116,7 +2274,7 @@
               {
                 "text": "Garbage Collection",
                 "link": "/java/jvm/gc/",
-                "order": 20,
+                "order": 30,
                 "schema": "practice",
                 "practiceSet": null,
                 "capabilities": {
@@ -3297,6 +3455,20 @@
               "playground": false,
               "assets": false
             }
+          },
+          {
+            "text": "Graph Databases",
+            "link": "/databases/graph/",
+            "order": 100,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
           }
         ]
       },
@@ -3641,6 +3813,34 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "Observability & Operations (SDE-2 Backend Interview Guide)",
+                "link": "/system_design/concepts/observability_operations/",
+                "order": 60,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "System Design: Disaster Recovery (DR)",
+                "link": "/system_design/concepts/disaster_recovery/",
+                "order": 70,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
               }
             ]
           },
@@ -3865,9 +4065,23 @@
             }
           },
           {
+            "text": "Authentication & Authorization Study Notes",
+            "link": "/security/authorization/",
+            "order": 20,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
             "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
             "link": "/security/cryptography/",
-            "order": 20,
+            "order": 30,
             "schema": "practice",
             "practiceSet": null,
             "capabilities": {
@@ -3901,18 +4115,102 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "TLS Deep Dive: Certificates & Diffie-Hellman",
+                "link": "/security/cryptography/tls_certificates_diffie_hellman/",
+                "order": 40,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
               }
             ]
           },
           {
             "text": "Web Security: XSS, SOP, and CORS",
             "link": "/security/web_security/",
-            "order": 30,
+            "order": 40,
             "schema": "practice",
             "practiceSet": null,
             "capabilities": {
               "exercise": true,
               "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Deep Dive: OAuth 2.0, JWT, and API Keys",
+            "link": "/security/oauth_jwt_api_keys/",
+            "order": 50,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "OAuth 2.0 & PKCE Deep Dive",
+            "link": "/security/oauth_pkce/",
+            "order": 60,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "JWT: Mechanics, Architectures, and Vulnerabilities",
+            "link": "/security/jwt_vulnerabilities/",
+            "order": 70,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "JWT Validation, Refresh Tokens, MFA & API Security",
+            "link": "/security/mfa_refresh_tokens_hmac/",
+            "order": 80,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Deep Dive: SSO, SAML, OAuth2, OIDC, Identity Providers, Identity Brokers",
+            "link": "/security/sso_saml_oidc_identity_brokers/",
+            "order": 90,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
               "design": false,
               "playground": false,
               "assets": false
@@ -4235,6 +4533,34 @@
               "playground": false,
               "assets": false
             }
+          },
+          {
+            "text": "Pattern Selection Exercise — One Client, Many Factories",
+            "link": "/design_patterns/pattern_selection/",
+            "order": 50,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Design Pattern Practice — Production Scenarios",
+            "link": "/design_patterns/pattern_selection_scenarios/",
+            "order": 60,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
           }
         ]
       },
@@ -4253,9 +4579,23 @@
         },
         "items": [
           {
+            "text": "OS, Virtualization, and Containers Fundamentals",
+            "link": "/deployments/os_virtualization_containers/",
+            "order": 10,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
             "text": "OS, Containers & Docker Fundamentals",
             "link": "/deployments/os_containers_docker/",
-            "order": 10,
+            "order": 20,
             "schema": "practice",
             "practiceSet": null,
             "capabilities": {
@@ -4267,9 +4607,23 @@
             }
           },
           {
+            "text": "Deep Dive: Kubernetes, Containers, and ArgoCD",
+            "link": "/deployments/kubernetes_and_containers/",
+            "order": 30,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
             "text": "Release & Deployment Strategies",
             "link": "/deployments/release_and_deployment_strategies/",
-            "order": 20,
+            "order": 40,
             "schema": "practice",
             "practiceSet": null,
             "capabilities": {
@@ -4550,6 +4904,10 @@
       "link": "/java/jvm/"
     },
     {
+      "text": "Deep Dive: JDK, JRE, and JVM",
+      "link": "/java/jvm/jdk_jre_jvm/"
+    },
+    {
       "text": "Java Compilation Pipeline (JDK, JRE, JVM)",
       "link": "/java/jvm/compilation_pipeline/"
     },
@@ -4786,6 +5144,10 @@
       "link": "/databases/views/"
     },
     {
+      "text": "Graph Databases",
+      "link": "/databases/graph/"
+    },
+    {
       "text": "Networking",
       "link": "/networking/"
     },
@@ -4882,6 +5244,14 @@
       "link": "/system_design/concepts/observability/"
     },
     {
+      "text": "Observability & Operations (SDE-2 Backend Interview Guide)",
+      "link": "/system_design/concepts/observability_operations/"
+    },
+    {
+      "text": "System Design: Disaster Recovery (DR)",
+      "link": "/system_design/concepts/disaster_recovery/"
+    },
+    {
       "text": "Components",
       "link": "/system_design/components/"
     },
@@ -4942,6 +5312,10 @@
       "link": "/security/authentication/"
     },
     {
+      "text": "Authentication & Authorization Study Notes",
+      "link": "/security/authorization/"
+    },
+    {
       "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
       "link": "/security/cryptography/"
     },
@@ -4950,8 +5324,32 @@
       "link": "/security/cryptography/tls_https_pki/"
     },
     {
+      "text": "TLS Deep Dive: Certificates & Diffie-Hellman",
+      "link": "/security/cryptography/tls_certificates_diffie_hellman/"
+    },
+    {
       "text": "Web Security: XSS, SOP, and CORS",
       "link": "/security/web_security/"
+    },
+    {
+      "text": "Deep Dive: OAuth 2.0, JWT, and API Keys",
+      "link": "/security/oauth_jwt_api_keys/"
+    },
+    {
+      "text": "OAuth 2.0 & PKCE Deep Dive",
+      "link": "/security/oauth_pkce/"
+    },
+    {
+      "text": "JWT: Mechanics, Architectures, and Vulnerabilities",
+      "link": "/security/jwt_vulnerabilities/"
+    },
+    {
+      "text": "JWT Validation, Refresh Tokens, MFA & API Security",
+      "link": "/security/mfa_refresh_tokens_hmac/"
+    },
+    {
+      "text": "Deep Dive: SSO, SAML, OAuth2, OIDC, Identity Providers, Identity Brokers",
+      "link": "/security/sso_saml_oidc_identity_brokers/"
     },
     {
       "text": "Design Patterns",
@@ -5042,12 +5440,28 @@
       "link": "/design_patterns/cqrs/"
     },
     {
+      "text": "Pattern Selection Exercise — One Client, Many Factories",
+      "link": "/design_patterns/pattern_selection/"
+    },
+    {
+      "text": "Design Pattern Practice — Production Scenarios",
+      "link": "/design_patterns/pattern_selection_scenarios/"
+    },
+    {
       "text": "Deployments Hub",
       "link": "/deployments/"
     },
     {
+      "text": "OS, Virtualization, and Containers Fundamentals",
+      "link": "/deployments/os_virtualization_containers/"
+    },
+    {
       "text": "OS, Containers & Docker Fundamentals",
       "link": "/deployments/os_containers_docker/"
+    },
+    {
+      "text": "Deep Dive: Kubernetes, Containers, and ArgoCD",
+      "link": "/deployments/kubernetes_and_containers/"
     },
     {
       "text": "Release & Deployment Strategies",
@@ -6775,6 +7189,90 @@
             "exerciseHtml": "<h2>Exercise: list-of-immutability - Fully Immutable Lists</h2>\n<h3>Goal</h3>\n<p>Experience the strict immutability provided by the Java 9 <code>List.of()</code> factory methods.</p>\n<h3>Task</h3>\n<p>Create a list using <code>List&lt;String&gt; list = List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);</code>.</p>\n<p>Attempt to modify an existing element: <code>list.set(0, &quot;X&quot;);</code>.</p>\n<p>Attempt to add a <code>null</code> element: <code>List.of(&quot;A&quot;, null);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Do any mutation operations succeed on a <code>List.of</code> instance?</li>\n<li>What happens when you try to pass <code>null</code> to the factory method?</li>\n</ul>",
             "starterCode": "",
             "solutionHtml": "<h2>Solution: list-of-immutability - Fully Immutable Lists</h2>\n<pre><code>List&lt;String&gt; list = List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);\n// list.set(0, &quot;X&quot;); // Throws UnsupportedOperationException\n// list.add(&quot;D&quot;);    // Throws UnsupportedOperationException\n\n// List.of(&quot;A&quot;, null); // Throws NullPointerException at construction</code></pre>\n<p><code>List.of()</code> returns a genuinely immutable collection. All mutation operations (add, remove, set, clear) throw <code>UnsupportedOperationException</code>. Furthermore, it proactively guards against <code>null</code> values by throwing a <code>NullPointerException</code> immediately at construction if any element is null.</p>"
+          },
+          {
+            "id": "basic-arraylist-operations",
+            "title": "Basic ArrayList Operations",
+            "exerciseHtml": "<h2>Exercise: basic-arraylist-operations - Basic ArrayList Operations</h2>\n<h3>Objective</h3>\n<p>Practice basic <code>ArrayList</code> creation and operations.</p>\n<h3>Problem</h3>\n<p>Create a method that takes a list of integers and performs basic list operations.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Create an <code>ArrayList&lt;Integer&gt;</code>.</li>\n<li>Add at least 5 integers.</li>\n<li>Return:</li>\n</ul>\n<ul>\n<li>first element</li>\n<li>last element</li>\n<li>size of the list</li>\n<li>whether the list contains a given target</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Use <code>List&lt;Integer&gt;</code> as the reference type.</li>\n<li>Use <code>ArrayList&lt;Integer&gt;</code> as the implementation.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>List</code></li>\n<li><code>ArrayList</code></li>\n<li><code>add</code></li>\n<li><code>get</code></li>\n<li><code>size</code></li>\n<li><code>contains</code></li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: basic-arraylist-operations - Basic ArrayList Operations</h2>\n<pre><code>public record ListSummary(int first, int last, int size, boolean containsTarget) {\n}\n\npublic ListSummary basicOperations(int target) {\n    List&lt;Integer&gt; numbers = new ArrayList&lt;&gt;();\n    numbers.add(10);\n    numbers.add(20);\n    numbers.add(30);\n    numbers.add(40);\n    numbers.add(50);\n\n    return new ListSummary(\n            numbers.get(0),\n            numbers.get(numbers.size() - 1),\n            numbers.size(),\n            numbers.contains(target)\n    );\n}</code></pre>"
+          },
+          {
+            "id": "insert-update-and-remove",
+            "title": "Insert, Update, and Remove",
+            "exerciseHtml": "<h2>Exercise: insert-update-and-remove - Insert, Update, and Remove</h2>\n<h3>Objective</h3>\n<p>Practice modifying a list.</p>\n<h3>Problem</h3>\n<p>Given a list of strings, perform these operations in order:</p>\n<p>1. Add one element at the end.</p>\n<p>2. Add one element at index <code>1</code>.</p>\n<p>3. Replace the element at index <code>2</code>.</p>\n<p>4. Remove one element by index.</p>\n<p>5. Remove one element by value.</p>\n<p>6. Return the final list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>ArrayList&lt;String&gt;</code>.</li>\n<li>Preserve operation order exactly.</li>\n<li>Handle lists with at least 3 elements.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not create a new list for every operation.</li>\n<li>Mutate the existing list.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>add(index, value)</code></li>\n<li><code>set</code></li>\n<li><code>remove(index)</code></li>\n<li><code>remove(value)</code></li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: insert-update-and-remove - Insert, Update, and Remove</h2>\n<pre><code>public List&lt;String&gt; modifyList(List&lt;String&gt; list) {\n    ArrayList&lt;String&gt; names = (ArrayList&lt;String&gt;) list;\n\n    names.add(&quot;End&quot;);\n    names.add(1, &quot;Inserted&quot;);\n    names.set(2, &quot;Updated&quot;);\n    names.remove(0);\n    names.remove(&quot;End&quot;);\n    return names;\n}</code></pre>"
+          },
+          {
+            "id": "integer-remove-gotcha",
+            "title": "Integer Remove Gotcha",
+            "exerciseHtml": "<h2>Exercise: integer-remove-gotcha - Integer Remove Gotcha</h2>\n<h3>Objective</h3>\n<p>Understand <code>remove(index)</code> vs <code>remove(value)</code> for <code>List&lt;Integer&gt;</code>.</p>\n<h3>Problem</h3>\n<p>Given a list of integers and a value, remove the first occurrence of that value.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>List&lt;Integer&gt;</code>.</li>\n<li>Remove by value, not by index.</li>\n<li>Return the modified list.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not create a new list.</li>\n<li>Must work correctly when the value is also a valid index.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>remove(Integer.valueOf(x))</code></li>\n<li>overloaded methods</li>\n<li>wrapper class behavior</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: integer-remove-gotcha - Integer Remove Gotcha</h2>\n<pre><code>public List&lt;Integer&gt; removeByValue(List&lt;Integer&gt; list, int target) {\n    list.remove(Integer.valueOf(target));\n    return list;\n}</code></pre>"
+          },
+          {
+            "id": "iterate-three-ways",
+            "title": "Iterate Three Ways",
+            "exerciseHtml": "<h2>Exercise: iterate-three-ways - Iterate Three Ways</h2>\n<h3>Objective</h3>\n<p>Practice different list iteration styles.</p>\n<h3>Problem</h3>\n<p>Given a list of integers, return the sum of all elements using three separate methods:</p>\n<p>1. Index-based <code>for</code> loop</p>\n<p>2. Enhanced <code>for</code> loop</p>\n<p>3. <code>Iterator</code></p>\n<h3>Requirements</h3>\n<ul>\n<li>Implement three methods.</li>\n<li>All three methods should return the same sum.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not use recursion.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>index loop</li>\n<li>enhanced for loop</li>\n<li><code>Iterator</code></li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: iterate-three-ways - Iterate Three Ways</h2>\n<pre><code>public int sumUsingIndexLoop(List&lt;Integer&gt; list) {\n    int sum1 = 0;\n    for (int i = 0; i &lt; list.size(); i++) {\n        sum1 += list.get(i);\n    }\n    return sum1;\n}\n\npublic int sumUsingEnhancedFor(List&lt;Integer&gt; list) {\n    int sum2 = 0;\n    for (Integer num : list) {\n        sum2 += num;\n    }\n    return sum2;\n}\n\npublic int sumUsingIterator(List&lt;Integer&gt; list) {\n    int sum3 = 0;\n    Iterator&lt;Integer&gt; it = list.iterator();\n    while (it.hasNext()) {\n        sum3 += it.next();\n    }\n    return sum3;\n}</code></pre>"
+          },
+          {
+            "id": "safe-removal-using-iterator",
+            "title": "Safe Removal Using Iterator",
+            "exerciseHtml": "<h2>Exercise: safe-removal-using-iterator - Safe Removal Using Iterator</h2>\n<h3>Objective</h3>\n<p>Practice removing elements safely while iterating.</p>\n<h3>Problem</h3>\n<p>Given a list of integers, remove all even numbers from the list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>Iterator</code>.</li>\n<li>Mutate the original list.</li>\n<li>Return the modified list.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not create a new list.</li>\n<li>Do not use <code>removeIf</code>.</li>\n<li>Do not use streams.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>Iterator</code></li>\n<li><code>hasNext</code></li>\n<li><code>next</code></li>\n<li><code>Iterator.remove</code></li>\n<li>safe mutation during iteration</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: safe-removal-using-iterator - Safe Removal Using Iterator</h2>\n<pre><code>public List&lt;Integer&gt; removeEvens(List&lt;Integer&gt; list) {\n    Iterator&lt;Integer&gt; it = list.iterator();\n    while (it.hasNext()) {\n        if (it.next() % 2 == 0) {\n            it.remove();\n        }\n    }\n    return list;\n}</code></pre>"
+          },
+          {
+            "id": "sort-and-reverse",
+            "title": "Sort and Reverse",
+            "exerciseHtml": "<h2>Exercise: sort-and-reverse - Sort and Reverse</h2>\n<h3>Objective</h3>\n<p>Practice sorting and reversing lists.</p>\n<h3>Problem</h3>\n<p>Given a list of integers:</p>\n<p>1. Sort it in ascending order.</p>\n<p>2. Create another list in descending order.</p>\n<p>3. Return both lists.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>Collections.sort</code>.</li>\n<li>Use <code>Collections.reverse</code>.</li>\n<li>Do not manually sort.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not mutate the original input list directly.</li>\n<li>Return both ascending and descending versions.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>Collections.sort</code></li>\n<li><code>Collections.reverse</code></li>\n<li>copying lists</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: sort-and-reverse - Sort and Reverse</h2>\n<pre><code>public record SortedLists(List&lt;Integer&gt; ascending, List&lt;Integer&gt; descending) {\n}\n\npublic SortedLists sortAndReverse(List&lt;Integer&gt; input) {\n    List&lt;Integer&gt; ascending = new ArrayList&lt;&gt;(input);\n    Collections.sort(ascending);\n\n    List&lt;Integer&gt; descending = new ArrayList&lt;&gt;(ascending);\n    Collections.reverse(descending);\n\n    return new SortedLists(ascending, descending);\n}</code></pre>"
+          },
+          {
+            "id": "sublist-practice",
+            "title": "subList Practice",
+            "exerciseHtml": "<h2>Exercise: sublist-practice - subList Practice</h2>\n<h3>Objective</h3>\n<p>Understand how <code>subList()</code> works.</p>\n<h3>Problem</h3>\n<p>Given a list of strings and two indices <code>from</code> and <code>to</code>, return a sublist from <code>from</code> inclusive to <code>to</code> exclusive.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>subList(from, to)</code>.</li>\n<li>Return a new independent list copied from the sublist.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not return the raw <code>subList</code> view directly.</li>\n<li>Assume indices are valid.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>subList</code></li>\n<li>inclusive/exclusive ranges</li>\n<li>defensive copy</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: sublist-practice - subList Practice</h2>\n<pre><code>public List&lt;String&gt; getSublist(List&lt;String&gt; list, int from, int to) {\n    return new ArrayList&lt;&gt;(list.subList(from, to)); // Defensive copy\n}</code></pre>"
+          },
+          {
+            "id": "merge-two-lists",
+            "title": "Merge Two Lists",
+            "exerciseHtml": "<h2>Exercise: merge-two-lists - Merge Two Lists</h2>\n<h3>Objective</h3>\n<p>Practice combining lists.</p>\n<h3>Problem</h3>\n<p>Given two lists of integers, return a new list containing all elements of the first list followed by all elements of the second list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>ArrayList</code>.</li>\n<li>Do not modify the input lists.</li>\n<li>Preserve order.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not sort.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>addAll</code></li>\n<li>copying lists</li>\n<li>preserving order</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: merge-two-lists - Merge Two Lists</h2>\n<pre><code>public List&lt;Integer&gt; mergeLists(List&lt;Integer&gt; list1, List&lt;Integer&gt; list2) {\n    List&lt;Integer&gt; merged = new ArrayList&lt;&gt;(list1);\n    merged.addAll(list2);\n    return merged;\n}</code></pre>"
+          },
+          {
+            "id": "remove-duplicates-while-preserving-order",
+            "title": "Remove Duplicates While Preserving Order",
+            "exerciseHtml": "<h2>Exercise: remove-duplicates-while-preserving-order - Remove Duplicates While Preserving Order</h2>\n<h3>Objective</h3>\n<p>Practice list traversal and duplicate handling.</p>\n<h3>Problem</h3>\n<p>Given a list of integers, return a new list with duplicates removed while preserving first occurrence order.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Preserve original order.</li>\n<li>Keep only the first occurrence of each value.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not sort.</li>\n<li>You may use another collection if needed.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>list traversal</li>\n<li>duplicate detection</li>\n<li>order preservation</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: remove-duplicates-while-preserving-order - Remove Duplicates While Preserving Order</h2>\n<pre><code>public List&lt;Integer&gt; removeDuplicates(List&lt;Integer&gt; list) {\n    List&lt;Integer&gt; uniqueList = new ArrayList&lt;&gt;();\n    Set&lt;Integer&gt; seen = new HashSet&lt;&gt;();\n    for (Integer num : list) {\n        if (seen.add(num)) {\n            uniqueList.add(num);\n        }\n    }\n    return uniqueList;\n}</code></pre>"
+          },
+          {
+            "id": "rotate-list-right",
+            "title": "Rotate List Right",
+            "exerciseHtml": "<h2>Exercise: rotate-list-right - Rotate List Right</h2>\n<h3>Objective</h3>\n<p>Practice index-based list manipulation.</p>\n<h3>Problem</h3>\n<p>Given a list of integers and an integer <code>k</code>, rotate the list to the right by <code>k</code> positions.</p>\n<h3>Example</h3>\n<p>Input:</p>\n<pre><code>list = [1, 2, 3, 4, 5]\nk = 2</code></pre>\n<p>Output:</p>\n<pre><code>[4, 5, 1, 2, 3]</code></pre>\n<h3>Requirements</h3>\n<ul>\n<li>Handle <code>k &gt; list.size()</code>.</li>\n<li>Return a new list.</li>\n<li>Do not modify the original list.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not use recursion.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>index calculation</li>\n<li><code>subList</code></li>\n<li><code>addAll</code></li>\n<li>list copying</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: rotate-list-right - Rotate List Right</h2>\n<pre><code>public List&lt;Integer&gt; rotateRight(List&lt;Integer&gt; list, int k) {\n    if (list.isEmpty()) return new ArrayList&lt;&gt;();\n    k = k % list.size();\n    if (k == 0) return new ArrayList&lt;&gt;(list);\n    \n    int splitPoint = list.size() - k;\n    List&lt;Integer&gt; result = new ArrayList&lt;&gt;(list.subList(splitPoint, list.size()));\n    result.addAll(list.subList(0, splitPoint));\n    return result;\n}</code></pre>"
+          },
+          {
+            "id": "arraylist-vs-linkedlist-experiment",
+            "title": "ArrayList vs LinkedList Experiment",
+            "exerciseHtml": "<h2>Exercise: arraylist-vs-linkedlist-experiment - ArrayList vs LinkedList Experiment</h2>\n<h3>Objective</h3>\n<p>Build intuition for <code>ArrayList</code> vs <code>LinkedList</code>.</p>\n<h3>Problem</h3>\n<p>Write a small program that performs these operations on both <code>ArrayList</code> and <code>LinkedList</code>:</p>\n<p>1. Add 10,000 integers.</p>\n<p>2. Access elements by index.</p>\n<p>3. Add elements at the beginning.</p>\n<p>4. Remove elements from the beginning.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Print time taken for each operation.</li>\n<li>Use <code>System.nanoTime()</code> or <code>System.currentTimeMillis()</code>.</li>\n<li>Compare the result briefly in comments.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>This is an experiment, not a benchmark.</li>\n<li>Do not over-optimize.</li>\n<li>Keep the code simple.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li><code>ArrayList</code></li>\n<li><code>LinkedList</code></li>\n<li>performance intuition</li>\n<li>practical trade-offs</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: arraylist-vs-linkedlist-experiment - ArrayList vs LinkedList Experiment</h2>\n<pre><code>public void experiment() {\n    List&lt;Integer&gt; arrayList = new ArrayList&lt;&gt;();\n    List&lt;Integer&gt; linkedList = new LinkedList&lt;&gt;();\n\n    long arrayAdd = timeAddAtEnd(arrayList);\n    long linkedAdd = timeAddAtEnd(linkedList);\n    long arrayAccess = timeRandomAccess(arrayList);\n    long linkedAccess = timeRandomAccess(linkedList);\n    long arrayAddBeginning = timeAddBeginning(arrayList);\n    long linkedAddBeginning = timeAddBeginning(linkedList);\n    long arrayRemoveBeginning = timeRemoveBeginning(arrayList);\n    long linkedRemoveBeginning = timeRemoveBeginning(linkedList);\n\n    System.out.println(&quot;ArrayList add end: &quot; + arrayAdd);\n    System.out.println(&quot;LinkedList add end: &quot; + linkedAdd);\n    System.out.println(&quot;ArrayList index access: &quot; + arrayAccess);\n    System.out.println(&quot;LinkedList index access: &quot; + linkedAccess);\n    System.out.println(&quot;ArrayList add beginning: &quot; + arrayAddBeginning);\n    System.out.println(&quot;LinkedList add beginning: &quot; + linkedAddBeginning);\n    System.out.println(&quot;ArrayList remove beginning: &quot; + arrayRemoveBeginning);\n    System.out.println(&quot;LinkedList remove beginning: &quot; + linkedRemoveBeginning);\n\n    // Expect ArrayList to win index access; beginning operations can favor LinkedList.\n}\n\nprivate long timeAddAtEnd(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; 10_000; i++) {\n        list.add(i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeRandomAccess(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; list.size(); i++) {\n        list.get(i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeAddBeginning(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; 1_000; i++) {\n        list.add(0, i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeRemoveBeginning(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    while (!list.isEmpty()) {\n        list.remove(0);\n    }\n    return System.nanoTime() - start;\n}</code></pre>"
+          },
+          {
+            "id": "mini-problem-student-names",
+            "title": "Mini Problem: Student Names",
+            "exerciseHtml": "<h2>Exercise: mini-problem-student-names - Mini Problem: Student Names</h2>\n<h3>Objective</h3>\n<p>Use list operations in a realistic small problem.</p>\n<h3>Problem</h3>\n<p>Given a list of student names:</p>\n<p>1. Remove blank names.</p>\n<p>2. Trim extra spaces.</p>\n<p>3. Sort names alphabetically.</p>\n<p>4. Return the cleaned list.</p>\n<h3>Requirements</h3>\n<ul>\n<li>Use <code>ArrayList</code>.</li>\n<li>Use <code>Iterator</code> for removing blank names.</li>\n<li>Use <code>Collections.sort</code>.</li>\n</ul>\n<h3>Constraints</h3>\n<ul>\n<li>Do not use streams.</li>\n<li>Do not mutate the original input list.</li>\n<li>Blank means empty string after trimming.</li>\n</ul>\n<h3>Concepts Tested</h3>\n<ul>\n<li>copying lists</li>\n<li>trimming strings</li>\n<li>iterator removal</li>\n<li>sorting</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: mini-problem-student-names - Mini Problem: Student Names</h2>\n<pre><code>public List&lt;String&gt; cleanNames(List&lt;String&gt; names) {\n    List&lt;String&gt; cleaned = new ArrayList&lt;&gt;();\n    for (String name : names) {\n        cleaned.add(name.trim());\n    }\n\n    Iterator&lt;String&gt; iterator = cleaned.iterator();\n    while (iterator.hasNext()) {\n        if (iterator.next().isEmpty()) {\n            iterator.remove();\n        }\n    }\n\n    Collections.sort(cleaned);\n    return cleaned;\n}</code></pre>"
           }
         ]
       }
@@ -6792,7 +7290,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: arrays-aslist-trap - The Fixed-Size Trap</h2>\n<pre><code>List&lt;String&gt; list = Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);\nlist.set(0, &quot;X&quot;); // Succeeds. The list is now [X, B, C]\n// list.add(&quot;D&quot;); // Throws UnsupportedOperationException</code></pre>\n<p><code>Arrays.asList</code> returns a lightweight wrapper directly over a backing array. Because Java arrays cannot change their length, you cannot add or remove elements. However, you *can* mutate the existing slots using <code>.set()</code>. </p>\n<h2>Solution: list-of-immutability - Fully Immutable Lists</h2>\n<pre><code>List&lt;String&gt; list = List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);\n// list.set(0, &quot;X&quot;); // Throws UnsupportedOperationException\n// list.add(&quot;D&quot;);    // Throws UnsupportedOperationException\n\n// List.of(&quot;A&quot;, null); // Throws NullPointerException at construction</code></pre>\n<p><code>List.of()</code> returns a genuinely immutable collection. All mutation operations (add, remove, set, clear) throw <code>UnsupportedOperationException</code>. Furthermore, it proactively guards against <code>null</code> values by throwing a <code>NullPointerException</code> immediately at construction if any element is null.</p>"
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: arrays-aslist-trap - The Fixed-Size Trap</h2>\n<pre><code>List&lt;String&gt; list = Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);\nlist.set(0, &quot;X&quot;); // Succeeds. The list is now [X, B, C]\n// list.add(&quot;D&quot;); // Throws UnsupportedOperationException</code></pre>\n<p><code>Arrays.asList</code> returns a lightweight wrapper directly over a backing array. Because Java arrays cannot change their length, you cannot add or remove elements. However, you *can* mutate the existing slots using <code>.set()</code>. </p>\n<h2>Solution: list-of-immutability - Fully Immutable Lists</h2>\n<pre><code>List&lt;String&gt; list = List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);\n// list.set(0, &quot;X&quot;); // Throws UnsupportedOperationException\n// list.add(&quot;D&quot;);    // Throws UnsupportedOperationException\n\n// List.of(&quot;A&quot;, null); // Throws NullPointerException at construction</code></pre>\n<p><code>List.of()</code> returns a genuinely immutable collection. All mutation operations (add, remove, set, clear) throw <code>UnsupportedOperationException</code>. Furthermore, it proactively guards against <code>null</code> values by throwing a <code>NullPointerException</code> immediately at construction if any element is null.</p>\n<h2>Solution: basic-arraylist-operations - Basic ArrayList Operations</h2>\n<pre><code>public record ListSummary(int first, int last, int size, boolean containsTarget) {\n}\n\npublic ListSummary basicOperations(int target) {\n    List&lt;Integer&gt; numbers = new ArrayList&lt;&gt;();\n    numbers.add(10);\n    numbers.add(20);\n    numbers.add(30);\n    numbers.add(40);\n    numbers.add(50);\n\n    return new ListSummary(\n            numbers.get(0),\n            numbers.get(numbers.size() - 1),\n            numbers.size(),\n            numbers.contains(target)\n    );\n}</code></pre>\n<h2>Solution: insert-update-and-remove - Insert, Update, and Remove</h2>\n<pre><code>public List&lt;String&gt; modifyList(List&lt;String&gt; list) {\n    ArrayList&lt;String&gt; names = (ArrayList&lt;String&gt;) list;\n\n    names.add(&quot;End&quot;);\n    names.add(1, &quot;Inserted&quot;);\n    names.set(2, &quot;Updated&quot;);\n    names.remove(0);\n    names.remove(&quot;End&quot;);\n    return names;\n}</code></pre>\n<h2>Solution: integer-remove-gotcha - Integer Remove Gotcha</h2>\n<pre><code>public List&lt;Integer&gt; removeByValue(List&lt;Integer&gt; list, int target) {\n    list.remove(Integer.valueOf(target));\n    return list;\n}</code></pre>\n<h2>Solution: iterate-three-ways - Iterate Three Ways</h2>\n<pre><code>public int sumUsingIndexLoop(List&lt;Integer&gt; list) {\n    int sum1 = 0;\n    for (int i = 0; i &lt; list.size(); i++) {\n        sum1 += list.get(i);\n    }\n    return sum1;\n}\n\npublic int sumUsingEnhancedFor(List&lt;Integer&gt; list) {\n    int sum2 = 0;\n    for (Integer num : list) {\n        sum2 += num;\n    }\n    return sum2;\n}\n\npublic int sumUsingIterator(List&lt;Integer&gt; list) {\n    int sum3 = 0;\n    Iterator&lt;Integer&gt; it = list.iterator();\n    while (it.hasNext()) {\n        sum3 += it.next();\n    }\n    return sum3;\n}</code></pre>\n<h2>Solution: safe-removal-using-iterator - Safe Removal Using Iterator</h2>\n<pre><code>public List&lt;Integer&gt; removeEvens(List&lt;Integer&gt; list) {\n    Iterator&lt;Integer&gt; it = list.iterator();\n    while (it.hasNext()) {\n        if (it.next() % 2 == 0) {\n            it.remove();\n        }\n    }\n    return list;\n}</code></pre>\n<h2>Solution: sort-and-reverse - Sort and Reverse</h2>\n<pre><code>public record SortedLists(List&lt;Integer&gt; ascending, List&lt;Integer&gt; descending) {\n}\n\npublic SortedLists sortAndReverse(List&lt;Integer&gt; input) {\n    List&lt;Integer&gt; ascending = new ArrayList&lt;&gt;(input);\n    Collections.sort(ascending);\n\n    List&lt;Integer&gt; descending = new ArrayList&lt;&gt;(ascending);\n    Collections.reverse(descending);\n\n    return new SortedLists(ascending, descending);\n}</code></pre>\n<h2>Solution: sublist-practice - subList Practice</h2>\n<pre><code>public List&lt;String&gt; getSublist(List&lt;String&gt; list, int from, int to) {\n    return new ArrayList&lt;&gt;(list.subList(from, to)); // Defensive copy\n}</code></pre>\n<h2>Solution: merge-two-lists - Merge Two Lists</h2>\n<pre><code>public List&lt;Integer&gt; mergeLists(List&lt;Integer&gt; list1, List&lt;Integer&gt; list2) {\n    List&lt;Integer&gt; merged = new ArrayList&lt;&gt;(list1);\n    merged.addAll(list2);\n    return merged;\n}</code></pre>\n<h2>Solution: remove-duplicates-while-preserving-order - Remove Duplicates While Preserving Order</h2>\n<pre><code>public List&lt;Integer&gt; removeDuplicates(List&lt;Integer&gt; list) {\n    List&lt;Integer&gt; uniqueList = new ArrayList&lt;&gt;();\n    Set&lt;Integer&gt; seen = new HashSet&lt;&gt;();\n    for (Integer num : list) {\n        if (seen.add(num)) {\n            uniqueList.add(num);\n        }\n    }\n    return uniqueList;\n}</code></pre>\n<h2>Solution: rotate-list-right - Rotate List Right</h2>\n<pre><code>public List&lt;Integer&gt; rotateRight(List&lt;Integer&gt; list, int k) {\n    if (list.isEmpty()) return new ArrayList&lt;&gt;();\n    k = k % list.size();\n    if (k == 0) return new ArrayList&lt;&gt;(list);\n    \n    int splitPoint = list.size() - k;\n    List&lt;Integer&gt; result = new ArrayList&lt;&gt;(list.subList(splitPoint, list.size()));\n    result.addAll(list.subList(0, splitPoint));\n    return result;\n}</code></pre>\n<h2>Solution: arraylist-vs-linkedlist-experiment - ArrayList vs LinkedList Experiment</h2>\n<pre><code>public void experiment() {\n    List&lt;Integer&gt; arrayList = new ArrayList&lt;&gt;();\n    List&lt;Integer&gt; linkedList = new LinkedList&lt;&gt;();\n\n    long arrayAdd = timeAddAtEnd(arrayList);\n    long linkedAdd = timeAddAtEnd(linkedList);\n    long arrayAccess = timeRandomAccess(arrayList);\n    long linkedAccess = timeRandomAccess(linkedList);\n    long arrayAddBeginning = timeAddBeginning(arrayList);\n    long linkedAddBeginning = timeAddBeginning(linkedList);\n    long arrayRemoveBeginning = timeRemoveBeginning(arrayList);\n    long linkedRemoveBeginning = timeRemoveBeginning(linkedList);\n\n    System.out.println(&quot;ArrayList add end: &quot; + arrayAdd);\n    System.out.println(&quot;LinkedList add end: &quot; + linkedAdd);\n    System.out.println(&quot;ArrayList index access: &quot; + arrayAccess);\n    System.out.println(&quot;LinkedList index access: &quot; + linkedAccess);\n    System.out.println(&quot;ArrayList add beginning: &quot; + arrayAddBeginning);\n    System.out.println(&quot;LinkedList add beginning: &quot; + linkedAddBeginning);\n    System.out.println(&quot;ArrayList remove beginning: &quot; + arrayRemoveBeginning);\n    System.out.println(&quot;LinkedList remove beginning: &quot; + linkedRemoveBeginning);\n\n    // Expect ArrayList to win index access; beginning operations can favor LinkedList.\n}\n\nprivate long timeAddAtEnd(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; 10_000; i++) {\n        list.add(i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeRandomAccess(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; list.size(); i++) {\n        list.get(i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeAddBeginning(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    for (int i = 0; i &lt; 1_000; i++) {\n        list.add(0, i);\n    }\n    return System.nanoTime() - start;\n}\n\nprivate long timeRemoveBeginning(List&lt;Integer&gt; list) {\n    long start = System.nanoTime();\n    while (!list.isEmpty()) {\n        list.remove(0);\n    }\n    return System.nanoTime() - start;\n}</code></pre>\n<h2>Solution: mini-problem-student-names - Mini Problem: Student Names</h2>\n<pre><code>public List&lt;String&gt; cleanNames(List&lt;String&gt; names) {\n    List&lt;String&gt; cleaned = new ArrayList&lt;&gt;();\n    for (String name : names) {\n        cleaned.add(name.trim());\n    }\n\n    Iterator&lt;String&gt; iterator = cleaned.iterator();\n    while (iterator.hasNext()) {\n        if (iterator.next().isEmpty()) {\n            iterator.remove();\n        }\n    }\n\n    Collections.sort(cleaned);\n    return cleaned;\n}</code></pre>"
     },
     "/java/collections/hashing/": {
       "text": "Hashing in Java — what it is and how Java uses it",
@@ -7226,6 +7724,20 @@
       "link": "/java/jvm/",
       "pageType": "theory",
       "parentLink": "/java/jvm/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/jdk_jre_jvm/": {
+      "text": "Deep Dive: JDK, JRE, and JVM",
+      "link": "/java/jvm/jdk_jre_jvm/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/jdk_jre_jvm/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -9880,6 +10392,20 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
+    "/databases/graph/": {
+      "text": "Graph Databases",
+      "link": "/databases/graph/",
+      "pageType": "theory",
+      "parentLink": "/databases/graph/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/networking/": {
       "text": "Networking",
       "link": "/networking/",
@@ -10726,6 +11252,34 @@
       },
       "referenceHtml": "<h1>Design</h1>"
     },
+    "/system_design/concepts/observability_operations/": {
+      "text": "Observability & Operations (SDE-2 Backend Interview Guide)",
+      "link": "/system_design/concepts/observability_operations/",
+      "pageType": "theory",
+      "parentLink": "/system_design/concepts/observability_operations/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/concepts/disaster_recovery/": {
+      "text": "System Design: Disaster Recovery (DR)",
+      "link": "/system_design/concepts/disaster_recovery/",
+      "pageType": "theory",
+      "parentLink": "/system_design/concepts/disaster_recovery/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/system_design/components/": {
       "text": "Components",
       "link": "/system_design/components/",
@@ -11236,6 +11790,20 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
+    "/security/authorization/": {
+      "text": "Authentication & Authorization Study Notes",
+      "link": "/security/authorization/",
+      "pageType": "theory",
+      "parentLink": "/security/authorization/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/security/cryptography/": {
       "text": "ePassport Security Architecture: Passive & Active Authentication Documentation",
       "link": "/security/cryptography/",
@@ -11334,6 +11902,20 @@
       },
       "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: local-ssl-warning - The Self-Signed Cert</h2>\n<p>The browser rejects the connection because it <strong>does not trust the identity</strong> of the server, even though the communication channel itself is securely encrypted.</p>\n<h3>The Missing Trust Chain</h3>\n<p>Your local certificate is &quot;self-signed&quot;. This means it was not digitally signed by a recognized Certificate Authority (CA) like Let's Encrypt, DigiCert, or GlobalSign. </p>\n<p>Browsers come pre-installed with a &quot;Root Store&quot;—a list of public keys belonging to trusted CAs. When connecting to your production server, Chrome uses the pre-installed Let's Encrypt public key to verify the signature on your server's certificate. For your local server, the signature is meaningless because the signer is unknown.</p>\n<h3>How to resolve it locally</h3>\n<p>1. <strong>Bypass the warning:</strong> Click &quot;Advanced&quot; -&gt; &quot;Proceed to localhost (unsafe)&quot;. The browser will establish the TLS tunnel, but mark the connection as insecure in the URL bar.</p>\n<p>2. <strong>Add to Root Store:</strong> You can manually import your self-signed certificate into your operating system's or browser's trusted Root Certificate Store. Once imported, the browser will treat your self-signed cert as a valid CA and the red warning will disappear.</p>"
     },
+    "/security/cryptography/tls_certificates_diffie_hellman/": {
+      "text": "TLS Deep Dive: Certificates & Diffie-Hellman",
+      "link": "/security/cryptography/tls_certificates_diffie_hellman/",
+      "pageType": "theory",
+      "parentLink": "/security/cryptography/tls_certificates_diffie_hellman/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/security/web_security/": {
       "text": "Web Security: XSS, SOP, and CORS",
       "link": "/security/web_security/",
@@ -11377,6 +11959,76 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/security/oauth_jwt_api_keys/": {
+      "text": "Deep Dive: OAuth 2.0, JWT, and API Keys",
+      "link": "/security/oauth_jwt_api_keys/",
+      "pageType": "theory",
+      "parentLink": "/security/oauth_jwt_api_keys/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/security/oauth_pkce/": {
+      "text": "OAuth 2.0 & PKCE Deep Dive",
+      "link": "/security/oauth_pkce/",
+      "pageType": "theory",
+      "parentLink": "/security/oauth_pkce/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/security/jwt_vulnerabilities/": {
+      "text": "JWT: Mechanics, Architectures, and Vulnerabilities",
+      "link": "/security/jwt_vulnerabilities/",
+      "pageType": "theory",
+      "parentLink": "/security/jwt_vulnerabilities/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/security/mfa_refresh_tokens_hmac/": {
+      "text": "JWT Validation, Refresh Tokens, MFA & API Security",
+      "link": "/security/mfa_refresh_tokens_hmac/",
+      "pageType": "theory",
+      "parentLink": "/security/mfa_refresh_tokens_hmac/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/security/sso_saml_oidc_identity_brokers/": {
+      "text": "Deep Dive: SSO, SAML, OAuth2, OIDC, Identity Providers, Identity Brokers",
+      "link": "/security/sso_saml_oidc_identity_brokers/",
+      "pageType": "theory",
+      "parentLink": "/security/sso_saml_oidc_identity_brokers/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/design_patterns/": {
       "text": "Design Patterns",
@@ -12316,11 +12968,53 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
+    "/design_patterns/pattern_selection/": {
+      "text": "Pattern Selection Exercise — One Client, Many Factories",
+      "link": "/design_patterns/pattern_selection/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/pattern_selection/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/design_patterns/pattern_selection_scenarios/": {
+      "text": "Design Pattern Practice — Production Scenarios",
+      "link": "/design_patterns/pattern_selection_scenarios/",
+      "pageType": "theory",
+      "parentLink": "/design_patterns/pattern_selection_scenarios/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/deployments/": {
       "text": "Deployments Hub",
       "link": "/deployments/",
       "pageType": "theory",
       "parentLink": "/deployments/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/deployments/os_virtualization_containers/": {
+      "text": "OS, Virtualization, and Containers Fundamentals",
+      "link": "/deployments/os_virtualization_containers/",
+      "pageType": "theory",
+      "parentLink": "/deployments/os_virtualization_containers/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -12373,6 +13067,20 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/deployments/kubernetes_and_containers/": {
+      "text": "Deep Dive: Kubernetes, Containers, and ArgoCD",
+      "link": "/deployments/kubernetes_and_containers/",
+      "pageType": "theory",
+      "parentLink": "/deployments/kubernetes_and_containers/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/deployments/release_and_deployment_strategies/": {
       "text": "Release & Deployment Strategies",

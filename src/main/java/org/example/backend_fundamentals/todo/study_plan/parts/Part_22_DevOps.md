@@ -14,7 +14,7 @@
 | 8 | Filesystem layout, permissions, ulimits | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 | 12 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deep_dives/KubernetesAndContainers.md` | |
+| 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
 | 14 | Kubernetes — StatefulSet, DaemonSet, Job, CronJob | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 | 17 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
@@ -24,7 +24,7 @@
 | 21 | awk, sed, jq for log mining | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 | 25 | SSH — key-based auth, `~/.ssh/config`, ssh-agent, host key verification, port forwarding (`-L`/`-R`/`-D`), ProxyJump / bastion | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate ed25519 keypair, add to authorized_keys on a remote, set up a `~/.ssh/config` alias with ProxyJump bastion, verify host key is pinned in known_hosts (20 min) |
-| 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deep_dives/KubernetesAndContainers.md` | |
+| 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
 
 ## Time summary
 

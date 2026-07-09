@@ -1,2 +1,1 @@
-<!-- ChatGPT theory export -->
-<!-- Paste theory content below -->
+<!-- Paste ChatGPT theory output here. -->

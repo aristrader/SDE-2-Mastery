@@ -13,7 +13,7 @@
 | 5 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Key derivation — PBKDF2, scrypt, Argon2, HKDF | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | SQL injection, parameterized queries | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/XSS_CORS_SOP.md` |
+| 8 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
 | 9 | CSRF | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Replay attacks — timestamps, nonces | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Timing attacks, constant-time comparison | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

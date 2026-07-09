@@ -1,3 +1,7 @@
+---
+order: 50
+---
+
 # Pattern Selection Exercise — One Client, Many Factories
 
 > **Cross-referenced from:** Part 04 (Design Patterns) rows 8 (Factory Method / Abstract Factory), 14 (Strategy), 22 (Dependency Injection); Part 03 (Spring) for DI wiring.

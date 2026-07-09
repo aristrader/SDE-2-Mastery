@@ -257,8 +257,8 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **PDPA (Malaysia)** → Part 28
 - **Permission caching + TTL** → Part 19
 - **Pre-signed URLs (S3)** → Part 13, Part 31 row 5
-- **Pattern selection — Strategy vs Registry vs Spring DI ("one HR, many factories")** → deep_dives/PatternSelectionExercise.md, Part 04 rows 15, 23
-- **Pattern selection scenarios (Singleton / Factory / Builder / Static Factory / Abstract Factory — 25 production scenarios)** → deep_dives/PatternSelectionScenarios.md, Part 04 rows 8, 9, 10
+- **Pattern selection — Strategy vs Registry vs Spring DI ("one HR, many factories")** → design_patterns/pattern_selection/index.md, Part 04 rows 15, 23
+- **Pattern selection scenarios (Singleton / Factory / Builder / Static Factory / Abstract Factory — 25 production scenarios)** → design_patterns/pattern_selection_scenarios/index.md, Part 04 rows 8, 9, 10
 - **PEP screening** → Part 29 row 20
 - **Polling (Short vs Long)** → Part 11 row 30
 - **Polling vs webhook** → Part 29 row 85, Part 31 FAQ #4
@@ -285,7 +285,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Redis Cluster (sharding, hash slots, failover)** → Part 09
 - **Refactoring smells** → Part 04
 - **Regional ID schemes (SEA)** → Part 29 row 40, Part 31 row 1
-- **Registry / Service Locator pattern** → deep_dives/PatternSelectionExercise.md, Part 04 row 23
+- **Registry / Service Locator pattern** → design_patterns/pattern_selection/index.md, Part 04 row 23
 - **Replay protection (webhook)** → Part 29 row 32
 - **REST vs GraphQL vs gRPC (comparison & architecture)** → Part 12 (row 2)
 - **RFC 1918 private IP ranges (10/8, 172.16-31/12, 192.168/16)** → Part 11 row 15

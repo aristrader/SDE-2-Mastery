@@ -1,3 +1,7 @@
+---
+order: 70
+---
+
 # System Design: Disaster Recovery (DR)
 
 ## Definition

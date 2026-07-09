@@ -1,3 +1,7 @@
+---
+order: 60
+---
+
 # Observability & Operations (SDE-2 Backend Interview Guide)
 
 This guide covers essential observability and operations concepts targeted for Senior Backend Engineer (SDE-2) interviews, focusing on production scenarios and high-ROI topics rather than deep implementation details.

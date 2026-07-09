@@ -1,3 +1,7 @@
+---
+order: 80
+---
+
 # JWT Validation, Refresh Tokens, MFA & API Security
 
 This document captures the final tier of security topics. It moves beyond standard OAuth and JWT mechanics into proper validation, token lifecycles, advanced authentication, and securing API requests.

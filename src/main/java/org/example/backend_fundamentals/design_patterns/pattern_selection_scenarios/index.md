@@ -1,6 +1,10 @@
+---
+order: 60
+---
+
 # Design Pattern Practice — Production Scenarios
 
-> **Cross-referenced from:** Part 04 (Design Patterns) rows 7 (Singleton), 8 (Factory Method / Abstract Factory), 9 (Builder), 14 (Strategy). Sister doc to `deep_dives/PatternSelectionExercise.md` (single-domain "one HR, many factories" mini-project) — this doc is broader (25 scenarios across all creational patterns) and shallower per scenario.
+> **Cross-referenced from:** Part 04 (Design Patterns) rows 7 (Singleton), 8 (Factory Method / Abstract Factory), 9 (Builder), 14 (Strategy). Sister doc to `design_patterns/pattern_selection/index.md` (single-domain "one HR, many factories" mini-project) — this doc is broader (25 scenarios across all creational patterns) and shallower per scenario.
 
 A scenario-based exercise sheet for practising **which pattern fits where** in real-world design. Each scenario is a brief production problem followed by *discussion prompts* and a *suggested approach*. Try to answer before reading the suggested approach.
 
@@ -513,5 +517,5 @@ Possible candidates: Factory Method, Template Method, Strategy.
 - `design_patterns/creational/builder/Builder.md` &mdash; cross-cutting overview of the four builder variants.
 - `design_patterns/creational/factory/Factory.md` &mdash; Simple Factory vs Factory Method.
 - `design_patterns/creational/abstract_factory/AbstractFactory.md` &mdash; the four discussion learnings from the Abstract Factory build.
-- `study_plan/deep_dives/PatternSelectionExercise.md` &mdash; deeper, single-domain exercise on Strategy / Registry / DI for the "one HR, many factories" problem.
+- `design_patterns/pattern_selection/index.md` &mdash; deeper, single-domain exercise on Strategy / Registry / DI for the "one HR, many factories" problem.
 - `study_plan/deep_dives/DesignThinkingProcess.md` &mdash; the meta-process behind every scenario in this doc (pain &rarr; responsibilities &rarr; vary vs. stay &rarr; arrows &rarr; skeleton &rarr; verify).

@@ -1,3 +1,7 @@
+---
+order: 30
+---
+
 # Deep Dive: Kubernetes, Containers, and ArgoCD
 
 ## Docker vs Kubernetes

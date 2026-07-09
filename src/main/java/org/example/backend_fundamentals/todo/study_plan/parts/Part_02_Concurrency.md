@@ -7,14 +7,14 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 0 | Process vs Thread — memory isolation, IPC vs shared memory, context switching, CPU scheduling | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Notes: Covered in OS/Containers notes | |
-| 1 | Thread lifecycle — NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/thread_lifecycle/ThreadLifecycle.md` · 💻 Warm-up: create + start a thread two ways (15 min) |
-| 2 | Race conditions, atomicity, visibility, ordering | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/race_conditions/RaceConditions.md` |
-| 3 | Java Memory Model — happens-before, volatile, synchronized semantics | 🔴 💼 🎯 | VD | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/jmm/JavaMemoryModel.md` · 📖 *Java Concurrency in Practice* ch 3 (Goetz, ~30 min effective) |
-| 4 | synchronized — intrinsic locks, monitor, biased locking history | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/synchronized_keyword/Synchronized.md` · 💻 Warm-up: synchronized block on shared counter (20 min) |
-| 5 | volatile — what it guarantees, what it doesn't | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/volatile_keyword/Volatile.md` |
-| 6 | ExecutorService, ThreadPoolExecutor — core / max pool, queue strategy, rejection policies | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/executor_service/ExecutorService.md` · 📖 Baeldung "Guide to ThreadPoolExecutor" · 💻 Warm-up: run 1000 threads via fixed pool + virtual pool, compare (20 min) |
-| 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/CompletableFuture.md` · 📖 Baeldung "Guide to CompletableFuture" · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
-| 8 | Locks — ReentrantLock, ReentrantReadWriteLock, fair vs unfair | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/locks/Locks.md` · 💻 Warm-up: ReentrantLock with try-finally unlock pattern (15 min) |
+| 1 | Thread lifecycle — NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/thread_lifecycle/index.md` · 💻 Warm-up: create + start a thread two ways (15 min) |
+| 2 | Race conditions, atomicity, visibility, ordering | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/race_conditions/index.md` |
+| 3 | Java Memory Model — happens-before, volatile, synchronized semantics | 🔴 💼 🎯 | VD | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/jmm/index.md` · 📖 *Java Concurrency in Practice* ch 3 (Goetz, ~30 min effective) |
+| 4 | synchronized — intrinsic locks, monitor, biased locking history | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/synchronized_keyword/index.md` · 💻 Warm-up: synchronized block on shared counter (20 min) |
+| 5 | volatile — what it guarantees, what it doesn't | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/volatile_keyword/index.md` |
+| 6 | ExecutorService, ThreadPoolExecutor — core / max pool, queue strategy, rejection policies | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/executor_service/index.md` · 📖 Baeldung "Guide to ThreadPoolExecutor" · 💻 Warm-up: run 1000 threads via fixed pool + virtual pool, compare (20 min) |
+| 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/index.md` · 📖 Baeldung "Guide to CompletableFuture" · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
+| 8 | Locks — ReentrantLock, ReentrantReadWriteLock, fair vs unfair | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/locks/index.md` · 💻 Warm-up: ReentrantLock with try-finally unlock pattern (15 min) |
 | 9 | Reentrancy | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Deadlock, livelock, starvation — causes and prevention | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: producer-consumer via wait/notify — feel the awkwardness (20 min) |

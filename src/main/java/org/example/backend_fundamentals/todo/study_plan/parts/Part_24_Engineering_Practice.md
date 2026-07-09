@@ -6,10 +6,10 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Writing design docs — context, goals, non-goals, alternatives, tradeoffs | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.0 hr | 📖 `engineering_practice/DesignDocsAndRFCs.md` |
-| 2 | RFC process, design reviews | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~0.5 hr | 📖 `engineering_practice/DesignDocsAndRFCs.md` |
-| 3 | Code review etiquette — what's worth commenting on | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~0.75 hr | 📖 `engineering_practice/CodeReviews.md` |
-| 4 | Technical writing — clarity over cleverness | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~0.75 hr | 📖 `engineering_practice/TechnicalWriting.md` |
+| 1 | Writing design docs — context, goals, non-goals, alternatives, tradeoffs | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.0 hr | 📖 `engineering_practice/index.md` |
+| 2 | RFC process, design reviews | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~0.5 hr | 📖 `engineering_practice/index.md` |
+| 3 | Code review etiquette — what's worth commenting on | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~0.75 hr | 📖 `engineering_practice/index.md` |
+| 4 | Technical writing — clarity over cleverness | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~0.75 hr | 📖 `engineering_practice/index.md` |
 | 6 | Estimation, scoping, breakdown into stories | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Sprint hygiene, async communication | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Influence without authority (cross-team work) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

@@ -6,15 +6,15 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | RBAC — roles, permissions, hierarchies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `security/authorization/consolidated_authz.md` · 💻 Warm-up: model TenantAdmin/Agent/Viewer roles + write @PreAuthorize annotations on 3 endpoints (20 min) |
-| 2 | ABAC — attribute-based, policies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `security/authorization/consolidated_authz.md` |
-| 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `security/authorization/consolidated_authz.md` · 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
-| 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `security/authorization/consolidated_authz.md` |
-| 6 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/OAuth_JWT_APIKeys.md` |
+| 1 | RBAC — roles, permissions, hierarchies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: model TenantAdmin/Agent/Viewer roles + write @PreAuthorize annotations on 3 endpoints (20 min) |
+| 2 | ABAC — attribute-based, policies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
+| 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
+| 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
+| 6 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
 | 7 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | | |
 | 8 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
-| 9 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `security/authorization/consolidated_authz.md` |
-| 11 | Method-level + URL-level + data-level authorization — defense in depth | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `security/authorization/consolidated_authz.md` |
+| 9 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
+| 11 | Method-level + URL-level + data-level authorization — defense in depth | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
 | 13 | Permission caching + TTL — authz checks per request are expensive; how to cache safely | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary

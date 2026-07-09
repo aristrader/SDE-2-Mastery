@@ -1,3 +1,7 @@
+---
+order: 40
+---
+
 # TLS Deep Dive: Certificates & Diffie-Hellman
 
 This document captures a deep-dive discussion into the mechanics of TLS, specifically breaking down the exact roles of Certificates vs. Diffie-Hellman, and why one without the other fails.

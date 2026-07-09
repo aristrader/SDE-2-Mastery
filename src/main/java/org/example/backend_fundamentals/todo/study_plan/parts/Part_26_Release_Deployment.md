@@ -6,13 +6,13 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Blue-green deployment — atomic traffic switch (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | (Cross-ref Part 22 deployments)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 2 | Canary release — small % first, gradual rollout (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 3 | Rolling deployment — replace instances gradually (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 4 | Feature flags / toggles — release ≠ launch | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 💻 Warm-up: simple feature flag via Spring `@ConfigurationProperties` + conditional bean; flip flag, reload app, observe behavior change (15 min)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 5 | Backward-compatible API changes — add fields, never remove or rename | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 6 | Backward-compatible DB changes — expand / contract (add → migrate → switch → remove) | 🔴 💼 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~30 min | 💻 Warm-up: walk through renaming `username → user_name` via expand-contract (add new col, dual-write, backfill, switch reads, drop old) on paper (30 min)<br>📖 `deployments/ReleaseAndDeploymentStrategies.md` |
-| 7 | Rollback strategy for every change (incl. data migrations — hardest) | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/ReleaseAndDeploymentStrategies.md` |
+| 1 | Blue-green deployment — atomic traffic switch (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | (Cross-ref Part 22 deployments)<br>📖 `deployments/index.md` |
+| 2 | Canary release — small % first, gradual rollout (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/index.md` |
+| 3 | Rolling deployment — replace instances gradually (Basic concept only) | 🔴 💼 🎯 | MP | 15 min | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/index.md` |
+| 4 | Feature flags / toggles — release ≠ launch | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 💻 Warm-up: simple feature flag via Spring `@ConfigurationProperties` + conditional bean; flip flag, reload app, observe behavior change (15 min)<br>📖 `deployments/index.md` |
+| 5 | Backward-compatible API changes — add fields, never remove or rename | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/index.md` |
+| 6 | Backward-compatible DB changes — expand / contract (add → migrate → switch → remove) | 🔴 💼 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~30 min | 💻 Warm-up: walk through renaming `username → user_name` via expand-contract (add new col, dual-write, backfill, switch reads, drop old) on paper (30 min)<br>📖 `deployments/index.md` |
+| 7 | Rollback strategy for every change (incl. data migrations — hardest) | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/index.md` |
 | 8 | Dark launches — code deployed but disabled (Basic concept only) | 🟠 💼 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Shadow traffic — mirror prod to new service silently to compare (Basic concept only) | 🟠 💼 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |

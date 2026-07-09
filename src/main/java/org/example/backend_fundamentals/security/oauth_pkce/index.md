@@ -1,3 +1,7 @@
+---
+order: 60
+---
+
 # OAuth 2.0 & PKCE Deep Dive
 
 This document captures a deep-dive discussion into the mechanics of OAuth 2.0 and PKCE. It is designed to be read from scratch, explicitly covering the fundamental "whys", common misconceptions, and the exact security boundaries of the protocols.

@@ -1,3 +1,7 @@
+---
+order: 20
+---
+
 # Authentication & Authorization Study Notes
 
 This document consolidates key technical concepts for Authentication and Authorization, specifically tailored for Java Backend systems using Spring Security and JWT.
