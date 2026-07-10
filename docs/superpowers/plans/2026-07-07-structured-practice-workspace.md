@@ -63,7 +63,7 @@ Rules:
 - The convention is opt-in: pages without `## Exercise: ...` headings are not forced into the new format.
 
 ## Pilot Scope
-- Convert one Java topic first: `java/foundations/generics`.
+- Convert one Java topic first: `java/generics`.
 - Keep the solution content concise but real.
 - Verify generator tests, docs build, and desktop Playwright behavior before broad migration.
 
