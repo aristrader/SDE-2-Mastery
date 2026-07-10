@@ -36,7 +36,7 @@
 | 25 | JFR (Java Flight Recorder) & JMC | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | JVM flags worth knowing (Xmx, Xms, +HeapDumpOnOutOfMemoryError, GC logs) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Map.of(), Map.copyOf(), Collections.unmodifiableMap — immutability flavors | 🟡 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 28 | Set family — HashSet, LinkedHashSet, TreeSet, CopyOnWriteArraySet | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 28 | Set family — HashSet, LinkedHashSet, TreeSet, CopyOnWriteArraySet | 🟡 | M | 45 min | [x] | [ ] | [ ] | [ ] | | 📖 `java/collections/sets/index.md` |
 | 29 | List family — ArrayList vs LinkedList (and why LinkedList is rarely the right choice) | 🟡 | M | 45 min | [x] | [ ] | [ ] | [ ] | | 📖 `java/collections/lists/index.md` |
 | 30 | Queue / Deque — ArrayDeque, PriorityQueue, BlockingQueue family | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 31 | Records, sealed classes, pattern matching (Java 17+) | 🟢 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define `sealed interface Shape permits Circle, Rectangle` + records + pattern match in switch (15 min) |
