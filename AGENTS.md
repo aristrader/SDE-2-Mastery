@@ -14,6 +14,7 @@ This is the authoritative agent instruction file for the repo.
 
 ## Default Working Style
 
+- Use ponytail by default for all repo work: smallest correct change, reuse existing code/patterns first, avoid speculative abstractions, and keep explanations short unless the user asks for depth.
 - The user often wants to write code themselves. If they say to guide/review only, do not edit active `.java` or `.md` files until asked.
 - When asked "is this right?", answer directly: yes/no, exact issue, exact fix.
 - Keep explanations focused on the current topic or pattern. If adjacent patterns apply, name that explicitly instead of mixing concepts.
