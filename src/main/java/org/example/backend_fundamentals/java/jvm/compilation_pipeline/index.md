@@ -240,16 +240,13 @@ Machine code
 
 ---
 
-## Final revision
+## Quick recall
 
-Know:
-
-- JDK = development tools + runtime.
-- JRE = runtime + libraries + JVM (conceptually).
-- JVM executes bytecode.
-- javac creates bytecode.
-- Java is platform independent because of bytecode + JVM.
+- **JDK contains?** Development tools plus runtime pieces.
+- **JRE means?** Runtime environment plus JVM, conceptually.
+- **What creates bytecode?** `javac`.
+- **What executes bytecode?** JVM.
+- **Why platform independent?** Bytecode plus platform-specific JVM.
 
 ---
-
 

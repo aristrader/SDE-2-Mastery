@@ -1,5 +1,5 @@
 ---
-order: 30
+order: 40
 ---
 
 # Control Flow
@@ -103,16 +103,12 @@ Need only awareness.
 
 ---
 
-## Final Revision
+## Quick recall
 
-Know:
-
-- for
-- enhanced for
-- switch
-- modern switch syntax
-- don't modify collections during enhanced for iteration.
+- **Basic counted loop?** `for`.
+- **Iterate values directly?** Enhanced `for`.
+- **Multiple branches by value?** `switch`.
+- **Modern switch style?** Arrow labels and switch expressions.
+- **Collection iteration trap?** Do not structurally modify during enhanced iteration.
 
 ---
-
-

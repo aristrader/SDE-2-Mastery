@@ -2,9 +2,13 @@
 order: 20
 ---
 
-# OOP Pillar Confusions — the pairs that blur
+# Object-Oriented Programming
+
+This chapter moves from concrete object mechanics into the design-level OOP pillars. The most useful revision lens is not memorizing definitions; it is separating pairs that sound similar but solve different problems.
 
 ---
+
+## Pillar confusions
 
 ## Abstraction vs Encapsulation
 

@@ -165,29 +165,3 @@ Add `hashCode` to your `Person` class using `Objects.hash(...)`.
 
 ### Checks
 - Verify that `p1.equals(p2)` implies `p1.hashCode() == p2.hashCode()`.
-
-## Exercise: comparable-sort - Comparable sorting
-
-### Goal
-Implement natural ordering via `Comparable`.
-
-### Task
-Make `Person implements Comparable<Person>` — sort by `age` ascending. Use `Integer.compare`, not subtraction, to avoid underflow bugs.
-
-### Checks
-- `Collections.sort(list)` on a `List<Person>` in random order → sorted by age
-- `new TreeSet<>(list)` → also sorted by age
-
-## Exercise: comparator-sort - Comparator sorting
-
-### Goal
-Sort objects using external `Comparator`s.
-
-### Task
-In `main`, create a `List<Person> people`.
-1. Sort `people` by name using `Comparator.comparing`
-2. Sort by age descending using `.reversed()`
-3. Sort by age ascending then name as tiebreaker using `.thenComparing`
-
-### Checks
-- Print the list after each sort to verify correct ordering.

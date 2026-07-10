@@ -2,7 +2,7 @@
 order: 10
 ---
 
-# Deep Dive: JDK, JRE, and JVM
+# JDK, JRE, and JVM
 
 ## Overview
 Modern macOS does NOT generally come with a full JDK pre-installed; it requires manual installation (e.g., Oracle JDK, Temurin/Adoptium).
@@ -44,3 +44,10 @@ JVM (from JDK)
      ↓
 Execution
 ```
+
+## Quick recall
+
+- **Need `javac`?** Install/use a JDK.
+- **Need only execution?** Runtime libraries plus JVM are enough conceptually.
+- **Does modern Java always ship a separate JRE?** Not always; distributions often package runtime pieces with the JDK.
+- **What runs `.class` bytecode?** JVM.

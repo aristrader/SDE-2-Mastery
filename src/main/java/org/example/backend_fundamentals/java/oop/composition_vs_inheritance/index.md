@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 90
 ---
 # Composition vs Inheritance
 
@@ -29,3 +29,9 @@ class Car {
 }
 ```
 
+## Quick recall
+
+- **Inheritance models?** IS-A.
+- **Composition models?** HAS-A.
+- **Why prefer composition often?** Less coupling and easier behavior swaps.
+- **Classic inheritance smell?** Subclasses inherit irrelevant behavior/state.

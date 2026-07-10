@@ -4,169 +4,58 @@ order: 40
 
 # Java Collections
 
-## User understanding
+Collections are Java's standard object containers. Use them when size, lookup, ordering, uniqueness, or concurrency behavior matters more than a fixed-size array.
 
-User initially said:
+## Core interfaces
 
-- Arrays are similar to C++.
-- Arrays are for primitive types.
-- For objects, Java uses `ArrayList` and similar collections.
+| Interface | Use when |
+| --- | --- |
+| `List<E>` | ordered sequence, duplicates allowed, index access matters |
+| `Set<E>` | uniqueness matters |
+| `Map<K, V>` | key-value lookup matters |
+| `Queue<E>` / `Deque<E>` | processing order matters |
 
----
-
-## Correction
-
-### Misconception
-
-Arrays are only for primitive types.
-
-### Correction
-
-Java arrays can store BOTH:
-
-- Primitive types
-- Objects
-
-Examples:
-
-Primitive array:
+Program to the interface when callers do not need implementation-specific behavior:
 
 ```java
-int[] nums = {1, 2, 3};
+List<String> names = new ArrayList<>();
+Map<String, Integer> counts = new HashMap<>();
 ```
 
-Object array:
+## Main study path
 
-```java
-String[] names = {"Alice", "Bob"};
-```
+- `lists` — basics, immutability, iteration, performance.
+- `hashing` — basics, hash contract, `HashMap` mechanics.
+- `sorting` — `Comparable`, `Comparator`, sorted collections.
+- `maps` — basics, frequency/grouping patterns, immutability, implementations, implementation choice.
+- `sets` — basics, ordering, immutability, hash contract, concurrency.
+- `queues` — basics, deque, queue patterns.
+- `cheatsheet` — quick revision table.
 
-or
+## Pick the boring default
 
-```java
-Person[] people = new Person[10];
-```
+| Need | Default |
+| --- | --- |
+| Growable sequence | `ArrayList` |
+| Deduplicate values | `HashSet` |
+| Preserve insertion order while deduping | `LinkedHashSet` |
+| Key-value lookup | `HashMap` |
+| Predictable map iteration order | `LinkedHashMap` |
+| Sorted keys/elements | `TreeMap` / `TreeSet` |
+| Shared concurrent counts/lookups | `ConcurrentHashMap` |
+| FIFO processing | `ArrayDeque` |
+| Priority-based processing | `PriorityQueue` |
 
-Arrays store:
+## Quick recall
 
-- Primitive values directly.
-- References for objects.
+**Q. Why is `List` often the variable type but `ArrayList` the constructor?**
+A. The caller needs the `List` contract; the implementation can remain replaceable.
 
----
+**Q. Which collections depend on `equals`/`hashCode`?**
+A. Hash-based collections: `HashMap`, `HashSet`, `LinkedHashMap`, `LinkedHashSet`.
 
-## Array vs ArrayList
+**Q. Which collections depend on ordering?**
+A. `TreeSet`, `TreeMap`, `PriorityQueue`, and explicit sort operations.
 
-Important distinction.
-
-### Arrays
-
-- Fixed size.
-- Built into the language.
-- Can store primitives.
-- Can store object references.
-
-Example:
-
-```java
-int[] arr = new int[10];
-```
-
----
-
-### ArrayList
-
-- Dynamic size.
-- Part of Java Collections Framework.
-- Stores objects only.
-
-Example:
-
-```java
-ArrayList<Integer> list = new ArrayList<>();
-```
-
----
-
-### Generics Reminder
-
-This is why:
-
-```java
-ArrayList<int>
-```
-
-is invalid.
-
-Need:
-
-```java
-ArrayList<Integer>
-```
-
-because generics work only with objects.
-
----
-
-## Array Length
-
-Interview reminder:
-
-Correct:
-
-```java
-arr.length
-```
-
-Incorrect:
-
-```java
-arr.length()
-```
-
----
-
-## Default Values
-
-Primitive arrays:
-
-```java
-int[] arr = new int[3];
-```
-
-Contents:
-
-0
-
-0
-
-0
-
----
-
-Object arrays:
-
-```java
-String[] arr = new String[3];
-```
-
-Contents:
-
-null
-
-null
-
-null
-
----
-
-## Final Revision
-
-Know:
-
-- Arrays can store primitives and objects.
-- Arrays are fixed size.
-- ArrayList is dynamic.
-- Arrays use `.length`.
-- ArrayList uses `.size()` (implicitly discussed through comparison).
-
----
+**Q. Where did array basics move?**
+A. `java/foundations/arrays/index.md`.

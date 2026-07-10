@@ -42,3 +42,16 @@ public class Main {
 }
 ```
 The `final` keyword only locks the **reference** (the pointer). It prevents you from pointing the variable to a new location in memory. It does **not** protect the object's internal state from mutation.
+
+## Solution: file-structure - Top-Level Modifiers
+
+```java
+// In App.java
+// private class HiddenApp {} // ERROR: modifier private not allowed here
+
+public class App {
+    private class HiddenNestedApp {} // valid
+}
+```
+
+Java prevents top-level classes from being `private` because `private` means visible only to the enclosing scope. A top-level class has no enclosing class. `private` classes are only valid when nested inside another class.

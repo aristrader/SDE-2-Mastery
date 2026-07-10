@@ -1,8 +1,8 @@
 ---
-order: 30
+order: 50
 ---
 
-# Variables and Scope
+# Access Modifiers, Variables, and Source Structure
 
 ## User understanding
 
@@ -122,6 +122,33 @@ public static final double PI = ...
 
 ---
 
+## Source file structure
+
+Java enforces strict rules on how `.java` files are structured.
+
+Top-level classes:
+
+1. A file can have only one `public` top-level class.
+2. The filename must exactly match that public class.
+3. Other top-level classes in the same file must be package-private.
+4. Top-level classes cannot be `private` or `protected`.
+
+Nested classes are different: a class declared inside another class can be `private`, `protected`, `public`, or package-private.
+
+```java
+public class Card {
+    private class CardDetails {
+        // only Card can see and use this nested class
+    }
+}
+
+class Helper {
+    // package-private top-level class
+}
+```
+
+---
+
 ## Final revision
 
 Know:
@@ -148,7 +175,12 @@ Reference cannot change.
 
 Object may.
 
+## Quick recall
+
+- **Do local variables get defaults?** No.
+- **Do instance/static fields get defaults?** Yes.
+- **Can a top-level class be private?** No.
+- **Does `final` make an object immutable?** No, it prevents reassignment of that variable/reference.
+- **Best default visibility?** The narrowest one that supports the design.
+
 ---
-
-
-

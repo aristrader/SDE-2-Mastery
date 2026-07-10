@@ -39,37 +39,37 @@
 - [x] Method overriding
 ### Object Fundamentals
 - [ ] Object class
-- [ ] equals()
-- [ ] hashCode()
+- [x] equals()
+- [x] hashCode()
 - [ ] toString()
-- [ ] Comparable
-- [ ] Comparator
-- [ ] Immutable objects
+- [x] Comparable
+- [x] Comparator
+- [x] Immutable objects
 ## Milestone 3 — Collections Framework (Highest ROI)
 ### Collection Framework Overview
-- [ ] Collection hierarchy
-- [ ] Iterable vs Collection vs List vs Set vs Queue vs Map
+- [x] Collection hierarchy
+- [x] Iterable vs Collection vs List vs Set vs Queue vs Map
 ### Lists
-- [ ] ArrayList
-- [ ] ArrayList internals (dynamic resizing)
-- [ ] LinkedList
+- [x] ArrayList
+- [x] ArrayList internals (dynamic resizing)
+- [x] LinkedList
 ### Sets
-- [ ] HashSet
-- [ ] LinkedHashSet
-- [ ] TreeSet
+- [x] HashSet
+- [x] LinkedHashSet
+- [x] TreeSet
 ### Maps
-- [ ] HashMap
-- [ ] HashMap internals
-- [ ] Hash collisions
-- [ ] Resize/Rehash
-- [ ] Treeification (high level)
-- [ ] LinkedHashMap
-- [ ] TreeMap
+- [x] HashMap
+- [x] HashMap internals
+- [x] Hash collisions
+- [x] Resize/Rehash
+- [x] Treeification (high level)
+- [x] LinkedHashMap
+- [x] TreeMap
 ### Queues
-- [ ] Queue
-- [ ] Deque
-- [ ] ArrayDeque
-- [ ] PriorityQueue
+- [x] Queue
+- [x] Deque
+- [x] ArrayDeque
+- [x] PriorityQueue
 - [ ] PriorityQueue internals (heap characteristics)
 ### Utility APIs
 - [ ] Collections & Arrays utility APIs
@@ -78,29 +78,29 @@
 - [ ] Enhanced for-loop
 - [ ] ListIterator (basic)
 ### Collection Selection
-- [ ] Time complexity of major collections
-- [ ] Choosing the right collection
+- [x] Time complexity of major collections
+- [x] Choosing the right collection
 ## Milestone 4 — Generics
-- [ ] Generic classes
-- [ ] Generic methods
-- [ ] Type parameters
-- [ ] Wildcards
-- [ ] Upper bounded generics
-- [ ] Lower bounded generics
-- [ ] Type erasure (interview level)
+- [x] Generic classes
+- [x] Generic methods
+- [x] Type parameters
+- [x] Wildcards
+- [x] Upper bounded generics
+- [x] Lower bounded generics
+- [x] Type erasure (interview level)
 ## Milestone 5 — Exception Handling
-- [ ] Exception hierarchy
-- [ ] Checked exceptions
-- [ ] Unchecked exceptions
-- [ ] throw
-- [ ] throws
-- [ ] try-catch-finally
-- [ ] try-with-resources
-- [ ] Custom exceptions
+- [x] Exception hierarchy
+- [x] Checked exceptions
+- [x] Unchecked exceptions
+- [x] throw
+- [x] throws
+- [x] try-catch-finally
+- [x] try-with-resources
+- [x] Custom exceptions
 ## Milestone 6 — Functional Programming
 - [ ] Lambda expressions
 - [ ] Functional interfaces
-- [ ] Method references
+- [x] Method references
 - [ ] Stream creation
 - [ ] filter
 - [ ] map
@@ -110,38 +110,38 @@
 - [ ] limit
 - [ ] reduce
 - [ ] collect
-- [ ] Collectors
-- [ ] Optional
+- [x] Collectors
+- [x] Optional
 ## Milestone 7 — JVM & Memory (Interview Essentials)
-- [ ] Stack vs Heap
-- [ ] Object lifecycle
-- [ ] Garbage Collection (high level)
+- [x] Stack vs Heap
+- [x] Object lifecycle
+- [x] Garbage Collection (high level)
 - [ ] Memory leaks in Java
-- [ ] String Pool
-- [ ] Autoboxing & Unboxing
+- [x] String Pool
+- [x] Autoboxing & Unboxing
 ## Milestone 8 — Concurrency Basics
 ### Threads
 - [ ] Process vs Thread
-- [ ] Thread lifecycle
+- [x] Thread lifecycle
 - [ ] Runnable vs Thread
-- [ ] ExecutorService
+- [x] ExecutorService
 - [ ] Callable
 - [ ] Future
-- [ ] CompletableFuture (basic usage)
+- [x] CompletableFuture (basic usage)
 ### Synchronization
-- [ ] synchronized
-- [ ] volatile
+- [x] synchronized
+- [x] volatile
 - [ ] Atomic classes
-- [ ] ConcurrentHashMap
+- [x] ConcurrentHashMap
 ## Milestone 9 — Modern Java & Frequently Asked Features
 - [ ] Annotations (basic understanding)
 - [ ] Reflection (basic awareness)
 - [ ] Serialization (basic understanding)
-- [ ] Records
+- [x] Records
 - [ ] Sealed classes (basic awareness)
 - [ ] Local variable type inference (var)
 ## Milestone 10 — Interview Coding Practices
 - [ ] Writing clean Java interview code
 - [ ] Common Java pitfalls
-- [ ] Null handling
-- [ ] Mutable vs Immutable objects in practice
+- [x] Null handling
+- [x] Mutable vs Immutable objects in practice

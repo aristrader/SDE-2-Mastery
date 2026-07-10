@@ -73,3 +73,11 @@ A final method **cannot be overridden** by subclasses.
 A final class **cannot be extended**.
 *Classic Interview Question:* Why is `String` marked as `final` in Java?
 - It preserves **immutability**. If `String` could be subclassed, someone could create a mutable `String` implementation and pass it into methods expecting immutable strings, breaking security guarantees, correctness, and cached `hashCode` behavior relied upon by Java collections like `HashMap`.
+
+## Quick recall
+
+- **Static field belongs to?** Class, not each object.
+- **Static block runs how often?** Once per class initialization.
+- **Can a static method use `this`?** No.
+- **Does final reference mean immutable object?** No.
+- **Final method/class means?** Cannot override / cannot extend.

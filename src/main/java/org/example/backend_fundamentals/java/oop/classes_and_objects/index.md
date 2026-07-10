@@ -98,3 +98,11 @@ What exactly happens when you call `new Person()`?
 Instance blocks `{ ... }` run before the constructor. They were originally used to share initialization logic across multiple constructors.
 However, in modern Java and Spring Boot, they are rarely used. Constructor chaining (`this()`) or lifecycle callbacks (like `@PostConstruct`) are highly preferred for readability.
 
+## Quick recall
+
+- **What is a class?** Blueprint.
+- **What is an object?** Runtime instance.
+- **Default constructor exists when?** Only when no constructor is declared.
+- **Can constructors be inherited?** No.
+- **First statement for constructor chaining?** `this(...)` or `super(...)`.
+- **Can `this` be used in static methods?** No.

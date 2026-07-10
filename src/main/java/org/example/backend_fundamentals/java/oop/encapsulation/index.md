@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 60
 ---
 # Encapsulation
 
@@ -90,4 +90,3 @@ A. The object is born valid (constructor checks the invariant) and a `final` fie
 - **Abstraction** — works alongside encapsulation. Abstraction hides *complexity*; encapsulation hides *state*.
 - **Access Modifiers Deep Dive** — the precise Java mechanics behind field-level and package-level encapsulation.
 - **Java Collections** — `Collections.unmodifiableList(...)` and `List.copyOf(...)` are the practical tools for fixing the "returning a mutable field" violation.
-

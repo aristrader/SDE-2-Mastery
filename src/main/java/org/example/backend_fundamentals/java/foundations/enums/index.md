@@ -1,5 +1,5 @@
 ---
-order: 40
+order: 50
 ---
 
 # Enums
@@ -159,26 +159,11 @@ Typos eliminated.
 
 ---
 
-## Final Revision
+## Quick recall
 
-Enums:
-
-- group related constants
-- are type-safe
-- improve readability
-- can have:
-  - fields
-  - constructors
-  - methods
-
-Common backend usage:
-
-- transaction status
-- payment status
-- order status
-- roles
-- error codes
+- **Why enum over string?** Type safety and no typo states.
+- **Can enums have fields and methods?** Yes.
+- **Common backend usage?** Statuses, roles, modes, and error codes.
+- **Enum constructor visibility?** Implicitly private.
 
 ---
-
-

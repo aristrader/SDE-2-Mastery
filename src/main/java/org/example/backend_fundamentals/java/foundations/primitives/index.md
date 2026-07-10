@@ -120,14 +120,26 @@ Variables store references.
 
 ---
 
-## Interview points
+## Wrapper classes bridge
 
-Primitive:
+Every primitive has an object wrapper: `int` -> `Integer`, `long` -> `Long`, `boolean` -> `Boolean`.
 
-- cannot be null
-- faster
-- no methods
+Use wrappers when Java needs an object:
+
+- generics: `List<Integer>`, not `List<int>`
+- nullable API/database fields: `Integer count`, not `int count`
+- utility methods: `Integer.parseInt("42")`
+
+Autoboxing converts primitive to wrapper; unboxing converts wrapper to primitive. The deeper wrapper traps (`Integer` cache, `==` vs `.equals()`, null unboxing) are object-semantics topics covered after the object model.
 
 ---
 
+## Quick recall
 
+- **Can primitive be null?** No.
+- **Can `List<int>` compile?** No, use `List<Integer>`.
+- **Does a local primitive get a default value?** No.
+- **Does an instance/static primitive field get a default?** Yes.
+- **Wrapper trap?** Null unboxing can throw `NullPointerException`.
+
+---

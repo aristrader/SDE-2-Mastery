@@ -78,6 +78,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Container security (Trivy, Snyk, ECR scanning, distroless, SBOM, Sigstore)** → Part 22
 - **Contract testing (Pact)** → Part 25 row 13
 - **CORS** → Part 11, Part 18
+- **Comparable / Comparator contracts and sorting** → Part 01 row 3
 - **Cost Anomaly Detection (AWS)** → Part 14
 - **CSRF** → Part 18
 

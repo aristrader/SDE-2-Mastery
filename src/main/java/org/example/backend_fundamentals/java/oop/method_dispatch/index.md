@@ -1,5 +1,5 @@
 ---
-order: 100
+order: 120
 ---
 # Method Overloading vs Overriding & Dynamic Dispatch
 
@@ -28,3 +28,10 @@ a.sound(); // Prints "Dog" (Polymorphic)
 System.out.println(a.name); // Prints Animal's name field (Not Polymorphic)
 ```
 
+## Quick recall
+
+- **Overloading decided when?** Compile time.
+- **Overriding decided when?** Runtime for instance methods.
+- **Can return type alone overload?** No.
+- **Can overriding reduce visibility?** No.
+- **Are fields polymorphic?** No.

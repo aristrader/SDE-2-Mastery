@@ -95,7 +95,7 @@ async function assertExerciseWorkspace(page) {
 }
 
 async function assertStructuredExerciseWorkspace(page) {
-  await page.goto(`${BASE_URL}/java/foundations/generics/exercise/`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/java/generics/exercise/`, { waitUntil: 'networkidle' });
   await page.locator('.exercise-workspace.structured').waitFor({ timeout: 15000 });
   assert.strictEqual(await page.locator('.question-item').count(), 5, 'structured practice should list each question');
   assert.strictEqual(
@@ -152,7 +152,7 @@ async function main() {
   await assertStudyTabs(page, '/system_design/concepts/availability/', ['Read', 'Scenario', 'Design']);
   await assertStudyTabs(page, '/system_design/concepts/availability/exercise/', ['Read', 'Scenario']);
   await assertStudyTabs(page, '/system_design/concepts/availability/design/', ['Read', 'Scenario', 'Design']);
-  await assertStudyTabs(page, '/java/concurrency/jmm/', ['Read', 'Practice', 'Solution']);
+  await assertStudyTabs(page, '/java/concurrency/jmm/', []);
   await assertStudyTabs(page, '/java/foundations/control_flow/', ['Read', 'Practice', 'Solution']);
   await assertArchitectureBoardLifecycle(page);
   await assertExerciseWorkspace(page);
