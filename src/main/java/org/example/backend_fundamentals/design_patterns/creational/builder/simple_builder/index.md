@@ -97,7 +97,7 @@ Two reasons:
 1. **Chicken-and-egg with the enclosing instance.** A non-static inner class requires an existing `JobOffer` to construct. The Builder's job is to construct the *first* one, so a non-static inner class wouldn't even compile (`new JobOffer.Builder(...)` would be illegal).
 2. **Hidden retention of enclosing instance.** Non-static inner classes silently hold a reference to the outer instance. If a Builder ever escaped the construction expression, it would pin a `JobOffer` in memory.
 
-See `/java/oop/access_modifiers/access_modifiers_deep_dive/` &raquo; "Class-level modifier decisions" for the broader rule (default nested classes to `static`).
+See `/java/oop/access_modifiers/deep_dive/` &raquo; "Class-level modifier decisions" for the broader rule (default nested classes to `static`).
 
 ## Why the product is `final`
 

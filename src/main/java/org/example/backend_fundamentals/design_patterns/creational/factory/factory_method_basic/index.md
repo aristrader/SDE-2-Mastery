@@ -166,6 +166,6 @@ See `../factory_method/FactoryMethodProd.md` for the step-by-step differences an
 - `../factory_method/FactoryMethodProd.md` — the next step up.
 - `../Factory.md` — overall comparison.
 - `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — design principles behind these choices.
-- `/java/oop/access_modifiers/access_modifiers_deep_dive/` — why `protected`, `final`, `abstract`, etc.
+- `/java/oop/access_modifiers/deep_dive/` — why `protected`, `final`, `abstract`, etc.
 
 

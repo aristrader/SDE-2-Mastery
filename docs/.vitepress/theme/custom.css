@@ -45,6 +45,9 @@
   --vp-button-brand-bg: var(--vp-c-brand-3);
   --vp-button-brand-hover-bg: var(--vp-c-brand-1);
   --vp-button-brand-active-bg: var(--vp-c-brand-2);
+
+  /* Expand layout to use the full monitor width */
+  --vp-layout-max-width: 100%;
 }
 
 .dark {
@@ -176,9 +179,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--vp-c-brand-1); 
 
 /* ----- Wider content on large screens ------------------------------------ */
 @media (min-width: 1280px) {
-  .VPDoc .container { max-width: 1488px !important; }
-  .VPDoc .content { max-width: 1200px !important; }
-  .VPDoc .content-container { max-width: 1024px !important; }
+  .VPDoc .container { max-width: 100% !important; }
+  .VPDoc .content { max-width: 100% !important; }
+  .VPDoc .content-container { max-width: 100% !important; }
 }
 
 /* ----- Playground mode: full-bleed --------------------------------------- */
