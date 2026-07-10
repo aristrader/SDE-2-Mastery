@@ -4,52 +4,164 @@ order: 0
 
 # Collections Cheat Sheet
 
-A quick reference guide for the core Java collections we've studied.
-
----
+A quick reference for choosing and using the Java collections covered in this module.
 
 ## Arrays & Lists
 
-| Type | Memory / Backing | Resizable | Stores | Random Access (`get`) | Insert/Delete (Ends) | Insert/Delete (Middle) | Best For |
-|---|---|---|---|---|---|---|---|
-| **`T[]` (Array)** | Contiguous | No | Primitives & Objects | O(1) | N/A | N/A | Known fixed sizes, maximum primitive performance (no boxing). |
-| **`ArrayList`** | Dynamic Array | Yes | Objects only | O(1) | O(1) amortized | O(n) | **99% of use cases**. Read-heavy workloads and standard ordered lists. |
-| **`LinkedList`** | Doubly-Linked Nodes | Yes | Objects only | O(n) | O(1) | O(n) to find + O(1) link | Queue/Deque operations, or heavy insertions exactly at the ends. |
+| Type | Backing | Random access | Insert/remove middle | Best for |
+| --- | --- | ---: | ---: | --- |
+| `T[]` | Fixed array | O(1) | Manual shifting | Fixed size, primitives, lowest overhead. |
+| `ArrayList` | Dynamic array | O(1) | O(n) | Default list. Read-heavy ordered data. |
+| `LinkedList` | Doubly linked nodes | O(n) | O(n) to find | Rare as a list; prefer `ArrayDeque` for queue/deque work. |
+| `List.of(...)` | Immutable list | O(1) | Not allowed | Small read-only literals. |
 
-### List Gotchas
-- **Array Covariance:** `String[]` is an `Object[]` (can cause `ArrayStoreException` at runtime).
-- **Generics Invariance:** `List<String>` is **not** a `List<Object>` (compile-time safety).
-- **`remove(index)` vs `remove(value)`:** For `List<Integer>`, `list.remove(1)` removes index 1, while `list.remove(Integer.valueOf(1))` removes the value 1.
+List traps:
 
----
+- `list.remove(1)` removes index 1; `list.remove(Integer.valueOf(1))` removes value 1.
+- `Arrays.asList(array)` is fixed-size; `set()` works, `add()` fails.
+- `List.of()` rejects `null` and is structurally immutable.
+- `List<String>` is not a `List<Object>`; generics are invariant.
 
 ## Sets
 
 | Type | Backing | Ordering Guarantee | `add` / `remove` / `contains` | Null Allowed? | Best For |
-|---|---|---|---|---|---|
-| **`HashSet`** | `HashMap` | None (Bucket walk) | O(1) avg | Yes (One) | **Default choice** for deduplication and fast lookups. |
-| **`LinkedHashSet`** | `HashMap` + Linked List | Insertion Order | O(1) avg | Yes (One) | Removing duplicates while preserving the original sequence. |
-| **`TreeSet`** | Red-Black Tree | Sorted | O(log n) | No (Throws NPE) | Automatically keeping elements sorted. |
+| --- | --- | --- | ---: | --- | --- |
+| `HashSet` | `HashMap` | None | O(1) avg | One | Default dedupe and fast membership checks. |
+| `LinkedHashSet` | `HashMap` + linked order | Insertion order | O(1) avg | One | Dedupe while preserving input order. |
+| `TreeSet` | Red-black tree | Sorted | O(log n) | No | Always-sorted unique values. |
+| `Set.of(...)` | Immutable set | Unspecified | O(1) avg | No | Small read-only unique literals. |
 
-### Set Gotchas
-- **The `add()` Return Value:** `set.add(value)` returns `true` if inserted, and `false` if it was already a duplicate. This is extremely useful for 1-pass duplicate detection without needing a separate `.contains()` check.
-- **Silent Dedupe vs Fail Fast:** `new HashSet<>(List.of("A", "A"))` silently dedupes to size 1. `Set.of("A", "A")` throws an `IllegalArgumentException` immediately.
-- **Equality Trap:** A `HashSet` relies heavily on `equals()` and `hashCode()`. If you don't override them, you can accidentally add logically identical objects to the set multiple times because their memory identities differ.
+Set traps:
 
----
+- `set.add(value)` returns `false` when the value already exists.
+- `new HashSet<>(list)` silently dedupes; `Set.of("A", "A")` throws.
+- `HashSet` depends on correct `equals()` and `hashCode()`.
+- `TreeSet` uniqueness comes from comparison: if comparator returns `0`, values are treated as duplicates.
 
 ## Maps
 
 | Type | Backing | Iteration Order | `get` / `put` Time | Null Keys/Values | Thread-Safe | Best For |
-|---|---|---|---|---|---|---|
-| **`HashMap`** | Array of Buckets | None (Bucket walk) | O(1) avg | 1 Null Key / Any Null Vals | No | **Default choice** for key-value pairs. |
-| **`LinkedHashMap`** | `HashMap` + Linked List | Insertion Order | O(1) avg | 1 Null Key / Any Null Vals | No | Caches or when predictable iteration is needed. |
-| **`TreeMap`** | Red-Black Tree | Sorted by Key | O(log n) | No Null Keys | No | Keeping keys sorted automatically. |
-| **`EnumMap`** | Array | Enum Declaration | O(1) | No Null Keys | No | Any map where keys are an `Enum` (very fast). |
-| **`ConcurrentHashMap`** | Thread-safe Buckets | None | O(1) avg | No Nulls Allowed | Yes | Shared mutable state across multiple threads. |
-| **`Map.of(...)`** | Immutable Structure | None | O(1) | No Nulls Allowed | Yes (immutable) | Read-only literal maps. |
+| --- | --- | --- | ---: | --- | --- | --- |
+| `HashMap` | Buckets + nodes/tree bins | None | O(1) avg | One null key, null values | No | Default key-value store. |
+| `LinkedHashMap` | `HashMap` + linked order | Insertion/access order | O(1) avg | Same as `HashMap` | No | Predictable iteration, simple LRU cache. |
+| `TreeMap` | Red-black tree | Sorted by key | O(log n) | No null keys | No | Range queries and sorted keys. |
+| `ConcurrentHashMap` | Concurrent buckets | None | O(1) avg | No nulls | Yes | Shared mutable maps. |
+| `Map.of(...)` | Immutable map | Unspecified | O(1) avg | No nulls | Immutable | Small read-only literals. |
 
-### Map Gotchas
-- **The `equals` / `hashCode` Trap:** If a custom object is used as a key in a `HashMap`, you MUST override both `equals()` and `hashCode()`. Without them, `map.get(new CustomKey("A"))` will return `null` because the default is memory-identity based.
-- **Concurrent Mutations are Silent:** A `HashMap` used across threads without synchronization won't usually throw an exception—it will just silently lose updates and corrupt totals. Use `ConcurrentHashMap`.
-- **Shallow Immutability:** `Map.of()` freezes the map structure (you can't add or remove keys), but if a value is a mutable object (like a `List`), its internal contents can still be changed! Wrap values in `List.copyOf()` for deep immutability.
+Map patterns:
+
+```java
+Map<String, Integer> freq = new HashMap<>();
+
+for (String word : words) {
+    freq.put(word, freq.getOrDefault(word, 0) + 1);
+}
+```
+
+- Use `containsKey()` when `null` values make `get()` ambiguous.
+- Use `computeIfAbsent()` for grouping.
+- `Map.of()` is shallowly immutable; mutable values can still mutate.
+- Never use mutable fields inside a `HashMap` key's `equals()` / `hashCode()`.
+
+## Queues, Deques, Priority Queues
+
+| Type | Ordering | Core ops | Best for |
+| --- | --- | --- | --- |
+| `Queue` + `ArrayDeque` | FIFO | `offer`, `poll`, `peek` | Normal queue work. |
+| `Deque` + `ArrayDeque` | Both ends | `offerFirst/Last`, `pollFirst/Last` | Stack replacement, browser history, palindrome checks. |
+| `PriorityQueue` | Natural/comparator priority | `offer`, `poll`, `peek` | Top K, scheduling, merge K sorted lists, Dijkstra-style problems. |
+
+Queue traps:
+
+- Prefer `offer` / `poll` / `peek`; they return special values instead of throwing.
+- `ArrayDeque` is the boring default for queues and stacks; avoid legacy `Stack`.
+- `PriorityQueue` iteration is not sorted. Poll repeatedly for priority order.
+- `PriorityQueue` default is min-heap; use `Comparator.reverseOrder()` for max-heap.
+- Mutating an object's priority after insertion does not reorder the heap.
+
+PriorityQueue costs:
+
+| Operation | Cost |
+| --- | ---: |
+| `peek()` | O(1) |
+| `offer()` | O(log n) |
+| `poll()` | O(log n) |
+| `contains()` / `remove(Object)` | O(n) |
+| Build from collection | O(n) |
+
+## Hashing
+
+Hash-based collections need the same contract:
+
+- If `a.equals(b)` is `true`, `a.hashCode() == b.hashCode()` must also be true.
+- Unequal objects may share a hash code; collisions are allowed.
+- Hash buckets give average O(1), not guaranteed O(1) for every operation.
+- Bad hash distribution causes more collisions and slower lookup.
+
+Use stable key fields. If a key changes after insertion, the object may be in the wrong bucket and become hard to find.
+
+## Sorting
+
+| Tool | Use when |
+| --- | --- |
+| `Comparable<T>` | The class has one obvious natural order. |
+| `Comparator<T>` | The ordering is use-case-specific or there are multiple useful orders. |
+| `thenComparing(...)` | Need deterministic tie-breakers. |
+| `reversed()` | Need descending order; place it carefully. |
+
+Comparator examples:
+
+```java
+Comparator<Student> byName = Comparator.comparing(Student::name);
+
+Comparator<Student> byCgpaDesc =
+        Comparator.comparingDouble(Student::cgpa).reversed();
+
+Comparator<Student> byCgpaNameId =
+        Comparator.comparingDouble(Student::cgpa).reversed()
+                  .thenComparing(Student::name)
+                  .thenComparingInt(Student::id);
+```
+
+Without method references:
+
+```java
+Comparator<Student> byName =
+        Comparator.comparing(student -> student.name());
+
+Comparator<Student> byCgpaDesc =
+        Comparator.comparingDouble(student -> student.cgpa()).reversed();
+```
+
+Sorting traps:
+
+- Do not implement comparators with subtraction; it can overflow.
+- `reversed()` at the end reverses the whole chain.
+- `TreeSet` and `TreeMap` use comparison for uniqueness/order, not only `equals()`.
+
+## Pick Fast
+
+| Need | Use |
+| --- | --- |
+| Ordered resizable list | `ArrayList` |
+| Unique values, fast lookup | `HashSet` |
+| Unique values, preserve insertion order | `LinkedHashSet` |
+| Unique sorted values | `TreeSet` |
+| Key-value lookup | `HashMap` |
+| Key-value lookup with predictable iteration | `LinkedHashMap` |
+| Sorted keys / range queries | `TreeMap` |
+| Shared mutable map | `ConcurrentHashMap` |
+| FIFO queue | `ArrayDeque` as `Queue` |
+| Stack behavior | `ArrayDeque` as `Deque` |
+| Priority-based removal | `PriorityQueue` |
+
+## Quick recall
+
+- **Default list?** `ArrayList`.
+- **Default set?** `HashSet`.
+- **Default map?** `HashMap`.
+- **Default queue/deque?** `ArrayDeque`.
+- **Priority removal?** `PriorityQueue`.
+- **Sorted unique values?** `TreeSet`.
+- **Sorted keys?** `TreeMap`.
+- **Comparator or Comparable?** `Comparator` for use-case ordering, `Comparable` for natural order.

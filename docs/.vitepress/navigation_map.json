@@ -301,6 +301,10 @@
                     "link": "/java/collections/queues/deque/"
                   },
                   {
+                    "text": "PriorityQueue",
+                    "link": "/java/collections/queues/priority_queue/"
+                  },
+                  {
                     "text": "Queue Patterns",
                     "link": "/java/collections/queues/patterns/"
                   }
@@ -3070,9 +3074,152 @@
                     }
                   },
                   {
+                    "text": "PriorityQueue",
+                    "link": "/java/collections/queues/priority_queue/",
+                    "order": 30,
+                    "schema": "practice",
+                    "practiceSet": {
+                      "questions": [
+                        {
+                          "id": "basic-min-heap",
+                          "title": "Basic Min-Heap",
+                          "exerciseHtml": "<h2>Exercise: basic-min-heap - Basic Min-Heap</h2>\n<p>Create a <code>PriorityQueue&lt;Integer&gt;</code>. Insert <code>10, 4, 7, 1, 8, 3</code>.</p>\n<p>Print the queue directly, print <code>peek()</code>, then print every element by repeatedly calling <code>poll()</code>. Observe the difference between internal heap order and priority order.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: basic-min-heap - Basic Min-Heap</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();\nfor (int n : List.of(10, 4, 7, 1, 8, 3)) {\n    pq.offer(n);\n}\n\nSystem.out.println(pq);      // internal heap order, not sorted\nSystem.out.println(pq.peek()); // 1\n\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>"
+                        },
+                        {
+                          "id": "empty-priority-queue",
+                          "title": "Empty PriorityQueue",
+                          "exerciseHtml": "<h2>Exercise: empty-priority-queue - Empty PriorityQueue</h2>\n<p>Create an empty priority queue. Call <code>peek()</code> and <code>poll()</code>, then call <code>element()</code> and <code>remove()</code>.</p>\n<p>Check which methods return <code>null</code> and which methods throw.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: empty-priority-queue - Empty PriorityQueue</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();\nSystem.out.println(pq.peek()); // null\nSystem.out.println(pq.poll()); // null\npq.element();                  // NoSuchElementException\npq.remove();                   // NoSuchElementException</code></pre>"
+                        },
+                        {
+                          "id": "max-heap",
+                          "title": "Max-Heap",
+                          "exerciseHtml": "<h2>Exercise: max-heap - Max-Heap</h2>\n<p>Create a max-heap using <code>Comparator.reverseOrder()</code>. Insert <code>10, 4, 7, 1, 8, 3</code> and poll all elements.</p>\n<p>Expected removal order: <code>10, 8, 7, 4, 3, 1</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: max-heap - Max-Heap</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\nfor (int n : List.of(10, 4, 7, 1, 8, 3)) {\n    pq.offer(n);\n}\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>"
+                        },
+                        {
+                          "id": "string-natural-order",
+                          "title": "Strings",
+                          "exerciseHtml": "<h2>Exercise: string-natural-order - Strings</h2>\n<p>Create a <code>PriorityQueue&lt;String&gt;</code>. Insert <code>banana</code>, <code>apple</code>, <code>orange</code>, <code>grape</code>, then poll all elements.</p>\n<p>Observe natural lexicographical ordering.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: string-natural-order - Strings</h2>\n<pre><code>PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;&gt;();\nfor (String s : List.of(&quot;banana&quot;, &quot;apple&quot;, &quot;orange&quot;, &quot;grape&quot;)) {\n    pq.offer(s);\n}\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>"
+                        },
+                        {
+                          "id": "string-length-priority",
+                          "title": "String Length",
+                          "exerciseHtml": "<h2>Exercise: string-length-priority - String Length</h2>\n<p>Create a priority queue that removes the shortest string first. Insert <code>elephant</code>, <code>cat</code>, <code>tiger</code>, <code>ox</code>, <code>giraffe</code>.</p>\n<p>Use <code>Comparator.comparingInt(String::length)</code> and add alphabetical ordering as a tie-breaker.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: string-length-priority - String Length</h2>\n<pre><code>PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(String::length)\n                  .thenComparing(Comparator.naturalOrder())\n);</code></pre>"
+                        },
+                        {
+                          "id": "student-by-cgpa",
+                          "title": "Student by CGPA",
+                          "exerciseHtml": "<h2>Exercise: student-by-cgpa - Student by CGPA</h2>\n<p>Create a <code>Student</code> class with <code>id</code>, <code>name</code>, and <code>cgpa</code>.</p>\n<p>Create a priority queue where the highest CGPA is removed first. Insert at least six students, then poll and print all students.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: student-by-cgpa - Student by CGPA</h2>\n<pre><code>record Student(int id, String name, double cgpa) {}\n\nPriorityQueue&lt;Student&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingDouble(Student::cgpa).reversed()\n);</code></pre>\n<p>Poll until empty to get highest CGPA first.</p>"
+                        },
+                        {
+                          "id": "comparator-tie-breaking",
+                          "title": "Comparator Tie-Breaking",
+                          "exerciseHtml": "<h2>Exercise: comparator-tie-breaking - Comparator Tie-Breaking</h2>\n<p>Using the same <code>Student</code> class, define priority as:</p>\n<p>1. Higher CGPA first</p>\n<p>2. Name ascending</p>\n<p>3. ID ascending</p>\n<p>Use <code>comparing</code>, <code>reversed</code>, <code>thenComparing</code>, and <code>thenComparingInt</code>. Test equal CGPAs and duplicate names.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: comparator-tie-breaking - Comparator Tie-Breaking</h2>\n<pre><code>PriorityQueue&lt;Student&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingDouble(Student::cgpa).reversed()\n                  .thenComparing(Student::name)\n                  .thenComparingInt(Student::id)\n);</code></pre>\n<p>Put <code>reversed()</code> before the tie-breakers so only CGPA is descending.</p>"
+                        },
+                        {
+                          "id": "duplicate-elements",
+                          "title": "Duplicate Elements",
+                          "exerciseHtml": "<h2>Exercise: duplicate-elements - Duplicate Elements</h2>\n<p>Insert <code>5, 5, 5, 2, 2, 8</code> and poll every element.</p>\n<p>Verify duplicates are retained. Explain why this differs from <code>TreeSet</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: duplicate-elements - Duplicate Elements</h2>\n<p><code>PriorityQueue</code> allows duplicates because it is a queue, not a set. <code>TreeSet</code> removes values whose comparison returns <code>0</code> because set membership is unique.</p>"
+                        },
+                        {
+                          "id": "iteration-trap",
+                          "title": "Iteration Trap",
+                          "exerciseHtml": "<h2>Exercise: iteration-trap - Iteration Trap</h2>\n<p>Insert <code>20, 5, 15, 1, 10, 8</code>.</p>\n<p>Print elements using a <code>for</code> loop, then print elements using repeated <code>poll()</code>. Explain why the outputs may differ.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: iteration-trap - Iteration Trap</h2>\n<p>Iteration walks the internal heap array. Repeated <code>poll()</code> repeatedly removes the root and restores heap order, so it produces priority order.</p>"
+                        },
+                        {
+                          "id": "kth-largest-element",
+                          "title": "Kth Largest Element",
+                          "exerciseHtml": "<h2>Exercise: kth-largest-element - Kth Largest Element</h2>\n<p>Given <code>[3, 2, 1, 5, 6, 4]</code> and <code>k = 2</code>, find the kth largest element using a min-heap of size <code>k</code>.</p>\n<p>Insert each number. If heap size exceeds <code>k</code>, remove the smallest. At the end, the root is the kth largest.</p>\n<p>Expected answer: <code>5</code>. Complexity target: O(n log k).</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: kth-largest-element - Kth Largest Element</h2>\n<pre><code>int[] nums = {3, 2, 1, 5, 6, 4};\nint k = 2;\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;();\n\nfor (int n : nums) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}\n\nSystem.out.println(heap.peek()); // 5</code></pre>"
+                        },
+                        {
+                          "id": "k-smallest-elements",
+                          "title": "K Smallest Elements",
+                          "exerciseHtml": "<h2>Exercise: k-smallest-elements - K Smallest Elements</h2>\n<p>Given <code>[9, 4, 7, 1, 3, 6, 2]</code> and <code>k = 3</code>, return the <code>k</code> smallest elements using a max-heap of size <code>k</code>.</p>\n<p>Final result should be sorted: <code>1, 2, 3</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: k-smallest-elements - K Smallest Elements</h2>\n<pre><code>int[] nums = {9, 4, 7, 1, 3, 6, 2};\nint k = 3;\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\n\nfor (int n : nums) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}\n\nList&lt;Integer&gt; result = new ArrayList&lt;&gt;(heap);\nCollections.sort(result);</code></pre>"
+                        },
+                        {
+                          "id": "top-k-frequent-numbers",
+                          "title": "Top K Frequent Numbers",
+                          "exerciseHtml": "<h2>Exercise: top-k-frequent-numbers - Top K Frequent Numbers</h2>\n<p>Given <code>[1, 1, 1, 2, 2, 3]</code> and <code>k = 2</code>, build a frequency map, use a min-heap of size <code>k</code>, and return the two most frequent values.</p>\n<p>Expected result: <code>1, 2</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: top-k-frequent-numbers - Top K Frequent Numbers</h2>\n<pre><code>int[] nums = {1, 1, 1, 2, 2, 3};\nint k = 2;\nMap&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();\nfor (int n : nums) {\n    freq.put(n, freq.getOrDefault(n, 0) + 1);\n}\n\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(freq::get)\n);\nfor (int n : freq.keySet()) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}</code></pre>\n<p>The heap contains the top <code>k</code> values by frequency.</p>"
+                        },
+                        {
+                          "id": "merge-sorted-arrays",
+                          "title": "Merge Sorted Arrays",
+                          "exerciseHtml": "<h2>Exercise: merge-sorted-arrays - Merge Sorted Arrays</h2>\n<p>Given <code>[1, 4, 7]</code>, <code>[2, 5, 8]</code>, and <code>[3, 6, 9]</code>, merge them into <code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</p>\n<p>Use a priority queue containing entries with value, array index, and element index. Do not insert every element at once; heap size should stay at most equal to the number of arrays.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: merge-sorted-arrays - Merge Sorted Arrays</h2>\n<pre><code>record Entry(int value, int arrayIndex, int elementIndex) {}\n\nint[][] arrays = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};\nPriorityQueue&lt;Entry&gt; pq = new PriorityQueue&lt;&gt;(Comparator.comparingInt(Entry::value));\nList&lt;Integer&gt; merged = new ArrayList&lt;&gt;();\n\nfor (int i = 0; i &lt; arrays.length; i++) {\n    pq.offer(new Entry(arrays[i][0], i, 0));\n}\n\nwhile (!pq.isEmpty()) {\n    Entry current = pq.poll();\n    merged.add(current.value());\n\n    int nextIndex = current.elementIndex() + 1;\n    if (nextIndex &lt; arrays[current.arrayIndex()].length) {\n        pq.offer(new Entry(arrays[current.arrayIndex()][nextIndex], current.arrayIndex(), nextIndex));\n    }\n}</code></pre>"
+                        },
+                        {
+                          "id": "task-scheduler-simulation",
+                          "title": "Task Scheduler Simulation",
+                          "exerciseHtml": "<h2>Exercise: task-scheduler-simulation - Task Scheduler Simulation</h2>\n<p>Create a <code>Task</code> class with <code>id</code>, <code>name</code>, <code>priority</code>, and <code>createdAt</code>.</p>\n<p>Ordering:</p>\n<p>1. Higher priority first</p>\n<p>2. Earlier creation time first</p>\n<p>3. Smaller ID first</p>\n<p>Insert several tasks and process them by repeatedly polling.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: task-scheduler-simulation - Task Scheduler Simulation</h2>\n<pre><code>record Task(int id, String name, int priority, long createdAt) {}\n\nPriorityQueue&lt;Task&gt; tasks = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(Task::priority).reversed()\n                  .thenComparingLong(Task::createdAt)\n                  .thenComparingInt(Task::id)\n);</code></pre>\n<p>Repeated <code>poll()</code> processes highest priority, then oldest task, then smallest ID.</p>"
+                        },
+                        {
+                          "id": "mutation-trap",
+                          "title": "Mutation Trap",
+                          "exerciseHtml": "<h2>Exercise: mutation-trap - Mutation Trap</h2>\n<p>Create a mutable <code>Task</code> with a priority field. Insert several tasks, change the priority of one task already inside the queue, call <code>peek()</code>, and poll all elements.</p>\n<p>Then fix the problem by removing the task, updating it, and reinserting it.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: mutation-trap - Mutation Trap</h2>\n<p>Changing an object already inside the queue does not re-heapify it. Fix by removing it, changing it, then inserting it again, or by using immutable task entries.</p>"
+                        },
+                        {
+                          "id": "arbitrary-removal",
+                          "title": "Arbitrary Removal",
+                          "exerciseHtml": "<h2>Exercise: arbitrary-removal - Arbitrary Removal</h2>\n<p>Insert several integers and call <code>pq.remove(value)</code>.</p>\n<p>Answer: what is its time complexity, and why is it slower than <code>poll()</code>?</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: arbitrary-removal - Arbitrary Removal</h2>\n<p><code>pq.remove(value)</code> is O(n) because the queue must first scan the heap array to find that value. <code>poll()</code> is O(log n) because it always removes the known root.</p>"
+                        },
+                        {
+                          "id": "build-from-collection",
+                          "title": "Build from a Collection",
+                          "exerciseHtml": "<h2>Exercise: build-from-collection - Build from a Collection</h2>\n<p>Create a list of integers and construct the priority queue directly with <code>new PriorityQueue&lt;&gt;(list)</code>.</p>\n<p>Poll all values. Compare this with inserting every element individually. Know the theoretical complexities: collection constructor O(n), repeated insertion O(n log n).</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: build-from-collection - Build from a Collection</h2>\n<pre><code>List&lt;Integer&gt; values = List.of(8, 3, 5, 1, 9);\nPriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(values);</code></pre>\n<p>The collection constructor can heapify in O(n). Repeated insertion costs O(n log n).</p>"
+                        },
+                        {
+                          "id": "two-heaps-median",
+                          "title": "Two Heaps",
+                          "exerciseHtml": "<h2>Exercise: two-heaps-median - Two Heaps</h2>\n<p>Maintain a stream of integers using a max-heap for the lower half and a min-heap for the upper half.</p>\n<p>After each insertion in <code>5, 15, 1, 3</code>, print the median. Expected medians: <code>5</code>, <code>10</code>, <code>5</code>, <code>4</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: two-heaps-median - Two Heaps</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; low = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\nPriorityQueue&lt;Integer&gt; high = new PriorityQueue&lt;&gt;();\n\nfor (int n : List.of(5, 15, 1, 3)) {\n    if (low.isEmpty() || n &lt;= low.peek()) {\n        low.offer(n);\n    } else {\n        high.offer(n);\n    }\n\n    if (low.size() &gt; high.size() + 1) {\n        high.offer(low.poll());\n    } else if (high.size() &gt; low.size()) {\n        low.offer(high.poll());\n    }\n\n    double median = low.size() == high.size()\n            ? (low.peek() + high.peek()) / 2.0\n            : low.peek();\n    System.out.println(median);\n}</code></pre>"
+                        }
+                      ]
+                    },
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
                     "text": "Queue Patterns",
                     "link": "/java/collections/queues/patterns/",
-                    "order": 30,
+                    "order": 40,
                     "schema": "practice",
                     "practiceSet": {
                       "questions": [
@@ -5996,6 +6143,10 @@
     {
       "text": "Deque",
       "link": "/java/collections/queues/deque/"
+    },
+    {
+      "text": "PriorityQueue",
+      "link": "/java/collections/queues/priority_queue/"
     },
     {
       "text": "Queue Patterns",
@@ -10000,6 +10151,179 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: basic-deque - Basic Deque</h2>\n<pre><code>Deque&lt;Integer&gt; deque = new ArrayDeque&lt;&gt;();\ndeque.offerFirst(10); // [10]\ndeque.offerLast(20);  // [10, 20]\ndeque.offerFirst(5);  // [5, 10, 20]\n\nSystem.out.println(deque.pollFirst()); // 5\nSystem.out.println(deque.pollLast());  // 20\nSystem.out.println(deque);             // [10]</code></pre>\n<h2>Solution: reverse-order - Reverse Order with Deque</h2>\n<pre><code>Deque&lt;Integer&gt; lifo = new ArrayDeque&lt;&gt;();\nfor (int i = 1; i &lt;= 5; i++) {\n    lifo.offerFirst(i);\n}\nwhile (!lifo.isEmpty()) {\n    System.out.println(lifo.pollFirst()); // 5, 4, 3, 2, 1\n}\n\nDeque&lt;Integer&gt; fifo = new ArrayDeque&lt;&gt;();\nfor (int i = 1; i &lt;= 5; i++) {\n    fifo.offerLast(i);\n}\nwhile (!fifo.isEmpty()) {\n    System.out.println(fifo.pollFirst()); // 1, 2, 3, 4, 5\n}</code></pre>\n<h2>Solution: stack-using-deque - Stack using Deque</h2>\n<pre><code>Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();\nstack.push(10);\nstack.push(20);\nstack.push(30);\n\nSystem.out.println(stack.peek()); // 30\nSystem.out.println(stack.pop());  // 30</code></pre>\n<p>Prefer <code>ArrayDeque</code> over legacy <code>Stack</code>; <code>Stack</code> extends old synchronized <code>Vector</code>.</p>\n<h2>Solution: palindrome-check - Palindrome Check</h2>\n<pre><code>public boolean isPalindrome(String s) {\n    Deque&lt;Character&gt; deque = new ArrayDeque&lt;&gt;();\n    for (char c : s.toCharArray()) {\n        deque.offerLast(c);\n    }\n\n    while (deque.size() &gt; 1) {\n        if (!deque.pollFirst().equals(deque.pollLast())) {\n            return false;\n        }\n    }\n    return true;\n}</code></pre>"
+    },
+    "/java/collections/queues/priority_queue/": {
+      "text": "PriorityQueue",
+      "link": "/java/collections/queues/priority_queue/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/queues/priority_queue/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/queues/priority_queue/exercise/": {
+      "text": "PriorityQueue",
+      "link": "/java/collections/queues/priority_queue/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/collections/queues/priority_queue/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "basic-min-heap",
+            "title": "Basic Min-Heap",
+            "exerciseHtml": "<h2>Exercise: basic-min-heap - Basic Min-Heap</h2>\n<p>Create a <code>PriorityQueue&lt;Integer&gt;</code>. Insert <code>10, 4, 7, 1, 8, 3</code>.</p>\n<p>Print the queue directly, print <code>peek()</code>, then print every element by repeatedly calling <code>poll()</code>. Observe the difference between internal heap order and priority order.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: basic-min-heap - Basic Min-Heap</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();\nfor (int n : List.of(10, 4, 7, 1, 8, 3)) {\n    pq.offer(n);\n}\n\nSystem.out.println(pq);      // internal heap order, not sorted\nSystem.out.println(pq.peek()); // 1\n\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>"
+          },
+          {
+            "id": "empty-priority-queue",
+            "title": "Empty PriorityQueue",
+            "exerciseHtml": "<h2>Exercise: empty-priority-queue - Empty PriorityQueue</h2>\n<p>Create an empty priority queue. Call <code>peek()</code> and <code>poll()</code>, then call <code>element()</code> and <code>remove()</code>.</p>\n<p>Check which methods return <code>null</code> and which methods throw.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: empty-priority-queue - Empty PriorityQueue</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();\nSystem.out.println(pq.peek()); // null\nSystem.out.println(pq.poll()); // null\npq.element();                  // NoSuchElementException\npq.remove();                   // NoSuchElementException</code></pre>"
+          },
+          {
+            "id": "max-heap",
+            "title": "Max-Heap",
+            "exerciseHtml": "<h2>Exercise: max-heap - Max-Heap</h2>\n<p>Create a max-heap using <code>Comparator.reverseOrder()</code>. Insert <code>10, 4, 7, 1, 8, 3</code> and poll all elements.</p>\n<p>Expected removal order: <code>10, 8, 7, 4, 3, 1</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: max-heap - Max-Heap</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\nfor (int n : List.of(10, 4, 7, 1, 8, 3)) {\n    pq.offer(n);\n}\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>"
+          },
+          {
+            "id": "string-natural-order",
+            "title": "Strings",
+            "exerciseHtml": "<h2>Exercise: string-natural-order - Strings</h2>\n<p>Create a <code>PriorityQueue&lt;String&gt;</code>. Insert <code>banana</code>, <code>apple</code>, <code>orange</code>, <code>grape</code>, then poll all elements.</p>\n<p>Observe natural lexicographical ordering.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: string-natural-order - Strings</h2>\n<pre><code>PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;&gt;();\nfor (String s : List.of(&quot;banana&quot;, &quot;apple&quot;, &quot;orange&quot;, &quot;grape&quot;)) {\n    pq.offer(s);\n}\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>"
+          },
+          {
+            "id": "string-length-priority",
+            "title": "String Length",
+            "exerciseHtml": "<h2>Exercise: string-length-priority - String Length</h2>\n<p>Create a priority queue that removes the shortest string first. Insert <code>elephant</code>, <code>cat</code>, <code>tiger</code>, <code>ox</code>, <code>giraffe</code>.</p>\n<p>Use <code>Comparator.comparingInt(String::length)</code> and add alphabetical ordering as a tie-breaker.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: string-length-priority - String Length</h2>\n<pre><code>PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(String::length)\n                  .thenComparing(Comparator.naturalOrder())\n);</code></pre>"
+          },
+          {
+            "id": "student-by-cgpa",
+            "title": "Student by CGPA",
+            "exerciseHtml": "<h2>Exercise: student-by-cgpa - Student by CGPA</h2>\n<p>Create a <code>Student</code> class with <code>id</code>, <code>name</code>, and <code>cgpa</code>.</p>\n<p>Create a priority queue where the highest CGPA is removed first. Insert at least six students, then poll and print all students.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: student-by-cgpa - Student by CGPA</h2>\n<pre><code>record Student(int id, String name, double cgpa) {}\n\nPriorityQueue&lt;Student&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingDouble(Student::cgpa).reversed()\n);</code></pre>\n<p>Poll until empty to get highest CGPA first.</p>"
+          },
+          {
+            "id": "comparator-tie-breaking",
+            "title": "Comparator Tie-Breaking",
+            "exerciseHtml": "<h2>Exercise: comparator-tie-breaking - Comparator Tie-Breaking</h2>\n<p>Using the same <code>Student</code> class, define priority as:</p>\n<p>1. Higher CGPA first</p>\n<p>2. Name ascending</p>\n<p>3. ID ascending</p>\n<p>Use <code>comparing</code>, <code>reversed</code>, <code>thenComparing</code>, and <code>thenComparingInt</code>. Test equal CGPAs and duplicate names.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: comparator-tie-breaking - Comparator Tie-Breaking</h2>\n<pre><code>PriorityQueue&lt;Student&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingDouble(Student::cgpa).reversed()\n                  .thenComparing(Student::name)\n                  .thenComparingInt(Student::id)\n);</code></pre>\n<p>Put <code>reversed()</code> before the tie-breakers so only CGPA is descending.</p>"
+          },
+          {
+            "id": "duplicate-elements",
+            "title": "Duplicate Elements",
+            "exerciseHtml": "<h2>Exercise: duplicate-elements - Duplicate Elements</h2>\n<p>Insert <code>5, 5, 5, 2, 2, 8</code> and poll every element.</p>\n<p>Verify duplicates are retained. Explain why this differs from <code>TreeSet</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: duplicate-elements - Duplicate Elements</h2>\n<p><code>PriorityQueue</code> allows duplicates because it is a queue, not a set. <code>TreeSet</code> removes values whose comparison returns <code>0</code> because set membership is unique.</p>"
+          },
+          {
+            "id": "iteration-trap",
+            "title": "Iteration Trap",
+            "exerciseHtml": "<h2>Exercise: iteration-trap - Iteration Trap</h2>\n<p>Insert <code>20, 5, 15, 1, 10, 8</code>.</p>\n<p>Print elements using a <code>for</code> loop, then print elements using repeated <code>poll()</code>. Explain why the outputs may differ.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: iteration-trap - Iteration Trap</h2>\n<p>Iteration walks the internal heap array. Repeated <code>poll()</code> repeatedly removes the root and restores heap order, so it produces priority order.</p>"
+          },
+          {
+            "id": "kth-largest-element",
+            "title": "Kth Largest Element",
+            "exerciseHtml": "<h2>Exercise: kth-largest-element - Kth Largest Element</h2>\n<p>Given <code>[3, 2, 1, 5, 6, 4]</code> and <code>k = 2</code>, find the kth largest element using a min-heap of size <code>k</code>.</p>\n<p>Insert each number. If heap size exceeds <code>k</code>, remove the smallest. At the end, the root is the kth largest.</p>\n<p>Expected answer: <code>5</code>. Complexity target: O(n log k).</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: kth-largest-element - Kth Largest Element</h2>\n<pre><code>int[] nums = {3, 2, 1, 5, 6, 4};\nint k = 2;\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;();\n\nfor (int n : nums) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}\n\nSystem.out.println(heap.peek()); // 5</code></pre>"
+          },
+          {
+            "id": "k-smallest-elements",
+            "title": "K Smallest Elements",
+            "exerciseHtml": "<h2>Exercise: k-smallest-elements - K Smallest Elements</h2>\n<p>Given <code>[9, 4, 7, 1, 3, 6, 2]</code> and <code>k = 3</code>, return the <code>k</code> smallest elements using a max-heap of size <code>k</code>.</p>\n<p>Final result should be sorted: <code>1, 2, 3</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: k-smallest-elements - K Smallest Elements</h2>\n<pre><code>int[] nums = {9, 4, 7, 1, 3, 6, 2};\nint k = 3;\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\n\nfor (int n : nums) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}\n\nList&lt;Integer&gt; result = new ArrayList&lt;&gt;(heap);\nCollections.sort(result);</code></pre>"
+          },
+          {
+            "id": "top-k-frequent-numbers",
+            "title": "Top K Frequent Numbers",
+            "exerciseHtml": "<h2>Exercise: top-k-frequent-numbers - Top K Frequent Numbers</h2>\n<p>Given <code>[1, 1, 1, 2, 2, 3]</code> and <code>k = 2</code>, build a frequency map, use a min-heap of size <code>k</code>, and return the two most frequent values.</p>\n<p>Expected result: <code>1, 2</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: top-k-frequent-numbers - Top K Frequent Numbers</h2>\n<pre><code>int[] nums = {1, 1, 1, 2, 2, 3};\nint k = 2;\nMap&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();\nfor (int n : nums) {\n    freq.put(n, freq.getOrDefault(n, 0) + 1);\n}\n\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(freq::get)\n);\nfor (int n : freq.keySet()) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}</code></pre>\n<p>The heap contains the top <code>k</code> values by frequency.</p>"
+          },
+          {
+            "id": "merge-sorted-arrays",
+            "title": "Merge Sorted Arrays",
+            "exerciseHtml": "<h2>Exercise: merge-sorted-arrays - Merge Sorted Arrays</h2>\n<p>Given <code>[1, 4, 7]</code>, <code>[2, 5, 8]</code>, and <code>[3, 6, 9]</code>, merge them into <code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</p>\n<p>Use a priority queue containing entries with value, array index, and element index. Do not insert every element at once; heap size should stay at most equal to the number of arrays.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: merge-sorted-arrays - Merge Sorted Arrays</h2>\n<pre><code>record Entry(int value, int arrayIndex, int elementIndex) {}\n\nint[][] arrays = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};\nPriorityQueue&lt;Entry&gt; pq = new PriorityQueue&lt;&gt;(Comparator.comparingInt(Entry::value));\nList&lt;Integer&gt; merged = new ArrayList&lt;&gt;();\n\nfor (int i = 0; i &lt; arrays.length; i++) {\n    pq.offer(new Entry(arrays[i][0], i, 0));\n}\n\nwhile (!pq.isEmpty()) {\n    Entry current = pq.poll();\n    merged.add(current.value());\n\n    int nextIndex = current.elementIndex() + 1;\n    if (nextIndex &lt; arrays[current.arrayIndex()].length) {\n        pq.offer(new Entry(arrays[current.arrayIndex()][nextIndex], current.arrayIndex(), nextIndex));\n    }\n}</code></pre>"
+          },
+          {
+            "id": "task-scheduler-simulation",
+            "title": "Task Scheduler Simulation",
+            "exerciseHtml": "<h2>Exercise: task-scheduler-simulation - Task Scheduler Simulation</h2>\n<p>Create a <code>Task</code> class with <code>id</code>, <code>name</code>, <code>priority</code>, and <code>createdAt</code>.</p>\n<p>Ordering:</p>\n<p>1. Higher priority first</p>\n<p>2. Earlier creation time first</p>\n<p>3. Smaller ID first</p>\n<p>Insert several tasks and process them by repeatedly polling.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: task-scheduler-simulation - Task Scheduler Simulation</h2>\n<pre><code>record Task(int id, String name, int priority, long createdAt) {}\n\nPriorityQueue&lt;Task&gt; tasks = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(Task::priority).reversed()\n                  .thenComparingLong(Task::createdAt)\n                  .thenComparingInt(Task::id)\n);</code></pre>\n<p>Repeated <code>poll()</code> processes highest priority, then oldest task, then smallest ID.</p>"
+          },
+          {
+            "id": "mutation-trap",
+            "title": "Mutation Trap",
+            "exerciseHtml": "<h2>Exercise: mutation-trap - Mutation Trap</h2>\n<p>Create a mutable <code>Task</code> with a priority field. Insert several tasks, change the priority of one task already inside the queue, call <code>peek()</code>, and poll all elements.</p>\n<p>Then fix the problem by removing the task, updating it, and reinserting it.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: mutation-trap - Mutation Trap</h2>\n<p>Changing an object already inside the queue does not re-heapify it. Fix by removing it, changing it, then inserting it again, or by using immutable task entries.</p>"
+          },
+          {
+            "id": "arbitrary-removal",
+            "title": "Arbitrary Removal",
+            "exerciseHtml": "<h2>Exercise: arbitrary-removal - Arbitrary Removal</h2>\n<p>Insert several integers and call <code>pq.remove(value)</code>.</p>\n<p>Answer: what is its time complexity, and why is it slower than <code>poll()</code>?</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: arbitrary-removal - Arbitrary Removal</h2>\n<p><code>pq.remove(value)</code> is O(n) because the queue must first scan the heap array to find that value. <code>poll()</code> is O(log n) because it always removes the known root.</p>"
+          },
+          {
+            "id": "build-from-collection",
+            "title": "Build from a Collection",
+            "exerciseHtml": "<h2>Exercise: build-from-collection - Build from a Collection</h2>\n<p>Create a list of integers and construct the priority queue directly with <code>new PriorityQueue&lt;&gt;(list)</code>.</p>\n<p>Poll all values. Compare this with inserting every element individually. Know the theoretical complexities: collection constructor O(n), repeated insertion O(n log n).</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: build-from-collection - Build from a Collection</h2>\n<pre><code>List&lt;Integer&gt; values = List.of(8, 3, 5, 1, 9);\nPriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(values);</code></pre>\n<p>The collection constructor can heapify in O(n). Repeated insertion costs O(n log n).</p>"
+          },
+          {
+            "id": "two-heaps-median",
+            "title": "Two Heaps",
+            "exerciseHtml": "<h2>Exercise: two-heaps-median - Two Heaps</h2>\n<p>Maintain a stream of integers using a max-heap for the lower half and a min-heap for the upper half.</p>\n<p>After each insertion in <code>5, 15, 1, 3</code>, print the median. Expected medians: <code>5</code>, <code>10</code>, <code>5</code>, <code>4</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: two-heaps-median - Two Heaps</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; low = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\nPriorityQueue&lt;Integer&gt; high = new PriorityQueue&lt;&gt;();\n\nfor (int n : List.of(5, 15, 1, 3)) {\n    if (low.isEmpty() || n &lt;= low.peek()) {\n        low.offer(n);\n    } else {\n        high.offer(n);\n    }\n\n    if (low.size() &gt; high.size() + 1) {\n        high.offer(low.poll());\n    } else if (high.size() &gt; low.size()) {\n        low.offer(high.poll());\n    }\n\n    double median = low.size() == high.size()\n            ? (low.peek() + high.peek()) / 2.0\n            : low.peek();\n    System.out.println(median);\n}</code></pre>"
+          }
+        ]
+      }
+    },
+    "/java/collections/queues/priority_queue/solution/": {
+      "text": "PriorityQueue",
+      "link": "/java/collections/queues/priority_queue/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/collections/queues/priority_queue/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: basic-min-heap - Basic Min-Heap</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();\nfor (int n : List.of(10, 4, 7, 1, 8, 3)) {\n    pq.offer(n);\n}\n\nSystem.out.println(pq);      // internal heap order, not sorted\nSystem.out.println(pq.peek()); // 1\n\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>\n<h2>Solution: empty-priority-queue - Empty PriorityQueue</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();\nSystem.out.println(pq.peek()); // null\nSystem.out.println(pq.poll()); // null\npq.element();                  // NoSuchElementException\npq.remove();                   // NoSuchElementException</code></pre>\n<h2>Solution: max-heap - Max-Heap</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\nfor (int n : List.of(10, 4, 7, 1, 8, 3)) {\n    pq.offer(n);\n}\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>\n<h2>Solution: string-natural-order - Strings</h2>\n<pre><code>PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;&gt;();\nfor (String s : List.of(&quot;banana&quot;, &quot;apple&quot;, &quot;orange&quot;, &quot;grape&quot;)) {\n    pq.offer(s);\n}\nwhile (!pq.isEmpty()) {\n    System.out.println(pq.poll());\n}</code></pre>\n<h2>Solution: string-length-priority - String Length</h2>\n<pre><code>PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(String::length)\n                  .thenComparing(Comparator.naturalOrder())\n);</code></pre>\n<h2>Solution: student-by-cgpa - Student by CGPA</h2>\n<pre><code>record Student(int id, String name, double cgpa) {}\n\nPriorityQueue&lt;Student&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingDouble(Student::cgpa).reversed()\n);</code></pre>\n<p>Poll until empty to get highest CGPA first.</p>\n<h2>Solution: comparator-tie-breaking - Comparator Tie-Breaking</h2>\n<pre><code>PriorityQueue&lt;Student&gt; pq = new PriorityQueue&lt;&gt;(\n        Comparator.comparingDouble(Student::cgpa).reversed()\n                  .thenComparing(Student::name)\n                  .thenComparingInt(Student::id)\n);</code></pre>\n<p>Put <code>reversed()</code> before the tie-breakers so only CGPA is descending.</p>\n<h2>Solution: duplicate-elements - Duplicate Elements</h2>\n<p><code>PriorityQueue</code> allows duplicates because it is a queue, not a set. <code>TreeSet</code> removes values whose comparison returns <code>0</code> because set membership is unique.</p>\n<h2>Solution: iteration-trap - Iteration Trap</h2>\n<p>Iteration walks the internal heap array. Repeated <code>poll()</code> repeatedly removes the root and restores heap order, so it produces priority order.</p>\n<h2>Solution: kth-largest-element - Kth Largest Element</h2>\n<pre><code>int[] nums = {3, 2, 1, 5, 6, 4};\nint k = 2;\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;();\n\nfor (int n : nums) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}\n\nSystem.out.println(heap.peek()); // 5</code></pre>\n<h2>Solution: k-smallest-elements - K Smallest Elements</h2>\n<pre><code>int[] nums = {9, 4, 7, 1, 3, 6, 2};\nint k = 3;\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\n\nfor (int n : nums) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}\n\nList&lt;Integer&gt; result = new ArrayList&lt;&gt;(heap);\nCollections.sort(result);</code></pre>\n<h2>Solution: top-k-frequent-numbers - Top K Frequent Numbers</h2>\n<pre><code>int[] nums = {1, 1, 1, 2, 2, 3};\nint k = 2;\nMap&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();\nfor (int n : nums) {\n    freq.put(n, freq.getOrDefault(n, 0) + 1);\n}\n\nPriorityQueue&lt;Integer&gt; heap = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(freq::get)\n);\nfor (int n : freq.keySet()) {\n    heap.offer(n);\n    if (heap.size() &gt; k) {\n        heap.poll();\n    }\n}</code></pre>\n<p>The heap contains the top <code>k</code> values by frequency.</p>\n<h2>Solution: merge-sorted-arrays - Merge Sorted Arrays</h2>\n<pre><code>record Entry(int value, int arrayIndex, int elementIndex) {}\n\nint[][] arrays = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};\nPriorityQueue&lt;Entry&gt; pq = new PriorityQueue&lt;&gt;(Comparator.comparingInt(Entry::value));\nList&lt;Integer&gt; merged = new ArrayList&lt;&gt;();\n\nfor (int i = 0; i &lt; arrays.length; i++) {\n    pq.offer(new Entry(arrays[i][0], i, 0));\n}\n\nwhile (!pq.isEmpty()) {\n    Entry current = pq.poll();\n    merged.add(current.value());\n\n    int nextIndex = current.elementIndex() + 1;\n    if (nextIndex &lt; arrays[current.arrayIndex()].length) {\n        pq.offer(new Entry(arrays[current.arrayIndex()][nextIndex], current.arrayIndex(), nextIndex));\n    }\n}</code></pre>\n<h2>Solution: task-scheduler-simulation - Task Scheduler Simulation</h2>\n<pre><code>record Task(int id, String name, int priority, long createdAt) {}\n\nPriorityQueue&lt;Task&gt; tasks = new PriorityQueue&lt;&gt;(\n        Comparator.comparingInt(Task::priority).reversed()\n                  .thenComparingLong(Task::createdAt)\n                  .thenComparingInt(Task::id)\n);</code></pre>\n<p>Repeated <code>poll()</code> processes highest priority, then oldest task, then smallest ID.</p>\n<h2>Solution: mutation-trap - Mutation Trap</h2>\n<p>Changing an object already inside the queue does not re-heapify it. Fix by removing it, changing it, then inserting it again, or by using immutable task entries.</p>\n<h2>Solution: arbitrary-removal - Arbitrary Removal</h2>\n<p><code>pq.remove(value)</code> is O(n) because the queue must first scan the heap array to find that value. <code>poll()</code> is O(log n) because it always removes the known root.</p>\n<h2>Solution: build-from-collection - Build from a Collection</h2>\n<pre><code>List&lt;Integer&gt; values = List.of(8, 3, 5, 1, 9);\nPriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(values);</code></pre>\n<p>The collection constructor can heapify in O(n). Repeated insertion costs O(n log n).</p>\n<h2>Solution: two-heaps-median - Two Heaps</h2>\n<pre><code>PriorityQueue&lt;Integer&gt; low = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());\nPriorityQueue&lt;Integer&gt; high = new PriorityQueue&lt;&gt;();\n\nfor (int n : List.of(5, 15, 1, 3)) {\n    if (low.isEmpty() || n &lt;= low.peek()) {\n        low.offer(n);\n    } else {\n        high.offer(n);\n    }\n\n    if (low.size() &gt; high.size() + 1) {\n        high.offer(low.poll());\n    } else if (high.size() &gt; low.size()) {\n        low.offer(high.poll());\n    }\n\n    double median = low.size() == high.size()\n            ? (low.peek() + high.peek()) / 2.0\n            : low.peek();\n    System.out.println(median);\n}</code></pre>"
     },
     "/java/collections/queues/patterns/": {
       "text": "Queue Patterns",

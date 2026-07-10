@@ -12,7 +12,8 @@ Queues model "who is next?" Deques model "which end do I add/remove from?" Read 
 | --- | --- | --- |
 | 1 | `basics` | FIFO queue, empty-method behavior, `ArrayDeque` default |
 | 2 | `deque` | Two-ended operations, stack replacement, palindrome checks |
-| 3 | `patterns` | Simulations, browser history, implementation choice |
+| 3 | `priority_queue` | Heap-backed priority ordering, comparators, Top K patterns |
+| 4 | `patterns` | Simulations, browser history, implementation choice |
 
 ## Main implementations
 
