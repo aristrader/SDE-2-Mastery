@@ -904,6 +904,16 @@ Correct.
 
 # Checkpoint: equals() and hashCode()
 
+This topic is easier after HashMap internals:
+
+```text
+HashMap
+  -> equals()
+  -> hashCode()
+```
+
+Learning `equals()` and `hashCode()` in isolation makes the contract feel arbitrary. In HashMap terms, the reason is concrete: `hashCode()` finds the bucket, then `equals()` confirms the key.
+
 Default `equals()` comes from `Object` and checks reference identity:
 
 ```java
@@ -1406,6 +1416,8 @@ Conclusion:
 This module was considered complete for SDE-2 Java backend interviews.
 
 No meaningful interview topics related to this module remained before moving to the next Java topic.
+
+The remaining improvement area is not conceptual coverage, but coding fluency through repetition.
 
 # Additional Notes for Object Class Module
 
