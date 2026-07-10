@@ -40,6 +40,12 @@ List<String> list = new ArrayList<>();
 List<Object> objList = list;      // won't compile — generics are invariant
 ```
 
+
+### Arrays are Covariant, Generics are Invariant
+Arrays allow `Object[] arr = new String[3];` because `String` IS-A `Object`. This is container upcasting and is unsafe for mutable containers.
+Generics are invariant: `List<Object> objects = new ArrayList<String>();` fails at compile time.
+If it were allowed, you could add an `Integer` to a `List<String>`.
+
 Compile-time errors beat runtime errors — the strongest single argument for `List<T>` over arrays in modern Java code.
 
 ---
@@ -156,6 +162,20 @@ names.isEmpty();
 
 ---
 
+
+---
+
+## 4b. Integer Cache Gotcha
+
+The Integer cache (typically -128 to 127) means `==` might work for small numbers but fail for large ones:
+```java
+Integer a = 500;
+Integer b = 500;
+a == b          // false
+a.equals(b)     // true
+```
+Collections always use `.equals()` and `.hashCode()`, not `==`. This is why `remove(Integer.valueOf(500))` works correctly.
+
 ## 5. Important Gotcha: remove(index) vs remove(value)
 
 For `List<Integer>`:
@@ -193,6 +213,22 @@ for (Integer x : list) {
 ```
 
 Iterator:
+
+
+### Iterator Mental Model
+Think of the iterator as a cursor sitting *between* elements:
+```text
+  |
+  v
+[1][2][3][4]
+```
+- `hasNext()`: Checks if an element exists ahead. Does NOT move.
+- `next()`: Moves forward AND returns the element it just passed over.
+- `remove()`: Removes the element returned by the *most recent* `next()` call.
+
+**Common Mistakes:**
+- `System.out.println(it);` prints the iterator object, not the value. You must use `it.next()`.
+- Calling `it.next()` twice inside one loop iteration skips every alternate element.
 
 ```java
 Iterator<Integer> it = list.iterator();
@@ -303,8 +339,6 @@ SDE-2 answer:
 ArrayList is usually preferred because random access and iteration are fast, memory locality is better, and most real-world list operations are read/iterate-heavy.
 ```
 
----
-
 ## Definition of Done
 
 You are done with this checkpoint only when:
@@ -353,4 +387,3 @@ You are done with this checkpoint only when:
 - **Maps** and **Sets** — the other two collection families with their own trade-offs.
 - **Stream Collectors** — covers how to produce list types from streams.
 - **Encapsulation** — returning a mutable internal collection is a classic encapsulation violation; use `Collections.unmodifiableList(...)` or `List.copyOf(...)` to fix it.
-

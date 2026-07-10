@@ -149,6 +149,10 @@
             "link": "/java/collections/",
             "items": [
               {
+                "text": "Collections Cheat Sheet",
+                "link": "/java/collections/cheatsheet/"
+              },
+              {
                 "text": "Lists in Java — types, choices, and the Array trap",
                 "link": "/java/collections/lists/"
               },
@@ -875,6 +879,12 @@
         "text": "Live Progress Dashboard",
         "items": []
       }
+    ],
+    "/practice/": [
+      {
+        "text": "Practice Scratchpad",
+        "items": []
+      }
     ]
   },
   "nav": [
@@ -947,6 +957,11 @@
       "text": "Live Progress Dashboard",
       "link": "/progress/",
       "activeMatch": "/progress/"
+    },
+    {
+      "text": "Practice Scratchpad",
+      "link": "/practice/",
+      "activeMatch": "/practice/"
     }
   ],
   "tree": {
@@ -1826,6 +1841,48 @@
                 "practiceSet": {
                   "questions": [
                     {
+                      "id": "default-equality",
+                      "title": "Default Equality",
+                      "exerciseHtml": "<h2>Exercise: default-equality - Default Equality</h2>\n<h3>Goal</h3>\n<p>Observe default reference-based equality.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with one field: <code>String id</code>.</p>\n<p>Do not override anything.</p>\n<p>Create:</p>\n<pre><code>Student s1 = new Student(&quot;101&quot;);\nStudent s2 = new Student(&quot;101&quot;);</code></pre>\n<p>Print:</p>\n<ul>\n<li><code>s1 == s2</code></li>\n<li><code>s1.equals(s2)</code></li>\n<li><code>s1.hashCode()</code></li>\n<li><code>s2.hashCode()</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Explain why <code>==</code> is false.</li>\n<li>Explain why default <code>equals()</code> is false.</li>\n<li>Explain why the two hash codes are identity-based.</li>\n</ul>",
+                      "starterCode": "Student s1 = new Student(\"101\");\nStudent s2 = new Student(\"101\");",
+                      "solutionHtml": "<h2>Solution: default-equality - Default Equality</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n}\n\nStudent s1 = new Student(&quot;101&quot;);\nStudent s2 = new Student(&quot;101&quot;);\n\nSystem.out.println(s1 == s2);        // false\nSystem.out.println(s1.equals(s2));   // false\nSystem.out.println(s1.hashCode());   // identity-based\nSystem.out.println(s2.hashCode());   // identity-based</code></pre>\n<p><code>s1</code> and <code>s2</code> are different objects. Default <code>equals()</code> behaves like <code>this == other</code>, so equal-looking state does not matter.</p>"
+                    },
+                    {
+                      "id": "equals-only-breaks-hash-collections",
+                      "title": "Override equals Only",
+                      "exerciseHtml": "<h2>Exercise: equals-only-breaks-hash-collections - Override equals Only</h2>\n<h3>Goal</h3>\n<p>See why overriding only <code>equals()</code> breaks hash-based collections.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with <code>String id</code>.</p>\n<p>Override only <code>equals()</code> using <code>id</code>.</p>\n<p>Do not override <code>hashCode()</code>.</p>\n<p>Use logically equal objects in:</p>\n<ul>\n<li><code>HashSet&lt;Student&gt;</code></li>\n<li><code>HashMap&lt;Student, String&gt;</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Add <code>new Student(&quot;101&quot;)</code> to a set, then test <code>contains(new Student(&quot;101&quot;))</code>.</li>\n<li>Put <code>new Student(&quot;101&quot;)</code> in a map, then test <code>get(new Student(&quot;101&quot;))</code>.</li>\n<li>Explain why lookup can fail.</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: equals-only-breaks-hash-collections - Override equals Only</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof Student student &amp;&amp; Objects.equals(id, student.id);\n    }\n}\n\nSet&lt;Student&gt; students = new HashSet&lt;&gt;();\nstudents.add(new Student(&quot;101&quot;));\nSystem.out.println(students.contains(new Student(&quot;101&quot;))); // often false\n\nMap&lt;Student, String&gt; map = new HashMap&lt;&gt;();\nmap.put(new Student(&quot;101&quot;), &quot;Asha&quot;);\nSystem.out.println(map.get(new Student(&quot;101&quot;))); // often null</code></pre>\n<p>The two objects are equal by <code>equals()</code>, but still have different identity-based hashes. Hash collections search the wrong bucket, so <code>equals()</code> may never run.</p>"
+                    },
+                    {
+                      "id": "hashcode-only-breaks-equality",
+                      "title": "Override hashCode Only",
+                      "exerciseHtml": "<h2>Exercise: hashcode-only-breaks-equality - Override hashCode Only</h2>\n<h3>Goal</h3>\n<p>See why overriding only <code>hashCode()</code> is also incomplete.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with <code>String id</code>.</p>\n<p>Override only <code>hashCode()</code> using <code>id</code>.</p>\n<p>Keep default <code>equals()</code>.</p>\n<p>Test with:</p>\n<ul>\n<li><code>HashSet&lt;Student&gt;</code></li>\n<li><code>HashMap&lt;Student, String&gt;</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Add or put two different <code>Student(&quot;101&quot;)</code> objects.</li>\n<li>Explain why same bucket is not enough.</li>\n<li>Explain why default <code>equals()</code> still treats them as different objects.</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: hashcode-only-breaks-equality - Override hashCode Only</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nSet&lt;Student&gt; students = new HashSet&lt;&gt;();\nstudents.add(new Student(&quot;101&quot;));\nstudents.add(new Student(&quot;101&quot;));\nSystem.out.println(students.size()); // 2</code></pre>\n<p>Both objects land in the same bucket, but default <code>equals()</code> still uses identity. Same bucket is not enough; <code>equals()</code> must also say they match.</p>"
+                    },
+                    {
+                      "id": "correct-equals-hashcode",
+                      "title": "Correct equals and hashCode",
+                      "exerciseHtml": "<h2>Exercise: correct-equals-hashcode - Correct equals and hashCode</h2>\n<h3>Goal</h3>\n<p>Implement equality correctly using the identity field.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with:</p>\n<ul>\n<li><code>String id</code></li>\n<li><code>String name</code></li>\n<li><code>int age</code></li>\n</ul>\n<p>Use only <code>id</code> inside <code>equals()</code> and <code>hashCode()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li><code>new Student(&quot;101&quot;, &quot;A&quot;, 20).equals(new Student(&quot;101&quot;, &quot;B&quot;, 30))</code> is true.</li>\n<li><code>HashSet</code> detects duplicates by <code>id</code>.</li>\n<li><code>HashMap</code> lookup works with a new logically equal key.</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: correct-equals-hashcode - Correct equals and hashCode</h2>\n<pre><code>final class Student {\n    private final String id;\n    private final String name;\n    private final int age;\n\n    Student(String id, String name, int age) {\n        this.id = id;\n        this.name = name;\n        this.age = age;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        if (this == other) return true;\n        if (!(other instanceof Student student)) return false;\n        return Objects.equals(id, student.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nStudent s1 = new Student(&quot;101&quot;, &quot;A&quot;, 20);\nStudent s2 = new Student(&quot;101&quot;, &quot;B&quot;, 30);\n\nSystem.out.println(s1.equals(s2)); // true\n\nSet&lt;Student&gt; set = new HashSet&lt;&gt;();\nset.add(s1);\nset.add(s2);\nSystem.out.println(set.size()); // 1\n\nMap&lt;Student, String&gt; map = new HashMap&lt;&gt;();\nmap.put(s1, &quot;present&quot;);\nSystem.out.println(map.get(s2)); // present</code></pre>\n<p>Only <code>id</code> defines business identity, so only <code>id</code> belongs in both methods.</p>"
+                    },
+                    {
+                      "id": "mutable-key-breaks-lookup",
+                      "title": "Mutable Key",
+                      "exerciseHtml": "<h2>Exercise: mutable-key-breaks-lookup - Mutable Key</h2>\n<h3>Goal</h3>\n<p>Observe why mutable identity fields are unsafe in hash-based collections.</p>\n<h3>Task</h3>\n<p>Create a mutable key class where <code>id</code> is used in <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>Insert an object into a <code>HashMap</code>, then mutate its <code>id</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Test <code>map.get(key)</code> after mutation.</li>\n<li>Test <code>map.containsKey(key)</code> after mutation.</li>\n<li>Explain why the object is still present but lookup searches the wrong bucket.</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: mutable-key-breaks-lookup - Mutable Key</h2>\n<pre><code>final class StudentKey {\n    private String id;\n\n    StudentKey(String id) {\n        this.id = id;\n    }\n\n    void setId(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof StudentKey key &amp;&amp; Objects.equals(id, key.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nStudentKey key = new StudentKey(&quot;101&quot;);\nMap&lt;StudentKey, String&gt; map = new HashMap&lt;&gt;();\nmap.put(key, &quot;Asha&quot;);\n\nkey.setId(&quot;202&quot;);\n\nSystem.out.println(map.get(key));         // usually null\nSystem.out.println(map.containsKey(key)); // usually false</code></pre>\n<p>The map stored the entry in the bucket for <code>&quot;101&quot;</code>. After mutation, lookup computes the bucket for <code>&quot;202&quot;</code>. The entry still exists, but lookup searches the wrong place.</p>"
+                    },
+                    {
+                      "id": "comparison-apis",
+                      "title": "Comparison APIs",
+                      "exerciseHtml": "<h2>Exercise: comparison-apis - Comparison APIs</h2>\n<h3>Goal</h3>\n<p>Choose the right equality API.</p>\n<h3>Task</h3>\n<p>Experiment with:</p>\n<ul>\n<li><code>==</code></li>\n<li><code>.equals()</code></li>\n<li><code>Objects.equals()</code></li>\n</ul>\n<p>Include:</p>\n<ul>\n<li>string literals</li>\n<li>two different <code>new String(...)</code> objects with same content</li>\n<li><code>null</code> values</li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Explain when to use <code>==</code>.</li>\n<li>Explain when to use <code>.equals()</code>.</li>\n<li>Explain when <code>Objects.equals()</code> is safer.</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: comparison-apis - Comparison APIs</h2>\n<pre><code>String literalA = &quot;java&quot;;\nString literalB = &quot;java&quot;;\nString heapA = new String(&quot;java&quot;);\nString heapB = new String(&quot;java&quot;);\nString missing = null;\n\nSystem.out.println(literalA == literalB);          // true, same interned object\nSystem.out.println(heapA == heapB);                // false, different objects\nSystem.out.println(heapA.equals(heapB));           // true, same content\nSystem.out.println(Objects.equals(missing, heapA));// false, null-safe\nSystem.out.println(Objects.equals(missing, null)); // true</code></pre>\n<p>Use <code>==</code> for primitives or intentional identity checks. Use <code>.equals()</code> for non-null object value equality. Use <code>Objects.equals()</code> when either side may be null.</p>"
+                    },
+                    {
                       "id": "equals-override",
                       "title": "Override equals",
                       "exerciseHtml": "<h2>Exercise: equals-override - Override equals</h2>\n<h3>Goal</h3>\n<p>Implement a correct, 5-rule <code>equals</code> method.</p>\n<h3>Task</h3>\n<p>Create a <code>Person</code> class with fields <code>String name</code> and <code>int age</code>. Override <code>equals</code> following the five-rule shape:</p>\n<p>1. same reference shortcut</p>\n<p>2. null-safe + type check (instanceof)</p>\n<p>3. cast</p>\n<p>4. compare fields</p>\n<h3>Checks</h3>\n<ul>\n<li>Verify in <code>main</code>:</li>\n<li><code>p1.equals(p1)</code> → true (reflexive)</li>\n<li><code>p1.equals(p2)</code> → true when same name+age (symmetric)</li>\n<li><code>p1.equals(p3)</code> → false (different values)</li>\n<li><code>p1.equals(null)</code> → false (null-safe)</li>\n<li><code>p1.equals(&quot;Alice&quot;)</code> → false (type check)</li>\n</ul>",
@@ -1895,6 +1952,20 @@
               "assets": false
             },
             "items": [
+              {
+                "text": "Collections Cheat Sheet",
+                "link": "/java/collections/cheatsheet/",
+                "order": 0,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
               {
                 "text": "Lists in Java — types, choices, and the Array trap",
                 "link": "/java/collections/lists/",
@@ -2049,6 +2120,76 @@
                 "practiceSet": {
                   "questions": [
                     {
+                      "id": "basic-hashmap-operations",
+                      "title": "Basic HashMap Operations",
+                      "exerciseHtml": "<h2>Exercise: basic-hashmap-operations - Basic HashMap Operations</h2>\n<h3>Objective</h3>\n<p>Practice core <code>HashMap</code> operations.</p>\n<h3>Task</h3>\n<p>Create a <code>HashMap&lt;String, Integer&gt;</code> for student marks.</p>\n<p>Use:</p>\n<ul>\n<li><code>put</code></li>\n<li><code>get</code></li>\n<li><code>containsKey</code></li>\n<li><code>containsValue</code></li>\n<li><code>remove</code></li>\n<li><code>replace</code></li>\n<li><code>getOrDefault</code></li>\n<li><code>size</code></li>\n<li><code>isEmpty</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Can you explain what each operation returns?</li>\n<li>What happens when you call <code>get()</code> for a missing key?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: basic-hashmap-operations - Basic HashMap Operations</h2>\n<pre><code>Map&lt;String, Integer&gt; marks = new HashMap&lt;&gt;();\n\nmarks.put(&quot;Asha&quot;, 90);\nmarks.put(&quot;Ravi&quot;, 82);\n\nSystem.out.println(marks.get(&quot;Asha&quot;));              // 90\nSystem.out.println(marks.containsKey(&quot;Ravi&quot;));      // true\nSystem.out.println(marks.containsValue(82));        // true\nSystem.out.println(marks.getOrDefault(&quot;Mina&quot;, 0));  // 0\n\nmarks.replace(&quot;Ravi&quot;, 88);\nmarks.remove(&quot;Asha&quot;);\n\nSystem.out.println(marks.size());\nSystem.out.println(marks.isEmpty());</code></pre>\n<p><code>get()</code> returns <code>null</code> for a missing key unless you use <code>getOrDefault()</code>.</p>"
+                    },
+                    {
+                      "id": "duplicate-keys",
+                      "title": "Duplicate Keys",
+                      "exerciseHtml": "<h2>Exercise: duplicate-keys - Duplicate Keys</h2>\n<h3>Objective</h3>\n<p>Understand that map keys are unique.</p>\n<h3>Task</h3>\n<p>Insert the same key multiple times into a <code>HashMap</code>.</p>\n<p>Observe:</p>\n<ul>\n<li>return value from <code>put()</code></li>\n<li>final value stored for that key</li>\n<li>final map size</li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Does duplicate <code>put()</code> add a second entry or replace the old value?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: duplicate-keys - Duplicate Keys</h2>\n<pre><code>Map&lt;String, Integer&gt; marks = new HashMap&lt;&gt;();\n\nSystem.out.println(marks.put(&quot;Asha&quot;, 80)); // null\nSystem.out.println(marks.put(&quot;Asha&quot;, 95)); // 80\n\nSystem.out.println(marks.get(&quot;Asha&quot;));     // 95\nSystem.out.println(marks.size());          // 1</code></pre>\n<p>Duplicate keys replace the old value. <code>put()</code> returns the previous value, or <code>null</code> if no mapping existed.</p>"
+                    },
+                    {
+                      "id": "frequency-counter",
+                      "title": "Frequency Counter",
+                      "exerciseHtml": "<h2>Exercise: frequency-counter - Frequency Counter</h2>\n<h3>Objective</h3>\n<p>Use a map as a counting table.</p>\n<h3>Task</h3>\n<p>Given an <code>int[]</code>, return the frequency of every number.</p>\n<p>Use:</p>\n<pre><code>getOrDefault()</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Does each unique number appear exactly once in the result?</li>\n<li>Are counts correct for repeated numbers?</li>\n</ul>",
+                      "starterCode": "getOrDefault()",
+                      "solutionHtml": "<h2>Solution: frequency-counter - Frequency Counter</h2>\n<pre><code>int[] nums = {1, 2, 1, 3, 2, 1};\nMap&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();\n\nfor (int num : nums) {\n    freq.put(num, freq.getOrDefault(num, 0) + 1);\n}\n\nSystem.out.println(freq); // {1=3, 2=2, 3=1}</code></pre>\n<p>Map key = number. Map value = count.</p>"
+                    },
+                    {
+                      "id": "word-frequency",
+                      "title": "Word Frequency",
+                      "exerciseHtml": "<h2>Exercise: word-frequency - Word Frequency</h2>\n<h3>Objective</h3>\n<p>Count words with a <code>HashMap</code>.</p>\n<h3>Task</h3>\n<p>Given a paragraph, count occurrences of every word.</p>\n<p>Ignore punctuation.</p>\n<h3>Checks</h3>\n<ul>\n<li>Are words normalized consistently?</li>\n<li>Are punctuation marks excluded from keys?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: word-frequency - Word Frequency</h2>\n<pre><code>String paragraph = &quot;Java, Java maps. Maps count words!&quot;;\nString cleaned = paragraph.toLowerCase().replaceAll(&quot;[^a-z0-9\\\\s]&quot;, &quot;&quot;);\n\nMap&lt;String, Integer&gt; freq = new HashMap&lt;&gt;();\nfor (String word : cleaned.split(&quot;\\\\s+&quot;)) {\n    if (!word.isBlank()) {\n        freq.put(word, freq.getOrDefault(word, 0) + 1);\n    }\n}\n\nSystem.out.println(freq);</code></pre>\n<p>Normalize case and remove punctuation before counting, otherwise <code>&quot;Java&quot;</code> and <code>&quot;java,&quot;</code> become different keys.</p>"
+                    },
+                    {
+                      "id": "first-non-repeating-character",
+                      "title": "First Non-Repeating Character",
+                      "exerciseHtml": "<h2>Exercise: first-non-repeating-character - First Non-Repeating Character</h2>\n<h3>Objective</h3>\n<p>Use character frequencies to solve a classic string problem.</p>\n<h3>Task</h3>\n<p>Given a string, return the first character whose frequency is one.</p>\n<p>Use <code>HashMap</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Does the answer preserve original character order?</li>\n<li>What do you return when no such character exists?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: first-non-repeating-character - First Non-Repeating Character</h2>\n<pre><code>String input = &quot;swiss&quot;;\nMap&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;();\n\nfor (char ch : input.toCharArray()) {\n    freq.put(ch, freq.getOrDefault(ch, 0) + 1);\n}\n\nCharacter answer = null;\nfor (char ch : input.toCharArray()) {\n    if (freq.get(ch) == 1) {\n        answer = ch;\n        break;\n    }\n}\n\nSystem.out.println(answer); // w</code></pre>\n<p>Count first, then scan original order. Frequency maps do not preserve input order by themselves.</p>"
+                    },
+                    {
+                      "id": "group-anagrams",
+                      "title": "Group Anagrams",
+                      "exerciseHtml": "<h2>Exercise: group-anagrams - Group Anagrams</h2>\n<h3>Objective</h3>\n<p>Use a map to group related values.</p>\n<h3>Task</h3>\n<p>Group words that are anagrams.</p>\n<p>Use <code>HashMap</code>.</p>\n<p>Do not use streams.</p>\n<h3>Checks</h3>\n<ul>\n<li>Do anagrams land in the same group?</li>\n<li>Do non-anagrams stay separate?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: group-anagrams - Group Anagrams</h2>\n<pre><code>String[] words = {&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;};\nMap&lt;String, List&lt;String&gt;&gt; groups = new HashMap&lt;&gt;();\n\nfor (String word : words) {\n    char[] chars = word.toCharArray();\n    Arrays.sort(chars);\n    String key = new String(chars);\n\n    groups.computeIfAbsent(key, ignored -&gt; new ArrayList&lt;&gt;()).add(word);\n}\n\nSystem.out.println(groups.values());</code></pre>\n<p>Sorted letters form the grouping key. All anagrams produce the same key.</p>"
+                    },
+                    {
+                      "id": "mutable-key-experiment",
+                      "title": "Mutable Key Experiment",
+                      "exerciseHtml": "<h2>Exercise: mutable-key-experiment - Mutable Key Experiment</h2>\n<h3>Objective</h3>\n<p>See why map keys should be immutable.</p>\n<h3>Task</h3>\n<p>Create a custom class and use it as a <code>HashMap</code> key.</p>\n<p>After insertion, modify a field used by <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>Observe:</p>\n<ul>\n<li><code>get()</code></li>\n<li><code>containsKey()</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Write a one-line explanation of the result.</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: mutable-key-experiment - Mutable Key Experiment</h2>\n<pre><code>class EmployeeKey {\n    String id;\n\n    EmployeeKey(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof EmployeeKey key &amp;&amp; Objects.equals(id, key.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nMap&lt;EmployeeKey, String&gt; employees = new HashMap&lt;&gt;();\nEmployeeKey key = new EmployeeKey(&quot;E1&quot;);\nemployees.put(key, &quot;Asha&quot;);\n\nkey.id = &quot;E2&quot;;\n\nSystem.out.println(employees.get(key));         // usually null\nSystem.out.println(employees.containsKey(key)); // usually false</code></pre>\n<p>Changing a key field after insertion changes the hash, so HashMap searches the wrong bucket.</p>"
+                    },
+                    {
+                      "id": "linkedhashmap-insertion-order",
+                      "title": "LinkedHashMap Insertion Order",
+                      "exerciseHtml": "<h2>Exercise: linkedhashmap-insertion-order - LinkedHashMap Insertion Order</h2>\n<h3>Objective</h3>\n<p>Verify insertion-order iteration.</p>\n<h3>Task</h3>\n<p>Store employee IDs in a <code>LinkedHashMap</code>.</p>\n<p>Print them and verify insertion order.</p>\n<h3>Checks</h3>\n<ul>\n<li>Does iteration match insertion order?</li>\n<li>How would <code>HashMap</code> differ?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: linkedhashmap-insertion-order - LinkedHashMap Insertion Order</h2>\n<pre><code>Map&lt;Integer, String&gt; employees = new LinkedHashMap&lt;&gt;();\nemployees.put(103, &quot;Asha&quot;);\nemployees.put(101, &quot;Ravi&quot;);\nemployees.put(102, &quot;Mina&quot;);\n\nfor (Integer id : employees.keySet()) {\n    System.out.println(id);\n}</code></pre>\n<p><code>LinkedHashMap</code> preserves insertion order. <code>HashMap</code> gives no ordering guarantee.</p>"
+                    },
+                    {
+                      "id": "treemap-navigation",
+                      "title": "TreeMap Navigation",
+                      "exerciseHtml": "<h2>Exercise: treemap-navigation - TreeMap Navigation</h2>\n<h3>Objective</h3>\n<p>Practice sorted map navigation.</p>\n<h3>Task</h3>\n<p>Insert random integers into a <code>TreeMap</code>.</p>\n<p>Try:</p>\n<ul>\n<li><code>firstKey()</code></li>\n<li><code>lastKey()</code></li>\n<li><code>higherKey()</code></li>\n<li><code>lowerKey()</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Are keys automatically sorted?</li>\n<li>What do <code>higherKey()</code> and <code>lowerKey()</code> return for boundary values?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: treemap-navigation - TreeMap Navigation</h2>\n<pre><code>TreeMap&lt;Integer, String&gt; ranks = new TreeMap&lt;&gt;();\nranks.put(30, &quot;Bronze&quot;);\nranks.put(10, &quot;Gold&quot;);\nranks.put(20, &quot;Silver&quot;);\n\nSystem.out.println(ranks.keySet());      // [10, 20, 30]\nSystem.out.println(ranks.firstKey());    // 10\nSystem.out.println(ranks.lastKey());     // 30\nSystem.out.println(ranks.higherKey(20)); // 30\nSystem.out.println(ranks.lowerKey(20));  // 10</code></pre>\n<p><code>TreeMap</code> keeps keys sorted and supports navigation in O(log n).</p>"
+                    },
+                    {
+                      "id": "student-marks-system",
+                      "title": "Student Marks System",
+                      "exerciseHtml": "<h2>Exercise: student-marks-system - Student Marks System</h2>\n<h3>Objective</h3>\n<p>Choose the correct <code>Map</code> implementation for a small problem.</p>\n<h3>Task</h3>\n<p>Build a student marks system.</p>\n<p>Support:</p>\n<ul>\n<li>add student</li>\n<li>update marks</li>\n<li>lookup marks</li>\n<li>remove student</li>\n<li>print topper</li>\n<li>print all students alphabetically</li>\n</ul>\n<p>Choose the appropriate <code>Map</code> implementation and explain why.</p>\n<h3>Checks</h3>\n<ul>\n<li>Does the implementation support alphabetical output naturally?</li>\n<li>Is topper calculation correct?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: student-marks-system - Student Marks System</h2>\n<pre><code>TreeMap&lt;String, Integer&gt; marks = new TreeMap&lt;&gt;();\n\nmarks.put(&quot;Ravi&quot;, 82);\nmarks.put(&quot;Asha&quot;, 91);\nmarks.put(&quot;Mina&quot;, 88);\n\nmarks.replace(&quot;Ravi&quot;, 86);\nSystem.out.println(marks.get(&quot;Asha&quot;));\nmarks.remove(&quot;Mina&quot;);\n\nMap.Entry&lt;String, Integer&gt; topper = null;\nfor (Map.Entry&lt;String, Integer&gt; entry : marks.entrySet()) {\n    if (topper == null || entry.getValue() &gt; topper.getValue()) {\n        topper = entry;\n    }\n}\n\nSystem.out.println(&quot;Topper: &quot; + topper);\nSystem.out.println(&quot;Alphabetical: &quot; + marks);</code></pre>\n<p>Use <code>TreeMap</code> because system must print students alphabetically by name. Topper still needs a scan unless you maintain a second index.</p>"
+                    },
+                    {
                       "id": "shallow-immutability-trap",
                       "title": "Shallow Immutability",
                       "exerciseHtml": "<h2>Exercise: shallow-immutability-trap - Shallow Immutability</h2>\n<h3>Goal</h3>\n<p>Understand that <code>Map.of()</code> freezes the map structure, but does not freeze mutable value objects.</p>\n<h3>Task</h3>\n<p>Create a <code>List&lt;String&gt; mutableList = new ArrayList&lt;&gt;(); mutableList.add(&quot;A&quot;);</code>.</p>\n<p>Create a map: <code>Map&lt;String, List&lt;String&gt;&gt; map = Map.of(&quot;items&quot;, mutableList);</code>.</p>\n<p>Attempt to add an item to the list through the map: <code>map.get(&quot;items&quot;).add(&quot;B&quot;);</code>.</p>\n<p>Print the map.</p>\n<h3>Checks</h3>\n<ul>\n<li>Did the <code>add(&quot;B&quot;)</code> operation succeed? Why doesn't <code>Map.of</code> prevent this?</li>\n</ul>",
@@ -2084,14 +2225,98 @@
                       "title": "Silent Dedupe vs Fail Fast",
                       "exerciseHtml": "<h2>Exercise: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<h3>Goal</h3>\n<p>Observe the difference in how <code>HashSet</code> and <code>Set.of()</code> handle duplicate inputs.</p>\n<h3>Task</h3>\n<p>Create a <code>HashSet</code> using a list with duplicates: <code>new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));</code>. Print its size.</p>\n<p>Create an immutable set using the factory method with duplicates: <code>Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>What is the size of the <code>HashSet</code>? Did it warn you about the duplicate?</li>\n<li>What exception is thrown by <code>Set.of</code>? Why is throwing an exception often better for literal collections?</li>\n</ul>",
                       "starterCode": "",
-                      "solutionHtml": "<h2>Solution: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<pre><code>Set&lt;String&gt; hashSet = new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));\nSystem.out.println(hashSet.size()); // Prints 2 (Silently deduplicated)\n\n// Set&lt;String&gt; immutableSet = Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;); \n// Throws IllegalArgumentException: duplicate element: A</code></pre>\n<p><code>HashSet</code> operates normally, finding the existing element in the bucket and overwriting it, resulting in a size of 2. <code>Set.of()</code> is designed to fail fast. If you are hardcoding a literal collection, providing duplicates is almost certainly a bug, so the factory rejects it immediately.</p>"
+                      "solutionHtml": "<h2>Solution: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<pre><code>Set&lt;String&gt; hashSet = new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));\nSystem.out.println(hashSet.size()); // Prints 2 (Silently deduplicated)\n\n// Set&lt;String&gt; immutableSet = Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;);\n// Throws IllegalArgumentException: duplicate element: A</code></pre>\n<p><code>HashSet</code> operates normally, finding the existing element in the bucket and overwriting it, resulting in a size of 2. <code>Set.of()</code> is designed to fail fast. If you are hardcoding a literal collection, providing duplicates is almost certainly a bug, so the factory rejects it immediately.</p>"
+                    },
+                    {
+                      "id": "basic-hashset-operations",
+                      "title": "Basic HashSet Operations",
+                      "exerciseHtml": "<h2>Exercise: basic-hashset-operations - Basic HashSet Operations</h2>\n<h3>Objective</h3>\n<p>Become comfortable with HashSet.</p>\n<h3>Problem</h3>\n<p>Create a HashSet.</p>\n<p>Perform:</p>\n<ul>\n<li>add</li>\n<li>remove</li>\n<li>contains</li>\n<li>size</li>\n<li>isEmpty</li>\n</ul>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: basic-hashset-operations - Basic HashSet Operations</h2>\n<pre><code>public void basicOps() {\n    Set&lt;String&gt; set = new HashSet&lt;&gt;();\n    set.add(&quot;A&quot;);\n    set.add(&quot;B&quot;);\n    System.out.println(set.contains(&quot;A&quot;)); // true\n    set.remove(&quot;A&quot;);\n    System.out.println(set.size()); // 1\n    System.out.println(set.isEmpty()); // false\n}</code></pre>"
+                    },
+                    {
+                      "id": "understanding-add",
+                      "title": "Understanding add()",
+                      "exerciseHtml": "<h2>Exercise: understanding-add - Understanding add()</h2>\n<h3>Objective</h3>\n<p>Understand the boolean returned by <code>add()</code>.</p>\n<h3>Problem</h3>\n<p>Insert duplicate values.</p>\n<p>Print the return value of every <code>add()</code> call.</p>\n<p>Explain the output.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: understanding-add - Understanding add()</h2>\n<pre><code>public void understandAdd() {\n    Set&lt;String&gt; set = new HashSet&lt;&gt;();\n    System.out.println(set.add(&quot;A&quot;)); // true\n    System.out.println(set.add(&quot;B&quot;)); // true\n    System.out.println(set.add(&quot;A&quot;)); // false\n    // false is returned when the element is already present\n}</code></pre>"
+                    },
+                    {
+                      "id": "remove-duplicates",
+                      "title": "Remove Duplicates",
+                      "exerciseHtml": "<h2>Exercise: remove-duplicates - Remove Duplicates</h2>\n<h3>Objective</h3>\n<p>Convert a List into unique values.</p>\n<h3>Problem</h3>\n<p>Given a List of integers containing duplicates,</p>\n<p>return only unique elements using a HashSet.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: remove-duplicates - Remove Duplicates</h2>\n<pre><code>public Set&lt;Integer&gt; removeDuplicates(List&lt;Integer&gt; list) {\n    return new HashSet&lt;&gt;(list);\n}</code></pre>"
+                    },
+                    {
+                      "id": "preserve-order",
+                      "title": "Preserve Order",
+                      "exerciseHtml": "<h2>Exercise: preserve-order - Preserve Order</h2>\n<h3>Objective</h3>\n<p>Learn LinkedHashSet.</p>\n<h3>Problem</h3>\n<p>Remove duplicates while preserving insertion order.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: preserve-order - Preserve Order</h2>\n<pre><code>public Set&lt;Integer&gt; preserveOrder(List&lt;Integer&gt; list) {\n    return new LinkedHashSet&lt;&gt;(list);\n}</code></pre>"
                     },
                     {
                       "id": "linked-hash-set",
                       "title": "Preserving Insertion Order",
-                      "exerciseHtml": "<h2>Exercise: linked-hash-set - Preserving Insertion Order</h2>\n<h3>Goal</h3>\n<p>See how <code>LinkedHashSet</code> solves the unpredictable iteration order of a regular <code>HashSet</code>.</p>\n<h3>Task</h3>\n<p>Create a <code>HashSet&lt;Integer&gt;</code>. Add the numbers <code>10</code>, <code>1</code>, <code>5</code>, and <code>20</code>. Print the set.</p>\n<p>Create a <code>LinkedHashSet&lt;Integer&gt;</code>. Add the same numbers in the same order. Print the set.</p>\n<h3>Checks</h3>\n<ul>\n<li>Which set prints the elements exactly in the order you inserted them (<code>[10, 1, 5, 20]</code>)?</li>\n<li>Which set prints them in a seemingly random bucket order?</li>\n</ul>",
+                      "exerciseHtml": "<h2>Exercise: linked-hash-set - Preserving Insertion Order</h2>\n<h3>Goal</h3>\n<p>See how <code>LinkedHashSet</code> solves the unpredictable iteration order of a regular <code>HashSet</code>.</p>\n<h3>Task</h3>\n<p>Create a <code>HashSet&lt;Integer&gt;</code>. Add the numbers <code>10</code>, <code>1</code>, <code>5</code>, and <code>20</code>. Print the set.</p>\n<p>Create a <code>LinkedHashSet&lt;Integer&gt;</code>. Add the same numbers in the same order. Print the set.</p>\n<h3>Checks</h3>\n<ul>\n<li>Which set prints the elements exactly in the order you inserted them (<code>[10, 1, 5, 20]</code>)?</li>\n<li>Which set prints them in a seemingly random bucket order?</li>\n</ul>\n<p>---</p>",
                       "starterCode": "",
                       "solutionHtml": "<h2>Solution: linked-hash-set - Preserving Insertion Order</h2>\n<pre><code>Set&lt;Integer&gt; hashSet = new HashSet&lt;&gt;();\nhashSet.add(10); hashSet.add(1); hashSet.add(5); hashSet.add(20);\nSystem.out.println(hashSet); // Prints e.g., [1, 20, 5, 10] (Unpredictable)\n\nSet&lt;Integer&gt; linkedSet = new LinkedHashSet&lt;&gt;();\nlinkedSet.add(10); linkedSet.add(1); linkedSet.add(5); linkedSet.add(20);\nSystem.out.println(linkedSet); // Prints [10, 1, 5, 20] (Insertion order)</code></pre>\n<p><code>HashSet</code> iterates in bucket-walk order, which looks like random noise to the user and changes whenever the internal array resizes. <code>LinkedHashSet</code> pays the overhead of maintaining an internal doubly-linked list through all its entries, precisely so it can guarantee iteration matches insertion order.</p>"
+                    },
+                    {
+                      "id": "sorting",
+                      "title": "Sorting",
+                      "exerciseHtml": "<h2>Exercise: sorting - Sorting</h2>\n<h3>Objective</h3>\n<p>Learn TreeSet.</p>\n<h3>Problem</h3>\n<p>Insert random integers into a TreeSet.</p>\n<p>Print the final order.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: sorting - Sorting</h2>\n<pre><code>public void sortWithTreeSet(List&lt;Integer&gt; list) {\n    Set&lt;Integer&gt; set = new TreeSet&lt;&gt;(list);\n    System.out.println(set);\n}</code></pre>"
+                    },
+                    {
+                      "id": "null-handling",
+                      "title": "Null Handling",
+                      "exerciseHtml": "<h2>Exercise: null-handling - Null Handling</h2>\n<h3>Objective</h3>\n<p>Understand null behavior.</p>\n<h3>Problem</h3>\n<p>Experiment with:</p>\n<ul>\n<li>HashSet</li>\n<li>LinkedHashSet</li>\n<li>TreeSet</li>\n</ul>\n<p>Observe which accept null and which don't.</p>\n<p>Write one-line explanation.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: null-handling - Null Handling</h2>\n<pre><code>public void nullHandling() {\n    Set&lt;String&gt; hashSet = new HashSet&lt;&gt;();\n    hashSet.add(null); // Allowed\n\n    Set&lt;String&gt; linkedHashSet = new LinkedHashSet&lt;&gt;();\n    linkedHashSet.add(null); // Allowed\n\n    Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;();\n    // treeSet.add(null); // NullPointerException\n}</code></pre>\n<p><code>HashSet</code> and <code>LinkedHashSet</code> support one null element. <code>TreeSet</code> throws NPE because it cannot compare null to other elements.</p>"
+                    },
+                    {
+                      "id": "union",
+                      "title": "Union",
+                      "exerciseHtml": "<h2>Exercise: union - Union</h2>\n<h3>Objective</h3>\n<p>Practice basic Set operations.</p>\n<h3>Problem</h3>\n<p>Given two sets,</p>\n<p>return their union.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: union - Union</h2>\n<pre><code>public Set&lt;Integer&gt; union(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.addAll(b); // Union\n    return result;\n}</code></pre>"
+                    },
+                    {
+                      "id": "intersection",
+                      "title": "Intersection",
+                      "exerciseHtml": "<h2>Exercise: intersection - Intersection</h2>\n<h3>Objective</h3>\n<p>Practice common interview operation.</p>\n<h3>Problem</h3>\n<p>Return common elements between two sets.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: intersection - Intersection</h2>\n<pre><code>public Set&lt;Integer&gt; intersection(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.retainAll(b); // Intersection\n    return result;\n}</code></pre>"
+                    },
+                    {
+                      "id": "difference",
+                      "title": "Difference",
+                      "exerciseHtml": "<h2>Exercise: difference - Difference</h2>\n<h3>Objective</h3>\n<p>Practice Set subtraction.</p>\n<h3>Problem</h3>\n<p>Return elements present in Set A but not Set B.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: difference - Difference</h2>\n<pre><code>public Set&lt;Integer&gt; difference(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.removeAll(b); // Difference\n    return result;\n}</code></pre>"
+                    },
+                    {
+                      "id": "contains-performance",
+                      "title": "contains() Performance",
+                      "exerciseHtml": "<h2>Exercise: contains-performance - contains() Performance</h2>\n<h3>Objective</h3>\n<p>Build intuition.</p>\n<h3>Problem</h3>\n<p>Compare searching using:</p>\n<ul>\n<li>List</li>\n<li>HashSet</li>\n</ul>\n<p>for a large collection.</p>\n<p>Record observations.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: contains-performance - contains() Performance</h2>\n<pre><code>public void performance() {\n    List&lt;Integer&gt; list = new ArrayList&lt;&gt;();\n    Set&lt;Integer&gt; set = new HashSet&lt;&gt;();\n    for (int i = 0; i &lt; 1_000_000; i++) {\n        list.add(i);\n        set.add(i);\n    }\n\n    long start1 = System.nanoTime();\n    list.contains(999_999);\n    long end1 = System.nanoTime();\n\n    long start2 = System.nanoTime();\n    set.contains(999_999);\n    long end2 = System.nanoTime();\n\n    System.out.println(&quot;List: &quot; + (end1 - start1) + &quot; ns&quot;);\n    System.out.println(&quot;Set: &quot; + (end2 - start2) + &quot; ns&quot;);\n}</code></pre>\n<p>HashSet contains is O(1) whereas ArrayList contains is O(n), so Set is orders of magnitude faster for large collections.</p>"
+                    },
+                    {
+                      "id": "unique-visitors",
+                      "title": "Unique Visitors",
+                      "exerciseHtml": "<h2>Exercise: unique-visitors - Unique Visitors</h2>\n<h3>Objective</h3>\n<p>Small real-world problem.</p>\n<h3>Problem</h3>\n<p>Given a stream of user IDs,</p>\n<p>return the number of unique visitors.</p>\n<p>---</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: unique-visitors - Unique Visitors</h2>\n<pre><code>public int countUniqueVisitors(List&lt;String&gt; userIdsStream) {\n    Set&lt;String&gt; uniqueVisitors = new HashSet&lt;&gt;(userIdsStream);\n    return uniqueVisitors.size();\n}</code></pre>"
+                    },
+                    {
+                      "id": "mini-challenge",
+                      "title": "Mini Challenge",
+                      "exerciseHtml": "<h2>Exercise: mini-challenge - Mini Challenge</h2>\n<h3>Objective</h3>\n<p>Combine everything.</p>\n<h3>Problem</h3>\n<p>Given a List of words:</p>\n<ul>\n<li>remove duplicates</li>\n<li>preserve insertion order</li>\n<li>print alphabetically</li>\n<li>print total unique count</li>\n</ul>\n<p>Use the most appropriate Set implementations.</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: mini-challenge - Mini Challenge</h2>\n<pre><code>public void miniChallenge(List&lt;String&gt; words) {\n    // Remove duplicates &amp; preserve order\n    Set&lt;String&gt; linkedSet = new LinkedHashSet&lt;&gt;(words);\n    System.out.println(&quot;Original Order Unique: &quot; + linkedSet);\n\n    // Alphabetical\n    Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;(linkedSet);\n    System.out.println(&quot;Alphabetical: &quot; + treeSet);\n\n    // Total unique\n    System.out.println(&quot;Total Unique: &quot; + linkedSet.size());\n}</code></pre>"
                     }
                   ]
                 },
@@ -4735,6 +4960,20 @@
           "playground": false,
           "assets": false
         }
+      },
+      {
+        "text": "Practice Scratchpad",
+        "link": "/practice/",
+        "order": 1000,
+        "schema": "interactive-code",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": true,
+          "solution": true,
+          "design": false,
+          "playground": true,
+          "assets": false
+        }
       }
     ]
   },
@@ -4866,6 +5105,10 @@
     {
       "text": "Java Collections",
       "link": "/java/collections/"
+    },
+    {
+      "text": "Collections Cheat Sheet",
+      "link": "/java/collections/cheatsheet/"
     },
     {
       "text": "Lists in Java — types, choices, and the Array trap",
@@ -5494,6 +5737,10 @@
     {
       "text": "Live Progress Dashboard",
       "link": "/progress/"
+    },
+    {
+      "text": "Practice Scratchpad",
+      "link": "/practice/"
     }
   ],
   "pageMeta": {
@@ -7074,6 +7321,48 @@
       "practiceSet": {
         "questions": [
           {
+            "id": "default-equality",
+            "title": "Default Equality",
+            "exerciseHtml": "<h2>Exercise: default-equality - Default Equality</h2>\n<h3>Goal</h3>\n<p>Observe default reference-based equality.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with one field: <code>String id</code>.</p>\n<p>Do not override anything.</p>\n<p>Create:</p>\n<pre><code>Student s1 = new Student(&quot;101&quot;);\nStudent s2 = new Student(&quot;101&quot;);</code></pre>\n<p>Print:</p>\n<ul>\n<li><code>s1 == s2</code></li>\n<li><code>s1.equals(s2)</code></li>\n<li><code>s1.hashCode()</code></li>\n<li><code>s2.hashCode()</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Explain why <code>==</code> is false.</li>\n<li>Explain why default <code>equals()</code> is false.</li>\n<li>Explain why the two hash codes are identity-based.</li>\n</ul>",
+            "starterCode": "Student s1 = new Student(\"101\");\nStudent s2 = new Student(\"101\");",
+            "solutionHtml": "<h2>Solution: default-equality - Default Equality</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n}\n\nStudent s1 = new Student(&quot;101&quot;);\nStudent s2 = new Student(&quot;101&quot;);\n\nSystem.out.println(s1 == s2);        // false\nSystem.out.println(s1.equals(s2));   // false\nSystem.out.println(s1.hashCode());   // identity-based\nSystem.out.println(s2.hashCode());   // identity-based</code></pre>\n<p><code>s1</code> and <code>s2</code> are different objects. Default <code>equals()</code> behaves like <code>this == other</code>, so equal-looking state does not matter.</p>"
+          },
+          {
+            "id": "equals-only-breaks-hash-collections",
+            "title": "Override equals Only",
+            "exerciseHtml": "<h2>Exercise: equals-only-breaks-hash-collections - Override equals Only</h2>\n<h3>Goal</h3>\n<p>See why overriding only <code>equals()</code> breaks hash-based collections.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with <code>String id</code>.</p>\n<p>Override only <code>equals()</code> using <code>id</code>.</p>\n<p>Do not override <code>hashCode()</code>.</p>\n<p>Use logically equal objects in:</p>\n<ul>\n<li><code>HashSet&lt;Student&gt;</code></li>\n<li><code>HashMap&lt;Student, String&gt;</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Add <code>new Student(&quot;101&quot;)</code> to a set, then test <code>contains(new Student(&quot;101&quot;))</code>.</li>\n<li>Put <code>new Student(&quot;101&quot;)</code> in a map, then test <code>get(new Student(&quot;101&quot;))</code>.</li>\n<li>Explain why lookup can fail.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: equals-only-breaks-hash-collections - Override equals Only</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof Student student &amp;&amp; Objects.equals(id, student.id);\n    }\n}\n\nSet&lt;Student&gt; students = new HashSet&lt;&gt;();\nstudents.add(new Student(&quot;101&quot;));\nSystem.out.println(students.contains(new Student(&quot;101&quot;))); // often false\n\nMap&lt;Student, String&gt; map = new HashMap&lt;&gt;();\nmap.put(new Student(&quot;101&quot;), &quot;Asha&quot;);\nSystem.out.println(map.get(new Student(&quot;101&quot;))); // often null</code></pre>\n<p>The two objects are equal by <code>equals()</code>, but still have different identity-based hashes. Hash collections search the wrong bucket, so <code>equals()</code> may never run.</p>"
+          },
+          {
+            "id": "hashcode-only-breaks-equality",
+            "title": "Override hashCode Only",
+            "exerciseHtml": "<h2>Exercise: hashcode-only-breaks-equality - Override hashCode Only</h2>\n<h3>Goal</h3>\n<p>See why overriding only <code>hashCode()</code> is also incomplete.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with <code>String id</code>.</p>\n<p>Override only <code>hashCode()</code> using <code>id</code>.</p>\n<p>Keep default <code>equals()</code>.</p>\n<p>Test with:</p>\n<ul>\n<li><code>HashSet&lt;Student&gt;</code></li>\n<li><code>HashMap&lt;Student, String&gt;</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Add or put two different <code>Student(&quot;101&quot;)</code> objects.</li>\n<li>Explain why same bucket is not enough.</li>\n<li>Explain why default <code>equals()</code> still treats them as different objects.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: hashcode-only-breaks-equality - Override hashCode Only</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nSet&lt;Student&gt; students = new HashSet&lt;&gt;();\nstudents.add(new Student(&quot;101&quot;));\nstudents.add(new Student(&quot;101&quot;));\nSystem.out.println(students.size()); // 2</code></pre>\n<p>Both objects land in the same bucket, but default <code>equals()</code> still uses identity. Same bucket is not enough; <code>equals()</code> must also say they match.</p>"
+          },
+          {
+            "id": "correct-equals-hashcode",
+            "title": "Correct equals and hashCode",
+            "exerciseHtml": "<h2>Exercise: correct-equals-hashcode - Correct equals and hashCode</h2>\n<h3>Goal</h3>\n<p>Implement equality correctly using the identity field.</p>\n<h3>Task</h3>\n<p>Create a <code>Student</code> class with:</p>\n<ul>\n<li><code>String id</code></li>\n<li><code>String name</code></li>\n<li><code>int age</code></li>\n</ul>\n<p>Use only <code>id</code> inside <code>equals()</code> and <code>hashCode()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li><code>new Student(&quot;101&quot;, &quot;A&quot;, 20).equals(new Student(&quot;101&quot;, &quot;B&quot;, 30))</code> is true.</li>\n<li><code>HashSet</code> detects duplicates by <code>id</code>.</li>\n<li><code>HashMap</code> lookup works with a new logically equal key.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: correct-equals-hashcode - Correct equals and hashCode</h2>\n<pre><code>final class Student {\n    private final String id;\n    private final String name;\n    private final int age;\n\n    Student(String id, String name, int age) {\n        this.id = id;\n        this.name = name;\n        this.age = age;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        if (this == other) return true;\n        if (!(other instanceof Student student)) return false;\n        return Objects.equals(id, student.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nStudent s1 = new Student(&quot;101&quot;, &quot;A&quot;, 20);\nStudent s2 = new Student(&quot;101&quot;, &quot;B&quot;, 30);\n\nSystem.out.println(s1.equals(s2)); // true\n\nSet&lt;Student&gt; set = new HashSet&lt;&gt;();\nset.add(s1);\nset.add(s2);\nSystem.out.println(set.size()); // 1\n\nMap&lt;Student, String&gt; map = new HashMap&lt;&gt;();\nmap.put(s1, &quot;present&quot;);\nSystem.out.println(map.get(s2)); // present</code></pre>\n<p>Only <code>id</code> defines business identity, so only <code>id</code> belongs in both methods.</p>"
+          },
+          {
+            "id": "mutable-key-breaks-lookup",
+            "title": "Mutable Key",
+            "exerciseHtml": "<h2>Exercise: mutable-key-breaks-lookup - Mutable Key</h2>\n<h3>Goal</h3>\n<p>Observe why mutable identity fields are unsafe in hash-based collections.</p>\n<h3>Task</h3>\n<p>Create a mutable key class where <code>id</code> is used in <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>Insert an object into a <code>HashMap</code>, then mutate its <code>id</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Test <code>map.get(key)</code> after mutation.</li>\n<li>Test <code>map.containsKey(key)</code> after mutation.</li>\n<li>Explain why the object is still present but lookup searches the wrong bucket.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: mutable-key-breaks-lookup - Mutable Key</h2>\n<pre><code>final class StudentKey {\n    private String id;\n\n    StudentKey(String id) {\n        this.id = id;\n    }\n\n    void setId(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof StudentKey key &amp;&amp; Objects.equals(id, key.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nStudentKey key = new StudentKey(&quot;101&quot;);\nMap&lt;StudentKey, String&gt; map = new HashMap&lt;&gt;();\nmap.put(key, &quot;Asha&quot;);\n\nkey.setId(&quot;202&quot;);\n\nSystem.out.println(map.get(key));         // usually null\nSystem.out.println(map.containsKey(key)); // usually false</code></pre>\n<p>The map stored the entry in the bucket for <code>&quot;101&quot;</code>. After mutation, lookup computes the bucket for <code>&quot;202&quot;</code>. The entry still exists, but lookup searches the wrong place.</p>"
+          },
+          {
+            "id": "comparison-apis",
+            "title": "Comparison APIs",
+            "exerciseHtml": "<h2>Exercise: comparison-apis - Comparison APIs</h2>\n<h3>Goal</h3>\n<p>Choose the right equality API.</p>\n<h3>Task</h3>\n<p>Experiment with:</p>\n<ul>\n<li><code>==</code></li>\n<li><code>.equals()</code></li>\n<li><code>Objects.equals()</code></li>\n</ul>\n<p>Include:</p>\n<ul>\n<li>string literals</li>\n<li>two different <code>new String(...)</code> objects with same content</li>\n<li><code>null</code> values</li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Explain when to use <code>==</code>.</li>\n<li>Explain when to use <code>.equals()</code>.</li>\n<li>Explain when <code>Objects.equals()</code> is safer.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: comparison-apis - Comparison APIs</h2>\n<pre><code>String literalA = &quot;java&quot;;\nString literalB = &quot;java&quot;;\nString heapA = new String(&quot;java&quot;);\nString heapB = new String(&quot;java&quot;);\nString missing = null;\n\nSystem.out.println(literalA == literalB);          // true, same interned object\nSystem.out.println(heapA == heapB);                // false, different objects\nSystem.out.println(heapA.equals(heapB));           // true, same content\nSystem.out.println(Objects.equals(missing, heapA));// false, null-safe\nSystem.out.println(Objects.equals(missing, null)); // true</code></pre>\n<p>Use <code>==</code> for primitives or intentional identity checks. Use <code>.equals()</code> for non-null object value equality. Use <code>Objects.equals()</code> when either side may be null.</p>"
+          },
+          {
             "id": "equals-override",
             "title": "Override equals",
             "exerciseHtml": "<h2>Exercise: equals-override - Override equals</h2>\n<h3>Goal</h3>\n<p>Implement a correct, 5-rule <code>equals</code> method.</p>\n<h3>Task</h3>\n<p>Create a <code>Person</code> class with fields <code>String name</code> and <code>int age</code>. Override <code>equals</code> following the five-rule shape:</p>\n<p>1. same reference shortcut</p>\n<p>2. null-safe + type check (instanceof)</p>\n<p>3. cast</p>\n<p>4. compare fields</p>\n<h3>Checks</h3>\n<ul>\n<li>Verify in <code>main</code>:</li>\n<li><code>p1.equals(p1)</code> → true (reflexive)</li>\n<li><code>p1.equals(p2)</code> → true when same name+age (symmetric)</li>\n<li><code>p1.equals(p3)</code> → false (different values)</li>\n<li><code>p1.equals(null)</code> → false (null-safe)</li>\n<li><code>p1.equals(&quot;Alice&quot;)</code> → false (type check)</li>\n</ul>",
@@ -7117,7 +7406,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: equals-override - Override equals</h2>\n<pre><code>public class Person {\n    private String name;\n    private int age;\n\n    public Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true; // 1. identity\n        if (!(o instanceof Person)) return false; // 2. type check + null safe\n        Person person = (Person) o; // 3. cast\n        // 4. field comparisons\n        return age == person.age &amp;&amp; Objects.equals(name, person.name);\n    }\n}</code></pre>\n<h2>Solution: hashcode-override - Override hashCode</h2>\n<pre><code>    @Override\n    public int hashCode() {\n        return Objects.hash(name, age);\n    }</code></pre>\n<h2>Solution: comparable-sort - Comparable sorting</h2>\n<pre><code>public class Person implements Comparable&lt;Person&gt; {\n    // ... fields and constructors ...\n\n    @Override\n    public int compareTo(Person other) {\n        // Correct: prevents underflow vs (this.age - other.age)\n        return Integer.compare(this.age, other.age); \n    }\n}</code></pre>\n<h2>Solution: comparator-sort - Comparator sorting</h2>\n<pre><code>public class Main {\n    public static void main(String[] args) {\n        List&lt;Person&gt; people = new ArrayList&lt;&gt;(List.of(\n            new Person(&quot;Charlie&quot;, 30),\n            new Person(&quot;Alice&quot;, 25),\n            new Person(&quot;Bob&quot;, 30)\n        ));\n\n        // 1. Sort by name\n        people.sort(Comparator.comparing(Person::getName));\n        \n        // 2. Sort by age descending\n        people.sort(Comparator.comparingInt(Person::getAge).reversed());\n        \n        // 3. Sort by age ascending, then name\n        people.sort(\n            Comparator.comparingInt(Person::getAge)\n                      .thenComparing(Person::getName)\n        );\n    }\n}</code></pre>"
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: default-equality - Default Equality</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n}\n\nStudent s1 = new Student(&quot;101&quot;);\nStudent s2 = new Student(&quot;101&quot;);\n\nSystem.out.println(s1 == s2);        // false\nSystem.out.println(s1.equals(s2));   // false\nSystem.out.println(s1.hashCode());   // identity-based\nSystem.out.println(s2.hashCode());   // identity-based</code></pre>\n<p><code>s1</code> and <code>s2</code> are different objects. Default <code>equals()</code> behaves like <code>this == other</code>, so equal-looking state does not matter.</p>\n<h2>Solution: equals-only-breaks-hash-collections - Override equals Only</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof Student student &amp;&amp; Objects.equals(id, student.id);\n    }\n}\n\nSet&lt;Student&gt; students = new HashSet&lt;&gt;();\nstudents.add(new Student(&quot;101&quot;));\nSystem.out.println(students.contains(new Student(&quot;101&quot;))); // often false\n\nMap&lt;Student, String&gt; map = new HashMap&lt;&gt;();\nmap.put(new Student(&quot;101&quot;), &quot;Asha&quot;);\nSystem.out.println(map.get(new Student(&quot;101&quot;))); // often null</code></pre>\n<p>The two objects are equal by <code>equals()</code>, but still have different identity-based hashes. Hash collections search the wrong bucket, so <code>equals()</code> may never run.</p>\n<h2>Solution: hashcode-only-breaks-equality - Override hashCode Only</h2>\n<pre><code>final class Student {\n    private final String id;\n\n    Student(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nSet&lt;Student&gt; students = new HashSet&lt;&gt;();\nstudents.add(new Student(&quot;101&quot;));\nstudents.add(new Student(&quot;101&quot;));\nSystem.out.println(students.size()); // 2</code></pre>\n<p>Both objects land in the same bucket, but default <code>equals()</code> still uses identity. Same bucket is not enough; <code>equals()</code> must also say they match.</p>\n<h2>Solution: correct-equals-hashcode - Correct equals and hashCode</h2>\n<pre><code>final class Student {\n    private final String id;\n    private final String name;\n    private final int age;\n\n    Student(String id, String name, int age) {\n        this.id = id;\n        this.name = name;\n        this.age = age;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        if (this == other) return true;\n        if (!(other instanceof Student student)) return false;\n        return Objects.equals(id, student.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nStudent s1 = new Student(&quot;101&quot;, &quot;A&quot;, 20);\nStudent s2 = new Student(&quot;101&quot;, &quot;B&quot;, 30);\n\nSystem.out.println(s1.equals(s2)); // true\n\nSet&lt;Student&gt; set = new HashSet&lt;&gt;();\nset.add(s1);\nset.add(s2);\nSystem.out.println(set.size()); // 1\n\nMap&lt;Student, String&gt; map = new HashMap&lt;&gt;();\nmap.put(s1, &quot;present&quot;);\nSystem.out.println(map.get(s2)); // present</code></pre>\n<p>Only <code>id</code> defines business identity, so only <code>id</code> belongs in both methods.</p>\n<h2>Solution: mutable-key-breaks-lookup - Mutable Key</h2>\n<pre><code>final class StudentKey {\n    private String id;\n\n    StudentKey(String id) {\n        this.id = id;\n    }\n\n    void setId(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof StudentKey key &amp;&amp; Objects.equals(id, key.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nStudentKey key = new StudentKey(&quot;101&quot;);\nMap&lt;StudentKey, String&gt; map = new HashMap&lt;&gt;();\nmap.put(key, &quot;Asha&quot;);\n\nkey.setId(&quot;202&quot;);\n\nSystem.out.println(map.get(key));         // usually null\nSystem.out.println(map.containsKey(key)); // usually false</code></pre>\n<p>The map stored the entry in the bucket for <code>&quot;101&quot;</code>. After mutation, lookup computes the bucket for <code>&quot;202&quot;</code>. The entry still exists, but lookup searches the wrong place.</p>\n<h2>Solution: comparison-apis - Comparison APIs</h2>\n<pre><code>String literalA = &quot;java&quot;;\nString literalB = &quot;java&quot;;\nString heapA = new String(&quot;java&quot;);\nString heapB = new String(&quot;java&quot;);\nString missing = null;\n\nSystem.out.println(literalA == literalB);          // true, same interned object\nSystem.out.println(heapA == heapB);                // false, different objects\nSystem.out.println(heapA.equals(heapB));           // true, same content\nSystem.out.println(Objects.equals(missing, heapA));// false, null-safe\nSystem.out.println(Objects.equals(missing, null)); // true</code></pre>\n<p>Use <code>==</code> for primitives or intentional identity checks. Use <code>.equals()</code> for non-null object value equality. Use <code>Objects.equals()</code> when either side may be null.</p>\n<h2>Solution: equals-override - Override equals</h2>\n<pre><code>public class Person {\n    private String name;\n    private int age;\n\n    public Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true; // 1. identity\n        if (!(o instanceof Person)) return false; // 2. type check + null safe\n        Person person = (Person) o; // 3. cast\n        // 4. field comparisons\n        return age == person.age &amp;&amp; Objects.equals(name, person.name);\n    }\n}</code></pre>\n<h2>Solution: hashcode-override - Override hashCode</h2>\n<pre><code>    @Override\n    public int hashCode() {\n        return Objects.hash(name, age);\n    }</code></pre>\n<h2>Solution: comparable-sort - Comparable sorting</h2>\n<pre><code>public class Person implements Comparable&lt;Person&gt; {\n    // ... fields and constructors ...\n\n    @Override\n    public int compareTo(Person other) {\n        // Correct: prevents underflow vs (this.age - other.age)\n        return Integer.compare(this.age, other.age); \n    }\n}</code></pre>\n<h2>Solution: comparator-sort - Comparator sorting</h2>\n<pre><code>public class Main {\n    public static void main(String[] args) {\n        List&lt;Person&gt; people = new ArrayList&lt;&gt;(List.of(\n            new Person(&quot;Charlie&quot;, 30),\n            new Person(&quot;Alice&quot;, 25),\n            new Person(&quot;Bob&quot;, 30)\n        ));\n\n        // 1. Sort by name\n        people.sort(Comparator.comparing(Person::getName));\n        \n        // 2. Sort by age descending\n        people.sort(Comparator.comparingInt(Person::getAge).reversed());\n        \n        // 3. Sort by age ascending, then name\n        people.sort(\n            Comparator.comparingInt(Person::getAge)\n                      .thenComparing(Person::getName)\n        );\n    }\n}</code></pre>"
     },
     "/java/oop/equals_hashcode/contracts/": {
       "text": "equals / hashCode / Comparable / Comparator",
@@ -7138,6 +7427,20 @@
       "link": "/java/collections/",
       "pageType": "theory",
       "parentLink": "/java/collections/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/cheatsheet/": {
+      "text": "Collections Cheat Sheet",
+      "link": "/java/collections/cheatsheet/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/cheatsheet/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -7383,6 +7686,76 @@
       "practiceSet": {
         "questions": [
           {
+            "id": "basic-hashmap-operations",
+            "title": "Basic HashMap Operations",
+            "exerciseHtml": "<h2>Exercise: basic-hashmap-operations - Basic HashMap Operations</h2>\n<h3>Objective</h3>\n<p>Practice core <code>HashMap</code> operations.</p>\n<h3>Task</h3>\n<p>Create a <code>HashMap&lt;String, Integer&gt;</code> for student marks.</p>\n<p>Use:</p>\n<ul>\n<li><code>put</code></li>\n<li><code>get</code></li>\n<li><code>containsKey</code></li>\n<li><code>containsValue</code></li>\n<li><code>remove</code></li>\n<li><code>replace</code></li>\n<li><code>getOrDefault</code></li>\n<li><code>size</code></li>\n<li><code>isEmpty</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Can you explain what each operation returns?</li>\n<li>What happens when you call <code>get()</code> for a missing key?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: basic-hashmap-operations - Basic HashMap Operations</h2>\n<pre><code>Map&lt;String, Integer&gt; marks = new HashMap&lt;&gt;();\n\nmarks.put(&quot;Asha&quot;, 90);\nmarks.put(&quot;Ravi&quot;, 82);\n\nSystem.out.println(marks.get(&quot;Asha&quot;));              // 90\nSystem.out.println(marks.containsKey(&quot;Ravi&quot;));      // true\nSystem.out.println(marks.containsValue(82));        // true\nSystem.out.println(marks.getOrDefault(&quot;Mina&quot;, 0));  // 0\n\nmarks.replace(&quot;Ravi&quot;, 88);\nmarks.remove(&quot;Asha&quot;);\n\nSystem.out.println(marks.size());\nSystem.out.println(marks.isEmpty());</code></pre>\n<p><code>get()</code> returns <code>null</code> for a missing key unless you use <code>getOrDefault()</code>.</p>"
+          },
+          {
+            "id": "duplicate-keys",
+            "title": "Duplicate Keys",
+            "exerciseHtml": "<h2>Exercise: duplicate-keys - Duplicate Keys</h2>\n<h3>Objective</h3>\n<p>Understand that map keys are unique.</p>\n<h3>Task</h3>\n<p>Insert the same key multiple times into a <code>HashMap</code>.</p>\n<p>Observe:</p>\n<ul>\n<li>return value from <code>put()</code></li>\n<li>final value stored for that key</li>\n<li>final map size</li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Does duplicate <code>put()</code> add a second entry or replace the old value?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: duplicate-keys - Duplicate Keys</h2>\n<pre><code>Map&lt;String, Integer&gt; marks = new HashMap&lt;&gt;();\n\nSystem.out.println(marks.put(&quot;Asha&quot;, 80)); // null\nSystem.out.println(marks.put(&quot;Asha&quot;, 95)); // 80\n\nSystem.out.println(marks.get(&quot;Asha&quot;));     // 95\nSystem.out.println(marks.size());          // 1</code></pre>\n<p>Duplicate keys replace the old value. <code>put()</code> returns the previous value, or <code>null</code> if no mapping existed.</p>"
+          },
+          {
+            "id": "frequency-counter",
+            "title": "Frequency Counter",
+            "exerciseHtml": "<h2>Exercise: frequency-counter - Frequency Counter</h2>\n<h3>Objective</h3>\n<p>Use a map as a counting table.</p>\n<h3>Task</h3>\n<p>Given an <code>int[]</code>, return the frequency of every number.</p>\n<p>Use:</p>\n<pre><code>getOrDefault()</code></pre>\n<h3>Checks</h3>\n<ul>\n<li>Does each unique number appear exactly once in the result?</li>\n<li>Are counts correct for repeated numbers?</li>\n</ul>",
+            "starterCode": "getOrDefault()",
+            "solutionHtml": "<h2>Solution: frequency-counter - Frequency Counter</h2>\n<pre><code>int[] nums = {1, 2, 1, 3, 2, 1};\nMap&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();\n\nfor (int num : nums) {\n    freq.put(num, freq.getOrDefault(num, 0) + 1);\n}\n\nSystem.out.println(freq); // {1=3, 2=2, 3=1}</code></pre>\n<p>Map key = number. Map value = count.</p>"
+          },
+          {
+            "id": "word-frequency",
+            "title": "Word Frequency",
+            "exerciseHtml": "<h2>Exercise: word-frequency - Word Frequency</h2>\n<h3>Objective</h3>\n<p>Count words with a <code>HashMap</code>.</p>\n<h3>Task</h3>\n<p>Given a paragraph, count occurrences of every word.</p>\n<p>Ignore punctuation.</p>\n<h3>Checks</h3>\n<ul>\n<li>Are words normalized consistently?</li>\n<li>Are punctuation marks excluded from keys?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: word-frequency - Word Frequency</h2>\n<pre><code>String paragraph = &quot;Java, Java maps. Maps count words!&quot;;\nString cleaned = paragraph.toLowerCase().replaceAll(&quot;[^a-z0-9\\\\s]&quot;, &quot;&quot;);\n\nMap&lt;String, Integer&gt; freq = new HashMap&lt;&gt;();\nfor (String word : cleaned.split(&quot;\\\\s+&quot;)) {\n    if (!word.isBlank()) {\n        freq.put(word, freq.getOrDefault(word, 0) + 1);\n    }\n}\n\nSystem.out.println(freq);</code></pre>\n<p>Normalize case and remove punctuation before counting, otherwise <code>&quot;Java&quot;</code> and <code>&quot;java,&quot;</code> become different keys.</p>"
+          },
+          {
+            "id": "first-non-repeating-character",
+            "title": "First Non-Repeating Character",
+            "exerciseHtml": "<h2>Exercise: first-non-repeating-character - First Non-Repeating Character</h2>\n<h3>Objective</h3>\n<p>Use character frequencies to solve a classic string problem.</p>\n<h3>Task</h3>\n<p>Given a string, return the first character whose frequency is one.</p>\n<p>Use <code>HashMap</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Does the answer preserve original character order?</li>\n<li>What do you return when no such character exists?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: first-non-repeating-character - First Non-Repeating Character</h2>\n<pre><code>String input = &quot;swiss&quot;;\nMap&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;();\n\nfor (char ch : input.toCharArray()) {\n    freq.put(ch, freq.getOrDefault(ch, 0) + 1);\n}\n\nCharacter answer = null;\nfor (char ch : input.toCharArray()) {\n    if (freq.get(ch) == 1) {\n        answer = ch;\n        break;\n    }\n}\n\nSystem.out.println(answer); // w</code></pre>\n<p>Count first, then scan original order. Frequency maps do not preserve input order by themselves.</p>"
+          },
+          {
+            "id": "group-anagrams",
+            "title": "Group Anagrams",
+            "exerciseHtml": "<h2>Exercise: group-anagrams - Group Anagrams</h2>\n<h3>Objective</h3>\n<p>Use a map to group related values.</p>\n<h3>Task</h3>\n<p>Group words that are anagrams.</p>\n<p>Use <code>HashMap</code>.</p>\n<p>Do not use streams.</p>\n<h3>Checks</h3>\n<ul>\n<li>Do anagrams land in the same group?</li>\n<li>Do non-anagrams stay separate?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: group-anagrams - Group Anagrams</h2>\n<pre><code>String[] words = {&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;};\nMap&lt;String, List&lt;String&gt;&gt; groups = new HashMap&lt;&gt;();\n\nfor (String word : words) {\n    char[] chars = word.toCharArray();\n    Arrays.sort(chars);\n    String key = new String(chars);\n\n    groups.computeIfAbsent(key, ignored -&gt; new ArrayList&lt;&gt;()).add(word);\n}\n\nSystem.out.println(groups.values());</code></pre>\n<p>Sorted letters form the grouping key. All anagrams produce the same key.</p>"
+          },
+          {
+            "id": "mutable-key-experiment",
+            "title": "Mutable Key Experiment",
+            "exerciseHtml": "<h2>Exercise: mutable-key-experiment - Mutable Key Experiment</h2>\n<h3>Objective</h3>\n<p>See why map keys should be immutable.</p>\n<h3>Task</h3>\n<p>Create a custom class and use it as a <code>HashMap</code> key.</p>\n<p>After insertion, modify a field used by <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>Observe:</p>\n<ul>\n<li><code>get()</code></li>\n<li><code>containsKey()</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Write a one-line explanation of the result.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: mutable-key-experiment - Mutable Key Experiment</h2>\n<pre><code>class EmployeeKey {\n    String id;\n\n    EmployeeKey(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof EmployeeKey key &amp;&amp; Objects.equals(id, key.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nMap&lt;EmployeeKey, String&gt; employees = new HashMap&lt;&gt;();\nEmployeeKey key = new EmployeeKey(&quot;E1&quot;);\nemployees.put(key, &quot;Asha&quot;);\n\nkey.id = &quot;E2&quot;;\n\nSystem.out.println(employees.get(key));         // usually null\nSystem.out.println(employees.containsKey(key)); // usually false</code></pre>\n<p>Changing a key field after insertion changes the hash, so HashMap searches the wrong bucket.</p>"
+          },
+          {
+            "id": "linkedhashmap-insertion-order",
+            "title": "LinkedHashMap Insertion Order",
+            "exerciseHtml": "<h2>Exercise: linkedhashmap-insertion-order - LinkedHashMap Insertion Order</h2>\n<h3>Objective</h3>\n<p>Verify insertion-order iteration.</p>\n<h3>Task</h3>\n<p>Store employee IDs in a <code>LinkedHashMap</code>.</p>\n<p>Print them and verify insertion order.</p>\n<h3>Checks</h3>\n<ul>\n<li>Does iteration match insertion order?</li>\n<li>How would <code>HashMap</code> differ?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: linkedhashmap-insertion-order - LinkedHashMap Insertion Order</h2>\n<pre><code>Map&lt;Integer, String&gt; employees = new LinkedHashMap&lt;&gt;();\nemployees.put(103, &quot;Asha&quot;);\nemployees.put(101, &quot;Ravi&quot;);\nemployees.put(102, &quot;Mina&quot;);\n\nfor (Integer id : employees.keySet()) {\n    System.out.println(id);\n}</code></pre>\n<p><code>LinkedHashMap</code> preserves insertion order. <code>HashMap</code> gives no ordering guarantee.</p>"
+          },
+          {
+            "id": "treemap-navigation",
+            "title": "TreeMap Navigation",
+            "exerciseHtml": "<h2>Exercise: treemap-navigation - TreeMap Navigation</h2>\n<h3>Objective</h3>\n<p>Practice sorted map navigation.</p>\n<h3>Task</h3>\n<p>Insert random integers into a <code>TreeMap</code>.</p>\n<p>Try:</p>\n<ul>\n<li><code>firstKey()</code></li>\n<li><code>lastKey()</code></li>\n<li><code>higherKey()</code></li>\n<li><code>lowerKey()</code></li>\n</ul>\n<h3>Checks</h3>\n<ul>\n<li>Are keys automatically sorted?</li>\n<li>What do <code>higherKey()</code> and <code>lowerKey()</code> return for boundary values?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: treemap-navigation - TreeMap Navigation</h2>\n<pre><code>TreeMap&lt;Integer, String&gt; ranks = new TreeMap&lt;&gt;();\nranks.put(30, &quot;Bronze&quot;);\nranks.put(10, &quot;Gold&quot;);\nranks.put(20, &quot;Silver&quot;);\n\nSystem.out.println(ranks.keySet());      // [10, 20, 30]\nSystem.out.println(ranks.firstKey());    // 10\nSystem.out.println(ranks.lastKey());     // 30\nSystem.out.println(ranks.higherKey(20)); // 30\nSystem.out.println(ranks.lowerKey(20));  // 10</code></pre>\n<p><code>TreeMap</code> keeps keys sorted and supports navigation in O(log n).</p>"
+          },
+          {
+            "id": "student-marks-system",
+            "title": "Student Marks System",
+            "exerciseHtml": "<h2>Exercise: student-marks-system - Student Marks System</h2>\n<h3>Objective</h3>\n<p>Choose the correct <code>Map</code> implementation for a small problem.</p>\n<h3>Task</h3>\n<p>Build a student marks system.</p>\n<p>Support:</p>\n<ul>\n<li>add student</li>\n<li>update marks</li>\n<li>lookup marks</li>\n<li>remove student</li>\n<li>print topper</li>\n<li>print all students alphabetically</li>\n</ul>\n<p>Choose the appropriate <code>Map</code> implementation and explain why.</p>\n<h3>Checks</h3>\n<ul>\n<li>Does the implementation support alphabetical output naturally?</li>\n<li>Is topper calculation correct?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: student-marks-system - Student Marks System</h2>\n<pre><code>TreeMap&lt;String, Integer&gt; marks = new TreeMap&lt;&gt;();\n\nmarks.put(&quot;Ravi&quot;, 82);\nmarks.put(&quot;Asha&quot;, 91);\nmarks.put(&quot;Mina&quot;, 88);\n\nmarks.replace(&quot;Ravi&quot;, 86);\nSystem.out.println(marks.get(&quot;Asha&quot;));\nmarks.remove(&quot;Mina&quot;);\n\nMap.Entry&lt;String, Integer&gt; topper = null;\nfor (Map.Entry&lt;String, Integer&gt; entry : marks.entrySet()) {\n    if (topper == null || entry.getValue() &gt; topper.getValue()) {\n        topper = entry;\n    }\n}\n\nSystem.out.println(&quot;Topper: &quot; + topper);\nSystem.out.println(&quot;Alphabetical: &quot; + marks);</code></pre>\n<p>Use <code>TreeMap</code> because system must print students alphabetically by name. Topper still needs a scan unless you maintain a second index.</p>"
+          },
+          {
             "id": "shallow-immutability-trap",
             "title": "Shallow Immutability",
             "exerciseHtml": "<h2>Exercise: shallow-immutability-trap - Shallow Immutability</h2>\n<h3>Goal</h3>\n<p>Understand that <code>Map.of()</code> freezes the map structure, but does not freeze mutable value objects.</p>\n<h3>Task</h3>\n<p>Create a <code>List&lt;String&gt; mutableList = new ArrayList&lt;&gt;(); mutableList.add(&quot;A&quot;);</code>.</p>\n<p>Create a map: <code>Map&lt;String, List&lt;String&gt;&gt; map = Map.of(&quot;items&quot;, mutableList);</code>.</p>\n<p>Attempt to add an item to the list through the map: <code>map.get(&quot;items&quot;).add(&quot;B&quot;);</code>.</p>\n<p>Print the map.</p>\n<h3>Checks</h3>\n<ul>\n<li>Did the <code>add(&quot;B&quot;)</code> operation succeed? Why doesn't <code>Map.of</code> prevent this?</li>\n</ul>",
@@ -7412,7 +7785,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: shallow-immutability-trap - Shallow Immutability</h2>\n<pre><code>List&lt;String&gt; mutableList = new ArrayList&lt;&gt;();\nmutableList.add(&quot;A&quot;);\n\nMap&lt;String, List&lt;String&gt;&gt; map = Map.of(&quot;items&quot;, mutableList);\nmap.get(&quot;items&quot;).add(&quot;B&quot;); // Succeeds!\n\nSystem.out.println(map); // Prints {items=[A, B]}</code></pre>\n<p><code>Map.of()</code> provides *shallow immutability*. It prevents you from changing which key points to which value (the structure of the map). However, if the value itself is a mutable object (like an <code>ArrayList</code>), anyone with a reference to it can still mutate its internal state. For deep immutability, you must wrap the value in <code>List.copyOf()</code> before putting it in the map.</p>\n<h2>Solution: map-of-mutation - Freezing Map Methods</h2>\n<pre><code>// map.computeIfAbsent(&quot;newKey&quot;, k -&gt; new ArrayList&lt;&gt;()); \n// Throws UnsupportedOperationException</code></pre>\n<p>Every single method that *could* mutate the map throws <code>UnsupportedOperationException</code> immediately when called on a <code>Map.of()</code> instance. <code>computeIfAbsent</code> attempts to put a value if the key is absent, which is a structural mutation, so the method is completely disabled on immutable maps.</p>"
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: basic-hashmap-operations - Basic HashMap Operations</h2>\n<pre><code>Map&lt;String, Integer&gt; marks = new HashMap&lt;&gt;();\n\nmarks.put(&quot;Asha&quot;, 90);\nmarks.put(&quot;Ravi&quot;, 82);\n\nSystem.out.println(marks.get(&quot;Asha&quot;));              // 90\nSystem.out.println(marks.containsKey(&quot;Ravi&quot;));      // true\nSystem.out.println(marks.containsValue(82));        // true\nSystem.out.println(marks.getOrDefault(&quot;Mina&quot;, 0));  // 0\n\nmarks.replace(&quot;Ravi&quot;, 88);\nmarks.remove(&quot;Asha&quot;);\n\nSystem.out.println(marks.size());\nSystem.out.println(marks.isEmpty());</code></pre>\n<p><code>get()</code> returns <code>null</code> for a missing key unless you use <code>getOrDefault()</code>.</p>\n<h2>Solution: duplicate-keys - Duplicate Keys</h2>\n<pre><code>Map&lt;String, Integer&gt; marks = new HashMap&lt;&gt;();\n\nSystem.out.println(marks.put(&quot;Asha&quot;, 80)); // null\nSystem.out.println(marks.put(&quot;Asha&quot;, 95)); // 80\n\nSystem.out.println(marks.get(&quot;Asha&quot;));     // 95\nSystem.out.println(marks.size());          // 1</code></pre>\n<p>Duplicate keys replace the old value. <code>put()</code> returns the previous value, or <code>null</code> if no mapping existed.</p>\n<h2>Solution: frequency-counter - Frequency Counter</h2>\n<pre><code>int[] nums = {1, 2, 1, 3, 2, 1};\nMap&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();\n\nfor (int num : nums) {\n    freq.put(num, freq.getOrDefault(num, 0) + 1);\n}\n\nSystem.out.println(freq); // {1=3, 2=2, 3=1}</code></pre>\n<p>Map key = number. Map value = count.</p>\n<h2>Solution: word-frequency - Word Frequency</h2>\n<pre><code>String paragraph = &quot;Java, Java maps. Maps count words!&quot;;\nString cleaned = paragraph.toLowerCase().replaceAll(&quot;[^a-z0-9\\\\s]&quot;, &quot;&quot;);\n\nMap&lt;String, Integer&gt; freq = new HashMap&lt;&gt;();\nfor (String word : cleaned.split(&quot;\\\\s+&quot;)) {\n    if (!word.isBlank()) {\n        freq.put(word, freq.getOrDefault(word, 0) + 1);\n    }\n}\n\nSystem.out.println(freq);</code></pre>\n<p>Normalize case and remove punctuation before counting, otherwise <code>&quot;Java&quot;</code> and <code>&quot;java,&quot;</code> become different keys.</p>\n<h2>Solution: first-non-repeating-character - First Non-Repeating Character</h2>\n<pre><code>String input = &quot;swiss&quot;;\nMap&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;();\n\nfor (char ch : input.toCharArray()) {\n    freq.put(ch, freq.getOrDefault(ch, 0) + 1);\n}\n\nCharacter answer = null;\nfor (char ch : input.toCharArray()) {\n    if (freq.get(ch) == 1) {\n        answer = ch;\n        break;\n    }\n}\n\nSystem.out.println(answer); // w</code></pre>\n<p>Count first, then scan original order. Frequency maps do not preserve input order by themselves.</p>\n<h2>Solution: group-anagrams - Group Anagrams</h2>\n<pre><code>String[] words = {&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;};\nMap&lt;String, List&lt;String&gt;&gt; groups = new HashMap&lt;&gt;();\n\nfor (String word : words) {\n    char[] chars = word.toCharArray();\n    Arrays.sort(chars);\n    String key = new String(chars);\n\n    groups.computeIfAbsent(key, ignored -&gt; new ArrayList&lt;&gt;()).add(word);\n}\n\nSystem.out.println(groups.values());</code></pre>\n<p>Sorted letters form the grouping key. All anagrams produce the same key.</p>\n<h2>Solution: mutable-key-experiment - Mutable Key Experiment</h2>\n<pre><code>class EmployeeKey {\n    String id;\n\n    EmployeeKey(String id) {\n        this.id = id;\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        return other instanceof EmployeeKey key &amp;&amp; Objects.equals(id, key.id);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(id);\n    }\n}\n\nMap&lt;EmployeeKey, String&gt; employees = new HashMap&lt;&gt;();\nEmployeeKey key = new EmployeeKey(&quot;E1&quot;);\nemployees.put(key, &quot;Asha&quot;);\n\nkey.id = &quot;E2&quot;;\n\nSystem.out.println(employees.get(key));         // usually null\nSystem.out.println(employees.containsKey(key)); // usually false</code></pre>\n<p>Changing a key field after insertion changes the hash, so HashMap searches the wrong bucket.</p>\n<h2>Solution: linkedhashmap-insertion-order - LinkedHashMap Insertion Order</h2>\n<pre><code>Map&lt;Integer, String&gt; employees = new LinkedHashMap&lt;&gt;();\nemployees.put(103, &quot;Asha&quot;);\nemployees.put(101, &quot;Ravi&quot;);\nemployees.put(102, &quot;Mina&quot;);\n\nfor (Integer id : employees.keySet()) {\n    System.out.println(id);\n}</code></pre>\n<p><code>LinkedHashMap</code> preserves insertion order. <code>HashMap</code> gives no ordering guarantee.</p>\n<h2>Solution: treemap-navigation - TreeMap Navigation</h2>\n<pre><code>TreeMap&lt;Integer, String&gt; ranks = new TreeMap&lt;&gt;();\nranks.put(30, &quot;Bronze&quot;);\nranks.put(10, &quot;Gold&quot;);\nranks.put(20, &quot;Silver&quot;);\n\nSystem.out.println(ranks.keySet());      // [10, 20, 30]\nSystem.out.println(ranks.firstKey());    // 10\nSystem.out.println(ranks.lastKey());     // 30\nSystem.out.println(ranks.higherKey(20)); // 30\nSystem.out.println(ranks.lowerKey(20));  // 10</code></pre>\n<p><code>TreeMap</code> keeps keys sorted and supports navigation in O(log n).</p>\n<h2>Solution: student-marks-system - Student Marks System</h2>\n<pre><code>TreeMap&lt;String, Integer&gt; marks = new TreeMap&lt;&gt;();\n\nmarks.put(&quot;Ravi&quot;, 82);\nmarks.put(&quot;Asha&quot;, 91);\nmarks.put(&quot;Mina&quot;, 88);\n\nmarks.replace(&quot;Ravi&quot;, 86);\nSystem.out.println(marks.get(&quot;Asha&quot;));\nmarks.remove(&quot;Mina&quot;);\n\nMap.Entry&lt;String, Integer&gt; topper = null;\nfor (Map.Entry&lt;String, Integer&gt; entry : marks.entrySet()) {\n    if (topper == null || entry.getValue() &gt; topper.getValue()) {\n        topper = entry;\n    }\n}\n\nSystem.out.println(&quot;Topper: &quot; + topper);\nSystem.out.println(&quot;Alphabetical: &quot; + marks);</code></pre>\n<p>Use <code>TreeMap</code> because system must print students alphabetically by name. Topper still needs a scan unless you maintain a second index.</p>\n<h2>Solution: shallow-immutability-trap - Shallow Immutability</h2>\n<pre><code>List&lt;String&gt; mutableList = new ArrayList&lt;&gt;();\nmutableList.add(&quot;A&quot;);\n\nMap&lt;String, List&lt;String&gt;&gt; map = Map.of(&quot;items&quot;, mutableList);\nmap.get(&quot;items&quot;).add(&quot;B&quot;); // Succeeds!\n\nSystem.out.println(map); // Prints {items=[A, B]}</code></pre>\n<p><code>Map.of()</code> provides *shallow immutability*. It prevents you from changing which key points to which value (the structure of the map). However, if the value itself is a mutable object (like an <code>ArrayList</code>), anyone with a reference to it can still mutate its internal state. For deep immutability, you must wrap the value in <code>List.copyOf()</code> before putting it in the map.</p>\n<h2>Solution: map-of-mutation - Freezing Map Methods</h2>\n<pre><code>// map.computeIfAbsent(&quot;newKey&quot;, k -&gt; new ArrayList&lt;&gt;()); \n// Throws UnsupportedOperationException</code></pre>\n<p>Every single method that *could* mutate the map throws <code>UnsupportedOperationException</code> immediately when called on a <code>Map.of()</code> instance. <code>computeIfAbsent</code> attempts to put a value if the key is absent, which is a structural mutation, so the method is completely disabled on immutable maps.</p>"
     },
     "/java/collections/sets/": {
       "text": "Sets in Java — types, choices, and the dedup trap",
@@ -7448,14 +7821,98 @@
             "title": "Silent Dedupe vs Fail Fast",
             "exerciseHtml": "<h2>Exercise: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<h3>Goal</h3>\n<p>Observe the difference in how <code>HashSet</code> and <code>Set.of()</code> handle duplicate inputs.</p>\n<h3>Task</h3>\n<p>Create a <code>HashSet</code> using a list with duplicates: <code>new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));</code>. Print its size.</p>\n<p>Create an immutable set using the factory method with duplicates: <code>Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>What is the size of the <code>HashSet</code>? Did it warn you about the duplicate?</li>\n<li>What exception is thrown by <code>Set.of</code>? Why is throwing an exception often better for literal collections?</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<pre><code>Set&lt;String&gt; hashSet = new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));\nSystem.out.println(hashSet.size()); // Prints 2 (Silently deduplicated)\n\n// Set&lt;String&gt; immutableSet = Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;); \n// Throws IllegalArgumentException: duplicate element: A</code></pre>\n<p><code>HashSet</code> operates normally, finding the existing element in the bucket and overwriting it, resulting in a size of 2. <code>Set.of()</code> is designed to fail fast. If you are hardcoding a literal collection, providing duplicates is almost certainly a bug, so the factory rejects it immediately.</p>"
+            "solutionHtml": "<h2>Solution: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<pre><code>Set&lt;String&gt; hashSet = new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));\nSystem.out.println(hashSet.size()); // Prints 2 (Silently deduplicated)\n\n// Set&lt;String&gt; immutableSet = Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;);\n// Throws IllegalArgumentException: duplicate element: A</code></pre>\n<p><code>HashSet</code> operates normally, finding the existing element in the bucket and overwriting it, resulting in a size of 2. <code>Set.of()</code> is designed to fail fast. If you are hardcoding a literal collection, providing duplicates is almost certainly a bug, so the factory rejects it immediately.</p>"
+          },
+          {
+            "id": "basic-hashset-operations",
+            "title": "Basic HashSet Operations",
+            "exerciseHtml": "<h2>Exercise: basic-hashset-operations - Basic HashSet Operations</h2>\n<h3>Objective</h3>\n<p>Become comfortable with HashSet.</p>\n<h3>Problem</h3>\n<p>Create a HashSet.</p>\n<p>Perform:</p>\n<ul>\n<li>add</li>\n<li>remove</li>\n<li>contains</li>\n<li>size</li>\n<li>isEmpty</li>\n</ul>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: basic-hashset-operations - Basic HashSet Operations</h2>\n<pre><code>public void basicOps() {\n    Set&lt;String&gt; set = new HashSet&lt;&gt;();\n    set.add(&quot;A&quot;);\n    set.add(&quot;B&quot;);\n    System.out.println(set.contains(&quot;A&quot;)); // true\n    set.remove(&quot;A&quot;);\n    System.out.println(set.size()); // 1\n    System.out.println(set.isEmpty()); // false\n}</code></pre>"
+          },
+          {
+            "id": "understanding-add",
+            "title": "Understanding add()",
+            "exerciseHtml": "<h2>Exercise: understanding-add - Understanding add()</h2>\n<h3>Objective</h3>\n<p>Understand the boolean returned by <code>add()</code>.</p>\n<h3>Problem</h3>\n<p>Insert duplicate values.</p>\n<p>Print the return value of every <code>add()</code> call.</p>\n<p>Explain the output.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: understanding-add - Understanding add()</h2>\n<pre><code>public void understandAdd() {\n    Set&lt;String&gt; set = new HashSet&lt;&gt;();\n    System.out.println(set.add(&quot;A&quot;)); // true\n    System.out.println(set.add(&quot;B&quot;)); // true\n    System.out.println(set.add(&quot;A&quot;)); // false\n    // false is returned when the element is already present\n}</code></pre>"
+          },
+          {
+            "id": "remove-duplicates",
+            "title": "Remove Duplicates",
+            "exerciseHtml": "<h2>Exercise: remove-duplicates - Remove Duplicates</h2>\n<h3>Objective</h3>\n<p>Convert a List into unique values.</p>\n<h3>Problem</h3>\n<p>Given a List of integers containing duplicates,</p>\n<p>return only unique elements using a HashSet.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: remove-duplicates - Remove Duplicates</h2>\n<pre><code>public Set&lt;Integer&gt; removeDuplicates(List&lt;Integer&gt; list) {\n    return new HashSet&lt;&gt;(list);\n}</code></pre>"
+          },
+          {
+            "id": "preserve-order",
+            "title": "Preserve Order",
+            "exerciseHtml": "<h2>Exercise: preserve-order - Preserve Order</h2>\n<h3>Objective</h3>\n<p>Learn LinkedHashSet.</p>\n<h3>Problem</h3>\n<p>Remove duplicates while preserving insertion order.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: preserve-order - Preserve Order</h2>\n<pre><code>public Set&lt;Integer&gt; preserveOrder(List&lt;Integer&gt; list) {\n    return new LinkedHashSet&lt;&gt;(list);\n}</code></pre>"
           },
           {
             "id": "linked-hash-set",
             "title": "Preserving Insertion Order",
-            "exerciseHtml": "<h2>Exercise: linked-hash-set - Preserving Insertion Order</h2>\n<h3>Goal</h3>\n<p>See how <code>LinkedHashSet</code> solves the unpredictable iteration order of a regular <code>HashSet</code>.</p>\n<h3>Task</h3>\n<p>Create a <code>HashSet&lt;Integer&gt;</code>. Add the numbers <code>10</code>, <code>1</code>, <code>5</code>, and <code>20</code>. Print the set.</p>\n<p>Create a <code>LinkedHashSet&lt;Integer&gt;</code>. Add the same numbers in the same order. Print the set.</p>\n<h3>Checks</h3>\n<ul>\n<li>Which set prints the elements exactly in the order you inserted them (<code>[10, 1, 5, 20]</code>)?</li>\n<li>Which set prints them in a seemingly random bucket order?</li>\n</ul>",
+            "exerciseHtml": "<h2>Exercise: linked-hash-set - Preserving Insertion Order</h2>\n<h3>Goal</h3>\n<p>See how <code>LinkedHashSet</code> solves the unpredictable iteration order of a regular <code>HashSet</code>.</p>\n<h3>Task</h3>\n<p>Create a <code>HashSet&lt;Integer&gt;</code>. Add the numbers <code>10</code>, <code>1</code>, <code>5</code>, and <code>20</code>. Print the set.</p>\n<p>Create a <code>LinkedHashSet&lt;Integer&gt;</code>. Add the same numbers in the same order. Print the set.</p>\n<h3>Checks</h3>\n<ul>\n<li>Which set prints the elements exactly in the order you inserted them (<code>[10, 1, 5, 20]</code>)?</li>\n<li>Which set prints them in a seemingly random bucket order?</li>\n</ul>\n<p>---</p>",
             "starterCode": "",
             "solutionHtml": "<h2>Solution: linked-hash-set - Preserving Insertion Order</h2>\n<pre><code>Set&lt;Integer&gt; hashSet = new HashSet&lt;&gt;();\nhashSet.add(10); hashSet.add(1); hashSet.add(5); hashSet.add(20);\nSystem.out.println(hashSet); // Prints e.g., [1, 20, 5, 10] (Unpredictable)\n\nSet&lt;Integer&gt; linkedSet = new LinkedHashSet&lt;&gt;();\nlinkedSet.add(10); linkedSet.add(1); linkedSet.add(5); linkedSet.add(20);\nSystem.out.println(linkedSet); // Prints [10, 1, 5, 20] (Insertion order)</code></pre>\n<p><code>HashSet</code> iterates in bucket-walk order, which looks like random noise to the user and changes whenever the internal array resizes. <code>LinkedHashSet</code> pays the overhead of maintaining an internal doubly-linked list through all its entries, precisely so it can guarantee iteration matches insertion order.</p>"
+          },
+          {
+            "id": "sorting",
+            "title": "Sorting",
+            "exerciseHtml": "<h2>Exercise: sorting - Sorting</h2>\n<h3>Objective</h3>\n<p>Learn TreeSet.</p>\n<h3>Problem</h3>\n<p>Insert random integers into a TreeSet.</p>\n<p>Print the final order.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: sorting - Sorting</h2>\n<pre><code>public void sortWithTreeSet(List&lt;Integer&gt; list) {\n    Set&lt;Integer&gt; set = new TreeSet&lt;&gt;(list);\n    System.out.println(set);\n}</code></pre>"
+          },
+          {
+            "id": "null-handling",
+            "title": "Null Handling",
+            "exerciseHtml": "<h2>Exercise: null-handling - Null Handling</h2>\n<h3>Objective</h3>\n<p>Understand null behavior.</p>\n<h3>Problem</h3>\n<p>Experiment with:</p>\n<ul>\n<li>HashSet</li>\n<li>LinkedHashSet</li>\n<li>TreeSet</li>\n</ul>\n<p>Observe which accept null and which don't.</p>\n<p>Write one-line explanation.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: null-handling - Null Handling</h2>\n<pre><code>public void nullHandling() {\n    Set&lt;String&gt; hashSet = new HashSet&lt;&gt;();\n    hashSet.add(null); // Allowed\n\n    Set&lt;String&gt; linkedHashSet = new LinkedHashSet&lt;&gt;();\n    linkedHashSet.add(null); // Allowed\n\n    Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;();\n    // treeSet.add(null); // NullPointerException\n}</code></pre>\n<p><code>HashSet</code> and <code>LinkedHashSet</code> support one null element. <code>TreeSet</code> throws NPE because it cannot compare null to other elements.</p>"
+          },
+          {
+            "id": "union",
+            "title": "Union",
+            "exerciseHtml": "<h2>Exercise: union - Union</h2>\n<h3>Objective</h3>\n<p>Practice basic Set operations.</p>\n<h3>Problem</h3>\n<p>Given two sets,</p>\n<p>return their union.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: union - Union</h2>\n<pre><code>public Set&lt;Integer&gt; union(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.addAll(b); // Union\n    return result;\n}</code></pre>"
+          },
+          {
+            "id": "intersection",
+            "title": "Intersection",
+            "exerciseHtml": "<h2>Exercise: intersection - Intersection</h2>\n<h3>Objective</h3>\n<p>Practice common interview operation.</p>\n<h3>Problem</h3>\n<p>Return common elements between two sets.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: intersection - Intersection</h2>\n<pre><code>public Set&lt;Integer&gt; intersection(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.retainAll(b); // Intersection\n    return result;\n}</code></pre>"
+          },
+          {
+            "id": "difference",
+            "title": "Difference",
+            "exerciseHtml": "<h2>Exercise: difference - Difference</h2>\n<h3>Objective</h3>\n<p>Practice Set subtraction.</p>\n<h3>Problem</h3>\n<p>Return elements present in Set A but not Set B.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: difference - Difference</h2>\n<pre><code>public Set&lt;Integer&gt; difference(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.removeAll(b); // Difference\n    return result;\n}</code></pre>"
+          },
+          {
+            "id": "contains-performance",
+            "title": "contains() Performance",
+            "exerciseHtml": "<h2>Exercise: contains-performance - contains() Performance</h2>\n<h3>Objective</h3>\n<p>Build intuition.</p>\n<h3>Problem</h3>\n<p>Compare searching using:</p>\n<ul>\n<li>List</li>\n<li>HashSet</li>\n</ul>\n<p>for a large collection.</p>\n<p>Record observations.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: contains-performance - contains() Performance</h2>\n<pre><code>public void performance() {\n    List&lt;Integer&gt; list = new ArrayList&lt;&gt;();\n    Set&lt;Integer&gt; set = new HashSet&lt;&gt;();\n    for (int i = 0; i &lt; 1_000_000; i++) {\n        list.add(i);\n        set.add(i);\n    }\n\n    long start1 = System.nanoTime();\n    list.contains(999_999);\n    long end1 = System.nanoTime();\n\n    long start2 = System.nanoTime();\n    set.contains(999_999);\n    long end2 = System.nanoTime();\n\n    System.out.println(&quot;List: &quot; + (end1 - start1) + &quot; ns&quot;);\n    System.out.println(&quot;Set: &quot; + (end2 - start2) + &quot; ns&quot;);\n}</code></pre>\n<p>HashSet contains is O(1) whereas ArrayList contains is O(n), so Set is orders of magnitude faster for large collections.</p>"
+          },
+          {
+            "id": "unique-visitors",
+            "title": "Unique Visitors",
+            "exerciseHtml": "<h2>Exercise: unique-visitors - Unique Visitors</h2>\n<h3>Objective</h3>\n<p>Small real-world problem.</p>\n<h3>Problem</h3>\n<p>Given a stream of user IDs,</p>\n<p>return the number of unique visitors.</p>\n<p>---</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: unique-visitors - Unique Visitors</h2>\n<pre><code>public int countUniqueVisitors(List&lt;String&gt; userIdsStream) {\n    Set&lt;String&gt; uniqueVisitors = new HashSet&lt;&gt;(userIdsStream);\n    return uniqueVisitors.size();\n}</code></pre>"
+          },
+          {
+            "id": "mini-challenge",
+            "title": "Mini Challenge",
+            "exerciseHtml": "<h2>Exercise: mini-challenge - Mini Challenge</h2>\n<h3>Objective</h3>\n<p>Combine everything.</p>\n<h3>Problem</h3>\n<p>Given a List of words:</p>\n<ul>\n<li>remove duplicates</li>\n<li>preserve insertion order</li>\n<li>print alphabetically</li>\n<li>print total unique count</li>\n</ul>\n<p>Use the most appropriate Set implementations.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: mini-challenge - Mini Challenge</h2>\n<pre><code>public void miniChallenge(List&lt;String&gt; words) {\n    // Remove duplicates &amp; preserve order\n    Set&lt;String&gt; linkedSet = new LinkedHashSet&lt;&gt;(words);\n    System.out.println(&quot;Original Order Unique: &quot; + linkedSet);\n\n    // Alphabetical\n    Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;(linkedSet);\n    System.out.println(&quot;Alphabetical: &quot; + treeSet);\n\n    // Total unique\n    System.out.println(&quot;Total Unique: &quot; + linkedSet.size());\n}</code></pre>"
           }
         ]
       }
@@ -7473,7 +7930,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<pre><code>Set&lt;String&gt; hashSet = new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));\nSystem.out.println(hashSet.size()); // Prints 2 (Silently deduplicated)\n\n// Set&lt;String&gt; immutableSet = Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;); \n// Throws IllegalArgumentException: duplicate element: A</code></pre>\n<p><code>HashSet</code> operates normally, finding the existing element in the bucket and overwriting it, resulting in a size of 2. <code>Set.of()</code> is designed to fail fast. If you are hardcoding a literal collection, providing duplicates is almost certainly a bug, so the factory rejects it immediately.</p>\n<h2>Solution: linked-hash-set - Preserving Insertion Order</h2>\n<pre><code>Set&lt;Integer&gt; hashSet = new HashSet&lt;&gt;();\nhashSet.add(10); hashSet.add(1); hashSet.add(5); hashSet.add(20);\nSystem.out.println(hashSet); // Prints e.g., [1, 20, 5, 10] (Unpredictable)\n\nSet&lt;Integer&gt; linkedSet = new LinkedHashSet&lt;&gt;();\nlinkedSet.add(10); linkedSet.add(1); linkedSet.add(5); linkedSet.add(20);\nSystem.out.println(linkedSet); // Prints [10, 1, 5, 20] (Insertion order)</code></pre>\n<p><code>HashSet</code> iterates in bucket-walk order, which looks like random noise to the user and changes whenever the internal array resizes. <code>LinkedHashSet</code> pays the overhead of maintaining an internal doubly-linked list through all its entries, precisely so it can guarantee iteration matches insertion order.</p>"
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: set-of-duplicates - Silent Dedupe vs Fail Fast</h2>\n<pre><code>Set&lt;String&gt; hashSet = new HashSet&lt;&gt;(List.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;));\nSystem.out.println(hashSet.size()); // Prints 2 (Silently deduplicated)\n\n// Set&lt;String&gt; immutableSet = Set.of(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;);\n// Throws IllegalArgumentException: duplicate element: A</code></pre>\n<p><code>HashSet</code> operates normally, finding the existing element in the bucket and overwriting it, resulting in a size of 2. <code>Set.of()</code> is designed to fail fast. If you are hardcoding a literal collection, providing duplicates is almost certainly a bug, so the factory rejects it immediately.</p>\n<h2>Solution: basic-hashset-operations - Basic HashSet Operations</h2>\n<pre><code>public void basicOps() {\n    Set&lt;String&gt; set = new HashSet&lt;&gt;();\n    set.add(&quot;A&quot;);\n    set.add(&quot;B&quot;);\n    System.out.println(set.contains(&quot;A&quot;)); // true\n    set.remove(&quot;A&quot;);\n    System.out.println(set.size()); // 1\n    System.out.println(set.isEmpty()); // false\n}</code></pre>\n<h2>Solution: understanding-add - Understanding add()</h2>\n<pre><code>public void understandAdd() {\n    Set&lt;String&gt; set = new HashSet&lt;&gt;();\n    System.out.println(set.add(&quot;A&quot;)); // true\n    System.out.println(set.add(&quot;B&quot;)); // true\n    System.out.println(set.add(&quot;A&quot;)); // false\n    // false is returned when the element is already present\n}</code></pre>\n<h2>Solution: remove-duplicates - Remove Duplicates</h2>\n<pre><code>public Set&lt;Integer&gt; removeDuplicates(List&lt;Integer&gt; list) {\n    return new HashSet&lt;&gt;(list);\n}</code></pre>\n<h2>Solution: preserve-order - Preserve Order</h2>\n<pre><code>public Set&lt;Integer&gt; preserveOrder(List&lt;Integer&gt; list) {\n    return new LinkedHashSet&lt;&gt;(list);\n}</code></pre>\n<h2>Solution: linked-hash-set - Preserving Insertion Order</h2>\n<pre><code>Set&lt;Integer&gt; hashSet = new HashSet&lt;&gt;();\nhashSet.add(10); hashSet.add(1); hashSet.add(5); hashSet.add(20);\nSystem.out.println(hashSet); // Prints e.g., [1, 20, 5, 10] (Unpredictable)\n\nSet&lt;Integer&gt; linkedSet = new LinkedHashSet&lt;&gt;();\nlinkedSet.add(10); linkedSet.add(1); linkedSet.add(5); linkedSet.add(20);\nSystem.out.println(linkedSet); // Prints [10, 1, 5, 20] (Insertion order)</code></pre>\n<p><code>HashSet</code> iterates in bucket-walk order, which looks like random noise to the user and changes whenever the internal array resizes. <code>LinkedHashSet</code> pays the overhead of maintaining an internal doubly-linked list through all its entries, precisely so it can guarantee iteration matches insertion order.</p>\n<h2>Solution: sorting - Sorting</h2>\n<pre><code>public void sortWithTreeSet(List&lt;Integer&gt; list) {\n    Set&lt;Integer&gt; set = new TreeSet&lt;&gt;(list);\n    System.out.println(set);\n}</code></pre>\n<h2>Solution: null-handling - Null Handling</h2>\n<pre><code>public void nullHandling() {\n    Set&lt;String&gt; hashSet = new HashSet&lt;&gt;();\n    hashSet.add(null); // Allowed\n\n    Set&lt;String&gt; linkedHashSet = new LinkedHashSet&lt;&gt;();\n    linkedHashSet.add(null); // Allowed\n\n    Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;();\n    // treeSet.add(null); // NullPointerException\n}</code></pre>\n<p><code>HashSet</code> and <code>LinkedHashSet</code> support one null element. <code>TreeSet</code> throws NPE because it cannot compare null to other elements.</p>\n<h2>Solution: union - Union</h2>\n<pre><code>public Set&lt;Integer&gt; union(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.addAll(b); // Union\n    return result;\n}</code></pre>\n<h2>Solution: intersection - Intersection</h2>\n<pre><code>public Set&lt;Integer&gt; intersection(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.retainAll(b); // Intersection\n    return result;\n}</code></pre>\n<h2>Solution: difference - Difference</h2>\n<pre><code>public Set&lt;Integer&gt; difference(Set&lt;Integer&gt; a, Set&lt;Integer&gt; b) {\n    Set&lt;Integer&gt; result = new HashSet&lt;&gt;(a);\n    result.removeAll(b); // Difference\n    return result;\n}</code></pre>\n<h2>Solution: contains-performance - contains() Performance</h2>\n<pre><code>public void performance() {\n    List&lt;Integer&gt; list = new ArrayList&lt;&gt;();\n    Set&lt;Integer&gt; set = new HashSet&lt;&gt;();\n    for (int i = 0; i &lt; 1_000_000; i++) {\n        list.add(i);\n        set.add(i);\n    }\n\n    long start1 = System.nanoTime();\n    list.contains(999_999);\n    long end1 = System.nanoTime();\n\n    long start2 = System.nanoTime();\n    set.contains(999_999);\n    long end2 = System.nanoTime();\n\n    System.out.println(&quot;List: &quot; + (end1 - start1) + &quot; ns&quot;);\n    System.out.println(&quot;Set: &quot; + (end2 - start2) + &quot; ns&quot;);\n}</code></pre>\n<p>HashSet contains is O(1) whereas ArrayList contains is O(n), so Set is orders of magnitude faster for large collections.</p>\n<h2>Solution: unique-visitors - Unique Visitors</h2>\n<pre><code>public int countUniqueVisitors(List&lt;String&gt; userIdsStream) {\n    Set&lt;String&gt; uniqueVisitors = new HashSet&lt;&gt;(userIdsStream);\n    return uniqueVisitors.size();\n}</code></pre>\n<h2>Solution: mini-challenge - Mini Challenge</h2>\n<pre><code>public void miniChallenge(List&lt;String&gt; words) {\n    // Remove duplicates &amp; preserve order\n    Set&lt;String&gt; linkedSet = new LinkedHashSet&lt;&gt;(words);\n    System.out.println(&quot;Original Order Unique: &quot; + linkedSet);\n\n    // Alphabetical\n    Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;(linkedSet);\n    System.out.println(&quot;Alphabetical: &quot; + treeSet);\n\n    // Total unique\n    System.out.println(&quot;Total Unique: &quot; + linkedSet.size());\n}</code></pre>"
     },
     "/java/collections/hashmap/": {
       "text": "HashMap Internals",
@@ -13343,6 +13800,50 @@
         "playground": false,
         "assets": false
       }
+    },
+    "/practice/": {
+      "text": "Practice Scratchpad",
+      "link": "/practice/",
+      "pageType": "theory",
+      "parentLink": "/practice/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/practice/exercise/": {
+      "text": "Practice Scratchpad",
+      "link": "/practice/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/practice/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/practice/solution/": {
+      "text": "Practice Scratchpad",
+      "link": "/practice/solution/",
+      "pageType": "solution",
+      "parentLink": "/practice/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Practice Solutions</h1>\n<p>This section is reserved for ad-hoc practice solutions.</p>"
     }
   }
 }

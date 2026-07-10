@@ -29,6 +29,50 @@ There is no class named `ConcurrentHashSet` in the JDK — `ConcurrentHashMap.ne
 
 ---
 
+
+## Time Complexity
+
+| Operation | HashSet  | LinkedHashSet | TreeSet  |
+| --------- | -------- | ------------- | -------- |
+| add       | O(1) avg | O(1) avg      | O(log n) |
+| contains  | O(1) avg | O(1) avg      | O(log n) |
+| remove    | O(1) avg | O(1) avg      | O(log n) |
+
+## The add() boolean
+
+The `Set.add()` method returns a boolean indicating whether the collection changed:
+- `true`: the element was inserted.
+- `false`: the element already existed (deduplication happened).
+
+This is very useful for checking for duplicates without needing a prior `.contains()` call.
+
+---
+
+## Deduping while preserving first occurrence
+
+Use `LinkedHashSet` when you want a new collection with duplicates removed and original encounter order preserved:
+
+```java
+List<Integer> numbers = List.of(1, 2, 1, 3, 2);
+Set<Integer> uniqueInOrder = new LinkedHashSet<>(numbers); // [1, 2, 3]
+```
+
+Use `Set.add()` directly when you need to detect duplicates during a scan:
+
+```java
+Set<Integer> seen = new HashSet<>();
+
+for (Integer number : numbers) {
+    if (!seen.add(number)) {
+        System.out.println("Duplicate: " + number);
+    }
+}
+```
+
+`Set.add()` returns `false` when the element already existed, so you do not need a separate `contains()` check.
+
+---
+
 ## Iteration order — same per-type decision as Maps
 
 `HashSet` iteration is bucket-walk order — deterministic for a given input but unrelated to insertion or sort, and it changes after a resize. The other set types choose a deliberate order:

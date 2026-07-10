@@ -116,6 +116,11 @@ async function assertStructuredExerciseWorkspace(page) {
   await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
   assert.match(await page.locator('.question-item.active .question-id').innerText(), /bounded-max-sum/);
   assert.strictEqual(await page.locator('.structured-reference').count(), 0, 'selected solution should start closed');
+  await page.keyboard.press(process.platform === 'darwin' ? 'Meta+S' : 'Control+S');
+  await page.locator('.structured-reference').waitFor({ timeout: 15000 });
+  assert.match(await page.locator('.reference-head').innerText(), /Bounds with extends/);
+  await page.keyboard.press(process.platform === 'darwin' ? 'Meta+S' : 'Control+S');
+  assert.strictEqual(await page.locator('.structured-reference').count(), 0, 'solution shortcut should hide the selected solution');
   await page.getByRole('button', { name: /View Solution/ }).click();
   await page.locator('.structured-reference').waitFor({ timeout: 15000 });
   assert.match(await page.locator('.reference-head').innerText(), /Bounds with extends/);

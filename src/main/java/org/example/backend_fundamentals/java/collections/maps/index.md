@@ -44,6 +44,43 @@ If you need a predictable order, the contract is in the type. Don't patch over `
 
 ---
 
+## HashMap internals checkpoint
+
+A `Map` stores key-value pairs. Keys are unique; values may repeat. `HashMap` is the default when you need average O(1) lookup and do not need ordering.
+
+HashMap lookup is a two-step process:
+
+```text
+hashCode()
+  -> bucket
+  -> equals() inside that bucket
+```
+
+`hashCode()` limits the search space. `equals()` performs the final match. If a custom key breaks the `equals` / `hashCode` contract, `get()` can return `null` even when a logically equal key was inserted.
+
+### Buckets, collisions, and treeification
+
+A bucket is the small search area selected by the key hash. A collision means multiple keys land in the same bucket. It does not always mean identical `hashCode()` values; different hashes can still map to the same bucket after capacity masking.
+
+HashMap uses separate chaining. If one bucket grows large enough, Java can convert that bucket from a linked list to a red-black tree:
+
+- bucket size at least 8
+- table capacity at least 64
+
+That treeification improves worst-case lookup from O(n) to O(log n) for that bucket.
+
+### Load factor and resize
+
+Default load factor is `0.75`. Threshold is `capacity * loadFactor`.
+
+For default capacity `16`, threshold is `12`; the 13th insertion triggers resize. Capacity doubles, and entries are redistributed because bucket calculations change. That redistribution is rehashing, and it is one reason `HashMap` iteration order can change after growth.
+
+### Mutable keys
+
+Map keys should be immutable. If a key field used by `hashCode()` changes after insertion, the object may still be inside the map, but lookup searches the wrong bucket.
+
+---
+
 ## Shallow vs deep immutability — `Map.of` is shallow
 
 `Map.of` freezes the *map structure* (which key points to which reference) but not the value objects themselves. If a value is a mutable type, anyone with a reference to it can still mutate its contents through the map.
@@ -176,6 +213,11 @@ See `traps/BrokenEqualsHashCodeTrapRun` for the live failure and the side-by-sid
 - **A read-only map from a factory?** `Map.of(...)` (≤10 entries) or `Map.ofEntries(...)` for more.
 - **Entries sorted by key?** `TreeMap` — O(log n), red-black tree.
 - **Why does `get(new MyKey("hello"))` return `null` after `put(new MyKey("hello"), ...)`?** No `equals`/`hashCode` override → identity hash → different bucket → miss.
+- **What is a bucket?** The search area selected by a key hash.
+- **Does collision mean identical hashCode?** No. It means same bucket.
+- **When can HashMap treeify a bucket?** Bucket size at least 8 and table capacity at least 64.
+- **Default load factor?** `0.75`.
+- **Why avoid mutable keys?** Mutating hash fields after insertion sends lookup to the wrong bucket.
 - **What does "shallow immutability" mean for `Map.of`?** The structure is frozen, but mutable value objects can still be mutated through the map. Fix: wrap each value in `List.copyOf(...)` / `Set.copyOf(...)` etc.
 - **Why `ConcurrentHashMap` over `Collections.synchronizedMap`?** Bucket-level striped locks + lock-free reads vs a single coarse global lock.
 - **Why does `HashMap` iteration order change after the map grows past 12 entries?** Default capacity 16, load factor 0.75 → resize at 12. Resize re-buckets every entry, so the walk order changes.

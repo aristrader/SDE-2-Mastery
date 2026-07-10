@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vitepress'
 import Playground from './Playground.vue'
 import CodeEditor from './CodeEditor.vue'
@@ -228,6 +228,19 @@ function selectQuestion(question) {
   resetRunState()
 }
 
+function canToggleReference() {
+  if (!isPracticePage.value) return false
+  if (hasStructuredPractice.value) return Boolean(selectedQuestion.value)
+  return Boolean(referenceHref.value)
+}
+
+function toggleReferenceShortcut(event) {
+  if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 's') return
+  if (!canToggleReference()) return
+  event.preventDefault()
+  showReference.value = !showReference.value
+}
+
 watch(currentPath, () => {
   showReference.value = false
   referenceHtml.value = ''
@@ -337,7 +350,12 @@ watch([showReference, referenceHref], async ([open, href]) => {
   }
 })
 
+onMounted(() => {
+  window.addEventListener('keydown', toggleReferenceShortcut)
+})
+
 onBeforeUnmount(() => {
+  window.removeEventListener('keydown', toggleReferenceShortcut)
   resetRunState()
 })
 </script>

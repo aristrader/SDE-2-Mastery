@@ -902,6 +902,61 @@ Correct.
 
 ---
 
+# Checkpoint: equals() and hashCode()
+
+Default `equals()` comes from `Object` and checks reference identity:
+
+```java
+this == other
+```
+
+Default `hashCode()` is identity-based. That is fine when identity is the intended meaning, but wrong for value-like objects such as `Student("101")`.
+
+Override `equals()` when business equality differs from reference equality. If student `id` uniquely identifies a student, then two different `Student` objects with the same `id` should compare equal.
+
+Hash-based collections use both methods:
+
+```text
+hashCode()
+  -> choose bucket / limit search space
+equals()
+  -> final object match inside that bucket
+```
+
+Memorize: `hashCode()` limits the search space; `equals()` performs the final matching.
+
+The core contract:
+
+- If `a.equals(b)` is `true`, then `a.hashCode() == b.hashCode()` must also be true.
+- The reverse is not required. Same hash code does not prove equality.
+- Different objects may share the same hash code; that is a collision.
+
+Only use identity fields in both methods. Do not include mutable or non-identity fields. If a field used by `hashCode()` changes after insertion into a `HashMap` or `HashSet`, lookup may search the wrong bucket and fail even though the object is still stored.
+
+Typical implementation:
+
+```java
+@Override
+public boolean equals(Object other) {
+    if (this == other) return true;
+    if (!(other instanceof Student student)) return false;
+    return Objects.equals(id, student.id);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(id);
+}
+```
+
+Comparison rules:
+
+- Use `==` for primitives.
+- Use `==` for object identity.
+- Use `Objects.equals(a, b)` for nullable object equality.
+- Use `a.equals(b)` only when `a` is known non-null.
+- Use `Arrays.equals(...)` or `Arrays.deepEquals(...)` for array contents.
+
 # Comparable vs Comparator (Deep Discussion)
 
 Interview scenario:
@@ -1745,3 +1800,16 @@ Questions:
 - `@Override`
 - IDE-generated `equals()`/`hashCode()`
 - `System.identityHashCode()` (optional)
+
+## Quick recall
+
+- **What does default `equals()` check?** Reference identity.
+- **What does default `hashCode()` represent?** Identity-based hash.
+- **When override `equals()`?** When business equality differs from object identity.
+- **Main contract?** Equal objects must have equal hash codes.
+- **Does same hash code mean equal?** No. Collisions are legal.
+- **What does `hashCode()` do in `HashMap`?** Chooses the bucket / search space.
+- **What does `equals()` do in `HashMap`?** Finds the exact key inside that bucket.
+- **Why are mutable keys dangerous?** Mutation can change the bucket used for lookup.
+- **Safe nullable comparison?** `Objects.equals(a, b)`.
+- **Array content comparison?** `Arrays.equals(...)` or `Arrays.deepEquals(...)`.
