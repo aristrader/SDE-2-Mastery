@@ -4,105 +4,33 @@ order: 20
 
 # Object-Oriented Programming
 
-This chapter moves from concrete object mechanics into the design-level OOP pillars. The most useful revision lens is not memorizing definitions; it is separating pairs that sound similar but solve different problems.
+This chapter moves from object mechanics into the four OOP pillars and the Java rules that support them. Read the mechanics first, then the pillars, then the design tradeoffs.
 
----
+## Study path
 
-## Pillar confusions
+| Order | Page | Use it for |
+| --- | --- | --- |
+| 1 | `classes_and_objects` | Classes, objects, constructors, `this`, and object creation. |
+| 2 | `methods` | Signatures, pass-by-value, and varargs. |
+| 3 | `object_model` | References, identity, lifecycle, and runtime object behavior. |
+| 4 | `static_and_final` | Class-level members, final variables, final methods, and final classes. |
+| 5 | `access_modifiers` | Java visibility mechanics used by encapsulation. |
+| 6 | `pillars` | Encapsulation, abstraction, inheritance, polymorphism, and composition trade-offs. |
+| 7 | `nested_classes` | Inner, static nested, local, and anonymous classes. |
+| 8 | `method_dispatch` | Focused dispatch revision after inheritance/polymorphism. |
+| 9 | `abstract_class_vs_interface` | Choosing Java abstraction mechanisms. |
+| 10 | `equals_hashcode` | Object equality, hashing, and collection behavior. |
 
-## Abstraction vs Encapsulation
+## Four pillars map
 
-The most commonly conflated pair.
+| Pillar | Main page | One-line purpose |
+| --- | --- | --- |
+| Encapsulation | `pillars/encapsulation` | Protect state and invariants. |
+| Abstraction | `pillars/abstraction` | Expose the useful contract, hide implementation detail. |
+| Inheritance | `pillars/inheritance` | Model a true substitutable IS-A relationship. |
+| Polymorphism | `pillars/polymorphism` | Let the runtime implementation decide behavior behind a common type. |
 
-| | Abstraction | Encapsulation |
-|---|---|---|
-| **Question it answers** | What should the caller see? | How do I protect the internals? |
-| **Tool** | Interface / abstract class | `private` fields, access modifiers |
-| **Concern** | Design (what to expose) | Protection (how to hide) |
-
-**The tell:** Abstraction is about the *shape* of the API. Encapsulation is about the *safety* of the data behind it.
-
-```java
-// Abstraction — caller only knows List, not ArrayList
-List<String> list = new ArrayList<>();
-
-// Encapsulation — balance is private; no one outside BankAccount can touch it directly
-private double balance;
-```
-
-You can have abstraction without encapsulation (a public abstract class with public fields) and encapsulation without abstraction (a concrete class with private fields and no interface).
-
----
-
-## Polymorphism vs Abstraction
-
-> Covered in the session that produced this doc.
-
-| | Abstraction | Polymorphism |
-|---|---|---|
-| **What it is** | Design decision — hide details, expose a contract | Mechanism — one reference, many runtime behaviours |
-| **Happens at** | Design / compile time | Runtime (virtual dispatch) |
-
-Abstraction says *what to hide*. Polymorphism is *what makes hiding work*.
-
-```java
-List<String> list = new ArrayList<>(); // abstraction: caller knows only List
-list.add("x");                         // polymorphism: JVM calls ArrayList.add() at runtime
-```
-
----
-
-## Inheritance vs Polymorphism
-
-People say "inheritance gives you polymorphism" — true but they're not the same thing.
-
-| | Inheritance | Polymorphism |
-|---|---|---|
-| **What it is** | Code reuse + IS-A hierarchy | One type reference behaving differently at runtime |
-| **Requires the other?** | No — you can inherit without ever using a parent-type reference | No — interfaces give you polymorphism with zero inheritance |
-
-```java
-// Polymorphism via inheritance
-Animal a = new Dog();   // Dog extends Animal
-a.speak();              // calls Dog.speak()
-
-// Polymorphism via interface — no inheritance involved
-Drawable d = new Circle();  // Circle implements Drawable
-d.draw();                   // calls Circle.draw()
-```
-
-Inheritance is one *way* to get polymorphism. It's not the only way.
-
----
-
-## Inheritance vs Encapsulation
-
-Inheritance breaks encapsulation — this is a well-known tension (Joshua Bloch: *"design for inheritance or prohibit it"*).
-
-| | What happens |
-|---|---|
-| `private` field | Subclass cannot see it — encapsulation holds |
-| `protected` field | Subclass can see and modify it — encapsulation weakened |
-| Overriding a method | Subclass can change behaviour the parent assumed was fixed — fragile base class problem |
-
-```java
-class Base {
-    protected int count = 0;       // exposed to subclass — encapsulation leak
-    public void add() { count++; }
-}
-
-class Sub extends Base {
-    @Override
-    public void add() {
-        count += 10;               // silently breaks Base's assumed invariant
-        super.add();
-    }
-}
-```
-
-Prefer composition over inheritance when you need reuse but want encapsulation to hold.
-
----
+Keep the common confusions local to the detailed pages: abstraction vs encapsulation, inheritance vs polymorphism, and composition vs inheritance each have their own focused treatment.
 
 ## Quick recall
 

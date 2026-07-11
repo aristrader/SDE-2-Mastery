@@ -59,4 +59,4 @@ Across packages, `protected` access requires subclass context. A subclass cannot
 - **Reduce method visibility while overriding?** Not allowed.
 - **Private method polymorphic?** No.
 - **Static method polymorphic?** No, hidden by compile-time reference type.
-- **Detailed walkthrough?** See `reference_notes`.
+- **Detailed walkthrough?** Preserved archive notes live under `todo/study_plan/reference/archive/java_oop/access_modifiers_reference_notes.md`.

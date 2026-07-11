@@ -6,6 +6,15 @@ order: 30
 
 Use `PriorityQueue` when the next element is chosen by priority, not insertion order. Java's default is a min-heap: the smallest element is removed first.
 
+## Study path
+
+| Order | Page | Use it for |
+| --- | --- | --- |
+| 1 | `basics` | Natural order, min/max heap, empty queue APIs, duplicates, iteration. |
+| 2 | `comparators` | Custom priority and tie-breakers. |
+| 3 | `patterns` | Kth element, top-k frequency, merging sorted arrays, median stream. |
+| 4 | `traps` | Mutating queued objects and arbitrary removal cost. |
+
 ```java
 PriorityQueue<Integer> pq = new PriorityQueue<>();
 pq.offer(10);
@@ -50,6 +59,19 @@ while (!pq.isEmpty()) {
     System.out.println(pq.poll());
 }
 ```
+
+## PriorityQueue vs sorted collections
+
+`PriorityQueue` and `TreeSet` solve different problems:
+
+| Need | Use | Why |
+| --- | --- | --- |
+| Repeatedly get the next highest-priority item | `PriorityQueue` | Heap keeps only the root ready. |
+| Keep every element in sorted order | `TreeSet` | Red-black tree maintains full sorted order. |
+| Allow duplicate priorities/values | `PriorityQueue` | Queue semantics allow duplicates. |
+| Enforce uniqueness by comparison | `TreeSet` | Set semantics reject comparison-equal values. |
+
+The key interview line: a heap is **partially ordered**, while a sorted set/tree is **fully ordered**.
 
 ## Core operations
 

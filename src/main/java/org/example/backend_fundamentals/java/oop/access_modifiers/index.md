@@ -2,143 +2,42 @@
 order: 50
 ---
 
-# Access Modifiers, Variables, and Source Structure
+# Access Modifiers and Source Structure
 
-## User understanding
+Access modifiers define who can see a class member or nested type. Use the narrowest visibility that still lets the design work.
 
-Local variables:
+## Visibility levels
 
-Inside methods.
+| Modifier | Visible from |
+| --- | --- |
+| `private` | same class only |
+| package-private | same package |
+| `protected` | same package, plus subclasses through the protected-access rule |
+| `public` | everywhere |
 
-Instance variables:
+Top-level classes can only be `public` or package-private. A top-level class cannot be `private` or `protected`.
 
-Inside class.
+## Local, instance, and static variables
 
-Static variables:
+| Variable kind | Scope/lifetime | Default value? |
+| --- | --- | --- |
+| local variable | method/block execution | no |
+| instance field | one copy per object | yes |
+| static field | one copy per class | yes |
 
-Shared by every object.
+Local variables must be assigned before use. Instance and static fields receive Java defaults: `0`, `false`, `null`, etc.
 
-Lifetime:
+## Source file rules
 
-Local → method.
-
-Static → class.
-
-Thought local/static need not have default values.
-
-Final variables cannot change.
-
-Final object reference cannot be reassigned.
-
-Internal mutable state may still change.
-
----
-
-## Corrections
-
-### Misconception
-
-Static variables do not have default values.
-
-### Correction
-
-Static variables DO receive default values.
-
----
-
-### Default Values
-
-Local:
-
-No default value.
-
-Must initialize before use.
-
-Instance:
-
-Receive defaults.
-
-Example:
-
-int → 0
-
-boolean → false
-
-String → null
-
-Static:
-
-Also receive defaults.
-
----
-
-### Misconception
-
-Final variables must always be initialized at declaration.
-
-### Correction
-
-They may be initialized later exactly once.
-
-Example:
-
-final int x;
-
-x = 10;
-
-Valid.
-
----
-
-## Final references
-
-Correct understanding.
-
-Example:
-
-final Person p = new Person();
-
-Not allowed:
-
-p = new Person();
-
-Allowed:
-
-p.age = 30;
-
-Reference immutable.
-
-Object may still mutate.
-
----
-
-## static final
-
-Common for constants.
-
-Example:
-
-public static final double PI = ...
-
----
-
-## Source file structure
-
-Java enforces strict rules on how `.java` files are structured.
-
-Top-level classes:
-
-1. A file can have only one `public` top-level class.
+1. A `.java` file can have only one `public` top-level class.
 2. The filename must exactly match that public class.
 3. Other top-level classes in the same file must be package-private.
-4. Top-level classes cannot be `private` or `protected`.
-
-Nested classes are different: a class declared inside another class can be `private`, `protected`, `public`, or package-private.
+4. Nested classes can use all visibility modifiers.
 
 ```java
 public class Card {
     private class CardDetails {
-        // only Card can see and use this nested class
+        // only Card can use this nested class
     }
 }
 
@@ -147,40 +46,14 @@ class Helper {
 }
 ```
 
----
+## Related topics
 
-## Final revision
-
-Know:
-
-Local:
-
-- method scope
-- no defaults
-
-Instance:
-
-- per object
-- default values
-
-Static:
-
-- one copy
-- default values
-- lifetime tied to class
-
-Final:
-
-Reference cannot change.
-
-Object may.
+- `static_and_final` covers `static`, `final`, constants, final references, final methods, and final classes.
+- `access_modifiers/deep_dive` covers modifier choices in template methods and inheritance hooks.
 
 ## Quick recall
 
 - **Do local variables get defaults?** No.
 - **Do instance/static fields get defaults?** Yes.
 - **Can a top-level class be private?** No.
-- **Does `final` make an object immutable?** No, it prevents reassignment of that variable/reference.
 - **Best default visibility?** The narrowest one that supports the design.
-
----

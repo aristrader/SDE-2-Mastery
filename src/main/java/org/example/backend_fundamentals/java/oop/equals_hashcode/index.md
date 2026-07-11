@@ -13,7 +13,9 @@ This module answers one interview-critical question: when are two Java objects c
 3. `hashcode_contract` — why equal objects must produce equal hash codes.
 4. `hash_collections_traps` — `HashMap`/`HashSet` lookup failures and mutable keys.
 5. `identity_hashcode` — identity hash codes and rare identity-based debugging.
-6. `reference_notes` — preserved imported notes from the original long page.
+6. Archived imported notes live under `todo/study_plan/reference/archive/java_oop/equals_hashcode_reference_notes.md`.
+
+Practice lives beside the focused child pages, so do object identity first, then `equals`, then `hashCode`, then hash-collection traps.
 
 ## The core rule
 
