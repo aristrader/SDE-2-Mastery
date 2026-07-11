@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "node scripts/generate-homepage.js && vitepress dev docs",
+    "start": "node scripts/start-dev.js",
+    "start:lsp": "node scripts/start-dev.js lsp",
+    "end": "node scripts/end-dev.js",
     "docs:dev": "node scripts/generate-homepage.js && vitepress dev docs",
     "docs:build": "node scripts/generate-homepage.js && NODE_OPTIONS=--max_old_space_size=3072 vitepress build docs",
     "docs:preview": "node scripts/generate-homepage.js && vitepress preview docs",
     "test": "node --test docs/.vitepress/theme/lib/*.test.mjs scripts/*.test.js && npm run docs:build",
     "test:e2e": "node playwright_e2e.js",
+    "probe:completions": "node scripts/probe-monaco-completions.js",
     "audit:routes": "node scripts/site-route-audit.js",
     "prepare": "husky"
   },

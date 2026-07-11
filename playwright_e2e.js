@@ -57,6 +57,10 @@ async function runCode(page) {
   await page.getByRole('button', { name: /^Run$/ }).click();
 }
 
+async function runCodeShortcut(page) {
+  await page.keyboard.press(process.platform === 'darwin' ? 'Meta+Enter' : 'Control+Enter');
+}
+
 async function assertConsole(page, label, textPattern) {
   await page.locator('.console').waitFor({ timeout: 15000 });
   await page.waitForFunction((source) => {
@@ -95,9 +99,9 @@ async function assertExerciseWorkspace(page) {
 }
 
 async function assertStructuredExerciseWorkspace(page) {
-  await page.goto(`${BASE_URL}/java/generics/exercise/`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/java/generics/bounds/exercise/`, { waitUntil: 'networkidle' });
   await page.locator('.exercise-workspace.structured').waitFor({ timeout: 15000 });
-  assert.strictEqual(await page.locator('.question-item').count(), 5, 'structured practice should list each question');
+  assert.strictEqual(await page.locator('.question-item').count(), 2, 'structured practice should list each question');
   assert.strictEqual(
     await page.locator('main > .vp-doc').evaluate((el) => getComputedStyle(el).display),
     'none',
@@ -112,18 +116,18 @@ async function assertStructuredExerciseWorkspace(page) {
     await page.locator('.exercise-workspace').evaluate((el) => el.getBoundingClientRect().width > 1200),
     'structured practice should use the available desktop width'
   );
-  await page.getByRole('button', { name: /bounded-max-sum/i }).click();
+  await page.getByRole('button', { name: /bounded-square/i }).click();
   await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
-  assert.match(await page.locator('.question-item.active .question-id').innerText(), /bounded-max-sum/);
+  assert.match(await page.locator('.question-item.active .question-id').innerText(), /bounded-square/);
   assert.strictEqual(await page.locator('.structured-reference').count(), 0, 'selected solution should start closed');
   await page.keyboard.press(process.platform === 'darwin' ? 'Meta+S' : 'Control+S');
   await page.locator('.structured-reference').waitFor({ timeout: 15000 });
-  assert.match(await page.locator('.reference-head').innerText(), /Bounds with extends/);
+  assert.match(await page.locator('.reference-head').innerText(), /Bounded Generic Square/);
   await page.keyboard.press(process.platform === 'darwin' ? 'Meta+S' : 'Control+S');
   assert.strictEqual(await page.locator('.structured-reference').count(), 0, 'solution shortcut should hide the selected solution');
   await page.getByRole('button', { name: /View Solution/ }).click();
   await page.locator('.structured-reference').waitFor({ timeout: 15000 });
-  assert.match(await page.locator('.reference-head').innerText(), /Bounds with extends/);
+  assert.match(await page.locator('.reference-head').innerText(), /Bounded Generic Square/);
 }
 
 async function assertCodeTabActive(page) {
@@ -134,6 +138,40 @@ async function assertCodeTabActive(page) {
     els.filter((el) => el.classList.contains('active')).map((el) => el.textContent.trim())
   );
   assert.deepStrictEqual(activeTabs, ['Code'], 'Code tab should be active for #code routes');
+}
+
+async function assertMultiFileWorkspace(page) {
+  await page.goto(`${BASE_URL}/java/collections/lists/#code`, { waitUntil: 'networkidle' });
+  await page.evaluate(() => localStorage.clear());
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.locator('.monaco-editor').waitFor({ timeout: 15000 });
+
+  page.once('dialog', async (dialog) => dialog.accept('Helper'));
+  await page.getByRole('button', { name: 'New class' }).click();
+  await page.locator('.files .file', { hasText: 'Helper.java' }).waitFor({ timeout: 15000 });
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.locator('.files .file', { hasText: 'Helper.java' }).waitFor({ timeout: 15000 });
+
+  await mockJavaRunner(page, async (route) => {
+    const payload = route.request().postDataJSON();
+    assert.ok(payload.files.some((file) => file.name === 'Helper.java'), 'run payload should include user-created support files');
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ ok: true, phase: 'run', stdout: 'workspace run\n' }),
+    });
+  });
+  await page.locator('.files .file', { hasText: 'ArrayListBasicsRun.java' }).click();
+  await runCode(page);
+  await assertConsole(page, /Success/, /workspace run/);
+  await unmockJavaRunner(page);
+
+  await page.locator('.files .file', { hasText: 'Helper.java' }).click();
+  page.once('dialog', async (dialog) => dialog.accept('RenamedHelper'));
+  await page.getByRole('button', { name: 'Rename' }).click();
+  await page.locator('.files .file', { hasText: 'RenamedHelper.java' }).waitFor({ timeout: 15000 });
+  await page.getByRole('button', { name: 'Delete' }).click();
+  assert.strictEqual(await page.locator('.files .file', { hasText: 'RenamedHelper.java' }).count(), 0, 'delete should remove user-created file');
 }
 
 async function main() {
@@ -158,6 +196,7 @@ async function main() {
   await assertExerciseWorkspace(page);
   await assertStructuredExerciseWorkspace(page);
   await assertCodeTabActive(page);
+  await assertMultiFileWorkspace(page);
 
   if (RUN_MOBILE_CHECKS) {
     await page.setViewportSize({ width: 390, height: 844 });
@@ -187,12 +226,34 @@ async function main() {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ ok: false, phase: 'compile', stderr: 'javac failed', error: 'compile failed' }),
+      body: JSON.stringify({ ok: true, phase: 'run', stdout: 'shortcut run\n' }),
+    });
+  });
+  await openCodeMode(page);
+  await page.locator('.monaco-editor').click();
+  await runCodeShortcut(page);
+  await assertConsole(page, /Success/, /shortcut run/);
+  await page.keyboard.press('Shift+Alt+F');
+  assert.strictEqual(await page.locator('.monaco-editor').count(), 1, 'formatter shortcut should leave editor mounted');
+  await unmockJavaRunner(page);
+
+  await mockJavaRunner(page, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ok: false,
+        phase: 'compile',
+        stderr: 'javac failed',
+        diagnostics: [{ file: 'NestedClassesRun.java', line: 3, column: 5, message: 'cannot find symbol', severity: 'error' }],
+        error: 'compile failed'
+      }),
     });
   });
   await openCodeMode(page);
   await runCode(page);
   await assertConsole(page, /Compile Error/, /javac failed/);
+  await page.locator('.diagnostic', { hasText: 'NestedClassesRun.java:3' }).waitFor({ timeout: 15000 });
   await unmockJavaRunner(page);
 
   await mockJavaRunner(page, async (route) => {

@@ -32,6 +32,7 @@
             <span :class="['run-state', scratchRunnable ? 'runnable' : 'support']">
               {{ scratchRunnable ? 'runnable' : 'scratch' }}
             </span>
+            <span v-if="javaLspEnabled" :class="['lsp-state', lspStatus]">{{ lspLabel }}</span>
           </div>
           <button class="run-btn" type="button" @click="runScratch" :disabled="!canRunScratch">
             {{ runButtonLabel }}
@@ -39,8 +40,27 @@
         </div>
         <p class="run-warning">{{ runnerNotice }}</p>
         <ClientOnly>
-          <CodeEditor v-model="scratchCode" :readonly="false" />
+          <CodeEditor
+            ref="scratchEditorRef"
+            v-model="scratchCode"
+            :readonly="false"
+            :diagnostics="visibleDiagnostics"
+            :semantic-completion-provider="lspCompletionProvider"
+            :semantic-completion-resolver="lspCompletionResolver"
+            @run="runScratch"
+          />
         </ClientOnly>
+        <div class="diagnostics" v-if="visibleDiagnostics.length">
+          <button
+            v-for="(item, index) in visibleDiagnostics"
+            :key="`${item.file}:${item.line}:${index}`"
+            type="button"
+            class="diagnostic"
+            @click="scratchEditorRef?.focusLine(item.line)"
+          >
+            {{ item.file }}:{{ item.line }} - {{ item.message }}
+          </button>
+        </div>
         <div class="solution-row">
           <button type="button" class="solution-toggle" @click="showReference = !showReference">
             {{ showReference ? 'Hide Solution' : 'View Solution' }}
@@ -94,8 +114,13 @@ const referenceHtml = ref('')
 const referenceError = ref('')
 const selectedQuestion = ref(null)
 const scratchCode = ref('')
+const scratchEditorRef = ref(null)
 const output = ref('')
 const outputLabel = ref('Console')
+const diagnostics = ref([])
+const lspDiagnostics = ref([])
+const lspStatus = ref('off')
+const lspMessage = ref('')
 const isRunning = ref(false)
 const isRateLimited = ref(false)
 const rateLimitSeconds = ref(0)
@@ -104,6 +129,12 @@ let abortController = null
 let rateLimitInterval = null
 let runTimeout = null
 let runToken = 0
+const sessionId = `java-lsp-scratch-${Date.now()}-${Math.random().toString(36).slice(2)}`
+const lspPending = new Map()
+let lspRequestId = 0
+let lspChangeTimer = null
+let lspHeartbeatTimer = null
+const lspHandlers = []
 const RUN_TIMEOUT_MS = 15000
 const OUTPUT_LIMIT = 10000
 const PISTON_EXECUTE_URL = import.meta.env.VITE_PISTON_EXECUTE_URL || ''
@@ -134,6 +165,14 @@ const referenceHref = computed(() => {
 })
 const referenceLabel = computed(() => capabilities.value.design ? 'View Design' : 'View Solution')
 const usesPiston = computed(() => Boolean(PISTON_EXECUTE_URL))
+const javaLspEnabled = computed(() => import.meta.env.DEV && import.meta.env.VITE_ENABLE_JAVA_LSP === '1' && currentPath.value.startsWith('/java/'))
+const visibleDiagnostics = computed(() => [...lspDiagnostics.value, ...diagnostics.value])
+const lspLabel = computed(() => {
+  if (lspStatus.value === 'ready') return 'LSP ready'
+  if (lspStatus.value === 'failed') return 'LSP failed'
+  if (lspStatus.value === 'starting') return 'LSP starting'
+  return 'LSP off'
+})
 const scratchClassName = computed(() => {
   const match = scratchCode.value.match(/public\s+class\s+([A-Za-z_$][\w$]*)/)
   return match ? match[1] : 'PracticeScratch'
@@ -219,6 +258,173 @@ function resetRunState() {
   output.value = ''
   outputLabel.value = 'Console'
   isRunning.value = false
+  diagnostics.value = []
+}
+
+function sendLsp(event, data = {}) {
+  if (!javaLspEnabled.value || !import.meta.hot) return
+  import.meta.hot.send(event, { sessionId, ...data })
+}
+
+function lspBalancedContent(code) {
+  const text = code || 'public class PracticeScratch {\n}\n'
+  const opens = (text.match(/{/g) || []).length
+  const closes = (text.match(/}/g) || []).length
+  return closes < opens ? `${text}\n${'}\n'.repeat(opens - closes)}` : text
+}
+
+function scratchLspContent() {
+  return lspBalancedContent(scratchCode.value)
+}
+
+function startLsp() {
+  if (!javaLspEnabled.value || !hasStructuredPractice.value) return
+  lspStatus.value = 'starting'
+  lspDiagnostics.value = []
+  sendLsp('java-lsp:start', {
+    route: currentPath.value,
+    files: [{ name: scratchFileName.value, content: scratchLspContent() }],
+  })
+  clearInterval(lspHeartbeatTimer)
+  lspHeartbeatTimer = setInterval(() => sendLsp('java-lsp:heartbeat'), 5000)
+}
+
+function stopLsp() {
+  if (!import.meta.env.DEV || import.meta.env.VITE_ENABLE_JAVA_LSP !== '1') return
+  sendLsp('java-lsp:stop')
+  clearInterval(lspHeartbeatTimer)
+  lspHeartbeatTimer = null
+  clearTimeout(lspChangeTimer)
+  lspPending.forEach(({ reject }) => reject(new Error('Java LSP stopped.')))
+  lspPending.clear()
+  lspDiagnostics.value = []
+  lspStatus.value = 'off'
+}
+
+function scheduleLspChange() {
+  if (!javaLspEnabled.value || lspStatus.value !== 'ready') return
+  clearTimeout(lspChangeTimer)
+  lspChangeTimer = setTimeout(() => {
+    sendLsp('java-lsp:change', { file: scratchFileName.value, content: scratchLspContent() })
+  }, 250)
+}
+
+function syncLspModel(model) {
+  if (!javaLspEnabled.value || lspStatus.value !== 'ready') return Promise.resolve()
+  clearTimeout(lspChangeTimer)
+  sendLsp('java-lsp:change', { file: scratchFileName.value, content: lspBalancedContent(model.getValue()) })
+  return new Promise(resolve => setTimeout(resolve, 350))
+}
+
+function lspRequest(method, params) {
+  if (!javaLspEnabled.value || lspStatus.value !== 'ready') return Promise.resolve(null)
+  const requestId = ++lspRequestId
+  sendLsp('java-lsp:request', { requestId, method, params })
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      lspPending.delete(requestId)
+      resolve(null)
+    }, 5000)
+    lspPending.set(requestId, {
+      resolve: value => {
+        clearTimeout(timer)
+        resolve(value)
+      },
+      reject: err => {
+        clearTimeout(timer)
+        reject(err)
+      },
+    })
+  })
+}
+
+function lspPosition(position) {
+  return { line: position.lineNumber - 1, character: position.column - 1 }
+}
+
+function toMonacoRange(range, monaco) {
+  return new monaco.Range(
+    (range?.start?.line ?? 0) + 1,
+    (range?.start?.character ?? 0) + 1,
+    (range?.end?.line ?? range?.start?.line ?? 0) + 1,
+    (range?.end?.character ?? range?.start?.character ?? 0) + 1,
+  )
+}
+
+async function lspCompletionProvider(model, position, fallbackRange, monaco) {
+  await syncLspModel(model)
+  const triggerCharacter = model.getValueInRange({
+    startLineNumber: position.lineNumber,
+    startColumn: Math.max(1, position.column - 1),
+    endLineNumber: position.lineNumber,
+    endColumn: position.column,
+  })
+  const result = await lspRequest('textDocument/completion', {
+    textDocument: { uri: `file:///${scratchFileName.value}` },
+    position: lspPosition(position),
+    context: triggerCharacter === '.' ? { triggerKind: 2, triggerCharacter: '.' } : { triggerKind: 1 },
+  })
+  const items = Array.isArray(result) ? result : (result?.items || [])
+  return pruneNoisyLspItems(items).slice(0, 120).map((item, index) => completionItemToMonaco(item, fallbackRange, monaco, index))
+}
+
+function pruneNoisyLspItems(items) {
+  const hasStudyPackage = items.some(item => /^(java\.lang|java\.util|java\.io|java\.nio)\b/.test(String(item.detail || '')))
+  if (!hasStudyPackage) return items
+  return items.filter(item => !/^(com\.sun|sun\.|jdk\.|javax\.|org\.w3c|java\.awt|java\.lang\.classfile|java\.lang\.reflect\.Array|java\.sql\.Array)\b/.test(String(item.detail || '')))
+}
+
+function lspCompletionKind(kind, monaco) {
+  const map = {
+    2: monaco.languages.CompletionItemKind.Method,
+    3: monaco.languages.CompletionItemKind.Function,
+    5: monaco.languages.CompletionItemKind.Field,
+    6: monaco.languages.CompletionItemKind.Variable,
+    7: monaco.languages.CompletionItemKind.Class,
+    8: monaco.languages.CompletionItemKind.Interface,
+    9: monaco.languages.CompletionItemKind.Module,
+    10: monaco.languages.CompletionItemKind.Property,
+    14: monaco.languages.CompletionItemKind.Keyword,
+    15: monaco.languages.CompletionItemKind.Snippet,
+    20: monaco.languages.CompletionItemKind.Enum,
+    21: monaco.languages.CompletionItemKind.Constant,
+  }
+  return map[kind] || monaco.languages.CompletionItemKind.Text
+}
+
+function lspSortText(item, index) {
+  const detail = String(item.detail || '')
+  const label = String(item.label || '').split(/\s+-/)[0]
+  const commonUtil = /^(List|ArrayList|LinkedList|ArrayDeque|Deque|Queue|PriorityQueue|Map|HashMap|LinkedHashMap|TreeMap|Set|HashSet|LinkedHashSet|TreeSet|Iterator|ListIterator|Collections|Arrays)$/
+  const commonLang = /^(String|Integer|Long|Double|Float|Boolean|Character|Byte|Short|Object|System|Math|Exception|RuntimeException)$/
+  const internalPenalty = /^(com\.sun|jdk\.internal)\b/.test(detail) ? 8 : 0
+  const packageRank = commonUtil.test(label) && detail.startsWith('java.util') ? 0 : commonLang.test(label) && detail.startsWith('java.lang') ? 1 : detail.startsWith('java.util') ? 2 : detail.startsWith('java.io') ? 3 : detail.startsWith('java.nio') ? 4 : detail.startsWith('java.lang.classfile') ? 8 : detail.startsWith('java.awt') ? 8 : detail.startsWith('java.lang') ? 5 : 6
+  return `${packageRank + internalPenalty}-${String(label.length).padStart(3, '0')}-${item.sortText || String(index).padStart(4, '0')}`
+}
+
+function completionItemToMonaco(item, fallbackRange, monaco, index = 0) {
+  return {
+    label: item.label,
+    kind: lspCompletionKind(item.kind, monaco),
+    detail: item.detail,
+    documentation: typeof item.documentation === 'string' ? item.documentation : item.documentation?.value,
+    insertText: item.textEdit?.newText || item.insertText || item.label,
+    range: item.textEdit?.range ? toMonacoRange(item.textEdit.range, monaco) : fallbackRange,
+    additionalTextEdits: (item.additionalTextEdits || []).map(edit => ({
+      range: toMonacoRange(edit.range, monaco),
+      text: edit.newText || '',
+    })),
+    commitCharacters: item.commitCharacters,
+    filterText: item.filterText,
+    sortText: lspSortText(item, index),
+    lspItem: item,
+  }
+}
+
+async function lspCompletionResolver(item, monaco) {
+  if (!item?.lspItem) return item
+  const resolved = await lspRequest('completionItem/resolve', item.lspItem).catch(() => null)
+  return resolved ? { ...item, ...completionItemToMonaco(resolved, item.range, monaco), lspItem: resolved } : item
 }
 
 function selectQuestion(question) {
@@ -226,6 +432,7 @@ function selectQuestion(question) {
   scratchCode.value = question?.starterCode || ''
   showReference.value = false
   resetRunState()
+  startLsp()
 }
 
 function canToggleReference() {
@@ -248,6 +455,7 @@ watch(currentPath, () => {
   selectedQuestion.value = null
   scratchCode.value = ''
   resetRunState()
+  stopLsp()
 })
 
 watch(questions, (list) => {
@@ -256,6 +464,31 @@ watch(questions, (list) => {
     selectQuestion(existing || list[0])
   }
 }, { immediate: true })
+
+watch(scratchCode, scheduleLspChange)
+
+if (import.meta.env.DEV && import.meta.hot) {
+  const onLsp = (event, handler) => {
+    import.meta.hot.on(event, handler)
+    lspHandlers.push([event, handler])
+  }
+  onLsp('java-lsp:status', data => {
+    if (data.sessionId !== sessionId) return
+    lspStatus.value = data.status || 'failed'
+    lspMessage.value = data.message || ''
+  })
+  onLsp('java-lsp:diagnostics', data => {
+    if (data.sessionId !== sessionId) return
+    lspDiagnostics.value = data.diagnostics || []
+  })
+  onLsp('java-lsp:response', data => {
+    if (data.sessionId !== sessionId) return
+    const pending = lspPending.get(data.requestId)
+    if (!pending) return
+    lspPending.delete(data.requestId)
+    data.error ? pending.reject(new Error(data.error)) : pending.resolve(data.result)
+  })
+}
 
 async function runScratch() {
   if (isRunning.value || isRateLimited.value) return
@@ -274,6 +507,7 @@ async function runScratch() {
   isRunning.value = true
   outputLabel.value = 'Running'
   output.value = 'Compiling and running...'
+  diagnostics.value = []
 
   if (abortController) abortController.abort()
   abortController = new AbortController()
@@ -311,6 +545,7 @@ async function runScratch() {
 
     const data = await res.json()
     if (token !== runToken) return
+    diagnostics.value = Array.isArray(data.diagnostics) ? data.diagnostics : []
     const formatted = usesPiston.value ? formatPistonOutput(data) : formatLocalOutput(data)
     outputLabel.value = formatted.label
     output.value = boundedOutput(formatted.text)
@@ -357,6 +592,11 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', toggleReferenceShortcut)
   resetRunState()
+  stopLsp()
+  if (import.meta.hot?.off) {
+    lspHandlers.forEach(([event, handler]) => import.meta.hot.off(event, handler))
+    lspHandlers.length = 0
+  }
 })
 </script>
 
@@ -548,6 +788,25 @@ onBeforeUnmount(() => {
   color: #854d0e;
   background: rgba(245, 158, 11, 0.16);
 }
+.lsp-state {
+  flex: none;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+}
+.lsp-state.ready {
+  color: #166534;
+  background: rgba(34, 197, 94, 0.14);
+}
+.lsp-state.failed {
+  color: #991b1b;
+  background: rgba(239, 68, 68, 0.14);
+}
 .run-btn {
   background: var(--vp-c-brand-1);
   color: white;
@@ -575,6 +834,31 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
+}
+.diagnostics {
+  margin-top: 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.diagnostic {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  padding: 7px 10px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  cursor: pointer;
+}
+.diagnostic:last-child {
+  border-bottom: 0;
+}
+.diagnostic:hover {
+  background: var(--vp-c-brand-soft);
 }
 .console {
   margin-top: 12px;

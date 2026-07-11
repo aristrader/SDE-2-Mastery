@@ -5,6 +5,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
 import { execFile } from 'node:child_process'
+import { javaLspBridgePlugin } from './dev/javaLspBridge.mjs'
 
 const monacoPlugin = monacoEditorPlugin.default ? monacoEditorPlugin.default : monacoEditorPlugin
 const monacoPublicPath = 'monacoeditorwork'
@@ -62,6 +63,25 @@ function safeJavaName(name) {
   return name
 }
 
+function parseJavacDiagnostics(stderr, fileNamesByPath) {
+  const lines = String(stderr || '').split(/\r?\n/)
+  const diagnostics = []
+  for (let i = 0; i < lines.length; i++) {
+    const match = lines[i].match(/^(.+\.java):(\d+):\s*(?:(error|warning):\s*)?(.*)$/)
+    if (!match) continue
+    const [, rawPath, line, severity = 'error', message] = match
+    const caret = lines[i + 2]?.match(/^(\s*)\^/)
+    diagnostics.push({
+      file: fileNamesByPath.get(path.resolve(rawPath)) || path.basename(rawPath),
+      line: Number(line),
+      column: caret ? caret[1].length + 1 : 1,
+      severity,
+      message: message || lines[i],
+    })
+  }
+  return diagnostics
+}
+
 async function runJavaLocally({ mainClass, files }) {
   if (!/^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*)*$/.test(mainClass || '')) {
     throw new Error('mainClass is required and must be a fully-qualified Java class name.')
@@ -81,6 +101,7 @@ async function runJavaLocally({ mainClass, files }) {
 
   try {
     const sourceFiles = []
+    const fileNamesByPath = new Map()
     for (const file of files) {
       const content = String(file.content ?? '')
       if (content.length > 100_000) throw new Error(`${file.name} is too large to run.`)
@@ -89,6 +110,7 @@ async function runJavaLocally({ mainClass, files }) {
       const targetFile = path.join(targetDir, safeJavaName(file.name))
       fs.writeFileSync(targetFile, content, 'utf8')
       sourceFiles.push(targetFile)
+      fileNamesByPath.set(path.resolve(targetFile), file.name)
     }
 
     const compile = await execFileAsync('javac', ['-d', classesDir, ...sourceFiles], {
@@ -101,6 +123,7 @@ async function runJavaLocally({ mainClass, files }) {
         phase: 'compile',
         stdout: compile.stdout,
         stderr: compile.stderr,
+        diagnostics: parseJavacDiagnostics(compile.stderr, fileNamesByPath),
         error: compile.timedOut ? 'Compilation timed out.' : compile.error.message,
       }
     }
@@ -149,6 +172,7 @@ export default withMermaid({
   vite: {
     plugins: [
       localJavaRunnerPlugin(),
+      javaLspBridgePlugin(),
       monacoPlugin({
         publicPath: monacoPublicPath,
         customDistPath: (root, buildOutDir) => {
