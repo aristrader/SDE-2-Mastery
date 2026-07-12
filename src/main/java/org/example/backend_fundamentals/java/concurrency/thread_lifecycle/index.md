@@ -6,6 +6,24 @@ order: 10
 
 ---
 
+## Process vs thread
+
+A process is an independently running program with its own address space and resources. Two Java processes do not share heap objects unless they communicate through IPC, sockets, files, shared memory, or another external mechanism.
+
+A thread is an execution path inside one process. Threads in the same JVM process share heap objects, static fields, file descriptors, and other process resources. Each thread has its own call stack, program counter, and local method frames.
+
+Backend mental model:
+
+```text
+Spring Boot application = one JVM process
+Incoming requests       = many worker threads inside that process
+Shared objects          = heap state visible to those threads
+```
+
+That shared heap is why Java concurrency bugs are usually about shared mutable objects, not isolated request-local variables.
+
+---
+
 ## The 6 states
 
 Defined in `Thread.State`. The JVM tracks each thread's state; `Thread.getState()` returns the current value.
@@ -151,6 +169,9 @@ try {
 **Q. What is the difference between BLOCKED and WAITING?**
 A. BLOCKED = waiting to acquire a monitor lock held by another thread. WAITING = voluntarily suspended via `wait()`/`join()`/`park()`, waiting for an explicit signal.
 
+**Q. Process vs thread in one line?**
+A. Processes have isolated address spaces; threads inside one process share heap memory and resources.
+
 **Q. Does `Thread.sleep()` release held monitor locks?**
 A. No. The thread sleeps but keeps all locks it holds.
 
@@ -168,4 +189,3 @@ A. The permit is pre-loaded; the subsequent `park()` call returns immediately wi
 
 **Q. Can you call `start()` on a terminated thread?**
 A. No — throws `IllegalThreadStateException`. A thread can only be started once.
-

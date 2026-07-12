@@ -5,6 +5,31 @@ search: false
 
 # Thread Lifecycle Practice
 
+## Exercise: start-vs-run - start() vs run()
+
+### Goal
+Separate ordinary method calls from concurrent execution.
+
+### Task
+Create a `Thread` that prints the current thread name. First call `run()` directly, then change the program to call `start()`.
+
+### Checks
+- Explain which thread executes the task in each version.
+- Explain why a `Thread` instance can be started only once.
+
+## Exercise: join-not-sleep - join, Not Sleep
+
+### Goal
+Use real thread coordination.
+
+### Task
+Start a worker that writes a shared value. Make the main thread print the value only after the worker finishes.
+
+### Checks
+- Use `join()`, not arbitrary `Thread.sleep()` in main.
+- Explain which thread blocks on `join()`.
+- Explain the visibility guarantee after successful join.
+
 ## Exercise: thread-state-observation - Observe Thread States
 
 ### Goal

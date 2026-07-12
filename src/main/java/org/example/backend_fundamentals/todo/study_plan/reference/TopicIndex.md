@@ -11,6 +11,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **ACID** → Part 06 (DB fundamentals)
 - **Active-active vs active-passive** → Part 07 (HA), Part 31 (DC-JKT vs AWS-SG)
 - **Adapter pattern** → Part 04 (Structural), Part 31 row 9 (vendor abstraction)
+- **AtomicInteger / AtomicReference / LongAdder** → Part 02 row 14
 - **Anycast (same IP from many locations — CDNs, DNS, Global Accelerator)** → Part 11 row 24
 - **ArgoCD sync loop / kustomization.yaml** → Part 22 row 18
 - **AOP (Aspect-Oriented Programming)** → Part 03, Part 1b row 20 (Spring proxies)
@@ -30,6 +31,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## B
 
 - **Backpressure** → Part 02 (concurrency), Part 07 (row 60), Part 10 (messaging)
+- **BlockingQueue / wait-notify producer-consumer** → Part 02 rows 11, 16
 - **Backup & restore** → Part 06, Part 13 (AWS)
 - **BAC vs PACE** → Part 29 row 8 (passport NFC)
 - **BFF (Backend-For-Frontend, service-layer aggregation)** → Part 06 (row 41)
@@ -59,7 +61,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **CDN (Content Delivery Network)** → Part 07 row 8
 - **@ConfigurationProperties (binding YAML, @Validated)** → Part 03, Part 1b row 12
 - **@ControllerAdvice / global exception handling** → Part 03, Part 1b row 11
-- **CompletableFuture (thenApply, thenCompose, allOf, exceptionally)** → Part 02, Part 1b row 14
+- **CompletableFuture (thenApply, thenCompose, allOf, exceptionally)** → Part 02 row 7, Part 1b row 14, `java/concurrency/completable_future/`
 - **Constructor injection pattern** → Part 04, Part 1b row 8
 - **CGNAT (Carrier-Grade NAT)** → Part 11 row 24
 - **CDD vs EDD (KYC)** → Part 29 row 5
@@ -73,6 +75,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Compensating transactions / Saga** → Part 29 row 106, Part 04
 - **Compliance reporting** → Part 28, Part 31 row 54
 - **Concurrency primitives** → Part 02 (entire Part)
+- **Concurrent collections (ConcurrentHashMap, CopyOnWriteArrayList)** → Part 02 row 15, Part 01 row 8
 - **Connection pool / HikariCP** → Part 03, Part 06, Part 08
 - **Consistency models** → Part 07
 - **Container security (Trivy, Snyk, ECR scanning, distroless, SBOM, Sigstore)** → Part 22
@@ -89,6 +92,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Database private IPs / hacking methods (Lateral movement, App compromise)** → Part 11 row 15b
 - **Datadog** → Part 21, Part 31 (KYC funnel)
 - **Deadlock** → Part 02, Part 06
+- **Deadlock / livelock / starvation** → Part 02 row 10, Part 27 rows 1-2
 - **Deepfakes** → Part 29 row 54
 - **Defense-in-depth** → Part 15, Part 16, Part 17, Part 31
 - **Design docs** → Part 24 row 1

@@ -10,9 +10,9 @@ order: 30
 
 The JMM is a **specification** — part of the JLS (§17) — defining precisely when a write by one thread becomes **visible** to a read by another, and in what **order** actions across threads may be observed.
 
-Each CPU architecture (x86, ARM, SPARC) has its own reordering rules. The JMM abstracts over all of them: if your program satisfies its rules, it is portable across all JVMs and hardware. If it violates the JMM (a data race), behavior is undefined — the JVM may return stale values, reorder writes, or invent reads.
+Each CPU architecture (x86, ARM, SPARC) has its own reordering rules. The JMM abstracts over all of them: if your program satisfies its rules, it is portable across all JVMs and hardware.
 
-The JMM does **not** describe physical memory or CPU caches directly. It defines a happens-before partial order over program actions.
+The JMM does **not** describe physical memory or CPU caches directly. It defines a happens-before partial order over program actions. If a program has a data race, the JMM gives very weak guarantees: reads may observe stale or surprising values, and reasoning from source-code order becomes invalid.
 
 ---
 
@@ -192,6 +192,20 @@ Any thread that reads a `Point` reference sees the correct `x` and `y` without s
 
 ---
 
+## Trick questions / gotchas
+
+**"It worked in 1,000 test runs."** That proves only that the race did not manifest under those schedules. Thread safety comes from a happens-before guarantee, not observed output.
+
+**"The write happened first in real time."** Real-time order does not imply visibility. Without a happens-before edge, another thread may legally read an older value.
+
+**"The writer synchronized, so the reader is safe."** Only if the reader also uses the same monitor or another compatible visibility mechanism. A synchronized write and plain read are not a complete protocol.
+
+**"Volatile makes this object thread-safe."** A volatile reference makes reference replacement visible. It does not make mutation inside the referenced object atomic or safe.
+
+**"Final fields solve all publication problems."** Final fields get special visibility after construction, but non-final fields in the same object do not. Also, leaking `this` during construction can break the guarantee.
+
+---
+
 ## Quick recall
 
 **Q. What does the JMM actually define?**
@@ -214,5 +228,3 @@ A. The JMM freeze rule: at constructor end, final field values are frozen and vi
 
 **Q. What is safe publication?**
 A. Publishing an object so that both its reference and its state are visible to other threads simultaneously — no thread sees a partially-constructed state. Achieved via static initializer, volatile field, AtomicReference, final fields (freeze rule), or lock-guarded fields.
-
-

@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 110
 ---
 
 # ExecutorService & ThreadPoolExecutor
@@ -176,4 +176,3 @@ A. IO-bound tasks in Java 21+ — virtual threads park on blocking IO without co
 
 **Q. What queue type is recommended for production custom pools and why?**
 A. `ArrayBlockingQueue` with a finite bound — it triggers the max-thread and rejection policy paths, giving real backpressure instead of unbounded queuing.
-

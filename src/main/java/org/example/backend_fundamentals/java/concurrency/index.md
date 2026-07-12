@@ -15,9 +15,14 @@ Concurrency is the Java runtime model for doing more than one thing at a time. R
 | 3 | `jmm` | Why writes are not automatically visible across threads. |
 | 4 | `volatile_keyword` | Visibility without mutual exclusion. |
 | 5 | `synchronized_keyword` | Mutual exclusion and monitor semantics. |
-| 6 | `locks` | Explicit lock APIs and try-lock patterns. |
-| 7 | `executor_service` | Thread pools instead of manual thread creation. |
-| 8 | `completable_future` | Async composition. |
+| 6 | `atomic_classes` | Atomic counters, CAS, read-and-reset, and LongAdder. |
+| 7 | `concurrent_collections` | ConcurrentHashMap, CopyOnWriteArrayList, and map atomic operations. |
+| 8 | `wait_notify` | Low-level monitor coordination and why higher-level APIs usually win. |
+| 9 | `locks` | Explicit lock APIs and try-lock patterns. |
+| 10 | `deadlock_livelock_starvation` | Progress failures, lock ordering, and pool starvation. |
+| 11 | `executor_service` | Thread pools instead of manual thread creation. |
+| 12 | `completable_future` | Async composition, split into basics, composition, failure/timeouts, and backend workflows. |
+| 13 | `interview_drill_bank` | Compact oral drills after the hands-on pages. |
 
 ## Quick recall
 
@@ -25,3 +30,5 @@ Concurrency is the Java runtime model for doing more than one thing at a time. R
 - **Need visibility only?** `volatile` may fit.
 - **Need compound read-modify-write safety?** Use synchronization, locks, atomics, or concurrent collections.
 - **Need many tasks?** Use an executor, not one manual thread per task.
+- **Need a shared map?** Use `ConcurrentHashMap` operations atomically; do not split check and update.
+- **Need async workflow?** Classify dependency vs independence before choosing a CompletableFuture method.

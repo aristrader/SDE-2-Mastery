@@ -13,15 +13,15 @@
 | 4 | synchronized — intrinsic locks, monitor, biased locking history | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/synchronized_keyword/index.md` · 💻 Warm-up: synchronized block on shared counter (20 min) |
 | 5 | volatile — what it guarantees, what it doesn't | 🔴 💼 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/volatile_keyword/index.md` |
 | 6 | ExecutorService, ThreadPoolExecutor — core / max pool, queue strategy, rejection policies | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/executor_service/index.md` · 📖 Baeldung "Guide to ThreadPoolExecutor" · 💻 Warm-up: run 1000 threads via fixed pool + virtual pool, compare (20 min) |
-| 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/index.md` · 📖 Baeldung "Guide to CompletableFuture" · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
+| 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/index.md` · 📖 `java/concurrency/completable_future/basics/index.md` · 📖 `java/concurrency/completable_future/composition/index.md` · 📖 `java/concurrency/completable_future/failure_timeouts/index.md` · 📖 `java/concurrency/completable_future/backend_workflows/index.md` · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
 | 8 | Locks — ReentrantLock, ReentrantReadWriteLock, fair vs unfair | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/locks/index.md` · 💻 Warm-up: ReentrantLock with try-finally unlock pattern (15 min) |
 | 9 | Reentrancy | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Deadlock, livelock, starvation — causes and prevention | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: producer-consumer via wait/notify — feel the awkwardness (20 min) |
+| 10 | Deadlock, livelock, starvation — causes and prevention | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/deadlock_livelock_starvation/index.md` |
+| 11 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/wait_notify/index.md` · 💻 Warm-up: producer-consumer via wait/notify — feel the awkwardness (20 min) |
 | 12 | Semaphore, CountDownLatch, CyclicBarrier, Phaser — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | StampedLock — optimistic reads | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Atomic family — AtomicInteger, AtomicReference, LongAdder | 🔴 💼 | MP | 1 hr 40 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: AtomicInteger.compareAndSet() — observe return value (10 min) |
-| 15 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 14 | Atomic family — AtomicInteger, AtomicReference, LongAdder | 🔴 💼 | MP | 1 hr 40 min | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/atomic_classes/index.md` · 💻 Warm-up: AtomicInteger.compareAndSet() — observe return value (10 min) |
+| 15 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/concurrent_collections/index.md` |
 | 16 | BlockingQueue family — ArrayBlockingQueue, LinkedBlockingQueue, SynchronousQueue, DelayQueue | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | Virtual threads (Loom) — what they are, when they help, pinning gotchas | 🟠 💼 🆕 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 JEP 444 (Virtual Threads) + Oracle Loom intro |
 | 18 | Structured concurrency | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |

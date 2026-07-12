@@ -1,8 +1,23 @@
 ---
-order: 80
+order: 120
 ---
 
 # CompletableFuture
+
+---
+
+## Study path
+
+Use the focused subpages in this order:
+
+| Order | Page | Use it for |
+| --- | --- | --- |
+| 1 | `basics` | `runAsync`, `supplyAsync`, `thenApply`, blocking, `get` vs `join`, completed futures. |
+| 2 | `composition` | `thenCompose`, `thenCombine`, `allOf`, dynamic lists, preserving order. |
+| 3 | `failure_timeouts` | `exceptionally`, `handle`, `whenComplete`, required vs optional failure, timeout, retry. |
+| 4 | `backend_workflows` | Dashboard, order pipeline, async cache, batch loading, transaction/context boundaries. |
+
+The rest of this page is the compact reference view.
 
 ---
 
@@ -190,4 +205,3 @@ A. `join()` — throws unchecked `CompletionException`, no need to catch checked
 
 **Q. Why is using `ForkJoinPool.commonPool()` for IO dangerous in a web server?**
 A. IO tasks block common pool threads and can starve parallel streams and other FJ work across the JVM; always pass a dedicated executor.
-
