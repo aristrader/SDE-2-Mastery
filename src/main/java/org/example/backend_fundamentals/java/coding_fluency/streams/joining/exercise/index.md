@@ -17,3 +17,18 @@ Produce delimited strings from a stream.
 ### Checks
 - You map `Order` to `String` before joining.
 - The paid output is `[O1 | O4 | O6]`.
+
+## Exercise: employee-joining - Employee Joining
+
+### Goal
+Join mapped employee fields.
+
+### Task
+Using `Employee`:
+
+1. Join all employee names separated by commas.
+2. Join all unique department names inside square brackets.
+
+### Checks
+- Map to a `String` field before calling `joining`.
+- Use `distinct()` for unique departments.

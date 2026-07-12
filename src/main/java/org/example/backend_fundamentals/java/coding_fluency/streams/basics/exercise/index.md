@@ -34,3 +34,18 @@ Collect customer IDs into a `Set<String>`.
 ### Checks
 - Duplicate customer IDs appear once.
 - You do not depend on iteration order.
+
+## Exercise: collector-basics - Basic Collectors
+
+### Goal
+Choose simple collectors for lists and sets.
+
+### Task
+Using `Employee`:
+
+1. Collect all active employees into a list.
+2. Find all unique departments.
+
+### Checks
+- Use `filter(...).toList()` or `collect(toList())` for the active employees.
+- Use `map(Employee::department)` before collecting departments into a set.

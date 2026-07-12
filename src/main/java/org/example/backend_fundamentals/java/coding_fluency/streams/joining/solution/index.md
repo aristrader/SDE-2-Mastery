@@ -17,3 +17,16 @@ String paidIds = orders.stream()
     .map(Order::id)
     .collect(Collectors.joining(" | ", "[", "]"));
 ```
+
+## Solution: employee-joining - Employee Joining
+
+```java
+String employeeNames = employees.stream()
+    .map(Employee::name)
+    .collect(Collectors.joining(", "));
+
+String departments = employees.stream()
+    .map(Employee::department)
+    .distinct()
+    .collect(Collectors.joining(", ", "[", "]"));
+```

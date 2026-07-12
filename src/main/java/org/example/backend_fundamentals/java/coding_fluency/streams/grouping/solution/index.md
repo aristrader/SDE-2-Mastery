@@ -22,3 +22,34 @@ Map<OrderStatus, Long> counts = orders.stream()
 ```
 
 `counting()` returns `Long`.
+
+## Solution: employee-grouping - Employee groupingBy
+
+```java
+Map<String, List<Employee>> byDepartment = employees.stream()
+    .collect(Collectors.groupingBy(Employee::department));
+
+Map<String, Long> countByDepartment = employees.stream()
+    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));
+
+Map<String, List<String>> namesByDepartment = employees.stream()
+    .collect(Collectors.groupingBy(
+        Employee::department,
+        Collectors.mapping(Employee::name, Collectors.toList())));
+
+Map<String, Double> averageSalaryByDepartment = employees.stream()
+    .collect(Collectors.groupingBy(
+        Employee::department,
+        Collectors.averagingDouble(Employee::salary)));
+
+Map<String, Optional<Employee>> highestPaidByDepartment = employees.stream()
+    .collect(Collectors.groupingBy(
+        Employee::department,
+        Collectors.maxBy(Comparator.comparingDouble(Employee::salary))));
+
+Map<Integer, List<Employee>> byAge = employees.stream()
+    .collect(Collectors.groupingBy(Employee::age));
+
+Map<String, List<Employee>> byCity = employees.stream()
+    .collect(Collectors.groupingBy(Employee::city));
+```

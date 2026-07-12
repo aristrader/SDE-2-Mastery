@@ -15,6 +15,12 @@ Partition orders into paid and not-paid, producing `Map<Boolean, List<Order>>`.
 
 Then use downstream `counting()` to get `Map<Boolean, Long>`.
 
+Also using `Employee`:
+
+1. Partition employees into active/inactive.
+2. Partition employees into salary `>= 100000` and salary `< 100000`.
+3. Count active vs inactive employees using `partitioningBy()`.
+
 ## Exercise: collectingandthen - collectingAndThen
 
 ### Goal

@@ -32,3 +32,15 @@ Set<String> customerIds = orders.stream()
 ```
 
 The set removes duplicates. Do not assume a specific order from `Collectors.toSet()`.
+
+## Solution: collector-basics - Basic Collectors
+
+```java
+List<Employee> activeEmployees = employees.stream()
+    .filter(Employee::active)
+    .toList();
+
+Set<String> departments = employees.stream()
+    .map(Employee::department)
+    .collect(Collectors.toSet());
+```

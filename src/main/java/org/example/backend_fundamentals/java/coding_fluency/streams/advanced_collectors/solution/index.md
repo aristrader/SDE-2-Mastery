@@ -19,6 +19,17 @@ Map<Boolean, Long> paidCounts = orders.stream()
 
 `partitioningBy` always includes both `true` and `false` keys.
 
+```java
+Map<Boolean, List<Employee>> activePartition = employees.stream()
+    .collect(Collectors.partitioningBy(Employee::active));
+
+Map<Boolean, List<Employee>> salaryPartition = employees.stream()
+    .collect(Collectors.partitioningBy(e -> e.salary() >= 100_000));
+
+Map<Boolean, Long> activeCounts = employees.stream()
+    .collect(Collectors.partitioningBy(Employee::active, Collectors.counting()));
+```
+
 ## Solution: collectingandthen - collectingAndThen
 
 ```java

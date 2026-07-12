@@ -427,24 +427,44 @@
                 "link": "/java/coding_fluency/streams/",
                 "items": [
                   {
+                    "text": "Stream Foundations",
+                    "link": "/java/coding_fluency/streams/foundations/"
+                  },
+                  {
+                    "text": "Stream Intermediate Operations",
+                    "link": "/java/coding_fluency/streams/intermediate_operations/"
+                  },
+                  {
+                    "text": "Stream Terminal Operations",
+                    "link": "/java/coding_fluency/streams/terminal_operations/"
+                  },
+                  {
                     "text": "Stream Collection Basics",
                     "link": "/java/coding_fluency/streams/basics/"
-                  },
-                  {
-                    "text": "groupingBy",
-                    "link": "/java/coding_fluency/streams/grouping/"
-                  },
-                  {
-                    "text": "toMap",
-                    "link": "/java/coding_fluency/streams/to_map/"
                   },
                   {
                     "text": "joining",
                     "link": "/java/coding_fluency/streams/joining/"
                   },
                   {
+                    "text": "toMap",
+                    "link": "/java/coding_fluency/streams/to_map/"
+                  },
+                  {
+                    "text": "groupingBy",
+                    "link": "/java/coding_fluency/streams/grouping/"
+                  },
+                  {
                     "text": "Advanced Collectors",
                     "link": "/java/coding_fluency/streams/advanced_collectors/"
+                  },
+                  {
+                    "text": "Primitive and Parallel Streams",
+                    "link": "/java/coding_fluency/streams/primitive_parallel/"
+                  },
+                  {
+                    "text": "Stream Interview Drills",
+                    "link": "/java/coding_fluency/streams/interview_drills/"
                   }
                 ],
                 "collapsed": true
@@ -1114,12 +1134,6 @@
         "text": "Live Progress Dashboard",
         "items": []
       }
-    ],
-    "/practice/": [
-      {
-        "text": "Practice Scratchpad",
-        "items": []
-      }
     ]
   },
   "nav": [
@@ -1192,11 +1206,6 @@
       "text": "Live Progress Dashboard",
       "link": "/progress/",
       "activeMatch": "/progress/"
-    },
-    {
-      "text": "Practice Scratchpad",
-      "link": "/practice/",
-      "activeMatch": "/practice/"
     }
   ],
   "tree": {
@@ -3996,9 +4005,71 @@
                 },
                 "items": [
                   {
+                    "text": "Stream Foundations",
+                    "link": "/java/coding_fluency/streams/foundations/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Stream Intermediate Operations",
+                    "link": "/java/coding_fluency/streams/intermediate_operations/",
+                    "order": 20,
+                    "schema": "practice",
+                    "practiceSet": {
+                      "questions": [
+                        {
+                          "id": "intermediate-warmup",
+                          "title": "One Operation at a Time",
+                          "exerciseHtml": "<h2>Exercise: intermediate-warmup - One Operation at a Time</h2>\n<h3>Goal</h3>\n<p>Practice choosing the right intermediate operation before choosing the terminal operation.</p>\n<h3>Task</h3>\n<p>Solve these with streams:</p>\n<p>1. Find all even numbers.</p>\n<p>2. Find all odd numbers.</p>\n<p>3. Find employees whose salary is greater than <code>100000</code>.</p>\n<p>4. Find active employees.</p>\n<p>5. Remove all null values from a list.</p>\n<p>6. Square every integer.</p>\n<p>7. Convert every string to uppercase.</p>\n<p>8. Extract employee names.</p>\n<p>9. Extract employee salaries.</p>\n<p>10. Convert <code>Employee</code> to <code>EmployeeDTO</code>.</p>\n<p>11. Flatten a <code>List&lt;List&lt;Integer&gt;&gt;</code>.</p>\n<p>12. Flatten employee skills into one list.</p>\n<p>13. Split lines like <code>Java Spring</code>, <code>Kafka Redis</code>, <code>Docker Kubernetes</code> into one word list.</p>\n<p>14. Flatten a list of comma-separated tags.</p>\n<p>15. Sort integers ascending.</p>\n<p>16. Sort integers descending.</p>\n<p>17. Sort employees by salary.</p>\n<p>18. Sort employees by department and then name.</p>\n<p>19. Find the top 5 highest-paid employees.</p>\n<p>20. Remove duplicate integers.</p>\n<p>21. Remove duplicate strings.</p>\n<p>22. Remove duplicate employees, assuming correct <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>23. Get the first 10 records.</p>\n<p>24. Get the top 3 highest-paid employees.</p>\n<p>25. Skip the first 5 records.</p>\n<p>26. Implement pagination with <code>skip()</code> and <code>limit()</code>.</p>\n<p>27. Log every employee before filtering.</p>\n<p>28. Print every value before mapping.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter</code> only when the stream may get shorter.</li>\n<li>Use <code>map</code> only when each element produces one value.</li>\n<li>Use <code>flatMap</code> for nested or split values.</li>\n<li>Use <code>peek</code> only for debugging/logging.</li>\n</ul>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Integer&gt; evens = numbers.stream().filter(n -&gt; n % 2 == 0).toList();\nList&lt;Integer&gt; odds = numbers.stream().filter(n -&gt; n % 2 != 0).toList();\nList&lt;Employee&gt; highPaid = employees.stream().filter(e -&gt; e.salary() &gt; 100_000).toList();\nList&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; nonNull = values.stream().filter(Objects::nonNull).toList();\n\nList&lt;Integer&gt; squares = numbers.stream().map(n -&gt; n * n).toList();\nList&lt;String&gt; upper = names.stream().map(String::toUpperCase).toList();\nList&lt;String&gt; employeeNames = employees.stream().map(Employee::name).toList();\nList&lt;Double&gt; salaries = employees.stream().map(Employee::salary).toList();\nList&lt;EmployeeDto&gt; dtos = employees.stream().map(e -&gt; new EmployeeDto(e.id(), e.name())).toList();\n\nList&lt;Integer&gt; flatNumbers = nested.stream().flatMap(List::stream).toList();\nList&lt;String&gt; skills = employees.stream().flatMap(e -&gt; e.skills().stream()).toList();\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\nList&lt;String&gt; tags = rows.stream().flatMap(row -&gt; Arrays.stream(row.split(&quot;,&quot;))).map(String::trim).toList();\n\nList&lt;Integer&gt; asc = numbers.stream().sorted().toList();\nList&lt;Integer&gt; desc = numbers.stream().sorted(Comparator.reverseOrder()).toList();\nList&lt;Employee&gt; bySalary = employees.stream().sorted(Comparator.comparingDouble(Employee::salary)).toList();\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\nList&lt;Employee&gt; topFive = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Integer&gt; uniqueNumbers = numbers.stream().distinct().toList();\nList&lt;String&gt; uniqueStrings = names.stream().distinct().toList();\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; firstTen = employees.stream().limit(10).toList();\nList&lt;Employee&gt; topThree = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(3)\n    .toList();\nList&lt;Employee&gt; afterFive = employees.stream().skip(5).toList();\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly.</p>"
+                        }
+                      ]
+                    },
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Stream Terminal Operations",
+                    "link": "/java/coding_fluency/streams/terminal_operations/",
+                    "order": 30,
+                    "schema": "practice",
+                    "practiceSet": {
+                      "questions": [
+                        {
+                          "id": "terminal-operations",
+                          "title": "Consume a Stream",
+                          "exerciseHtml": "<h2>Exercise: terminal-operations - Consume a Stream</h2>\n<h3>Goal</h3>\n<p>Pick the terminal operation that directly expresses the required result.</p>\n<h3>Task</h3>\n<p>Solve these:</p>\n<p>1. Count active employees.</p>\n<p>2. Find the first employee from HR.</p>\n<p>3. Find any employee from IT.</p>\n<p>4. Check if any employee earns more than <code>200000</code>.</p>\n<p>5. Check if all employees are active.</p>\n<p>6. Check if no employee is under 18.</p>\n<p>7. Find total salary using <code>reduce()</code>.</p>\n<p>8. Find maximum salary using <code>reduce()</code>.</p>\n<p>9. Concatenate all employee names using <code>reduce()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>Optional</code> safely for find/reduce results.</li>\n<li>Prefer match operations over <code>filter().count()</code> for boolean questions.</li>\n</ul>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: terminal-operations - Consume a Stream</h2>\n<pre><code>long activeCount = employees.stream()\n    .filter(Employee::active)\n    .count();\n\nOptional&lt;Employee&gt; firstHr = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;HR&quot;))\n    .findFirst();\n\nOptional&lt;Employee&gt; anyIt = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .findAny();\n\nboolean anyVeryHighPaid = employees.stream().anyMatch(e -&gt; e.salary() &gt; 200_000);\nboolean allActive = employees.stream().allMatch(Employee::active);\nboolean noneUnder18 = employees.stream().noneMatch(e -&gt; e.age() &lt; 18);\n\ndouble totalSalary = employees.stream()\n    .map(Employee::salary)\n    .reduce(0.0, Double::sum);\n\nOptional&lt;Double&gt; maxSalary = employees.stream()\n    .map(Employee::salary)\n    .reduce(Double::max);\n\nString names = employees.stream()\n    .map(Employee::name)\n    .reduce(&quot;&quot;, (left, right) -&gt; left.isEmpty() ? right : left + &quot;, &quot; + right);</code></pre>\n<p>For real name joining, prefer <code>Collectors.joining(&quot;, &quot;)</code>; this exercise uses <code>reduce()</code> to practice reduction.</p>"
+                        }
+                      ]
+                    },
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
                     "text": "Stream Collection Basics",
                     "link": "/java/coding_fluency/streams/basics/",
-                    "order": 10,
+                    "order": 40,
                     "schema": "interactive-code",
                     "practiceSet": {
                       "questions": [
@@ -4015,6 +4086,13 @@
                           "exerciseHtml": "<h2>Exercise: set-deduplication - Set Collector Deduplication</h2>\n<h3>Goal</h3>\n<p>Use a set collector to dedupe stream values.</p>\n<h3>Task</h3>\n<p>Collect customer IDs into a <code>Set&lt;String&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Duplicate customer IDs appear once.</li>\n<li>You do not depend on iteration order.</li>\n</ul>",
                           "starterCode": "",
                           "solutionHtml": "<h2>Solution: set-deduplication - Set Collector Deduplication</h2>\n<pre><code>Set&lt;String&gt; customerIds = orders.stream()\n    .map(Order::customerId)\n    .collect(Collectors.toSet());</code></pre>\n<p>The set removes duplicates. Do not assume a specific order from <code>Collectors.toSet()</code>.</p>"
+                        },
+                        {
+                          "id": "collector-basics",
+                          "title": "Basic Collectors",
+                          "exerciseHtml": "<h2>Exercise: collector-basics - Basic Collectors</h2>\n<h3>Goal</h3>\n<p>Choose simple collectors for lists and sets.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Collect all active employees into a list.</p>\n<p>2. Find all unique departments.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter(...).toList()</code> or <code>collect(toList())</code> for the active employees.</li>\n<li>Use <code>map(Employee::department)</code> before collecting departments into a set.</li>\n</ul>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: collector-basics - Basic Collectors</h2>\n<pre><code>List&lt;Employee&gt; activeEmployees = employees.stream()\n    .filter(Employee::active)\n    .toList();\n\nSet&lt;String&gt; departments = employees.stream()\n    .map(Employee::department)\n    .collect(Collectors.toSet());</code></pre>"
                         }
                       ]
                     },
@@ -4027,25 +4105,25 @@
                     }
                   },
                   {
-                    "text": "groupingBy",
-                    "link": "/java/coding_fluency/streams/grouping/",
-                    "order": 20,
+                    "text": "joining",
+                    "link": "/java/coding_fluency/streams/joining/",
+                    "order": 50,
                     "schema": "interactive-code",
                     "practiceSet": {
                       "questions": [
                         {
-                          "id": "groupingby-simple",
-                          "title": "groupingBy simple",
-                          "exerciseHtml": "<h2>Exercise: groupingby-simple - groupingBy simple</h2>\n<h3>Goal</h3>\n<p>Bucket a flat list into groups.</p>\n<h3>Task</h3>\n<p>Group all orders by <code>OrderStatus</code>, producing <code>Map&lt;OrderStatus, List&lt;Order&gt;&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Print how many orders are in each bucket.</li>\n<li>Explain why this is <code>groupingBy</code>, not <code>toMap</code>.</li>\n</ul>",
+                          "id": "joining-strings",
+                          "title": "joining",
+                          "exerciseHtml": "<h2>Exercise: joining-strings - joining</h2>\n<h3>Goal</h3>\n<p>Produce delimited strings from a stream.</p>\n<h3>Task</h3>\n<p>1. Join all order IDs into <code>O1,O2,O3,O4,O5,O6</code>.</p>\n<p>2. Join paid order IDs with delimiter <code> | </code>, prefix <code>[</code>, suffix <code>]</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>You map <code>Order</code> to <code>String</code> before joining.</li>\n<li>The paid output is <code>[O1 | O4 | O6]</code>.</li>\n</ul>",
                           "starterCode": "",
-                          "solutionHtml": "<h2>Solution: groupingby-simple - groupingBy simple</h2>\n<pre><code>Map&lt;OrderStatus, List&lt;Order&gt;&gt; byStatus = orders.stream()\n    .collect(Collectors.groupingBy(Order::status));</code></pre>\n<p>Use <code>groupingBy</code> because each status can have multiple orders.</p>"
+                          "solutionHtml": "<h2>Solution: joining-strings - joining</h2>\n<pre><code>String allIds = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.joining(&quot;,&quot;));\n\nString paidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.joining(&quot; | &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
                         },
                         {
-                          "id": "groupingby-counting",
-                          "title": "groupingBy with downstream counting",
-                          "exerciseHtml": "<h2>Exercise: groupingby-counting - groupingBy with downstream counting</h2>\n<h3>Goal</h3>\n<p>Aggregate within each group.</p>\n<h3>Task</h3>\n<p>Produce <code>Map&lt;OrderStatus, Long&gt;</code> using <code>groupingBy</code> with <code>Collectors.counting()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>The value type is <code>Long</code>, not <code>Integer</code>.</li>\n<li>The downstream collector is the second argument.</li>\n</ul>",
+                          "id": "employee-joining",
+                          "title": "Employee Joining",
+                          "exerciseHtml": "<h2>Exercise: employee-joining - Employee Joining</h2>\n<h3>Goal</h3>\n<p>Join mapped employee fields.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Join all employee names separated by commas.</p>\n<p>2. Join all unique department names inside square brackets.</p>\n<h3>Checks</h3>\n<ul>\n<li>Map to a <code>String</code> field before calling <code>joining</code>.</li>\n<li>Use <code>distinct()</code> for unique departments.</li>\n</ul>",
                           "starterCode": "",
-                          "solutionHtml": "<h2>Solution: groupingby-counting - groupingBy with downstream counting</h2>\n<pre><code>Map&lt;OrderStatus, Long&gt; counts = orders.stream()\n    .collect(Collectors.groupingBy(Order::status, Collectors.counting()));</code></pre>\n<p><code>counting()</code> returns <code>Long</code>.</p>"
+                          "solutionHtml": "<h2>Solution: employee-joining - Employee Joining</h2>\n<pre><code>String employeeNames = employees.stream()\n    .map(Employee::name)\n    .collect(Collectors.joining(&quot;, &quot;));\n\nString departments = employees.stream()\n    .map(Employee::department)\n    .distinct()\n    .collect(Collectors.joining(&quot;, &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
                         }
                       ]
                     },
@@ -4060,7 +4138,7 @@
                   {
                     "text": "toMap",
                     "link": "/java/coding_fluency/streams/to_map/",
-                    "order": 30,
+                    "order": 60,
                     "schema": "interactive-code",
                     "practiceSet": {
                       "questions": [
@@ -4077,6 +4155,13 @@
                           "exerciseHtml": "<h2>Exercise: tomap-duplicate - toMap duplicate key handler</h2>\n<h3>Goal</h3>\n<p>Handle duplicate keys with a merge function.</p>\n<h3>Task</h3>\n<p>Build <code>Map&lt;String, BigDecimal&gt;</code> keyed by <code>customerId</code>, where the value is the sum of all order totals for that customer.</p>\n<p>Try the two-arg form first, then switch to the three-arg form.</p>\n<h3>Checks</h3>\n<ul>\n<li>Customer <code>C1</code> totals all its orders.</li>\n<li>The merge function adds, not overwrites.</li>\n</ul>",
                           "starterCode": "",
                           "solutionHtml": "<h2>Solution: tomap-duplicate - toMap duplicate key handler</h2>\n<pre><code>Map&lt;String, BigDecimal&gt; totalByCustomer = orders.stream()\n    .collect(Collectors.toMap(\n        Order::customerId,\n        Order::total,\n        BigDecimal::add));</code></pre>\n<p><code>BigDecimal::add</code> receives the existing and incoming totals for the same customer.</p>"
+                        },
+                        {
+                          "id": "employee-tomap",
+                          "title": "Employee Maps",
+                          "exerciseHtml": "<h2>Exercise: employee-tomap - Employee Maps</h2>\n<h3>Goal</h3>\n<p>Build one-key-to-one-value maps and handle duplicates intentionally.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Create <code>id -&gt; Employee</code>.</p>\n<p>2. Create <code>id -&gt; employeeName</code>.</p>\n<p>3. Explain what happens if duplicate employee IDs exist.</p>\n<p>4. Keep the latest employee when duplicate IDs exist.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>Function.identity()</code> when the whole employee is the value.</li>\n<li>Add a merge function for duplicate IDs.</li>\n</ul>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: employee-tomap - Employee Maps</h2>\n<pre><code>Map&lt;Integer, Employee&gt; byId = employees.stream()\n    .collect(Collectors.toMap(Employee::id, Function.identity()));\n\nMap&lt;Integer, String&gt; nameById = employees.stream()\n    .collect(Collectors.toMap(Employee::id, Employee::name));\n\nMap&lt;Integer, Employee&gt; latestById = employees.stream()\n    .collect(Collectors.toMap(\n        Employee::id,\n        Function.identity(),\n        (oldEmployee, newEmployee) -&gt; newEmployee));</code></pre>\n<p>The two-argument <code>toMap</code> throws <code>IllegalStateException</code> when duplicate IDs appear.</p>"
                         }
                       ]
                     },
@@ -4089,18 +4174,32 @@
                     }
                   },
                   {
-                    "text": "joining",
-                    "link": "/java/coding_fluency/streams/joining/",
-                    "order": 40,
+                    "text": "groupingBy",
+                    "link": "/java/coding_fluency/streams/grouping/",
+                    "order": 70,
                     "schema": "interactive-code",
                     "practiceSet": {
                       "questions": [
                         {
-                          "id": "joining-strings",
-                          "title": "joining",
-                          "exerciseHtml": "<h2>Exercise: joining-strings - joining</h2>\n<h3>Goal</h3>\n<p>Produce delimited strings from a stream.</p>\n<h3>Task</h3>\n<p>1. Join all order IDs into <code>O1,O2,O3,O4,O5,O6</code>.</p>\n<p>2. Join paid order IDs with delimiter <code> | </code>, prefix <code>[</code>, suffix <code>]</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>You map <code>Order</code> to <code>String</code> before joining.</li>\n<li>The paid output is <code>[O1 | O4 | O6]</code>.</li>\n</ul>",
+                          "id": "groupingby-simple",
+                          "title": "groupingBy simple",
+                          "exerciseHtml": "<h2>Exercise: groupingby-simple - groupingBy simple</h2>\n<h3>Goal</h3>\n<p>Bucket a flat list into groups.</p>\n<h3>Task</h3>\n<p>Group all orders by <code>OrderStatus</code>, producing <code>Map&lt;OrderStatus, List&lt;Order&gt;&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Print how many orders are in each bucket.</li>\n<li>Explain why this is <code>groupingBy</code>, not <code>toMap</code>.</li>\n</ul>",
                           "starterCode": "",
-                          "solutionHtml": "<h2>Solution: joining-strings - joining</h2>\n<pre><code>String allIds = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.joining(&quot;,&quot;));\n\nString paidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.joining(&quot; | &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
+                          "solutionHtml": "<h2>Solution: groupingby-simple - groupingBy simple</h2>\n<pre><code>Map&lt;OrderStatus, List&lt;Order&gt;&gt; byStatus = orders.stream()\n    .collect(Collectors.groupingBy(Order::status));</code></pre>\n<p>Use <code>groupingBy</code> because each status can have multiple orders.</p>"
+                        },
+                        {
+                          "id": "groupingby-counting",
+                          "title": "groupingBy with downstream counting",
+                          "exerciseHtml": "<h2>Exercise: groupingby-counting - groupingBy with downstream counting</h2>\n<h3>Goal</h3>\n<p>Aggregate within each group.</p>\n<h3>Task</h3>\n<p>Produce <code>Map&lt;OrderStatus, Long&gt;</code> using <code>groupingBy</code> with <code>Collectors.counting()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>The value type is <code>Long</code>, not <code>Integer</code>.</li>\n<li>The downstream collector is the second argument.</li>\n</ul>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: groupingby-counting - groupingBy with downstream counting</h2>\n<pre><code>Map&lt;OrderStatus, Long&gt; counts = orders.stream()\n    .collect(Collectors.groupingBy(Order::status, Collectors.counting()));</code></pre>\n<p><code>counting()</code> returns <code>Long</code>.</p>"
+                        },
+                        {
+                          "id": "employee-grouping",
+                          "title": "Employee groupingBy",
+                          "exerciseHtml": "<h2>Exercise: employee-grouping - Employee groupingBy</h2>\n<h3>Goal</h3>\n<p>Group employees and aggregate inside each group.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Group employees by department.</p>\n<p>2. Count employees department-wise.</p>\n<p>3. Group employee names department-wise.</p>\n<p>4. Find average salary department-wise.</p>\n<p>5. Find highest-paid employee department-wise.</p>\n<p>6. Group employees by age.</p>\n<p>7. Group employees by city, assuming a <code>city</code> field exists.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use default <code>groupingBy</code> when the value should be a list.</li>\n<li>Use downstream collectors for count, mapping, average, and maximum.</li>\n</ul>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: employee-grouping - Employee groupingBy</h2>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.mapping(Employee::name, Collectors.toList())));\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Optional&lt;Employee&gt;&gt; highestPaidByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.maxBy(Comparator.comparingDouble(Employee::salary))));\n\nMap&lt;Integer, List&lt;Employee&gt;&gt; byAge = employees.stream()\n    .collect(Collectors.groupingBy(Employee::age));\n\nMap&lt;String, List&lt;Employee&gt;&gt; byCity = employees.stream()\n    .collect(Collectors.groupingBy(Employee::city));</code></pre>"
                         }
                       ]
                     },
@@ -4115,16 +4214,16 @@
                   {
                     "text": "Advanced Collectors",
                     "link": "/java/coding_fluency/streams/advanced_collectors/",
-                    "order": 50,
+                    "order": 80,
                     "schema": "practice",
                     "practiceSet": {
                       "questions": [
                         {
                           "id": "partitioningby-simple",
                           "title": "partitioningBy",
-                          "exerciseHtml": "<h2>Exercise: partitioningby-simple - partitioningBy</h2>\n<h3>Goal</h3>\n<p>Split a stream into exactly two buckets.</p>\n<h3>Task</h3>\n<p>Partition orders into paid and not-paid, producing <code>Map&lt;Boolean, List&lt;Order&gt;&gt;</code>.</p>\n<p>Then use downstream <code>counting()</code> to get <code>Map&lt;Boolean, Long&gt;</code>.</p>",
+                          "exerciseHtml": "<h2>Exercise: partitioningby-simple - partitioningBy</h2>\n<h3>Goal</h3>\n<p>Split a stream into exactly two buckets.</p>\n<h3>Task</h3>\n<p>Partition orders into paid and not-paid, producing <code>Map&lt;Boolean, List&lt;Order&gt;&gt;</code>.</p>\n<p>Then use downstream <code>counting()</code> to get <code>Map&lt;Boolean, Long&gt;</code>.</p>\n<p>Also using <code>Employee</code>:</p>\n<p>1. Partition employees into active/inactive.</p>\n<p>2. Partition employees into salary <code>&gt;= 100000</code> and salary <code>&lt; 100000</code>.</p>\n<p>3. Count active vs inactive employees using <code>partitioningBy()</code>.</p>",
                           "starterCode": "",
-                          "solutionHtml": "<h2>Solution: partitioningby-simple - partitioningBy</h2>\n<pre><code>Map&lt;Boolean, List&lt;Order&gt;&gt; paidPartition = orders.stream()\n    .collect(Collectors.partitioningBy(o -&gt; o.status() == OrderStatus.PAID));\n\nMap&lt;Boolean, Long&gt; paidCounts = orders.stream()\n    .collect(Collectors.partitioningBy(\n        o -&gt; o.status() == OrderStatus.PAID,\n        Collectors.counting()));</code></pre>\n<p><code>partitioningBy</code> always includes both <code>true</code> and <code>false</code> keys.</p>"
+                          "solutionHtml": "<h2>Solution: partitioningby-simple - partitioningBy</h2>\n<pre><code>Map&lt;Boolean, List&lt;Order&gt;&gt; paidPartition = orders.stream()\n    .collect(Collectors.partitioningBy(o -&gt; o.status() == OrderStatus.PAID));\n\nMap&lt;Boolean, Long&gt; paidCounts = orders.stream()\n    .collect(Collectors.partitioningBy(\n        o -&gt; o.status() == OrderStatus.PAID,\n        Collectors.counting()));</code></pre>\n<p><code>partitioningBy</code> always includes both <code>true</code> and <code>false</code> keys.</p>\n<pre><code>Map&lt;Boolean, List&lt;Employee&gt;&gt; activePartition = employees.stream()\n    .collect(Collectors.partitioningBy(Employee::active));\n\nMap&lt;Boolean, List&lt;Employee&gt;&gt; salaryPartition = employees.stream()\n    .collect(Collectors.partitioningBy(e -&gt; e.salary() &gt;= 100_000));\n\nMap&lt;Boolean, Long&gt; activeCounts = employees.stream()\n    .collect(Collectors.partitioningBy(Employee::active, Collectors.counting()));</code></pre>"
                         },
                         {
                           "id": "collectingandthen",
@@ -4146,6 +4245,89 @@
                           "exerciseHtml": "<h2>Exercise: teeing-collectors - teeing</h2>\n<h3>Goal</h3>\n<p>Collect into two collectors simultaneously.</p>\n<h3>Task</h3>\n<p>Use <code>Collectors.teeing()</code> to compute total order count and total revenue in one pass.</p>\n<p>Merge into: <code>Orders: 6, Revenue: 1989.0</code>.</p>",
                           "starterCode": "",
                           "solutionHtml": "<h2>Solution: teeing-collectors - teeing</h2>\n<pre><code>String summary = orders.stream()\n    .collect(Collectors.teeing(\n        Collectors.counting(),\n        Collectors.summingDouble(o -&gt; o.total().doubleValue()),\n        (count, sum) -&gt; &quot;Orders: &quot; + count + &quot;, Revenue: &quot; + sum));</code></pre>"
+                        }
+                      ]
+                    },
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Primitive and Parallel Streams",
+                    "link": "/java/coding_fluency/streams/primitive_parallel/",
+                    "order": 90,
+                    "schema": "practice",
+                    "practiceSet": {
+                      "questions": [
+                        {
+                          "id": "primitive-and-parallel",
+                          "title": "Numeric and Parallel Stream Choices",
+                          "exerciseHtml": "<h2>Exercise: primitive-and-parallel - Numeric and Parallel Stream Choices</h2>\n<h3>Goal</h3>\n<p>Use primitive streams for numeric work and identify unsafe parallel stream patterns.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Calculate average salary with a primitive stream.</p>\n<p>2. Calculate total age with a primitive stream.</p>\n<p>3. Explain why this is unsafe:</p>\n<pre><code>employees.parallelStream()\n         .forEach(list::add);</code></pre>\n<p>4. Rewrite it safely.</p>\n<p>5. Decide whether <code>parallelStream()</code> is appropriate for HTTP calls per employee.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>mapToDouble</code> or <code>mapToInt</code>.</li>\n<li>Do not mutate shared collections from parallel streams.</li>\n<li>State that parallel streams are not a default performance upgrade.</li>\n</ul>",
+                          "starterCode": "employees.parallelStream()\n         .forEach(list::add);",
+                          "solutionHtml": "<h2>Solution: primitive-and-parallel - Numeric and Parallel Stream Choices</h2>\n<pre><code>double averageSalary = employees.stream()\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nint totalAge = employees.stream()\n    .mapToInt(Employee::age)\n    .sum();</code></pre>\n<p>This is unsafe because many threads mutate the same list:</p>\n<pre><code>employees.parallelStream()\n         .forEach(list::add);</code></pre>\n<p>Collect safely instead:</p>\n<pre><code>List&lt;Employee&gt; result = employees.parallelStream()\n    .filter(Employee::active)\n    .toList();</code></pre>\n<p>Do not use <code>parallelStream()</code> by default for HTTP or database calls. It uses the common ForkJoinPool and can create contention.</p>"
+                        }
+                      ]
+                    },
+                    "capabilities": {
+                      "exercise": true,
+                      "solution": true,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Stream Interview Drills",
+                    "link": "/java/coding_fluency/streams/interview_drills/",
+                    "order": 100,
+                    "schema": "practice",
+                    "practiceSet": {
+                      "questions": [
+                        {
+                          "id": "mixed-stream-pipelines",
+                          "title": "Mixed Stream Questions",
+                          "exerciseHtml": "<h2>Exercise: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<h3>Goal</h3>\n<p>Combine multiple stream operations in realistic interview prompts.</p>\n<h3>Task</h3>\n<p>Solve these:</p>\n<p>1. Find names of all active employees.</p>\n<p>2. Find names of top 5 highest-paid active employees.</p>\n<p>3. Find departments having more than 5 employees.</p>\n<p>4. Find all unique skills across all employees.</p>\n<p>5. Count employees having the <code>&quot;Java&quot;</code> skill.</p>\n<p>6. Find average salary of active employees.</p>\n<p>7. Find employees sorted by salary descending.</p>\n<p>8. Find department with the maximum number of employees.</p>\n<p>9. Find employee names department-wise.</p>\n<p>10. Find the highest-paid active employee.</p>\n<p>11. Find total salary department-wise.</p>\n<p>12. Find duplicate department names.</p>\n<p>13. Create <code>department -&gt; average salary</code>.</p>\n<p>14. Create <code>department -&gt; employee count</code>.</p>\n<p>15. Create <code>department -&gt; list of employee names</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<pre><code>List&lt;String&gt; activeNames = employees.stream().filter(Employee::active).map(Employee::name).toList();\n\nList&lt;String&gt; topFiveActiveNames = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();\n\nSet&lt;String&gt; departmentsOverFive = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 5)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nSet&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.toSet());\n\nlong javaSkillCount = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;))\n    .count();\n\ndouble activeAverageSalary = employees.stream()\n    .filter(Employee::active)\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;Employee&gt; bySalaryDesc = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .toList();\n\nString largestDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));\n\nOptional&lt;Employee&gt; highestPaidActive = employees.stream()\n    .filter(Employee::active)\n    .max(Comparator.comparingDouble(Employee::salary));\n\nMap&lt;String, Double&gt; totalSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.summingDouble(Employee::salary)));\n\nSet&lt;String&gt; duplicateDepartments = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 1)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));</code></pre>"
+                        },
+                        {
+                          "id": "output-prediction",
+                          "title": "Predict Stream Output",
+                          "exerciseHtml": "<h2>Exercise: output-prediction - Predict Stream Output</h2>\n<h3>Goal</h3>\n<p>Mentally execute stream pipelines.</p>\n<h3>Task</h3>\n<p>Predict these outputs:</p>\n<p>1. <code>List.of(1,2,3,4).stream().filter(x -&gt; x % 2 == 0).map(x -&gt; x * 10).toList()</code></p>\n<p>2. <code>List.of(&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;c&quot;).stream().distinct().sorted().toList()</code></p>\n<p>3. <code>List.of(1,2,3,4,5).stream().skip(2).limit(2).toList()</code></p>\n<p>4. <code>List.of(List.of(1,2), List.of(3,4)).stream().flatMap(List::stream).toList()</code></p>\n<p>5. <code>List.of(2,4,6,8).stream().allMatch(x -&gt; x % 2 == 0)</code></p>\n<p>6. <code>List.of(2,4,5,8).stream().noneMatch(x -&gt; x % 2 == 0)</code></p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: output-prediction - Predict Stream Output</h2>\n<p>| Case | Output |</p>\n<p>| --- | --- |</p>\n<p>| 1 | <code>[20, 40]</code> |</p>\n<p>| 2 | <code>[a, b, c]</code> |</p>\n<p>| 3 | <code>[3, 4]</code> |</p>\n<p>| 4 | <code>[1, 2, 3, 4]</code> |</p>\n<p>| 5 | <code>true</code> |</p>\n<p>| 6 | <code>false</code> |</p>"
+                        },
+                        {
+                          "id": "find-stream-bugs",
+                          "title": "Find the Bug",
+                          "exerciseHtml": "<h2>Exercise: find-stream-bugs - Find the Bug</h2>\n<h3>Goal</h3>\n<p>Recognize common stream bugs.</p>\n<h3>Task</h3>\n<p>Explain what is wrong:</p>\n<p>1. <code>Collectors.toMap(Employee::getId, Function.identity())</code> when duplicate IDs exist.</p>\n<p>2. Reusing a stream after <code>stream.count()</code>.</p>\n<p>3. <code>employees.stream().findFirst().get()</code>.</p>\n<p>4. <code>employees.parallelStream().forEach(list::add)</code>.</p>\n<p>5. <code>.peek(e -&gt; e.setSalary(100000))</code>.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: find-stream-bugs - Find the Bug</h2>\n<p>1. Two-argument <code>toMap</code> throws <code>IllegalStateException</code> on duplicate IDs. Add a merge function.</p>\n<p>2. A stream is single-use. Create a new stream for the second traversal.</p>\n<p>3. <code>findFirst()</code> returns <code>Optional</code>; <code>.get()</code> can throw. Use <code>orElseThrow</code>, <code>orElse</code>, or handle absence.</p>\n<p>4. <code>parallelStream().forEach(list::add)</code> mutates shared state from multiple threads. Collect the result instead.</p>\n<p>5. <code>peek</code> should not perform business mutation. Use <code>map</code> for transformation or a loop for explicit mutation.</p>"
+                        },
+                        {
+                          "id": "loop-to-streams",
+                          "title": "Convert Loops to Streams",
+                          "exerciseHtml": "<h2>Exercise: loop-to-streams - Convert Loops to Streams</h2>\n<h3>Goal</h3>\n<p>Rewrite common loop patterns as streams.</p>\n<h3>Task</h3>\n<p>Convert loops that:</p>\n<p>1. Filter active employees.</p>\n<p>2. Extract employee names.</p>\n<p>3. Compute total salary.</p>\n<p>4. Group employees by department.</p>\n<p>5. Find the highest-paid employee.</p>\n<p>6. Remove duplicate department names.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: loop-to-streams - Convert Loops to Streams</h2>\n<pre><code>List&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; names = employees.stream().map(Employee::name).toList();\ndouble totalSalary = employees.stream().mapToDouble(Employee::salary).sum();\nMap&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream().collect(Collectors.groupingBy(Employee::department));\nOptional&lt;Employee&gt; highestPaid = employees.stream().max(Comparator.comparingDouble(Employee::salary));\nSet&lt;String&gt; departments = employees.stream().map(Employee::department).collect(Collectors.toSet());</code></pre>"
+                        },
+                        {
+                          "id": "choose-stream-api",
+                          "title": "Choose the Correct API",
+                          "exerciseHtml": "<h2>Exercise: choose-stream-api - Choose the Correct API</h2>\n<h3>Goal</h3>\n<p>Pick the smallest correct stream API.</p>\n<h3>Task</h3>\n<p>For each requirement, name the API:</p>\n<p>1. Remove unwanted elements.</p>\n<p>2. Convert <code>Employee</code> into <code>EmployeeDTO</code>.</p>\n<p>3. Flatten employee skills.</p>\n<p>4. Build a <code>Map&lt;Id, Employee&gt;</code>.</p>\n<p>5. Group employees by department.</p>\n<p>6. Divide employees into active/inactive.</p>\n<p>7. Find whether at least one employee belongs to HR.</p>\n<p>8. Calculate total salary.</p>\n<p>9. Calculate average salary.</p>\n<p>10. Find first matching employee.</p>\n<p>11. Find any matching employee.</p>\n<p>12. Remove duplicates.</p>\n<p>13. Get top 10 records.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: choose-stream-api - Choose the Correct API</h2>\n<p>| Requirement | API |</p>\n<p>| --- | --- |</p>\n<p>| Remove unwanted elements | <code>filter</code> |</p>\n<p>| Convert <code>Employee</code> to <code>EmployeeDTO</code> | <code>map</code> |</p>\n<p>| Flatten employee skills | <code>flatMap</code> |</p>\n<p>| Build <code>Map&lt;Id, Employee&gt;</code> | <code>Collectors.toMap</code> |</p>\n<p>| Group by department | <code>Collectors.groupingBy</code> |</p>\n<p>| Active/inactive split | <code>Collectors.partitioningBy</code> |</p>\n<p>| At least one HR employee | <code>anyMatch</code> |</p>\n<p>| Total salary | <code>mapToDouble(...).sum()</code> or <code>reduce</code> |</p>\n<p>| Average salary | <code>mapToDouble(...).average()</code> |</p>\n<p>| First matching employee | <code>findFirst</code> |</p>\n<p>| Any matching employee | <code>findAny</code> |</p>\n<p>| Remove duplicates | <code>distinct</code> |</p>\n<p>| Top 10 records | <code>sorted(...).limit(10)</code> if &quot;top&quot; means ranked; otherwise <code>limit(10)</code> |</p>"
+                        },
+                        {
+                          "id": "stream-challenges",
+                          "title": "Challenge Problems",
+                          "exerciseHtml": "<h2>Exercise: stream-challenges - Challenge Problems</h2>\n<h3>Goal</h3>\n<p>Build longer pipelines after the basic operations are comfortable.</p>\n<h3>Task</h3>\n<p>Solve these:</p>\n<p>1. Return names of the top 10 highest-paid active employees grouped by department.</p>\n<p>2. Find all unique skills department-wise.</p>\n<p>3. Find employees sharing at least one common skill with another employee.</p>\n<p>4. Build <code>department -&gt; highest paid employee name</code>.</p>\n<p>5. Build <code>department -&gt; average salary</code>, sorted descending.</p>\n<p>6. Given sentences, return the top 10 most frequent words.</p>\n<p>7. Build a frequency map of employee skills.</p>\n<p>8. Find the department with the highest average salary.</p>\n<p>9. Find employees whose skills include both <code>&quot;Java&quot;</code> and <code>&quot;Spring&quot;</code>.</p>\n<p>10. Return names of top 5 highest-paid active IT employees whose salary is above the department average.</p>",
+                          "starterCode": "",
+                          "solutionHtml": "<h2>Solution: stream-challenges - Challenge Problems</h2>\n<pre><code>Map&lt;String, List&lt;String&gt;&gt; topTenActiveNamesByDepartment = employees.stream()\n    .filter(Employee::active)\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.toList(),\n            list -&gt; list.stream()\n                .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n                .limit(10)\n                .map(Employee::name)\n                .toList())));\n\nMap&lt;String, Set&lt;String&gt;&gt; uniqueSkillsByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.flatMapping(e -&gt; e.skills().stream(), Collectors.toSet())));\n\nMap&lt;String, String&gt; highestPaidNameByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.maxBy(Comparator.comparingDouble(Employee::salary)),\n            employee -&gt; employee.map(Employee::name).orElseThrow())));\n\nLinkedHashMap&lt;String, Double&gt; averageSalaryDesc = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Double&gt;comparingByValue().reversed())\n    .collect(Collectors.toMap(\n        Map.Entry::getKey,\n        Map.Entry::getValue,\n        (left, right) -&gt; left,\n        LinkedHashMap::new));\n\nList&lt;String&gt; topWords = sentences.stream()\n    .flatMap(sentence -&gt; Arrays.stream(sentence.toLowerCase().split(&quot;\\\\W+&quot;)))\n    .filter(word -&gt; !word.isBlank())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Long&gt;comparingByValue().reversed())\n    .limit(10)\n    .map(Map.Entry::getKey)\n    .toList();\n\nMap&lt;String, Long&gt; skillFrequency = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));\n\nString departmentWithHighestAverageSalary = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nList&lt;Employee&gt; javaAndSpring = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;) &amp;&amp; e.skills().contains(&quot;Spring&quot;))\n    .toList();</code></pre>\n<p>Employees sharing at least one skill needs an indexed approach; a pure stream-only version is possible but less readable.</p>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; bySkill = employees.stream()\n    .flatMap(employee -&gt; employee.skills().stream().map(skill -&gt; Map.entry(skill, employee)))\n    .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));\n\nSet&lt;Employee&gt; sharingSkill = bySkill.values().stream()\n    .filter(list -&gt; list.size() &gt; 1)\n    .flatMap(List::stream)\n    .collect(Collectors.toSet());</code></pre>\n<p>Top 5 active IT employees above the IT department average:</p>\n<pre><code>double itAverageSalary = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;String&gt; names = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .filter(e -&gt; e.salary() &gt; itAverageSalary)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();</code></pre>"
                         }
                       ]
                     },
@@ -6576,20 +6758,6 @@
           "playground": false,
           "assets": false
         }
-      },
-      {
-        "text": "Practice Scratchpad",
-        "link": "/practice/",
-        "order": 1000,
-        "schema": "interactive-code",
-        "practiceSet": null,
-        "capabilities": {
-          "exercise": true,
-          "solution": true,
-          "design": false,
-          "playground": true,
-          "assets": false
-        }
       }
     ]
   },
@@ -6971,24 +7139,44 @@
       "link": "/java/coding_fluency/streams/"
     },
     {
+      "text": "Stream Foundations",
+      "link": "/java/coding_fluency/streams/foundations/"
+    },
+    {
+      "text": "Stream Intermediate Operations",
+      "link": "/java/coding_fluency/streams/intermediate_operations/"
+    },
+    {
+      "text": "Stream Terminal Operations",
+      "link": "/java/coding_fluency/streams/terminal_operations/"
+    },
+    {
       "text": "Stream Collection Basics",
       "link": "/java/coding_fluency/streams/basics/"
-    },
-    {
-      "text": "groupingBy",
-      "link": "/java/coding_fluency/streams/grouping/"
-    },
-    {
-      "text": "toMap",
-      "link": "/java/coding_fluency/streams/to_map/"
     },
     {
       "text": "joining",
       "link": "/java/coding_fluency/streams/joining/"
     },
     {
+      "text": "toMap",
+      "link": "/java/coding_fluency/streams/to_map/"
+    },
+    {
+      "text": "groupingBy",
+      "link": "/java/coding_fluency/streams/grouping/"
+    },
+    {
       "text": "Advanced Collectors",
       "link": "/java/coding_fluency/streams/advanced_collectors/"
+    },
+    {
+      "text": "Primitive and Parallel Streams",
+      "link": "/java/coding_fluency/streams/primitive_parallel/"
+    },
+    {
+      "text": "Stream Interview Drills",
+      "link": "/java/coding_fluency/streams/interview_drills/"
     },
     {
       "text": "Records as DTOs",
@@ -7561,10 +7749,6 @@
     {
       "text": "Live Progress Dashboard",
       "link": "/progress/"
-    },
-    {
-      "text": "Practice Scratchpad",
-      "link": "/practice/"
     }
   ],
   "pageMeta": {
@@ -12308,6 +12492,128 @@
         "assets": false
       }
     },
+    "/java/coding_fluency/streams/foundations/": {
+      "text": "Stream Foundations",
+      "link": "/java/coding_fluency/streams/foundations/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/foundations/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/intermediate_operations/": {
+      "text": "Stream Intermediate Operations",
+      "link": "/java/coding_fluency/streams/intermediate_operations/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/intermediate_operations/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/intermediate_operations/exercise/": {
+      "text": "Stream Intermediate Operations",
+      "link": "/java/coding_fluency/streams/intermediate_operations/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/streams/intermediate_operations/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "intermediate-warmup",
+            "title": "One Operation at a Time",
+            "exerciseHtml": "<h2>Exercise: intermediate-warmup - One Operation at a Time</h2>\n<h3>Goal</h3>\n<p>Practice choosing the right intermediate operation before choosing the terminal operation.</p>\n<h3>Task</h3>\n<p>Solve these with streams:</p>\n<p>1. Find all even numbers.</p>\n<p>2. Find all odd numbers.</p>\n<p>3. Find employees whose salary is greater than <code>100000</code>.</p>\n<p>4. Find active employees.</p>\n<p>5. Remove all null values from a list.</p>\n<p>6. Square every integer.</p>\n<p>7. Convert every string to uppercase.</p>\n<p>8. Extract employee names.</p>\n<p>9. Extract employee salaries.</p>\n<p>10. Convert <code>Employee</code> to <code>EmployeeDTO</code>.</p>\n<p>11. Flatten a <code>List&lt;List&lt;Integer&gt;&gt;</code>.</p>\n<p>12. Flatten employee skills into one list.</p>\n<p>13. Split lines like <code>Java Spring</code>, <code>Kafka Redis</code>, <code>Docker Kubernetes</code> into one word list.</p>\n<p>14. Flatten a list of comma-separated tags.</p>\n<p>15. Sort integers ascending.</p>\n<p>16. Sort integers descending.</p>\n<p>17. Sort employees by salary.</p>\n<p>18. Sort employees by department and then name.</p>\n<p>19. Find the top 5 highest-paid employees.</p>\n<p>20. Remove duplicate integers.</p>\n<p>21. Remove duplicate strings.</p>\n<p>22. Remove duplicate employees, assuming correct <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>23. Get the first 10 records.</p>\n<p>24. Get the top 3 highest-paid employees.</p>\n<p>25. Skip the first 5 records.</p>\n<p>26. Implement pagination with <code>skip()</code> and <code>limit()</code>.</p>\n<p>27. Log every employee before filtering.</p>\n<p>28. Print every value before mapping.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter</code> only when the stream may get shorter.</li>\n<li>Use <code>map</code> only when each element produces one value.</li>\n<li>Use <code>flatMap</code> for nested or split values.</li>\n<li>Use <code>peek</code> only for debugging/logging.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Integer&gt; evens = numbers.stream().filter(n -&gt; n % 2 == 0).toList();\nList&lt;Integer&gt; odds = numbers.stream().filter(n -&gt; n % 2 != 0).toList();\nList&lt;Employee&gt; highPaid = employees.stream().filter(e -&gt; e.salary() &gt; 100_000).toList();\nList&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; nonNull = values.stream().filter(Objects::nonNull).toList();\n\nList&lt;Integer&gt; squares = numbers.stream().map(n -&gt; n * n).toList();\nList&lt;String&gt; upper = names.stream().map(String::toUpperCase).toList();\nList&lt;String&gt; employeeNames = employees.stream().map(Employee::name).toList();\nList&lt;Double&gt; salaries = employees.stream().map(Employee::salary).toList();\nList&lt;EmployeeDto&gt; dtos = employees.stream().map(e -&gt; new EmployeeDto(e.id(), e.name())).toList();\n\nList&lt;Integer&gt; flatNumbers = nested.stream().flatMap(List::stream).toList();\nList&lt;String&gt; skills = employees.stream().flatMap(e -&gt; e.skills().stream()).toList();\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\nList&lt;String&gt; tags = rows.stream().flatMap(row -&gt; Arrays.stream(row.split(&quot;,&quot;))).map(String::trim).toList();\n\nList&lt;Integer&gt; asc = numbers.stream().sorted().toList();\nList&lt;Integer&gt; desc = numbers.stream().sorted(Comparator.reverseOrder()).toList();\nList&lt;Employee&gt; bySalary = employees.stream().sorted(Comparator.comparingDouble(Employee::salary)).toList();\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\nList&lt;Employee&gt; topFive = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Integer&gt; uniqueNumbers = numbers.stream().distinct().toList();\nList&lt;String&gt; uniqueStrings = names.stream().distinct().toList();\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; firstTen = employees.stream().limit(10).toList();\nList&lt;Employee&gt; topThree = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(3)\n    .toList();\nList&lt;Employee&gt; afterFive = employees.stream().skip(5).toList();\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly.</p>"
+          }
+        ]
+      }
+    },
+    "/java/coding_fluency/streams/intermediate_operations/solution/": {
+      "text": "Stream Intermediate Operations",
+      "link": "/java/coding_fluency/streams/intermediate_operations/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/streams/intermediate_operations/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Stream Intermediate Operations Solutions</h1>\n<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Integer&gt; evens = numbers.stream().filter(n -&gt; n % 2 == 0).toList();\nList&lt;Integer&gt; odds = numbers.stream().filter(n -&gt; n % 2 != 0).toList();\nList&lt;Employee&gt; highPaid = employees.stream().filter(e -&gt; e.salary() &gt; 100_000).toList();\nList&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; nonNull = values.stream().filter(Objects::nonNull).toList();\n\nList&lt;Integer&gt; squares = numbers.stream().map(n -&gt; n * n).toList();\nList&lt;String&gt; upper = names.stream().map(String::toUpperCase).toList();\nList&lt;String&gt; employeeNames = employees.stream().map(Employee::name).toList();\nList&lt;Double&gt; salaries = employees.stream().map(Employee::salary).toList();\nList&lt;EmployeeDto&gt; dtos = employees.stream().map(e -&gt; new EmployeeDto(e.id(), e.name())).toList();\n\nList&lt;Integer&gt; flatNumbers = nested.stream().flatMap(List::stream).toList();\nList&lt;String&gt; skills = employees.stream().flatMap(e -&gt; e.skills().stream()).toList();\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\nList&lt;String&gt; tags = rows.stream().flatMap(row -&gt; Arrays.stream(row.split(&quot;,&quot;))).map(String::trim).toList();\n\nList&lt;Integer&gt; asc = numbers.stream().sorted().toList();\nList&lt;Integer&gt; desc = numbers.stream().sorted(Comparator.reverseOrder()).toList();\nList&lt;Employee&gt; bySalary = employees.stream().sorted(Comparator.comparingDouble(Employee::salary)).toList();\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\nList&lt;Employee&gt; topFive = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Integer&gt; uniqueNumbers = numbers.stream().distinct().toList();\nList&lt;String&gt; uniqueStrings = names.stream().distinct().toList();\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; firstTen = employees.stream().limit(10).toList();\nList&lt;Employee&gt; topThree = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(3)\n    .toList();\nList&lt;Employee&gt; afterFive = employees.stream().skip(5).toList();\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly.</p>"
+    },
+    "/java/coding_fluency/streams/terminal_operations/": {
+      "text": "Stream Terminal Operations",
+      "link": "/java/coding_fluency/streams/terminal_operations/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/terminal_operations/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/terminal_operations/exercise/": {
+      "text": "Stream Terminal Operations",
+      "link": "/java/coding_fluency/streams/terminal_operations/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/streams/terminal_operations/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "terminal-operations",
+            "title": "Consume a Stream",
+            "exerciseHtml": "<h2>Exercise: terminal-operations - Consume a Stream</h2>\n<h3>Goal</h3>\n<p>Pick the terminal operation that directly expresses the required result.</p>\n<h3>Task</h3>\n<p>Solve these:</p>\n<p>1. Count active employees.</p>\n<p>2. Find the first employee from HR.</p>\n<p>3. Find any employee from IT.</p>\n<p>4. Check if any employee earns more than <code>200000</code>.</p>\n<p>5. Check if all employees are active.</p>\n<p>6. Check if no employee is under 18.</p>\n<p>7. Find total salary using <code>reduce()</code>.</p>\n<p>8. Find maximum salary using <code>reduce()</code>.</p>\n<p>9. Concatenate all employee names using <code>reduce()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>Optional</code> safely for find/reduce results.</li>\n<li>Prefer match operations over <code>filter().count()</code> for boolean questions.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: terminal-operations - Consume a Stream</h2>\n<pre><code>long activeCount = employees.stream()\n    .filter(Employee::active)\n    .count();\n\nOptional&lt;Employee&gt; firstHr = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;HR&quot;))\n    .findFirst();\n\nOptional&lt;Employee&gt; anyIt = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .findAny();\n\nboolean anyVeryHighPaid = employees.stream().anyMatch(e -&gt; e.salary() &gt; 200_000);\nboolean allActive = employees.stream().allMatch(Employee::active);\nboolean noneUnder18 = employees.stream().noneMatch(e -&gt; e.age() &lt; 18);\n\ndouble totalSalary = employees.stream()\n    .map(Employee::salary)\n    .reduce(0.0, Double::sum);\n\nOptional&lt;Double&gt; maxSalary = employees.stream()\n    .map(Employee::salary)\n    .reduce(Double::max);\n\nString names = employees.stream()\n    .map(Employee::name)\n    .reduce(&quot;&quot;, (left, right) -&gt; left.isEmpty() ? right : left + &quot;, &quot; + right);</code></pre>\n<p>For real name joining, prefer <code>Collectors.joining(&quot;, &quot;)</code>; this exercise uses <code>reduce()</code> to practice reduction.</p>"
+          }
+        ]
+      }
+    },
+    "/java/coding_fluency/streams/terminal_operations/solution/": {
+      "text": "Stream Terminal Operations",
+      "link": "/java/coding_fluency/streams/terminal_operations/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/streams/terminal_operations/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Stream Terminal Operations Solutions</h1>\n<h2>Solution: terminal-operations - Consume a Stream</h2>\n<pre><code>long activeCount = employees.stream()\n    .filter(Employee::active)\n    .count();\n\nOptional&lt;Employee&gt; firstHr = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;HR&quot;))\n    .findFirst();\n\nOptional&lt;Employee&gt; anyIt = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .findAny();\n\nboolean anyVeryHighPaid = employees.stream().anyMatch(e -&gt; e.salary() &gt; 200_000);\nboolean allActive = employees.stream().allMatch(Employee::active);\nboolean noneUnder18 = employees.stream().noneMatch(e -&gt; e.age() &lt; 18);\n\ndouble totalSalary = employees.stream()\n    .map(Employee::salary)\n    .reduce(0.0, Double::sum);\n\nOptional&lt;Double&gt; maxSalary = employees.stream()\n    .map(Employee::salary)\n    .reduce(Double::max);\n\nString names = employees.stream()\n    .map(Employee::name)\n    .reduce(&quot;&quot;, (left, right) -&gt; left.isEmpty() ? right : left + &quot;, &quot; + right);</code></pre>\n<p>For real name joining, prefer <code>Collectors.joining(&quot;, &quot;)</code>; this exercise uses <code>reduce()</code> to practice reduction.</p>"
+    },
     "/java/coding_fluency/streams/basics/": {
       "text": "Stream Collection Basics",
       "link": "/java/coding_fluency/streams/basics/",
@@ -12350,6 +12656,13 @@
             "exerciseHtml": "<h2>Exercise: set-deduplication - Set Collector Deduplication</h2>\n<h3>Goal</h3>\n<p>Use a set collector to dedupe stream values.</p>\n<h3>Task</h3>\n<p>Collect customer IDs into a <code>Set&lt;String&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Duplicate customer IDs appear once.</li>\n<li>You do not depend on iteration order.</li>\n</ul>",
             "starterCode": "",
             "solutionHtml": "<h2>Solution: set-deduplication - Set Collector Deduplication</h2>\n<pre><code>Set&lt;String&gt; customerIds = orders.stream()\n    .map(Order::customerId)\n    .collect(Collectors.toSet());</code></pre>\n<p>The set removes duplicates. Do not assume a specific order from <code>Collectors.toSet()</code>.</p>"
+          },
+          {
+            "id": "collector-basics",
+            "title": "Basic Collectors",
+            "exerciseHtml": "<h2>Exercise: collector-basics - Basic Collectors</h2>\n<h3>Goal</h3>\n<p>Choose simple collectors for lists and sets.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Collect all active employees into a list.</p>\n<p>2. Find all unique departments.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter(...).toList()</code> or <code>collect(toList())</code> for the active employees.</li>\n<li>Use <code>map(Employee::department)</code> before collecting departments into a set.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: collector-basics - Basic Collectors</h2>\n<pre><code>List&lt;Employee&gt; activeEmployees = employees.stream()\n    .filter(Employee::active)\n    .toList();\n\nSet&lt;String&gt; departments = employees.stream()\n    .map(Employee::department)\n    .collect(Collectors.toSet());</code></pre>"
           }
         ]
       }
@@ -12367,13 +12680,13 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Stream Basics Solutions</h1>\n<h2>Solution: list-mutability - List Collector Mutability</h2>\n<pre><code>List&lt;String&gt; mutable = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.toList());\n\nList&lt;String&gt; unmodifiable = orders.stream()\n    .map(Order::id)\n    .toList();\n\nList&lt;String&gt; unmodifiableJava10 = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.toUnmodifiableList());</code></pre>\n<p><code>mutable.add(&quot;O7&quot;)</code> works. The two unmodifiable lists throw <code>UnsupportedOperationException</code>.</p>\n<h2>Solution: set-deduplication - Set Collector Deduplication</h2>\n<pre><code>Set&lt;String&gt; customerIds = orders.stream()\n    .map(Order::customerId)\n    .collect(Collectors.toSet());</code></pre>\n<p>The set removes duplicates. Do not assume a specific order from <code>Collectors.toSet()</code>.</p>"
+      "referenceHtml": "<h1>Stream Basics Solutions</h1>\n<h2>Solution: list-mutability - List Collector Mutability</h2>\n<pre><code>List&lt;String&gt; mutable = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.toList());\n\nList&lt;String&gt; unmodifiable = orders.stream()\n    .map(Order::id)\n    .toList();\n\nList&lt;String&gt; unmodifiableJava10 = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.toUnmodifiableList());</code></pre>\n<p><code>mutable.add(&quot;O7&quot;)</code> works. The two unmodifiable lists throw <code>UnsupportedOperationException</code>.</p>\n<h2>Solution: set-deduplication - Set Collector Deduplication</h2>\n<pre><code>Set&lt;String&gt; customerIds = orders.stream()\n    .map(Order::customerId)\n    .collect(Collectors.toSet());</code></pre>\n<p>The set removes duplicates. Do not assume a specific order from <code>Collectors.toSet()</code>.</p>\n<h2>Solution: collector-basics - Basic Collectors</h2>\n<pre><code>List&lt;Employee&gt; activeEmployees = employees.stream()\n    .filter(Employee::active)\n    .toList();\n\nSet&lt;String&gt; departments = employees.stream()\n    .map(Employee::department)\n    .collect(Collectors.toSet());</code></pre>"
     },
-    "/java/coding_fluency/streams/grouping/": {
-      "text": "groupingBy",
-      "link": "/java/coding_fluency/streams/grouping/",
+    "/java/coding_fluency/streams/joining/": {
+      "text": "joining",
+      "link": "/java/coding_fluency/streams/joining/",
       "pageType": "theory",
-      "parentLink": "/java/coding_fluency/streams/grouping/",
+      "parentLink": "/java/coding_fluency/streams/joining/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -12383,11 +12696,11 @@
         "assets": false
       }
     },
-    "/java/coding_fluency/streams/grouping/exercise/": {
-      "text": "groupingBy",
-      "link": "/java/coding_fluency/streams/grouping/exercise/",
+    "/java/coding_fluency/streams/joining/exercise/": {
+      "text": "joining",
+      "link": "/java/coding_fluency/streams/joining/exercise/",
       "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/streams/grouping/",
+      "parentLink": "/java/coding_fluency/streams/joining/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -12399,27 +12712,27 @@
       "practiceSet": {
         "questions": [
           {
-            "id": "groupingby-simple",
-            "title": "groupingBy simple",
-            "exerciseHtml": "<h2>Exercise: groupingby-simple - groupingBy simple</h2>\n<h3>Goal</h3>\n<p>Bucket a flat list into groups.</p>\n<h3>Task</h3>\n<p>Group all orders by <code>OrderStatus</code>, producing <code>Map&lt;OrderStatus, List&lt;Order&gt;&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Print how many orders are in each bucket.</li>\n<li>Explain why this is <code>groupingBy</code>, not <code>toMap</code>.</li>\n</ul>",
+            "id": "joining-strings",
+            "title": "joining",
+            "exerciseHtml": "<h2>Exercise: joining-strings - joining</h2>\n<h3>Goal</h3>\n<p>Produce delimited strings from a stream.</p>\n<h3>Task</h3>\n<p>1. Join all order IDs into <code>O1,O2,O3,O4,O5,O6</code>.</p>\n<p>2. Join paid order IDs with delimiter <code> | </code>, prefix <code>[</code>, suffix <code>]</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>You map <code>Order</code> to <code>String</code> before joining.</li>\n<li>The paid output is <code>[O1 | O4 | O6]</code>.</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: groupingby-simple - groupingBy simple</h2>\n<pre><code>Map&lt;OrderStatus, List&lt;Order&gt;&gt; byStatus = orders.stream()\n    .collect(Collectors.groupingBy(Order::status));</code></pre>\n<p>Use <code>groupingBy</code> because each status can have multiple orders.</p>"
+            "solutionHtml": "<h2>Solution: joining-strings - joining</h2>\n<pre><code>String allIds = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.joining(&quot;,&quot;));\n\nString paidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.joining(&quot; | &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
           },
           {
-            "id": "groupingby-counting",
-            "title": "groupingBy with downstream counting",
-            "exerciseHtml": "<h2>Exercise: groupingby-counting - groupingBy with downstream counting</h2>\n<h3>Goal</h3>\n<p>Aggregate within each group.</p>\n<h3>Task</h3>\n<p>Produce <code>Map&lt;OrderStatus, Long&gt;</code> using <code>groupingBy</code> with <code>Collectors.counting()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>The value type is <code>Long</code>, not <code>Integer</code>.</li>\n<li>The downstream collector is the second argument.</li>\n</ul>",
+            "id": "employee-joining",
+            "title": "Employee Joining",
+            "exerciseHtml": "<h2>Exercise: employee-joining - Employee Joining</h2>\n<h3>Goal</h3>\n<p>Join mapped employee fields.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Join all employee names separated by commas.</p>\n<p>2. Join all unique department names inside square brackets.</p>\n<h3>Checks</h3>\n<ul>\n<li>Map to a <code>String</code> field before calling <code>joining</code>.</li>\n<li>Use <code>distinct()</code> for unique departments.</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: groupingby-counting - groupingBy with downstream counting</h2>\n<pre><code>Map&lt;OrderStatus, Long&gt; counts = orders.stream()\n    .collect(Collectors.groupingBy(Order::status, Collectors.counting()));</code></pre>\n<p><code>counting()</code> returns <code>Long</code>.</p>"
+            "solutionHtml": "<h2>Solution: employee-joining - Employee Joining</h2>\n<pre><code>String employeeNames = employees.stream()\n    .map(Employee::name)\n    .collect(Collectors.joining(&quot;, &quot;));\n\nString departments = employees.stream()\n    .map(Employee::department)\n    .distinct()\n    .collect(Collectors.joining(&quot;, &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
           }
         ]
       }
     },
-    "/java/coding_fluency/streams/grouping/solution/": {
-      "text": "groupingBy",
-      "link": "/java/coding_fluency/streams/grouping/solution/",
+    "/java/coding_fluency/streams/joining/solution/": {
+      "text": "joining",
+      "link": "/java/coding_fluency/streams/joining/solution/",
       "pageType": "solution",
-      "parentLink": "/java/coding_fluency/streams/grouping/",
+      "parentLink": "/java/coding_fluency/streams/joining/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -12428,7 +12741,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>groupingBy Solutions</h1>\n<h2>Solution: groupingby-simple - groupingBy simple</h2>\n<pre><code>Map&lt;OrderStatus, List&lt;Order&gt;&gt; byStatus = orders.stream()\n    .collect(Collectors.groupingBy(Order::status));</code></pre>\n<p>Use <code>groupingBy</code> because each status can have multiple orders.</p>\n<h2>Solution: groupingby-counting - groupingBy with downstream counting</h2>\n<pre><code>Map&lt;OrderStatus, Long&gt; counts = orders.stream()\n    .collect(Collectors.groupingBy(Order::status, Collectors.counting()));</code></pre>\n<p><code>counting()</code> returns <code>Long</code>.</p>"
+      "referenceHtml": "<h1>joining Solutions</h1>\n<h2>Solution: joining-strings - joining</h2>\n<pre><code>String allIds = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.joining(&quot;,&quot;));\n\nString paidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.joining(&quot; | &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>\n<h2>Solution: employee-joining - Employee Joining</h2>\n<pre><code>String employeeNames = employees.stream()\n    .map(Employee::name)\n    .collect(Collectors.joining(&quot;, &quot;));\n\nString departments = employees.stream()\n    .map(Employee::department)\n    .distinct()\n    .collect(Collectors.joining(&quot;, &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
     },
     "/java/coding_fluency/streams/to_map/": {
       "text": "toMap",
@@ -12472,6 +12785,13 @@
             "exerciseHtml": "<h2>Exercise: tomap-duplicate - toMap duplicate key handler</h2>\n<h3>Goal</h3>\n<p>Handle duplicate keys with a merge function.</p>\n<h3>Task</h3>\n<p>Build <code>Map&lt;String, BigDecimal&gt;</code> keyed by <code>customerId</code>, where the value is the sum of all order totals for that customer.</p>\n<p>Try the two-arg form first, then switch to the three-arg form.</p>\n<h3>Checks</h3>\n<ul>\n<li>Customer <code>C1</code> totals all its orders.</li>\n<li>The merge function adds, not overwrites.</li>\n</ul>",
             "starterCode": "",
             "solutionHtml": "<h2>Solution: tomap-duplicate - toMap duplicate key handler</h2>\n<pre><code>Map&lt;String, BigDecimal&gt; totalByCustomer = orders.stream()\n    .collect(Collectors.toMap(\n        Order::customerId,\n        Order::total,\n        BigDecimal::add));</code></pre>\n<p><code>BigDecimal::add</code> receives the existing and incoming totals for the same customer.</p>"
+          },
+          {
+            "id": "employee-tomap",
+            "title": "Employee Maps",
+            "exerciseHtml": "<h2>Exercise: employee-tomap - Employee Maps</h2>\n<h3>Goal</h3>\n<p>Build one-key-to-one-value maps and handle duplicates intentionally.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Create <code>id -&gt; Employee</code>.</p>\n<p>2. Create <code>id -&gt; employeeName</code>.</p>\n<p>3. Explain what happens if duplicate employee IDs exist.</p>\n<p>4. Keep the latest employee when duplicate IDs exist.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>Function.identity()</code> when the whole employee is the value.</li>\n<li>Add a merge function for duplicate IDs.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: employee-tomap - Employee Maps</h2>\n<pre><code>Map&lt;Integer, Employee&gt; byId = employees.stream()\n    .collect(Collectors.toMap(Employee::id, Function.identity()));\n\nMap&lt;Integer, String&gt; nameById = employees.stream()\n    .collect(Collectors.toMap(Employee::id, Employee::name));\n\nMap&lt;Integer, Employee&gt; latestById = employees.stream()\n    .collect(Collectors.toMap(\n        Employee::id,\n        Function.identity(),\n        (oldEmployee, newEmployee) -&gt; newEmployee));</code></pre>\n<p>The two-argument <code>toMap</code> throws <code>IllegalStateException</code> when duplicate IDs appear.</p>"
           }
         ]
       }
@@ -12489,13 +12809,13 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>toMap Solutions</h1>\n<h2>Solution: tomap-unique - toMap unique keys</h2>\n<pre><code>Map&lt;String, Order&gt; orderById = orders.stream()\n    .collect(Collectors.toMap(Order::id, Function.identity()));</code></pre>\n<p>The two-arg form is correct only because order IDs are unique.</p>\n<h2>Solution: tomap-duplicate - toMap duplicate key handler</h2>\n<pre><code>Map&lt;String, BigDecimal&gt; totalByCustomer = orders.stream()\n    .collect(Collectors.toMap(\n        Order::customerId,\n        Order::total,\n        BigDecimal::add));</code></pre>\n<p><code>BigDecimal::add</code> receives the existing and incoming totals for the same customer.</p>"
+      "referenceHtml": "<h1>toMap Solutions</h1>\n<h2>Solution: tomap-unique - toMap unique keys</h2>\n<pre><code>Map&lt;String, Order&gt; orderById = orders.stream()\n    .collect(Collectors.toMap(Order::id, Function.identity()));</code></pre>\n<p>The two-arg form is correct only because order IDs are unique.</p>\n<h2>Solution: tomap-duplicate - toMap duplicate key handler</h2>\n<pre><code>Map&lt;String, BigDecimal&gt; totalByCustomer = orders.stream()\n    .collect(Collectors.toMap(\n        Order::customerId,\n        Order::total,\n        BigDecimal::add));</code></pre>\n<p><code>BigDecimal::add</code> receives the existing and incoming totals for the same customer.</p>\n<h2>Solution: employee-tomap - Employee Maps</h2>\n<pre><code>Map&lt;Integer, Employee&gt; byId = employees.stream()\n    .collect(Collectors.toMap(Employee::id, Function.identity()));\n\nMap&lt;Integer, String&gt; nameById = employees.stream()\n    .collect(Collectors.toMap(Employee::id, Employee::name));\n\nMap&lt;Integer, Employee&gt; latestById = employees.stream()\n    .collect(Collectors.toMap(\n        Employee::id,\n        Function.identity(),\n        (oldEmployee, newEmployee) -&gt; newEmployee));</code></pre>\n<p>The two-argument <code>toMap</code> throws <code>IllegalStateException</code> when duplicate IDs appear.</p>"
     },
-    "/java/coding_fluency/streams/joining/": {
-      "text": "joining",
-      "link": "/java/coding_fluency/streams/joining/",
+    "/java/coding_fluency/streams/grouping/": {
+      "text": "groupingBy",
+      "link": "/java/coding_fluency/streams/grouping/",
       "pageType": "theory",
-      "parentLink": "/java/coding_fluency/streams/joining/",
+      "parentLink": "/java/coding_fluency/streams/grouping/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -12505,11 +12825,11 @@
         "assets": false
       }
     },
-    "/java/coding_fluency/streams/joining/exercise/": {
-      "text": "joining",
-      "link": "/java/coding_fluency/streams/joining/exercise/",
+    "/java/coding_fluency/streams/grouping/exercise/": {
+      "text": "groupingBy",
+      "link": "/java/coding_fluency/streams/grouping/exercise/",
       "pageType": "exercise",
-      "parentLink": "/java/coding_fluency/streams/joining/",
+      "parentLink": "/java/coding_fluency/streams/grouping/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -12521,20 +12841,34 @@
       "practiceSet": {
         "questions": [
           {
-            "id": "joining-strings",
-            "title": "joining",
-            "exerciseHtml": "<h2>Exercise: joining-strings - joining</h2>\n<h3>Goal</h3>\n<p>Produce delimited strings from a stream.</p>\n<h3>Task</h3>\n<p>1. Join all order IDs into <code>O1,O2,O3,O4,O5,O6</code>.</p>\n<p>2. Join paid order IDs with delimiter <code> | </code>, prefix <code>[</code>, suffix <code>]</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>You map <code>Order</code> to <code>String</code> before joining.</li>\n<li>The paid output is <code>[O1 | O4 | O6]</code>.</li>\n</ul>",
+            "id": "groupingby-simple",
+            "title": "groupingBy simple",
+            "exerciseHtml": "<h2>Exercise: groupingby-simple - groupingBy simple</h2>\n<h3>Goal</h3>\n<p>Bucket a flat list into groups.</p>\n<h3>Task</h3>\n<p>Group all orders by <code>OrderStatus</code>, producing <code>Map&lt;OrderStatus, List&lt;Order&gt;&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Print how many orders are in each bucket.</li>\n<li>Explain why this is <code>groupingBy</code>, not <code>toMap</code>.</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: joining-strings - joining</h2>\n<pre><code>String allIds = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.joining(&quot;,&quot;));\n\nString paidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.joining(&quot; | &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
+            "solutionHtml": "<h2>Solution: groupingby-simple - groupingBy simple</h2>\n<pre><code>Map&lt;OrderStatus, List&lt;Order&gt;&gt; byStatus = orders.stream()\n    .collect(Collectors.groupingBy(Order::status));</code></pre>\n<p>Use <code>groupingBy</code> because each status can have multiple orders.</p>"
+          },
+          {
+            "id": "groupingby-counting",
+            "title": "groupingBy with downstream counting",
+            "exerciseHtml": "<h2>Exercise: groupingby-counting - groupingBy with downstream counting</h2>\n<h3>Goal</h3>\n<p>Aggregate within each group.</p>\n<h3>Task</h3>\n<p>Produce <code>Map&lt;OrderStatus, Long&gt;</code> using <code>groupingBy</code> with <code>Collectors.counting()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>The value type is <code>Long</code>, not <code>Integer</code>.</li>\n<li>The downstream collector is the second argument.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: groupingby-counting - groupingBy with downstream counting</h2>\n<pre><code>Map&lt;OrderStatus, Long&gt; counts = orders.stream()\n    .collect(Collectors.groupingBy(Order::status, Collectors.counting()));</code></pre>\n<p><code>counting()</code> returns <code>Long</code>.</p>"
+          },
+          {
+            "id": "employee-grouping",
+            "title": "Employee groupingBy",
+            "exerciseHtml": "<h2>Exercise: employee-grouping - Employee groupingBy</h2>\n<h3>Goal</h3>\n<p>Group employees and aggregate inside each group.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Group employees by department.</p>\n<p>2. Count employees department-wise.</p>\n<p>3. Group employee names department-wise.</p>\n<p>4. Find average salary department-wise.</p>\n<p>5. Find highest-paid employee department-wise.</p>\n<p>6. Group employees by age.</p>\n<p>7. Group employees by city, assuming a <code>city</code> field exists.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use default <code>groupingBy</code> when the value should be a list.</li>\n<li>Use downstream collectors for count, mapping, average, and maximum.</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: employee-grouping - Employee groupingBy</h2>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.mapping(Employee::name, Collectors.toList())));\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Optional&lt;Employee&gt;&gt; highestPaidByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.maxBy(Comparator.comparingDouble(Employee::salary))));\n\nMap&lt;Integer, List&lt;Employee&gt;&gt; byAge = employees.stream()\n    .collect(Collectors.groupingBy(Employee::age));\n\nMap&lt;String, List&lt;Employee&gt;&gt; byCity = employees.stream()\n    .collect(Collectors.groupingBy(Employee::city));</code></pre>"
           }
         ]
       }
     },
-    "/java/coding_fluency/streams/joining/solution/": {
-      "text": "joining",
-      "link": "/java/coding_fluency/streams/joining/solution/",
+    "/java/coding_fluency/streams/grouping/solution/": {
+      "text": "groupingBy",
+      "link": "/java/coding_fluency/streams/grouping/solution/",
       "pageType": "solution",
-      "parentLink": "/java/coding_fluency/streams/joining/",
+      "parentLink": "/java/coding_fluency/streams/grouping/",
       "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
@@ -12543,7 +12877,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>joining Solutions</h1>\n<h2>Solution: joining-strings - joining</h2>\n<pre><code>String allIds = orders.stream()\n    .map(Order::id)\n    .collect(Collectors.joining(&quot;,&quot;));\n\nString paidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.joining(&quot; | &quot;, &quot;[&quot;, &quot;]&quot;));</code></pre>"
+      "referenceHtml": "<h1>groupingBy Solutions</h1>\n<h2>Solution: groupingby-simple - groupingBy simple</h2>\n<pre><code>Map&lt;OrderStatus, List&lt;Order&gt;&gt; byStatus = orders.stream()\n    .collect(Collectors.groupingBy(Order::status));</code></pre>\n<p>Use <code>groupingBy</code> because each status can have multiple orders.</p>\n<h2>Solution: groupingby-counting - groupingBy with downstream counting</h2>\n<pre><code>Map&lt;OrderStatus, Long&gt; counts = orders.stream()\n    .collect(Collectors.groupingBy(Order::status, Collectors.counting()));</code></pre>\n<p><code>counting()</code> returns <code>Long</code>.</p>\n<h2>Solution: employee-grouping - Employee groupingBy</h2>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.mapping(Employee::name, Collectors.toList())));\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Optional&lt;Employee&gt;&gt; highestPaidByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.maxBy(Comparator.comparingDouble(Employee::salary))));\n\nMap&lt;Integer, List&lt;Employee&gt;&gt; byAge = employees.stream()\n    .collect(Collectors.groupingBy(Employee::age));\n\nMap&lt;String, List&lt;Employee&gt;&gt; byCity = employees.stream()\n    .collect(Collectors.groupingBy(Employee::city));</code></pre>"
     },
     "/java/coding_fluency/streams/advanced_collectors/": {
       "text": "Advanced Collectors",
@@ -12577,9 +12911,9 @@
           {
             "id": "partitioningby-simple",
             "title": "partitioningBy",
-            "exerciseHtml": "<h2>Exercise: partitioningby-simple - partitioningBy</h2>\n<h3>Goal</h3>\n<p>Split a stream into exactly two buckets.</p>\n<h3>Task</h3>\n<p>Partition orders into paid and not-paid, producing <code>Map&lt;Boolean, List&lt;Order&gt;&gt;</code>.</p>\n<p>Then use downstream <code>counting()</code> to get <code>Map&lt;Boolean, Long&gt;</code>.</p>",
+            "exerciseHtml": "<h2>Exercise: partitioningby-simple - partitioningBy</h2>\n<h3>Goal</h3>\n<p>Split a stream into exactly two buckets.</p>\n<h3>Task</h3>\n<p>Partition orders into paid and not-paid, producing <code>Map&lt;Boolean, List&lt;Order&gt;&gt;</code>.</p>\n<p>Then use downstream <code>counting()</code> to get <code>Map&lt;Boolean, Long&gt;</code>.</p>\n<p>Also using <code>Employee</code>:</p>\n<p>1. Partition employees into active/inactive.</p>\n<p>2. Partition employees into salary <code>&gt;= 100000</code> and salary <code>&lt; 100000</code>.</p>\n<p>3. Count active vs inactive employees using <code>partitioningBy()</code>.</p>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: partitioningby-simple - partitioningBy</h2>\n<pre><code>Map&lt;Boolean, List&lt;Order&gt;&gt; paidPartition = orders.stream()\n    .collect(Collectors.partitioningBy(o -&gt; o.status() == OrderStatus.PAID));\n\nMap&lt;Boolean, Long&gt; paidCounts = orders.stream()\n    .collect(Collectors.partitioningBy(\n        o -&gt; o.status() == OrderStatus.PAID,\n        Collectors.counting()));</code></pre>\n<p><code>partitioningBy</code> always includes both <code>true</code> and <code>false</code> keys.</p>"
+            "solutionHtml": "<h2>Solution: partitioningby-simple - partitioningBy</h2>\n<pre><code>Map&lt;Boolean, List&lt;Order&gt;&gt; paidPartition = orders.stream()\n    .collect(Collectors.partitioningBy(o -&gt; o.status() == OrderStatus.PAID));\n\nMap&lt;Boolean, Long&gt; paidCounts = orders.stream()\n    .collect(Collectors.partitioningBy(\n        o -&gt; o.status() == OrderStatus.PAID,\n        Collectors.counting()));</code></pre>\n<p><code>partitioningBy</code> always includes both <code>true</code> and <code>false</code> keys.</p>\n<pre><code>Map&lt;Boolean, List&lt;Employee&gt;&gt; activePartition = employees.stream()\n    .collect(Collectors.partitioningBy(Employee::active));\n\nMap&lt;Boolean, List&lt;Employee&gt;&gt; salaryPartition = employees.stream()\n    .collect(Collectors.partitioningBy(e -&gt; e.salary() &gt;= 100_000));\n\nMap&lt;Boolean, Long&gt; activeCounts = employees.stream()\n    .collect(Collectors.partitioningBy(Employee::active, Collectors.counting()));</code></pre>"
           },
           {
             "id": "collectingandthen",
@@ -12618,7 +12952,150 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Advanced Collectors Solutions</h1>\n<h2>Solution: partitioningby-simple - partitioningBy</h2>\n<pre><code>Map&lt;Boolean, List&lt;Order&gt;&gt; paidPartition = orders.stream()\n    .collect(Collectors.partitioningBy(o -&gt; o.status() == OrderStatus.PAID));\n\nMap&lt;Boolean, Long&gt; paidCounts = orders.stream()\n    .collect(Collectors.partitioningBy(\n        o -&gt; o.status() == OrderStatus.PAID,\n        Collectors.counting()));</code></pre>\n<p><code>partitioningBy</code> always includes both <code>true</code> and <code>false</code> keys.</p>\n<h2>Solution: collectingandthen - collectingAndThen</h2>\n<pre><code>List&lt;String&gt; unmodifiablePaidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.collectingAndThen(\n        Collectors.toList(),\n        Collections::unmodifiableList));\n\nMap&lt;OrderStatus, Integer&gt; countsAsInt = orders.stream()\n    .collect(Collectors.groupingBy(\n        Order::status,\n        Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));</code></pre>\n<h2>Solution: groupingby-maxby - groupingBy with maxBy downstream</h2>\n<pre><code>Map&lt;OrderStatus, Optional&lt;Order&gt;&gt; highestTotalByStatus = orders.stream()\n    .collect(Collectors.groupingBy(\n        Order::status,\n        Collectors.maxBy(Comparator.comparing(Order::total))));</code></pre>\n<p>Read each value with <code>orElseThrow()</code> if absence should be impossible.</p>\n<h2>Solution: teeing-collectors - teeing</h2>\n<pre><code>String summary = orders.stream()\n    .collect(Collectors.teeing(\n        Collectors.counting(),\n        Collectors.summingDouble(o -&gt; o.total().doubleValue()),\n        (count, sum) -&gt; &quot;Orders: &quot; + count + &quot;, Revenue: &quot; + sum));</code></pre>"
+      "referenceHtml": "<h1>Advanced Collectors Solutions</h1>\n<h2>Solution: partitioningby-simple - partitioningBy</h2>\n<pre><code>Map&lt;Boolean, List&lt;Order&gt;&gt; paidPartition = orders.stream()\n    .collect(Collectors.partitioningBy(o -&gt; o.status() == OrderStatus.PAID));\n\nMap&lt;Boolean, Long&gt; paidCounts = orders.stream()\n    .collect(Collectors.partitioningBy(\n        o -&gt; o.status() == OrderStatus.PAID,\n        Collectors.counting()));</code></pre>\n<p><code>partitioningBy</code> always includes both <code>true</code> and <code>false</code> keys.</p>\n<pre><code>Map&lt;Boolean, List&lt;Employee&gt;&gt; activePartition = employees.stream()\n    .collect(Collectors.partitioningBy(Employee::active));\n\nMap&lt;Boolean, List&lt;Employee&gt;&gt; salaryPartition = employees.stream()\n    .collect(Collectors.partitioningBy(e -&gt; e.salary() &gt;= 100_000));\n\nMap&lt;Boolean, Long&gt; activeCounts = employees.stream()\n    .collect(Collectors.partitioningBy(Employee::active, Collectors.counting()));</code></pre>\n<h2>Solution: collectingandthen - collectingAndThen</h2>\n<pre><code>List&lt;String&gt; unmodifiablePaidIds = orders.stream()\n    .filter(o -&gt; o.status() == OrderStatus.PAID)\n    .map(Order::id)\n    .collect(Collectors.collectingAndThen(\n        Collectors.toList(),\n        Collections::unmodifiableList));\n\nMap&lt;OrderStatus, Integer&gt; countsAsInt = orders.stream()\n    .collect(Collectors.groupingBy(\n        Order::status,\n        Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));</code></pre>\n<h2>Solution: groupingby-maxby - groupingBy with maxBy downstream</h2>\n<pre><code>Map&lt;OrderStatus, Optional&lt;Order&gt;&gt; highestTotalByStatus = orders.stream()\n    .collect(Collectors.groupingBy(\n        Order::status,\n        Collectors.maxBy(Comparator.comparing(Order::total))));</code></pre>\n<p>Read each value with <code>orElseThrow()</code> if absence should be impossible.</p>\n<h2>Solution: teeing-collectors - teeing</h2>\n<pre><code>String summary = orders.stream()\n    .collect(Collectors.teeing(\n        Collectors.counting(),\n        Collectors.summingDouble(o -&gt; o.total().doubleValue()),\n        (count, sum) -&gt; &quot;Orders: &quot; + count + &quot;, Revenue: &quot; + sum));</code></pre>"
+    },
+    "/java/coding_fluency/streams/primitive_parallel/": {
+      "text": "Primitive and Parallel Streams",
+      "link": "/java/coding_fluency/streams/primitive_parallel/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/primitive_parallel/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/primitive_parallel/exercise/": {
+      "text": "Primitive and Parallel Streams",
+      "link": "/java/coding_fluency/streams/primitive_parallel/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/streams/primitive_parallel/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "primitive-and-parallel",
+            "title": "Numeric and Parallel Stream Choices",
+            "exerciseHtml": "<h2>Exercise: primitive-and-parallel - Numeric and Parallel Stream Choices</h2>\n<h3>Goal</h3>\n<p>Use primitive streams for numeric work and identify unsafe parallel stream patterns.</p>\n<h3>Task</h3>\n<p>Using <code>Employee</code>:</p>\n<p>1. Calculate average salary with a primitive stream.</p>\n<p>2. Calculate total age with a primitive stream.</p>\n<p>3. Explain why this is unsafe:</p>\n<pre><code>employees.parallelStream()\n         .forEach(list::add);</code></pre>\n<p>4. Rewrite it safely.</p>\n<p>5. Decide whether <code>parallelStream()</code> is appropriate for HTTP calls per employee.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>mapToDouble</code> or <code>mapToInt</code>.</li>\n<li>Do not mutate shared collections from parallel streams.</li>\n<li>State that parallel streams are not a default performance upgrade.</li>\n</ul>",
+            "starterCode": "employees.parallelStream()\n         .forEach(list::add);",
+            "solutionHtml": "<h2>Solution: primitive-and-parallel - Numeric and Parallel Stream Choices</h2>\n<pre><code>double averageSalary = employees.stream()\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nint totalAge = employees.stream()\n    .mapToInt(Employee::age)\n    .sum();</code></pre>\n<p>This is unsafe because many threads mutate the same list:</p>\n<pre><code>employees.parallelStream()\n         .forEach(list::add);</code></pre>\n<p>Collect safely instead:</p>\n<pre><code>List&lt;Employee&gt; result = employees.parallelStream()\n    .filter(Employee::active)\n    .toList();</code></pre>\n<p>Do not use <code>parallelStream()</code> by default for HTTP or database calls. It uses the common ForkJoinPool and can create contention.</p>"
+          }
+        ]
+      }
+    },
+    "/java/coding_fluency/streams/primitive_parallel/solution/": {
+      "text": "Primitive and Parallel Streams",
+      "link": "/java/coding_fluency/streams/primitive_parallel/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/streams/primitive_parallel/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Primitive and Parallel Streams Solutions</h1>\n<h2>Solution: primitive-and-parallel - Numeric and Parallel Stream Choices</h2>\n<pre><code>double averageSalary = employees.stream()\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nint totalAge = employees.stream()\n    .mapToInt(Employee::age)\n    .sum();</code></pre>\n<p>This is unsafe because many threads mutate the same list:</p>\n<pre><code>employees.parallelStream()\n         .forEach(list::add);</code></pre>\n<p>Collect safely instead:</p>\n<pre><code>List&lt;Employee&gt; result = employees.parallelStream()\n    .filter(Employee::active)\n    .toList();</code></pre>\n<p>Do not use <code>parallelStream()</code> by default for HTTP or database calls. It uses the common ForkJoinPool and can create contention.</p>"
+    },
+    "/java/coding_fluency/streams/interview_drills/": {
+      "text": "Stream Interview Drills",
+      "link": "/java/coding_fluency/streams/interview_drills/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/interview_drills/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/interview_drills/exercise/": {
+      "text": "Stream Interview Drills",
+      "link": "/java/coding_fluency/streams/interview_drills/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/java/coding_fluency/streams/interview_drills/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "mixed-stream-pipelines",
+            "title": "Mixed Stream Questions",
+            "exerciseHtml": "<h2>Exercise: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<h3>Goal</h3>\n<p>Combine multiple stream operations in realistic interview prompts.</p>\n<h3>Task</h3>\n<p>Solve these:</p>\n<p>1. Find names of all active employees.</p>\n<p>2. Find names of top 5 highest-paid active employees.</p>\n<p>3. Find departments having more than 5 employees.</p>\n<p>4. Find all unique skills across all employees.</p>\n<p>5. Count employees having the <code>&quot;Java&quot;</code> skill.</p>\n<p>6. Find average salary of active employees.</p>\n<p>7. Find employees sorted by salary descending.</p>\n<p>8. Find department with the maximum number of employees.</p>\n<p>9. Find employee names department-wise.</p>\n<p>10. Find the highest-paid active employee.</p>\n<p>11. Find total salary department-wise.</p>\n<p>12. Find duplicate department names.</p>\n<p>13. Create <code>department -&gt; average salary</code>.</p>\n<p>14. Create <code>department -&gt; employee count</code>.</p>\n<p>15. Create <code>department -&gt; list of employee names</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<pre><code>List&lt;String&gt; activeNames = employees.stream().filter(Employee::active).map(Employee::name).toList();\n\nList&lt;String&gt; topFiveActiveNames = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();\n\nSet&lt;String&gt; departmentsOverFive = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 5)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nSet&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.toSet());\n\nlong javaSkillCount = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;))\n    .count();\n\ndouble activeAverageSalary = employees.stream()\n    .filter(Employee::active)\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;Employee&gt; bySalaryDesc = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .toList();\n\nString largestDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));\n\nOptional&lt;Employee&gt; highestPaidActive = employees.stream()\n    .filter(Employee::active)\n    .max(Comparator.comparingDouble(Employee::salary));\n\nMap&lt;String, Double&gt; totalSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.summingDouble(Employee::salary)));\n\nSet&lt;String&gt; duplicateDepartments = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 1)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));</code></pre>"
+          },
+          {
+            "id": "output-prediction",
+            "title": "Predict Stream Output",
+            "exerciseHtml": "<h2>Exercise: output-prediction - Predict Stream Output</h2>\n<h3>Goal</h3>\n<p>Mentally execute stream pipelines.</p>\n<h3>Task</h3>\n<p>Predict these outputs:</p>\n<p>1. <code>List.of(1,2,3,4).stream().filter(x -&gt; x % 2 == 0).map(x -&gt; x * 10).toList()</code></p>\n<p>2. <code>List.of(&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;c&quot;).stream().distinct().sorted().toList()</code></p>\n<p>3. <code>List.of(1,2,3,4,5).stream().skip(2).limit(2).toList()</code></p>\n<p>4. <code>List.of(List.of(1,2), List.of(3,4)).stream().flatMap(List::stream).toList()</code></p>\n<p>5. <code>List.of(2,4,6,8).stream().allMatch(x -&gt; x % 2 == 0)</code></p>\n<p>6. <code>List.of(2,4,5,8).stream().noneMatch(x -&gt; x % 2 == 0)</code></p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: output-prediction - Predict Stream Output</h2>\n<p>| Case | Output |</p>\n<p>| --- | --- |</p>\n<p>| 1 | <code>[20, 40]</code> |</p>\n<p>| 2 | <code>[a, b, c]</code> |</p>\n<p>| 3 | <code>[3, 4]</code> |</p>\n<p>| 4 | <code>[1, 2, 3, 4]</code> |</p>\n<p>| 5 | <code>true</code> |</p>\n<p>| 6 | <code>false</code> |</p>"
+          },
+          {
+            "id": "find-stream-bugs",
+            "title": "Find the Bug",
+            "exerciseHtml": "<h2>Exercise: find-stream-bugs - Find the Bug</h2>\n<h3>Goal</h3>\n<p>Recognize common stream bugs.</p>\n<h3>Task</h3>\n<p>Explain what is wrong:</p>\n<p>1. <code>Collectors.toMap(Employee::getId, Function.identity())</code> when duplicate IDs exist.</p>\n<p>2. Reusing a stream after <code>stream.count()</code>.</p>\n<p>3. <code>employees.stream().findFirst().get()</code>.</p>\n<p>4. <code>employees.parallelStream().forEach(list::add)</code>.</p>\n<p>5. <code>.peek(e -&gt; e.setSalary(100000))</code>.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: find-stream-bugs - Find the Bug</h2>\n<p>1. Two-argument <code>toMap</code> throws <code>IllegalStateException</code> on duplicate IDs. Add a merge function.</p>\n<p>2. A stream is single-use. Create a new stream for the second traversal.</p>\n<p>3. <code>findFirst()</code> returns <code>Optional</code>; <code>.get()</code> can throw. Use <code>orElseThrow</code>, <code>orElse</code>, or handle absence.</p>\n<p>4. <code>parallelStream().forEach(list::add)</code> mutates shared state from multiple threads. Collect the result instead.</p>\n<p>5. <code>peek</code> should not perform business mutation. Use <code>map</code> for transformation or a loop for explicit mutation.</p>"
+          },
+          {
+            "id": "loop-to-streams",
+            "title": "Convert Loops to Streams",
+            "exerciseHtml": "<h2>Exercise: loop-to-streams - Convert Loops to Streams</h2>\n<h3>Goal</h3>\n<p>Rewrite common loop patterns as streams.</p>\n<h3>Task</h3>\n<p>Convert loops that:</p>\n<p>1. Filter active employees.</p>\n<p>2. Extract employee names.</p>\n<p>3. Compute total salary.</p>\n<p>4. Group employees by department.</p>\n<p>5. Find the highest-paid employee.</p>\n<p>6. Remove duplicate department names.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: loop-to-streams - Convert Loops to Streams</h2>\n<pre><code>List&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; names = employees.stream().map(Employee::name).toList();\ndouble totalSalary = employees.stream().mapToDouble(Employee::salary).sum();\nMap&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream().collect(Collectors.groupingBy(Employee::department));\nOptional&lt;Employee&gt; highestPaid = employees.stream().max(Comparator.comparingDouble(Employee::salary));\nSet&lt;String&gt; departments = employees.stream().map(Employee::department).collect(Collectors.toSet());</code></pre>"
+          },
+          {
+            "id": "choose-stream-api",
+            "title": "Choose the Correct API",
+            "exerciseHtml": "<h2>Exercise: choose-stream-api - Choose the Correct API</h2>\n<h3>Goal</h3>\n<p>Pick the smallest correct stream API.</p>\n<h3>Task</h3>\n<p>For each requirement, name the API:</p>\n<p>1. Remove unwanted elements.</p>\n<p>2. Convert <code>Employee</code> into <code>EmployeeDTO</code>.</p>\n<p>3. Flatten employee skills.</p>\n<p>4. Build a <code>Map&lt;Id, Employee&gt;</code>.</p>\n<p>5. Group employees by department.</p>\n<p>6. Divide employees into active/inactive.</p>\n<p>7. Find whether at least one employee belongs to HR.</p>\n<p>8. Calculate total salary.</p>\n<p>9. Calculate average salary.</p>\n<p>10. Find first matching employee.</p>\n<p>11. Find any matching employee.</p>\n<p>12. Remove duplicates.</p>\n<p>13. Get top 10 records.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: choose-stream-api - Choose the Correct API</h2>\n<p>| Requirement | API |</p>\n<p>| --- | --- |</p>\n<p>| Remove unwanted elements | <code>filter</code> |</p>\n<p>| Convert <code>Employee</code> to <code>EmployeeDTO</code> | <code>map</code> |</p>\n<p>| Flatten employee skills | <code>flatMap</code> |</p>\n<p>| Build <code>Map&lt;Id, Employee&gt;</code> | <code>Collectors.toMap</code> |</p>\n<p>| Group by department | <code>Collectors.groupingBy</code> |</p>\n<p>| Active/inactive split | <code>Collectors.partitioningBy</code> |</p>\n<p>| At least one HR employee | <code>anyMatch</code> |</p>\n<p>| Total salary | <code>mapToDouble(...).sum()</code> or <code>reduce</code> |</p>\n<p>| Average salary | <code>mapToDouble(...).average()</code> |</p>\n<p>| First matching employee | <code>findFirst</code> |</p>\n<p>| Any matching employee | <code>findAny</code> |</p>\n<p>| Remove duplicates | <code>distinct</code> |</p>\n<p>| Top 10 records | <code>sorted(...).limit(10)</code> if &quot;top&quot; means ranked; otherwise <code>limit(10)</code> |</p>"
+          },
+          {
+            "id": "stream-challenges",
+            "title": "Challenge Problems",
+            "exerciseHtml": "<h2>Exercise: stream-challenges - Challenge Problems</h2>\n<h3>Goal</h3>\n<p>Build longer pipelines after the basic operations are comfortable.</p>\n<h3>Task</h3>\n<p>Solve these:</p>\n<p>1. Return names of the top 10 highest-paid active employees grouped by department.</p>\n<p>2. Find all unique skills department-wise.</p>\n<p>3. Find employees sharing at least one common skill with another employee.</p>\n<p>4. Build <code>department -&gt; highest paid employee name</code>.</p>\n<p>5. Build <code>department -&gt; average salary</code>, sorted descending.</p>\n<p>6. Given sentences, return the top 10 most frequent words.</p>\n<p>7. Build a frequency map of employee skills.</p>\n<p>8. Find the department with the highest average salary.</p>\n<p>9. Find employees whose skills include both <code>&quot;Java&quot;</code> and <code>&quot;Spring&quot;</code>.</p>\n<p>10. Return names of top 5 highest-paid active IT employees whose salary is above the department average.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: stream-challenges - Challenge Problems</h2>\n<pre><code>Map&lt;String, List&lt;String&gt;&gt; topTenActiveNamesByDepartment = employees.stream()\n    .filter(Employee::active)\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.toList(),\n            list -&gt; list.stream()\n                .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n                .limit(10)\n                .map(Employee::name)\n                .toList())));\n\nMap&lt;String, Set&lt;String&gt;&gt; uniqueSkillsByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.flatMapping(e -&gt; e.skills().stream(), Collectors.toSet())));\n\nMap&lt;String, String&gt; highestPaidNameByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.maxBy(Comparator.comparingDouble(Employee::salary)),\n            employee -&gt; employee.map(Employee::name).orElseThrow())));\n\nLinkedHashMap&lt;String, Double&gt; averageSalaryDesc = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Double&gt;comparingByValue().reversed())\n    .collect(Collectors.toMap(\n        Map.Entry::getKey,\n        Map.Entry::getValue,\n        (left, right) -&gt; left,\n        LinkedHashMap::new));\n\nList&lt;String&gt; topWords = sentences.stream()\n    .flatMap(sentence -&gt; Arrays.stream(sentence.toLowerCase().split(&quot;\\\\W+&quot;)))\n    .filter(word -&gt; !word.isBlank())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Long&gt;comparingByValue().reversed())\n    .limit(10)\n    .map(Map.Entry::getKey)\n    .toList();\n\nMap&lt;String, Long&gt; skillFrequency = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));\n\nString departmentWithHighestAverageSalary = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nList&lt;Employee&gt; javaAndSpring = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;) &amp;&amp; e.skills().contains(&quot;Spring&quot;))\n    .toList();</code></pre>\n<p>Employees sharing at least one skill needs an indexed approach; a pure stream-only version is possible but less readable.</p>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; bySkill = employees.stream()\n    .flatMap(employee -&gt; employee.skills().stream().map(skill -&gt; Map.entry(skill, employee)))\n    .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));\n\nSet&lt;Employee&gt; sharingSkill = bySkill.values().stream()\n    .filter(list -&gt; list.size() &gt; 1)\n    .flatMap(List::stream)\n    .collect(Collectors.toSet());</code></pre>\n<p>Top 5 active IT employees above the IT department average:</p>\n<pre><code>double itAverageSalary = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;String&gt; names = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .filter(e -&gt; e.salary() &gt; itAverageSalary)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();</code></pre>"
+          }
+        ]
+      }
+    },
+    "/java/coding_fluency/streams/interview_drills/solution/": {
+      "text": "Stream Interview Drills",
+      "link": "/java/coding_fluency/streams/interview_drills/solution/",
+      "pageType": "solution",
+      "parentLink": "/java/coding_fluency/streams/interview_drills/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Stream Interview Drills Solutions</h1>\n<h2>Solution: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<pre><code>List&lt;String&gt; activeNames = employees.stream().filter(Employee::active).map(Employee::name).toList();\n\nList&lt;String&gt; topFiveActiveNames = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();\n\nSet&lt;String&gt; departmentsOverFive = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 5)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nSet&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.toSet());\n\nlong javaSkillCount = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;))\n    .count();\n\ndouble activeAverageSalary = employees.stream()\n    .filter(Employee::active)\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;Employee&gt; bySalaryDesc = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .toList();\n\nString largestDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));\n\nOptional&lt;Employee&gt; highestPaidActive = employees.stream()\n    .filter(Employee::active)\n    .max(Comparator.comparingDouble(Employee::salary));\n\nMap&lt;String, Double&gt; totalSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.summingDouble(Employee::salary)));\n\nSet&lt;String&gt; duplicateDepartments = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 1)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));</code></pre>\n<h2>Solution: output-prediction - Predict Stream Output</h2>\n<p>| Case | Output |</p>\n<p>| --- | --- |</p>\n<p>| 1 | <code>[20, 40]</code> |</p>\n<p>| 2 | <code>[a, b, c]</code> |</p>\n<p>| 3 | <code>[3, 4]</code> |</p>\n<p>| 4 | <code>[1, 2, 3, 4]</code> |</p>\n<p>| 5 | <code>true</code> |</p>\n<p>| 6 | <code>false</code> |</p>\n<h2>Solution: find-stream-bugs - Find the Bug</h2>\n<p>1. Two-argument <code>toMap</code> throws <code>IllegalStateException</code> on duplicate IDs. Add a merge function.</p>\n<p>2. A stream is single-use. Create a new stream for the second traversal.</p>\n<p>3. <code>findFirst()</code> returns <code>Optional</code>; <code>.get()</code> can throw. Use <code>orElseThrow</code>, <code>orElse</code>, or handle absence.</p>\n<p>4. <code>parallelStream().forEach(list::add)</code> mutates shared state from multiple threads. Collect the result instead.</p>\n<p>5. <code>peek</code> should not perform business mutation. Use <code>map</code> for transformation or a loop for explicit mutation.</p>\n<h2>Solution: loop-to-streams - Convert Loops to Streams</h2>\n<pre><code>List&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; names = employees.stream().map(Employee::name).toList();\ndouble totalSalary = employees.stream().mapToDouble(Employee::salary).sum();\nMap&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream().collect(Collectors.groupingBy(Employee::department));\nOptional&lt;Employee&gt; highestPaid = employees.stream().max(Comparator.comparingDouble(Employee::salary));\nSet&lt;String&gt; departments = employees.stream().map(Employee::department).collect(Collectors.toSet());</code></pre>\n<h2>Solution: choose-stream-api - Choose the Correct API</h2>\n<p>| Requirement | API |</p>\n<p>| --- | --- |</p>\n<p>| Remove unwanted elements | <code>filter</code> |</p>\n<p>| Convert <code>Employee</code> to <code>EmployeeDTO</code> | <code>map</code> |</p>\n<p>| Flatten employee skills | <code>flatMap</code> |</p>\n<p>| Build <code>Map&lt;Id, Employee&gt;</code> | <code>Collectors.toMap</code> |</p>\n<p>| Group by department | <code>Collectors.groupingBy</code> |</p>\n<p>| Active/inactive split | <code>Collectors.partitioningBy</code> |</p>\n<p>| At least one HR employee | <code>anyMatch</code> |</p>\n<p>| Total salary | <code>mapToDouble(...).sum()</code> or <code>reduce</code> |</p>\n<p>| Average salary | <code>mapToDouble(...).average()</code> |</p>\n<p>| First matching employee | <code>findFirst</code> |</p>\n<p>| Any matching employee | <code>findAny</code> |</p>\n<p>| Remove duplicates | <code>distinct</code> |</p>\n<p>| Top 10 records | <code>sorted(...).limit(10)</code> if &quot;top&quot; means ranked; otherwise <code>limit(10)</code> |</p>\n<h2>Solution: stream-challenges - Challenge Problems</h2>\n<pre><code>Map&lt;String, List&lt;String&gt;&gt; topTenActiveNamesByDepartment = employees.stream()\n    .filter(Employee::active)\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.toList(),\n            list -&gt; list.stream()\n                .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n                .limit(10)\n                .map(Employee::name)\n                .toList())));\n\nMap&lt;String, Set&lt;String&gt;&gt; uniqueSkillsByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.flatMapping(e -&gt; e.skills().stream(), Collectors.toSet())));\n\nMap&lt;String, String&gt; highestPaidNameByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.maxBy(Comparator.comparingDouble(Employee::salary)),\n            employee -&gt; employee.map(Employee::name).orElseThrow())));\n\nLinkedHashMap&lt;String, Double&gt; averageSalaryDesc = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Double&gt;comparingByValue().reversed())\n    .collect(Collectors.toMap(\n        Map.Entry::getKey,\n        Map.Entry::getValue,\n        (left, right) -&gt; left,\n        LinkedHashMap::new));\n\nList&lt;String&gt; topWords = sentences.stream()\n    .flatMap(sentence -&gt; Arrays.stream(sentence.toLowerCase().split(&quot;\\\\W+&quot;)))\n    .filter(word -&gt; !word.isBlank())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Long&gt;comparingByValue().reversed())\n    .limit(10)\n    .map(Map.Entry::getKey)\n    .toList();\n\nMap&lt;String, Long&gt; skillFrequency = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));\n\nString departmentWithHighestAverageSalary = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nList&lt;Employee&gt; javaAndSpring = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;) &amp;&amp; e.skills().contains(&quot;Spring&quot;))\n    .toList();</code></pre>\n<p>Employees sharing at least one skill needs an indexed approach; a pure stream-only version is possible but less readable.</p>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; bySkill = employees.stream()\n    .flatMap(employee -&gt; employee.skills().stream().map(skill -&gt; Map.entry(skill, employee)))\n    .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));\n\nSet&lt;Employee&gt; sharingSkill = bySkill.values().stream()\n    .filter(list -&gt; list.size() &gt; 1)\n    .flatMap(List::stream)\n    .collect(Collectors.toSet());</code></pre>\n<p>Top 5 active IT employees above the IT department average:</p>\n<pre><code>double itAverageSalary = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;String&gt; names = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .filter(e -&gt; e.salary() &gt; itAverageSalary)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();</code></pre>"
     },
     "/java/coding_fluency/records/": {
       "text": "Records as DTOs",
@@ -18037,50 +18514,6 @@
         "playground": false,
         "assets": false
       }
-    },
-    "/practice/": {
-      "text": "Practice Scratchpad",
-      "link": "/practice/",
-      "pageType": "theory",
-      "parentLink": "/practice/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/practice/exercise/": {
-      "text": "Practice Scratchpad",
-      "link": "/practice/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/practice/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      },
-      "practiceSet": null
-    },
-    "/practice/solution/": {
-      "text": "Practice Scratchpad",
-      "link": "/practice/solution/",
-      "pageType": "solution",
-      "parentLink": "/practice/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Practice Solutions</h1>\n<p>This section is reserved for ad-hoc practice solutions.</p>"
     }
   }
 }
