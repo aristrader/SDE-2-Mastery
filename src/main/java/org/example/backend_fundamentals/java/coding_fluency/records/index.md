@@ -1,63 +1,106 @@
 ---
-order: 40
+order: 60
 ---
 
-# Records as DTOs
+# Records
 
-## Why this matters
-Records (Java 16+) are the language-native immutable data carrier. They eliminate the boilerplate
-of a Lombok `@Value` class with zero annotation-processing dependencies. On a KYC platform, API
-response bodies and event payloads are natural candidates — created once, read many times, never
-mutated. Knowing where records stop and where Lombok picks up (toBuilder, Jackson quirks,
-inheritance limits) determines when to reach for which tool.
+Records are Java's concise syntax for immutable data carriers. They are a good fit for DTOs, API responses, event payloads, and small value snapshots.
+
+```java
+public record UserDto(String id, String email, boolean active) {}
+```
+
+The compiler generates:
+
+- a canonical constructor
+- accessors named `id()`, `email()`, `active()`
+- `equals()`
+- `hashCode()`
+- `toString()`
+
+Records are not just "classes with getters"; equality and the public API are based on the record components.
+
+## Record components
+
+Record fields are private and final. Accessors are named after the component, not JavaBean-style `getX`.
+
+```java
+UserDto user = new UserDto("u1", "a@x.com", true);
+
+String email = user.email(); // not getEmail()
+```
+
+This matters with frameworks and libraries that expect JavaBean naming.
+
+## Compact constructors
+
+Use a compact constructor for validation or normalization.
+
+```java
+public record Money(BigDecimal amount, String currency) {
+    public Money {
+        amount = amount.setScale(2, RoundingMode.HALF_UP);
+        currency = currency.toUpperCase(Locale.ROOT);
+
+        if (amount.signum() < 0) {
+            throw new IllegalArgumentException("amount must be non-negative");
+        }
+    }
+}
+```
+
+In a compact constructor, assign normalized values to the parameter name. Do not write `this.currency = ...`; record fields are assigned after the compact constructor body.
+
+## Limits
+
+Records are implicitly `final` and extend `java.lang.Record`, so they cannot extend another class. They can implement interfaces.
+
+```java
+public record CustomerId(String value) implements Comparable<CustomerId> {
+    @Override
+    public int compareTo(CustomerId other) {
+        return value.compareTo(other.value);
+    }
+}
+```
+
+Records are shallowly immutable. If a component is a mutable object, copy it.
+
+```java
+public record Report(List<String> rows) {
+    public Report {
+        rows = List.copyOf(rows);
+    }
+}
+```
+
+## Records vs Lombok
+
+Prefer records when:
+
+- the type is a small immutable carrier
+- all fields are part of equality
+- construction is simple
+- Java 16+ is available
+
+Prefer Lombok or a normal class when:
+
+- you need builders or `toBuilder`
+- you need inheritance
+- not every field belongs in equality
+- framework constraints need JavaBean setters or no-arg constructors
+
+## Jackson and Spring
+
+Modern Jackson supports records well. In older stacks, record deserialization may need parameter-name support or explicit annotations. Check the actual Spring Boot/Jackson version before adding annotations.
+
+For Spring Boot 2.7+ and Jackson 2.12+, simple records normally deserialize without extra configuration.
 
 ## Quick recall
 
-**Q.** What methods does a record auto-generate?  
-**A.** A public all-args canonical constructor, a getter for each component (named after the field, not `getX`), `equals()`, `hashCode()`, and `toString()`.
-
-**Q.** What is a compact constructor and where does it live?  
-**A.** A constructor body written as `RecordName { ... }` with no parameter list — it runs before the canonical constructor assigns fields, used for validation or normalization.
-
-**Q.** Are records final? Can they be subclassed?  
-**A.** Yes, records are implicitly `final`. They cannot be extended by any class.
-
-**Q.** Why can a record not extend another class?  
-**A.** Records implicitly extend `java.lang.Record`, and Java does not support multiple inheritance of classes. They can, however, implement any number of interfaces.
-
-**Q.** What is the minimal Jackson fix when record deserialization fails?  
-**A.** On Spring Boot 2.7+ / Jackson 2.12+ no fix is needed — built-in record support is included. On older versions, add `jackson-module-parameter-names` with `-parameters` compiler flag, or annotate the canonical constructor with `@JsonCreator` + `@JsonProperty`.
-
-**Q.** When should you prefer Lombok `@Value` + `@Builder` over a record?  
-**A.** When you need frequent partial-copy patterns (`toBuilder()`), Jackson deserialization without extra config, or you are on Java < 16. Prefer records for simplicity when the DTO is small, immutable, and Jackson config is already in place.
-
-
-## Domain model
-
-```java
-import java.math.BigDecimal;
-
-// You will define this as a record and experiment with its constraints.
-// Records are implicitly final — they cannot be subclassed.
-record TransactionDto(
-    String id,
-    BigDecimal amount,
-    String currency   // ISO-4217, e.g. "USD", "IDR"
-) {}
-
-// A user identity snapshot used in KYC checks
-record KycSubjectDto(
-    String userId,
-    String fullName,
-    String nationalId
-) {}
-```
-
-
-## Common Gotchas
-
-- Jackson 2.11 and earlier cannot map JSON keys to record constructor parameters by name without the `jackson-module-parameter-names` module or a `@JsonCreator`-annotated constructor. Jackson 2.12+ (Spring Boot 2.7+) handles records out of the box — check your version before adding anything.
-- The compact constructor does NOT redeclare parameters — write `TransactionDto { ... }`, not `TransactionDto(String id, ...) { ... }`.
-- To normalize a record component in a compact constructor, assign to the parameter name, for example `currency = currency.toUpperCase();`. Writing `this.currency = ...` is a compile error because record fields are final and assigned after the compact constructor body.
-- Records implicitly extend `java.lang.Record` and cannot extend any other class. Use records for small immutable DTOs, not for hierarchies.
-- There is no language shortcut for partial copies. Each `withX` method must name every other field explicitly; this becomes unpleasant on large records and is where Lombok `toBuilder()` may be more practical.
+- **Generated methods?** Canonical constructor, component accessors, `equals`, `hashCode`, `toString`.
+- **Accessor style?** `email()`, not `getEmail()`.
+- **Compact constructor syntax?** `public RecordName { ... }`.
+- **Can records extend classes?** No, they already extend `java.lang.Record`.
+- **Deeply immutable?** No. Copy mutable components.
+- **Best fit?** Small immutable DTO/value carrier where all components define identity.

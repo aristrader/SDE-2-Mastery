@@ -1,65 +1,125 @@
 ---
-order: 70
+order: 90
 ---
 
 # Lombok
 
-## Why this matters
-Lombok eliminates the boilerplate around DTOs and service classes: constructors, getters,
-equals/hashCode, builders, and loggers. On a KYC platform these appear in every verification request,
-response DTO, and service component. Knowing exactly which methods each annotation generates — and
-where the gotchas are — is table stakes for code review at SDE2 level.
+Lombok generates Java source during compilation: constructors, getters, setters, builders, loggers, and equality methods. It is useful, but every annotation should be treated as code you are choosing to generate.
 
-## Quick recall
+## Common annotations
 
-**Q.** What is the key difference between `@Data` and `@Value`?  
-**A.** `@Data` generates setters and does not make fields final — objects are mutable. `@Value` makes all fields `private final` and generates no setters — objects are immutable.
+| Annotation | Generates | Main caution |
+| --- | --- | --- |
+| `@Getter` / `@Setter` | accessors | setters make objects mutable |
+| `@Data` | getters, setters, `equals`, `hashCode`, `toString`, required constructor | too broad for entities and domain objects |
+| `@Value` | immutable class shape | all fields become private final |
+| `@Builder` | builder API | Jackson needs `@Jacksonized` or explicit config |
+| `@RequiredArgsConstructor` | constructor for `final` and `@NonNull` fields | non-final fields are excluded |
+| `@Slf4j` | static logger | use `{}` placeholders, not string concatenation |
 
-**Q.** Why does `@Builder` break Jackson deserialization by default?  
-**A.** `@Builder` suppresses the no-arg constructor. Jackson needs a no-arg constructor (or an annotated builder) to deserialize JSON. The cleanest fix is `@Jacksonized` alongside `@Builder`; alternatively, add `@NoArgsConstructor` + `@AllArgsConstructor` and annotate the constructor with `@JsonCreator`.
+## `@Data` vs `@Value`
 
-**Q.** What fields does `@RequiredArgsConstructor` include in the generated constructor?  
-**A.** Only `final` fields and fields annotated `@NonNull`. Non-final, non-annotated fields are excluded.
-
-**Q.** Why is `@Data` dangerous on a JPA entity?  
-**A.** Lombok's generated `equals`/`hashCode` includes all fields. Accessing a lazy-loaded collection during comparison triggers an extra Hibernate query and can cause `LazyInitializationException` outside a session.
-
-**Q.** What does `@Slf4j` actually inject?  
-**A.** `private static final Logger log = LoggerFactory.getLogger(TheClass.class)` — the exact declaration Lombok writes at compile time. No runtime reflection; the logger name is always the fully-qualified class name.
-
-**Q.** How do you inspect what Lombok actually generated?  
-**A.** Run `mvn lombok:delombok` — it writes the expanded source under `target/generated-sources/delombok/` so you can see exactly what was synthesised.
-
-
-## Domain model
+`@Data` creates a mutable object by default.
 
 ```java
-// You will create Lombok-annotated versions of these two types in the exercises
-// (do not import Spring annotations unless explicitly asked)
-
-// A verification result returned from the KYC engine
-class KycVerificationResult {
-    String userId;
-    String status;       // e.g. "APPROVED", "REJECTED", "PENDING"
-    String reason;
-    java.time.Instant verifiedAt;
-}
-
-// A service that depends on two collaborators
-class KycVerificationService {
-    KycRepository repository;      // final field
-    NotificationService notifier;  // final field
+@Data
+class UserDto {
+    private String id;
+    private String email;
 }
 ```
 
+`@Value` creates an immutable class shape.
 
-## Common Gotchas
+```java
+@Value
+class UserDto {
+    String id;
+    String email;
+}
+```
 
-- `@Value` is shorthand for getters, private final fields, required-args construction, `equals`/`hashCode`, and `toString`. It generates no setters.
-- `@Value` makes every field `private final` automatically — you do not write `final` yourself. Adding a non-final field manually changes the generated API and can make the type accidentally mutable.
-- `@Value` already synthesises an all-args constructor (via `@RequiredArgsConstructor` on all-final fields). `@Builder` alongside `@Value` works because Lombok coordinates the two, but adding a manual `@AllArgsConstructor` causes a "duplicate constructor" compile error — leave constructor generation to Lombok.
-- `@Data` on a JPA entity is dangerous — Lombok's `equals`/`hashCode` includes all fields. If a lazy collection is touched during equality, Hibernate may fire extra queries or throw outside a session. Use `@EqualsAndHashCode(onlyExplicitlyIncluded = true)` on entities.
-- `@Slf4j` injects a static logger named after the class. You can confirm with `log.getClass().getName()` and `log.getName()` when learning what Lombok generated.
-- SLF4J's `{}` placeholder is not `String.format` — don't use `+` concatenation or `String.format()` in log calls. Placeholder arguments avoid string construction when the log level is disabled.
-- `@RequiredArgsConstructor` generates a constructor only for `final` fields and fields annotated `@NonNull`. A non-final field without `@NonNull` is silently excluded, so Spring will not inject it through that constructor.
-- Spring 4.3+ autowires a single constructor automatically. With `@RequiredArgsConstructor` and `@Component`/`@Service`, you usually do not need `@Autowired` on the generated constructor.
+For DTOs that should not change after construction, prefer `@Value`, a record, or an explicit immutable class.
+
+## Constructors and Spring injection
+
+`@RequiredArgsConstructor` includes `final` fields and fields annotated `@NonNull`.
+
+```java
+@Service
+@RequiredArgsConstructor
+class BillingService {
+    private final InvoiceRepository repository;
+    private final Clock clock;
+}
+```
+
+Spring 4.3+ autowires a single constructor automatically, so `@Autowired` is usually unnecessary.
+
+If a dependency is not `final`, Lombok will not include it in the generated constructor.
+
+## Builders and Jackson
+
+`@Builder` is convenient for tests and wide DTOs, but it changes construction shape.
+
+```java
+@Value
+@Builder
+@Jacksonized
+class VerificationResult {
+    String userId;
+    String status;
+    String reason;
+}
+```
+
+Use `@Jacksonized` when Jackson should deserialize through the Lombok builder. Without it, Jackson may look for a no-arg constructor or a creator constructor and fail.
+
+## Equality traps
+
+Do not put broad `@Data` on JPA entities. Generated `equals`, `hashCode`, and `toString` can include lazy associations and trigger extra queries or `LazyInitializationException`.
+
+For entities, write equality deliberately or use:
+
+```java
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+class UserEntity {
+    @EqualsAndHashCode.Include
+    private String businessKey;
+}
+```
+
+## Logging
+
+`@Slf4j` injects:
+
+```java
+private static final Logger log = LoggerFactory.getLogger(CurrentClass.class);
+```
+
+Prefer parameterized logging:
+
+```java
+log.info("Verification completed for userId={}", userId);
+```
+
+Do not build log strings eagerly with `+` when the level may be disabled.
+
+## Delombok
+
+When unsure what Lombok generated, inspect it:
+
+```bash
+mvn lombok:delombok
+```
+
+Generated source is easier to reason about in code reviews than guessing from annotations.
+
+## Quick recall
+
+- **`@Data` vs `@Value`?** `@Data` is mutable; `@Value` is immutable-style.
+- **Constructor fields for `@RequiredArgsConstructor`?** `final` and `@NonNull`.
+- **Builder + Jackson fix?** Usually `@Jacksonized`.
+- **Why avoid `@Data` on JPA entities?** Equality/toString can touch lazy fields.
+- **What does `@Slf4j` add?** A static SLF4J logger for the class.
+- **How to inspect generated code?** Delombok.

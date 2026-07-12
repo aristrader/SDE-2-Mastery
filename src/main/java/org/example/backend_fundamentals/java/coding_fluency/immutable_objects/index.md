@@ -1,23 +1,33 @@
 ---
-order: 50
+order: 70
 ---
 
 # Immutable Objects
 
-An immutable object is created once and never changes visible state. This makes it safer as a map key, easier to share across threads, and easier to reason about in service code.
+An immutable object has no visible state changes after construction. That makes it safe as a map key, safe to share between threads, and easier to reason about in service code.
 
-## `final` class is not enough
+Immutability is about observable behavior, not one keyword.
 
-`final` on a class only prevents inheritance. It does not freeze fields.
+## `final` is not enough
+
+`final` on a class prevents inheritance. It does not freeze fields.
 
 ```java
 final class Employee {
     int age;
 }
 
-Employee e = new Employee();
-e.age = 50; // still mutable
+Employee employee = new Employee();
+employee.age = 50; // still mutable
 ```
+
+`final` on a field prevents reassigning the reference. It does not freeze the referenced object.
+
+```java
+private final List<String> roles;
+```
+
+The list can still be mutated unless you copy or wrap it correctly.
 
 ## Standard immutable class shape
 
@@ -37,15 +47,16 @@ public final class EmployeeId {
 
 Rules:
 
-- make the class `final`, or carefully prevent unsafe subclassing
+- make the class `final`, or carefully control subclassing
 - make fields `private final`
 - initialize all state in the constructor
 - expose no setters
 - defensively copy mutable inputs and outputs
+- do not leak `this` from the constructor
 
 ## Defensive copying
 
-`final` protects the field reference, not the object behind it.
+Copy mutable inputs on the way in.
 
 ```java
 public final class Report {
@@ -61,28 +72,53 @@ public final class Report {
 }
 ```
 
-Without `List.copyOf`, the caller could mutate the original list after construction and change the supposedly immutable object.
+If you store the caller's list directly, the caller can mutate your object after construction.
 
-## Why immutability matters for hash keys
+For mutable types without immutable factory methods, copy on both input and output.
 
-Hash-based collections depend on stable `equals()` and `hashCode()`. If a key's identity fields change after insertion, lookup searches the wrong bucket.
+```java
+public final class TokenWindow {
+    private final Date expiresAt;
 
-Immutable value objects avoid that entire class of bug.
+    public TokenWindow(Date expiresAt) {
+        this.expiresAt = new Date(expiresAt.getTime());
+    }
 
-## Records
+    public Date expiresAt() {
+        return new Date(expiresAt.getTime());
+    }
+}
+```
 
-Records are a concise way to model shallowly immutable value carriers. They generate constructor, accessors, `equals()`, `hashCode()`, and `toString()`. Use the records chapter for compact constructors, validation, and DTO trade-offs.
+## Hash keys and concurrency
+
+Hash-based collections depend on stable `equals()` and `hashCode()`. If a key's identity fields change after insertion, lookup can search the wrong bucket.
+
+Immutable objects also reduce concurrency risk because readers cannot observe partial business-state changes after construction.
+
+## Shallow vs deep immutability
+
+Records and `final` fields are shallowly immutable. The reference cannot change, but the object behind it may still be mutable.
+
+```java
+record UserSnapshot(List<String> roles) {}
+```
+
+This is not deeply immutable unless the constructor copies the list.
+
+```java
+record UserSnapshot(List<String> roles) {
+    UserSnapshot {
+        roles = List.copyOf(roles);
+    }
+}
+```
 
 ## Quick recall
 
-**Q. Does `final class` mean immutable?**
-A. No. It only prevents subclassing.
-
-**Q. What makes an object immutable?**
-A. No visible state changes after construction: private final fields, no setters, and defensive copies for mutable data.
-
-**Q. Why are immutable objects good HashMap keys?**
-A. Their hash/equality fields cannot change after insertion.
-
-**Q. Are records deeply immutable?**
-A. No. Record fields are final references, but mutable referenced objects can still mutate unless copied.
+- **Does `final class` mean immutable?** No. It only prevents subclassing.
+- **Does `final List<T>` mean immutable list?** No. The reference is final, not the list contents.
+- **Core immutable shape?** Private final fields, constructor initialization, no setters, defensive copies.
+- **Why good as `HashMap` keys?** Equality/hash fields cannot change after insertion.
+- **Records deeply immutable?** No. Copy mutable components.
+- **Mutable input rule?** Copy it before storing.

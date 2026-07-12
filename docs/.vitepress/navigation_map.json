@@ -415,6 +415,14 @@
             "link": "/java/coding_fluency/",
             "items": [
               {
+                "text": "Lambdas",
+                "link": "/java/coding_fluency/lambdas/"
+              },
+              {
+                "text": "Functional Interfaces",
+                "link": "/java/coding_fluency/functional_interfaces/"
+              },
+              {
                 "text": "Method References",
                 "link": "/java/coding_fluency/method_references/"
               },
@@ -470,7 +478,7 @@
                 "collapsed": true
               },
               {
-                "text": "Records as DTOs",
+                "text": "Records",
                 "link": "/java/coding_fluency/records/"
               },
               {
@@ -1134,6 +1142,12 @@
         "text": "Live Progress Dashboard",
         "items": []
       }
+    ],
+    "/practice/": [
+      {
+        "text": "Practice Scratchpad",
+        "items": []
+      }
     ]
   },
   "nav": [
@@ -1206,6 +1220,11 @@
       "text": "Live Progress Dashboard",
       "link": "/progress/",
       "activeMatch": "/progress/"
+    },
+    {
+      "text": "Practice Scratchpad",
+      "link": "/practice/",
+      "activeMatch": "/practice/"
     }
   ],
   "tree": {
@@ -3880,9 +3899,37 @@
             },
             "items": [
               {
+                "text": "Lambdas",
+                "link": "/java/coding_fluency/lambdas/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Functional Interfaces",
+                "link": "/java/coding_fluency/functional_interfaces/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
                 "text": "Method References",
                 "link": "/java/coding_fluency/method_references/",
-                "order": 10,
+                "order": 30,
                 "schema": "practice",
                 "practiceSet": {
                   "questions": [
@@ -3934,7 +3981,7 @@
               {
                 "text": "Optional",
                 "link": "/java/coding_fluency/optional/",
-                "order": 20,
+                "order": 40,
                 "schema": "practice",
                 "practiceSet": {
                   "questions": [
@@ -3993,7 +4040,7 @@
               {
                 "text": "Streams and Collectors",
                 "link": "/java/coding_fluency/streams/",
-                "order": 30,
+                "order": 50,
                 "schema": "theory",
                 "practiceSet": null,
                 "capabilities": {
@@ -4342,9 +4389,9 @@
                 ]
               },
               {
-                "text": "Records as DTOs",
+                "text": "Records",
                 "link": "/java/coding_fluency/records/",
-                "order": 40,
+                "order": 60,
                 "schema": "practice",
                 "practiceSet": {
                   "questions": [
@@ -4389,7 +4436,7 @@
               {
                 "text": "Immutable Objects",
                 "link": "/java/coding_fluency/immutable_objects/",
-                "order": 50,
+                "order": 70,
                 "schema": "theory",
                 "practiceSet": null,
                 "capabilities": {
@@ -4403,7 +4450,7 @@
               {
                 "text": "Immutable Collections",
                 "link": "/java/coding_fluency/immutable_collections/",
-                "order": 60,
+                "order": 80,
                 "schema": "practice",
                 "practiceSet": {
                   "questions": [
@@ -4455,7 +4502,7 @@
               {
                 "text": "Lombok",
                 "link": "/java/coding_fluency/lombok/",
-                "order": 70,
+                "order": 90,
                 "schema": "practice",
                 "practiceSet": {
                   "questions": [
@@ -6758,6 +6805,20 @@
           "playground": false,
           "assets": false
         }
+      },
+      {
+        "text": "Practice Scratchpad",
+        "link": "/practice/",
+        "order": 1000,
+        "schema": "interactive-code",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": true,
+          "solution": true,
+          "design": false,
+          "playground": true,
+          "assets": false
+        }
       }
     ]
   },
@@ -7127,6 +7188,14 @@
       "link": "/java/coding_fluency/"
     },
     {
+      "text": "Lambdas",
+      "link": "/java/coding_fluency/lambdas/"
+    },
+    {
+      "text": "Functional Interfaces",
+      "link": "/java/coding_fluency/functional_interfaces/"
+    },
+    {
       "text": "Method References",
       "link": "/java/coding_fluency/method_references/"
     },
@@ -7179,7 +7248,7 @@
       "link": "/java/coding_fluency/streams/interview_drills/"
     },
     {
-      "text": "Records as DTOs",
+      "text": "Records",
       "link": "/java/coding_fluency/records/"
     },
     {
@@ -7749,6 +7818,10 @@
     {
       "text": "Live Progress Dashboard",
       "link": "/progress/"
+    },
+    {
+      "text": "Practice Scratchpad",
+      "link": "/practice/"
     }
   ],
   "pageMeta": {
@@ -12307,6 +12380,34 @@
         "assets": false
       }
     },
+    "/java/coding_fluency/lambdas/": {
+      "text": "Lambdas",
+      "link": "/java/coding_fluency/lambdas/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/lambdas/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/functional_interfaces/": {
+      "text": "Functional Interfaces",
+      "link": "/java/coding_fluency/functional_interfaces/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/functional_interfaces/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/coding_fluency/method_references/": {
       "text": "Method References",
       "link": "/java/coding_fluency/method_references/",
@@ -13098,7 +13199,7 @@
       "referenceHtml": "<h1>Stream Interview Drills Solutions</h1>\n<h2>Solution: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<pre><code>List&lt;String&gt; activeNames = employees.stream().filter(Employee::active).map(Employee::name).toList();\n\nList&lt;String&gt; topFiveActiveNames = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();\n\nSet&lt;String&gt; departmentsOverFive = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 5)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nSet&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.toSet());\n\nlong javaSkillCount = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;))\n    .count();\n\ndouble activeAverageSalary = employees.stream()\n    .filter(Employee::active)\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;Employee&gt; bySalaryDesc = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .toList();\n\nString largestDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));\n\nOptional&lt;Employee&gt; highestPaidActive = employees.stream()\n    .filter(Employee::active)\n    .max(Comparator.comparingDouble(Employee::salary));\n\nMap&lt;String, Double&gt; totalSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.summingDouble(Employee::salary)));\n\nSet&lt;String&gt; duplicateDepartments = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 1)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));</code></pre>\n<h2>Solution: output-prediction - Predict Stream Output</h2>\n<p>| Case | Output |</p>\n<p>| --- | --- |</p>\n<p>| 1 | <code>[20, 40]</code> |</p>\n<p>| 2 | <code>[a, b, c]</code> |</p>\n<p>| 3 | <code>[3, 4]</code> |</p>\n<p>| 4 | <code>[1, 2, 3, 4]</code> |</p>\n<p>| 5 | <code>true</code> |</p>\n<p>| 6 | <code>false</code> |</p>\n<h2>Solution: find-stream-bugs - Find the Bug</h2>\n<p>1. Two-argument <code>toMap</code> throws <code>IllegalStateException</code> on duplicate IDs. Add a merge function.</p>\n<p>2. A stream is single-use. Create a new stream for the second traversal.</p>\n<p>3. <code>findFirst()</code> returns <code>Optional</code>; <code>.get()</code> can throw. Use <code>orElseThrow</code>, <code>orElse</code>, or handle absence.</p>\n<p>4. <code>parallelStream().forEach(list::add)</code> mutates shared state from multiple threads. Collect the result instead.</p>\n<p>5. <code>peek</code> should not perform business mutation. Use <code>map</code> for transformation or a loop for explicit mutation.</p>\n<h2>Solution: loop-to-streams - Convert Loops to Streams</h2>\n<pre><code>List&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; names = employees.stream().map(Employee::name).toList();\ndouble totalSalary = employees.stream().mapToDouble(Employee::salary).sum();\nMap&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream().collect(Collectors.groupingBy(Employee::department));\nOptional&lt;Employee&gt; highestPaid = employees.stream().max(Comparator.comparingDouble(Employee::salary));\nSet&lt;String&gt; departments = employees.stream().map(Employee::department).collect(Collectors.toSet());</code></pre>\n<h2>Solution: choose-stream-api - Choose the Correct API</h2>\n<p>| Requirement | API |</p>\n<p>| --- | --- |</p>\n<p>| Remove unwanted elements | <code>filter</code> |</p>\n<p>| Convert <code>Employee</code> to <code>EmployeeDTO</code> | <code>map</code> |</p>\n<p>| Flatten employee skills | <code>flatMap</code> |</p>\n<p>| Build <code>Map&lt;Id, Employee&gt;</code> | <code>Collectors.toMap</code> |</p>\n<p>| Group by department | <code>Collectors.groupingBy</code> |</p>\n<p>| Active/inactive split | <code>Collectors.partitioningBy</code> |</p>\n<p>| At least one HR employee | <code>anyMatch</code> |</p>\n<p>| Total salary | <code>mapToDouble(...).sum()</code> or <code>reduce</code> |</p>\n<p>| Average salary | <code>mapToDouble(...).average()</code> |</p>\n<p>| First matching employee | <code>findFirst</code> |</p>\n<p>| Any matching employee | <code>findAny</code> |</p>\n<p>| Remove duplicates | <code>distinct</code> |</p>\n<p>| Top 10 records | <code>sorted(...).limit(10)</code> if &quot;top&quot; means ranked; otherwise <code>limit(10)</code> |</p>\n<h2>Solution: stream-challenges - Challenge Problems</h2>\n<pre><code>Map&lt;String, List&lt;String&gt;&gt; topTenActiveNamesByDepartment = employees.stream()\n    .filter(Employee::active)\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.toList(),\n            list -&gt; list.stream()\n                .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n                .limit(10)\n                .map(Employee::name)\n                .toList())));\n\nMap&lt;String, Set&lt;String&gt;&gt; uniqueSkillsByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.flatMapping(e -&gt; e.skills().stream(), Collectors.toSet())));\n\nMap&lt;String, String&gt; highestPaidNameByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.maxBy(Comparator.comparingDouble(Employee::salary)),\n            employee -&gt; employee.map(Employee::name).orElseThrow())));\n\nLinkedHashMap&lt;String, Double&gt; averageSalaryDesc = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Double&gt;comparingByValue().reversed())\n    .collect(Collectors.toMap(\n        Map.Entry::getKey,\n        Map.Entry::getValue,\n        (left, right) -&gt; left,\n        LinkedHashMap::new));\n\nList&lt;String&gt; topWords = sentences.stream()\n    .flatMap(sentence -&gt; Arrays.stream(sentence.toLowerCase().split(&quot;\\\\W+&quot;)))\n    .filter(word -&gt; !word.isBlank())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Long&gt;comparingByValue().reversed())\n    .limit(10)\n    .map(Map.Entry::getKey)\n    .toList();\n\nMap&lt;String, Long&gt; skillFrequency = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));\n\nString departmentWithHighestAverageSalary = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nList&lt;Employee&gt; javaAndSpring = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;) &amp;&amp; e.skills().contains(&quot;Spring&quot;))\n    .toList();</code></pre>\n<p>Employees sharing at least one skill needs an indexed approach; a pure stream-only version is possible but less readable.</p>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; bySkill = employees.stream()\n    .flatMap(employee -&gt; employee.skills().stream().map(skill -&gt; Map.entry(skill, employee)))\n    .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));\n\nSet&lt;Employee&gt; sharingSkill = bySkill.values().stream()\n    .filter(list -&gt; list.size() &gt; 1)\n    .flatMap(List::stream)\n    .collect(Collectors.toSet());</code></pre>\n<p>Top 5 active IT employees above the IT department average:</p>\n<pre><code>double itAverageSalary = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;String&gt; names = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .filter(e -&gt; e.salary() &gt; itAverageSalary)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();</code></pre>"
     },
     "/java/coding_fluency/records/": {
-      "text": "Records as DTOs",
+      "text": "Records",
       "link": "/java/coding_fluency/records/",
       "pageType": "theory",
       "parentLink": "/java/coding_fluency/records/",
@@ -13112,7 +13213,7 @@
       }
     },
     "/java/coding_fluency/records/exercise/": {
-      "text": "Records as DTOs",
+      "text": "Records",
       "link": "/java/coding_fluency/records/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/coding_fluency/records/",
@@ -13158,7 +13259,7 @@
       }
     },
     "/java/coding_fluency/records/solution/": {
-      "text": "Records as DTOs",
+      "text": "Records",
       "link": "/java/coding_fluency/records/solution/",
       "pageType": "solution",
       "parentLink": "/java/coding_fluency/records/",
@@ -18514,6 +18615,50 @@
         "playground": false,
         "assets": false
       }
+    },
+    "/practice/": {
+      "text": "Practice Scratchpad",
+      "link": "/practice/",
+      "pageType": "theory",
+      "parentLink": "/practice/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/practice/exercise/": {
+      "text": "Practice Scratchpad",
+      "link": "/practice/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/practice/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/practice/solution/": {
+      "text": "Practice Scratchpad",
+      "link": "/practice/solution/",
+      "pageType": "solution",
+      "parentLink": "/practice/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Practice Solutions</h1>\n<p>This section is reserved for ad-hoc practice solutions.</p>"
     }
   }
 }
