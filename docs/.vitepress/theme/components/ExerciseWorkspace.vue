@@ -139,6 +139,8 @@ const RUN_TIMEOUT_MS = 15000
 const OUTPUT_LIMIT = 10000
 const PISTON_EXECUTE_URL = import.meta.env.VITE_PISTON_EXECUTE_URL || ''
 const JAVA_RUNNER_URL = import.meta.env.VITE_JAVA_RUNNER_URL || '/api/run-java'
+const usesPiston = computed(() => Boolean(PISTON_EXECUTE_URL))
+const javaRunnerEnabled = computed(() => usesPiston.value || import.meta.env.VITE_ENABLE_JAVA_RUNNER === '1')
 
 function normalizeRoutePath(path) {
   let normalized = path.split('#')[0].split('?')[0]
@@ -164,7 +166,6 @@ const referenceHref = computed(() => {
   return ''
 })
 const referenceLabel = computed(() => capabilities.value.design ? 'View Design' : 'View Solution')
-const usesPiston = computed(() => Boolean(PISTON_EXECUTE_URL))
 const javaLspEnabled = computed(() => import.meta.env.DEV && import.meta.env.VITE_ENABLE_JAVA_LSP === '1' && currentPath.value.startsWith('/java/'))
 const visibleDiagnostics = computed(() => [...lspDiagnostics.value, ...diagnostics.value])
 const lspLabel = computed(() => {
@@ -184,15 +185,19 @@ const scratchPackage = computed(() => {
 const scratchFileName = computed(() => `${scratchClassName.value}.java`)
 const scratchMainClass = computed(() => scratchPackage.value ? `${scratchPackage.value}.${scratchClassName.value}` : scratchClassName.value)
 const scratchRunnable = computed(() => /public\s+static\s+void\s+main\s*\(/.test(scratchCode.value))
-const canRunScratch = computed(() => scratchCode.value.trim() && scratchRunnable.value && !isRunning.value && !isRateLimited.value)
+const canRunScratch = computed(() => javaRunnerEnabled.value && scratchCode.value.trim() && scratchRunnable.value && !isRunning.value && !isRateLimited.value)
 const runButtonLabel = computed(() => {
   if (isRunning.value) return 'Running...'
   if (isRateLimited.value) return `Wait ${rateLimitSeconds.value}s`
+  if (!javaRunnerEnabled.value) return 'Run off'
   if (!scratchCode.value.trim()) return 'No code'
   if (!scratchRunnable.value) return 'No main'
   return 'Run'
 })
 const runnerNotice = computed(() => {
+  if (!javaRunnerEnabled.value) {
+    return 'Light mode: Java execution is disabled. Use npm run start:java when you want local runs.'
+  }
   if (!usesPiston.value) {
     return 'Local study mode: edited Java is compiled in a temporary directory and run through the local JDK. Do not run untrusted code.'
   }
@@ -491,6 +496,7 @@ if (import.meta.env.DEV && import.meta.hot) {
 }
 
 async function runScratch() {
+  if (!javaRunnerEnabled.value) return
   if (isRunning.value || isRateLimited.value) return
   if (!scratchCode.value.trim()) {
     outputLabel.value = 'Input Required'

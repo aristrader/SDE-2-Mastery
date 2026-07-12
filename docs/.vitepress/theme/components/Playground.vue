@@ -167,6 +167,7 @@ const OUTPUT_LIMIT = 10000
 const PISTON_EXECUTE_URL = import.meta.env.VITE_PISTON_EXECUTE_URL || ''
 const JAVA_RUNNER_URL = import.meta.env.VITE_JAVA_RUNNER_URL || '/api/run-java'
 const usesPiston = computed(() => Boolean(PISTON_EXECUTE_URL))
+const javaRunnerEnabled = computed(() => usesPiston.value || import.meta.env.VITE_ENABLE_JAVA_RUNNER === '1')
 const completionWords = computed(() => workspaceFiles.value.map(file => file.name.replace(/\.java$/, '')))
 const hasWorkspaceChanges = computed(() => workspaceFiles.value.some(file => isDirty(file) || file.createdByUser))
 const javaLspEnabled = computed(() => import.meta.env.DEV && import.meta.env.VITE_ENABLE_JAVA_LSP === '1' && route.path.startsWith('/java/'))
@@ -504,12 +505,13 @@ async function filesForRun() {
 }
 
 const canRun = computed(() => {
-  return selected.value && selectedRunnable.value && selectedCode.value.trim() && !isRunning.value && !isRateLimited.value
+  return javaRunnerEnabled.value && selected.value && selectedRunnable.value && selectedCode.value.trim() && !isRunning.value && !isRateLimited.value
 })
 
 const runButtonLabel = computed(() => {
   if (isRunning.value) return 'Running...'
   if (isRateLimited.value) return `Wait ${rateLimitSeconds.value}s`
+  if (!javaRunnerEnabled.value) return 'Run off'
   if (!selected.value) return 'Run'
   if (!selectedCode.value.trim()) return 'No code'
   if (!selectedRunnable.value) return 'No main'
@@ -517,6 +519,9 @@ const runButtonLabel = computed(() => {
 })
 
 const runnerNotice = computed(() => {
+  if (!javaRunnerEnabled.value) {
+    return 'Light mode: Java execution is disabled. Use npm run start:java when you want local runs.'
+  }
   if (!usesPiston.value) {
     return 'Local study mode: edited Java is compiled in a temporary directory and run through the local JDK. Do not run untrusted code.'
   }
@@ -835,6 +840,7 @@ async function lspCodeActionProvider(model, range, monaco) {
 }
 
 async function runCode() {
+  if (!javaRunnerEnabled.value) return
   if (isRunning.value || isRateLimited.value) return
   if (!selected.value) return
   if (!selectedCode.value.trim()) {

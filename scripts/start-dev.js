@@ -8,12 +8,14 @@ const tmp = path.join(root, '.tmp')
 const pidFile = path.join(tmp, 'docs-dev.pid')
 const logFile = path.join(tmp, 'docs-dev.log')
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log('Usage: npm run start        # docs without Java LSP')
-  console.log('       npm run start:lsp    # docs with Java LSP')
-  console.log('       PORT=5174 npm run start:lsp')
+  console.log('Usage: npm run start        # light docs: no Java runner, no Java LSP')
+  console.log('       npm run start:java   # docs with local Java run button')
+  console.log('       npm run start:lsp    # docs with local Java runner and Java LSP')
+  console.log('       PORT=5174 npm run start:light')
   process.exit(0)
 }
-const mode = process.argv[2] === 'lsp' ? 'lsp' : 'default'
+const requestedMode = process.argv[2] || 'light'
+const mode = ['light', 'java', 'lsp'].includes(requestedMode) ? requestedMode : 'light'
 const port = process.env.PORT || (mode === 'lsp' ? '5176' : '5173')
 
 function alive(pid) {
@@ -37,7 +39,8 @@ if (fs.existsSync(pidFile)) {
 const log = fs.openSync(logFile, 'a')
 const env = {
   ...process.env,
-  ...(mode === 'lsp' ? { VITE_ENABLE_JAVA_LSP: '1' } : {}),
+  VITE_ENABLE_JAVA_RUNNER: mode === 'light' ? '0' : '1',
+  VITE_ENABLE_JAVA_LSP: mode === 'lsp' ? '1' : '0',
 }
 const child = spawn('npm', ['run', 'docs:dev', '--', '--host', '127.0.0.1', '--port', port], {
   cwd: root,
@@ -58,6 +61,11 @@ child.once('exit', (code) => {
 setTimeout(() => {
   if (exited) return
   child.unref()
-  console.log(`Started docs ${mode === 'lsp' ? 'with LSP' : 'without LSP'} at http://127.0.0.1:${port}/`)
+  const label = mode === 'light'
+    ? 'lightweight (no Java runner, no LSP)'
+    : mode === 'java'
+      ? 'with Java runner, without LSP'
+      : 'with Java runner and LSP'
+  console.log(`Started docs ${label} at http://127.0.0.1:${port}/`)
   console.log(`Log: ${logFile}`)
 }, 1500)

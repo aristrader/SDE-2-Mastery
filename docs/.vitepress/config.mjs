@@ -10,6 +10,7 @@ import { javaLspBridgePlugin } from './dev/javaLspBridge.mjs'
 const monacoPlugin = monacoEditorPlugin.default ? monacoEditorPlugin.default : monacoEditorPlugin
 const monacoPublicPath = 'monacoeditorwork'
 const RUN_TIMEOUT_MS = 10000
+const JAVA_RUNNER_ENABLED = process.env.VITE_ENABLE_JAVA_RUNNER === '1'
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -171,7 +172,7 @@ export default withMermaid({
   cleanUrls: true,
   vite: {
     plugins: [
-      localJavaRunnerPlugin(),
+      JAVA_RUNNER_ENABLED && localJavaRunnerPlugin(),
       javaLspBridgePlugin(),
       monacoPlugin({
         publicPath: monacoPublicPath,

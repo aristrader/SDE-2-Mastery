@@ -79,6 +79,13 @@ Use schema families under `backend_fundamentals`; choose the lightest schema tha
 - Keep Quick recall answers short.
 - Preserve useful user analogies, misconceptions, and struggle points when converting notes into docs.
 
+## Curriculum Cleanup Rules
+
+- Organize topic folders by learning flow, not source-dump shape. Split pages that are too broad; merge tiny drills when separate pages add navigation noise.
+- Put basic theory before practice on each topic. Do not start a page with exercises before syntax, mental model, traps, and interview relevance are clear.
+- Keep exercises close to the topic they practice. Use combined drills only when the point is cross-topic integration or interview-style review.
+- When moving/splitting/deleting docs, verify useful content was preserved or intentionally cut; report any intentional cuts.
+
 ## Java Rules
 
 - Use role-based class names such as `DeveloperHiringProcess` or `BillPughSingleton`; avoid vague names such as `FactoryImpl`.
@@ -98,7 +105,7 @@ Use schema families under `backend_fundamentals`; choose the lightest schema tha
 
 ## Temp Doc Import Workflow
 
-Use this when the user asks to process `temp.md` or `temp1.md` through `temp4.md`.
+Use this when the user asks to process temp import files such as `temp.md` or `temp1.md` through `temp4.md`.
 
 - Read every staged temp file completely before processing.
 - If a staged temp file is long, page through it in chunks until EOF; never assume the first view is the whole file.
