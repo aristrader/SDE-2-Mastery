@@ -8,7 +8,7 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | Design thinking process — pain → responsibilities → vary/stay → arrows → skeleton → verify (the meta-process behind every pattern) | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 Deep-dive: `study_plan/deep_dives/DesignThinkingProcess.md` (6-step process, worked "send a notification" example, 10 common traps, YAGNI / Rule-of-Three layer test, "abstraction shape follows from state", "when *no* pattern fits") |
+| 1 | Design thinking process — pain → responsibilities → vary/stay → arrows → skeleton → verify (the meta-process behind every pattern) | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | | 📖 Deep-dive: `study_plan/deep_dives/DesignThinkingProcess.md` (6-step process, worked "send a notification" example, 10 common traps, YAGNI / Rule-of-Three layer test, "abstraction shape follows from state", "when *no* pattern fits", checkout review heuristics) |
 | 2 | Single Responsibility — what it actually means | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Open/Closed — extension vs modification | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Liskov Substitution | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -22,15 +22,15 @@
 | 12 | Decorator | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Coffee with Milk/Sugar decorators — verify composed price/desc (25 min) |
 | 13 | Facade | 🔴 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 14 | Proxy — virtual, remote, protection | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Strategy | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: PaymentStrategy interface + Card/UPI/Wallet impls (25 min) · 📖 Deep-dive: `design_patterns/pattern_selection/index.md` (Strategy vs Registry vs DI for "one HR, many factories" — 4 exercises) |
+| 15 | Strategy | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [x] | [ ] | [ ] | | 💻 Warm-up: PaymentStrategy interface + Card/UPI/Wallet impls (25 min) · 📖 Deep-dive: `design_patterns/pattern_selection/index.md` (Strategy vs Registry vs DI for "one HR, many factories" — 4 exercises) · 📖 Comparison: `design_patterns/behavioral/strategy_vs_template_method/index.md` · 💻 Review drill: `design_patterns/pattern_selection/exercise/index.md` |
 | 16 | Observer / Pub-Sub | 🔴 🎯 | MP | 1 hr 55 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: minimal EventBus with `subscribe(Class<T>, Consumer<T>)` + publish (25 min) |
-| 17 | Template Method | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 17 | Template Method | 🔴 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | | 📖 Comparison: `design_patterns/behavioral/strategy_vs_template_method/index.md` |
 | 18 | State — perfect fit for KYC status machines | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Chain of Responsibility | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Command | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Repository pattern | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Unit of Work | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Dependency Injection — incl. `Map<String, T>` auto-injection of all beans implementing an interface (registry-via-DI pattern) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 Deep-dive: `design_patterns/pattern_selection/index.md` |
+| 23 | Dependency Injection — incl. `Map<String, T>` auto-injection of all beans implementing an interface (registry-via-DI pattern) | 🔴 💼 | M | 45 min | [ ] | [x] | [ ] | [ ] | | 📖 Deep-dive: `design_patterns/pattern_selection/index.md` · 📖 Resolver drill: `design_patterns/behavioral/strategy_vs_template_method/index.md` |
 | 24 | God class, anemic domain model, primitive obsession | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Tight coupling, circular dependencies | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Law of Demeter | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -79,7 +79,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~31.25 hrs | ~2.85 wk | rows 8, 9, 10 done pre-time-tracking (hours not logged) |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~78.5 hrs | ~7.15 wk | rows 8, 9, 10, 29 done pre-time-tracking |
-| Full Part (all items including 🟡 + 🟢) | ~92.5 hrs | ~8.4 wk | ~4.5 hrs so far |
+| Full Part (all items including 🟡 + 🟢) | ~92.5 hrs | ~8.4 wk | ~6.5 hrs so far |
 
 > Heavy Part — but a large fraction is already ✅ Done from your active design-patterns track. Mark accordingly during Survey.
 

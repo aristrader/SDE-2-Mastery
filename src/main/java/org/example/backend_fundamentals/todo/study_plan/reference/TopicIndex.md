@@ -98,6 +98,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Design docs** → Part 24 row 1
 - **Domain-Driven Design / Bounded Context (strategic DDD, context ≠ DB, DDD → service boundaries)** → Part 07 (row 70), Part 04 (row 59 tactical building blocks)
 - **Design thinking process (pain → responsibilities → vary/stay → arrows → skeleton → verify)** → Part 04 row 1, deep_dives/DesignThinkingProcess.md
+- **Design review for OO responsibilities (checkout review: discount, payment resolver, entity vs service, shipping policy)** → Part 04 rows 1, 15, 17, 23; design_patterns/pattern_selection/exercise/index.md
 - **Device fingerprinting** → Part 29 row 112
 - **DHCP & MAC addresses (leases, identity vs location, spoofing)** → Part 11 row 31
 - **DI vs DIP** → Part 04, PracticeProblems § 3 Q18
@@ -264,6 +265,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Pre-signed URLs (S3)** → Part 13, Part 31 row 5
 - **Pattern selection — Strategy vs Registry vs Spring DI ("one HR, many factories")** → design_patterns/pattern_selection/index.md, Part 04 rows 15, 23
 - **Pattern selection scenarios (Singleton / Factory / Builder / Static Factory / Abstract Factory — 25 production scenarios)** → design_patterns/pattern_selection_scenarios/index.md, Part 04 rows 8, 9, 10
+- **PaymentProcessorResolver / runtime strategy selection** → Part 04 rows 15, 23; design_patterns/behavioral/strategy_vs_template_method/index.md, design_patterns/pattern_selection/exercise/index.md
 - **PEP screening** → Part 29 row 20
 - **Polling (Short vs Long)** → Part 11 row 30
 - **Polling vs webhook** → Part 29 row 85, Part 31 FAQ #4
@@ -341,6 +343,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **SSRF protection** → Part 29 row 82
 - **State diagram (KYC state machine)** → Part 05 row 3, Part 29 row 22
 - **STAR stories** → Part 30 row 4, PracticeProblems § 4.1
+- **Strategy vs Template Method** → Part 04 rows 15, 17; design_patterns/behavioral/strategy_vs_template_method/index.md
 - **Step Functions (workflows, state types, KYC orchestration fit)** → Part 13
 - **Sealed classes (permits, exhaustive switch)** → Part 01 row 31, Part 1b row 27
 - **Sticky sessions / session affinity** → Part 11

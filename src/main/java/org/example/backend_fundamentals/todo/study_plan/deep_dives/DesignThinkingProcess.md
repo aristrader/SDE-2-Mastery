@@ -246,6 +246,39 @@ Depending on which pain dominated and how it evolves, the *same* structure can b
 
 ---
 
+## Heuristics from design review
+
+These came out of the LLD coaching review before returning to Parking Lot. They are intentionally phrased as questions because that is how they should be used in a code review.
+
+**Who should know about whom?** This is the practical form of DIP. `CheckoutService` may know that it needs to charge a payment, but it should not know how card, UPI, or wallet payments are implemented. It should depend on a `PaymentProcessor` abstraction and, if the choice is runtime-driven, delegate selection to a resolver.
+
+**Who owns this rule?** If a rule uses only an entity's internal state, keep it on the entity. `Order.calculateSubtotal()` belongs on `Order`. If a rule coordinates external systems, keep it outside the entity. `releaseInventory()` and `sendCancellationEmail()` belong to services because they talk to inventory and messaging.
+
+**Is this a utility or a business concept?** Method size is not the deciding factor. A four-line `calculateShipping()` can still be a real `ShippingPolicy` if shipping varies by region, carrier, weight, customer tier, or campaign. A static utility is fine for pure mechanics; business policy usually deserves a named abstraction.
+
+**What varies independently?** If employee discounts, premium-customer discounts, coupons, and campaign discounts change for different reasons, they should not live in one `if/else` pile just because they all return a number. Separate independent rules first; only then decide whether the implementation shape is Strategy, policy objects, a rule engine, or plain methods.
+
+**Where is the runtime decision made?** Replacing `CardPaymentProcessor` with `PaymentProcessor` fixes type coupling, but it does not answer "which processor for this request?" If that decision leaks into `CheckoutService`, the service still knows too much. Put the decision in a resolver or registry.
+
+## Mindset progression
+
+Early design questions often sound syntax-driven:
+
+- "Should this be an enum or a class?"
+- "Should this be an interface or an abstract class?"
+- "Should I use Strategy here?"
+
+Those are not bad questions, but they are second-order questions. The better first questions are responsibility-driven:
+
+- "Who owns this business rule?"
+- "What changes independently?"
+- "Which class is being forced to know too much?"
+- "What should the caller be able to say without knowing implementation details?"
+
+Once those are answered, the syntax usually follows. Interfaces, abstract classes, enums, strategies, resolvers, and services are tools for expressing the responsibility split, not substitutes for deciding the split.
+
+---
+
 ## When to add another layer of abstraction
 
 One of the most common judgement calls: *"Should I extract an interface above this abstract class? Should I add a factory? Should I split this concrete class into a contract + implementation?"*
@@ -368,5 +401,7 @@ Bad candidates for updates here:
 - `design_patterns/foundations/oop_pillars/` — Encapsulation, Polymorphism, Abstraction, Inheritance.
 - `design_patterns/foundations/coupling_cohesion_smells/CouplingCohesionSmells.md` — smell-vocabulary for Step 1 ("name the pain").
 - `design_patterns/pattern_selection/index.md` — Strategy / Registry / DI for "one HR, many factories" — applied case study.
+- `design_patterns/pattern_selection/exercise/index.md` — mixed OO design-review exercise from the checkout example.
 - `design_patterns/pattern_selection_scenarios/index.md` — 25 scenario-based pattern-selection exercises across the creational patterns.
+- `design_patterns/behavioral/strategy_vs_template_method/index.md` — deciding whether the varying behavior should be passed in or owned by a parent workflow.
 - `design_patterns/creational/CreationalPatternsRoadmap.md` — pattern-learning order.
