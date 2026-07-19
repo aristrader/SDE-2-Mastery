@@ -106,6 +106,17 @@ Any **check-then-act** or **read-modify-write** operation is unsafe with `volati
 | `if (map == null) map = new HashMap<>()` | Two threads both see null | `synchronized` or `AtomicReference` |
 | Swapping two fields | Non-atomic pair | `synchronized` |
 
+## Interview answer shape
+
+If asked whether `volatile` fixes a bug, classify the shared state first:
+
+1. Is it one variable or a compound invariant across fields?
+2. Is the operation a plain read/write or read-modify-write?
+3. Is there one writer or multiple writers?
+4. Does the code need mutual exclusion?
+
+`volatile` is enough for a stop flag or publishing a fully built immutable config reference. It is not enough for counters, lazy initialization without correct double-checking, map updates, or any invariant that spans multiple values.
+
 ---
 
 ## volatile long and double
@@ -150,4 +161,3 @@ A. On 32-bit JVMs, a `long`/`double` write can split into two 32-bit ops; a read
 
 **Q. Can two threads execute simultaneously with only a volatile field between them?**
 A. Yes — volatile provides no mutual exclusion. Both run concurrently; they just see each other's latest writes.
-

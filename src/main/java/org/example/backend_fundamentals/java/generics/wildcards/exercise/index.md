@@ -1,4 +1,5 @@
 ---
+title: Exercises
 order: 10
 search: false
 ---
@@ -17,28 +18,15 @@ Implement:
 
 ```java
 static double sum(List<? extends Number> values)
+static void printNumbers(List<? extends Number> values)
 ```
 
-Call it with `List<Integer>`, `List<Double>`, and `List<Float>`.
-
-Try `values.add(1)` inside the method, leave it commented, and explain the compiler error.
-
-## Exercise: wildcard-producer - Upper-bounded wildcards
-
-### Goal
-Practice `? extends` for producer inputs: read values safely, but do not add values.
-
-### Task
-Implement:
-
-- `printNumbers(List<? extends Number>)`
-- `sumList(List<? extends Number>)`
-
-Then try to add an `Integer` inside `printNumbers` and explain the compiler error.
+Call both with `List<Integer>`, `List<Double>`, and `List<Float>`.
+Try `values.add(1)` inside one method, leave it commented, and explain the compiler error.
 
 ### Checks
 - Both `List<Integer>` and `List<Double>` compile.
-- The sums print `6.0` and `4.0`.
+- The sums print expected totals.
 - You can explain why `values.add(1)` is unsafe for `List<? extends Number>`.
 
 ## Exercise: super-wildcard-defaults - Super Wildcard
@@ -51,29 +39,13 @@ Implement:
 
 ```java
 static void addDefaults(List<? super Integer> values)
+static void fill(List<? super Integer> values, int value, int count)
 ```
-
-Add `10`, `20`, and `30`. Call it with `List<Integer>`, `List<Number>`, and `List<Object>`.
-
-### Checks
-- Adding integers compiles for all three lists.
-- Reading as `Integer` directly does not compile.
-
-## Exercise: wildcard-consumer - Lower-bounded wildcards
-
-### Goal
-Practice `? super` for consumer inputs: add integers safely, but read back only as `Object`.
-
-### Task
-Implement:
-
-- `addNumbers(List<? super Integer>)` adding `1` through `5`.
-- `fill(List<? super Integer>, int value, int count)`.
 
 Call both with `List<Integer>`, `List<Number>`, and `List<Object>`.
 
 ### Checks
-- `integers` and `numbers` contain `[1, 2, 3, 4, 5]`.
+- Adding integers compiles for all three lists.
 - `objects` can be filled with `[9, 9, 9]`.
 - Reading from `List<? super Integer>` is treated as `Object`, not `Integer`.
 
@@ -94,3 +66,21 @@ Write down why Java blocks it.
 
 ### Checks
 - Your explanation includes the corruption case: adding a `Double` through `numbers`.
+
+## Exercise: exact-type-parameter - Same Type In And Out
+
+### Goal
+Know when a named type parameter is clearer than a wildcard.
+
+### Task
+Implement:
+
+```java
+static <T> T firstOrDefault(List<T> values, T fallback)
+```
+
+Call it with `List<String>` and `List<Integer>`.
+
+### Checks
+- The return type remains the exact list element type.
+- You can explain why `List<?>` would force the return type toward `Object`.

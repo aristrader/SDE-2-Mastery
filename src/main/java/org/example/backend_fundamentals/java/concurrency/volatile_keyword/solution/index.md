@@ -1,4 +1,5 @@
 ---
+title: Solutions
 order: 20
 search: false
 ---
@@ -38,7 +39,19 @@ Runnable task = () -> {
 };
 ```
 
-`count++` still reads, increments, and writes as separate steps. Use an `AtomicInteger` counter or guard the increment with the same monitor.
+`count++` still reads, increments, and writes as separate steps.
+
+```java
+AtomicInteger count = new AtomicInteger();
+
+Runnable task = () -> {
+    for (int i = 0; i < 100_000; i++) {
+        count.incrementAndGet();
+    }
+};
+```
+
+`AtomicInteger` gives an atomic read-modify-write operation. A `synchronized` increment method would also work when more state must be guarded together.
 
 ## Solution: immutable-config-snapshot - Immutable Config Snapshot
 

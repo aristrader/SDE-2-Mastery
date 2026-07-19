@@ -24,6 +24,15 @@ happens-before is about **visibility and ordering**, not physical time. Two acti
 
 Without a happens-before edge between a write and a read of the same variable, the read is allowed to see a stale value — even if the write physically happened earlier on the hardware.
 
+```text
+Thread A                         Thread B
+data = "ready"
+flag = true   // volatile write  ->  if (flag) read data
+
+The volatile write creates the bridge. Without that bridge, Thread B can see
+old data or keep reading an old flag value.
+```
+
 ---
 
 ## The 5 key happens-before rules

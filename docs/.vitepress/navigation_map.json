@@ -180,6 +180,21 @@
                   }
                 ],
                 "collapsed": true
+              },
+              {
+                "text": "OOP Interview Recap",
+                "link": "/java/oop/interview_recap/",
+                "items": [
+                  {
+                    "text": "OOP Quick Revision",
+                    "link": "/java/oop/interview_recap/quick_revision/"
+                  },
+                  {
+                    "text": "OOP Interview Questions",
+                    "link": "/java/oop/interview_recap/questions/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -356,6 +371,21 @@
                   }
                 ],
                 "collapsed": true
+              },
+              {
+                "text": "Collections Interview Recap",
+                "link": "/java/collections/interview_recap/",
+                "items": [
+                  {
+                    "text": "Collections Quick Revision",
+                    "link": "/java/collections/interview_recap/quick_revision/"
+                  },
+                  {
+                    "text": "Collections Interview Questions",
+                    "link": "/java/collections/interview_recap/questions/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -379,6 +409,21 @@
               {
                 "text": "Type Erasure",
                 "link": "/java/generics/erasure/"
+              },
+              {
+                "text": "Generics Interview Recap",
+                "link": "/java/generics/interview_recap/",
+                "items": [
+                  {
+                    "text": "Generics Quick Revision",
+                    "link": "/java/generics/interview_recap/quick_revision/"
+                  },
+                  {
+                    "text": "Generics Interview Questions",
+                    "link": "/java/generics/interview_recap/questions/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -406,6 +451,21 @@
               {
                 "text": "Garbage Collection",
                 "link": "/java/jvm/gc/"
+              },
+              {
+                "text": "JVM Interview Recap",
+                "link": "/java/jvm/interview_recap/",
+                "items": [
+                  {
+                    "text": "JVM Quick Revision",
+                    "link": "/java/jvm/interview_recap/quick_revision/"
+                  },
+                  {
+                    "text": "JVM Interview Questions",
+                    "link": "/java/jvm/interview_recap/questions/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -473,6 +533,21 @@
                   {
                     "text": "Stream Interview Drills",
                     "link": "/java/coding_fluency/streams/interview_drills/"
+                  },
+                  {
+                    "text": "Streams Interview Recap",
+                    "link": "/java/coding_fluency/streams/interview_recap/",
+                    "items": [
+                      {
+                        "text": "Streams Quick Revision",
+                        "link": "/java/coding_fluency/streams/interview_recap/quick_revision/"
+                      },
+                      {
+                        "text": "Streams Interview Questions",
+                        "link": "/java/coding_fluency/streams/interview_recap/questions/"
+                      }
+                    ],
+                    "collapsed": true
                   }
                 ],
                 "collapsed": true
@@ -570,6 +645,21 @@
               {
                 "text": "Concurrency Interview Drill Bank",
                 "link": "/java/concurrency/interview_drill_bank/"
+              },
+              {
+                "text": "Concurrency Interview Recap",
+                "link": "/java/concurrency/interview_recap/",
+                "items": [
+                  {
+                    "text": "Concurrency Quick Revision",
+                    "link": "/java/concurrency/interview_recap/quick_revision/"
+                  },
+                  {
+                    "text": "Concurrency Interview Questions",
+                    "link": "/java/concurrency/interview_recap/questions/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -2372,6 +2462,50 @@
                     }
                   }
                 ]
+              },
+              {
+                "text": "OOP Interview Recap",
+                "link": "/java/oop/interview_recap/",
+                "order": 150,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "OOP Quick Revision",
+                    "link": "/java/oop/interview_recap/quick_revision/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "OOP Interview Questions",
+                    "link": "/java/oop/interview_recap/questions/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -3646,6 +3780,50 @@
                     }
                   }
                 ]
+              },
+              {
+                "text": "Collections Interview Recap",
+                "link": "/java/collections/interview_recap/",
+                "order": 110,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Collections Quick Revision",
+                    "link": "/java/collections/interview_recap/quick_revision/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Collections Interview Questions",
+                    "link": "/java/collections/interview_recap/questions/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -3756,30 +3934,16 @@
                     {
                       "id": "extends-wildcard-sum",
                       "title": "Extends Wildcard",
-                      "exerciseHtml": "<h2>Exercise: extends-wildcard-sum - Extends Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? extends</code> for a list that produces numbers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static double sum(List&lt;? extends Number&gt; values)</code></pre>\n<p>Call it with <code>List&lt;Integer&gt;</code>, <code>List&lt;Double&gt;</code>, and <code>List&lt;Float&gt;</code>.</p>\n<p>Try <code>values.add(1)</code> inside the method, leave it commented, and explain the compiler error.</p>",
-                      "starterCode": "static double sum(List<? extends Number> values)",
-                      "solutionHtml": "<h2>Solution: extends-wildcard-sum - Extends Wildcard</h2>\n<pre><code>static double sum(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>List&lt;? extends Number&gt;</code> is safe for reading as <code>Number</code>. Adding is blocked:</p>\n<pre><code>// values.add(1); // compile error</code></pre>\n<p>The actual list might be <code>List&lt;Double&gt;</code> or <code>List&lt;Float&gt;</code>, so adding an <code>Integer</code> could corrupt it.</p>"
-                    },
-                    {
-                      "id": "wildcard-producer",
-                      "title": "Upper-bounded wildcards",
-                      "exerciseHtml": "<h2>Exercise: wildcard-producer - Upper-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? extends</code> for producer inputs: read values safely, but do not add values.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>printNumbers(List&lt;? extends Number&gt;)</code></li>\n<li><code>sumList(List&lt;? extends Number&gt;)</code></li>\n</ul>\n<p>Then try to add an <code>Integer</code> inside <code>printNumbers</code> and explain the compiler error.</p>\n<h3>Checks</h3>\n<ul>\n<li>Both <code>List&lt;Integer&gt;</code> and <code>List&lt;Double&gt;</code> compile.</li>\n<li>The sums print <code>6.0</code> and <code>4.0</code>.</li>\n<li>You can explain why <code>values.add(1)</code> is unsafe for <code>List&lt;? extends Number&gt;</code>.</li>\n</ul>",
-                      "starterCode": "",
-                      "solutionHtml": "<h2>Solution: wildcard-producer - Upper-bounded wildcards</h2>\n<pre><code>static void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value);\n    }\n    // values.add(1); // compile error\n}\n\nstatic double sumList(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>? extends Number</code> means the list produces numbers. The exact subtype is unknown, so adding a specific <code>Integer</code> is unsafe.</p>"
+                      "exerciseHtml": "<h2>Exercise: extends-wildcard-sum - Extends Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? extends</code> for a list that produces numbers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static double sum(List&lt;? extends Number&gt; values)\nstatic void printNumbers(List&lt;? extends Number&gt; values)</code></pre>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Double&gt;</code>, and <code>List&lt;Float&gt;</code>.</p>\n<p>Try <code>values.add(1)</code> inside one method, leave it commented, and explain the compiler error.</p>\n<h3>Checks</h3>\n<ul>\n<li>Both <code>List&lt;Integer&gt;</code> and <code>List&lt;Double&gt;</code> compile.</li>\n<li>The sums print expected totals.</li>\n<li>You can explain why <code>values.add(1)</code> is unsafe for <code>List&lt;? extends Number&gt;</code>.</li>\n</ul>",
+                      "starterCode": "static double sum(List<? extends Number> values)\nstatic void printNumbers(List<? extends Number> values)",
+                      "solutionHtml": "<h2>Solution: extends-wildcard-sum - Extends Wildcard</h2>\n<pre><code>static double sum(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}\n\nstatic void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value);\n    }\n    // values.add(1); // compile error\n}</code></pre>\n<p><code>List&lt;? extends Number&gt;</code> is safe for reading as <code>Number</code>. The actual list might be <code>List&lt;Double&gt;</code> or <code>List&lt;Float&gt;</code>, so adding an <code>Integer</code> could corrupt it.</p>"
                     },
                     {
                       "id": "super-wildcard-defaults",
                       "title": "Super Wildcard",
-                      "exerciseHtml": "<h2>Exercise: super-wildcard-defaults - Super Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? super</code> for a list that consumes integers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values)</code></pre>\n<p>Add <code>10</code>, <code>20</code>, and <code>30</code>. Call it with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Adding integers compiles for all three lists.</li>\n<li>Reading as <code>Integer</code> directly does not compile.</li>\n</ul>",
-                      "starterCode": "static void addDefaults(List<? super Integer> values)",
-                      "solutionHtml": "<h2>Solution: super-wildcard-defaults - Super Wildcard</h2>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values) {\n    values.add(10);\n    values.add(20);\n    values.add(30);\n}</code></pre>\n<p><code>? super Integer</code> means the list can consume integers. Reading gives only <code>Object</code> because the actual list might be <code>List&lt;Object&gt;</code>.</p>"
-                    },
-                    {
-                      "id": "wildcard-consumer",
-                      "title": "Lower-bounded wildcards",
-                      "exerciseHtml": "<h2>Exercise: wildcard-consumer - Lower-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? super</code> for consumer inputs: add integers safely, but read back only as <code>Object</code>.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>addNumbers(List&lt;? super Integer&gt;)</code> adding <code>1</code> through <code>5</code>.</li>\n<li><code>fill(List&lt;? super Integer&gt;, int value, int count)</code>.</li>\n</ul>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li><code>integers</code> and <code>numbers</code> contain <code>[1, 2, 3, 4, 5]</code>.</li>\n<li><code>objects</code> can be filled with <code>[9, 9, 9]</code>.</li>\n<li>Reading from <code>List&lt;? super Integer&gt;</code> is treated as <code>Object</code>, not <code>Integer</code>.</li>\n</ul>",
-                      "starterCode": "",
-                      "solutionHtml": "<h2>Solution: wildcard-consumer - Lower-bounded wildcards</h2>\n<pre><code>static void addNumbers(List&lt;? super Integer&gt; values) {\n    for (int i = 1; i &lt;= 5; i++) {\n        values.add(i);\n    }\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p><code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code> can all consume integers. Reading from that parameter type is only safe as <code>Object</code>.</p>"
+                      "exerciseHtml": "<h2>Exercise: super-wildcard-defaults - Super Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? super</code> for a list that consumes integers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values)\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count)</code></pre>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Adding integers compiles for all three lists.</li>\n<li><code>objects</code> can be filled with <code>[9, 9, 9]</code>.</li>\n<li>Reading from <code>List&lt;? super Integer&gt;</code> is treated as <code>Object</code>, not <code>Integer</code>.</li>\n</ul>",
+                      "starterCode": "static void addDefaults(List<? super Integer> values)\nstatic void fill(List<? super Integer> values, int value, int count)",
+                      "solutionHtml": "<h2>Solution: super-wildcard-defaults - Super Wildcard</h2>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values) {\n    values.add(10);\n    values.add(20);\n    values.add(30);\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p><code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code> can all consume integers. Reading from that parameter type is only safe as <code>Object</code>.</p>"
                     },
                     {
                       "id": "generics-invariance",
@@ -3787,6 +3951,13 @@
                       "exerciseHtml": "<h2>Exercise: generics-invariance - Invariance</h2>\n<h3>Goal</h3>\n<p>See why <code>List&lt;Integer&gt;</code> is not a <code>List&lt;Number&gt;</code>.</p>\n<h3>Task</h3>\n<p>Try this and leave it commented:</p>\n<pre><code>List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\nList&lt;Number&gt; numbers = integers;</code></pre>\n<p>Write down why Java blocks it.</p>\n<h3>Checks</h3>\n<ul>\n<li>Your explanation includes the corruption case: adding a <code>Double</code> through <code>numbers</code>.</li>\n</ul>",
                       "starterCode": "List<Integer> integers = new ArrayList<>();\nList<Number> numbers = integers;",
                       "solutionHtml": "<h2>Solution: generics-invariance - Invariance</h2>\n<p>This does not compile:</p>\n<pre><code>List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\n// List&lt;Number&gt; numbers = integers;</code></pre>\n<p>If Java allowed it, this would become possible:</p>\n<pre><code>numbers.add(3.14);             // Double is a Number\nInteger value = integers.get(0); // but the same list now contains a Double</code></pre>\n<p>Generics are invariant so this corruption is blocked at compile time.</p>"
+                    },
+                    {
+                      "id": "exact-type-parameter",
+                      "title": "Same Type In And Out",
+                      "exerciseHtml": "<h2>Exercise: exact-type-parameter - Same Type In And Out</h2>\n<h3>Goal</h3>\n<p>Know when a named type parameter is clearer than a wildcard.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static &lt;T&gt; T firstOrDefault(List&lt;T&gt; values, T fallback)</code></pre>\n<p>Call it with <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>The return type remains the exact list element type.</li>\n<li>You can explain why <code>List&lt;?&gt;</code> would force the return type toward <code>Object</code>.</li>\n</ul>",
+                      "starterCode": "static <T> T firstOrDefault(List<T> values, T fallback)",
+                      "solutionHtml": "<h2>Solution: exact-type-parameter - Same Type In And Out</h2>\n<pre><code>static &lt;T&gt; T firstOrDefault(List&lt;T&gt; values, T fallback) {\n    return values.isEmpty() ? fallback : values.get(0);\n}\n\nString name = firstOrDefault(List.of(&quot;Asha&quot;), &quot;unknown&quot;);\nInteger score = firstOrDefault(List.of(10), 0);</code></pre>\n<p>Use a named <code>&lt;T&gt;</code> when the method needs one exact type relationship across parameters and the return value. <code>List&lt;?&gt;</code> would let you read only an unknown type, usually forcing callers to treat the result as <code>Object</code>.</p>"
                     }
                   ]
                 },
@@ -3835,6 +4006,50 @@
                   "playground": true,
                   "assets": false
                 }
+              },
+              {
+                "text": "Generics Interview Recap",
+                "link": "/java/generics/interview_recap/",
+                "order": 90,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Generics Quick Revision",
+                    "link": "/java/generics/interview_recap/quick_revision/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Generics Interview Questions",
+                    "link": "/java/generics/interview_recap/questions/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -3931,6 +4146,50 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "JVM Interview Recap",
+                "link": "/java/jvm/interview_recap/",
+                "order": 90,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "JVM Quick Revision",
+                    "link": "/java/jvm/interview_recap/quick_revision/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "JVM Interview Questions",
+                    "link": "/java/jvm/interview_recap/questions/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -4125,9 +4384,9 @@
                         {
                           "id": "intermediate-warmup",
                           "title": "One Operation at a Time",
-                          "exerciseHtml": "<h2>Exercise: intermediate-warmup - One Operation at a Time</h2>\n<h3>Goal</h3>\n<p>Practice choosing the right intermediate operation before choosing the terminal operation.</p>\n<h3>Task</h3>\n<p>Solve these with streams:</p>\n<p>1. Find all even numbers.</p>\n<p>2. Find all odd numbers.</p>\n<p>3. Find employees whose salary is greater than <code>100000</code>.</p>\n<p>4. Find active employees.</p>\n<p>5. Remove all null values from a list.</p>\n<p>6. Square every integer.</p>\n<p>7. Convert every string to uppercase.</p>\n<p>8. Extract employee names.</p>\n<p>9. Extract employee salaries.</p>\n<p>10. Convert <code>Employee</code> to <code>EmployeeDTO</code>.</p>\n<p>11. Flatten a <code>List&lt;List&lt;Integer&gt;&gt;</code>.</p>\n<p>12. Flatten employee skills into one list.</p>\n<p>13. Split lines like <code>Java Spring</code>, <code>Kafka Redis</code>, <code>Docker Kubernetes</code> into one word list.</p>\n<p>14. Flatten a list of comma-separated tags.</p>\n<p>15. Sort integers ascending.</p>\n<p>16. Sort integers descending.</p>\n<p>17. Sort employees by salary.</p>\n<p>18. Sort employees by department and then name.</p>\n<p>19. Find the top 5 highest-paid employees.</p>\n<p>20. Remove duplicate integers.</p>\n<p>21. Remove duplicate strings.</p>\n<p>22. Remove duplicate employees, assuming correct <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>23. Get the first 10 records.</p>\n<p>24. Get the top 3 highest-paid employees.</p>\n<p>25. Skip the first 5 records.</p>\n<p>26. Implement pagination with <code>skip()</code> and <code>limit()</code>.</p>\n<p>27. Log every employee before filtering.</p>\n<p>28. Print every value before mapping.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter</code> only when the stream may get shorter.</li>\n<li>Use <code>map</code> only when each element produces one value.</li>\n<li>Use <code>flatMap</code> for nested or split values.</li>\n<li>Use <code>peek</code> only for debugging/logging.</li>\n</ul>",
+                          "exerciseHtml": "<h2>Exercise: intermediate-warmup - One Operation at a Time</h2>\n<h3>Goal</h3>\n<p>Practice choosing the right intermediate operation before choosing the terminal operation.</p>\n<h3>Task</h3>\n<p>Solve these with streams. Each task covers a different intermediate-operation decision.</p>\n<p>1. Find active employees with salary greater than <code>100000</code>.</p>\n<p>2. Convert active employees into <code>EmployeeDTO</code>.</p>\n<p>3. Flatten all employee skills into one unique skill list.</p>\n<p>4. Split lines like <code>Java Spring</code>, <code>Kafka Redis</code>, <code>Docker Kubernetes</code> into one word list.</p>\n<p>5. Sort employees by department and then name.</p>\n<p>6. Find the top 5 highest-paid active employees.</p>\n<p>7. Remove duplicate employees, assuming correct <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>8. Implement pagination with <code>skip()</code> and <code>limit()</code>.</p>\n<p>9. Add debug logging before filtering without changing business objects.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter</code> only when the stream may get shorter.</li>\n<li>Use <code>map</code> only when each element produces one value.</li>\n<li>Use <code>flatMap</code> for nested or split values.</li>\n<li>Put <code>sorted()</code> before <code>limit()</code> when selecting top records.</li>\n<li>Use <code>peek</code> only for debugging/logging.</li>\n</ul>",
                           "starterCode": "",
-                          "solutionHtml": "<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Integer&gt; evens = numbers.stream().filter(n -&gt; n % 2 == 0).toList();\nList&lt;Integer&gt; odds = numbers.stream().filter(n -&gt; n % 2 != 0).toList();\nList&lt;Employee&gt; highPaid = employees.stream().filter(e -&gt; e.salary() &gt; 100_000).toList();\nList&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; nonNull = values.stream().filter(Objects::nonNull).toList();\n\nList&lt;Integer&gt; squares = numbers.stream().map(n -&gt; n * n).toList();\nList&lt;String&gt; upper = names.stream().map(String::toUpperCase).toList();\nList&lt;String&gt; employeeNames = employees.stream().map(Employee::name).toList();\nList&lt;Double&gt; salaries = employees.stream().map(Employee::salary).toList();\nList&lt;EmployeeDto&gt; dtos = employees.stream().map(e -&gt; new EmployeeDto(e.id(), e.name())).toList();\n\nList&lt;Integer&gt; flatNumbers = nested.stream().flatMap(List::stream).toList();\nList&lt;String&gt; skills = employees.stream().flatMap(e -&gt; e.skills().stream()).toList();\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\nList&lt;String&gt; tags = rows.stream().flatMap(row -&gt; Arrays.stream(row.split(&quot;,&quot;))).map(String::trim).toList();\n\nList&lt;Integer&gt; asc = numbers.stream().sorted().toList();\nList&lt;Integer&gt; desc = numbers.stream().sorted(Comparator.reverseOrder()).toList();\nList&lt;Employee&gt; bySalary = employees.stream().sorted(Comparator.comparingDouble(Employee::salary)).toList();\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\nList&lt;Employee&gt; topFive = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Integer&gt; uniqueNumbers = numbers.stream().distinct().toList();\nList&lt;String&gt; uniqueStrings = names.stream().distinct().toList();\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; firstTen = employees.stream().limit(10).toList();\nList&lt;Employee&gt; topThree = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(3)\n    .toList();\nList&lt;Employee&gt; afterFive = employees.stream().skip(5).toList();\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly.</p>"
+                          "solutionHtml": "<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Employee&gt; activeHighPaid = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.salary() &gt; 100_000)\n    .toList();\n\nList&lt;EmployeeDto&gt; activeDtos = employees.stream()\n    .filter(Employee::active)\n    .map(e -&gt; new EmployeeDto(e.id(), e.name()))\n    .toList();\n\nList&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .distinct()\n    .toList();\n\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\n\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\n\nList&lt;Employee&gt; topFiveActive = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly. For top records, sort before <code>limit</code>; <code>limit().sorted()</code> only sorts the first records already seen.</p>"
                         }
                       ]
                     },
@@ -4435,6 +4694,50 @@
                       "playground": false,
                       "assets": false
                     }
+                  },
+                  {
+                    "text": "Streams Interview Recap",
+                    "link": "/java/coding_fluency/streams/interview_recap/",
+                    "order": 110,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    },
+                    "items": [
+                      {
+                        "text": "Streams Quick Revision",
+                        "link": "/java/coding_fluency/streams/interview_recap/quick_revision/",
+                        "order": 10,
+                        "schema": "theory",
+                        "practiceSet": null,
+                        "capabilities": {
+                          "exercise": false,
+                          "solution": false,
+                          "design": false,
+                          "playground": false,
+                          "assets": false
+                        }
+                      },
+                      {
+                        "text": "Streams Interview Questions",
+                        "link": "/java/coding_fluency/streams/interview_recap/questions/",
+                        "order": 20,
+                        "schema": "theory",
+                        "practiceSet": null,
+                        "capabilities": {
+                          "exercise": false,
+                          "solution": false,
+                          "design": false,
+                          "playground": false,
+                          "assets": false
+                        }
+                      }
+                    ]
                   }
                 ]
               },
@@ -4736,7 +5039,7 @@
                       "title": "Broken Volatile Counter",
                       "exerciseHtml": "<h2>Exercise: broken-volatile-counter - Broken Volatile Counter</h2>\n<h3>Goal</h3>\n<p>Separate visibility from atomicity.</p>\n<h3>Task</h3>\n<p>Create <code>volatile int count</code>. Start four threads, each incrementing it 100,000 times. Observe that the final value can be below <code>400000</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Explain read-modify-write interleaving.</li>\n<li>Fix it with <code>AtomicInteger</code> or <code>synchronized</code>.</li>\n</ul>",
                       "starterCode": "",
-                      "solutionHtml": "<h2>Solution: broken-volatile-counter - Broken Volatile Counter</h2>\n<pre><code>private static volatile int count;\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count++;\n    }\n};</code></pre>\n<p><code>count++</code> still reads, increments, and writes as separate steps. Use an <code>AtomicInteger</code> counter or guard the increment with the same monitor.</p>"
+                      "solutionHtml": "<h2>Solution: broken-volatile-counter - Broken Volatile Counter</h2>\n<pre><code>private static volatile int count;\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count++;\n    }\n};</code></pre>\n<p><code>count++</code> still reads, increments, and writes as separate steps.</p>\n<pre><code>AtomicInteger count = new AtomicInteger();\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count.incrementAndGet();\n    }\n};</code></pre>\n<p><code>AtomicInteger</code> gives an atomic read-modify-write operation. A <code>synchronized</code> increment method would also work when more state must be guarded together.</p>"
                     },
                     {
                       "id": "immutable-config-snapshot",
@@ -5387,6 +5690,50 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "Concurrency Interview Recap",
+                "link": "/java/concurrency/interview_recap/",
+                "order": 140,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Concurrency Quick Revision",
+                    "link": "/java/concurrency/interview_recap/quick_revision/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Concurrency Interview Questions",
+                    "link": "/java/concurrency/interview_recap/questions/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -7671,6 +8018,18 @@
       "link": "/java/oop/equals_hashcode/identity_hashcode/"
     },
     {
+      "text": "OOP Interview Recap",
+      "link": "/java/oop/interview_recap/"
+    },
+    {
+      "text": "OOP Quick Revision",
+      "link": "/java/oop/interview_recap/quick_revision/"
+    },
+    {
+      "text": "OOP Interview Questions",
+      "link": "/java/oop/interview_recap/questions/"
+    },
+    {
       "text": "Java Collections",
       "link": "/java/collections/"
     },
@@ -7823,6 +8182,18 @@
       "link": "/java/collections/queues/patterns/"
     },
     {
+      "text": "Collections Interview Recap",
+      "link": "/java/collections/interview_recap/"
+    },
+    {
+      "text": "Collections Quick Revision",
+      "link": "/java/collections/interview_recap/quick_revision/"
+    },
+    {
+      "text": "Collections Interview Questions",
+      "link": "/java/collections/interview_recap/questions/"
+    },
+    {
       "text": "Generics",
       "link": "/java/generics/"
     },
@@ -7841,6 +8212,18 @@
     {
       "text": "Type Erasure",
       "link": "/java/generics/erasure/"
+    },
+    {
+      "text": "Generics Interview Recap",
+      "link": "/java/generics/interview_recap/"
+    },
+    {
+      "text": "Generics Quick Revision",
+      "link": "/java/generics/interview_recap/quick_revision/"
+    },
+    {
+      "text": "Generics Interview Questions",
+      "link": "/java/generics/interview_recap/questions/"
     },
     {
       "text": "JVM",
@@ -7865,6 +8248,18 @@
     {
       "text": "Garbage Collection",
       "link": "/java/jvm/gc/"
+    },
+    {
+      "text": "JVM Interview Recap",
+      "link": "/java/jvm/interview_recap/"
+    },
+    {
+      "text": "JVM Quick Revision",
+      "link": "/java/jvm/interview_recap/quick_revision/"
+    },
+    {
+      "text": "JVM Interview Questions",
+      "link": "/java/jvm/interview_recap/questions/"
     },
     {
       "text": "Coding Fluency",
@@ -7929,6 +8324,18 @@
     {
       "text": "Stream Interview Drills",
       "link": "/java/coding_fluency/streams/interview_drills/"
+    },
+    {
+      "text": "Streams Interview Recap",
+      "link": "/java/coding_fluency/streams/interview_recap/"
+    },
+    {
+      "text": "Streams Quick Revision",
+      "link": "/java/coding_fluency/streams/interview_recap/quick_revision/"
+    },
+    {
+      "text": "Streams Interview Questions",
+      "link": "/java/coding_fluency/streams/interview_recap/questions/"
     },
     {
       "text": "Records",
@@ -8017,6 +8424,18 @@
     {
       "text": "Concurrency Interview Drill Bank",
       "link": "/java/concurrency/interview_drill_bank/"
+    },
+    {
+      "text": "Concurrency Interview Recap",
+      "link": "/java/concurrency/interview_recap/"
+    },
+    {
+      "text": "Concurrency Quick Revision",
+      "link": "/java/concurrency/interview_recap/quick_revision/"
+    },
+    {
+      "text": "Concurrency Interview Questions",
+      "link": "/java/concurrency/interview_recap/questions/"
     },
     {
       "text": "Spring",
@@ -10444,6 +10863,48 @@
         "assets": false
       }
     },
+    "/java/oop/interview_recap/": {
+      "text": "OOP Interview Recap",
+      "link": "/java/oop/interview_recap/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/interview_recap/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/oop/interview_recap/quick_revision/": {
+      "text": "OOP Quick Revision",
+      "link": "/java/oop/interview_recap/quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/interview_recap/quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/oop/interview_recap/questions/": {
+      "text": "OOP Interview Questions",
+      "link": "/java/oop/interview_recap/questions/",
+      "pageType": "theory",
+      "parentLink": "/java/oop/interview_recap/questions/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/collections/": {
       "text": "Java Collections",
       "link": "/java/collections/",
@@ -12662,6 +13123,48 @@
       },
       "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: queue-simulation - Queue Simulation</h2>\n<pre><code>Queue&lt;String&gt; line = new ArrayDeque&lt;&gt;();\nline.offer(&quot;Alice&quot;);\nline.offer(&quot;Bob&quot;);\n\nString served = line.poll(); // Alice\nSystem.out.println(served);\nSystem.out.println(line); // [Bob]</code></pre>\n<p>FIFO means the first person who enters is served first.</p>\n<h2>Solution: browser-history-mini-simulation - Browser History Mini Simulation</h2>\n<pre><code>Deque&lt;String&gt; backStack = new ArrayDeque&lt;&gt;();\nDeque&lt;String&gt; forwardStack = new ArrayDeque&lt;&gt;();\n\nString current = &quot;home&quot;;\nbackStack.push(current);\ncurrent = &quot;search&quot;;\nbackStack.push(current);\ncurrent = &quot;product&quot;;\n\nforwardStack.push(current);\ncurrent = backStack.pop(); // search\n\nbackStack.push(current);\ncurrent = forwardStack.pop(); // product</code></pre>\n<p>After back, current is <code>search</code>. After forward, current is <code>product</code>.</p>\n<h2>Solution: compare-implementations - Compare Queue Implementations</h2>\n<p>Use <code>Queue</code> as the variable type when the code only needs FIFO behavior. It keeps callers independent of the concrete implementation.</p>\n<p><code>offer/poll/peek</code> return special values on failure, usually <code>false</code> or <code>null</code>. <code>add/remove/element</code> throw exceptions.</p>\n<p><code>ArrayDeque</code> is usually faster than <code>LinkedList</code> because it stores elements in a resizable array instead of separate node objects. That means less memory overhead and better cache locality.</p>\n<p>Avoid <code>Stack</code>; use <code>ArrayDeque</code> through <code>Deque</code> for stack behavior.</p>\n<p>Use <code>PriorityQueue</code> when removal order is based on natural ordering or a comparator, not insertion order.</p>"
     },
+    "/java/collections/interview_recap/": {
+      "text": "Collections Interview Recap",
+      "link": "/java/collections/interview_recap/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/interview_recap/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/interview_recap/quick_revision/": {
+      "text": "Collections Quick Revision",
+      "link": "/java/collections/interview_recap/quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/interview_recap/quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/collections/interview_recap/questions/": {
+      "text": "Collections Interview Questions",
+      "link": "/java/collections/interview_recap/questions/",
+      "pageType": "theory",
+      "parentLink": "/java/collections/interview_recap/questions/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/generics/": {
       "text": "Generics",
       "link": "/java/generics/",
@@ -12851,30 +13354,16 @@
           {
             "id": "extends-wildcard-sum",
             "title": "Extends Wildcard",
-            "exerciseHtml": "<h2>Exercise: extends-wildcard-sum - Extends Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? extends</code> for a list that produces numbers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static double sum(List&lt;? extends Number&gt; values)</code></pre>\n<p>Call it with <code>List&lt;Integer&gt;</code>, <code>List&lt;Double&gt;</code>, and <code>List&lt;Float&gt;</code>.</p>\n<p>Try <code>values.add(1)</code> inside the method, leave it commented, and explain the compiler error.</p>",
-            "starterCode": "static double sum(List<? extends Number> values)",
-            "solutionHtml": "<h2>Solution: extends-wildcard-sum - Extends Wildcard</h2>\n<pre><code>static double sum(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>List&lt;? extends Number&gt;</code> is safe for reading as <code>Number</code>. Adding is blocked:</p>\n<pre><code>// values.add(1); // compile error</code></pre>\n<p>The actual list might be <code>List&lt;Double&gt;</code> or <code>List&lt;Float&gt;</code>, so adding an <code>Integer</code> could corrupt it.</p>"
-          },
-          {
-            "id": "wildcard-producer",
-            "title": "Upper-bounded wildcards",
-            "exerciseHtml": "<h2>Exercise: wildcard-producer - Upper-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? extends</code> for producer inputs: read values safely, but do not add values.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>printNumbers(List&lt;? extends Number&gt;)</code></li>\n<li><code>sumList(List&lt;? extends Number&gt;)</code></li>\n</ul>\n<p>Then try to add an <code>Integer</code> inside <code>printNumbers</code> and explain the compiler error.</p>\n<h3>Checks</h3>\n<ul>\n<li>Both <code>List&lt;Integer&gt;</code> and <code>List&lt;Double&gt;</code> compile.</li>\n<li>The sums print <code>6.0</code> and <code>4.0</code>.</li>\n<li>You can explain why <code>values.add(1)</code> is unsafe for <code>List&lt;? extends Number&gt;</code>.</li>\n</ul>",
-            "starterCode": "",
-            "solutionHtml": "<h2>Solution: wildcard-producer - Upper-bounded wildcards</h2>\n<pre><code>static void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value);\n    }\n    // values.add(1); // compile error\n}\n\nstatic double sumList(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>? extends Number</code> means the list produces numbers. The exact subtype is unknown, so adding a specific <code>Integer</code> is unsafe.</p>"
+            "exerciseHtml": "<h2>Exercise: extends-wildcard-sum - Extends Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? extends</code> for a list that produces numbers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static double sum(List&lt;? extends Number&gt; values)\nstatic void printNumbers(List&lt;? extends Number&gt; values)</code></pre>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Double&gt;</code>, and <code>List&lt;Float&gt;</code>.</p>\n<p>Try <code>values.add(1)</code> inside one method, leave it commented, and explain the compiler error.</p>\n<h3>Checks</h3>\n<ul>\n<li>Both <code>List&lt;Integer&gt;</code> and <code>List&lt;Double&gt;</code> compile.</li>\n<li>The sums print expected totals.</li>\n<li>You can explain why <code>values.add(1)</code> is unsafe for <code>List&lt;? extends Number&gt;</code>.</li>\n</ul>",
+            "starterCode": "static double sum(List<? extends Number> values)\nstatic void printNumbers(List<? extends Number> values)",
+            "solutionHtml": "<h2>Solution: extends-wildcard-sum - Extends Wildcard</h2>\n<pre><code>static double sum(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}\n\nstatic void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value);\n    }\n    // values.add(1); // compile error\n}</code></pre>\n<p><code>List&lt;? extends Number&gt;</code> is safe for reading as <code>Number</code>. The actual list might be <code>List&lt;Double&gt;</code> or <code>List&lt;Float&gt;</code>, so adding an <code>Integer</code> could corrupt it.</p>"
           },
           {
             "id": "super-wildcard-defaults",
             "title": "Super Wildcard",
-            "exerciseHtml": "<h2>Exercise: super-wildcard-defaults - Super Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? super</code> for a list that consumes integers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values)</code></pre>\n<p>Add <code>10</code>, <code>20</code>, and <code>30</code>. Call it with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Adding integers compiles for all three lists.</li>\n<li>Reading as <code>Integer</code> directly does not compile.</li>\n</ul>",
-            "starterCode": "static void addDefaults(List<? super Integer> values)",
-            "solutionHtml": "<h2>Solution: super-wildcard-defaults - Super Wildcard</h2>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values) {\n    values.add(10);\n    values.add(20);\n    values.add(30);\n}</code></pre>\n<p><code>? super Integer</code> means the list can consume integers. Reading gives only <code>Object</code> because the actual list might be <code>List&lt;Object&gt;</code>.</p>"
-          },
-          {
-            "id": "wildcard-consumer",
-            "title": "Lower-bounded wildcards",
-            "exerciseHtml": "<h2>Exercise: wildcard-consumer - Lower-bounded wildcards</h2>\n<h3>Goal</h3>\n<p>Practice <code>? super</code> for consumer inputs: add integers safely, but read back only as <code>Object</code>.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<ul>\n<li><code>addNumbers(List&lt;? super Integer&gt;)</code> adding <code>1</code> through <code>5</code>.</li>\n<li><code>fill(List&lt;? super Integer&gt;, int value, int count)</code>.</li>\n</ul>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li><code>integers</code> and <code>numbers</code> contain <code>[1, 2, 3, 4, 5]</code>.</li>\n<li><code>objects</code> can be filled with <code>[9, 9, 9]</code>.</li>\n<li>Reading from <code>List&lt;? super Integer&gt;</code> is treated as <code>Object</code>, not <code>Integer</code>.</li>\n</ul>",
-            "starterCode": "",
-            "solutionHtml": "<h2>Solution: wildcard-consumer - Lower-bounded wildcards</h2>\n<pre><code>static void addNumbers(List&lt;? super Integer&gt; values) {\n    for (int i = 1; i &lt;= 5; i++) {\n        values.add(i);\n    }\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p><code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code> can all consume integers. Reading from that parameter type is only safe as <code>Object</code>.</p>"
+            "exerciseHtml": "<h2>Exercise: super-wildcard-defaults - Super Wildcard</h2>\n<h3>Goal</h3>\n<p>Use <code>? super</code> for a list that consumes integers.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values)\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count)</code></pre>\n<p>Call both with <code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Adding integers compiles for all three lists.</li>\n<li><code>objects</code> can be filled with <code>[9, 9, 9]</code>.</li>\n<li>Reading from <code>List&lt;? super Integer&gt;</code> is treated as <code>Object</code>, not <code>Integer</code>.</li>\n</ul>",
+            "starterCode": "static void addDefaults(List<? super Integer> values)\nstatic void fill(List<? super Integer> values, int value, int count)",
+            "solutionHtml": "<h2>Solution: super-wildcard-defaults - Super Wildcard</h2>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values) {\n    values.add(10);\n    values.add(20);\n    values.add(30);\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p><code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code> can all consume integers. Reading from that parameter type is only safe as <code>Object</code>.</p>"
           },
           {
             "id": "generics-invariance",
@@ -12882,6 +13371,13 @@
             "exerciseHtml": "<h2>Exercise: generics-invariance - Invariance</h2>\n<h3>Goal</h3>\n<p>See why <code>List&lt;Integer&gt;</code> is not a <code>List&lt;Number&gt;</code>.</p>\n<h3>Task</h3>\n<p>Try this and leave it commented:</p>\n<pre><code>List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\nList&lt;Number&gt; numbers = integers;</code></pre>\n<p>Write down why Java blocks it.</p>\n<h3>Checks</h3>\n<ul>\n<li>Your explanation includes the corruption case: adding a <code>Double</code> through <code>numbers</code>.</li>\n</ul>",
             "starterCode": "List<Integer> integers = new ArrayList<>();\nList<Number> numbers = integers;",
             "solutionHtml": "<h2>Solution: generics-invariance - Invariance</h2>\n<p>This does not compile:</p>\n<pre><code>List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\n// List&lt;Number&gt; numbers = integers;</code></pre>\n<p>If Java allowed it, this would become possible:</p>\n<pre><code>numbers.add(3.14);             // Double is a Number\nInteger value = integers.get(0); // but the same list now contains a Double</code></pre>\n<p>Generics are invariant so this corruption is blocked at compile time.</p>"
+          },
+          {
+            "id": "exact-type-parameter",
+            "title": "Same Type In And Out",
+            "exerciseHtml": "<h2>Exercise: exact-type-parameter - Same Type In And Out</h2>\n<h3>Goal</h3>\n<p>Know when a named type parameter is clearer than a wildcard.</p>\n<h3>Task</h3>\n<p>Implement:</p>\n<pre><code>static &lt;T&gt; T firstOrDefault(List&lt;T&gt; values, T fallback)</code></pre>\n<p>Call it with <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>The return type remains the exact list element type.</li>\n<li>You can explain why <code>List&lt;?&gt;</code> would force the return type toward <code>Object</code>.</li>\n</ul>",
+            "starterCode": "static <T> T firstOrDefault(List<T> values, T fallback)",
+            "solutionHtml": "<h2>Solution: exact-type-parameter - Same Type In And Out</h2>\n<pre><code>static &lt;T&gt; T firstOrDefault(List&lt;T&gt; values, T fallback) {\n    return values.isEmpty() ? fallback : values.get(0);\n}\n\nString name = firstOrDefault(List.of(&quot;Asha&quot;), &quot;unknown&quot;);\nInteger score = firstOrDefault(List.of(10), 0);</code></pre>\n<p>Use a named <code>&lt;T&gt;</code> when the method needs one exact type relationship across parameters and the return value. <code>List&lt;?&gt;</code> would let you read only an unknown type, usually forcing callers to treat the result as <code>Object</code>.</p>"
           }
         ]
       }
@@ -12899,7 +13395,7 @@
         "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Generic Wildcards Solutions</h1>\n<h2>Solution: extends-wildcard-sum - Extends Wildcard</h2>\n<pre><code>static double sum(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>List&lt;? extends Number&gt;</code> is safe for reading as <code>Number</code>. Adding is blocked:</p>\n<pre><code>// values.add(1); // compile error</code></pre>\n<p>The actual list might be <code>List&lt;Double&gt;</code> or <code>List&lt;Float&gt;</code>, so adding an <code>Integer</code> could corrupt it.</p>\n<h2>Solution: wildcard-producer - Upper-bounded wildcards</h2>\n<pre><code>static void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value);\n    }\n    // values.add(1); // compile error\n}\n\nstatic double sumList(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}</code></pre>\n<p><code>? extends Number</code> means the list produces numbers. The exact subtype is unknown, so adding a specific <code>Integer</code> is unsafe.</p>\n<h2>Solution: super-wildcard-defaults - Super Wildcard</h2>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values) {\n    values.add(10);\n    values.add(20);\n    values.add(30);\n}</code></pre>\n<p><code>? super Integer</code> means the list can consume integers. Reading gives only <code>Object</code> because the actual list might be <code>List&lt;Object&gt;</code>.</p>\n<h2>Solution: wildcard-consumer - Lower-bounded wildcards</h2>\n<pre><code>static void addNumbers(List&lt;? super Integer&gt; values) {\n    for (int i = 1; i &lt;= 5; i++) {\n        values.add(i);\n    }\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p><code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code> can all consume integers. Reading from that parameter type is only safe as <code>Object</code>.</p>\n<h2>Solution: generics-invariance - Invariance</h2>\n<p>This does not compile:</p>\n<pre><code>List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\n// List&lt;Number&gt; numbers = integers;</code></pre>\n<p>If Java allowed it, this would become possible:</p>\n<pre><code>numbers.add(3.14);             // Double is a Number\nInteger value = integers.get(0); // but the same list now contains a Double</code></pre>\n<p>Generics are invariant so this corruption is blocked at compile time.</p>"
+      "referenceHtml": "<h1>Generic Wildcards Solutions</h1>\n<h2>Solution: extends-wildcard-sum - Extends Wildcard</h2>\n<pre><code>static double sum(List&lt;? extends Number&gt; values) {\n    double total = 0;\n    for (Number value : values) {\n        total += value.doubleValue();\n    }\n    return total;\n}\n\nstatic void printNumbers(List&lt;? extends Number&gt; values) {\n    for (Number value : values) {\n        System.out.println(value);\n    }\n    // values.add(1); // compile error\n}</code></pre>\n<p><code>List&lt;? extends Number&gt;</code> is safe for reading as <code>Number</code>. The actual list might be <code>List&lt;Double&gt;</code> or <code>List&lt;Float&gt;</code>, so adding an <code>Integer</code> could corrupt it.</p>\n<h2>Solution: super-wildcard-defaults - Super Wildcard</h2>\n<pre><code>static void addDefaults(List&lt;? super Integer&gt; values) {\n    values.add(10);\n    values.add(20);\n    values.add(30);\n}\n\nstatic void fill(List&lt;? super Integer&gt; values, int value, int count) {\n    for (int i = 0; i &lt; count; i++) {\n        values.add(value);\n    }\n}</code></pre>\n<p><code>List&lt;Integer&gt;</code>, <code>List&lt;Number&gt;</code>, and <code>List&lt;Object&gt;</code> can all consume integers. Reading from that parameter type is only safe as <code>Object</code>.</p>\n<h2>Solution: generics-invariance - Invariance</h2>\n<p>This does not compile:</p>\n<pre><code>List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();\n// List&lt;Number&gt; numbers = integers;</code></pre>\n<p>If Java allowed it, this would become possible:</p>\n<pre><code>numbers.add(3.14);             // Double is a Number\nInteger value = integers.get(0); // but the same list now contains a Double</code></pre>\n<p>Generics are invariant so this corruption is blocked at compile time.</p>\n<h2>Solution: exact-type-parameter - Same Type In And Out</h2>\n<pre><code>static &lt;T&gt; T firstOrDefault(List&lt;T&gt; values, T fallback) {\n    return values.isEmpty() ? fallback : values.get(0);\n}\n\nString name = firstOrDefault(List.of(&quot;Asha&quot;), &quot;unknown&quot;);\nInteger score = firstOrDefault(List.of(10), 0);</code></pre>\n<p>Use a named <code>&lt;T&gt;</code> when the method needs one exact type relationship across parameters and the return value. <code>List&lt;?&gt;</code> would let you read only an unknown type, usually forcing callers to treat the result as <code>Object</code>.</p>"
     },
     "/java/generics/erasure/": {
       "text": "Type Erasure",
@@ -12968,6 +13464,48 @@
         "assets": false
       },
       "referenceHtml": "<h1>Type Erasure Solutions</h1>\n<h2>Solution: type-erasure-runtime-class - Type Erasure</h2>\n<pre><code>Box&lt;String&gt; box1 = new Box&lt;&gt;();\nBox&lt;Integer&gt; box2 = new Box&lt;&gt;();\n\nSystem.out.println(box1.getClass());\nSystem.out.println(box2.getClass());\nSystem.out.println(box1.getClass() == box2.getClass()); // true</code></pre>\n<p>The compiler checks <code>Box&lt;String&gt;</code> and <code>Box&lt;Integer&gt;</code> at compile time. After that, type arguments are erased; there is only one runtime <code>Box.class</code>.</p>\n<h2>Solution: static-generic-trap - Static Generic Trap</h2>\n<p>This does not compile:</p>\n<pre><code>class Box&lt;T&gt; {\n    // static T value;\n}</code></pre>\n<p>Static fields belong to the single shared class, but <code>T</code> belongs to a parameterized instance such as <code>Box&lt;String&gt;</code> or <code>Box&lt;Integer&gt;</code>. Since there is only one erased <code>Box.class</code>, Java cannot create a separate static <code>T value</code> per type argument.</p>\n<h2>Solution: erasure-traps - Type erasure traps</h2>\n<pre><code>Object unknown = List.of(1, 2, 3);\n\nif (unknown instanceof List) {\n    System.out.println(&quot;It is a List at runtime&quot;);\n}\n\nList&lt;Integer&gt; ints = new ArrayList&lt;&gt;();\nList&lt;String&gt; strings = new ArrayList&lt;&gt;();\nSystem.out.println(ints.getClass() == strings.getClass()); // true</code></pre>\n<p><code>instanceof List&lt;Integer&gt;</code> is illegal because <code>Integer</code> is erased. These overloads are also illegal together:</p>\n<pre><code>// void process(List&lt;Integer&gt; values) {}\n// void process(List&lt;String&gt; values) {}</code></pre>\n<p>Both erase to the same runtime signature, so Java cannot distinguish them by generic type argument.</p>"
+    },
+    "/java/generics/interview_recap/": {
+      "text": "Generics Interview Recap",
+      "link": "/java/generics/interview_recap/",
+      "pageType": "theory",
+      "parentLink": "/java/generics/interview_recap/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/generics/interview_recap/quick_revision/": {
+      "text": "Generics Quick Revision",
+      "link": "/java/generics/interview_recap/quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/java/generics/interview_recap/quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/generics/interview_recap/questions/": {
+      "text": "Generics Interview Questions",
+      "link": "/java/generics/interview_recap/questions/",
+      "pageType": "theory",
+      "parentLink": "/java/generics/interview_recap/questions/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/java/jvm/": {
       "text": "JVM",
@@ -13092,6 +13630,48 @@
         "assets": false
       },
       "referenceHtml": "<h1>Garbage Collection Solutions</h1>\n<h2>Solution: reachability-and-leak - Reachability and Memory Leak</h2>\n<pre><code>static final List&lt;byte[]&gt; cache = new ArrayList&lt;&gt;();\n\nstatic void temporaryObjects() {\n    byte[] data = new byte[1024];\n}\n\nstatic void leakingObjects() {\n    cache.add(new byte[1024]);\n}</code></pre>\n<p><code>data</code> becomes unreachable after <code>temporaryObjects()</code> returns, so it is eligible for GC. Objects added to <code>cache</code> remain reachable through the static field, so GC must keep them even if the application no longer needs them.</p>"
+    },
+    "/java/jvm/interview_recap/": {
+      "text": "JVM Interview Recap",
+      "link": "/java/jvm/interview_recap/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/interview_recap/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/interview_recap/quick_revision/": {
+      "text": "JVM Quick Revision",
+      "link": "/java/jvm/interview_recap/quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/interview_recap/quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/jvm/interview_recap/questions/": {
+      "text": "JVM Interview Questions",
+      "link": "/java/jvm/interview_recap/questions/",
+      "pageType": "theory",
+      "parentLink": "/java/jvm/interview_recap/questions/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/java/coding_fluency/": {
       "text": "Coding Fluency",
@@ -13366,9 +13946,9 @@
           {
             "id": "intermediate-warmup",
             "title": "One Operation at a Time",
-            "exerciseHtml": "<h2>Exercise: intermediate-warmup - One Operation at a Time</h2>\n<h3>Goal</h3>\n<p>Practice choosing the right intermediate operation before choosing the terminal operation.</p>\n<h3>Task</h3>\n<p>Solve these with streams:</p>\n<p>1. Find all even numbers.</p>\n<p>2. Find all odd numbers.</p>\n<p>3. Find employees whose salary is greater than <code>100000</code>.</p>\n<p>4. Find active employees.</p>\n<p>5. Remove all null values from a list.</p>\n<p>6. Square every integer.</p>\n<p>7. Convert every string to uppercase.</p>\n<p>8. Extract employee names.</p>\n<p>9. Extract employee salaries.</p>\n<p>10. Convert <code>Employee</code> to <code>EmployeeDTO</code>.</p>\n<p>11. Flatten a <code>List&lt;List&lt;Integer&gt;&gt;</code>.</p>\n<p>12. Flatten employee skills into one list.</p>\n<p>13. Split lines like <code>Java Spring</code>, <code>Kafka Redis</code>, <code>Docker Kubernetes</code> into one word list.</p>\n<p>14. Flatten a list of comma-separated tags.</p>\n<p>15. Sort integers ascending.</p>\n<p>16. Sort integers descending.</p>\n<p>17. Sort employees by salary.</p>\n<p>18. Sort employees by department and then name.</p>\n<p>19. Find the top 5 highest-paid employees.</p>\n<p>20. Remove duplicate integers.</p>\n<p>21. Remove duplicate strings.</p>\n<p>22. Remove duplicate employees, assuming correct <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>23. Get the first 10 records.</p>\n<p>24. Get the top 3 highest-paid employees.</p>\n<p>25. Skip the first 5 records.</p>\n<p>26. Implement pagination with <code>skip()</code> and <code>limit()</code>.</p>\n<p>27. Log every employee before filtering.</p>\n<p>28. Print every value before mapping.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter</code> only when the stream may get shorter.</li>\n<li>Use <code>map</code> only when each element produces one value.</li>\n<li>Use <code>flatMap</code> for nested or split values.</li>\n<li>Use <code>peek</code> only for debugging/logging.</li>\n</ul>",
+            "exerciseHtml": "<h2>Exercise: intermediate-warmup - One Operation at a Time</h2>\n<h3>Goal</h3>\n<p>Practice choosing the right intermediate operation before choosing the terminal operation.</p>\n<h3>Task</h3>\n<p>Solve these with streams. Each task covers a different intermediate-operation decision.</p>\n<p>1. Find active employees with salary greater than <code>100000</code>.</p>\n<p>2. Convert active employees into <code>EmployeeDTO</code>.</p>\n<p>3. Flatten all employee skills into one unique skill list.</p>\n<p>4. Split lines like <code>Java Spring</code>, <code>Kafka Redis</code>, <code>Docker Kubernetes</code> into one word list.</p>\n<p>5. Sort employees by department and then name.</p>\n<p>6. Find the top 5 highest-paid active employees.</p>\n<p>7. Remove duplicate employees, assuming correct <code>equals()</code> and <code>hashCode()</code>.</p>\n<p>8. Implement pagination with <code>skip()</code> and <code>limit()</code>.</p>\n<p>9. Add debug logging before filtering without changing business objects.</p>\n<h3>Checks</h3>\n<ul>\n<li>Use <code>filter</code> only when the stream may get shorter.</li>\n<li>Use <code>map</code> only when each element produces one value.</li>\n<li>Use <code>flatMap</code> for nested or split values.</li>\n<li>Put <code>sorted()</code> before <code>limit()</code> when selecting top records.</li>\n<li>Use <code>peek</code> only for debugging/logging.</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Integer&gt; evens = numbers.stream().filter(n -&gt; n % 2 == 0).toList();\nList&lt;Integer&gt; odds = numbers.stream().filter(n -&gt; n % 2 != 0).toList();\nList&lt;Employee&gt; highPaid = employees.stream().filter(e -&gt; e.salary() &gt; 100_000).toList();\nList&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; nonNull = values.stream().filter(Objects::nonNull).toList();\n\nList&lt;Integer&gt; squares = numbers.stream().map(n -&gt; n * n).toList();\nList&lt;String&gt; upper = names.stream().map(String::toUpperCase).toList();\nList&lt;String&gt; employeeNames = employees.stream().map(Employee::name).toList();\nList&lt;Double&gt; salaries = employees.stream().map(Employee::salary).toList();\nList&lt;EmployeeDto&gt; dtos = employees.stream().map(e -&gt; new EmployeeDto(e.id(), e.name())).toList();\n\nList&lt;Integer&gt; flatNumbers = nested.stream().flatMap(List::stream).toList();\nList&lt;String&gt; skills = employees.stream().flatMap(e -&gt; e.skills().stream()).toList();\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\nList&lt;String&gt; tags = rows.stream().flatMap(row -&gt; Arrays.stream(row.split(&quot;,&quot;))).map(String::trim).toList();\n\nList&lt;Integer&gt; asc = numbers.stream().sorted().toList();\nList&lt;Integer&gt; desc = numbers.stream().sorted(Comparator.reverseOrder()).toList();\nList&lt;Employee&gt; bySalary = employees.stream().sorted(Comparator.comparingDouble(Employee::salary)).toList();\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\nList&lt;Employee&gt; topFive = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Integer&gt; uniqueNumbers = numbers.stream().distinct().toList();\nList&lt;String&gt; uniqueStrings = names.stream().distinct().toList();\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; firstTen = employees.stream().limit(10).toList();\nList&lt;Employee&gt; topThree = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(3)\n    .toList();\nList&lt;Employee&gt; afterFive = employees.stream().skip(5).toList();\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly.</p>"
+            "solutionHtml": "<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Employee&gt; activeHighPaid = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.salary() &gt; 100_000)\n    .toList();\n\nList&lt;EmployeeDto&gt; activeDtos = employees.stream()\n    .filter(Employee::active)\n    .map(e -&gt; new EmployeeDto(e.id(), e.name()))\n    .toList();\n\nList&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .distinct()\n    .toList();\n\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\n\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\n\nList&lt;Employee&gt; topFiveActive = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly. For top records, sort before <code>limit</code>; <code>limit().sorted()</code> only sorts the first records already seen.</p>"
           }
         ]
       }
@@ -13386,7 +13966,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Stream Intermediate Operations Solutions</h1>\n<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Integer&gt; evens = numbers.stream().filter(n -&gt; n % 2 == 0).toList();\nList&lt;Integer&gt; odds = numbers.stream().filter(n -&gt; n % 2 != 0).toList();\nList&lt;Employee&gt; highPaid = employees.stream().filter(e -&gt; e.salary() &gt; 100_000).toList();\nList&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; nonNull = values.stream().filter(Objects::nonNull).toList();\n\nList&lt;Integer&gt; squares = numbers.stream().map(n -&gt; n * n).toList();\nList&lt;String&gt; upper = names.stream().map(String::toUpperCase).toList();\nList&lt;String&gt; employeeNames = employees.stream().map(Employee::name).toList();\nList&lt;Double&gt; salaries = employees.stream().map(Employee::salary).toList();\nList&lt;EmployeeDto&gt; dtos = employees.stream().map(e -&gt; new EmployeeDto(e.id(), e.name())).toList();\n\nList&lt;Integer&gt; flatNumbers = nested.stream().flatMap(List::stream).toList();\nList&lt;String&gt; skills = employees.stream().flatMap(e -&gt; e.skills().stream()).toList();\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\nList&lt;String&gt; tags = rows.stream().flatMap(row -&gt; Arrays.stream(row.split(&quot;,&quot;))).map(String::trim).toList();\n\nList&lt;Integer&gt; asc = numbers.stream().sorted().toList();\nList&lt;Integer&gt; desc = numbers.stream().sorted(Comparator.reverseOrder()).toList();\nList&lt;Employee&gt; bySalary = employees.stream().sorted(Comparator.comparingDouble(Employee::salary)).toList();\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\nList&lt;Employee&gt; topFive = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Integer&gt; uniqueNumbers = numbers.stream().distinct().toList();\nList&lt;String&gt; uniqueStrings = names.stream().distinct().toList();\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; firstTen = employees.stream().limit(10).toList();\nList&lt;Employee&gt; topThree = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(3)\n    .toList();\nList&lt;Employee&gt; afterFive = employees.stream().skip(5).toList();\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly.</p>"
+      "referenceHtml": "<h1>Stream Intermediate Operations Solutions</h1>\n<h2>Solution: intermediate-warmup - One Operation at a Time</h2>\n<pre><code>List&lt;Employee&gt; activeHighPaid = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.salary() &gt; 100_000)\n    .toList();\n\nList&lt;EmployeeDto&gt; activeDtos = employees.stream()\n    .filter(Employee::active)\n    .map(e -&gt; new EmployeeDto(e.id(), e.name()))\n    .toList();\n\nList&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .distinct()\n    .toList();\n\nList&lt;String&gt; words = lines.stream().flatMap(line -&gt; Arrays.stream(line.split(&quot;\\\\s+&quot;))).toList();\n\nList&lt;Employee&gt; byDeptName = employees.stream()\n    .sorted(Comparator.comparing(Employee::department).thenComparing(Employee::name))\n    .toList();\n\nList&lt;Employee&gt; topFiveActive = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .toList();\n\nList&lt;Employee&gt; uniqueEmployees = employees.stream().distinct().toList();\n\nList&lt;Employee&gt; page = employees.stream().skip((long) page * size).limit(size).toList();\n\nList&lt;String&gt; loggedActiveNames = employees.stream()\n    .peek(System.out::println)\n    .filter(Employee::active)\n    .map(Employee::name)\n    .peek(System.out::println)\n    .toList();</code></pre>\n<p><code>distinct()</code> works for custom objects only when equality is implemented correctly. For top records, sort before <code>limit</code>; <code>limit().sorted()</code> only sorts the first records already seen.</p>"
     },
     "/java/coding_fluency/streams/terminal_operations/": {
       "text": "Stream Terminal Operations",
@@ -13925,6 +14505,48 @@
       },
       "referenceHtml": "<h1>Stream Interview Drills Solutions</h1>\n<h2>Solution: mixed-stream-pipelines - Mixed Stream Questions</h2>\n<pre><code>List&lt;String&gt; activeNames = employees.stream().filter(Employee::active).map(Employee::name).toList();\n\nList&lt;String&gt; topFiveActiveNames = employees.stream()\n    .filter(Employee::active)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();\n\nSet&lt;String&gt; departmentsOverFive = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 5)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nSet&lt;String&gt; uniqueSkills = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.toSet());\n\nlong javaSkillCount = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;))\n    .count();\n\ndouble activeAverageSalary = employees.stream()\n    .filter(Employee::active)\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;Employee&gt; bySalaryDesc = employees.stream()\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .toList();\n\nString largestDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nMap&lt;String, List&lt;String&gt;&gt; namesByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));\n\nOptional&lt;Employee&gt; highestPaidActive = employees.stream()\n    .filter(Employee::active)\n    .max(Comparator.comparingDouble(Employee::salary));\n\nMap&lt;String, Double&gt; totalSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.summingDouble(Employee::salary)));\n\nSet&lt;String&gt; duplicateDepartments = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()))\n    .entrySet().stream()\n    .filter(e -&gt; e.getValue() &gt; 1)\n    .map(Map.Entry::getKey)\n    .collect(Collectors.toSet());\n\nMap&lt;String, Double&gt; averageSalaryByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));\n\nMap&lt;String, Long&gt; countByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));</code></pre>\n<h2>Solution: output-prediction - Predict Stream Output</h2>\n<p>| Case | Output |</p>\n<p>| --- | --- |</p>\n<p>| 1 | <code>[20, 40]</code> |</p>\n<p>| 2 | <code>[a, b, c]</code> |</p>\n<p>| 3 | <code>[3, 4]</code> |</p>\n<p>| 4 | <code>[1, 2, 3, 4]</code> |</p>\n<p>| 5 | <code>true</code> |</p>\n<p>| 6 | <code>false</code> |</p>\n<h2>Solution: find-stream-bugs - Find the Bug</h2>\n<p>1. Two-argument <code>toMap</code> throws <code>IllegalStateException</code> on duplicate IDs. Add a merge function.</p>\n<p>2. A stream is single-use. Create a new stream for the second traversal.</p>\n<p>3. <code>findFirst()</code> returns <code>Optional</code>; <code>.get()</code> can throw. Use <code>orElseThrow</code>, <code>orElse</code>, or handle absence.</p>\n<p>4. <code>parallelStream().forEach(list::add)</code> mutates shared state from multiple threads. Collect the result instead.</p>\n<p>5. <code>peek</code> should not perform business mutation. Use <code>map</code> for transformation or a loop for explicit mutation.</p>\n<h2>Solution: loop-to-streams - Convert Loops to Streams</h2>\n<pre><code>List&lt;Employee&gt; active = employees.stream().filter(Employee::active).toList();\nList&lt;String&gt; names = employees.stream().map(Employee::name).toList();\ndouble totalSalary = employees.stream().mapToDouble(Employee::salary).sum();\nMap&lt;String, List&lt;Employee&gt;&gt; byDepartment = employees.stream().collect(Collectors.groupingBy(Employee::department));\nOptional&lt;Employee&gt; highestPaid = employees.stream().max(Comparator.comparingDouble(Employee::salary));\nSet&lt;String&gt; departments = employees.stream().map(Employee::department).collect(Collectors.toSet());</code></pre>\n<h2>Solution: choose-stream-api - Choose the Correct API</h2>\n<p>| Requirement | API |</p>\n<p>| --- | --- |</p>\n<p>| Remove unwanted elements | <code>filter</code> |</p>\n<p>| Convert <code>Employee</code> to <code>EmployeeDTO</code> | <code>map</code> |</p>\n<p>| Flatten employee skills | <code>flatMap</code> |</p>\n<p>| Build <code>Map&lt;Id, Employee&gt;</code> | <code>Collectors.toMap</code> |</p>\n<p>| Group by department | <code>Collectors.groupingBy</code> |</p>\n<p>| Active/inactive split | <code>Collectors.partitioningBy</code> |</p>\n<p>| At least one HR employee | <code>anyMatch</code> |</p>\n<p>| Total salary | <code>mapToDouble(...).sum()</code> or <code>reduce</code> |</p>\n<p>| Average salary | <code>mapToDouble(...).average()</code> |</p>\n<p>| First matching employee | <code>findFirst</code> |</p>\n<p>| Any matching employee | <code>findAny</code> |</p>\n<p>| Remove duplicates | <code>distinct</code> |</p>\n<p>| Top 10 records | <code>sorted(...).limit(10)</code> if &quot;top&quot; means ranked; otherwise <code>limit(10)</code> |</p>\n<h2>Solution: stream-challenges - Challenge Problems</h2>\n<pre><code>Map&lt;String, List&lt;String&gt;&gt; topTenActiveNamesByDepartment = employees.stream()\n    .filter(Employee::active)\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.toList(),\n            list -&gt; list.stream()\n                .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n                .limit(10)\n                .map(Employee::name)\n                .toList())));\n\nMap&lt;String, Set&lt;String&gt;&gt; uniqueSkillsByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.flatMapping(e -&gt; e.skills().stream(), Collectors.toSet())));\n\nMap&lt;String, String&gt; highestPaidNameByDepartment = employees.stream()\n    .collect(Collectors.groupingBy(\n        Employee::department,\n        Collectors.collectingAndThen(\n            Collectors.maxBy(Comparator.comparingDouble(Employee::salary)),\n            employee -&gt; employee.map(Employee::name).orElseThrow())));\n\nLinkedHashMap&lt;String, Double&gt; averageSalaryDesc = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Double&gt;comparingByValue().reversed())\n    .collect(Collectors.toMap(\n        Map.Entry::getKey,\n        Map.Entry::getValue,\n        (left, right) -&gt; left,\n        LinkedHashMap::new));\n\nList&lt;String&gt; topWords = sentences.stream()\n    .flatMap(sentence -&gt; Arrays.stream(sentence.toLowerCase().split(&quot;\\\\W+&quot;)))\n    .filter(word -&gt; !word.isBlank())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))\n    .entrySet().stream()\n    .sorted(Map.Entry.&lt;String, Long&gt;comparingByValue().reversed())\n    .limit(10)\n    .map(Map.Entry::getKey)\n    .toList();\n\nMap&lt;String, Long&gt; skillFrequency = employees.stream()\n    .flatMap(e -&gt; e.skills().stream())\n    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));\n\nString departmentWithHighestAverageSalary = employees.stream()\n    .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)))\n    .entrySet().stream()\n    .max(Map.Entry.comparingByValue())\n    .map(Map.Entry::getKey)\n    .orElseThrow();\n\nList&lt;Employee&gt; javaAndSpring = employees.stream()\n    .filter(e -&gt; e.skills().contains(&quot;Java&quot;) &amp;&amp; e.skills().contains(&quot;Spring&quot;))\n    .toList();</code></pre>\n<p>Employees sharing at least one skill needs an indexed approach; a pure stream-only version is possible but less readable.</p>\n<pre><code>Map&lt;String, List&lt;Employee&gt;&gt; bySkill = employees.stream()\n    .flatMap(employee -&gt; employee.skills().stream().map(skill -&gt; Map.entry(skill, employee)))\n    .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));\n\nSet&lt;Employee&gt; sharingSkill = bySkill.values().stream()\n    .filter(list -&gt; list.size() &gt; 1)\n    .flatMap(List::stream)\n    .collect(Collectors.toSet());</code></pre>\n<p>Top 5 active IT employees above the IT department average:</p>\n<pre><code>double itAverageSalary = employees.stream()\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .mapToDouble(Employee::salary)\n    .average()\n    .orElse(0.0);\n\nList&lt;String&gt; names = employees.stream()\n    .filter(Employee::active)\n    .filter(e -&gt; e.department().equals(&quot;IT&quot;))\n    .filter(e -&gt; e.salary() &gt; itAverageSalary)\n    .sorted(Comparator.comparingDouble(Employee::salary).reversed())\n    .limit(5)\n    .map(Employee::name)\n    .toList();</code></pre>"
     },
+    "/java/coding_fluency/streams/interview_recap/": {
+      "text": "Streams Interview Recap",
+      "link": "/java/coding_fluency/streams/interview_recap/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/interview_recap/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/interview_recap/quick_revision/": {
+      "text": "Streams Quick Revision",
+      "link": "/java/coding_fluency/streams/interview_recap/quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/interview_recap/quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/coding_fluency/streams/interview_recap/questions/": {
+      "text": "Streams Interview Questions",
+      "link": "/java/coding_fluency/streams/interview_recap/questions/",
+      "pageType": "theory",
+      "parentLink": "/java/coding_fluency/streams/interview_recap/questions/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/java/coding_fluency/records/": {
       "text": "Records",
       "link": "/java/coding_fluency/records/",
@@ -14423,7 +15045,7 @@
             "title": "Broken Volatile Counter",
             "exerciseHtml": "<h2>Exercise: broken-volatile-counter - Broken Volatile Counter</h2>\n<h3>Goal</h3>\n<p>Separate visibility from atomicity.</p>\n<h3>Task</h3>\n<p>Create <code>volatile int count</code>. Start four threads, each incrementing it 100,000 times. Observe that the final value can be below <code>400000</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Explain read-modify-write interleaving.</li>\n<li>Fix it with <code>AtomicInteger</code> or <code>synchronized</code>.</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: broken-volatile-counter - Broken Volatile Counter</h2>\n<pre><code>private static volatile int count;\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count++;\n    }\n};</code></pre>\n<p><code>count++</code> still reads, increments, and writes as separate steps. Use an <code>AtomicInteger</code> counter or guard the increment with the same monitor.</p>"
+            "solutionHtml": "<h2>Solution: broken-volatile-counter - Broken Volatile Counter</h2>\n<pre><code>private static volatile int count;\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count++;\n    }\n};</code></pre>\n<p><code>count++</code> still reads, increments, and writes as separate steps.</p>\n<pre><code>AtomicInteger count = new AtomicInteger();\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count.incrementAndGet();\n    }\n};</code></pre>\n<p><code>AtomicInteger</code> gives an atomic read-modify-write operation. A <code>synchronized</code> increment method would also work when more state must be guarded together.</p>"
           },
           {
             "id": "immutable-config-snapshot",
@@ -14448,7 +15070,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>volatile Solutions</h1>\n<h2>Solution: volatile-stop-signal - Stop Signal</h2>\n<pre><code>final class Worker implements Runnable {\n    private volatile boolean running = true;\n\n    void stop() {\n        running = false;\n    }\n\n    @Override\n    public void run() {\n        while (running) {\n            // do work\n        }\n    }\n}</code></pre>\n<p>This is a good <code>volatile</code> use because the operation is a simple read/write flag, not a compound update.</p>\n<h2>Solution: broken-volatile-counter - Broken Volatile Counter</h2>\n<pre><code>private static volatile int count;\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count++;\n    }\n};</code></pre>\n<p><code>count++</code> still reads, increments, and writes as separate steps. Use an <code>AtomicInteger</code> counter or guard the increment with the same monitor.</p>\n<h2>Solution: immutable-config-snapshot - Immutable Config Snapshot</h2>\n<pre><code>record AppSettings(String region, int timeoutMillis, boolean featureEnabled) {\n}\n\nfinal class SettingsHolder {\n    private volatile AppSettings settings;\n\n    SettingsHolder(AppSettings initial) {\n        this.settings = initial;\n    }\n\n    AppSettings get() {\n        return settings;\n    }\n\n    void reload(AppSettings updated) {\n        settings = updated;\n    }\n}</code></pre>\n<p>The reference update is visible, and the object is immutable. Readers see one complete version or another.</p>"
+      "referenceHtml": "<h1>volatile Solutions</h1>\n<h2>Solution: volatile-stop-signal - Stop Signal</h2>\n<pre><code>final class Worker implements Runnable {\n    private volatile boolean running = true;\n\n    void stop() {\n        running = false;\n    }\n\n    @Override\n    public void run() {\n        while (running) {\n            // do work\n        }\n    }\n}</code></pre>\n<p>This is a good <code>volatile</code> use because the operation is a simple read/write flag, not a compound update.</p>\n<h2>Solution: broken-volatile-counter - Broken Volatile Counter</h2>\n<pre><code>private static volatile int count;\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count++;\n    }\n};</code></pre>\n<p><code>count++</code> still reads, increments, and writes as separate steps.</p>\n<pre><code>AtomicInteger count = new AtomicInteger();\n\nRunnable task = () -&gt; {\n    for (int i = 0; i &lt; 100_000; i++) {\n        count.incrementAndGet();\n    }\n};</code></pre>\n<p><code>AtomicInteger</code> gives an atomic read-modify-write operation. A <code>synchronized</code> increment method would also work when more state must be guarded together.</p>\n<h2>Solution: immutable-config-snapshot - Immutable Config Snapshot</h2>\n<pre><code>record AppSettings(String region, int timeoutMillis, boolean featureEnabled) {\n}\n\nfinal class SettingsHolder {\n    private volatile AppSettings settings;\n\n    SettingsHolder(AppSettings initial) {\n        this.settings = initial;\n    }\n\n    AppSettings get() {\n        return settings;\n    }\n\n    void reload(AppSettings updated) {\n        settings = updated;\n    }\n}</code></pre>\n<p>The reference update is visible, and the object is immutable. Readers see one complete version or another.</p>"
     },
     "/java/concurrency/synchronized_keyword/": {
       "text": "synchronized",
@@ -15432,6 +16054,48 @@
       "link": "/java/concurrency/interview_drill_bank/",
       "pageType": "theory",
       "parentLink": "/java/concurrency/interview_drill_bank/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/interview_recap/": {
+      "text": "Concurrency Interview Recap",
+      "link": "/java/concurrency/interview_recap/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/interview_recap/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/interview_recap/quick_revision/": {
+      "text": "Concurrency Quick Revision",
+      "link": "/java/concurrency/interview_recap/quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/interview_recap/quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/java/concurrency/interview_recap/questions/": {
+      "text": "Concurrency Interview Questions",
+      "link": "/java/concurrency/interview_recap/questions/",
+      "pageType": "theory",
+      "parentLink": "/java/concurrency/interview_recap/questions/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,

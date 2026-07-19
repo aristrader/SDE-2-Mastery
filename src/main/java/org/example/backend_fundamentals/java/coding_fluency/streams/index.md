@@ -8,6 +8,17 @@ Streams turn a sequence of elements into a result. This module focuses on collec
 
 Read this after Collections. The collector result has the same trade-offs as the target collection: mutability, ordering, duplicate keys, equality, and hash behavior still matter.
 
+## Laziness mental model
+
+Intermediate operations build a recipe; a terminal operation runs it.
+
+```text
+source -> filter -> map -> limit -> terminal
+          recipe    recipe  recipe   execution starts here
+```
+
+This is why `peek`, `filter`, and `map` appear to do nothing until `collect`, `count`, `forEach`, `findFirst`, or another terminal operation is called.
+
 ## Study path
 
 | Order | Page | Use it for |

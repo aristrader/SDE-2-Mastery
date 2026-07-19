@@ -16,7 +16,13 @@ Node<K,V>[] table;  // length is always a power of 2
 
 Each slot in `table` is either `null` (empty bucket) or the head of a chain. A `Node` holds four fields:
 
-```
+```text
+table
+  [0] -> null
+  [1] -> Node(A) -> Node(B) -> null
+  [2] -> null
+  [3] -> TreeNode(...)  // only after treeification rules are met
+
 Node<K,V>
   int    hash   — cached hash of the key (avoids recomputing on resize)
   K      key
@@ -52,6 +58,14 @@ Then it finds the bucket index:
 
 ```java
 index = (n - 1) & hash   // n = table.length
+```
+
+```text
+key.hashCode()
+   -> spread hash
+   -> mask with table length
+   -> bucket index
+   -> equals() only inside that bucket
 ```
 
 **Why XOR with the upper 16 bits:** `hashCode()` often has entropy concentrated in the higher bits. When the table is small (e.g., capacity 16), only the lowest 4 bits of the hash determine the bucket — the upper bits are ignored. XOR-ing the upper half down into the lower half folds that entropy in, reducing clustering even with poor `hashCode()` implementations.
