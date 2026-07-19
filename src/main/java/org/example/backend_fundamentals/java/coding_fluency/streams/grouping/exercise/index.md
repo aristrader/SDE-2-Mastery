@@ -5,46 +5,43 @@ search: false
 
 # groupingBy Practice
 
-## Exercise: groupingby-simple - groupingBy simple
-
-### Goal
-Bucket a flat list into groups.
-
-### Task
-Group all orders by `OrderStatus`, producing `Map<OrderStatus, List<Order>>`.
-
-### Checks
-- Print how many orders are in each bucket.
-- Explain why this is `groupingBy`, not `toMap`.
-
-## Exercise: groupingby-counting - groupingBy with downstream counting
-
-### Goal
-Aggregate within each group.
-
-### Task
-Produce `Map<OrderStatus, Long>` using `groupingBy` with `Collectors.counting()`.
-
-### Checks
-- The value type is `Long`, not `Integer`.
-- The downstream collector is the second argument.
-
 ## Exercise: employee-grouping - Employee groupingBy
 
+<!-- starter-code -->
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class EmployeeGroupingPractice {
+    public static void main(String[] args) {
+        List<Employee> employees = List.of(
+            new Employee(1, "Asha", 29, 120_000, "Platform"),
+            new Employee(2, "Ben", 34, 95_000, "Payments"),
+            new Employee(3, "Chen", 41, 145_000, "Platform"),
+            new Employee(4, "Diya", 26, 110_000, "Growth"),
+            new Employee(5, "Evan", 38, 130_000, "Payments"),
+            new Employee(6, "Farah", 29, 85_000, "Growth")
+        );
+
+        // Group by department, then add count, names, and average salary downstream collectors.
+    }
+
+    record Employee(long id, String name, int age, double salary, String department) {}
+}
+```
+
 ### Goal
-Group employees and aggregate inside each group.
+Use `groupingBy` with the common downstream collectors.
 
 ### Task
-Using `Employee`:
+Using `employees`:
 
 1. Group employees by department.
 2. Count employees department-wise.
 3. Group employee names department-wise.
 4. Find average salary department-wise.
-5. Find highest-paid employee department-wise.
-6. Group employees by age.
-7. Group employees by city, assuming a `city` field exists.
 
 ### Checks
 - Use default `groupingBy` when the value should be a list.
-- Use downstream collectors for count, mapping, average, and maximum.
+- Use downstream collectors for count, mapping, and average.

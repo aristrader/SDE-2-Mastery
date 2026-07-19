@@ -25,21 +25,3 @@ Map<String, BigDecimal> totalByCustomer = orders.stream()
 ```
 
 `BigDecimal::add` receives the existing and incoming totals for the same customer.
-
-## Solution: employee-tomap - Employee Maps
-
-```java
-Map<Integer, Employee> byId = employees.stream()
-    .collect(Collectors.toMap(Employee::id, Function.identity()));
-
-Map<Integer, String> nameById = employees.stream()
-    .collect(Collectors.toMap(Employee::id, Employee::name));
-
-Map<Integer, Employee> latestById = employees.stream()
-    .collect(Collectors.toMap(
-        Employee::id,
-        Function.identity(),
-        (oldEmployee, newEmployee) -> newEmployee));
-```
-
-The two-argument `toMap` throws `IllegalStateException` when duplicate IDs appear.

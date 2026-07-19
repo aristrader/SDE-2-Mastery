@@ -81,6 +81,17 @@ public class GenericPairPractice {
     }
 }
 \`\`\`
+
+<!-- starter-code -->
+\`\`\`java
+public class HiddenStarterPractice {
+    public static void main(String[] args) {
+        System.out.println("hidden");
+    }
+}
+\`\`\`
+
+Visible task wording.
 `);
     write(path.join(base, 'java', 'generics', 'solution', 'index.md'), `---
 order: 20
@@ -99,7 +110,9 @@ Return the typed values.
 
     assert.strictEqual(practiceSet.questions.length, 1);
     assert.strictEqual(practiceSet.questions[0].id, 'generic-pair');
-    assert.match(practiceSet.questions[0].starterCode, /public class GenericPairPractice/);
+    assert.match(practiceSet.questions[0].starterCode, /public class HiddenStarterPractice/);
+    assert.doesNotMatch(practiceSet.questions[0].exerciseHtml, /HiddenStarterPractice/);
+    assert.match(practiceSet.questions[0].exerciseHtml, /Visible task wording/);
     assert.match(practiceSet.questions[0].solutionHtml, /Return the typed values/);
 });
 

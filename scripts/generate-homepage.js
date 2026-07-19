@@ -342,6 +342,19 @@ function extractFirstCodeFence(markdown, language = 'java') {
     return match ? match[1].trim() : '';
 }
 
+function starterCodeFencePattern(language = 'java') {
+    return new RegExp('<!--\\s*starter-code\\s*-->\\s*```' + language + '\\s*\\n([\\s\\S]*?)\\n```', 'i');
+}
+
+function extractStarterCode(markdown, language = 'java') {
+    const match = String(markdown).match(starterCodeFencePattern(language));
+    return match ? match[1].trim() : extractFirstCodeFence(markdown, language);
+}
+
+function removeStarterCodeFence(markdown, language = 'java') {
+    return String(markdown).replace(starterCodeFencePattern(language), '').trim();
+}
+
 function assertUniqueIds(sections, filePath, kind) {
     const seen = new Set();
     for (const section of sections) {
@@ -382,8 +395,8 @@ function structuredPracticeForModule(moduleDir) {
         questions: exerciseSections.map(section => ({
             id: section.id,
             title: section.title,
-            exerciseHtml: markdownToHtml(section.markdown),
-            starterCode: extractFirstCodeFence(section.markdown),
+            exerciseHtml: markdownToHtml(removeStarterCodeFence(section.markdown)),
+            starterCode: extractStarterCode(section.markdown),
             solutionHtml: markdownToHtml(solutionById.get(section.id).markdown)
         }))
     };
