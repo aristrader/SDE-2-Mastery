@@ -22,14 +22,15 @@ This is unsafe because many threads mutate the same list:
 
 ```java
 employees.parallelStream()
-         .forEach(list::add);
+         .map(Employee::name)
+         .forEach(names::add);
 ```
 
 Collect safely instead:
 
 ```java
-List<Employee> result = employees.parallelStream()
-    .filter(Employee::active)
+List<String> names = employees.parallelStream()
+    .map(Employee::name)
     .toList();
 ```
 

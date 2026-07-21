@@ -21,7 +21,7 @@ public class PrimitiveParallelStreamsPractice {
             new Employee(4, "Diya", 26, 110_000),
             new Employee(5, "Evan", 38, 130_000)
         );
-        List<String> list = new ArrayList<>();
+        List<String> names = new ArrayList<>();
 
         // Calculate average salary and total age with primitive streams.
         // Rewrite the unsafe parallel collection without shared mutation.
@@ -43,7 +43,8 @@ Using `Employee`:
 
 ```java
 employees.parallelStream()
-         .forEach(list::add);
+         .map(Employee::name)
+         .forEach(names::add);
 ```
 
 4. Rewrite it safely.

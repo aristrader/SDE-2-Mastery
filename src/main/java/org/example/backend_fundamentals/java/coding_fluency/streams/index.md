@@ -32,7 +32,7 @@ This is why `peek`, `filter`, and `map` appear to do nothing until `collect`, `c
 | 7 | `grouping` | `groupingBy`, downstream collectors, counts, sums, averages, mapping. |
 | 8 | `advanced_collectors` | `partitioningBy`, `collectingAndThen`, `maxBy`, and `teeing`. |
 | 9 | `primitive_parallel` | primitive streams, parallel stream trade-offs, and performance pitfalls. |
-| 10 | `interview_drills` | mixed pipelines, output prediction, bug finding, loop conversion, and API choice. |
+| 10 | `interview_recap` | quick interview revision, bug finding, and mixed stream questions. |
 
 ## Quick recall
 
