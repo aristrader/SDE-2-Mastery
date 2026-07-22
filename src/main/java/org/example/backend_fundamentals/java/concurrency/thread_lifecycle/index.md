@@ -38,6 +38,42 @@ worker.start();  // starts a new thread; prints "worker"
 
 A `Thread` instance can be started only once. After it terminates, calling `start()` again throws `IllegalThreadStateException`. Create a new `Thread` object for a new execution.
 
+## `Runnable` interface and implementation
+
+`Runnable` represents work that can run on a thread. It has one method:
+
+```java
+@FunctionalInterface
+public interface Runnable {
+    void run();
+}
+```
+
+The usual beginner confusion is this: `Runnable` is only the task. `Thread` is the worker that can execute the task on a separate thread after `start()`.
+
+```java
+final class EmailTask implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("send email on " + Thread.currentThread().getName());
+    }
+}
+
+Thread worker = new Thread(new EmailTask(), "email-worker");
+worker.start();
+worker.join();
+```
+
+For short tasks, a lambda is the same idea:
+
+```java
+Runnable task = () -> System.out.println(Thread.currentThread().getName());
+Thread worker = new Thread(task, "worker");
+worker.start();
+```
+
+Prefer implementing `Runnable` over extending `Thread` when you only want to define work. Extending `Thread` mixes "what to do" with "how it is executed" and prevents the class from extending something else. In backend code, you usually pass `Runnable` or `Callable` tasks to an `ExecutorService` instead of manually creating threads.
+
 ## The 6 JVM states
 
 Java exposes thread states through `Thread.State`. `Thread.getState()` returns a snapshot, not a stable truth forever. A thread can change state immediately after you inspect it.
@@ -300,6 +336,12 @@ A. `run()` is a normal method call on the current thread. `start()` creates a ne
 
 **Q. Can a `Thread` be started twice?**
 A. No. A `Thread` object can move from `NEW` to `RUNNABLE` only once. Starting it again throws `IllegalThreadStateException`.
+
+**Q. What is `Runnable`?**
+A. A task with a `run()` method. A `Thread` can execute that task on a new thread after `start()`.
+
+**Q. Why prefer `implements Runnable` over `extends Thread`?**
+A. It separates the task from execution and keeps the class free to extend another class.
 
 **Q. Why can a running Java thread still show `RUNNABLE`?**
 A. Java uses `RUNNABLE` for both actually running on CPU and ready-to-run in the OS scheduler queue.

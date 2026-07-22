@@ -17,6 +17,21 @@ Create a `Thread` that prints the current thread name. First call `run()` direct
 - Explain which thread executes the task in each version.
 - Explain why a `Thread` instance can be started only once.
 
+## Exercise: runnable-task - Runnable Task
+
+### Goal
+Separate the task from the thread that executes it.
+
+### Task
+Create a small class that implements `Runnable`. Its `run()` method should print the current thread name.
+
+Then create a `Thread` with that task, start it, and wait for it to finish.
+
+### Checks
+- Use `implements Runnable`, not `extends Thread`.
+- Call `start()`, not direct `run()`, for concurrent execution.
+- Explain why `Runnable` is the task and `Thread` is the execution mechanism.
+
 ## Exercise: join-not-sleep - join, Not Sleep
 
 ### Goal

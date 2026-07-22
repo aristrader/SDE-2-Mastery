@@ -39,6 +39,44 @@ Interview answer:
 
 > `run()` is an ordinary method call. `start()` transitions the thread from `NEW` to runnable execution and causes the JVM to call `run()` on a separate thread.
 
+## Solution: runnable-task - Runnable Task
+
+Copy-paste runnable version:
+
+```java
+public class RunnableTaskSolution {
+    public static void main(String[] args) throws InterruptedException {
+        Runnable task = new EmailTask();
+
+        Thread worker = new Thread(task, "email-worker");
+        worker.start();
+        worker.join();
+
+        System.out.println("main continues on " + Thread.currentThread().getName());
+    }
+
+    static final class EmailTask implements Runnable {
+        @Override
+        public void run() {
+            System.out.println("send email on " + Thread.currentThread().getName());
+        }
+    }
+}
+```
+
+Output shape:
+
+```text
+send email on email-worker
+main continues on main
+```
+
+`Runnable` is the unit of work. `Thread` is the execution mechanism. Passing a `Runnable` to `new Thread(...)` keeps those two responsibilities separate.
+
+Directly calling `task.run()` would execute on the current thread. Calling `worker.start()` creates the new execution path and then the JVM invokes `run()` on that new thread.
+
+Use `implements Runnable` when your class represents a task. Avoid `extends Thread` unless you are intentionally customizing thread behavior, which is rare in normal backend code.
+
 ## Solution: join-not-sleep - join, Not Sleep
 
 Use `join()` when one thread must wait for another thread to finish:
