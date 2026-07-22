@@ -4,236 +4,609 @@ order: 30
 
 # Java Memory Model (JMM)
 
+The Java Memory Model answers one practical question:
+
+> When one thread writes something, what makes another thread guaranteed to see it?
+
+If you remember only one rule, remember this:
+
+> Threads do not share "source-code order." They share only what the JMM says is safely visible.
+
+Without a JMM guarantee, code can pass 1,000 times and still be broken.
+
 ---
 
-## What the JMM is
+## The problem it solves
 
-The JMM is a **specification** — part of the JLS (§17) — defining precisely when a write by one thread becomes **visible** to a read by another, and in what **order** actions across threads may be observed.
+This looks simple:
 
-Each CPU architecture (x86, ARM, SPARC) has its own reordering rules. The JMM abstracts over all of them: if your program satisfies its rules, it is portable across all JVMs and hardware.
+```java
+class Worker {
+    private boolean running = true;
 
-The JMM does **not** describe physical memory or CPU caches directly. It defines a happens-before partial order over program actions. If a program has a data race, the JMM gives very weak guarantees: reads may observe stale or surprising values, and reasoning from source-code order becomes invalid.
+    void stop() {
+        running = false;
+    }
+
+    void run() {
+        while (running) {
+            // work
+        }
+    }
+}
+```
+
+One thread calls `run()`. Another thread calls `stop()`.
+
+The bug: the running thread is not guaranteed to notice `running = false`.
+
+Why? Because there is no rule connecting the write in one thread to the read in the other thread. The JVM and CPU can cache, reorder, or optimize as long as single-thread behavior still looks correct.
+
+Fix:
+
+```java
+class Worker {
+    private volatile boolean running = true;
+
+    void stop() {
+        running = false;
+    }
+
+    void run() {
+        while (running) {
+            // work
+        }
+    }
+}
+```
+
+`volatile` creates the missing visibility rule.
 
 ---
 
-## happens-before
+## The mental model
 
-**Definition:** action A happens-before action B if the JMM guarantees that A's effects (writes) are visible to B, and that A is not reordered after B.
+Do not think:
 
-happens-before is about **visibility and ordering**, not physical time. Two actions can happen at the same wall-clock millisecond yet still be ordered by happens-before. Conversely, A physically executing before B does not imply A happens-before B unless a JMM rule establishes it.
+> "Thread A wrote first, so Thread B must see it."
 
-Without a happens-before edge between a write and a read of the same variable, the read is allowed to see a stale value — even if the write physically happened earlier on the hardware.
+Think:
+
+> "What creates the happens-before edge from Thread A's write to Thread B's read?"
+
+If there is no happens-before edge, the read is a data race. A data race means the result is not something you can reason about from source-code order.
+
+---
+
+## Happens-before
+
+`happens-before` means:
+
+- writes before A are visible to B;
+- A cannot be reordered after B in a way that breaks the guarantee.
+
+It does not mean wall-clock time.
+
+This is safe:
+
+```java
+class MessageBox {
+    private String message;
+    private volatile boolean ready;
+
+    void publish() {
+        message = "done";
+        ready = true;
+    }
+
+    String read() {
+        return ready ? message : "not ready";
+    }
+}
+```
+
+The write to `message` happens before the volatile write to `ready`.
+The volatile write to `ready` happens before another thread's volatile read of `ready`.
+So if `read()` sees `ready == true`, it must also see `message = "done"`.
+
+The important part: `volatile` does not publish only the `ready` field.
+It also publishes normal writes that happened before the volatile write.
+
+Think of `ready = true` as the publish signal:
 
 ```text
-Thread A                         Thread B
-data = "ready"
-flag = true   // volatile write  ->  if (flag) read data
+Thread A
+message = "done"   // prepare data
+ready = true       // publish signal
 
-The volatile write creates the bridge. Without that bridge, Thread B can see
-old data or keep reading an old flag value.
-```
-
----
-
-## The 5 key happens-before rules
-
-### 1. Monitor unlock → subsequent lock (same monitor)
-
-An unlock of a monitor M happens-before every subsequent lock of M.
-
-This is the `synchronized` guarantee: everything a thread writes before releasing a lock is visible to the next thread that acquires the same lock.
-
-### 2. Volatile write → subsequent volatile read (same variable)
-
-A write to a `volatile` variable V happens-before every subsequent read of V.
-
-"Subsequent" means in real time across threads: if Thread B reads V and observes A's write, the HB edge is established.
-
-### 3. `Thread.start()` → any action in the started thread
-
-All actions performed by the thread that calls `start()` before calling it are visible to the started thread from its very first action.
-
-```java
-int x = 10;          // (1)
-new Thread(() -> {
-    System.out.println(x);   // guaranteed to see 10
-}).start();          // (2) — (1) hb (2) hb everything in new thread
-```
-
-### 4. All actions in thread A → `Thread.join()` on A returns in thread B
-
-Every action performed by thread A happens-before `A.join()` returns in thread B. After joining, thread B is guaranteed to see all writes that A ever made.
-
-### 5. Transitivity
-
-If A happens-before B and B happens-before C, then A happens-before C.
-
-This is what makes happens-before useful in chains — no direct edge needed between every pair of actions; reason through the chain.
-
----
-
-## `volatile` semantics in detail
-
-### Visibility
-
-A write to a `volatile` field is immediately visible to any subsequent read of that field by any thread. The write is flushed from the writing thread's cache to main memory; reads go directly to main memory, bypassing the local cache.
-
-### Ordering
-
-No reordering of memory accesses is allowed across a volatile read or write:
-- Writes before a volatile write cannot be moved after it.
-- Reads after a volatile read cannot be moved before it.
-
-This is why `volatile` fixes the stale-read and ordering problems from the `running` flag example — it creates a happens-before edge, preventing both the visibility and the reordering issue.
-
-### What `volatile` does NOT give you
-
-`volatile` guarantees visibility and ordering. It does **not** give you atomicity for compound operations.
-
-```java
-volatile int counter = 0;
-counter++;   // still broken — read, increment, write are 3 ops
-```
-
-The three operations are individually visible but not atomically bundled. Another thread can interleave between the read and the write. Use `AtomicInteger` or `synchronized` for read-modify-write.
-
-**Exception:** reads and writes of `volatile long` and `volatile double` are atomic (non-volatile 64-bit types can suffer "word tearing" on 32-bit JVMs where the two 32-bit halves are written separately). Atomicity applies to the single read or write, not to `++`.
-
----
-
-## `synchronized` semantics
-
-`synchronized` provides two things:
-
-1. **Mutual exclusion (intrinsic lock)** — at most one thread holds the monitor at a time.
-2. **Happens-before guarantee** — unlock happens-before the next lock of the same monitor. Everything written inside a `synchronized` block is visible to the next thread that enters a `synchronized` block on the same object.
-
-```java
-synchronized (this) {
-    state = newValue;   // visible to any thread that subsequently synchronizes on this
+Thread B
+if (ready) {       // receives signal
+    use message;   // guaranteed to see prepared data
 }
 ```
 
-`synchronized` is stronger than `volatile`: it provides visibility/ordering **and** atomicity (the entire critical section is one unit). Trade-off: it serializes concurrent access, which can become a bottleneck.
+The reader must actually read the same volatile field for this to work.
+This has no guarantee:
+
+```java
+String readWithoutSignal() {
+    return message; // did not read ready first
+}
+```
+
+The happens-before chain is:
+
+```text
+message write
+    happens-before, because of source order inside Thread A
+volatile write to ready
+    happens-before
+volatile read of ready that sees true
+    happens-before, because of source order inside Thread B
+message read
+```
+
+By transitivity, the `message` write is visible to the `message` read.
 
 ---
 
-## Double-checked locking (DCL)
+## Rules you actually use
 
-DCL is a lazy-initialization pattern that tries to avoid synchronization on every access. Famously broken before Java 5; fixed by the JMM revision.
+| Rule | What it means |
+|---|---|
+| `synchronized` unlock → later lock on same object | Writes before exiting the lock are visible to the next thread entering the same lock. |
+| `volatile` write → later read of same field | Writes before the volatile write are visible after the volatile read sees it. |
+| `Thread.start()` | Things done before `start()` are visible inside the new thread. |
+| `Thread.join()` | After `join()` returns, the joining thread sees what the finished thread wrote. |
+| Transitivity | If A happens-before B and B happens-before C, then A happens-before C. |
 
-### Pre-Java 5: broken
+Most interview answers reduce to picking the right row from this table.
+
+---
+
+## `volatile`: visibility, not locking
+
+Use `volatile` when one thread writes a simple state signal and other threads read it.
+
+Good:
 
 ```java
-private static Singleton instance;
+private volatile boolean shutdown;
 
-public static Singleton getInstance() {
-    if (instance == null) {
-        synchronized (Singleton.class) {
-            if (instance == null) {
-                instance = new Singleton();   // BROKEN
-            }
-        }
+void stop() {
+    shutdown = true;
+}
+
+void run() {
+    while (!shutdown) {
+        // work
     }
-    return instance;
 }
 ```
 
-`new Singleton()` is not a single operation. The JVM may:
-1. Allocate memory for the object
-2. Write the reference to `instance` (field is now non-null)
-3. Execute the constructor (fields of the object are initialized)
-
-Steps 2 and 3 can be reordered. Another thread sees `instance != null` (step 2 done), skips the `synchronized` block, and uses an object whose constructor has not yet run — a partial-construction bug.
-
-### Post-Java 5: fixed with `volatile`
+Not enough:
 
 ```java
-private static volatile Singleton instance;
+private volatile int count;
 
-public static Singleton getInstance() {
-    if (instance == null) {
-        synchronized (Singleton.class) {
-            if (instance == null) {
-                instance = new Singleton();
-            }
-        }
-    }
-    return instance;
+void increment() {
+    count++;
 }
 ```
 
-`volatile` on `instance` creates a happens-before edge: the volatile write of the fully-constructed reference happens-before any volatile read that sees the non-null value. The constructor completes before the reference write; the reference write happens-before any reader; therefore the constructor's writes are visible to all readers.
+`count++` is still:
 
-Without `volatile`, the HB chain is broken: the write inside `synchronized` is only visible to threads that subsequently enter `synchronized` on the same lock. A thread that sees `instance != null` in the outer `if` never enters `synchronized` and has no HB edge to the construction.
+1. read current value;
+2. add one;
+3. write new value.
+
+`volatile` makes each read/write visible. It does not combine the three steps into one atomic action.
+
+Use this instead:
+
+```java
+private final AtomicInteger count = new AtomicInteger();
+
+void increment() {
+    count.incrementAndGet();
+}
+```
+
+Or use `synchronized` if multiple fields must change together.
+
+---
+
+## `synchronized`: visibility plus atomicity
+
+`synchronized` gives two guarantees:
+
+- only one thread enters the protected block at a time;
+- unlock happens-before the next lock on the same monitor.
+
+```java
+class Counter {
+    private int count;
+
+    synchronized void increment() {
+        count++;
+    }
+
+    synchronized int get() {
+        return count;
+    }
+}
+```
+
+This works because both read and write use the same monitor.
+
+This is incomplete:
+
+```java
+synchronized void increment() {
+    count++;
+}
+
+int get() {
+    return count; // unsafe plain read
+}
+```
+
+The writer synchronized, but the reader did not participate in the same visibility protocol.
 
 ---
 
 ## Safe publication
 
-An object is **safely published** if both its reference and its internal state are visible to other threads at the same time — no thread sees a partially-constructed object.
+Safe publication means another thread sees both:
 
-Unsafe publication: storing a reference in a shared field from inside the constructor, or assigning to a plain field without synchronization.
+- the object reference;
+- the state written during construction.
 
-### Safe publication idioms
-
-| Idiom | Mechanism |
-|---|---|
-| Static initializer | JVM guarantees class initialization is serialized; static fields initialized in a static block are safely published to all threads. |
-| `volatile` field | Volatile write happens-before any subsequent volatile read of the same field; ensures the reference and its visible state reach readers atomically. |
-| `AtomicReference` | Uses volatile semantics internally; `set()` is a volatile write, `get()` is a volatile read. Preferred over a raw volatile field when you need CAS operations alongside safe publication. |
-| `final` fields | JMM special rule: after a constructor completes, any thread that reads the object's reference through a properly published channel is guaranteed to see the final fields' values correctly — **even without synchronization on the reference itself**. Only final fields get this guarantee; non-final fields of the same object do not. |
-| Lock-guarded field | Publish by writing the reference inside a `synchronized` block on a lock that every reader also acquires before reading. The unlock→lock HB chain propagates the write. |
-
-### Why `final` fields are special
-
-The JMM has a special "freeze" rule for final fields: at the end of a constructor, all writes to `final` fields are "frozen" and any thread that obtains the object's reference sees the frozen values. This is why immutable objects (all fields `final`) are inherently thread-safe once published.
+Unsafe shape:
 
 ```java
-class Point {
-    final int x;
-    final int y;
-    Point(int x, int y) { this.x = x; this.y = y; }
+class Holder {
+    static Holder instance;
+    int value;
+
+    Holder() {
+        value = 42;
+        instance = this; // reference escapes during construction
+    }
 }
 ```
 
-Any thread that reads a `Point` reference sees the correct `x` and `y` without synchronization, as long as the reference doesn't escape the constructor before assignment.
+Another thread can see `instance` before construction is safely complete.
+
+The confusing part is that the constructor may really have run in the creating thread, while another thread still does not have a guarantee that it sees the constructor's writes.
+
+Example:
+
+```java
+class Service {
+    static Service instance;
+    int port;
+
+    Service() {
+        port = 8080;
+    }
+
+    static void publish() {
+        instance = new Service();
+    }
+}
+```
+
+Another thread can do this:
+
+```java
+Service service = Service.instance;
+
+if (service != null) {
+    System.out.println(service.port);
+}
+```
+
+Without safe publication, the second thread may see:
+
+```text
+service != null
+service.port == 0
+```
+
+That does not mean the constructor skipped `port = 8080` in the creating thread.
+It means the reference write and the field write were not safely published together to the reading thread.
+
+Object construction has separate effects:
+
+```text
+1. allocate memory with default values
+2. run constructor writes, such as port = 8080
+3. publish the reference
+```
+
+Safe publication gives other threads a rule that if they see the reference, they also see the constructor-written state.
+
+Common safe publication options:
+
+| Option | Why it works |
+|---|---|
+| Static initializer | Class initialization is safely serialized by the JVM. |
+| `volatile` reference | Volatile write/read creates visibility for the published reference and prior writes. |
+| `AtomicReference` | Uses volatile-style visibility and supports CAS. |
+| Lock-guarded field | Writer and reader use the same lock. |
+| Immutable object with `final` fields | Final fields get a special constructor-completion guarantee, if `this` does not escape. |
 
 ---
 
-## Common gotchas
+## Double-checked locking
 
-**"It worked in 1,000 test runs."** That proves only that the race did not manifest under those schedules. Thread safety comes from a happens-before guarantee, not observed output.
+Double-checked locking is a lazy singleton pattern:
 
-**"The write happened first in real time."** Real-time order does not imply visibility. Without a happens-before edge, another thread may legally read an older value.
+> Create the singleton only on the first call, but avoid synchronization after it has already been created.
 
-**"The writer synchronized, so the reader is safe."** Only if the reader also uses the same monitor or another compatible visibility mechanism. A synchronized write and plain read are not a complete protocol.
+Do not start here if lazy initialization is not required.
+Use eager initialization instead:
 
-**"Volatile makes this object thread-safe."** A volatile reference makes reference replacement visible. It does not make mutation inside the referenced object atomic or safe.
+```java
+class Singleton {
+    private static final Singleton INSTANCE = new Singleton();
 
-**"Final fields solve all publication problems."** Final fields get special visibility after construction, but non-final fields in the same object do not. Also, leaking `this` during construction can break the guarantee.
+    private Singleton() {
+    }
+
+    static Singleton getInstance() {
+        return INSTANCE;
+    }
+}
+```
+
+This works because JVM class initialization is thread-safe. The class is initialized once, and all threads safely see the initialized static fields.
+
+The private constructor matters because it blocks outside code from creating more instances:
+
+```java
+// Not allowed if constructor is private
+new Singleton();
+```
+
+Naive lazy singleton is broken:
+
+```java
+class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {
+    }
+
+    static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
+
+Two threads can both see `instance == null` and both create an object.
+
+The simple correct lazy version is synchronized:
+
+```java
+class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {
+    }
+
+    static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
+
+This is correct because only one thread can enter `getInstance()` at a time.
+The cost is that every call synchronizes, even after the singleton already exists.
+
+Double-checked locking tries to avoid that repeated synchronization:
+
+Broken without `volatile`:
+
+```java
+class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {
+    }
+
+    static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+The two checks do different jobs:
+
+```java
+if (instance == null) {         // first check: fast path, avoid lock later
+    synchronized (...) {
+        if (instance == null) { // second check: prevent duplicate creation
+            instance = new Singleton();
+        }
+    }
+}
+```
+
+Why the second check is required:
+
+```text
+Thread A passes first check
+Thread B passes first check
+Thread A enters lock and creates instance
+Thread B enters lock later
+Thread B must check again, otherwise it creates a second instance
+```
+
+So the inner check prevents duplicate creation.
+
+`volatile` solves a different problem: safe publication.
+
+Without `volatile`, the outer `if` reads `instance` without synchronization.
+A thread can observe `instance != null`, skip the lock, and return the reference without a happens-before edge to the constructor writes.
+
+Fixed:
+
+```java
+class Singleton {
+    private static volatile Singleton instance;
+
+    private Singleton() {
+    }
+
+    static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+With `volatile`, this write:
+
+```java
+instance = new Singleton();
+```
+
+is a volatile write to `instance`, and this read:
+
+```java
+if (instance == null)
+```
+
+is a volatile read of `instance`.
+
+If the reader sees the non-null value written by the creator thread, it must also see the writes that happened before that volatile write, including constructor-written state.
+
+Best lazy singleton answer for interviews is often the static holder:
+
+```java
+class Singleton {
+    private Singleton() {
+    }
+
+    private static class Holder {
+        private static final Singleton INSTANCE = new Singleton();
+    }
+
+    static Singleton getInstance() {
+        return Holder.INSTANCE;
+    }
+}
+```
+
+This is lazy because `Holder` is not initialized until `getInstance()` touches `Holder.INSTANCE`.
+It is thread-safe because class initialization is safely serialized by the JVM.
+No manual `volatile` or `synchronized` is needed.
+
+Use this decision tree:
+
+| Need | Use |
+|---|---|
+| Singleton, lazy not needed | `private static final Singleton INSTANCE` |
+| Singleton, lazy needed | Static holder |
+| Asked specifically about JMM/DCL | `volatile` double-checked locking |
+
+Double-checked locking is mostly useful as a JMM interview question. In real code, prefer static final, static holder, enum singleton, or dependency injection.
+
+---
+
+## How to answer JMM questions
+
+Use this order:
+
+1. Name the shared state.
+2. Name the read and write.
+3. Ask what creates the happens-before edge.
+4. If there is no edge, call it a data race.
+5. Pick the smallest fix: `volatile`, `AtomicInteger`, or `synchronized`.
+
+Examples:
+
+| Problem | Smallest fix |
+|---|---|
+| Stop flag | `volatile boolean` |
+| Counter increment | `AtomicInteger` or `synchronized` |
+| Multiple fields updated together | `synchronized` or a lock |
+| Publish immutable config | final fields plus safe publication |
+| Lazy singleton | static holder, enum, or `volatile` DCL |
+
+---
+
+## Common traps
+
+**"It worked in my test."**
+That proves only that the bad schedule did not happen.
+
+**"The write happened first."**
+Wall-clock order is not enough. You need happens-before.
+
+**"I used `volatile`, so the object is thread-safe."**
+`volatile` makes the reference visible. It does not make mutations inside the object atomic.
+
+**"The writer synchronized."**
+The reader must use the same lock, or another valid visibility mechanism.
+
+**"`final` solves everything."**
+`final` helps constructor visibility for final fields. It does not protect later mutation.
 
 ---
 
 ## Quick recall
 
-**Q. What does the JMM actually define?**
-A. When a write by one thread becomes visible to a read by another, and what orderings are guaranteed — abstracted over all CPU memory models.
+**Q. What does the JMM define?**
+A. The visibility and ordering guarantees between threads.
 
-**Q. What does happens-before actually guarantee?**
-A. That all writes made before action A are visible to any thread that observes the effects of A or anything after it in the HB chain. It is about visibility and ordering, not wall-clock time.
+**Q. What is happens-before?**
+A. A rule that makes earlier writes visible to a later action.
 
-**Q. Name the 5 key happens-before rules.**
-A. Monitor unlock → next lock; volatile write → subsequent volatile read; `start()` → actions in started thread; thread actions → `join()` return; transitivity.
+**Q. Does real-time order imply happens-before?**
+A. No. A write can happen earlier in time and still not be visible.
 
-**Q. Why does DCL need `volatile` in Java 5+?**
-A. Without `volatile`, the JVM can reorder writing the reference before the constructor completes. Another thread sees a non-null reference to a partially-constructed object. `volatile` creates a HB edge ensuring the constructor finishes before the reference write, which happens-before any reader.
+**Q. What does `volatile` give?**
+A. Visibility and ordering for reads/writes of that field, not atomic compound updates.
 
-**Q. Does `volatile` make `counter++` thread-safe?**
-A. No. `volatile` guarantees visibility of each individual read/write, but `counter++` is a read-modify-write compound operation. Use `AtomicInteger` or `synchronized`.
+**Q. Why is `count++` unsafe with `volatile int`?**
+A. It is read, add, write; another thread can interleave between those steps.
 
-**Q. What makes `final` fields special for thread safety?**
-A. The JMM freeze rule: at constructor end, final field values are frozen and visible to any thread that obtains the object's reference, with no additional synchronization required. Non-final fields in the same object do not get this guarantee.
+**Q. What does `synchronized` give?**
+A. Mutual exclusion plus unlock-to-lock visibility on the same monitor.
 
 **Q. What is safe publication?**
-A. Publishing an object so that both its reference and its state are visible to other threads simultaneously — no thread sees a partially-constructed state. Achieved via static initializer, volatile field, AtomicReference, final fields (freeze rule), or lock-guarded fields.
+A. Publishing an object so other threads see both the reference and the constructed state.
+
+**Q. In double-checked locking, what prevents duplicate creation?**
+A. The second `instance == null` check inside the synchronized block.
+
+**Q. In double-checked locking, why is `volatile` required?**
+A. To safely publish the constructed object to threads that read `instance` outside the lock.
+
+**Q. What singleton should you use when lazy initialization is not needed?**
+A. `private static final Singleton INSTANCE = new Singleton();`.
+
+**Q. What singleton is usually better than manual double-checked locking for lazy initialization?**
+A. The static holder idiom.
