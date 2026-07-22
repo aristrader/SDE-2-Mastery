@@ -7,84 +7,113 @@ search: false
 
 ## Solution: visibility-flag - Visibility Flag
 
-The unsafe version usually looks like this:
+Copy-paste runnable version:
 
 ```java
-final class Worker implements Runnable {
-    private boolean running = true;
+import java.util.concurrent.atomic.AtomicInteger;
 
-    void stop() {
-        running = false;
+public class JmmVisibilityFlagSolution {
+    public static void main(String[] args) throws InterruptedException {
+        VolatileWorker worker = new VolatileWorker();
+
+        Thread thread = new Thread(worker, "worker");
+        thread.start();
+
+        Thread.sleep(100);
+        worker.stop();
+        thread.join();
+
+        System.out.println("worker stopped");
+        atomicCounterDemo();
     }
 
-    @Override
-    public void run() {
-        while (running) {
-            doWork();
+    static final class VolatileWorker implements Runnable {
+        private volatile boolean running = true;
+
+        void stop() {
+            running = false;
+        }
+
+        @Override
+        public void run() {
+            while (running) {
+                // repeated work
+            }
         }
     }
 
-    private void doWork() {
-        // some repeated work
+    static void atomicCounterDemo() throws InterruptedException {
+        AtomicInteger count = new AtomicInteger();
+
+        Runnable increment = () -> {
+            for (int i = 0; i < 100_000; i++) {
+                count.incrementAndGet();
+            }
+        };
+
+        Thread first = new Thread(increment);
+        Thread second = new Thread(increment);
+
+        first.start();
+        second.start();
+        first.join();
+        second.join();
+
+        System.out.println(count.get()); // always 200000
     }
+
+    // Unsafe shape for the first part of the exercise:
+    // static final class PlainWorker implements Runnable {
+    //     private boolean running = true; // unsafe cross-thread stop flag
+    //
+    //     void stop() {
+    //         running = false;
+    //     }
+    //
+    //     @Override
+    //     public void run() {
+    //         while (running) {
+    //             // may keep seeing stale true
+    //         }
+    //     }
+    // }
+
+    // Unsafe shape for the counter check:
+    // static final class VolatileCounter {
+    //     private volatile int count;
+    //
+    //     void increment() {
+    //         count++; // unsafe: read, add, write
+    //     }
+    // }
 }
 ```
 
-The bug is not that `stop()` fails to assign `false`. The bug is that the Java Memory Model does not give the worker thread a visibility guarantee for that write. One thread writes `running = false`; another thread reads `running`. Without a happens-before relationship between those actions, the reader is allowed to keep seeing an old value.
+Answer:
 
-A correct flag version uses `volatile`:
-
-```java
-class Worker {
-    private volatile boolean running = true;
-
-    void stop() {
-        running = false;
-    }
-
-    void run() {
-        while (running) {
-            // work
-        }
-    }
-}
-```
-
-`volatile` gives two guarantees that matter here:
-
-- Visibility: when one thread writes `running = false`, another thread that later reads `running` must see that write or a newer write.
-- Ordering around the volatile access: normal writes before a volatile write cannot be freely moved after it, and normal reads after a volatile read cannot be freely moved before it in a way that breaks the volatile visibility protocol.
-
-So this is a good use of `volatile`: the shared state is a single flag, the writer only assigns a new value, and the reader only checks the latest value.
-
-It is still not a general replacement for locking. This is still broken:
-
-```java
-final class Counter {
-    private volatile int count;
-
-    void increment() {
-        count++;
-    }
-
-    int value() {
-        return count;
-    }
-}
-```
-
-`count++` is not one operation. It is:
+- Plain `boolean running` is unsafe because the thread calling `stop()` writes one value, but the worker thread has no visibility guarantee that it will see that write.
+- `volatile boolean running` fixes this flag because every read of `running` sees the latest volatile write or a newer one.
+- `volatile` is enough here because the operation is just "read the latest flag value."
+- `volatile` is not enough for `count++` because increment is three steps:
 
 ```text
-read current count
+read count
 add one
-write new count
+write count
 ```
 
-`volatile` makes each read/write visible, but it does not make the read-add-write sequence atomic. Two threads can read `10`, both compute `11`, and both write `11`. One increment is lost.
+Two threads can both read the same old value and overwrite each other. For a counter, use `AtomicInteger.incrementAndGet()` or guard the increment and read with the same `synchronized` lock.
 
-Use this rule in interviews:
+To run locally:
 
-- `volatile` is good for a latest-value signal such as `running`, `shutdownRequested`, or an immutable config reference.
-- `volatile` is not enough when correctness depends on a compound action such as check-then-act, increment, or updating multiple fields together.
-- For compound actions, use `synchronized`, `Lock`, or an atomic class whose operation matches the whole invariant.
+```bash
+javac JmmVisibilityFlagSolution.java
+java JmmVisibilityFlagSolution
+```
+
+Expected output shape:
+
+```text
+worker stopped
+200000
+```
