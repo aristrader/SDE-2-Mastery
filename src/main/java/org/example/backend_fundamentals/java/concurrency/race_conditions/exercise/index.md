@@ -54,6 +54,40 @@ Avoid trusting lucky schedules.
 ### Task
 You run an unsafe counter 100 times and it prints the expected value every time. Explain why that does not prove the code is thread-safe.
 
+Not safe:
+
+```java
+class UnsafeCounter {
+    private int count;
+
+    void increment() {
+        count++;
+    }
+
+    int get() {
+        return count;
+    }
+}
+```
+
+Safe:
+
+```java
+class SafeCounter {
+    private final AtomicInteger count = new AtomicInteger();
+
+    void increment() {
+        count.incrementAndGet();
+    }
+
+    int get() {
+        return count.get();
+    }
+}
+```
+
 ### Checks
 - Mention scheduling.
 - Mention guarantees vs observations.
+- Explain why `count++` can lose updates.
+- Explain what guarantee `AtomicInteger` adds.
