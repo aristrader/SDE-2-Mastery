@@ -136,6 +136,39 @@ The key mechanics:
 
 `notify()` / `notifyAll()` wake waiting threads, but the woken thread still has to compete for the monitor before it can continue. Always re-check the condition in a `while` loop after wake-up; the dedicated `wait, notify, notifyAll` page covers the full pattern.
 
+Small lifecycle example:
+
+```java
+Object lock = new Object();
+boolean[] ready = {false};
+
+Thread waiter = new Thread(() -> {
+    synchronized (lock) {
+        while (!ready[0]) {
+            try {
+                lock.wait(); // WAITING; releases lock while suspended
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+        System.out.println("condition is ready");
+    }
+}, "waiter");
+
+waiter.start();
+Thread.sleep(100); // demo only: give waiter time to reach WAITING
+System.out.println(waiter.getState()); // usually WAITING
+
+synchronized (lock) {
+    ready[0] = true;
+    lock.notifyAll(); // waiter wakes, then re-acquires lock before continuing
+}
+
+waiter.join();
+System.out.println(waiter.getState()); // TERMINATED
+```
+
 ## `sleep()` and `TIMED_WAITING`
 
 `Thread.sleep(ms)` pauses the current thread for at least roughly that duration. It moves the current thread to `TIMED_WAITING`.

@@ -8,7 +8,60 @@ order: 80
 
 Use them only when the coordination is naturally tied to one monitor-protected condition. In backend application code, a higher-level utility is usually clearer and safer.
 
+Interviewers still ask this topic because it proves you understand what a monitor is, why `wait()` releases a lock, why `sleep()` does not, and why condition checks must be written carefully. The expected answer is usually conceptual; production code should normally use higher-level concurrency utilities.
+
 ## Mental model
+
+Think of a monitor as a room with one key. Only the thread with the key can be inside the room.
+
+```java
+synchronized (lock) {
+    // only one thread can be here for this lock
+}
+```
+
+If a thread enters the room and the thing it needs is not ready, it must not keep standing inside the room forever. If it keeps the key, no other thread can enter and make progress.
+
+That is what `wait()` solves:
+
+```java
+synchronized (lock) {
+    while (!foodReady) {
+        lock.wait();
+    }
+
+    eatFood();
+}
+```
+
+Layman version:
+
+```text
+foodReady is false
+I cannot continue
+I will leave the room
+I will return the key
+I will sleep until someone says something changed
+```
+
+That last part matters: `wait()` does not just sleep. It sleeps **and releases the monitor**.
+
+Another thread can then enter the same room and change the condition:
+
+```java
+synchronized (lock) {
+    foodReady = true;
+    lock.notifyAll();
+}
+```
+
+Layman version:
+
+```text
+I changed the shared state
+Everyone waiting for this lock should wake up
+They should come back and check their condition again
+```
 
 A monitor has two jobs:
 
@@ -17,12 +70,29 @@ A monitor has two jobs:
 
 The condition is the real business state, such as "buffer is not empty" or "queue is not full". A notification is only a signal that the condition may have changed.
 
+Full flow:
+
 ```text
-Thread A owns monitor -> condition false -> wait()
-wait() releases monitor and suspends Thread A
-Thread B enters monitor -> changes condition -> notifyAll()
-Thread A wakes -> competes to reacquire monitor -> rechecks condition
+Thread A enters synchronized(lock)
+Thread A checks foodReady
+foodReady is false
+Thread A calls wait()
+Thread A releases lock and enters WAITING
+
+Thread B enters synchronized(lock)
+Thread B sets foodReady = true
+Thread B calls notifyAll()
+Thread B exits synchronized(lock)
+
+Thread A wakes up
+Thread A tries to reacquire lock
+Thread A reacquires lock
+wait() returns
+Thread A checks foodReady again
+Thread A continues
 ```
+
+The wake-up is not permission to continue blindly. It is only a hint to reacquire the monitor and check the condition again.
 
 ## The contract
 
@@ -43,6 +113,13 @@ Calling them without owning the monitor throws `IllegalMonitorStateException`.
 3. When woken, reacquires the same monitor before returning.
 
 That release is the key difference from `Thread.sleep()`. `sleep()` pauses while keeping any lock the thread already holds. `wait()` temporarily gives up the monitor so another thread can enter and change the condition.
+
+Short version:
+
+```text
+sleep() = pause, but keep the key
+wait()  = pause, and give up the key
+```
 
 ## Always wait in a `while`
 
@@ -81,6 +158,8 @@ synchronized (lock) {
 ```
 
 Notification means "wake up and check again", not "your condition is definitely true".
+
+In the food example, waking up does not prove the food is still available. Another thread may have entered first and consumed it. That is why the waiting thread checks the condition again after reacquiring the lock.
 
 ## Producer-consumer example
 
@@ -125,6 +204,34 @@ Why it works:
 - `wait()` releases the monitor, so the other method can enter and change the condition.
 - `notifyAll()` wakes waiters after the condition changes.
 - The `while` loops re-check the condition after wake-up.
+
+Step-by-step:
+
+```text
+Consumer calls take()
+Slot is empty
+Consumer calls wait()
+Consumer releases this monitor
+
+Producer calls put(10)
+Slot becomes full
+Producer calls notifyAll()
+Producer exits put()
+
+Consumer wakes
+Consumer reacquires this monitor
+Consumer sees slot is full
+Consumer takes 10
+Consumer sets slot empty again
+Consumer calls notifyAll()
+```
+
+This is the same room/key idea:
+
+- empty slot means consumers wait
+- full slot means producers wait
+- changing the slot wakes the other side
+- waking only means "check again"
 
 ## `notify()` vs `notifyAll()`
 
@@ -202,6 +309,22 @@ Task next = queue.take(); // waits while empty
 ```
 
 For "wait until N workers finish", prefer `CountDownLatch`. For "limit concurrent access", prefer `Semaphore`. For "run tasks", prefer `ExecutorService`.
+
+## Interview version
+
+This is commonly asked in Java interviews, especially around thread lifecycle, `synchronized`, and producer-consumer.
+
+Strong short answer:
+
+> `wait()` makes the current thread release the object's monitor and enter `WAITING` until another thread calls `notify()` or `notifyAll()` on the same object. It must be called while holding that monitor. After waking, the thread must reacquire the monitor before `wait()` returns, so the condition must be checked in a `while` loop. `notify()` wakes one arbitrary waiter; `notifyAll()` wakes all waiters. In normal application code, prefer higher-level utilities like `BlockingQueue`.
+
+Common follow-up questions:
+
+- `wait()` vs `sleep()`: `wait()` releases the monitor; `sleep()` keeps locks already held.
+- Why inside `synchronized`: the thread must own the same monitor it waits on or notifies.
+- Why `while`, not `if`: wake-up is only a hint; the condition may still be false.
+- Why `notifyAll()` is safer: `notify()` may wake the wrong waiter when multiple conditions share one monitor.
+- What state: plain `wait()` puts the thread in `WAITING`; timed `wait(ms)` puts it in `TIMED_WAITING`.
 
 ## Quick recall
 
