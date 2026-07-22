@@ -4,160 +4,242 @@ order: 40
 
 # volatile
 
----
+`volatile` is a visibility and ordering tool for one shared variable. It is not a lock.
 
-## What volatile guarantees
+Use it when one thread writes a simple state signal and other threads need to see that latest signal without entering a synchronized block.
 
-### 1. Visibility
+Good mental model:
 
-A write to a `volatile` variable **happens-before** every subsequent read of that same variable (JMM guarantee). Any value written by one thread is immediately visible to threads that read it afterward — no caching in CPU registers or thread-local store.
+```text
+volatile = "make this single variable visible across threads"
+synchronized = "make this critical section exclusive and visible"
+AtomicInteger = "make this one value support atomic updates"
+```
 
-Without `volatile`, the JVM and CPU are free to keep the variable in a register or cache line, and other threads may never see the updated value.
+## The problem `volatile` solves
 
-### 2. Ordering (memory barrier)
-
-`volatile` acts as a **memory barrier**: the compiler and CPU cannot reorder accesses across a volatile read or write. All writes that happened before a volatile write are visible to any thread that performs a volatile read of the same variable.
-
-This is the property that makes double-checked locking correct when the instance field is `volatile`.
-
----
-
-## What volatile does NOT guarantee
-
-### No atomicity for compound operations
-
-`volatile int counter; counter++` is three operations — read, increment, write. Another thread can interleave between any two. The race is real even though `counter` is `volatile`.
+Without synchronization, one thread's write does not have to become visible to another thread promptly, or ever in a way your source code suggests.
 
 ```java
-// NOT thread-safe even with volatile
-private volatile int counter = 0;
+class Worker {
+    private boolean running = true;
 
-public void increment() {
-    counter++; // read → increment → write: not atomic
+    void stop() {
+        running = false;
+    }
+
+    void runLoop() {
+        while (running) {
+            doWork();
+        }
+    }
 }
 ```
 
-Use `AtomicInteger` or `synchronized` for read-modify-write.
+One thread calls `stop()`. Another thread runs `runLoop()`. Without `volatile`, the loop is allowed to keep reading a cached or optimized copy of `running == true`.
 
-### No mutual exclusion
+Fix:
 
-Two threads can execute inside the same method simultaneously. `volatile` only guarantees each thread sees the latest written value; it does not prevent concurrent execution.
+```java
+private volatile boolean running = true;
+```
 
----
+Now a write to `running` by one thread happens-before a later read of `running` by another thread.
 
-## When volatile is the right choice
+## What `volatile` guarantees
 
-**Status flags (single writer, many readers):**
+### Visibility
+
+A write to a `volatile` variable is visible to later reads of that same variable by other threads.
 
 ```java
 private volatile boolean running = true;
 
+public void stop() {
+    running = false; // visible to the loop
+}
+
 public void run() {
     while (running) {
-        // worker loop
+        doWork();
     }
 }
-
-public void stop() {
-    running = false; // write immediately visible to the loop
-}
 ```
 
-Without `volatile`, the JVM may hoist `running` into a register and the loop never terminates even after `stop()` is called.
+The reader does not need to acquire a lock to see the updated flag.
 
-**Safe publication of immutable objects:**
+### Ordering
+
+`volatile` also creates a memory-ordering boundary. Writes before a volatile write cannot be reordered after it in a way that breaks the volatile happens-before rule.
 
 ```java
-private volatile Config config;
+private int value;
+private volatile boolean ready;
 
-public void reload(Config newConfig) {
-    config = newConfig; // volatile write — full object visible to readers
+// Thread A
+value = 42;
+ready = true;
+
+// Thread B
+if (ready) {
+    System.out.println(value); // guaranteed to see 42
 }
 ```
 
-**Double-checked locking (Java 5+):**
+The volatile write to `ready` publishes the earlier write to `value`. The volatile read of `ready` receives that publication.
+
+## What `volatile` does not guarantee
+
+### No atomicity for compound operations
+
+`counter++` is not one operation. It is read, increment, write.
+
+```java
+private volatile int counter;
+
+void increment() {
+    counter++; // still broken
+}
+```
+
+Two threads can both read `10`, both compute `11`, and both write `11`. The latest value is visible, but one increment was lost.
+
+Fix:
+
+```java
+private final AtomicInteger counter = new AtomicInteger();
+
+void increment() {
+    counter.incrementAndGet();
+}
+```
+
+Or use `synchronized` if the update belongs to a larger invariant.
+
+### No mutual exclusion
+
+`volatile` does not stop two threads from entering the same method at the same time.
+
+```java
+private volatile boolean initialized;
+
+void initIfNeeded() {
+    if (!initialized) {
+        initialize();
+        initialized = true;
+    }
+}
+```
+
+Two threads can both see `initialized == false` and both call `initialize()`. The flag is visible, but the check-then-act sequence is not atomic.
+
+## Good uses
+
+### Stop flag
+
+```java
+class Poller {
+    private volatile boolean running = true;
+
+    void run() {
+        while (running) {
+            pollOnce();
+        }
+    }
+
+    void stop() {
+        running = false;
+    }
+}
+```
+
+This fits because there is one variable, one plain write, and many plain reads.
+
+### Safe publication of immutable config
+
+```java
+private volatile Config config = loadInitialConfig();
+
+Config currentConfig() {
+    return config;
+}
+
+void reload() {
+    config = loadNewConfig();
+}
+```
+
+This works best when `Config` is immutable. The volatile reference replacement is visible to readers. It does not make a mutable `Config` object internally safe.
+
+### Double-checked locking
 
 ```java
 private volatile Singleton instance;
 
-public Singleton getInstance() {
-    if (instance == null) {
+Singleton getInstance() {
+    Singleton local = instance;
+    if (local == null) {
         synchronized (this) {
-            if (instance == null) {
-                instance = new Singleton(); // volatile write prevents partial init escape
+            local = instance;
+            if (local == null) {
+                local = new Singleton();
+                instance = local;
             }
         }
     }
-    return instance;
+    return local;
 }
 ```
 
-Without `volatile` on `instance`, the partially-constructed object can be published before the constructor finishes (instruction reordering).
+`volatile` is required because object construction is not just "assign reference". The JVM may allocate memory, assign the reference, and initialize fields as separate steps. Volatile prevents a thread from seeing a non-null reference to a partially initialized object.
 
----
+In real code, prefer simpler initialization patterns when possible: enum singleton, static holder, dependency injection, or eager initialization.
 
-## When volatile is NOT enough
+## Not enough cases
 
-Any **check-then-act** or **read-modify-write** operation is unsafe with `volatile` alone:
-
-| Operation | Problem | Fix |
+| Code shape | Why `volatile` is not enough | Better tool |
 |---|---|---|
-| `counter++` | Three separate ops — race | `AtomicInteger` or `synchronized` |
-| `if (map == null) map = new HashMap<>()` | Two threads both see null | `synchronized` or `AtomicReference` |
-| Swapping two fields | Non-atomic pair | `synchronized` |
+| `counter++` | Read-modify-write is not atomic | `AtomicInteger`, `LongAdder`, or `synchronized` |
+| `if (!started) start()` | Check-then-act race | `synchronized` or `AtomicBoolean.compareAndSet` |
+| Update two fields together | Invariant spans multiple values | `synchronized` or lock |
+| Mutate object stored in volatile reference | Reference is visible, object internals still race | Immutability or synchronization |
+| `map.get()` then `map.put()` | Two separate collection calls | Concurrent map atomic method |
 
-## Interview answer shape
+## `volatile long` and `double`
 
-If asked whether `volatile` fixes a bug, classify the shared state first:
+The Java Language Specification guarantees atomic reads/writes for most primitive variables, but non-volatile `long` and `double` have special historical rules on 32-bit JVMs: a 64-bit value could be read or written as two 32-bit halves.
 
-1. Is it one variable or a compound invariant across fields?
-2. Is the operation a plain read/write or read-modify-write?
-3. Is there one writer or multiple writers?
-4. Does the code need mutual exclusion?
+Declaring a `long` or `double` volatile guarantees atomic single reads/writes and visibility. It still does not make `volatileLong++` atomic.
 
-`volatile` is enough for a stop flag or publishing a fully built immutable config reference. It is not enough for counters, lazy initialization without correct double-checking, map updates, or any invariant that spans multiple values.
+## `volatile` vs `synchronized`
 
----
-
-## volatile long and double
-
-On 32-bit JVMs, writes to `long` and `double` (64-bit types) are **not guaranteed atomic** — the JVM may write the two 32-bit halves in separate operations. A reading thread could see a half-written value (**word tearing**).
-
-Declaring the field `volatile` makes the write atomic on all JVMs, including 32-bit. On 64-bit JVMs `long`/`double` writes are already atomic in practice, but `volatile` is still needed for visibility and ordering.
-
----
-
-## volatile vs synchronized — comparison
-
-| | volatile | synchronized |
+| Question | `volatile` | `synchronized` |
 |---|---|---|
-| Mutual exclusion | No | Yes |
-| Visibility | Yes | Yes |
-| Ordering | Yes (memory barrier) | Yes (happens-before on lock/unlock) |
-| Blocking | No | Yes |
-| Compound-op safety | No | Yes |
-| Cost | Very low | Higher (contention possible) |
+| Makes writes visible? | Yes | Yes |
+| Prevents reordering around the signal? | Yes | Yes, through lock/unlock |
+| Allows only one thread inside a block? | No | Yes |
+| Makes compound operations atomic? | No | Yes, if the whole operation is inside the block |
+| Can block other threads? | No | Yes |
 
-Pick `volatile` when you have a **single shared variable** with one writer and the operation is a plain read or write. Pick `synchronized` (or `Atomic*`) for anything more complex.
-
----
+Interview answer shape: `volatile` is enough for a single variable plain read/write signal. It is not enough for read-modify-write, check-then-act, or invariants across multiple values.
 
 ## Quick recall
 
-**Q. What two things does volatile guarantee?**
-A. Visibility (write is immediately visible to subsequent reads) and ordering (no reordering across the volatile access — acts as a memory barrier).
+**Q. What two things does `volatile` guarantee?**
+A. Visibility and ordering for accesses to that volatile variable.
 
-**Q. Why is `volatile int counter; counter++` still a race?**
-A. `counter++` is three operations (read, increment, write). Volatile only prevents stale reads; it does not make compound operations atomic.
+**Q. Why is `volatile int counter; counter++` still broken?**
+A. `counter++` is read, increment, write. Volatile makes each access visible but does not bundle the three steps atomically.
 
-**Q. Name a case where volatile is the correct and sufficient tool.**
-A. A boolean stop-flag: one thread writes `running = false`, many threads read it in a loop. Single write, plain read — volatile is enough.
+**Q. What is the best simple use case for `volatile`?**
+A. A stop flag: one thread writes `false`, worker threads read it in a loop.
 
-**Q. Why does double-checked locking require volatile?**
-A. Without volatile, the JVM can reorder the constructor call and the reference assignment, publishing a partially-initialized object to other threads.
+**Q. Does `volatile` provide mutual exclusion?**
+A. No. Multiple threads can still execute the same code at the same time.
 
-**Q. What is word tearing and when does volatile prevent it?**
-A. On 32-bit JVMs, a `long`/`double` write can split into two 32-bit ops; a reader may see a half-written value. `volatile` makes 64-bit writes atomic.
+**Q. Why does double-checked locking require `volatile`?**
+A. To prevent publishing a reference before the object is fully constructed and to make the constructed state visible to readers.
 
-**Q. Can two threads execute simultaneously with only a volatile field between them?**
-A. Yes — volatile provides no mutual exclusion. Both run concurrently; they just see each other's latest writes.
+**Q. Does a volatile reference make the referenced object thread-safe?**
+A. No. It makes reference replacement visible; internal mutable state still needs its own safety.
+

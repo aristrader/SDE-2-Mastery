@@ -4,29 +4,60 @@ order: 70
 
 # Concurrent Collections
 
-Use concurrent collections when the collection itself is shared across threads. They protect collection-level operations; they do not automatically make the objects stored inside them thread-safe.
+Use concurrent collections when the collection object itself is shared across threads. They protect collection-level operations and internal structure. They do not automatically make your whole workflow, your stored values, or multi-step logic thread-safe.
 
-## ConcurrentHashMap
+Main rule:
 
-`HashMap` is not safe for concurrent mutation. `Collections.synchronizedMap(new HashMap<>())` is correct but uses one map-level lock, so readers and writers contend heavily.
-
-`ConcurrentHashMap` supports safe concurrent access with better scalability and atomic helper methods.
-
-```java
-ConcurrentHashMap<String, User> cache = new ConcurrentHashMap<>();
+```text
+One concurrent collection method call can be thread-safe.
+Several separate method calls are usually not one atomic operation.
 ```
 
-It rejects `null` keys and values. In concurrent code, `map.get(key) == null` must unambiguously mean "no mapping exists."
+## Why normal collections are unsafe
 
-## Atomic Map Operations
+`HashMap`, `ArrayList`, and `HashSet` are not safe for concurrent mutation.
 
-This is still a race:
+Typical failures:
+
+- lost updates
+- stale reads
+- `ConcurrentModificationException`
+- corrupted internal structure
+- logic bugs from check-then-act races
+
+This is unsafe:
+
+```java
+Map<String, Integer> counts = new HashMap<>();
+
+counts.put(endpoint, counts.getOrDefault(endpoint, 0) + 1);
+```
+
+Two threads can read the same old count and both write the same new count.
+
+## `ConcurrentHashMap`
+
+`ConcurrentHashMap` supports safe concurrent access with better scalability than one big synchronized map.
+
+```java
+ConcurrentHashMap<String, Integer> counts = new ConcurrentHashMap<>();
+```
+
+It rejects `null` keys and values. In concurrent code, `map.get(key) == null` must clearly mean "no mapping exists". If null values were allowed, a thread could not distinguish "key missing" from "key present with null value".
+
+`ConcurrentHashMap` operations are safe individually. The map will not corrupt itself under concurrent reads and writes.
+
+## Atomic map operations
+
+This is still a race, even with `ConcurrentHashMap`:
 
 ```java
 if (!map.containsKey(key)) {
     map.put(key, value);
 }
 ```
+
+Another thread can insert the key between `containsKey()` and `put()`.
 
 Use one atomic map operation:
 
@@ -38,38 +69,107 @@ map.replace(key, oldValue, newValue);
 map.remove(key, expectedValue);
 ```
 
-Use `putIfAbsent()` when the value is already built. Use `computeIfAbsent()` when the value should be created lazily.
+Pick by intent:
 
-Keep mapping functions short and side-effect-light. A slow `computeIfAbsent()` loader can create contention and may be retried after removal or failure.
+| Need | Method |
+|---|---|
+| Insert already-built value only if missing | `putIfAbsent` |
+| Build value lazily only if missing | `computeIfAbsent` |
+| Add/update a counter or aggregate | `merge` |
+| Replace only if current value still matches | `replace(key, old, next)` |
+| Remove only if current value still matches | `remove(key, expected)` |
 
-## Mutable Values Trap
+Counter example:
+
+```java
+ConcurrentHashMap<String, Integer> counts = new ConcurrentHashMap<>();
+
+counts.merge(endpoint, 1, Integer::sum);
+```
+
+That is one atomic map update. Do not split it into `get()` and `put()`.
+
+## `computeIfAbsent` caveats
+
+`computeIfAbsent()` is useful for cache-style code:
+
+```java
+User user = cache.computeIfAbsent(userId, this::loadUser);
+```
+
+Keep the mapping function short and side-effect-light.
+
+Reasons:
+
+- Other updates for the same key may block while the computation runs.
+- If the function throws, no mapping is recorded.
+- In complex races involving removal or retries, loader-style functions should be safe to run again.
+- Calling back into the same map from the mapping function can create hard-to-reason-about behavior.
+
+For expensive IO loading, consider whether a `ConcurrentHashMap<Key, CompletableFuture<Value>>` or a real cache library is the better model.
+
+## Mutable values trap
 
 This is not fixed by the map being concurrent:
 
 ```java
 ConcurrentHashMap<String, List<Item>> map = new ConcurrentHashMap<>();
-map.get(key).add(item); // ArrayList mutation can still race
+
+map.computeIfAbsent(userId, id -> new ArrayList<>()).add(item);
 ```
 
-The map protects map structure and map methods. The `ArrayList` remains a mutable, non-thread-safe value.
+The map operation is safe. The `ArrayList` stored inside the map is still mutable and not thread-safe. Two threads can call `add()` on the same list at the same time and corrupt or lose data.
 
-Fix by storing immutable values, thread-safe values, or using one atomic map update that replaces the value.
+Fix options:
 
-## CopyOnWriteArrayList
+```java
+// Immutable replacement: each update creates a new list value.
+map.compute(userId, (id, oldList) -> {
+    List<Item> next = oldList == null ? new ArrayList<>() : new ArrayList<>(oldList);
+    next.add(item);
+    return List.copyOf(next);
+});
+```
 
-`CopyOnWriteArrayList` fits listener-style workloads:
+Or store a thread-safe value when it fits:
 
-- many reads and iterations
-- rare writes
-- readers need stable iteration without external locking
+```java
+ConcurrentHashMap<String, Queue<Item>> map = new ConcurrentHashMap<>();
+map.computeIfAbsent(userId, id -> new ConcurrentLinkedQueue<>()).add(item);
+```
 
-Every write copies the underlying array, so it is poor for write-heavy lists.
+Choose based on read/write pattern and invariants.
 
-## Iteration And Size
+## `CopyOnWriteArrayList`
 
-Concurrent collection iterators are often weakly consistent, not frozen snapshots. They avoid corruption, but they may not reflect every latest update.
+`CopyOnWriteArrayList` is for read-heavy, write-rare lists.
 
-`size()` is not an atomic admission gate:
+Good fit:
+
+- listener registries
+- callback lists
+- feature observers
+- small config lists read often and changed rarely
+
+Every write copies the entire backing array. That makes iteration simple and stable for readers, but writes are expensive.
+
+```java
+CopyOnWriteArrayList<Listener> listeners = new CopyOnWriteArrayList<>();
+
+for (Listener listener : listeners) {
+    listener.onEvent(event);
+}
+```
+
+Do not use it for large lists with frequent writes.
+
+## Iteration and `size()`
+
+Concurrent collection iterators are usually weakly consistent. They do not throw `ConcurrentModificationException`, but they may reflect some updates and miss others while iteration is in progress.
+
+That is usually fine for monitoring, cleanup scans, and best-effort reporting. It is not a consistent snapshot.
+
+`size()` is also not an admission-control primitive:
 
 ```java
 if (map.size() < limit) {
@@ -77,24 +177,48 @@ if (map.size() < limit) {
 }
 ```
 
-Another thread can change the map between the check and the put.
+Another thread can change the map between the size check and the put. Use a `Semaphore`, bounded queue, or explicit lock if you need a hard limit.
+
+## Synchronized wrappers
+
+`Collections.synchronizedMap(new HashMap<>())` is correct for basic synchronized access, but it serializes operations through one map-level lock.
+
+```java
+Map<String, Integer> map = Collections.synchronizedMap(new HashMap<>());
+```
+
+It can be acceptable for small, low-contention maps. Under heavy concurrency, `ConcurrentHashMap` usually scales better.
+
+Important: synchronized wrappers still require external synchronization during iteration:
+
+```java
+synchronized (map) {
+    for (String key : map.keySet()) {
+        use(key);
+    }
+}
+```
 
 ## Quick recall
 
 **Q. Why is a shared mutable `HashMap` unsafe?**
 A. Concurrent writers can lose updates or corrupt internal structure.
 
-**Q. Why does `synchronizedMap` scale worse than `ConcurrentHashMap`?**
-A. It serializes operations through one map-level lock.
+**Q. What does `ConcurrentHashMap` make safe?**
+A. Individual map operations and the map's internal structure. It does not make multi-call workflows or mutable stored values safe.
 
 **Q. Why does `ConcurrentHashMap` reject null values?**
-A. So `get(key) == null` means no mapping exists, with no ambiguity.
+A. So `get(key) == null` unambiguously means no mapping exists.
 
-**Q. `containsKey()` then `put()` on `ConcurrentHashMap` — atomic?**
+**Q. Is `containsKey()` then `put()` atomic on `ConcurrentHashMap`?**
 A. No. Use `putIfAbsent()` or `computeIfAbsent()`.
 
+**Q. How should you update a per-key counter?**
+A. Use `merge(key, 1, Integer::sum)` or store an appropriate atomic counter.
+
 **Q. Does `ConcurrentHashMap<String, ArrayList<T>>` make list mutation safe?**
-A. No. The values need their own thread-safety or immutability.
+A. No. The `ArrayList` remains unsafe; use immutable replacement or a thread-safe value.
 
 **Q. When does `CopyOnWriteArrayList` fit?**
-A. Read-heavy, write-rare listener or callback registries.
+A. Read-heavy, write-rare listener or callback lists.
+

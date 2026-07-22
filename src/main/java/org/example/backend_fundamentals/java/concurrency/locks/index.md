@@ -4,195 +4,313 @@ order: 90
 
 # Locks
 
----
+Start with `synchronized`. Reach for explicit lock classes only when you need a capability `synchronized` does not provide.
 
-## synchronized recap — what ReentrantLock is solving
+`java.util.concurrent.locks` gives you lock objects with methods: acquire, release, try, time out, interrupt, and create separate condition queues.
 
-`synchronized` is the JVM's built-in lock: mutual exclusion, automatic release on exception, JIT-friendly. It works well for most cases. But it has hard limits:
+## `synchronized` vs explicit locks
 
-- Can't attempt a lock without blocking forever
-- Can't be interrupted while waiting
-- Single implicit condition variable per object (`wait`/`notify`)
-- Always unfair (no FIFO ordering)
+`synchronized`:
 
-`ReentrantLock` removes each of these constraints — at the cost of requiring explicit `unlock()`.
+- built into the JVM
+- automatically releases the monitor on method/block exit
+- gives mutual exclusion and memory visibility
+- supports one monitor wait set through `wait()` / `notifyAll()`
 
----
+`ReentrantLock`:
 
-## ReentrantLock
+- must be manually unlocked
+- supports `tryLock()`
+- supports timed lock attempts
+- supports interruptible lock acquisition
+- supports multiple `Condition` objects
+- can be fair or unfair
 
-### Basic pattern — unlock MUST be in finally
+Rule: use `synchronized` for simple critical sections. Use `ReentrantLock` when the extra lock features solve a real problem.
 
-```java
-ReentrantLock lock = new ReentrantLock();
+## `ReentrantLock`
 
-lock.lock();
-try {
-    // critical section
-} finally {
-    lock.unlock();  // guaranteed release even if exception is thrown
-}
-```
+### Basic pattern
 
-`synchronized` releases automatically on any exit. `ReentrantLock` does not — forgetting `finally` causes a permanent deadlock.
-
-### tryLock — non-blocking and timed acquisition
-
-```java
-if (lock.tryLock()) {           // returns immediately: true if acquired, false if not
-    try { ... } finally { lock.unlock(); }
-} else {
-    // do something else — no blocking
-}
-
-if (lock.tryLock(500, TimeUnit.MILLISECONDS)) {   // wait at most 500ms
-    try { ... } finally { lock.unlock(); }
-} else {
-    // timed out
-}
-```
-
-No equivalent in `synchronized`. Enables deadlock avoidance by backing off when a lock isn't available.
-
-### Interruptible locking
-
-```java
-lock.lockInterruptibly();   // throws InterruptedException if thread is interrupted while waiting
-```
-
-With `synchronized`, a thread waiting to enter a monitor cannot be interrupted — it blocks until it acquires or the JVM shuts down. `lockInterruptibly()` allows the waiting thread to respond to cancellation.
-
-### Fairness
-
-```java
-ReentrantLock fairLock = new ReentrantLock(true);   // fair
-ReentrantLock unfairLock = new ReentrantLock();     // unfair (default)
-```
-
-- **Unfair (default):** a thread that just released can immediately re-acquire. Higher throughput because it avoids context switches. May starve long-waiting threads.
-- **Fair:** waiting threads are served in FIFO order. Prevents starvation. Lower throughput — every acquisition requires a context switch to wake the next waiter.
-
-Unfair is the right default. Use fair only when starvation is a documented operational problem.
-
-### Multiple condition variables
-
-`synchronized` gives you one condition per object (`wait`/`notify`). `ReentrantLock` gives you as many as you need:
+Always unlock in `finally`.
 
 ```java
 ReentrantLock lock = new ReentrantLock();
-Condition notFull  = lock.newCondition();
-Condition notEmpty = lock.newCondition();
 
-// Producer
 lock.lock();
 try {
-    while (buffer.isFull()) notFull.await();   // wait on "not full" condition
-    buffer.add(item);
-    notEmpty.signal();                          // signal "not empty" condition only
-} finally { lock.unlock(); }
-
-// Consumer
-lock.lock();
-try {
-    while (buffer.isEmpty()) notEmpty.await();
-    buffer.remove();
-    notFull.signal();
-} finally { lock.unlock(); }
-```
-
-With `synchronized` you'd call `notifyAll()` and wake every waiter regardless. Separate conditions allow targeted signaling.
-
----
-
-## ReentrantReadWriteLock
-
-Maintains two separate lock views over a single lock state: `readLock()` and `writeLock()`.
-
-- **Read lock:** multiple threads may hold it simultaneously — as long as no thread holds the write lock.
-- **Write lock:** exclusive. No other reader or writer may hold any lock.
-
-```java
-ReadWriteLock rwLock = new ReentrantReadWriteLock();
-Lock readLock  = rwLock.readLock();
-Lock writeLock = rwLock.writeLock();
-
-// Any number of readers in parallel
-readLock.lock();
-try { return cache.get(key); } finally { readLock.unlock(); }
-
-// Exclusive write
-writeLock.lock();
-try { cache.put(key, value); } finally { writeLock.unlock(); }
-```
-
-### When to use
-
-Read-heavy, write-rare workloads: in-memory caches, lookup tables, configuration snapshots. If writes are frequent, the overhead of tracking the read count outweighs the benefit.
-
-### Lock downgrade — supported; upgrade — not
-
-```java
-writeLock.lock();
-try {
-    update();
-    readLock.lock();    // acquire read lock WHILE holding write lock
+    updateSharedState();
 } finally {
-    writeLock.unlock(); // release write lock — now holding only read lock (downgraded)
+    lock.unlock();
 }
-// ... continue reading under readLock, then release it
-readLock.unlock();
 ```
 
-Upgrade (read → write) is not supported and will deadlock: two threads each holding a read lock and each waiting for the other to release before acquiring the write lock.
+With `synchronized`, the JVM releases the monitor automatically when the block exits. With `ReentrantLock`, forgetting `unlock()` leaves the lock held forever and can freeze every thread that later needs it.
 
-### Writer starvation under heavy reads
+Wrong:
 
-Even with `ReentrantReadWriteLock(true)` (fair mode), a continuous stream of readers can delay writers. `StampedLock` with optimistic reads is the better tool for extreme read-heavy scenarios.
+```java
+lock.lock();
+updateSharedState(); // if this throws, unlock is skipped
+lock.unlock();
+```
 
----
+### Reentrancy
 
-## StampedLock (mention — full coverage in row 13)
+`ReentrantLock` is reentrant, like `synchronized`. If the current thread already owns the lock, it can acquire it again. The lock tracks a hold count and releases only when the thread calls `unlock()` the same number of times.
 
-`StampedLock` adds an **optimistic read** mode on top of the read/write lock model:
+This allows one locked method to call another locked method on the same object without self-deadlocking.
 
-1. Call `tryOptimisticRead()` — returns a stamp without acquiring any lock.
-2. Read the data.
-3. Call `validate(stamp)` — returns `true` if no write happened since step 1.
-4. If `validate` returns `false`, fall back to a full `readLock()`.
+## `tryLock()`
 
-Near-zero overhead reads when writes are rare. Key difference from `ReentrantReadWriteLock`: `StampedLock` is **non-reentrant** — a thread that holds a stamp-based lock and tries to acquire the same lock again will deadlock.
+`tryLock()` attempts to acquire the lock without waiting forever.
 
----
+```java
+if (lock.tryLock()) {
+    try {
+        updateSharedState();
+    } finally {
+        lock.unlock();
+    }
+} else {
+    return busyResponse();
+}
+```
 
-## When to prefer ReentrantLock over synchronized
+Timed form:
 
-| Need | Use |
+```java
+if (lock.tryLock(500, TimeUnit.MILLISECONDS)) {
+    try {
+        updateSharedState();
+    } finally {
+        lock.unlock();
+    }
+} else {
+    return timedOut();
+}
+```
+
+This is useful when waiting forever would be worse than backing off: avoiding deadlock, returning a graceful "busy" response, or enforcing latency budgets.
+
+## Interruptible locking
+
+A thread waiting to enter a `synchronized` block cannot be interrupted out of that monitor wait.
+
+`ReentrantLock.lockInterruptibly()` can be interrupted while waiting:
+
+```java
+lock.lockInterruptibly();
+try {
+    updateSharedState();
+} finally {
+    lock.unlock();
+}
+```
+
+Use it when cancellation matters: shutdown, request timeout, or background worker stop.
+
+## Fairness
+
+```java
+ReentrantLock unfair = new ReentrantLock();
+ReentrantLock fair = new ReentrantLock(true);
+```
+
+Unfair lock:
+
+- default
+- higher throughput
+- allows barging: a new or just-running thread may acquire before an older waiter
+- can starve a waiting thread under heavy contention
+
+Fair lock:
+
+- roughly FIFO under contention
+- reduces starvation risk
+- lower throughput because it wakes waiters more strictly
+
+Use unfair by default. Use fair only when starvation is a real observed problem or correctness requirement.
+
+## `Condition`
+
+`Condition` is the explicit-lock version of monitor wait/notify, but with one major improvement: one lock can have multiple condition queues.
+
+Single-slot buffer shape:
+
+```java
+final class Buffer<T> {
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notFull = lock.newCondition();
+    private final Condition notEmpty = lock.newCondition();
+
+    private T value;
+    private boolean available;
+
+    void put(T next) throws InterruptedException {
+        lock.lock();
+        try {
+            while (available) {
+                notFull.await();
+            }
+
+            value = next;
+            available = true;
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    T take() throws InterruptedException {
+        lock.lock();
+        try {
+            while (!available) {
+                notEmpty.await();
+            }
+
+            T result = value;
+            value = null;
+            available = false;
+            notFull.signal();
+            return result;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+`await()` is like `wait()`:
+
+- caller must hold the lock
+- it releases the lock while waiting
+- it reacquires the lock before returning
+- it must be used in a `while` loop
+
+Separate conditions let producers signal consumers (`notEmpty`) without waking producers waiting for `notFull`.
+
+## `ReentrantReadWriteLock`
+
+Read/write locks split access into two modes:
+
+- Read lock: many readers can hold it together if no writer holds the write lock.
+- Write lock: exclusive; no readers or other writers can hold the lock.
+
+```java
+ReadWriteLock rw = new ReentrantReadWriteLock();
+Lock read = rw.readLock();
+Lock write = rw.writeLock();
+
+Config getConfig() {
+    read.lock();
+    try {
+        return config;
+    } finally {
+        read.unlock();
+    }
+}
+
+void replaceConfig(Config next) {
+    write.lock();
+    try {
+        config = next;
+    } finally {
+        write.unlock();
+    }
+}
+```
+
+Use it for read-heavy, write-rare state: configuration snapshots, lookup tables, metadata caches.
+
+Do not assume it always improves performance. If writes are frequent or critical sections are tiny, the bookkeeping overhead can outweigh parallel reads.
+
+## Downgrade vs upgrade
+
+Downgrade is supported: write lock to read lock.
+
+```java
+write.lock();
+try {
+    refresh();
+    read.lock(); // acquire read while still holding write
+} finally {
+    write.unlock(); // now only read lock remains
+}
+
+try {
+    useRefreshedState();
+} finally {
+    read.unlock();
+}
+```
+
+Upgrade is not supported: read lock to write lock.
+
+```java
+read.lock();
+try {
+    write.lock(); // can deadlock
+} finally {
+    read.unlock();
+}
+```
+
+Why upgrade can deadlock: two readers may both hold the read lock and both wait for all readers to leave before acquiring the write lock. Each is waiting for the other.
+
+## `StampedLock`
+
+`StampedLock` adds optimistic reads.
+
+```java
+long stamp = lock.tryOptimisticRead();
+Point snapshot = readPoint();
+
+if (!lock.validate(stamp)) {
+    stamp = lock.readLock();
+    try {
+        snapshot = readPoint();
+    } finally {
+        lock.unlockRead(stamp);
+    }
+}
+```
+
+Optimistic read means "read without blocking, then validate that no write happened during the read."
+
+Use it only for very read-heavy structures where the extra complexity is justified. `StampedLock` is not reentrant. If a thread holding it tries to acquire it again, it can deadlock itself.
+
+## Choosing the lock
+
+| Need | Tool |
 |---|---|
-| `tryLock()` or timed/interruptible locking | `ReentrantLock` |
-| Multiple condition variables | `ReentrantLock` |
-| Fair scheduling (FIFO) | `ReentrantLock(true)` |
-| Simple mutual exclusion, no special requirements | `synchronized` |
-
-Prefer `synchronized` by default — simpler, JIT-optimized aggressively (lock elision, biased locking in older JVMs), and the performance difference is negligible in most workloads. Reach for `ReentrantLock` only when you need a capability `synchronized` can't provide.
-
----
+| Simple critical section | `synchronized` |
+| Try without waiting forever | `ReentrantLock.tryLock()` |
+| Cancel while waiting for lock | `lockInterruptibly()` |
+| Multiple wait conditions | `ReentrantLock` + `Condition` |
+| Many parallel readers, rare writers | `ReentrantReadWriteLock` |
+| Extreme read-heavy optimistic reads | `StampedLock` |
 
 ## Quick recall
 
-**Q. What happens if you forget `finally { lock.unlock(); }` with `ReentrantLock`?**
-A. Any exception in the critical section leaves the lock permanently held — all waiting threads deadlock indefinitely.
+**Q. Why must `ReentrantLock.unlock()` be in `finally`?**
+A. If the critical section throws and unlock is skipped, the lock stays held and other threads can wait forever.
 
-**Q. `tryLock()` vs `lock()` — key difference?**
-A. `tryLock()` returns immediately (`true`/`false`); `lock()` blocks until acquired. `synchronized` has no `tryLock` equivalent.
+**Q. What does `tryLock()` give you that `synchronized` does not?**
+A. A non-blocking or timed attempt to acquire the lock, so code can back off instead of waiting indefinitely.
 
-**Q. Fair vs unfair lock — trade-off?**
-A. Fair prevents starvation (FIFO order) but lowers throughput due to forced context switches. Unfair allows barging — higher throughput, possible starvation.
+**Q. What is `lockInterruptibly()` for?**
+A. Letting a waiting thread respond to cancellation or shutdown while waiting for a lock.
 
-**Q. `ReentrantReadWriteLock` — what's the upgrade vs downgrade rule?**
-A. Downgrade (write → read) is supported: acquire readLock while holding writeLock, then release writeLock. Upgrade (read → write) deadlocks — never attempt it.
+**Q. Why use multiple `Condition` objects?**
+A. To wait and signal separate conditions, such as `notFull` and `notEmpty`, without waking unrelated waiters.
 
-**Q. When does `ReentrantReadWriteLock` stop helping?**
-A. When writes are frequent — the overhead of tracking the reader count exceeds the parallelism benefit. Also, heavy read load can starve writers even in fair mode.
+**Q. Fair vs unfair lock?**
+A. Fair reduces starvation with FIFO-like ordering but costs throughput. Unfair is the default and usually preferred.
 
-**Q. `StampedLock` vs `ReentrantReadWriteLock` — what's the key trade-off?**
-A. `StampedLock` optimistic reads have lower overhead, but it's non-reentrant and harder to use correctly; `ReentrantReadWriteLock` is reentrant and simpler.
+**Q. When does `ReentrantReadWriteLock` help?**
+A. Read-heavy, write-rare workloads where read critical sections are large enough to benefit from parallel readers.
+
+**Q. Why is read-to-write upgrade dangerous?**
+A. Multiple readers can each wait for the others to release before acquiring write, causing deadlock.
+

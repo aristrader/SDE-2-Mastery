@@ -201,7 +201,7 @@ Any thread that reads a `Point` reference sees the correct `x` and `y` without s
 
 ---
 
-## Trick questions / gotchas
+## Common gotchas
 
 **"It worked in 1,000 test runs."** That proves only that the race did not manifest under those schedules. Thread safety comes from a happens-before guarantee, not observed output.
 

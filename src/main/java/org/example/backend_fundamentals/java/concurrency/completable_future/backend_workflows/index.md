@@ -4,93 +4,217 @@ order: 40
 
 # CompletableFuture Backend Workflows
 
-Backend CompletableFuture design starts by classifying work:
+Backend `CompletableFuture` design starts by classifying work before writing code.
 
-- synchronous local validation or mapping
-- dependent async calls
-- independent async calls
-- required dependencies
-- optional dependencies
-- fire-and-forget side effects
+For every step, ask:
 
-## Dashboard Aggregation
+- Is it local CPU work or remote IO?
+- Is it dependent on a previous result?
+- Is it independent and safe to start now?
+- Is it required or optional?
+- What is the timeout budget?
+- What executor should run it?
+- What context must cross the thread boundary?
+
+## Dashboard aggregation
+
+Example:
 
 ```text
-user required
-orders required
-recommendations optional
-notifications optional
+user profile       required
+orders             required
+recommendations    optional
+notifications      optional
 ```
 
-Start all independent calls immediately. Attach fallbacks only to optional branches. Coordinate with `allOf()`.
+Start independent calls immediately:
 
-## Order Pipeline
+```java
+CompletableFuture<User> user =
+        fetchUserAsync(userId).orTimeout(800, TimeUnit.MILLISECONDS);
+
+CompletableFuture<List<Order>> orders =
+        fetchOrdersAsync(userId).orTimeout(800, TimeUnit.MILLISECONDS);
+
+CompletableFuture<List<Recommendation>> recommendations =
+        fetchRecommendationsAsync(userId)
+                .completeOnTimeout(List.of(), 300, TimeUnit.MILLISECONDS)
+                .exceptionally(ex -> List.of());
+
+CompletableFuture<Dashboard> dashboard =
+        user.thenCombine(orders, RequiredDashboardData::new)
+                .thenCombine(recommendations, Dashboard::new);
+```
+
+The optional branch handles its own fallback. Required branches still fail the dashboard.
+
+## Order pipeline
+
+Example dependency graph:
 
 ```text
 validate request
-inventory and price in parallel
-payment depends on price
-reservation after payment
-notification after success
+inventory check     \
+                     -> price quote -> payment -> reservation -> notification
+fraud check         /
 analytics optional
 ```
 
-Use `thenCombine()` for independent branches and `thenCompose()` for dependent async stages.
+Use local validation synchronously before starting remote async work. Do not spend remote capacity on invalid requests.
 
-Payment retries require idempotency outside CompletableFuture.
-
-## Async Cache
-
-Use an in-flight future cache to prevent duplicate loads:
+Use `thenCombine()` for independent required checks:
 
 ```java
-ConcurrentHashMap<String, CompletableFuture<User>> cache =
-        new ConcurrentHashMap<>();
+CompletableFuture<Inventory> inventory = checkInventoryAsync(order);
+CompletableFuture<FraudResult> fraud = checkFraudAsync(order);
+
+CompletableFuture<ValidatedOrder> validated =
+        inventory.thenCombine(fraud, (inv, fraudResult) ->
+                validate(order, inv, fraudResult));
 ```
 
-Remove failed futures so later calls can retry.
+Use `thenCompose()` when the next async step depends on the previous result:
 
-## Transaction And Context Boundaries
+```java
+CompletableFuture<Receipt> receipt =
+        validated
+                .thenCompose(this::priceAsync)
+                .thenCompose(this::chargePaymentAsync)
+                .thenCompose(this::reserveInventoryAsync);
+```
 
-Async work runs on another thread. Do not assume it inherits:
+Payment retries require idempotency keys outside `CompletableFuture`. The async chain controls order; it does not make side effects safe to repeat.
+
+## Async cache
+
+If many requests ask for the same key, cache the in-flight future so only one load starts.
+
+```java
+private final ConcurrentHashMap<String, CompletableFuture<User>> cache =
+        new ConcurrentHashMap<>();
+
+CompletableFuture<User> getUser(String userId) {
+    return cache.computeIfAbsent(userId, id ->
+            fetchUserAsync(id)
+                    .whenComplete((value, ex) -> {
+                        if (ex != null) {
+                            cache.remove(id);
+                        }
+                    }));
+}
+```
+
+Why remove failed futures: otherwise the cache stores a permanent failure and every later request fails immediately.
+
+Be careful with cancellation. If one caller cancels a shared in-flight future, it may affect other callers. Often request-level timeout should wrap waiting for the result, not cancel the shared load itself.
+
+## Batch loading
+
+For a dynamic list:
+
+```java
+List<CompletableFuture<User>> futures = userIds.stream()
+        .map(this::getUser)
+        .toList();
+
+CompletableFuture<List<User>> users =
+        CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new))
+                .thenApply(ignored -> futures.stream()
+                        .map(CompletableFuture::join)
+                        .toList());
+```
+
+Limit concurrency if the list can be large. Starting 10,000 HTTP calls at once can overload your own service or the downstream service. Use a bounded executor, semaphore, or batching API.
+
+## Transaction and context boundaries
+
+Async work runs on another thread. In Spring applications, many important values are stored in `ThreadLocal`.
+
+Do not assume async code inherits:
 
 - Spring transaction context
-- SecurityContext
-- MDC / tracing context
+- `SecurityContext`
+- MDC / trace IDs
 - tenant context
+- request attributes
+- locale
 
-Spring stores most of these in `ThreadLocal`. A pooled worker thread starts with its own thread-local values, not the request thread's values. `InheritableThreadLocal` is not a reliable fix for thread pools because pool threads are created once and reused.
+`InheritableThreadLocal` is not a reliable fix for thread pools because pool threads are created once and reused across requests.
 
-If context must cross the boundary, copy it deliberately and clear it in `finally`. In Spring, this is usually a `TaskDecorator`, a context-aware executor wrapper, or a framework-supported context propagation mechanism.
+If context must cross the boundary, copy it deliberately and clear it in `finally`. In Spring, use a `TaskDecorator`, context-aware executor wrapper, or framework-supported context propagation.
 
-Do not send success notifications before the database transaction commits. Use after-commit hooks, outbox, or durable messaging.
+## Transactions and side effects
 
-## Trick questions / gotchas
+This is risky:
 
-**"The async method is called inside `@Transactional`, so it shares the transaction."** No. The worker thread has its own transaction context unless a new transaction is explicitly started there.
+```java
+@Transactional
+void placeOrder(Order order) {
+    orderRepository.save(order);
+    CompletableFuture.runAsync(() -> sendSuccessEmail(order), executor);
+}
+```
 
-**"MDC disappeared only in async logs."** Expected: MDC is thread-local. Copy it intentionally and clear it after the task.
+The email can be sent before the transaction commits. If the transaction later rolls back, the side effect already escaped.
 
-**"SecurityContext is null in async code."** Expected with default `MODE_THREADLOCAL`. Use Spring's delegation helpers or a task decorator; do not rely on `MODE_INHERITABLETHREADLOCAL` for pools.
+Better patterns:
 
-**"Notification sent, then DB rolled back."** The side effect escaped before commit. Use after-commit publication or outbox.
+- publish after commit
+- transactional outbox
+- durable message after commit
+- idempotent downstream processing
+
+## Executor choice
+
+Do not use one executor for every kind of async work.
+
+Separate pools by blocking profile and ownership:
+
+| Work | Executor guidance |
+|---|---|
+| Blocking HTTP/JDBC | Dedicated bounded IO executor or virtual threads |
+| CPU-heavy transformation | CPU-sized executor |
+| Fire-and-forget non-critical side effect | Bounded executor with explicit rejection behavior |
+| Shared app-wide async API | Named, monitored executor |
+
+Always name threads. Anonymous pool threads make production dumps harder to read.
+
+## Common gotchas
+
+**"The async method is called inside `@Transactional`, so it shares the transaction."**
+No. The worker thread does not automatically share the caller's transaction context.
+
+**"MDC disappeared only in async logs."**
+Expected. MDC is thread-local. Copy it intentionally and clear it after the task.
+
+**"SecurityContext is null in async code."**
+Expected with default thread-local strategy. Use Spring delegation helpers or a task decorator.
+
+**"Notification sent, then DB rolled back."**
+The side effect escaped before commit. Use after-commit publication or outbox.
+
+**"CompletableFuture made the request faster."**
+Only if independent work actually ran in parallel and you avoided blocking too early.
 
 ## Quick recall
 
-**Q. Where should blocking happen?**
-A. At the outer boundary where the final result is needed, not inside helper methods.
-
 **Q. What is the first workflow step?**
-A. Classify dependency vs independence and required vs optional failure.
+A. Classify dependency vs independence, required vs optional, timeout budget, and executor choice.
+
+**Q. Where should blocking happen?**
+A. At the outer boundary where the final result is required, not inside helper methods.
 
 **Q. How do you prevent duplicate async cache loads?**
-A. `ConcurrentHashMap.computeIfAbsent(key, key -> loadAsync(key))`.
+A. Cache the in-flight future with `ConcurrentHashMap.computeIfAbsent`.
 
-**Q. Why not create one executor per request?**
-A. It leaks resources and defeats pool sizing.
+**Q. Why remove failed futures from an async cache?**
+A. So a transient failure does not poison the cache permanently.
 
 **Q. Why is async inside a transaction risky?**
-A. The worker thread does not automatically share the caller's transaction, and side effects can happen before commit.
+A. The worker thread does not inherit the transaction, and side effects may happen before commit.
 
-**Q. What request context is commonly lost across async boundaries?**
-A. MDC/tracing IDs, SecurityContext, tenant context, request attributes, and transaction context.
+**Q. What context is commonly lost across async boundaries?**
+A. MDC/tracing IDs, security context, tenant context, request attributes, locale, and transaction context.
+
+**Q. Why not start thousands of futures at once?**
+A. You can overwhelm downstream systems. Use bounded executors, semaphores, or batching.

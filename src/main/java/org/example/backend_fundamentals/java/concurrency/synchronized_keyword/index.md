@@ -4,145 +4,270 @@ order: 50
 
 # synchronized
 
----
+`synchronized` is Java's built-in mutual exclusion mechanism. It protects a critical section with an object's intrinsic monitor lock.
 
-## Intrinsic lock (monitor lock)
+It gives two guarantees:
 
-Every Java object has exactly one **intrinsic lock** (also called a **monitor lock**). `synchronized` acquires that lock on entry and releases it on exit — automatically, even if an exception is thrown.
+- Mutual exclusion: only one thread can hold the monitor at a time.
+- Visibility: writes made before unlocking are visible to a later thread that locks the same monitor.
 
-- **Instance method** — locks `this`
-- **Static method** — locks the `Class` object (e.g., `Counter.class`)
-- **Block** — locks whatever object you pass: `synchronized (lock) { ... }`
+Use it when shared state needs a multi-step operation to behave as one unit.
+
+## What lock is acquired?
+
+Every Java object can be used as a monitor lock.
+
+Method form:
 
 ```java
-// Method form — locks 'this'
-public synchronized void increment() {
+class Counter {
+    private int count;
+
+    public synchronized void increment() {
+        count++;
+    }
+}
+```
+
+An instance synchronized method locks `this`.
+
+Static method form:
+
+```java
+class CounterRegistry {
+    public static synchronized void reload() {
+        // locks CounterRegistry.class
+    }
+}
+```
+
+A static synchronized method locks the `Class` object.
+
+Block form:
+
+```java
+class Counter {
+    private final Object lock = new Object();
+    private int count;
+
+    public void increment() {
+        synchronized (lock) {
+            count++;
+        }
+    }
+}
+```
+
+Prefer block form for most production code. It lets you choose a private lock object and keep the locked section as small as possible.
+
+## Monitor ownership
+
+At runtime:
+
+```text
+Thread A enters synchronized(lock)
+  -> A owns lock's monitor
+Thread B tries synchronized(lock)
+  -> B becomes BLOCKED
+Thread A exits synchronized(lock)
+  -> monitor is released
+Thread B can compete for the monitor again
+```
+
+Only code synchronizing on the same lock object coordinates with each other. Two different lock objects mean two different monitors and no mutual exclusion between them.
+
+## Why `synchronized` fixes `count++`
+
+Broken:
+
+```java
+private int count;
+
+void increment() {
     count++;
 }
+```
 
-// Block form — locks an explicit object
+`count++` is read, increment, write. Two threads can interleave and lose an update.
+
+Fixed:
+
+```java
 private final Object lock = new Object();
+private int count;
 
-public void increment() {
+void increment() {
+    synchronized (lock) {
+        count++;
+    }
+}
+
+int current() {
+    synchronized (lock) {
+        return count;
+    }
+}
+```
+
+Both read and write use the same lock. That matters. A synchronized writer and an unsynchronized reader are not a complete thread-safety protocol.
+
+## Visibility guarantee
+
+`synchronized` is not only about blocking other threads. It is also a JMM visibility boundary.
+
+```text
+Thread A writes shared state inside synchronized(lock)
+Thread A exits synchronized(lock)
+Thread B later enters synchronized(lock)
+Thread B sees Thread A's writes
+```
+
+The JMM rule is: unlock of a monitor happens-before a later lock of the same monitor.
+
+This is why all access to protected state should use the same lock. If one method reads without the lock, it may see stale state.
+
+## Reentrancy
+
+Java monitor locks are reentrant. If a thread already owns a monitor, it can acquire the same monitor again.
+
+```java
+public synchronized void outer() {
+    inner();
+}
+
+public synchronized void inner() {
+    // same thread re-enters this monitor
+}
+```
+
+The JVM tracks a hold count. The monitor is released only when the thread exits the synchronized region as many times as it entered.
+
+Without reentrancy, `outer()` calling `inner()` would deadlock itself.
+
+## `synchronized` and `wait()`
+
+`wait()`, `notify()`, and `notifyAll()` operate on the same monitor concept.
+
+You must own `lock`'s monitor before calling `lock.wait()`, `lock.notify()`, or `lock.notifyAll()`. Otherwise Java throws `IllegalMonitorStateException`.
+
+`wait()` releases the monitor while waiting and reacquires it before returning. The dedicated `wait, notify, notifyAll` page covers the full condition-loop pattern.
+
+## Lock scope
+
+Keep the critical section focused on shared state.
+
+Bad:
+
+```java
+synchronized (lock) {
+    validate(input);
+    String response = httpClient.call(input); // slow IO while holding lock
+    state.put(input.id(), response);
+}
+```
+
+Better:
+
+```java
+validate(input);
+String response = httpClient.call(input);
+
+synchronized (lock) {
+    state.put(input.id(), response);
+}
+```
+
+Holding locks across IO, sleeps, remote calls, or long CPU work increases contention and can create deadlock risk if callbacks or downstream code call back into locked code.
+
+## Lock object pitfalls
+
+### Locking on a local object
+
+```java
+void increment() {
+    Object lock = new Object();
     synchronized (lock) {
         count++;
     }
 }
 ```
 
-Prefer the **block form** in production code: it lets you choose the lock object, narrow the critical section, and avoid exposing `this` as a lock (external code can synchronize on `this` too, causing interference).
+Every call creates a new lock. Threads do not coordinate at all.
 
----
-
-## Monitor — ownership and blocking
-
-The monitor model:
-
-- At most **one thread** owns the monitor at a time.
-- All other threads trying to enter block on the **entry set** (BLOCKED state).
-- When the owner releases, one waiting thread is promoted to owner.
-
-`wait()`, `notify()`, and `notifyAll()` operate on the same monitor and let threads coordinate (Producer-Consumer pattern). You must own the monitor to call them — otherwise `IllegalMonitorStateException`.
-
----
-
-## Reentrancy
-
-Java's intrinsic lock is **reentrant**: if a thread already owns a lock, it can re-acquire it without blocking. A counter tracks how many times the same thread has acquired it; the lock releases only when the count drops to zero.
-
-**Why it matters:** without reentrancy, this would deadlock:
+### Locking on method arguments
 
 ```java
-public synchronized void outer() {
-    inner(); // tries to acquire the same lock — deadlock without reentrancy
-}
-
-public synchronized void inner() {
-    // ...
+void process(String id) {
+    synchronized (id) {
+        update(id);
+    }
 }
 ```
 
-With reentrancy, `inner()` increments the hold count and proceeds.
+Callers control the lock object. Equal IDs are not necessarily the same object, and shared/interned strings can accidentally coordinate unrelated code.
 
----
+### Locking on string literals
 
-## Memory visibility guarantee (JMM)
+```java
+synchronized ("LOCK") {
+    update();
+}
+```
 
-`synchronized` provides two guarantees, not just one:
+String literals are interned. Another unrelated class using the same literal can share the same monitor.
 
-1. **Mutual exclusion** — only one thread in the critical section at a time.
-2. **Visibility** — an unlock **happens-before** the next lock on the same monitor. All writes made inside a synchronized block are flushed to main memory on unlock and visible to any thread that subsequently acquires the same lock.
+### Locking on boxed primitives
 
-Skip synchronization and a thread can observe stale data even without a data race. Mutual exclusion without visibility is still broken.
+```java
+Integer lock = 1;
+synchronized (lock) {
+    update();
+}
+```
 
----
+Boxed values may be cached and shared. Use a dedicated private final lock object.
 
-## synchronized vs volatile
+### Exposing `this`
 
-| | synchronized | volatile |
+```java
+public synchronized void update() {
+    // locks this
+}
+```
+
+This is not always wrong, but external code can also do `synchronized (yourObject)`, causing interference. A private lock avoids that.
+
+## `synchronized` vs `volatile`
+
+| Question | `synchronized` | `volatile` |
 |---|---|---|
-| Mutual exclusion | Yes | No |
-| Visibility guarantee | Yes (unlock → lock HB) | Yes (write → read HB) |
-| Atomicity of compound ops | Yes (within the block) | No |
-| Blocking | Yes — other threads block | No |
-| Use when | Read-modify-write, check-then-act | Single-write flag, safe publication |
+| Mutual exclusion? | Yes | No |
+| Visibility? | Yes | Yes |
+| Compound operation safety? | Yes, if all steps are inside the block | No |
+| Blocking? | Yes | No |
+| Best for | Invariants, read-modify-write, check-then-act | Single-variable signals |
 
-`volatile` is lighter: visibility only, no exclusion. Use `synchronized` (or `AtomicXxx`) whenever the operation isn't a single read or write.
-
----
-
-## Common pitfalls
-
-**Locking on the wrong object (per-call local)**
-
-```java
-// BUG: two threads calling process() with equal but distinct String objects
-// get different monitors — no mutual exclusion at all
-public void process(String id) {
-    synchronized (id) { ... }
-}
-```
-
-**Locking on an interned String literal**
-
-```java
-// BUG: string literals are interned — two unrelated classes using the same literal
-// share the same String object, so their synchronized blocks interfere with each other
-synchronized ("MY_LOCK") { ... }
-```
-
-**Locking on a cached boxed Integer**
-
-```java
-private Integer counter = 0;
-synchronized (counter) { /* BUG: Integer.valueOf(-128..127) returns JVM-cached instances */ }
-```
-
-Any code that holds a reference to the same `Integer` box can interfere. Use a dedicated `private final Object lock`.
-
-**Widening lock scope unnecessarily** — holding a lock across IO or long computation increases contention. Keep critical sections small: only the shared-state access, not the surrounding work.
-
-**Exposing `this` as the lock** — external code can `synchronized(yourObject)` and interfere. Prefer a private internal lock object.
-
----
+If the operation is `counter++`, use `synchronized` or an atomic class. If the operation is "one thread sets stop flag, others read it", `volatile` may be enough.
 
 ## Quick recall
 
 **Q. What does `synchronized` acquire?**
-A. The intrinsic (monitor) lock on the specified object — `this` for instance methods, `Class` for static methods, or whatever object is passed to a block.
+A. The intrinsic monitor lock of the object: `this`, `SomeClass.class`, or the explicit block lock.
 
-**Q. What does `synchronized` guarantee beyond mutual exclusion?**
-A. Memory visibility: an unlock happens-before the next lock on the same monitor, so all writes made inside the block are visible to any thread that subsequently acquires the same lock.
+**Q. What two guarantees does `synchronized` provide?**
+A. Mutual exclusion and visibility through unlock-to-lock happens-before on the same monitor.
+
+**Q. Why must reads and writes use the same lock?**
+A. The visibility guarantee applies only through the same monitor. A synchronized writer plus plain reader is incomplete.
 
 **Q. Why is Java's intrinsic lock reentrant?**
-A. So a synchronized method can call another synchronized method on the same object without deadlocking — the JVM tracks a hold count per thread.
+A. So a thread that already owns a monitor can enter another synchronized method/block using the same monitor without self-deadlock.
 
-**Q. What was biased locking and why was it removed?**
-A. An optimization that made repeat single-thread acquires nearly free, but revocation on contention required a safepoint pause — costly in modern multi-threaded workloads. Removed in Java 21.
+**Q. Why prefer a private final lock object?**
+A. It prevents external or unrelated code from acquiring the same monitor and interfering.
 
-**Q. synchronized block vs synchronized method — which is preferred and why?**
-A. Block form: lets you choose the lock object, narrow the critical section, and avoid exposing `this` as a publicly visible lock.
+**Q. Why avoid locking around IO?**
+A. It holds the monitor while slow external work runs, increasing contention and deadlock risk.
 
-**Q. Name two lock-object pitfalls and why each breaks synchronization.**
-A. (1) Locking on a String literal (`synchronized ("LOCK")`) — interned literals are shared JVM-wide, so unrelated classes can deadlock each other. (2) Locking on a boxed `Integer` in the -128..127 range — `Integer.valueOf()` returns a cached instance shared across code, causing unintended cross-class interference. Both are fixed by using a dedicated `private final Object lock`.
-
+**Q. What happens if you call `wait()` without owning the monitor?**
+A. Java throws `IllegalMonitorStateException`.

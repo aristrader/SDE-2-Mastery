@@ -4,175 +4,305 @@ order: 110
 
 # ExecutorService & ThreadPoolExecutor
 
----
+An executor separates "what work should run" from "which thread runs it".
+
+Manual threads are fine for learning lifecycle. Backend services should usually submit tasks to an executor because executors control thread reuse, queueing, shutdown, naming, rejection, and backpressure.
+
+## Mental model
+
+```text
+caller submits task
+  -> executor decides: run now, queue, create thread, or reject
+  -> worker thread executes task
+  -> Future represents task result
+```
+
+`Executor` is the smallest interface:
+
+```java
+executor.execute(() -> doWork());
+```
+
+`ExecutorService` adds lifecycle and result-bearing task submission:
+
+```java
+Future<Result> future = executor.submit(this::loadResult);
+```
+
+`ThreadPoolExecutor` is the main concrete implementation behind most classic executor factory methods.
 
 ## Interface hierarchy
 
-```
+```text
 Executor
-  └── ExecutorService
-        └── ScheduledExecutorService
-              └── ScheduledThreadPoolExecutor
-AbstractExecutorService
-  └── ThreadPoolExecutor          ← core implementation
-        └── ScheduledThreadPoolExecutor
-ForkJoinPool                      ← separate hierarchy; used by newWorkStealingPool()
+  -> ExecutorService
+       -> ScheduledExecutorService
+
+ThreadPoolExecutor
+ScheduledThreadPoolExecutor
+ForkJoinPool
 ```
 
-`Executor` has one method: `execute(Runnable)`. `ExecutorService` adds lifecycle (`shutdown`, `shutdownNow`) and `submit`/`invokeAll`/`invokeAny`. `ThreadPoolExecutor` is the concrete class behind every `Executors` factory method except `newWorkStealingPool`.
+`ForkJoinPool` is a separate implementation designed for work-stealing and CPU-style divide-and-conquer tasks. It is also the default pool behind many `CompletableFuture` async calls when you do not pass an executor.
 
----
+## `execute()` vs `submit()`
 
-## ThreadPoolExecutor constructor — all 7 parameters
+| Method | Input | Result | Exception behavior |
+|---|---|---|---|
+| `execute(Runnable)` | Fire-and-forget task | No `Future` | Uncaught exception goes to thread's uncaught exception handler |
+| `submit(Runnable/Callable)` | Task with optional result | Returns `Future` | Exception is captured and rethrown from `Future.get()` |
+
+This surprises people:
+
+```java
+Future<?> future = executor.submit(() -> {
+    throw new IllegalStateException("boom");
+});
+
+// Exception is not thrown here.
+future.get(); // throws ExecutionException wrapping the failure
+```
+
+If nobody calls `get()`, submitted task failures can be silently ignored unless you log them inside the task or customize executor hooks.
+
+## ThreadPoolExecutor constructor
 
 ```java
 new ThreadPoolExecutor(
-    int corePoolSize,          // threads kept alive even when idle
-    int maximumPoolSize,       // hard ceiling on thread count
-    long keepAliveTime,        // idle time before an above-core thread terminates
-    TimeUnit unit,             // unit for keepAliveTime
-    BlockingQueue<Runnable> workQueue,  // holds tasks when all core threads are busy
-    ThreadFactory threadFactory,        // creates new threads (name, daemon, priority)
-    RejectedExecutionHandler handler    // what to do when queue is full and max threads are reached
+    int corePoolSize,
+    int maximumPoolSize,
+    long keepAliveTime,
+    TimeUnit unit,
+    BlockingQueue<Runnable> workQueue,
+    ThreadFactory threadFactory,
+    RejectedExecutionHandler handler
 )
 ```
 
----
+Meaning:
 
-## Thread growth algorithm — the critical detail
+| Parameter | Meaning |
+|---|---|
+| `corePoolSize` | Normal thread count the pool tries to keep. |
+| `maximumPoolSize` | Hard upper bound on worker threads. |
+| `keepAliveTime` | How long above-core idle threads live before exiting. |
+| `workQueue` | Where tasks wait when workers are busy. |
+| `threadFactory` | Names/configures worker threads. |
+| `handler` | What happens when the pool cannot accept more work. |
 
-The most commonly misunderstood behaviour:
+## Thread growth algorithm
 
-1. If active threads < corePoolSize → **spawn a new thread** (even if idle threads exist).
-2. If active threads ≥ corePoolSize → **enqueue the task**. No new thread yet.
-3. If the queue is full → **spawn a new thread** up to maximumPoolSize.
-4. If the queue is full and threads = maximumPoolSize → **invoke rejection handler**.
+This is the most important `ThreadPoolExecutor` detail.
 
-The queue fills **before** threads grow beyond core — surprising to people who expect threads to grow to max first. With an unbounded queue (LinkedBlockingQueue), step 3 is never reached and threads never exceed corePoolSize regardless of load.
+When a task is submitted:
 
----
+1. If running workers < `corePoolSize`, create a worker for the task.
+2. Else try to enqueue the task.
+3. If the queue is full, create another worker up to `maximumPoolSize`.
+4. If the queue is full and workers are already at max, reject the task.
+
+So the queue fills before the pool grows beyond core.
+
+This matters because an unbounded queue prevents growth beyond core:
+
+```text
+core = 10
+max = 100
+queue = unbounded LinkedBlockingQueue
+
+After 10 active workers, task 11 goes into the queue.
+The queue never becomes "full".
+The pool never grows to 100.
+```
 
 ## Queue strategies
 
-| Queue | Capacity | Used by | Behaviour |
-|---|---|---|---|
-| `LinkedBlockingQueue` | Unbounded (default) | `newFixedThreadPool`, `newSingleThreadExecutor` | Queue grows without bound → OOM risk under sustained load; max threads = core |
-| `SynchronousQueue` | Zero | `newCachedThreadPool` | No buffering; each task must be handed directly to a thread. If none idle, spawns a new thread → thread explosion risk |
-| `ArrayBlockingQueue` | Bounded (you set N) | Custom pools | Queue fills → threads grow toward max → rejection. Provides natural backpressure |
-| `PriorityBlockingQueue` | Unbounded | Custom pools | Tasks processed by priority (tasks must implement `Comparable` or supply a `Comparator`) |
+| Queue | Capacity | Behavior |
+|---|---|---|
+| `LinkedBlockingQueue` without capacity | Unbounded | Queue grows until memory runs out; max threads are effectively ignored after core. |
+| `ArrayBlockingQueue` | Bounded | Queue fills, pool can grow to max, then rejection applies. |
+| `SynchronousQueue` | Zero | No storage; each task must hand off directly to a worker or create one. |
+| `PriorityBlockingQueue` | Usually unbounded | Orders tasks by priority; still has unbounded-memory risk unless carefully controlled. |
 
-**Production recommendation:** `ArrayBlockingQueue` with an explicit bound, paired with `CallerRunsPolicy`. This gives backpressure without thread explosion or OOM.
+Example bounded pool shape:
 
----
+```java
+ThreadPoolExecutor pool = new ThreadPoolExecutor(
+        20,
+        50,
+        30,
+        TimeUnit.SECONDS,
+        new ArrayBlockingQueue<>(500),
+        namedThreadFactory("orders-worker"),
+        new ThreadPoolExecutor.CallerRunsPolicy()
+);
+```
 
-## Factory methods and their hidden defaults
+The important part is not these exact numbers. The important part is that both worker count and queue size have explicit limits.
+
+## Factory methods and hidden defaults
 
 ### `newFixedThreadPool(n)`
 
 ```java
-new ThreadPoolExecutor(n, n, 0L, MILLISECONDS, new LinkedBlockingQueue<>())
+Executors.newFixedThreadPool(n)
 ```
 
-- core = max = n, keepAlive = 0 (no above-core threads to expire)
-- **Risk:** unbounded queue — submit faster than threads can process and the queue grows forever → `OutOfMemoryError`
+Hidden shape:
+
+```text
+core = n
+max = n
+queue = unbounded LinkedBlockingQueue
+```
+
+Risk: under sustained overload, tasks queue forever until memory pressure or unacceptable latency.
 
 ### `newCachedThreadPool()`
 
-```java
-new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, SECONDS, new SynchronousQueue<>())
+Hidden shape:
+
+```text
+core = 0
+max = Integer.MAX_VALUE
+queue = SynchronousQueue
 ```
 
-- core = 0, max = `Integer.MAX_VALUE`, 60s keepAlive
-- **Risk:** every task without an idle thread spawns a new one — up to `Integer.MAX_VALUE` threads → thread explosion under burst load
+Risk: under burst load, it can create a huge number of OS threads and exhaust the process or machine.
 
 ### `newSingleThreadExecutor()`
 
-```java
-new FinalizableDelegatedExecutorService(
-    new ThreadPoolExecutor(1, 1, 0L, MILLISECONDS, new LinkedBlockingQueue<>()))
-```
+One worker, unbounded queue, serial execution.
 
-- Guarantees serial execution; tasks run in submission order.
-- **Risk:** same unbounded queue problem as `newFixedThreadPool`
+Good for strict ordering. Dangerous if producers can submit faster than the single worker can drain.
 
 ### `newWorkStealingPool()`
 
-- Backed by `ForkJoinPool` with parallelism = available processors.
-- Designed for recursive/divide-and-conquer tasks (`RecursiveTask`, `RecursiveAction`).
-- Work stealing: idle threads steal tasks from busy threads' deques.
-
----
+Backed by `ForkJoinPool`. Good for CPU-bound fork/join style work. Do not use it as a dumping ground for blocking database or HTTP calls.
 
 ## Rejection policies
 
-Triggered when: queue is full **and** thread count = maximumPoolSize.
+Rejection happens only when the queue is full and the pool is at `maximumPoolSize`.
 
-| Policy | Behaviour | When to use |
+| Policy | Behavior | Risk / use |
 |---|---|---|
-| `AbortPolicy` (default) | Throws `RejectedExecutionException` | When callers must know about overload |
-| `CallerRunsPolicy` | The **calling thread** runs the task | Natural backpressure — slows down the producer |
-| `DiscardPolicy` | Silently drops the task | Fire-and-forget / non-critical work |
-| `DiscardOldestPolicy` | Drops the oldest queued task, retries submission | When newer tasks supersede older ones (telemetry, heartbeats) |
+| `AbortPolicy` | Throws `RejectedExecutionException` | Good when caller must handle overload explicitly. |
+| `CallerRunsPolicy` | Caller thread runs the task | Applies backpressure by slowing submitter. |
+| `DiscardPolicy` | Silently drops the new task | Only for truly disposable work. |
+| `DiscardOldestPolicy` | Drops oldest queued task, retries submit | Only when newer work supersedes older work. |
 
-`CallerRunsPolicy` is the production default for most services: it applies backpressure to the submitter without data loss or exceptions.
+`CallerRunsPolicy` is often a good service default because it does not lose work and it slows the producer naturally.
 
----
+## Sizing pools
+
+There is no magic number. Start from workload type.
+
+CPU-bound work:
+
+```text
+threads ~= number of CPU cores
+```
+
+More threads than cores usually just adds context switching.
+
+IO-bound work:
+
+```text
+threads depend on expected concurrent blocking calls and downstream limits
+```
+
+If each task spends most time waiting for DB/HTTP, more threads than cores may help, but only up to the point your database, remote service, or connection pool can handle.
+
+Always align executor size with downstream resources. A 200-thread HTTP worker pool with a 20-connection DB pool often just creates blocked threads.
 
 ## Shutdown
 
-```java
-executor.shutdown();            // no new tasks accepted; in-flight + queued tasks complete
-executor.shutdownNow();         // interrupts running threads, returns queued tasks as a List
-boolean done = executor.awaitTermination(30, TimeUnit.SECONDS);
-```
+Executors own non-daemon worker threads by default. If you forget to shut them down, the JVM may stay alive and services leak resources.
 
-- `shutdown()` is graceful; always prefer it.
-- `shutdownNow()` is best-effort — threads that ignore interrupts continue running.
-- **Forgetting to shut down leaks threads.** A thread pool keeps the JVM alive until all non-daemon threads finish. In containers/services this causes slow memory leaks and port exhaustion.
-
-**Pattern for safe shutdown:**
+Graceful shutdown pattern:
 
 ```java
 executor.shutdown();
-if (!executor.awaitTermination(30, TimeUnit.SECONDS)) {
+try {
+    if (!executor.awaitTermination(30, TimeUnit.SECONDS)) {
+        executor.shutdownNow();
+    }
+} catch (InterruptedException e) {
     executor.shutdownNow();
+    Thread.currentThread().interrupt();
 }
 ```
 
----
+Meaning:
 
-## Virtual threads (Java 21)
+- `shutdown()`: stop accepting new tasks; finish queued and running tasks.
+- `awaitTermination()`: wait for shutdown to finish.
+- `shutdownNow()`: best-effort interrupt of running workers and returns tasks that never started.
+
+`shutdownNow()` does not magically kill code. Tasks must respond to interruption.
+
+## Pool starvation
+
+Do not block worker threads waiting for other tasks submitted to the same small pool.
 
 ```java
-ExecutorService vte = Executors.newVirtualThreadPerTaskExecutor();
+ExecutorService pool = Executors.newFixedThreadPool(2);
+
+pool.submit(() -> {
+    Future<String> child = pool.submit(this::loadData);
+    return child.get(); // parent worker blocks waiting for child
+});
 ```
 
-- Each submitted task gets its own **virtual thread** — lightweight, JVM-managed, not pinned to an OS thread.
-- Blocking a virtual thread (IO, sleep) parks it without blocking the carrier OS thread.
-- **When to prefer:** IO-bound workloads (JDBC, HTTP calls, file IO) — eliminates the need to size a pool for concurrency.
-- **When NOT to use:** CPU-bound tasks — you still contend on carrier threads. Use `ForkJoinPool` / `newWorkStealingPool` with parallelism = CPU cores.
+If all workers become parents waiting for children, child tasks sit queued forever.
 
----
+Fix by composing work differently, using separate executors, increasing capacity deliberately, or avoiding blocking inside pool tasks.
+
+## Virtual threads
+
+Java 21 adds:
+
+```java
+try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    executor.submit(this::blockingHttpCall);
+}
+```
+
+Virtual threads are lightweight JVM-managed threads. Blocking a virtual thread on supported blocking IO parks the virtual thread instead of monopolizing an OS thread.
+
+Good fit:
+
+- request-per-task style code
+- blocking HTTP/JDBC/file IO
+- code that becomes simpler when written sequentially
+
+Not a magic fix:
+
+- CPU-bound work still needs CPU cores.
+- synchronized pinning and native calls can reduce benefits.
+- downstream limits still matter: DB pools, rate limits, connection limits.
+
+Virtual threads reduce the need to tune thread-pool size for blocking concurrency. They do not remove the need for backpressure.
 
 ## Quick recall
 
-**Q. What is the thread growth order in ThreadPoolExecutor?**
-A. Grow to core → fill queue → grow to max → reject. Queue fills before threads grow beyond core — not the other way around.
+**Q. Why use an executor instead of manual `new Thread()`?**
+A. Executors reuse and control threads, queue tasks, expose results, handle shutdown, and provide overload behavior.
 
-**Q. Why is `newFixedThreadPool` dangerous under sustained load?**
-A. It uses an unbounded `LinkedBlockingQueue`; tasks pile up without bound and can cause `OutOfMemoryError`.
+**Q. What is the `ThreadPoolExecutor` growth order?**
+A. Grow to core, then queue, then grow to max, then reject.
 
-**Q. Why is `newCachedThreadPool` dangerous under burst load?**
-A. `SynchronousQueue` has zero capacity, so every unhandled task spawns a new thread; with `max = Integer.MAX_VALUE`, this can exhaust OS thread limits.
+**Q. Why is an unbounded queue dangerous?**
+A. It can grow until memory is exhausted and it prevents growth beyond core threads.
 
-**Q. What does CallerRunsPolicy do and why is it useful?**
-A. The submitting thread runs the rejected task itself, which slows down task submission — natural backpressure with no data loss.
+**Q. Why is `newCachedThreadPool()` risky?**
+A. It can create up to `Integer.MAX_VALUE` platform threads under burst load.
 
-**Q. How do you safely shut down a pool?**
-A. Call `shutdown()` first (graceful), then `awaitTermination(timeout)`, then `shutdownNow()` if still not done.
+**Q. What does `CallerRunsPolicy` do?**
+A. The submitting thread runs the task, slowing producers and applying backpressure.
 
-**Q. When should you use virtual threads instead of a thread pool?**
-A. IO-bound tasks in Java 21+ — virtual threads park on blocking IO without consuming OS threads, so you don't need to tune pool sizes.
+**Q. What is the safe shutdown pattern?**
+A. `shutdown()`, then `awaitTermination(timeout)`, then `shutdownNow()` if needed, restoring interrupt if interrupted.
 
-**Q. What queue type is recommended for production custom pools and why?**
-A. `ArrayBlockingQueue` with a finite bound — it triggers the max-thread and rejection policy paths, giving real backpressure instead of unbounded queuing.
+**Q. How can a pool deadlock without locks?**
+A. Workers block waiting for child tasks submitted to the same saturated pool, leaving no worker free to run the children.
