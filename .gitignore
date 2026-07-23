@@ -45,3 +45,6 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 /.vitepress/
 .tmp/
+
+### Local practice scratch space ###
+src/main/java/org/example/backend_fundamentals/practice/
