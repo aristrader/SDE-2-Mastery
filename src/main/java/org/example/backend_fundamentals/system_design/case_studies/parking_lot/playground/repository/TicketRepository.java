@@ -2,9 +2,10 @@ package org.example.backend_fundamentals.system_design.case_studies.parking_lot.
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.model.Ticket;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class TicketRepository implements ITicketRepository {
 
   private final Map<String, Ticket> ticketMap = new HashMap<>();
@@ -19,7 +20,15 @@ public class TicketRepository implements ITicketRepository {
   }
 
   @Override
-  public Optional<Ticket> findById(String ticketId) {
-    return Optional.ofNullable(ticketMap.get(ticketId));
+  public Ticket findById(String ticketId) {
+    if(ticketMap.containsKey(ticketId)) {
+      return ticketMap.get(ticketId);
+    }
+    throw new RuntimeException("Invalid ticket");
+  }
+
+  @Override
+  public void close(String ticketId) {
+    ticketMap.remove(ticketId);
   }
 }

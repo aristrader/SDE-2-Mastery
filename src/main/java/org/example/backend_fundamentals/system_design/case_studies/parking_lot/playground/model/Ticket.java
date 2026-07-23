@@ -8,13 +8,13 @@ public class Ticket {
   private final String id;
   private final Vehicle vehicle;
   private final String spotId;
-  private final int floorNumber;
+  private final Integer floorNumber;
   private final String entryGateId;
   private final Instant entryTime;
   private String exitGateId;
   private Instant exitTime;
 
-  public Ticket(String id, Vehicle vehicle, String spotId, int floorNumber, String entryGateId,
+  public Ticket(String id, Vehicle vehicle, String spotId, Integer floorNumber, String entryGateId,
       Instant entryTime) {
     if (id == null || id.isBlank()) {
       throw new IllegalArgumentException("ticket id is required");
@@ -24,6 +24,9 @@ public class Ticket {
     }
     if (spotId == null || spotId.isBlank()) {
       throw new IllegalArgumentException("spot id is required");
+    }
+    if (floorNumber == null) {
+      throw new IllegalArgumentException("floor number is required");
     }
     if (entryGateId == null || entryGateId.isBlank()) {
       throw new IllegalArgumentException("entry gate id is required");
@@ -45,6 +48,9 @@ public class Ticket {
   }
 
   public void close(Instant exitTime, String exitGateId) {
+    if(this.exitTime != null){
+      throw new RuntimeException("Ticket already closed.");
+    }
     if (exitTime == null) {
       throw new IllegalArgumentException("exit time is required");
     }

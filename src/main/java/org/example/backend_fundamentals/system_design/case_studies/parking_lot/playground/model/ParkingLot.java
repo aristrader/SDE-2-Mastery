@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.enums.VehicleType;
+import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.exceptions.NoValidSpotFoundException;
 
 @Getter
 public class ParkingLot {
@@ -22,7 +23,7 @@ public class ParkingLot {
     this.parkingFloors = List.copyOf(parkingFloors);
   }
 
-  public synchronized ParkingSpot allocateSpot(Vehicle vehicle) {
+  public synchronized ParkingAssignment allocateSpot(Vehicle vehicle) {
     if(vehicle == null){
       throw new RuntimeException("The vehicle object is null.");
     }
@@ -30,11 +31,11 @@ public class ParkingLot {
       if(parkingFloor.getAvailability(vehicle.getVehicleType())>0){
         Optional<ParkingSpot> parkingSpot = parkingFloor.reserveSpot(vehicle);
         if(parkingSpot.isPresent()){
-          return parkingSpot.get();
+          return new ParkingAssignment(parkingSpot.get(), parkingFloor.getFloorNumber());
         }
       }
     }
-    throw new RuntimeException("No suitable parking spot found.");
+    throw new NoValidSpotFoundException("No suitable parking spot found.");
   }
 
   public void releaseSpot(String spotId) {
