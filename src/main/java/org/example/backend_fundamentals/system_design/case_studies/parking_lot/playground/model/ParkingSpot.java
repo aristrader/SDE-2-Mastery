@@ -1,7 +1,6 @@
 package org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.model;
 
 import lombok.Getter;
-import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.Vehicle;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.enums.VehicleType;
 
 @Getter
