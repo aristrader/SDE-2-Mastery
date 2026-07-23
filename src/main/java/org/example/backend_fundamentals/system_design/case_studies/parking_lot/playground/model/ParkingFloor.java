@@ -2,17 +2,31 @@ package org.example.backend_fundamentals.system_design.case_studies.parking_lot.
 
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.Vehicle;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.enums.VehicleType;
 
-@Data
-@AllArgsConstructor
+@Getter
 public class ParkingFloor {
-  private String id;
-  private Integer floorNumber;
-  private List<ParkingSpot> parkingSpots;
+  private final String id;
+  private final Integer floorNumber;
+  private final List<ParkingSpot> parkingSpots;
+
+  public ParkingFloor(String id, Integer floorNumber, List<ParkingSpot> parkingSpots) {
+    if (id == null || id.isBlank()) {
+      throw new IllegalArgumentException("parking floor id is required");
+    }
+    if (floorNumber == null) {
+      throw new IllegalArgumentException("floor number is required");
+    }
+    if (parkingSpots == null || parkingSpots.contains(null)) {
+      throw new IllegalArgumentException("parking spots are required");
+    }
+
+    this.id = id;
+    this.floorNumber = floorNumber;
+    this.parkingSpots = List.copyOf(parkingSpots);
+  }
 
   public synchronized Optional<ParkingSpot> reserveSpot(Vehicle vehicle) {
     if(vehicle == null){

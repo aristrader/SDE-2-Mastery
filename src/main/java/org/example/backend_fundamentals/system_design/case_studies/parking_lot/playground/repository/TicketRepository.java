@@ -11,8 +11,8 @@ public class TicketRepository implements ITicketRepository {
 
   @Override
   public void save(Ticket ticket) {
-    if (ticket == null || ticket.getId() == null) {
-      throw new IllegalArgumentException("ticket and ticket id are required");
+    if (ticket == null) {
+      throw new IllegalArgumentException("ticket is required");
     }
 
     ticketMap.put(ticket.getId(), ticket);

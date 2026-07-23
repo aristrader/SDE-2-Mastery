@@ -2,16 +2,26 @@ package org.example.backend_fundamentals.system_design.case_studies.parking_lot.
 
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.Vehicle;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.enums.VehicleType;
 
-@Data
-@AllArgsConstructor
+@Getter
 public class ParkingLot {
-  private String id;
-  private List<ParkingFloor> parkingFloors;
+  private final String id;
+  private final List<ParkingFloor> parkingFloors;
+
+  public ParkingLot(String id, List<ParkingFloor> parkingFloors) {
+    if (id == null || id.isBlank()) {
+      throw new IllegalArgumentException("parking lot id is required");
+    }
+    if (parkingFloors == null || parkingFloors.contains(null)) {
+      throw new IllegalArgumentException("parking floors are required");
+    }
+
+    this.id = id;
+    this.parkingFloors = List.copyOf(parkingFloors);
+  }
 
   public synchronized ParkingSpot allocateSpot(Vehicle vehicle) {
     if(vehicle == null){
@@ -42,6 +52,10 @@ public class ParkingLot {
   }
 
   public int getAvailability(VehicleType vehicleType) {
+    if (vehicleType == null) {
+      throw new IllegalArgumentException("vehicle type is required");
+    }
+
     return parkingFloors.stream()
         .map(parkingFloor -> parkingFloor.getAvailability(vehicleType))
         .reduce(0, Integer::sum);

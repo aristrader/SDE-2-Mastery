@@ -1,12 +1,22 @@
 package org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.enums.VehicleType;
 
-@Data
-@AllArgsConstructor
+@Getter
 public class Vehicle {
-  private String registrationNumber;
-  private VehicleType vehicleType;
+  private final String registrationNumber;
+  private final VehicleType vehicleType;
+
+  public Vehicle(String registrationNumber, VehicleType vehicleType) {
+    if (registrationNumber == null || registrationNumber.isBlank()) {
+      throw new IllegalArgumentException("registration number is required");
+    }
+    if (vehicleType == null) {
+      throw new IllegalArgumentException("vehicle type is required");
+    }
+
+    this.registrationNumber = registrationNumber;
+    this.vehicleType = vehicleType;
+  }
 }

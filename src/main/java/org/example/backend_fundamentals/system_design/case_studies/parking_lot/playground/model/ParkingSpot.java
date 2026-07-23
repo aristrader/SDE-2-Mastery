@@ -1,16 +1,26 @@
 package org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.Vehicle;
 import org.example.backend_fundamentals.system_design.case_studies.parking_lot.playground.enums.VehicleType;
 
-@Data
-@AllArgsConstructor
+@Getter
 public class ParkingSpot {
-  private String id;
-  private VehicleType vehicleType;
+  private final String id;
+  private final VehicleType vehicleType;
   private Vehicle vehicle;
+
+  public ParkingSpot(String id, VehicleType vehicleType) {
+    if (id == null || id.isBlank()) {
+      throw new IllegalArgumentException("parking spot id is required");
+    }
+    if (vehicleType == null) {
+      throw new IllegalArgumentException("vehicle type is required");
+    }
+
+    this.id = id;
+    this.vehicleType = vehicleType;
+  }
 
   public boolean isAvailable(){
     return this.vehicle == null;
@@ -30,7 +40,7 @@ public class ParkingSpot {
     if(this.vehicle!=null){
       throw new RuntimeException("The spot is already full");
     }
-    if(!this.vehicleType.equals(vehicle.getVehicleType())){
+    if(!canFit(vehicle.getVehicleType())){
       throw new RuntimeException("Vehicle type is not compatible");
     }
     this.vehicle = vehicle;
