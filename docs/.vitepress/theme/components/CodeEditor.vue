@@ -98,6 +98,11 @@ function previousText(model, position, chars = 1) {
   })
 }
 
+function isMemberAccessPosition(model, position) {
+  const word = model.getWordUntilPosition(position)
+  return previousText(model, { ...position, column: word.startColumn }, 1) === '.'
+}
+
 function fallbackSort(prefix, label, offset) {
   const lowerPrefix = prefix.toLowerCase()
   const lowerLabel = String(label).toLowerCase()
@@ -112,13 +117,14 @@ function registerJavaCompletions(monaco) {
     async provideCompletionItems(model, position) {
       const range = completionRange(model, position)
       const word = model.getWordUntilPosition(position)
-      const isMemberAccess = previousText(model, position, 1) === '.'
+      const isMemberAccess = isMemberAccessPosition(model, position)
       const classWords = new Set([...props.completionWords, ...classNamesFrom(model.getValue())])
       let semantic = []
       if (props.semanticCompletionProvider) {
         try {
           semantic = await props.semanticCompletionProvider(model, position, range, monaco) || []
-        } catch {
+        } catch (error) {
+          if (import.meta.env.DEV) console.warn('Java semantic completion failed', error)
           semantic = []
         }
       }

@@ -16,6 +16,15 @@ function safeJavaName(name) {
   return name
 }
 
+export function assertUniqueJavaNames(files) {
+  const seen = new Set()
+  for (const file of files || []) {
+    const name = safeJavaName(file?.name)
+    if (seen.has(name)) throw new Error(`Duplicate Java file name: ${name}`)
+    seen.add(name)
+  }
+}
+
 function packagePath(content) {
   const match = String(content).match(/^\s*package\s+([\w.]+)\s*;/m)
   if (!match) return []
@@ -84,6 +93,7 @@ function splitCommand(command) {
 function writeWorkspace(files) {
   if (!Array.isArray(files) || files.length === 0) throw new Error('At least one Java file is required.')
   if (files.length > MAX_FILES) throw new Error('Too many Java files for LSP.')
+  assertUniqueJavaNames(files)
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lms-java-lsp-'))
   const sourceRoot = path.join(root, 'src')
   const workspaceRoot = path.join(root, 'workspace')
@@ -285,7 +295,7 @@ export function javaLspBridgePlugin() {
       capabilities: {
         textDocument: {
           synchronization: { didSave: true },
-          completion: { contextSupport: true, completionItem: { snippetSupport: true, resolveSupport: { properties: ['detail', 'documentation', 'additionalTextEdits'] } } },
+          completion: { contextSupport: true, completionItem: { snippetSupport: false, resolveSupport: { properties: ['detail', 'documentation', 'additionalTextEdits'] } } },
           hover: {},
           definition: {},
           formatting: {},

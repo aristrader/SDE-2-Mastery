@@ -310,10 +310,10 @@ function scheduleLspChange() {
   }, 250)
 }
 
-function syncLspModel(model) {
+function syncLspModel(model, content = lspBalancedContent(model.getValue())) {
   if (!javaLspEnabled.value || lspStatus.value !== 'ready' || !selected.value) return Promise.resolve()
   clearTimeout(lspChangeTimer)
-  sendLsp('java-lsp:change', { file: selected.value.name, content: lspBalancedContent(model.getValue()) })
+  sendLsp('java-lsp:change', { file: selected.value.name, content })
   return new Promise(resolve => setTimeout(resolve, 350))
 }
 
@@ -351,6 +351,25 @@ function lspTextDocument(model) {
 
 function lspPosition(position) {
   return { line: position.lineNumber - 1, character: position.column - 1 }
+}
+
+function isMemberAccessPosition(model, position) {
+  const word = model.getWordUntilPosition(position)
+  const previous = model.getValueInRange({
+    startLineNumber: position.lineNumber,
+    startColumn: Math.max(1, word.startColumn - 1),
+    endLineNumber: position.lineNumber,
+    endColumn: word.startColumn,
+  })
+  return previous === '.'
+}
+
+function lspCompletionContent(model, position) {
+  const content = model.getValue()
+  const word = model.getWordUntilPosition(position)
+  if (!isMemberAccessPosition(model, position) || word.word) return lspBalancedContent(content)
+  const offset = model.getOffsetAt(position)
+  return lspBalancedContent(`${content.slice(0, offset)}toString();${content.slice(offset)}`)
 }
 
 function toMonacoRange(range, monaco) {
@@ -706,20 +725,34 @@ async function resetWorkspace() {
 }
 
 async function lspCompletionProvider(model, position, fallbackRange, monaco) {
-  await syncLspModel(model)
+  const actualContent = lspBalancedContent(model.getValue())
+  const completionContent = lspCompletionContent(model, position)
+  await syncLspModel(model, completionContent)
   const triggerCharacter = model.getValueInRange({
     startLineNumber: position.lineNumber,
     startColumn: Math.max(1, position.column - 1),
     endLineNumber: position.lineNumber,
     endColumn: position.column,
   })
-  const result = await lspRequest('textDocument/completion', {
-    textDocument: lspTextDocument(model),
-    position: lspPosition(position),
-    context: triggerCharacter === '.' ? { triggerKind: 2, triggerCharacter: '.' } : { triggerKind: 1 },
-  })
+  let result = null
+  try {
+    result = await lspRequest('textDocument/completion', {
+      textDocument: lspTextDocument(model),
+      position: lspPosition(position),
+      context: triggerCharacter === '.' ? { triggerKind: 2, triggerCharacter: '.' } : { triggerKind: 1 },
+    })
+  } finally {
+    if (completionContent !== actualContent && selected.value) {
+      setTimeout(() => selected.value && sendLsp('java-lsp:change', { file: selected.value.name, content: actualContent }), 5000)
+    }
+  }
   const items = Array.isArray(result) ? result : (result?.items || [])
-  return pruneNoisyLspItems(items).slice(0, 120).map((item, index) => completionItemToMonaco(item, fallbackRange, monaco, index))
+  const forceFallbackRange = completionContent !== actualContent
+  const suggestions = pruneNoisyLspItems(items).slice(0, 120).map((item, index) => completionItemToMonaco(item, fallbackRange, monaco, index, forceFallbackRange))
+  if (import.meta.env.DEV && forceFallbackRange && typeof window !== 'undefined') {
+    window.__javaMemberCompletionLabels = suggestions.map(item => item.label)
+  }
+  return suggestions
 }
 
 function pruneNoisyLspItems(items) {
@@ -756,18 +789,30 @@ function lspSortText(item, index) {
   return `${packageRank + internalPenalty}-${String(label.length).padStart(3, '0')}-${item.sortText || String(index).padStart(4, '0')}`
 }
 
-function completionItemToMonaco(item, fallbackRange, monaco, index = 0) {
+function completionItemToMonaco(item, fallbackRange, monaco, index = 0, forceFallbackRange = false) {
+  const label = forceFallbackRange ? String(item.label || '').split('(')[0] : item.label
+  if (forceFallbackRange) {
+    return {
+      label,
+      kind: monaco.languages.CompletionItemKind.Method,
+      detail: item.label,
+      insertText: label,
+      range: fallbackRange,
+      filterText: label,
+      sortText: `0-${String(index).padStart(4, '0')}`,
+    }
+  }
   return {
-    label: item.label,
+    label,
     kind: lspCompletionKind(item.kind, monaco),
-    detail: item.detail,
+    detail: forceFallbackRange ? item.label : item.detail,
     documentation: typeof item.documentation === 'string' ? item.documentation : item.documentation?.value,
-    insertText: item.textEdit?.newText || item.insertText || item.label,
-    range: item.textEdit?.range ? toMonacoRange(item.textEdit.range, monaco) : fallbackRange,
-    additionalTextEdits: (item.additionalTextEdits || []).map(edit => lspEditToMonaco(edit, monaco)),
-    commitCharacters: item.commitCharacters,
-    filterText: item.filterText,
-    sortText: lspSortText(item, index),
+    insertText: forceFallbackRange ? label : item.textEdit?.newText || item.insertText || item.label,
+    range: !forceFallbackRange && item.textEdit?.range ? toMonacoRange(item.textEdit.range, monaco) : fallbackRange,
+    additionalTextEdits: forceFallbackRange ? [] : (item.additionalTextEdits || []).map(edit => lspEditToMonaco(edit, monaco)),
+    commitCharacters: forceFallbackRange ? undefined : item.commitCharacters,
+    filterText: forceFallbackRange ? label : item.filterText,
+    sortText: forceFallbackRange ? `0-${String(index).padStart(4, '0')}` : lspSortText(item, index),
     lspItem: item,
   }
 }
