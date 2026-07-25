@@ -43,8 +43,9 @@ public class ParkingService {
     Instant exitTime = Instant.now();
     Double fee = feeCalculator.collect(ticket, exitTime);
     paymentService.collect(ticketId, fee, paymentMethod);
-    parkingLot.releaseSpot(ticket.getSpotId());
     ticket.close(exitTime, exitGateId);
+    parkingLot.releaseSpot(ticket.getSpotId());
+    ticketRepository.close(ticketId);
   }
 
   public int getAvailability(VehicleType vehicleType) {
