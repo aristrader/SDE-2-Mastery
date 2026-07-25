@@ -117,3 +117,94 @@ Expected output shape:
 worker stopped
 200000
 ```
+
+## Solution: static-holder-lazy-initialization - Static Holder Lazy Initialization
+
+Runnable version:
+
+```java
+public class StaticHolderLazyInitializationSolution {
+    public static void main(String[] args) {
+        // Run one case at a time.
+        case3();
+    }
+
+    static void case1() {
+        System.out.println("main");
+    }
+
+    static void case2() {
+        System.out.println("main start");
+        Singleton.touchOuter();
+        System.out.println("main end");
+    }
+
+    static void case3() {
+        System.out.println("main start");
+        Singleton.getInstance();
+        System.out.println("main end");
+    }
+
+    static void case4() {
+        System.out.println("main start");
+        Singleton.getInstance();
+        Singleton.getInstance();
+        System.out.println("main end");
+    }
+
+    static void case5() {
+        System.out.println("main start");
+        Singleton.touchOuter();
+        Singleton.getInstance();
+        System.out.println("main end");
+    }
+
+    static final class Singleton {
+        static {
+            System.out.println("Singleton initialized");
+        }
+
+        private Singleton() {
+            System.out.println("Singleton constructor");
+        }
+
+        private static final class Holder {
+            static {
+                System.out.println("Holder initialized");
+            }
+
+            static final Singleton INSTANCE = new Singleton();
+        }
+
+        static void touchOuter() {
+            System.out.println("touchOuter called");
+        }
+
+        static Singleton getInstance() {
+            return Holder.INSTANCE;
+        }
+    }
+}
+```
+
+Expected outputs:
+
+| Case | Output |
+|---|---|
+| Case 1 | `main` |
+| Case 2 | `main start`, then `Singleton initialized`, then `touchOuter called`, then `main end` |
+| Case 3 | `main start`, then `Singleton initialized`, then `Holder initialized`, then `Singleton constructor`, then `main end` |
+| Case 4 | `main start`, then `Singleton initialized`, then `Holder initialized`, then `Singleton constructor`, then `main end` |
+| Case 5 | `main start`, then `Singleton initialized`, then `touchOuter called`, then `Holder initialized`, then `Singleton constructor`, then `main end` |
+
+Explanation:
+
+- `Singleton` and `Holder` are different classes.
+- Calling `Singleton.touchOuter()` initializes only the outer `Singleton` class.
+- `Holder` initializes only when code first touches `Holder.INSTANCE`.
+- During `Holder` initialization, `INSTANCE = new Singleton()` runs.
+- Class initialization is done once by the JVM, with synchronization.
+- After class initialization completes, all threads safely see `Holder.INSTANCE`.
+- No `volatile` is needed because the JVM's class-initialization rule creates the safe-publication guarantee.
+
+The pattern is lazy because the singleton object is not created until `getInstance()` accesses `Holder.INSTANCE`.

@@ -327,6 +327,18 @@ Object construction has separate effects:
 
 Safe publication gives other threads a rule that if they see the reference, they also see the constructor-written state.
 
+The core mistake is publishing the reference without a happens-before edge:
+
+```java
+static Service instance; // plain shared reference
+
+static void publish() {
+    instance = new Service(); // unsafe publication
+}
+```
+
+The fix is not "constructor finished." The fix is "reader receives the reference through a safe publication mechanism."
+
 Common safe publication options:
 
 | Option | Why it works |
@@ -336,6 +348,73 @@ Common safe publication options:
 | `AtomicReference` | Uses volatile-style visibility and supports CAS. |
 | Lock-guarded field | Writer and reader use the same lock. |
 | Immutable object with `final` fields | Final fields get a special constructor-completion guarantee, if `this` does not escape. |
+
+Examples:
+
+```java
+class Config {
+    final int timeoutMillis;
+    final String region;
+
+    Config(int timeoutMillis, String region) {
+        this.timeoutMillis = timeoutMillis;
+        this.region = region;
+    }
+}
+```
+
+This object is immutable, but the reference still needs to be published safely unless it is created and handed off through a safe mechanism.
+
+Safe through class initialization:
+
+```java
+class ConfigHolder {
+    static final Config CONFIG = new Config(500, "ap-south-1");
+}
+```
+
+Safe through volatile reference:
+
+```java
+class ConfigRegistry {
+    private static volatile Config config;
+
+    static void publish(Config newConfig) {
+        config = newConfig;
+    }
+
+    static Config read() {
+        return config;
+    }
+}
+```
+
+Safe through same lock:
+
+```java
+class LockedRegistry {
+    private Config config;
+
+    synchronized void publish(Config newConfig) {
+        config = newConfig;
+    }
+
+    synchronized Config read() {
+        return config;
+    }
+}
+```
+
+Important distinction:
+
+| Case | Safe publication? | Object thread-safe after publication? |
+|---|---:|---:|
+| Immutable object with `final` fields, safely published | Yes | Yes, if no mutable internals leak |
+| Mutable object, safely published | Yes | Not automatically |
+| Object stored in plain static field without synchronization | No | No |
+| Object put into a concurrent collection | Usually yes for handoff | Only collection operations are protected |
+
+Safe publication is about the initial handoff. It does not make later mutations safe.
 
 ---
 
@@ -598,6 +677,9 @@ A. Mutual exclusion plus unlock-to-lock visibility on the same monitor.
 
 **Q. What is safe publication?**
 A. Publishing an object so other threads see both the reference and the constructed state.
+
+**Q. Does safe publication make a mutable object thread-safe forever?**
+A. No. It only makes the initial handoff visible; later mutation still needs synchronization.
 
 **Q. In double-checked locking, what prevents duplicate creation?**
 A. The second `instance == null` check inside the synchronized block.
