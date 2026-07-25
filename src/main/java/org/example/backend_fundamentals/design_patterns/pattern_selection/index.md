@@ -286,6 +286,23 @@ These patterns cluster around the same concern and are worth picking up together
 - In production Spring code, Option 3 (DI) wins. Without a framework, Option 2 (Registry) is the pragmatic next step.
 - This file is a **mini project** &mdash; work through the exercises and you'll have touched four patterns (Factory Method + Strategy + Registry + DI) on one concrete scenario. That's some of the highest ROI design-pattern practice you can do.
 
+## Quick recall
+
+**Q. If the caller knows the behavior per call, which pattern fits?**
+A. Strategy.
+
+**Q. If one gateway picks an implementation by key without Spring, what fits?**
+A. Registry.
+
+**Q. If Spring injects `Map<String, Implementation>`, what is the design shape?**
+A. Dependency Injection plus polymorphism by interface.
+
+**Q. Is "one HR object" a Factory Method problem?**
+A. No. It is an orchestration/wiring concern around the factory method.
+
+**Q. Which option is usually best in production Spring code?**
+A. DI with constructor injection and framework-managed implementation lookup.
+
 ---
 
 ## Related files

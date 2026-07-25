@@ -60,6 +60,83 @@ class Counter {
 
 Prefer block form for most production code. It lets you choose a private lock object and keep the locked section as small as possible.
 
+## Why pass an object?
+
+`synchronized` needs an object because the object is the coordination point.
+
+```java
+synchronized (lock) {
+    // protected code
+}
+```
+
+This does not mean `lock` is the data being protected. It means `lock` is the monitor that threads agree to use before touching the protected data.
+
+Think of the lock object as a key:
+
+```text
+same key    -> threads coordinate
+different key -> threads do not coordinate
+```
+
+This works:
+
+```java
+class Counter {
+    private final Object lock = new Object();
+    private int count;
+
+    void increment() {
+        synchronized (lock) {
+            count++;
+        }
+    }
+
+    int current() {
+        synchronized (lock) {
+            return count;
+        }
+    }
+}
+```
+
+Both methods use the same `lock`, so the read and write participate in the same protocol.
+
+This is broken:
+
+```java
+class Counter {
+    private final Object writeLock = new Object();
+    private final Object readLock = new Object();
+    private int count;
+
+    void increment() {
+        synchronized (writeLock) {
+            count++;
+        }
+    }
+
+    int current() {
+        synchronized (readLock) {
+            return count;
+        }
+    }
+}
+```
+
+The code is synchronized, but not synchronized together. The read and write use different monitors, so there is no mutual exclusion or visibility guarantee between them.
+
+Use this rule:
+
+| Protected state | Good lock choice |
+|---|---|
+| Instance fields | `private final Object lock = new Object()` |
+| Static fields | `private static final Object LOCK = new Object()` or `ClassName.class` |
+| One shared collection/resource | Dedicated private final lock for that resource |
+| Multiple fields that form one invariant | Same lock for all fields |
+
+Avoid public or shared lock objects unless that is the deliberate API contract.
+
 ## Monitor ownership
 
 At runtime:
@@ -253,6 +330,12 @@ If the operation is `counter++`, use `synchronized` or an atomic class. If the o
 
 **Q. What does `synchronized` acquire?**
 A. The intrinsic monitor lock of the object: `this`, `SomeClass.class`, or the explicit block lock.
+
+**Q. Why do we pass an object to `synchronized(lock)`?**
+A. That object is the monitor threads coordinate on. Threads block each other only when they use the same monitor object.
+
+**Q. What should you usually pass to `synchronized(...)`?**
+A. A private final lock object for instance state, or a private static final lock for static state.
 
 **Q. What two guarantees does `synchronized` provide?**
 A. Mutual exclusion and visibility through unlock-to-lock happens-before on the same monitor.

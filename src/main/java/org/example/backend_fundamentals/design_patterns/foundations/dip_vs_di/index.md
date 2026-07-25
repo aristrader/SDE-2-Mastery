@@ -49,6 +49,70 @@ private final HiringProcess hiringProcess;   // ← interface, not the concrete 
 
 If this were `private final DeveloperHiringProcess hiringProcess;` (as in the *learning* variant), DIP would be partially violated — HR would be locked to the developer branch even though `DeveloperHiringProcess` is itself an abstract class. The interface above is the *most abstract* suitable type for HR's role; depending on it, not the abstract class, is what makes the dependency DIP-clean.
 
+The production code has three layers:
+
+```java
+public interface HiringProcess {
+  Employee onboard();
+}
+
+public abstract class DeveloperHiringProcess implements HiringProcess {
+  @Override
+  public final Employee onboard() {
+    Employee developer = createDeveloper();
+    // shared developer onboarding steps...
+    return developer;
+  }
+
+  protected abstract Employee createDeveloper();
+}
+
+public class AndroidHiringProcess extends DeveloperHiringProcess {
+  @Override
+  public Employee createDeveloper() {
+    return new AndroidDeveloper();
+  }
+}
+```
+
+`DeveloperHiringProcess` is an abstraction, but it is still a *developer-specific* abstraction. It represents one branch of hiring flows: Android, backend, iOS, and any other developer role. `HiringProcess` is the broader contract HR actually needs: "give me something that can onboard one employee."
+
+That distinction matters when wiring:
+
+```java
+EmailService emailService = new EmailService();
+OfferLetterService offerLetterService = new OfferLetterService();
+
+HiringProcess androidProcess =
+    new AndroidHiringProcess(emailService, offerLetterService);
+
+HR hrForAndroid = new HR(androidProcess);
+```
+
+The object is still concrete at the edge (`new AndroidHiringProcess(...)`), but the high-level client receives it through the `HiringProcess` interface:
+
+```java
+class HR {
+  private final HiringProcess hiringProcess;
+
+  HR(HiringProcess hiringProcess) {
+    this.hiringProcess = hiringProcess;
+  }
+
+  Employee hireForTeam() {
+    return hiringProcess.onboard();
+  }
+}
+```
+
+So the dependency chain reads:
+
+```text
+HR ──depends on──▶ HiringProcess ◀──implemented by── DeveloperHiringProcess ◀──extended by── AndroidHiringProcess
+```
+
+If a future `SalesHiringProcess` implements `HiringProcess` as a sibling of `DeveloperHiringProcess`, `HR` does not change. If `HR` depended on `DeveloperHiringProcess`, that new sales branch would not fit the constructor even though the code still used constructor injection. That is the subtle difference: DI would still be present, but DIP would be weaker.
+
 ---
 
 ## Dependency Injection (DI) — the **technique**
@@ -251,13 +315,22 @@ Skipping manual DI and going straight to Spring is the most common reason develo
 
 ---
 
-## Done when
+## Quick recall
 
-You can answer these three concept-check questions from above without looking:
+**Q. DIP vs DI?**
+A. DIP is the principle: depend on abstractions. DI is the technique: receive dependencies from outside, usually through constructors.
 
-1. In `factory_method/`, is `EmailService` DI-friendly? What signal tells you?
-2. If `EmailService` is a Spring singleton bean and both hiring-process subclasses hold it, how many `EmailService` instances exist? What thread-safety does that require?
-3. Write `class HR { private final HiringProcess hp = new AndroidHiringProcess(...); }`. Name two testability problems and the one-line fix.
+**Q. Constructor injection vs internal `new`?**
+A. Constructor injection makes dependencies explicit and replaceable. Internal `new` hard-codes the concrete class and hurts testing.
+
+**Q. In Spring, why is manual Singleton usually unnecessary?**
+A. Spring beans are singleton-scoped by default, so the container already manages one shared instance.
+
+**Q. When does a factory still make sense in a DI app?**
+A. When there is a real runtime choice, not just "give me this dependency."
+
+**Q. What is the one-line fix for `private final HiringProcess hp = new AndroidHiringProcess(...)`?**
+A. Accept `HiringProcess` in the constructor and assign it to the field.
 
 ---
 
@@ -265,4 +338,3 @@ You can answer these three concept-check questions from above without looking:
 
 - **SOLID — DIP** — this doc is the deep dive; the SOLID doc has the one-line summary.
 - **Pattern Selection Exercise** (`design_patterns/pattern_selection/index.md`) — Stage 3 of the practice path above is implemented there with Strategy/Registry/DI variants.
-

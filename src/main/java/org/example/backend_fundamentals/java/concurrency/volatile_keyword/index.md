@@ -155,6 +155,94 @@ class Poller {
 
 This fits because there is one variable, one plain write, and many plain reads.
 
+### Stop flag with `start()` and `join()`
+
+This runnable shape shows four separate ideas:
+
+```java
+public class Practice {
+    public static void main(String[] args) throws InterruptedException {
+        Running running = new Running();
+        Thread worker = new Thread(running::run);
+
+        worker.start();
+        Thread.sleep(2000);
+        running.stop();
+        worker.join();
+
+        System.out.println("STOPPED");
+    }
+
+    static class Running {
+        private volatile boolean shutdown;
+
+        void stop() {
+            shutdown = true;
+        }
+
+        void run() {
+            long count = 0;
+
+            while (!shutdown) {
+                count++;
+            }
+
+            System.out.println("Stopped at " + count);
+        }
+    }
+}
+```
+
+What each line is doing:
+
+| Line | Meaning |
+|---|---|
+| `worker.start()` | Starts the worker thread. Everything before `start()` is visible inside the new thread. |
+| `Thread.sleep(2000)` | Only delays the main thread. It does not create a visibility guarantee for `shutdown`. |
+| `running.stop()` | Writes `shutdown = true`. This must be visible to the worker for the loop to end. |
+| `worker.join()` | Main thread waits until the worker finishes. After `join()`, main sees what the worker wrote before ending. |
+
+Why `volatile` matters:
+
+```java
+private volatile boolean shutdown;
+```
+
+The main thread writes `shutdown = true`. The worker thread repeatedly reads `shutdown`.
+Because the field is volatile, the worker is required to notice the write.
+
+Without `volatile`, this loop is unsafe:
+
+```java
+while (!shutdown) {
+    count++;
+}
+```
+
+The worker may keep reading an old cached/optimized value of `shutdown == false`.
+The main thread did call `stop()`, but there is no happens-before edge forcing the worker to observe that plain boolean write.
+
+Why `join()` matters:
+
+```java
+worker.join();
+System.out.println("STOPPED");
+```
+
+`join()` is not what stops the worker. `volatile` lets the worker see the stop signal.
+`join()` makes the main thread wait until the worker has actually exited.
+
+Without `join()`, main can print `STOPPED` before the worker prints `Stopped at ...`, or before the worker has finished cleanup.
+
+So the responsibilities are:
+
+| Tool | Responsibility |
+|---|---|
+| `volatile` | Worker sees the stop signal. |
+| `join()` | Main waits for worker completion. |
+| `start()` | Starts thread and safely hands initial state to it. |
+| `sleep()` | Delay only; not a synchronization tool. |
+
 ### Safe publication of immutable config
 
 ```java
@@ -234,6 +322,12 @@ A. `counter++` is read, increment, write. Volatile makes each access visible but
 **Q. What is the best simple use case for `volatile`?**
 A. A stop flag: one thread writes `false`, worker threads read it in a loop.
 
+**Q. In a stop-flag example, does `join()` replace `volatile`?**
+A. No. `volatile` lets the worker see the stop signal; `join()` makes the caller wait for worker completion.
+
+**Q. Does `Thread.sleep()` make another thread see a write?**
+A. No. Sleep delays the current thread; it is not a visibility mechanism.
+
 **Q. Does `volatile` provide mutual exclusion?**
 A. No. Multiple threads can still execute the same code at the same time.
 
@@ -242,4 +336,3 @@ A. To prevent publishing a reference before the object is fully constructed and 
 
 **Q. Does a volatile reference make the referenced object thread-safe?**
 A. No. It makes reference replacement visible; internal mutable state still needs its own safety.
-
