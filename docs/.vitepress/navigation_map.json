@@ -710,6 +710,10 @@
               {
                 "text": "Spring, WebFlux, and the Threading Model",
                 "link": "/spring/spring_web/webflux_threading_model/"
+              },
+              {
+                "text": "Spring API Quick Revision",
+                "link": "/spring/spring_web/api_quick_revision/"
               }
             ],
             "collapsed": true
@@ -1019,7 +1023,14 @@
               },
               {
                 "text": "Parking Lot Design",
-                "link": "/system_design/case_studies/parking_lot/"
+                "link": "/system_design/case_studies/parking_lot/",
+                "items": [
+                  {
+                    "text": "Parking Lot Database and Concurrency",
+                    "link": "/system_design/case_studies/parking_lot/database_concurrency/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -1272,6 +1283,96 @@
         "items": []
       }
     ],
+    "/health_fitness/": [
+      {
+        "text": "Health and Fitness",
+        "items": [
+          {
+            "text": "Nutrition",
+            "link": "/health_fitness/nutrition/",
+            "items": [
+              {
+                "text": "Saturday/Sunday Order",
+                "link": "/health_fitness/nutrition/saturday_order/"
+              },
+              {
+                "text": "Wednesday Order",
+                "link": "/health_fitness/nutrition/wednesday_order/"
+              }
+            ],
+            "collapsed": true
+          },
+          {
+            "text": "Training",
+            "link": "/health_fitness/training/",
+            "items": [
+              {
+                "text": "Walk Run",
+                "link": "/health_fitness/training/walk_run/"
+              },
+              {
+                "text": "Daily Workouts",
+                "link": "/health_fitness/training/workouts/",
+                "items": [
+                  {
+                    "text": "Workout A",
+                    "link": "/health_fitness/training/workouts/a/"
+                  },
+                  {
+                    "text": "Workout B",
+                    "link": "/health_fitness/training/workouts/b/"
+                  },
+                  {
+                    "text": "Workout C",
+                    "link": "/health_fitness/training/workouts/c/"
+                  },
+                  {
+                    "text": "Recovery Workout",
+                    "link": "/health_fitness/training/workouts/recovery/"
+                  }
+                ],
+                "collapsed": true
+              },
+              {
+                "text": "Mobility",
+                "link": "/health_fitness/training/mobility/",
+                "items": [
+                  {
+                    "text": "Mobility A",
+                    "link": "/health_fitness/training/mobility/a/"
+                  },
+                  {
+                    "text": "Mobility B",
+                    "link": "/health_fitness/training/mobility/b/"
+                  },
+                  {
+                    "text": "Mobility C",
+                    "link": "/health_fitness/training/mobility/c/"
+                  }
+                ],
+                "collapsed": true
+              }
+            ],
+            "collapsed": true
+          },
+          {
+            "text": "Tracking",
+            "link": "/health_fitness/tracking_playbook/",
+            "items": [
+              {
+                "text": "Weekly Log",
+                "link": "/health_fitness/tracking_playbook/weekly/"
+              },
+              {
+                "text": "Monthly Log",
+                "link": "/health_fitness/tracking_playbook/monthly/"
+              }
+            ],
+            "collapsed": true
+          }
+        ]
+      }
+    ],
     "/practice/": [
       {
         "text": "Practice Scratchpad",
@@ -1349,6 +1450,11 @@
       "text": "Live Progress Dashboard",
       "link": "/progress/",
       "activeMatch": "/progress/"
+    },
+    {
+      "text": "Health and Fitness",
+      "link": "/health_fitness/",
+      "activeMatch": "/health_fitness/"
     },
     {
       "text": "Practice Scratchpad",
@@ -5922,6 +6028,20 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "Spring API Quick Revision",
+                "link": "/spring/spring_web/api_quick_revision/",
+                "order": 60,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
               }
             ]
           },
@@ -6962,8 +7082,24 @@
                   "solution": false,
                   "design": true,
                   "playground": true,
-                  "assets": false
-                }
+                  "assets": true
+                },
+                "items": [
+                  {
+                    "text": "Parking Lot Database and Concurrency",
+                    "link": "/system_design/case_studies/parking_lot/database_concurrency/",
+                    "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -7754,6 +7890,270 @@
         }
       },
       {
+        "text": "Health and Fitness",
+        "link": "/health_fitness/",
+        "order": 150,
+        "schema": "theory",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Nutrition",
+            "link": "/health_fitness/nutrition/",
+            "order": 10,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Saturday/Sunday Order",
+                "link": "/health_fitness/nutrition/saturday_order/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Wednesday Order",
+                "link": "/health_fitness/nutrition/wednesday_order/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Training",
+            "link": "/health_fitness/training/",
+            "order": 20,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Walk Run",
+                "link": "/health_fitness/training/walk_run/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Daily Workouts",
+                "link": "/health_fitness/training/workouts/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Workout A",
+                    "link": "/health_fitness/training/workouts/a/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Workout B",
+                    "link": "/health_fitness/training/workouts/b/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Workout C",
+                    "link": "/health_fitness/training/workouts/c/",
+                    "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Recovery Workout",
+                    "link": "/health_fitness/training/workouts/recovery/",
+                    "order": 40,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
+              },
+              {
+                "text": "Mobility",
+                "link": "/health_fitness/training/mobility/",
+                "order": 30,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Mobility A",
+                    "link": "/health_fitness/training/mobility/a/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Mobility B",
+                    "link": "/health_fitness/training/mobility/b/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Mobility C",
+                    "link": "/health_fitness/training/mobility/c/",
+                    "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "Tracking",
+            "link": "/health_fitness/tracking_playbook/",
+            "order": 30,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Weekly Log",
+                "link": "/health_fitness/tracking_playbook/weekly/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Monthly Log",
+                "link": "/health_fitness/tracking_playbook/monthly/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
         "text": "Practice Scratchpad",
         "link": "/practice/",
         "order": 1000,
@@ -8399,6 +8799,10 @@
       "link": "/spring/spring_web/webflux_threading_model/"
     },
     {
+      "text": "Spring API Quick Revision",
+      "link": "/spring/spring_web/api_quick_revision/"
+    },
+    {
       "text": "Spring Data",
       "link": "/spring/spring_data/"
     },
@@ -8667,6 +9071,10 @@
       "link": "/system_design/case_studies/parking_lot/"
     },
     {
+      "text": "Parking Lot Database and Concurrency",
+      "link": "/system_design/case_studies/parking_lot/database_concurrency/"
+    },
+    {
       "text": "Performance Engineering",
       "link": "/performance/"
     },
@@ -8873,6 +9281,78 @@
     {
       "text": "Live Progress Dashboard",
       "link": "/progress/"
+    },
+    {
+      "text": "Health and Fitness",
+      "link": "/health_fitness/"
+    },
+    {
+      "text": "Nutrition",
+      "link": "/health_fitness/nutrition/"
+    },
+    {
+      "text": "Saturday/Sunday Order",
+      "link": "/health_fitness/nutrition/saturday_order/"
+    },
+    {
+      "text": "Wednesday Order",
+      "link": "/health_fitness/nutrition/wednesday_order/"
+    },
+    {
+      "text": "Training",
+      "link": "/health_fitness/training/"
+    },
+    {
+      "text": "Walk Run",
+      "link": "/health_fitness/training/walk_run/"
+    },
+    {
+      "text": "Daily Workouts",
+      "link": "/health_fitness/training/workouts/"
+    },
+    {
+      "text": "Workout A",
+      "link": "/health_fitness/training/workouts/a/"
+    },
+    {
+      "text": "Workout B",
+      "link": "/health_fitness/training/workouts/b/"
+    },
+    {
+      "text": "Workout C",
+      "link": "/health_fitness/training/workouts/c/"
+    },
+    {
+      "text": "Recovery Workout",
+      "link": "/health_fitness/training/workouts/recovery/"
+    },
+    {
+      "text": "Mobility",
+      "link": "/health_fitness/training/mobility/"
+    },
+    {
+      "text": "Mobility A",
+      "link": "/health_fitness/training/mobility/a/"
+    },
+    {
+      "text": "Mobility B",
+      "link": "/health_fitness/training/mobility/b/"
+    },
+    {
+      "text": "Mobility C",
+      "link": "/health_fitness/training/mobility/c/"
+    },
+    {
+      "text": "Tracking",
+      "link": "/health_fitness/tracking_playbook/"
+    },
+    {
+      "text": "Weekly Log",
+      "link": "/health_fitness/tracking_playbook/weekly/"
+    },
+    {
+      "text": "Monthly Log",
+      "link": "/health_fitness/tracking_playbook/monthly/"
     },
     {
       "text": "Practice Scratchpad",
@@ -16539,6 +17019,20 @@
       },
       "referenceHtml": "<h1>Solution</h1>"
     },
+    "/spring/spring_web/api_quick_revision/": {
+      "text": "Spring API Quick Revision",
+      "link": "/spring/spring_web/api_quick_revision/",
+      "pageType": "theory",
+      "parentLink": "/spring/spring_web/api_quick_revision/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/spring/spring_data/": {
       "text": "Spring Data",
       "link": "/spring/spring_data/",
@@ -18990,7 +19484,7 @@
         "solution": false,
         "design": true,
         "playground": true,
-        "assets": false
+        "assets": true
       }
     },
     "/system_design/case_studies/parking_lot/exercise/": {
@@ -19004,7 +19498,7 @@
         "solution": false,
         "design": true,
         "playground": true,
-        "assets": false
+        "assets": true
       },
       "practiceSet": null
     },
@@ -19019,9 +19513,23 @@
         "solution": false,
         "design": true,
         "playground": true,
-        "assets": false
+        "assets": true
       },
-      "referenceHtml": "<h1>Parking Lot Design</h1>\n<h2>Requirements</h2>\n<ul>\n<li>Allocate a spot for a vehicle if a compatible spot is free.</li>\n<li>Reject allocation when all compatible spots are occupied.</li>\n<li>Release a spot when the vehicle exits.</li>\n<li>Report available spot count by vehicle type.</li>\n<li>Keep payment, pricing, and gate orchestration outside the MVP implementation.</li>\n</ul>\n<h2>Core entities</h2>\n<ul>\n<li><code>Vehicle</code>: registration number plus <code>VehicleType</code>.</li>\n<li><code>VehicleType</code>: supported categories such as <code>CAR</code>, <code>BIKE</code>, and <code>TRUCK</code>.</li>\n<li><code>ParkingSpot</code>: owns compatibility and current occupancy.</li>\n<li><code>ParkingFloor</code>: owns a group of spots and local spot search.</li>\n<li><code>ParkingLot</code>: owns cross-floor allocation, release, and availability.</li>\n<li><code>Ticket</code>: useful extension point for entry/exit history.</li>\n<li><code>Payment</code>: useful extension point once pricing is in scope.</li>\n</ul>\n<h2>Main flows</h2>\n<h3>Park</h3>\n<p>1. <code>ParkingLot.allocateSpot(vehicle)</code> scans floors in order.</p>\n<p>2. Each floor asks for the first available spot matching <code>vehicle.getVehicleType()</code>.</p>\n<p>3. <code>ParkingSpot.reserve(vehicle)</code> marks the spot occupied.</p>\n<p>4. If no floor can reserve a spot, the lot throws a clear full-capacity exception.</p>\n<h3>Exit</h3>\n<p>1. <code>ParkingLot.releaseSpot(spotId)</code> asks each floor to release that spot.</p>\n<p>2. <code>ParkingSpot.release()</code> clears the current vehicle.</p>\n<p>3. If the spot id does not exist, the lot throws a clear unknown-spot exception.</p>\n<h3>Availability</h3>\n<p>1. Each floor counts available spots for the requested vehicle type.</p>\n<p>2. The lot sums those counts across floors.</p>\n<h2>Tradeoffs</h2>\n<ul>\n<li>The playground uses first-fit allocation because it is simple and interview-friendly.</li>\n<li>A production design would likely add entry gates, exit gates, pricing, payment status, ticket lifecycle, and concurrency control.</li>\n<li>Spot type matching is exact in the MVP. If truck spots can accept cars, replace <code>canFit</code> with a capacity/rank rule.</li>\n<li>In-memory repositories are enough for the exercise. Persistence is a separate system-design concern.</li>\n</ul>\n<h2>Quick recall</h2>\n<ul>\n<li>Put local invariants on the object that owns the state: <code>ParkingSpot.reserve</code> and <code>release</code>.</li>\n<li>Put search at the aggregate level: <code>ParkingFloor</code> searches spots; <code>ParkingLot</code> searches floors.</li>\n<li>Make full-capacity and unknown-spot cases explicit.</li>\n<li>Add payment only after ticket lifecycle and release flow are clear.</li>\n</ul>"
+      "referenceHtml": "<h1>Parking Lot Design</h1>\n<h2>Requirements</h2>\n<ul>\n<li>Allocate a spot for a vehicle if a compatible spot is free.</li>\n<li>Reject allocation when all compatible spots are occupied.</li>\n<li>Release a spot when the vehicle exits.</li>\n<li>Report available spot count by vehicle type.</li>\n<li>Keep payment, pricing, and gate orchestration outside the MVP implementation.</li>\n</ul>\n<h2>Core entities</h2>\n<ul>\n<li><code>Vehicle</code>: registration number plus <code>VehicleType</code>.</li>\n<li><code>VehicleType</code>: supported categories such as <code>CAR</code>, <code>BIKE</code>, and <code>TRUCK</code>.</li>\n<li><code>ParkingSpot</code>: owns compatibility and current occupancy.</li>\n<li><code>ParkingFloor</code>: owns a group of spots and local spot search.</li>\n<li><code>ParkingLot</code>: owns cross-floor allocation, release, and availability.</li>\n<li><code>Ticket</code>: useful extension point for entry/exit history.</li>\n<li><code>Payment</code>: useful extension point once pricing is in scope.</li>\n</ul>\n<h2>Main flows</h2>\n<h3>Park</h3>\n<p>1. <code>ParkingLot.allocateSpot(vehicle)</code> scans floors in order.</p>\n<p>2. Each floor asks for the first available spot matching <code>vehicle.getVehicleType()</code>.</p>\n<p>3. <code>ParkingSpot.reserve(vehicle)</code> marks the spot occupied.</p>\n<p>4. If no floor can reserve a spot, the lot throws a clear full-capacity exception.</p>\n<h3>Exit</h3>\n<p>1. <code>ParkingLot.releaseSpot(spotId)</code> asks each floor to release that spot.</p>\n<p>2. <code>ParkingSpot.release()</code> clears the current vehicle.</p>\n<p>3. If the spot id does not exist, the lot throws a clear unknown-spot exception.</p>\n<h3>Availability</h3>\n<p>1. Each floor counts available spots for the requested vehicle type.</p>\n<p>2. The lot sums those counts across floors.</p>\n<h2>Tradeoffs</h2>\n<ul>\n<li>The playground uses first-fit allocation because it is simple and interview-friendly.</li>\n<li>A production design would likely add entry gates, exit gates, pricing, payment status, ticket lifecycle, and concurrency control.</li>\n<li>Spot type matching is exact in the MVP. If truck spots can accept cars, replace <code>canFit</code> with a capacity/rank rule.</li>\n<li>In-memory repositories are enough for the exercise. Persistence is a separate system-design concern.</li>\n</ul>\n<h2>Production extension</h2>\n<p>For database tables, multi-instance concurrency, payment idempotency, and race-condition handling, read [Parking Lot Database and Concurrency](../database_concurrency/).</p>\n<h2>Quick recall</h2>\n<ul>\n<li>Put local invariants on the object that owns the state: <code>ParkingSpot.reserve</code> and <code>release</code>.</li>\n<li>Put search at the aggregate level: <code>ParkingFloor</code> searches spots; <code>ParkingLot</code> searches floors.</li>\n<li>Make full-capacity and unknown-spot cases explicit.</li>\n<li>Add payment only after ticket lifecycle and release flow are clear.</li>\n</ul>"
+    },
+    "/system_design/case_studies/parking_lot/database_concurrency/": {
+      "text": "Parking Lot Database and Concurrency",
+      "link": "/system_design/case_studies/parking_lot/database_concurrency/",
+      "pageType": "theory",
+      "parentLink": "/system_design/case_studies/parking_lot/database_concurrency/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/performance/": {
       "text": "Performance Engineering",
@@ -20766,6 +21274,258 @@
       "link": "/progress/",
       "pageType": "theory",
       "parentLink": "/progress/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/": {
+      "text": "Health and Fitness",
+      "link": "/health_fitness/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/nutrition/": {
+      "text": "Nutrition",
+      "link": "/health_fitness/nutrition/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/nutrition/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/nutrition/saturday_order/": {
+      "text": "Saturday/Sunday Order",
+      "link": "/health_fitness/nutrition/saturday_order/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/nutrition/saturday_order/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/nutrition/wednesday_order/": {
+      "text": "Wednesday Order",
+      "link": "/health_fitness/nutrition/wednesday_order/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/nutrition/wednesday_order/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/": {
+      "text": "Training",
+      "link": "/health_fitness/training/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/walk_run/": {
+      "text": "Walk Run",
+      "link": "/health_fitness/training/walk_run/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/walk_run/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/workouts/": {
+      "text": "Daily Workouts",
+      "link": "/health_fitness/training/workouts/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/workouts/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/workouts/a/": {
+      "text": "Workout A",
+      "link": "/health_fitness/training/workouts/a/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/workouts/a/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/workouts/b/": {
+      "text": "Workout B",
+      "link": "/health_fitness/training/workouts/b/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/workouts/b/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/workouts/c/": {
+      "text": "Workout C",
+      "link": "/health_fitness/training/workouts/c/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/workouts/c/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/workouts/recovery/": {
+      "text": "Recovery Workout",
+      "link": "/health_fitness/training/workouts/recovery/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/workouts/recovery/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/mobility/": {
+      "text": "Mobility",
+      "link": "/health_fitness/training/mobility/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/mobility/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/mobility/a/": {
+      "text": "Mobility A",
+      "link": "/health_fitness/training/mobility/a/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/mobility/a/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/mobility/b/": {
+      "text": "Mobility B",
+      "link": "/health_fitness/training/mobility/b/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/mobility/b/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/mobility/c/": {
+      "text": "Mobility C",
+      "link": "/health_fitness/training/mobility/c/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/mobility/c/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/tracking_playbook/": {
+      "text": "Tracking",
+      "link": "/health_fitness/tracking_playbook/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/tracking_playbook/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/tracking_playbook/weekly/": {
+      "text": "Weekly Log",
+      "link": "/health_fitness/tracking_playbook/weekly/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/tracking_playbook/weekly/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/tracking_playbook/monthly/": {
+      "text": "Monthly Log",
+      "link": "/health_fitness/tracking_playbook/monthly/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/tracking_playbook/monthly/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,

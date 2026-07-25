@@ -50,6 +50,10 @@ search: false
 - Spot type matching is exact in the MVP. If truck spots can accept cars, replace `canFit` with a capacity/rank rule.
 - In-memory repositories are enough for the exercise. Persistence is a separate system-design concern.
 
+## Production extension
+
+For database tables, multi-instance concurrency, payment idempotency, and race-condition handling, read [Parking Lot Database and Concurrency](../database_concurrency/).
+
 ## Quick recall
 
 - Put local invariants on the object that owns the state: `ParkingSpot.reserve` and `release`.
