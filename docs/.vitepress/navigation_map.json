@@ -1307,6 +1307,14 @@
             "link": "/health_fitness/training/",
             "items": [
               {
+                "text": "Weekly Plan",
+                "link": "/health_fitness/training/weekly_plan/"
+              },
+              {
+                "text": "Warm-Up",
+                "link": "/health_fitness/training/warm_up/"
+              },
+              {
                 "text": "Walk Run",
                 "link": "/health_fitness/training/walk_run/"
               },
@@ -1334,6 +1342,10 @@
                 "collapsed": true
               },
               {
+                "text": "Cool-Down",
+                "link": "/health_fitness/training/cool_down/"
+              },
+              {
                 "text": "Mobility",
                 "link": "/health_fitness/training/mobility/",
                 "items": [
@@ -1348,6 +1360,14 @@
                   {
                     "text": "Mobility C",
                     "link": "/health_fitness/training/mobility/c/"
+                  },
+                  {
+                    "text": "Anytime Desk-Pain Reset",
+                    "link": "/health_fitness/training/mobility/desk_pain_reset/"
+                  },
+                  {
+                    "text": "Desk Reset",
+                    "link": "/health_fitness/training/mobility/desk_reset/"
                   }
                 ],
                 "collapsed": true
@@ -7969,9 +7989,37 @@
             },
             "items": [
               {
+                "text": "Weekly Plan",
+                "link": "/health_fitness/training/weekly_plan/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Warm-Up",
+                "link": "/health_fitness/training/warm_up/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
                 "text": "Walk Run",
                 "link": "/health_fitness/training/walk_run/",
-                "order": 10,
+                "order": 30,
                 "schema": "theory",
                 "practiceSet": null,
                 "capabilities": {
@@ -7985,7 +8033,7 @@
               {
                 "text": "Daily Workouts",
                 "link": "/health_fitness/training/workouts/",
-                "order": 20,
+                "order": 40,
                 "schema": "theory",
                 "practiceSet": null,
                 "capabilities": {
@@ -8055,9 +8103,23 @@
                 ]
               },
               {
+                "text": "Cool-Down",
+                "link": "/health_fitness/training/cool_down/",
+                "order": 50,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
                 "text": "Mobility",
                 "link": "/health_fitness/training/mobility/",
-                "order": 30,
+                "order": 60,
                 "schema": "theory",
                 "practiceSet": null,
                 "capabilities": {
@@ -8100,6 +8162,34 @@
                     "text": "Mobility C",
                     "link": "/health_fitness/training/mobility/c/",
                     "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Anytime Desk-Pain Reset",
+                    "link": "/health_fitness/training/mobility/desk_pain_reset/",
+                    "order": 40,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Desk Reset",
+                    "link": "/health_fitness/training/mobility/desk_reset/",
+                    "order": 50,
                     "schema": "theory",
                     "practiceSet": null,
                     "capabilities": {
@@ -9310,6 +9400,14 @@
       "link": "/health_fitness/training/"
     },
     {
+      "text": "Weekly Plan",
+      "link": "/health_fitness/training/weekly_plan/"
+    },
+    {
+      "text": "Warm-Up",
+      "link": "/health_fitness/training/warm_up/"
+    },
+    {
       "text": "Walk Run",
       "link": "/health_fitness/training/walk_run/"
     },
@@ -9334,6 +9432,10 @@
       "link": "/health_fitness/training/workouts/recovery/"
     },
     {
+      "text": "Cool-Down",
+      "link": "/health_fitness/training/cool_down/"
+    },
+    {
       "text": "Mobility",
       "link": "/health_fitness/training/mobility/"
     },
@@ -9348,6 +9450,14 @@
     {
       "text": "Mobility C",
       "link": "/health_fitness/training/mobility/c/"
+    },
+    {
+      "text": "Anytime Desk-Pain Reset",
+      "link": "/health_fitness/training/mobility/desk_pain_reset/"
+    },
+    {
+      "text": "Desk Reset",
+      "link": "/health_fitness/training/mobility/desk_reset/"
     },
     {
       "text": "Tracking",
@@ -21367,6 +21477,34 @@
         "assets": false
       }
     },
+    "/health_fitness/training/weekly_plan/": {
+      "text": "Weekly Plan",
+      "link": "/health_fitness/training/weekly_plan/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/weekly_plan/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/warm_up/": {
+      "text": "Warm-Up",
+      "link": "/health_fitness/training/warm_up/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/warm_up/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/health_fitness/training/walk_run/": {
       "text": "Walk Run",
       "link": "/health_fitness/training/walk_run/",
@@ -21451,6 +21589,20 @@
         "assets": false
       }
     },
+    "/health_fitness/training/cool_down/": {
+      "text": "Cool-Down",
+      "link": "/health_fitness/training/cool_down/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/cool_down/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/health_fitness/training/mobility/": {
       "text": "Mobility",
       "link": "/health_fitness/training/mobility/",
@@ -21498,6 +21650,34 @@
       "link": "/health_fitness/training/mobility/c/",
       "pageType": "theory",
       "parentLink": "/health_fitness/training/mobility/c/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/mobility/desk_pain_reset/": {
+      "text": "Anytime Desk-Pain Reset",
+      "link": "/health_fitness/training/mobility/desk_pain_reset/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/mobility/desk_pain_reset/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/health_fitness/training/mobility/desk_reset/": {
+      "text": "Desk Reset",
+      "link": "/health_fitness/training/mobility/desk_reset/",
+      "pageType": "theory",
+      "parentLink": "/health_fitness/training/mobility/desk_reset/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,

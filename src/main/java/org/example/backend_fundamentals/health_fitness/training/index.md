@@ -4,32 +4,32 @@ order: 20
 
 # Training
 
-Daily workout means walk/run + warm-up + cool-down + mobility + the day's workout. A/B/C repeat with two variants.
+Daily workout means morning walk/run + strength workout, then evening mobility to calm down after office sitting. A/B/C workouts repeat with two variants.
 
 ## Daily Time Budget
 
 | Block | Time |
 | --- | --- |
 | Change/shoes/setup | 5-10 min |
-| [Walk/run warm-up](./walk_run/) | 10 min |
-| Walk/run | 45-60 min |
-| Cool-down | 5-10 min |
-| [Mobility](./mobility/) | 8-10 min |
+| [Warm-up](./warm_up/) | 10 min |
+| [Walk/run](./walk_run/) | 45-60 min |
 | [Daily workout](./workouts/) | 15-45 min |
+| [Cool-down](./cool_down/) | 5-10 min |
+| [Evening mobility](./mobility/) | 8-12 min |
+| [Anytime desk-pain reset](./mobility/desk_pain_reset/) | 8-12 min |
 
 Hard days should finish around 1 hr 45 min including normal gaps. Lighter days are shorter.
 
-## Weekly Plan
+## Plan Links
 
-| Day | Plan |
+| Page | Use |
 | --- | --- |
-| Monday | Walk/run + [Workout A Variant 1](./workouts/a/) + [Mobility A](./mobility/a/) |
-| Tuesday | Walk/run + [Workout B Variant 1](./workouts/b/) + [Mobility B](./mobility/b/) |
-| Wednesday | Walk/run + [Workout C Variant 1](./workouts/c/) + [Mobility C](./mobility/c/) |
-| Thursday | Walk/run + [Workout A Variant 2](./workouts/a/) + [Mobility A](./mobility/a/) |
-| Friday | Walk/run + [Workout B Variant 2](./workouts/b/) + [Mobility B](./mobility/b/) |
-| Saturday | Longer walk + [Workout C Variant 2](./workouts/c/) + [Mobility C](./mobility/c/) |
-| Sunday | Easy walk + [Recovery Workout](./workouts/recovery/) + tight-area mobility |
+| [Weekly plan](./weekly_plan/) | Which workout/mobility to do each day |
+| [Warm-up](./warm_up/) | Before walk/run |
+| [Walk/run](./walk_run/) | Walking/running session and progression |
+| [Workouts](./workouts/) | Strength workout A/B/C |
+| [Cool-down](./cool_down/) | After walk/run + workout |
+| [Mobility](./mobility/) | Evening reset and anytime desk-pain reset |
 
 ## Minimum Day
 
