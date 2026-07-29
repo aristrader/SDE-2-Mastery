@@ -17,7 +17,9 @@ Use this whenever sitting causes lower back pain, upper neck pain, or rounded sh
 | 7 | Doorway chest stretch | 30 sec | tight pecs |
 | 8 | Thoracic extension on chair | 8 reps | upper back posture |
 | 9 | Cat cow | 8 reps | spine movement |
-| 10 | Knee-to-chest stretch | 20 sec/side | lower back, glutes |
-| 11 | Glute bridge | 10 reps | glutes, lower-back support |
+| 10 | Posterior pelvic tilts | 8-10 reps | lower-back position, core control |
+| 11 | Knee-to-chest stretch | 20 sec/side | lower back, glutes |
+| 12 | Glute bridge | 10 reps | glutes, lower-back support |
+| 13 | Bird dog | 6/side | core, hips, lower-back posture |
 
 Stop if pain increases, shoots down the arm/leg, or causes numbness/tingling.
