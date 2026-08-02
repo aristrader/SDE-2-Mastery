@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" role="img" aria-labelledby="title desc">
+  <title id="title">Rate limiting algorithm comparison</title>
+  <desc id="desc">Token bucket allows bursts up to capacity, leaky bucket smooths requests through a fixed outflow, and fixed window can burst at window boundaries.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .panel { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .bucket { fill: #ecfeff; stroke: #0891b2; stroke-width: 2; }
+      .queue { fill: #fefce8; stroke: #ca8a04; stroke-width: 2; }
+      .window { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; }
+      .drop { fill: #fff1f2; stroke: #e11d48; stroke-width: 2; }
+      .text { font: 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+      .thin { stroke: #64748b; stroke-width: 2; fill: none; }
+    </style>
+  </defs>
+
+  <rect x="25" y="25" width="290" height="365" class="panel"/>
+  <text x="170" y="58" text-anchor="middle" class="text">Token bucket</text>
+  <text x="170" y="82" text-anchor="middle" class="small">burst up to capacity, then sustained refill</text>
+  <path d="M85 135 H130" class="arrow"/>
+  <text x="82" y="124" text-anchor="middle" class="small">request</text>
+  <rect x="135" y="112" width="78" height="145" class="bucket"/>
+  <circle cx="155" cy="230" r="8" fill="#0891b2"/>
+  <circle cx="177" cy="230" r="8" fill="#0891b2"/>
+  <circle cx="199" cy="230" r="8" fill="#0891b2"/>
+  <circle cx="155" cy="205" r="8" fill="#0891b2"/>
+  <circle cx="177" cy="205" r="8" fill="#0891b2"/>
+  <path d="M174 92 V112" class="arrow"/>
+  <text x="174" y="280" text-anchor="middle" class="small">1 token consumed/request</text>
+  <path d="M213 135 H260" class="arrow"/>
+  <text x="260" y="124" text-anchor="middle" class="small">allow</text>
+  <text x="170" y="330" text-anchor="middle" class="small">Good default for APIs that tolerate short bursts.</text>
+
+  <rect x="345" y="25" width="290" height="365" class="panel"/>
+  <text x="490" y="58" text-anchor="middle" class="text">Leaky bucket</text>
+  <text x="490" y="82" text-anchor="middle" class="small">queue burst, process at fixed outflow</text>
+  <path d="M395 145 H440" class="arrow"/>
+  <rect x="445" y="126" width="120" height="45" class="queue"/>
+  <line x1="475" y1="126" x2="475" y2="171" class="thin"/>
+  <line x1="505" y1="126" x2="505" y2="171" class="thin"/>
+  <line x1="535" y1="126" x2="535" y2="171" class="thin"/>
+  <path d="M565 149 H610" class="arrow"/>
+  <text x="609" y="138" text-anchor="middle" class="small">steady</text>
+  <text x="490" y="210" text-anchor="middle" class="small">If queue is full, new requests drop.</text>
+  <rect x="455" y="238" width="95" height="45" class="drop"/>
+  <text x="503" y="266" text-anchor="middle" class="small">queue full</text>
+  <text x="490" y="330" text-anchor="middle" class="small">Good when downstream needs smooth traffic.</text>
+
+  <rect x="665" y="25" width="290" height="365" class="panel"/>
+  <text x="810" y="58" text-anchor="middle" class="text">Fixed window</text>
+  <text x="810" y="82" text-anchor="middle" class="small">simple counter, boundary burst risk</text>
+  <rect x="720" y="125" width="80" height="115" class="window"/>
+  <rect x="810" y="125" width="80" height="115" class="window"/>
+  <line x1="810" y1="112" x2="810" y2="255" stroke="#334155" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="760" y="270" text-anchor="middle" class="small">12:00</text>
+  <text x="850" y="270" text-anchor="middle" class="small">12:01</text>
+  <circle cx="780" cy="155" r="7" fill="#16a34a"/>
+  <circle cx="785" cy="180" r="7" fill="#16a34a"/>
+  <circle cx="790" cy="205" r="7" fill="#16a34a"/>
+  <circle cx="830" cy="155" r="7" fill="#16a34a"/>
+  <circle cx="835" cy="180" r="7" fill="#16a34a"/>
+  <circle cx="840" cy="205" r="7" fill="#16a34a"/>
+  <text x="810" y="305" text-anchor="middle" class="small">Full quota can pass at both edges.</text>
+  <text x="810" y="330" text-anchor="middle" class="small">Use only when boundary bursts are acceptable.</text>
+</svg>

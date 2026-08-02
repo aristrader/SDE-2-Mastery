@@ -25,6 +25,18 @@ Now Order saves, publishes "process payment", and returns immediately. Payment c
 
 A broker also does **routing** (one event → Payment + Inventory + Analytics), **retries** of failed consumers, and sometimes **transformation / protocol translation** (HTTP→AMQP, JSON→XML).
 
+### Queue as a scaling buffer
+
+Queues are also a capacity-control tool. If request work is slow, the web tier can enqueue a job and return quickly while workers process asynchronously:
+
+```text
+Web/API → Queue → Worker pool
+```
+
+Scale workers from queue depth and processing lag. If the queue grows, add workers or reduce producer rate; if the queue is empty most of the time, scale workers down.
+
+Interview caveat: a queue improves decoupling and burst absorption, but it does not make work disappear. You still need enough consumers, idempotent processing, retries, and dead-letter handling.
+
 ## Broker vs queue
 
 A *queue* is one pattern (Producer → Queue → Consumer). A *broker* is the surrounding system that offers **many** patterns: queues, topics, routing, retries, persistence. So "broker" ⊃ "queue".
@@ -80,3 +92,5 @@ A. New consumers can reprocess all historical events (e.g. add fraud detection a
 **Q. Why did the ESB model fall out of favor?**
 A. Centralizing routing/transformation/logic in the bus made it a bottleneck and single point of contention; modern systems keep logic in services and the broker simple.
 
+**Q. How does a queue help scale slow background work?**
+A. It buffers jobs so producers return quickly, and workers can scale independently based on queue depth/lag.

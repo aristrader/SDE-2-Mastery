@@ -41,6 +41,22 @@ A PoP is simply a CDN location (Mumbai PoP, London PoP, Singapore PoP), usually 
 
 The most common model — content is fetched **only when requested**: user request → cache check → miss → fetch from origin → store locally. Advantages: no preloading needed; storage used only for requested content.
 
+Example flow:
+
+```text
+User requests logo.png from CDN URL
+        ↓
+Nearby CDN PoP checks cache
+        ↓
+Miss: PoP fetches logo.png from origin/S3
+        ↓
+PoP stores it with TTL and returns it
+        ↓
+Next user near that PoP gets a cache hit
+```
+
+This is why popular assets naturally become fast worldwide, while rarely requested assets may still miss and hit origin.
+
 ### Push CDN
 
 Content is **proactively distributed** to CDN nodes before users request it — e.g. large software updates, game patches, OS releases. The content is already at CDN locations when users begin downloading.
@@ -69,6 +85,18 @@ When origin content changes (e.g. a new `profile.jpg` replaces an old one), the 
 - **Versioning (most common):** Changing the filename or query string (e.g., `profile_v2.jpg` or `profile.jpg?v=2`) so the CDN treats it as a completely new file.
 - **Purge / Invalidate:** Explicitly telling the CDN to delete the old copy, forcing it to fetch the fresh version on the next request.
 
+Versioning is usually simpler for static assets because you avoid racing every cache location in the world. New deploy references `app.abc123.js`; old cached `app.old.js` can expire naturally.
+
+### CDN failure and fallback
+
+A CDN reduces origin load, but it also becomes part of the request path for static assets. For important clients, know the fallback behavior:
+
+- Can the client retry the origin URL if the CDN is unavailable?
+- Can the page still render if non-critical assets fail?
+- Are cache-control TTLs short enough for time-sensitive assets and long enough to avoid origin reload storms?
+
+For interviews, this is the practical nuance: CDN is not only a latency optimization; it changes cache freshness, failure handling, and cost.
+
 ## Gotchas / Trick questions
 
 1. **"Aren't CDN and Redis basically the same thing?"** They're both caches, but they solve different problems:
@@ -92,6 +120,8 @@ When origin content changes (e.g. a new `profile.jpg` replaces an old one), the 
 **Benefits:** lower latency (nearby nodes), reduced origin load (many requests never reach it), reduced bandwidth consumption, better user experience for static assets, high availability (content can still be served even if the origin is overloaded), and DDoS protection (most CDN providers add security layers before traffic reaches the origin).
 
 **Trade-offs:** cost (global CDN infrastructure isn't free) and cache-invalidation complexity (updated content may persist in CDN caches until invalidated or refreshed).
+
+Avoid placing rarely requested large assets on an expensive CDN path unless latency or origin protection justifies the transfer cost.
 
 ## Good to know
 
@@ -126,3 +156,5 @@ A. Pull fetches on demand (most common); push proactively distributes content be
 **Q. What is a PoP?**
 A. A Point of Presence — a CDN location containing cache servers.
 
+**Q. CDN TTL too short vs too long?**
+A. Too short reloads origin too often; too long serves stale assets after origin changes.

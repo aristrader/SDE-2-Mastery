@@ -16,7 +16,7 @@
 | 8 | Anomalies — dirty read, non-repeatable, phantom, write skew, lost update | 🔴 💼 🎯 | D | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Read replicas — async lag, read-after-write | 🔴 💼 🎯 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: read replicas + replication lag + lag-vs-app-latency covered; read-after-write mitigation strategies (sticky reads, timestamp) pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` |
 | 10 | Sharding — strategies (range, hash, directory), resharding pain | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — hash/list/range/composite strategies, shard keys, app-vs-DB routing (mongos/Vitess), scatter-gather, lookup table, resharding/consistent-hashing | 📖 `databases/sharding/index.md` · 📖 `databases/sql_vs_nosql/index.md` (when-to-shard) |
-| 11 | Key-value (Redis, DynamoDB, Memcached) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Key-value (Redis, DynamoDB, Memcached) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `databases/key_value_store/index.md` |
 | 12 | Document (MongoDB, DynamoDB) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: MongoDB schema flexibility / validation / transactions / document-modeling limits covered; DynamoDB pending | 📖 `databases/sql_vs_nosql/index.md` (MongoDB parts) |
 | 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` (replication part) |
 | 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -43,7 +43,7 @@
 | 35 | Partitioning (range, list, hash) | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — horizontal vs vertical, hash/list/range/composite criteria | 📖 `databases/sharding/index.md` |
 | 36 | JSON columns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Vector (pgvector, Pinecone, Weaviate, Milvus) — also covered in GenAI | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency (leaderless, N/W/R quorums, R+W>N, read repair) covered; partition + clustering keys pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` (quorum part) |
+| 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency (leaderless, N/W/R quorums, R+W>N, read repair) covered; partition + clustering keys pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` (quorum part) · 📖 `databases/key_value_store/index.md` |
 | 39 | MongoDB — sharding, secondary indexes, aggregation pipeline | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/index.md` |
 | 41 | Database federation — federated DBs vs sharding, cross-DB join/transaction cost, modern database-per-service + Saga + BFF | 🟡 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — federation vs sharding contrast, why it faded, BFF as service-layer aggregation | 📖 `databases/federation/index.md` |

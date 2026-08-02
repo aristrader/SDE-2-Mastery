@@ -10,6 +10,15 @@ Keep multiple copies of the same data on different servers. `App → DB` becomes
 
 Writes go to the **primary**; reads can be served from **replicas**. Flow: write hits primary → primary persists it → replicas copy the change. The standard read-scaling phrase: *"reads scale horizontally using replicas."* Writes do **not** scale this way — every write still funnels through the single primary.
 
+Typical routing:
+
+```text
+INSERT/UPDATE/DELETE → primary
+SELECT               → replica, when slightly stale reads are acceptable
+```
+
+This works well for read-heavy products. Most consumer systems read far more than they write, so adding replicas can remove a lot of load from the primary without changing the write path.
+
 ## Replication lag (and why it is not application latency)
 
 Replication lag is the window where the primary has a new value but a replica still has the old one:
@@ -58,6 +67,18 @@ The user was told "success" but the write is gone — the canonical async risk.
 ## Failover and promotion
 
 Primary crashes → a replica is promoted → traffic redirected. **Manual** failover: an engineer promotes. **Automatic** failover: monitoring detects the failure, an election runs, a replica is promoted.
+
+Simple failure path:
+
+```text
+Primary dies
+        ↓
+Most advanced replica is promoted
+        ↓
+Applications send writes to the new primary
+        ↓
+A replacement replica is added and catches up
+```
 
 **Which replica wins?** Not arbitrary. Replication ships an **ordered log**, and each replica tracks its position via a **Log Sequence Number (LSN) / GTID / binlog position** ("I've applied up to position X"). The **most-advanced replica** (highest position) is promoted, minimizing lost writes.
 

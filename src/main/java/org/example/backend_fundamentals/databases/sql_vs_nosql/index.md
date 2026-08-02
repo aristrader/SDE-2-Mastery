@@ -138,6 +138,19 @@ Beyond normalize/denormalize, the two technologies push a different *starting po
 
 Note the symmetry with the transactions point above: **SQL has gotten better at scaling** (partitioning, replicas, managed sharding) and **NoSQL has gotten better at transactions**. So the old "SQL = transactions, NoSQL = scale" split no longer drives the decision — *data shape and access patterns* do.
 
+## When NoSQL is actually a good fit
+
+NoSQL is strongest when the application does not need relational joins as the main access path:
+
+| Need | Common NoSQL fit | Why |
+|------|------------------|-----|
+| Very fast lookup by key | Key-value store | Simple `key → value` access, easy horizontal partitioning |
+| Flexible JSON-like records | Document store | Store an aggregate close to how the app reads it |
+| Huge write-heavy event/time-series data | Wide-column / log-style store | Designed for high write volume and partitioned storage |
+| Relationship traversal | Graph database | First-class edges and graph queries |
+
+The decision question is: **can I answer my important queries without joins and without rebuilding relational integrity in application code?** If yes, NoSQL may simplify the hot path. If no, SQL is usually the cleaner starting point.
+
 ## NoSQL scaling
 
 *"When people say NoSQL scales better, does it mean sharding is built in?"* — mostly yes. Many NoSQL systems were designed around horizontal scaling from day one: MongoDB → built-in sharding; Cassandra → built-in partitioning; DynamoDB → automatic partitioning.
@@ -170,6 +183,7 @@ A 20 GB database at 500 req/s — Postgres handles it. Sharding introduces cross
 5. **"NoSQL consistency = SQL consistency now."** Distinguish ACID consistency (both can do) from built-in data-integrity enforcement (relational constraints/FKs are stronger).
 6. **"Data is big, let's shard."** Shard when a single DB is the *bottleneck*, and only after optimization/indexing/caching/replicas/vertical scaling are exhausted.
 7. **"Large scale means NoSQL."** No — large systems run on Postgres/MySQL too. The driver is data model + query patterns + operational needs + team expertise, not user count.
+8. **"NoSQL means no relationships."** Wrong — relationships still exist. NoSQL often makes the application duplicate, embed, or maintain relationship links manually.
 
 ## Quick recall
 
@@ -200,3 +214,5 @@ A. SQL is entity-first/relationship-first (model entities, normalize, query flex
 **Q. Does large scale force NoSQL?**
 A. No — Postgres/MySQL run at massive scale. The decision is data model, query patterns, operational needs, and team expertise, not user count.
 
+**Q. When is NoSQL a good fit?**
+A. When the hot access pattern is key/document/partition based and does not depend heavily on joins or database-enforced relationships.

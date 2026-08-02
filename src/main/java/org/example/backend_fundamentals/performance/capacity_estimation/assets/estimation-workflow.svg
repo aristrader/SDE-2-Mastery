@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="300" viewBox="0 0 980 300" role="img" aria-labelledby="title desc">
+  <title id="title">Back-of-the-envelope estimation workflow</title>
+  <desc id="desc">A flow from assumptions to QPS, storage, headroom, and design decision.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .accent { fill: #ecfeff; stroke: #0891b2; stroke-width: 2; rx: 8; }
+      .text { font: 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+    </style>
+  </defs>
+
+  <rect x="30" y="72" width="140" height="92" class="box"/>
+  <text x="100" y="105" text-anchor="middle" class="text">Assumptions</text>
+  <text x="100" y="130" text-anchor="middle" class="small">DAU, actions,</text>
+  <text x="100" y="150" text-anchor="middle" class="small">payload, retention</text>
+
+  <path d="M170 118 H235" class="arrow"/>
+
+  <rect x="245" y="72" width="140" height="92" class="box"/>
+  <text x="315" y="105" text-anchor="middle" class="text">Traffic</text>
+  <text x="315" y="130" text-anchor="middle" class="small">avg QPS</text>
+  <text x="315" y="150" text-anchor="middle" class="small">peak QPS</text>
+
+  <path d="M385 118 H450" class="arrow"/>
+
+  <rect x="460" y="72" width="140" height="92" class="box"/>
+  <text x="530" y="105" text-anchor="middle" class="text">Storage</text>
+  <text x="530" y="130" text-anchor="middle" class="small">daily writes x</text>
+  <text x="530" y="150" text-anchor="middle" class="small">size x retention</text>
+
+  <path d="M600 118 H665" class="arrow"/>
+
+  <rect x="675" y="72" width="140" height="92" class="box"/>
+  <text x="745" y="105" text-anchor="middle" class="text">Headroom</text>
+  <text x="745" y="130" text-anchor="middle" class="small">replicas, indexes,</text>
+  <text x="745" y="150" text-anchor="middle" class="small">peak, failures</text>
+
+  <path d="M745 164 V218 H235 V174" class="arrow"/>
+  <text x="490" y="244" text-anchor="middle" class="small">If a number changes the architecture, call that out explicitly.</text>
+
+  <path d="M815 118 H880" class="arrow"/>
+
+  <rect x="890" y="72" width="70" height="92" class="accent"/>
+  <text x="925" y="102" text-anchor="middle" class="text">Design</text>
+  <text x="925" y="127" text-anchor="middle" class="small">cache?</text>
+  <text x="925" y="147" text-anchor="middle" class="small">queue?</text>
+</svg>

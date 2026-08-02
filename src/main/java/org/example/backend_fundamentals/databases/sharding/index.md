@@ -75,6 +75,15 @@ If it doesn't (e.g. login by email when the shard key is `user_id`), the router 
 
 **Costs:** operational complexity; **cross-shard joins** (users on shard A, orders on shard B) need multi-server queries and perform poorly; multi-shard **transactions** become complex (may require two-phase commit); and **rebalancing** when load skews (shard A 80%, B/C 10%) means expensive data migration. Shard last — after indexing, caching, read replicas, and vertical scaling.
 
+### Sharding failure modes interviewers expect
+
+- **Resharding:** a shard outgrows disk/CPU or the hash function no longer spreads load well. You must change placement and move data.
+- **Hotspot key:** one key or tenant gets extreme traffic and overloads its shard even if total data is balanced.
+- **Cross-shard joins:** once related rows live on different machines, joins become scatter-gather or require denormalized read models.
+- **Lookup path drift:** queries that do not include the shard key become slow unless you maintain a secondary lookup table.
+
+The practical answer is not "shard everything." It is: pick a shard key that matches dominant access patterns, keep data needed together on the same shard when possible, and denormalize intentionally for hot reads.
+
 ## Consistent hashing
 
 **The modulo problem:** with `hash(key) % N`, going from N=4 to N=5 remaps **most** keys → mass data migration + cache misses. Consistent hashing fixes this.
@@ -84,7 +93,27 @@ If it doesn't (e.g. login by email when the shard key is `user_id`), the router 
 - **Adding a node:** insert D at 500 → only keys in (400, 500] move (from C to D); everything else stays. **Removing a node:** only that node's keys move to the next clockwise node. Cluster-size changes touch ~1/N of keys, not all.
 - **Virtual nodes:** hashing each physical server to *one* point causes skew (if C lands at 900 it owns a huge arc). Give each server many positions (A1, A2, A3, …) scattered around the ring → far more even load and smoother rebalancing.
 
-**Used in:** Redis Cluster, distributed caches, database sharding, load balancers, sticky sessions, some CDN routing. (Cache-lens treatment: `system_design/caching/CachingAndDistributedCache.md`.)
+### Affected range on add/remove
+
+When a node is added, the affected keys are the range between the new node and the previous node counter-clockwise. Those keys move to the new node.
+
+When a node is removed, the affected keys are the range owned by the removed node. Those keys move to the next node clockwise.
+
+This is the interview explanation behind "only a fraction of keys move."
+
+### What consistent hashing is and is not for
+
+| Use case | Fit? | Better framing |
+|----------|------|----------------|
+| Distributed cache key placement | Yes | Keeps cache remap small when nodes change |
+| Dynamo/Cassandra-style partitioning | Yes | Places key ranges/partitions on storage nodes |
+| Load balancer affinity | Yes | Keeps a client/key near the same backend with limited remap |
+| CDN/server routing | Sometimes | Routing/load distribution use case |
+| Text search | No | Use inverted index / search engine |
+| Autocomplete | No | Use trie/FST/prefix index + ranking |
+| Nearby cab/driver search | No by itself | Use geohash/S2/H3/quadtree for spatial partitioning; consistent hashing may distribute geospatial cells across machines afterward |
+
+**Used in:** Redis Cluster-style caches, distributed caches, Dynamo/Cassandra-style stores, load balancers, sticky routing, some CDN/server-routing systems. (Cache-lens treatment: `system_design/components/caching/index.md`.)
 
 ## Quick recall
 
@@ -105,3 +134,9 @@ A. Shard key finds the machine; index finds the row within that machine — diff
 
 **Q. Why consistent hashing over `hash % N`, and what do virtual nodes add?**
 A. `hash % N` remaps most keys when N changes; a hash ring moves only ~1/N keys on add/remove. Virtual nodes (many positions per server) smooth out uneven distribution.
+
+**Q. Does consistent hashing solve cab nearby search?**
+A. No. Nearby search needs spatial indexing such as geohash/S2/H3; consistent hashing may only distribute those cells across nodes.
+
+**Q. What are the classic sharding pain points?**
+A. Resharding, hotspot keys, cross-shard joins/transactions, and queries that lack the shard key.

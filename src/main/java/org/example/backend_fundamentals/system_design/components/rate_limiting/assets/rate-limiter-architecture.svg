@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="330" viewBox="0 0 980 330" role="img" aria-labelledby="title desc">
+  <title id="title">Distributed rate limiter architecture</title>
+  <desc id="desc">Client requests pass through gateway or middleware, then Redis-backed rate limiter state decides allow or reject before API service.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .decision { fill: #ecfeff; stroke: #0891b2; stroke-width: 2; rx: 8; }
+      .reject { fill: #fff1f2; stroke: #e11d48; stroke-width: 2; rx: 8; }
+      .store { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .text { font: 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+      .rejectLine { stroke: #e11d48; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+      .storeLine { stroke: #16a34a; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+    </style>
+  </defs>
+
+  <rect x="35" y="95" width="130" height="80" class="box"/>
+  <text x="100" y="128" text-anchor="middle" class="text">Client</text>
+  <text x="100" y="150" text-anchor="middle" class="small">web/mobile/API key</text>
+
+  <path d="M165 135 H235" class="arrow"/>
+
+  <rect x="245" y="85" width="180" height="100" class="box"/>
+  <text x="335" y="118" text-anchor="middle" class="text">Gateway</text>
+  <text x="335" y="140" text-anchor="middle" class="small">auth, route, identify</text>
+  <text x="335" y="160" text-anchor="middle" class="small">user/IP/tenant/key</text>
+
+  <path d="M425 135 H500" class="arrow"/>
+
+  <rect x="510" y="80" width="185" height="110" class="decision"/>
+  <text x="602" y="112" text-anchor="middle" class="text">Rate limiter</text>
+  <text x="602" y="136" text-anchor="middle" class="small">load rule</text>
+  <text x="602" y="156" text-anchor="middle" class="small">atomic check + update</text>
+
+  <path d="M695 135 H765" class="arrow"/>
+
+  <rect x="775" y="95" width="150" height="80" class="box"/>
+  <text x="850" y="128" text-anchor="middle" class="text">API service</text>
+  <text x="850" y="150" text-anchor="middle" class="small">allowed request</text>
+
+  <path d="M602 190 V245" class="rejectLine"/>
+  <rect x="520" y="255" width="165" height="55" class="reject"/>
+  <text x="602" y="287" text-anchor="middle" class="text">429 + Retry-After</text>
+
+  <path d="M602 80 V40 H780 V88" class="storeLine"/>
+  <rect x="715" y="8" width="180" height="70" class="store"/>
+  <text x="805" y="36" text-anchor="middle" class="text">Redis</text>
+  <text x="805" y="58" text-anchor="middle" class="small">counters, TTL, sorted sets</text>
+</svg>

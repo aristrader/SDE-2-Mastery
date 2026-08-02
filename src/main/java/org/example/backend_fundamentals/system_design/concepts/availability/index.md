@@ -17,6 +17,16 @@ order: 20
 | 99.99% ("Four nines") | ~52 minutes | |
 | 99.999% ("Five nines") | ~5 minutes | Multiple servers, AZs, replication, automatic failover |
 
+For monthly SLA math, use the same idea:
+
+```text
+30 days × 24 hours × 60 minutes = 43,200 minutes/month
+99.9% availability allows 0.1% downtime
+0.001 × 43,200 = 43.2 minutes/month
+```
+
+Interview habit: convert the "nines" into downtime. Saying "99.9%" is abstract; saying "about 43 minutes per month" makes the reliability target concrete.
+
 ## Sequence vs Parallel availability
 
 This is the mathematical reason why load balancers and clusters exist.
@@ -167,4 +177,3 @@ A. Assume failures will happen and design the system to continue operating.
 
 **Q. How does adding components in sequence vs parallel affect availability?**
 A. Sequence (A → B → C) reduces total availability (all must work). Parallel (A || B) increases total availability (both must fail simultaneously to cause an outage).
-

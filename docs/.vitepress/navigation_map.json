@@ -851,6 +851,10 @@
           {
             "text": "Graph Databases",
             "link": "/databases/graph/"
+          },
+          {
+            "text": "Distributed Key-Value Store",
+            "link": "/databases/key_value_store/"
           }
         ]
       }
@@ -1034,6 +1038,10 @@
               }
             ],
             "collapsed": true
+          },
+          {
+            "text": "System Design Interview Framework",
+            "link": "/system_design/interview_framework/"
           }
         ]
       }
@@ -1045,6 +1053,10 @@
           {
             "text": "Latency, Throughput & Little's Law",
             "link": "/performance/latency_throughput_littles_law/"
+          },
+          {
+            "text": "Back-of-the-Envelope Capacity Estimation",
+            "link": "/performance/capacity_estimation/"
           }
         ]
       }
@@ -6609,6 +6621,20 @@
               "playground": false,
               "assets": false
             }
+          },
+          {
+            "text": "Distributed Key-Value Store",
+            "link": "/databases/key_value_store/",
+            "order": 110,
+            "schema": "system-design",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": true,
+              "solution": false,
+              "design": true,
+              "playground": false,
+              "assets": true
+            }
           }
         ]
       },
@@ -7051,7 +7077,7 @@
                   "solution": false,
                   "design": true,
                   "playground": false,
-                  "assets": false
+                  "assets": true
                 }
               }
             ]
@@ -7173,6 +7199,20 @@
                 ]
               }
             ]
+          },
+          {
+            "text": "System Design Interview Framework",
+            "link": "/system_design/interview_framework/",
+            "order": 60,
+            "schema": "system-design",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": true,
+              "solution": false,
+              "design": true,
+              "playground": false,
+              "assets": true
+            }
           }
         ]
       },
@@ -7202,6 +7242,20 @@
               "design": false,
               "playground": false,
               "assets": false
+            }
+          },
+          {
+            "text": "Back-of-the-Envelope Capacity Estimation",
+            "link": "/performance/capacity_estimation/",
+            "order": 20,
+            "schema": "system-design",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": true,
+              "solution": false,
+              "design": true,
+              "playground": false,
+              "assets": true
             }
           }
         ]
@@ -9162,6 +9216,10 @@
       "link": "/databases/graph/"
     },
     {
+      "text": "Distributed Key-Value Store",
+      "link": "/databases/key_value_store/"
+    },
+    {
       "text": "Networking",
       "link": "/networking/"
     },
@@ -9318,12 +9376,20 @@
       "link": "/system_design/case_studies/parking_lot/database_concurrency/"
     },
     {
+      "text": "System Design Interview Framework",
+      "link": "/system_design/interview_framework/"
+    },
+    {
       "text": "Performance Engineering",
       "link": "/performance/"
     },
     {
       "text": "Latency, Throughput & Little's Law",
       "link": "/performance/latency_throughput_littles_law/"
+    },
+    {
+      "text": "Back-of-the-Envelope Capacity Estimation",
+      "link": "/performance/capacity_estimation/"
     },
     {
       "text": "Security",
@@ -18503,6 +18569,50 @@
         "assets": false
       }
     },
+    "/databases/key_value_store/": {
+      "text": "Distributed Key-Value Store",
+      "link": "/databases/key_value_store/",
+      "pageType": "theory",
+      "parentLink": "/databases/key_value_store/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      }
+    },
+    "/databases/key_value_store/exercise/": {
+      "text": "Distributed Key-Value Store",
+      "link": "/databases/key_value_store/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/databases/key_value_store/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/databases/key_value_store/design/": {
+      "text": "Distributed Key-Value Store",
+      "link": "/databases/key_value_store/design/",
+      "pageType": "design",
+      "parentLink": "/databases/key_value_store/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Design</h1>\n<h2>Design a distributed key-value store</h2>\n<p>Assumptions:</p>\n<ul>\n<li>values are small, usually less than 10 KB</li>\n<li>total data is too large for one machine</li>\n<li>low-latency <code>get</code> and <code>put</code></li>\n<li>high availability during node failures</li>\n<li>tunable consistency</li>\n<li>automatic node add/remove</li>\n</ul>\n<h2>High-level design</h2>\n<pre><code>Client\n  -&gt; Coordinator node\n  -&gt; Consistent hash ring\n  -&gt; N replica nodes\n  -&gt; return after R or W quorum</code></pre>\n<p>The coordinator does not need to be a special central server. Any node can act as coordinator for a request. That avoids a single point of failure.</p>\n<h2>Data placement</h2>\n<p>1. Hash the key onto the ring.</p>\n<p>2. Walk clockwise to find the first physical node.</p>\n<p>3. Continue walking to choose <code>N</code> unique physical nodes for replication.</p>\n<p>4. Use virtual nodes so distribution is smooth and weighted by capacity.</p>\n<h2>Write path</h2>\n<pre><code>put(k, v)\n  -&gt; coordinator picks N replicas\n  -&gt; each replica appends to commit log\n  -&gt; each replica writes memtable\n  -&gt; coordinator returns after W ACKs\n  -&gt; memtable eventually flushes to SSTable</code></pre>\n<h2>Read path</h2>\n<pre><code>get(k)\n  -&gt; coordinator asks R replicas\n  -&gt; replicas check memtable/cache\n  -&gt; Bloom filter narrows SSTables\n  -&gt; SSTable read\n  -&gt; coordinator reconciles versions\n  -&gt; return latest/merged value</code></pre>\n<h2>Consistency choice</h2>\n<p>For an AP-style design, use eventual consistency with quorums:</p>\n<ul>\n<li><code>N=3, W=1, R=1</code>: fastest, weakest</li>\n<li><code>N=3, W=2, R=2</code>: stronger common default</li>\n<li><code>N=3, W=3, R=1</code>: fast reads, slow writes</li>\n<li><code>N=3, W=1, R=3</code>: fast writes, slow reads</li>\n</ul>\n<p>If the product cannot tolerate stale or conflicting values, a Dynamo-style AP store is the wrong default. Pick a CP database or strongly consistent configuration.</p>\n<h2>Failure handling</h2>\n<ul>\n<li><strong>Gossip:</strong> nodes share heartbeat/membership updates.</li>\n<li><strong>Sloppy quorum:</strong> use healthy substitute nodes when assigned replicas are down.</li>\n<li><strong>Hinted handoff:</strong> substitutes return missed writes to the owner after recovery.</li>\n<li><strong>Merkle tree repair:</strong> compare replica ranges and sync only differences.</li>\n<li><strong>Cross-DC replication:</strong> survive full data-center outages.</li>\n</ul>\n<h2>Interview wrap-up</h2>\n<p>This design scales writes/storage by partitioning keys with consistent hashing, improves availability by replicating each key to <code>N</code> nodes, tunes latency vs consistency with <code>R/W</code> quorums, handles temporary failures with hinted handoff, and repairs permanent drift with anti-entropy/Merkle trees.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What should you deep dive first?</strong>  </p>\n<p>A. Partitioning, replication/quorums, failure repair, then read/write path.</p>\n<p><strong>Q. What is the main tradeoff?</strong>  </p>\n<p>A. Availability/latency vs consistency/conflict complexity.</p>"
+    },
     "/networking/": {
       "text": "Networking",
       "link": "/networking/",
@@ -19534,7 +19644,7 @@
         "solution": false,
         "design": true,
         "playground": false,
-        "assets": false
+        "assets": true
       }
     },
     "/system_design/components/rate_limiting/exercise/": {
@@ -19548,7 +19658,7 @@
         "solution": false,
         "design": true,
         "playground": false,
-        "assets": false
+        "assets": true
       },
       "practiceSet": null
     },
@@ -19563,9 +19673,9 @@
         "solution": false,
         "design": true,
         "playground": false,
-        "assets": false
+        "assets": true
       },
-      "referenceHtml": "<h1>Design</h1>"
+      "referenceHtml": "<h1>Design a Distributed Rate Limiter</h1>\n<h2>Problem</h2>\n<p>Design a server-side API rate limiter that protects HTTP APIs from excessive traffic.</p>\n<p>The limiter should:</p>\n<ul>\n<li>enforce limits accurately enough for production APIs</li>\n<li>add very low latency</li>\n<li>work across multiple app servers</li>\n<li>support different rules per user, IP, tenant, API key, endpoint, or global system limit</li>\n<li>return clear throttling responses</li>\n<li>avoid taking the whole service down if limiter storage has trouble</li>\n</ul>\n<h2>Clarify scope</h2>\n<p>Ask these before drawing boxes:</p>\n<ul>\n<li>Are limits per user, IP, API key, tenant, endpoint, or global?</li>\n<li>Is this for one service or many services?</li>\n<li>Are rules static config or dynamically changed by plans/tenants?</li>\n<li>Should rejected requests be dropped, delayed, or queued?</li>\n<li>Is strict accuracy required, or are small approximations acceptable?</li>\n<li>What should happen if Redis or the rate-limit service is unavailable?</li>\n</ul>\n<p>Reasonable assumption for an interview:</p>\n<pre><code>Server-side HTTP API limiter\nDistributed across many app servers\nRedis-backed counters\nReturn 429 for rejected requests\nSupport configurable rules</code></pre>\n<h2>High-level architecture</h2>\n<p>![Distributed rate limiter architecture](../assets/rate-limiter-architecture.svg)</p>\n<pre><code>Client\n  ↓\nAPI Gateway / Rate-limit middleware\n  ↓              ↘\nAPI Service       Redis / shared counter store</code></pre>\n<p>Request flow:</p>\n<p>1. Client sends request.</p>\n<p>2. Middleware identifies the rate-limit key: user, IP, API key, tenant, endpoint, or combination.</p>\n<p>3. Middleware loads the applicable rule.</p>\n<p>4. Middleware checks and updates the counter atomically in Redis.</p>\n<p>5. If allowed, request goes to API service.</p>\n<p>6. If rejected, middleware returns <code>429 Too Many Requests</code>.</p>\n<h2>Key design decisions</h2>\n<h3>Gateway vs application service</h3>\n<p>Use a gateway when limits are generic: IP, API key, tenant plan, endpoint quota.</p>\n<p>Use app-service logic when the rule needs domain context: &quot;verified sellers can publish more listings&quot; or &quot;KYC vendor calls are limited by partner contract.&quot;</p>\n<p>Many real systems do both:</p>\n<pre><code>Gateway: broad abuse/cost limits\nService: domain-specific limits</code></pre>\n<h3>Algorithm choice</h3>\n<p>For a general API limiter, token bucket is a strong default:</p>\n<ul>\n<li>allows short bursts</li>\n<li>enforces sustained average rate</li>\n<li>memory efficient</li>\n<li>easy to explain</li>\n</ul>\n<p>For strict &quot;no more than N requests in any rolling minute,&quot; use sliding window log or sliding window counter.</p>\n<p>Practical interview answer:</p>\n<pre><code>Use token bucket for most API traffic.\nUse sliding window counter for stricter per-login/per-account abuse rules.\nKeep a global limit to protect downstream systems from aggregate bursts.</code></pre>\n<h3>Counter storage</h3>\n<p>Redis is a common fit because it is fast, shared, and supports TTL:</p>\n<pre><code>key = rate:{rule}:{identity}:{window}\nvalue = counter/tokens/timestamps\nttl = rule window</code></pre>\n<p>Examples:</p>\n<pre><code>rate:login:user:alice@example.com\nrate:post:user:123\nrate:payments:tenant:acme\nrate:global:/api/v1/search</code></pre>\n<p>Do not use a relational database for every rate-limit check. The limiter is on the hot path; disk-backed writes per request are too expensive.</p>\n<h2>Atomicity</h2>\n<p>This naive sequence is unsafe:</p>\n<pre><code>read counter\nif counter &lt; limit\n  write counter + 1</code></pre>\n<p>Two concurrent requests can read the same value and both pass. The decision must be atomic.</p>\n<p>Use:</p>\n<ul>\n<li>Redis <code>INCR</code> + <code>EXPIRE</code> carefully for simple fixed windows</li>\n<li>Lua script for check-and-update as one operation</li>\n<li>Redis sorted sets for sliding-window log</li>\n</ul>\n<h2>Distributed concerns</h2>\n<h3>Synchronization</h3>\n<p>Local counters do not work when requests can hit different servers:</p>\n<pre><code>Request 1 → App A local count = 1\nRequest 2 → App B local count = 1\nRequest 3 → App C local count = 1</code></pre>\n<p>The user effectively gets more quota than intended. Use shared Redis or a dedicated rate-limit service.</p>\n<h3>Hot keys</h3>\n<p>Global limits and massive tenants can overload one Redis key. Mitigations:</p>\n<ul>\n<li>shard the counter key into multiple subkeys</li>\n<li>aggregate approximate counts</li>\n<li>use local pre-checks for cheap rejection</li>\n<li>separate high-traffic tenants/rules</li>\n</ul>\n<h3>Multi-region</h3>\n<p>Global, perfectly accurate, low-latency rate limiting across regions is hard. Pick the tradeoff:</p>\n<p>| Design | Benefit | Tradeoff |</p>\n<p>|--------|---------|----------|</p>\n<p>| Regional counters | Low latency | A user may consume quota in multiple regions |</p>\n<p>| Central global counter | Stronger global quota | Cross-region latency and availability risk |</p>\n<p>| Hybrid local + async global | Practical at scale | Eventually consistent, approximate |</p>\n<p>For most APIs, regional enforcement plus a higher-level global abuse detector is acceptable. For expensive vendor calls, use stricter centralized quota or route the tenant to one owning region.</p>\n<h2>Throttled response</h2>\n<p>Return:</p>\n<pre><code>HTTP 429 Too Many Requests\nRetry-After: 30\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 0</code></pre>\n<p><code>Retry-After</code> is the most client-useful header because it tells clients when to retry.</p>\n<h2>Failure mode</h2>\n<p>Decide by endpoint:</p>\n<ul>\n<li><strong>Fail-open:</strong> allow request if limiter storage is unavailable. Better availability, weaker protection.</li>\n<li><strong>Fail-closed:</strong> reject request if limiter storage is unavailable. Better protection, worse availability.</li>\n</ul>\n<p>For a normal read API, fail-open is often acceptable. For login, payment, SMS, or KYC vendor calls, fail-closed or degraded strict local limits may be safer.</p>\n<h2>Monitoring</h2>\n<p>Watch:</p>\n<ul>\n<li>allowed/rejected request count</li>\n<li>rejection rate per rule</li>\n<li>top limited users/IPs/tenants</li>\n<li>Redis latency/errors</li>\n<li>limiter-added latency</li>\n<li>hot keys</li>\n<li>queue lag if rejected work is queued</li>\n<li>customer-impacting false positives</li>\n</ul>\n<p>If valid users are blocked, rules are too strict. If downstreams still overload, rules or algorithm choice are too loose.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Where should the limiter live?</strong>  </p>\n<p>A. Gateway/middleware for generic rules, service code for domain-specific rules; many systems use both.</p>\n<p><strong>Q. Why Redis?</strong>  </p>\n<p>A. Shared, fast, TTL-friendly, and supports atomic operations for distributed counters.</p>\n<p><strong>Q. Why is local in-memory counting wrong in distributed systems?</strong>  </p>\n<p>A. Requests hit different servers, so each server sees only part of the user's traffic.</p>\n<p><strong>Q. Why does atomicity matter?</strong>  </p>\n<p>A. Concurrent requests can read the same counter and both pass unless check-and-update is atomic.</p>\n<p><strong>Q. What HTTP status code for throttling?</strong>  </p>\n<p>A. <code>429 Too Many Requests</code>, usually with <code>Retry-After</code>.</p>\n<p><strong>Q. Hardest multi-region tradeoff?</strong>  </p>\n<p>A. Global accuracy vs low latency/availability.</p>"
     },
     "/system_design/patterns/": {
       "text": "Patterns",
@@ -19829,6 +19939,50 @@
         "assets": false
       }
     },
+    "/system_design/interview_framework/": {
+      "text": "System Design Interview Framework",
+      "link": "/system_design/interview_framework/",
+      "pageType": "theory",
+      "parentLink": "/system_design/interview_framework/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      }
+    },
+    "/system_design/interview_framework/exercise/": {
+      "text": "System Design Interview Framework",
+      "link": "/system_design/interview_framework/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/system_design/interview_framework/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/system_design/interview_framework/design/": {
+      "text": "System Design Interview Framework",
+      "link": "/system_design/interview_framework/design/",
+      "pageType": "design",
+      "parentLink": "/system_design/interview_framework/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Design</h1>\n<h2>Worked HLD flow: rate limiter</h2>\n<p>Use this as a timed interview script.</p>\n<h3>Clarify</h3>\n<ul>\n<li>Is this server-side or client-side? Assume server-side.</li>\n<li>What dimensions? Assume user, IP, API key, endpoint, and global.</li>\n<li>Distributed? Assume many app servers.</li>\n<li>Strict or approximate? Assume accurate enough, with low latency.</li>\n<li>What response? <code>429 Too Many Requests</code> with retry headers.</li>\n</ul>\n<h3>Estimate</h3>\n<ul>\n<li>Peak RPS determines gateway and Redis capacity.</li>\n<li>Number of identities determines key count.</li>\n<li>Number of rules determines rule-cache size.</li>\n<li>Hot global keys may need sharding.</li>\n</ul>\n<h3>High-level design</h3>\n<pre><code>Client -&gt; Gateway/middleware -&gt; Rate limiter -&gt; Redis\n                              -&gt; API service if allowed\n                              -&gt; 429 if rejected</code></pre>\n<h3>Deep dive</h3>\n<p>Focus on:</p>\n<ul>\n<li>token bucket vs sliding window</li>\n<li>Redis key design and TTL</li>\n<li>atomic check-and-update</li>\n<li>hot keys</li>\n<li>fail-open vs fail-closed</li>\n<li>monitoring rejected requests and limiter latency</li>\n</ul>\n<h3>Wrap up</h3>\n<p>Summarize:</p>\n<pre><code>This design protects APIs with gateway-side rules, Redis-backed atomic counters, token bucket for burst-friendly traffic, stricter sliding windows for abuse-sensitive endpoints, 429 responses for clients, and monitoring for false positives, hot keys, and Redis latency.</code></pre>\n<h2>Quick recall</h2>\n<p><strong>Q. Why is this a good HLD practice example?</strong>  </p>\n<p>A. It forces requirements, estimates, algorithms, distributed state, failure behavior, and monitoring into one design.</p>"
+    },
     "/performance/": {
       "text": "Performance Engineering",
       "link": "/performance/",
@@ -19886,6 +20040,50 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/performance/capacity_estimation/": {
+      "text": "Back-of-the-Envelope Capacity Estimation",
+      "link": "/performance/capacity_estimation/",
+      "pageType": "theory",
+      "parentLink": "/performance/capacity_estimation/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      }
+    },
+    "/performance/capacity_estimation/exercise/": {
+      "text": "Back-of-the-Envelope Capacity Estimation",
+      "link": "/performance/capacity_estimation/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/performance/capacity_estimation/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/performance/capacity_estimation/design/": {
+      "text": "Back-of-the-Envelope Capacity Estimation",
+      "link": "/performance/capacity_estimation/design/",
+      "pageType": "design",
+      "parentLink": "/performance/capacity_estimation/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Design</h1>\n<h2>Worked estimate: media-heavy social feed</h2>\n<p>Use this shape when an interviewer asks for Twitter/Instagram-style capacity.</p>\n<p>Assumptions:</p>\n<ul>\n<li>300M monthly active users.</li>\n<li>50% are daily active users.</li>\n<li>Each daily active user creates 2 posts/day.</li>\n<li>10% of posts contain media.</li>\n<li>Average media payload is 1 MB.</li>\n<li>Retention is 5 years.</li>\n</ul>\n<p>Traffic:</p>\n<pre><code>DAU = 300M x 50% = 150M\nposts/day = 150M x 2 = 300M/day\naverage write QPS = 300M / 86,400 ~= 3.5K QPS\npeak write QPS ~= 2x average ~= 7K QPS</code></pre>\n<p>Media storage:</p>\n<pre><code>media posts/day = 300M x 10% = 30M/day\nraw media/day = 30M x 1 MB = 30 TB/day\n5-year raw media = 30 TB x 365 x 5 ~= 55 PB\n3 replicas ~= 165 PB before indexes, thumbnails, logs, backups</code></pre>\n<p>Design implications:</p>\n<ul>\n<li>Store media in object storage, not the relational database.</li>\n<li>Put media behind a CDN.</li>\n<li>Store post metadata separately from media bytes.</li>\n<li>Expect thumbnails/transcoded variants to add extra storage.</li>\n<li>Use queues/workers for media processing.</li>\n<li>Cache hot feed reads; storage estimates mostly affect the media pipeline and retention policy.</li>\n</ul>\n<h2>Quick recall</h2>\n<p><strong>Q. What changes the architecture in this estimate?</strong>  </p>\n<p>A. PB-scale media pushes you toward object storage, CDN, lifecycle policies, and async media processing.</p>\n<p><strong>Q. Does 7K write QPS automatically require sharding?</strong>  </p>\n<p>A. Not always. It depends on DB capacity, write shape, indexes, batching, and peak factor.</p>"
     },
     "/security/": {
       "text": "Security",

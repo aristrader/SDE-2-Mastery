@@ -33,6 +33,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Backpressure** → Part 02 (concurrency), Part 07 (row 60), Part 10 (messaging)
 - **BlockingQueue / wait-notify producer-consumer** → Part 02 rows 11, 16
 - **Backup & restore** → Part 06, Part 13 (AWS)
+- **Back-of-the-envelope estimation / capacity estimation** → Part 08 row 3, Part 30 row 3, `performance/capacity_estimation/`
 - **BAC vs PACE** → Part 29 row 8 (passport NFC)
 - **BFF (Backend-For-Frontend, service-layer aggregation)** → Part 06 (row 41)
 - **Bean lifecycle (Spring)** → Part 03
@@ -157,6 +158,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **HikariCP** → Part 03, Part 06
 - **HMAC-SHA256 (webhook signing)** → Part 20, Part 29 row 31
 - **HSTS / CSP / X-Frame-Options** → Part 18
+- **HLD interview framework (clarify → high-level design → deep dive → wrap-up)** → Part 30 row 3, `system_design/interview_framework/`
 - **HTTP status codes / methods** → Part 11 row 7
 - **HTTP/2, HTTP/3 (QUIC)** → Part 11
 - **HTTPS handshake** → Part 11 row 7, Part 16
@@ -201,6 +203,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Kafka (partitioning, ordering, exactly-once)** → Part 10
 - **@KafkaListener + DefaultErrorHandler + DLT recoverer** → Part 10
 - **Kill switch placement** → Part 26 row 16, Part 31 trick question #3
+- **Key-value store (Dynamo/Cassandra-style, quorum, vector clocks, hinted handoff, Merkle repair)** → Part 06 row 11, Part 07 rows 24-26/31, `databases/key_value_store/`
 - **KTP / MyKad / NRIC / PhilSys** → Part 29 row 40, Part 31 row 1
 - **Kubernetes RBAC + Pod Security Standards** → Part 22
 - **KYC orchestration state machine** → Part 29 rows 22-27, Part 31 rows 3, 22-23

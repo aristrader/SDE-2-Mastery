@@ -33,6 +33,22 @@ Sharding
 
 These are all mechanisms to allow systems to continue operating as load grows.
 
+### Start with the request path
+
+Before adding components, be able to explain the simplest path:
+
+```text
+User enters api.example.com
+        ↓
+DNS returns an IP address
+        ↓
+Browser/mobile app sends HTTP request
+        ↓
+Web server returns HTML or JSON
+```
+
+At very small scale, the web app, API logic, cache, and database can all live on one machine. That is not "bad design"; it is the simplest design that works. The system-design skill is knowing when the next bottleneck appears and which component removes it.
+
 ---
 
 ### Vertical Scaling (Scale Up)
@@ -113,6 +129,8 @@ App
 DB
 ```
 
+Everything may still be on one server. This is fine for a toy product or early prototype, but it has two obvious limits: one machine must handle both application traffic and database work, and one machine failure takes everything down.
+
 #### Stage 2
 
 ```text
@@ -124,6 +142,8 @@ App App App
  |
 DB
 ```
+
+The web tier can now scale horizontally behind a load balancer. This helps only if app servers are interchangeable; if one app server stores user session data locally, requests cannot freely move between servers.
 
 #### Stage 3
 
@@ -139,6 +159,8 @@ Primary DB
 Replicas
 ```
 
+Read replicas reduce pressure on the primary database when reads dominate writes. Writes still go to the primary; reads can be routed to replicas if the application can tolerate replication lag.
+
 #### Stage 4
 
 ```text
@@ -149,6 +171,8 @@ Cache
 DB
 ```
 
+Cache removes repeated reads from the database. It helps most when data is read often and updated less often. It adds a new correctness question: how stale can cached data be?
+
 #### Stage 5
 
 ```text
@@ -158,7 +182,51 @@ Shard 3
 Shard 4
 ```
 
+Sharding is usually a later move. It scales storage and write throughput, but it introduces shard-key choice, resharding, cross-shard joins, and hotspot risk.
+
+#### Stage 6
+
+```text
+Logs / Metrics / Alerts / CI-CD
+```
+
+Once the system has multiple tiers, regions, caches, queues, and shards, production work is no longer only architecture boxes. You need centralized logs for debugging, metrics for system health and business health, alerts for symptoms users feel, and automated build/test/deploy so every region runs compatible code and configuration.
+
 This progression is essentially the story of scaling a system.
+
+### Interview scaling sequence
+
+When asked to scale a simple product from one user to millions, do not jump directly to microservices. Walk the interviewer through the pressure point that forces each move:
+
+| Pressure | Smallest useful move |
+|----------|----------------------|
+| One box runs app + DB | Split web tier and database tier |
+| App server is overloaded or a SPOF | Add load balancer + more app servers |
+| Database reads dominate | Add read replicas |
+| Repeated expensive reads | Add cache |
+| Static assets are slow globally | Move images/CSS/JS/video to CDN |
+| App servers keep sessions locally | Move session/state to shared storage |
+| One region is too far or risky | Add multi-region routing + replication |
+| Slow work blocks requests | Add queue + workers |
+| One database cannot hold traffic/data | Shard by a stable, high-cardinality key |
+| Many tiers/regions make failures hard to see or roll out | Add centralized logging, metrics, alerts, and deployment automation |
+
+The senior signal is explaining **why now** for each component. Every new box solves a concrete bottleneck and adds an operational cost.
+
+### SQL vs NoSQL in this scaling story
+
+The default early answer is usually a relational database because relationships, joins, constraints, and transactions are valuable. Do not switch to NoSQL just because the word "scale" appears.
+
+NoSQL becomes a strong candidate when the access pattern is simple and high-volume: key-value lookups, document reads/writes, wide-column event data, graph traversal, or massive semi-structured data where joins are not central.
+
+Interview framing:
+
+```text
+Relational data + joins + constraints → SQL first
+Simple lookup / document access / massive flexible data → consider NoSQL
+```
+
+The sharper answer is not "SQL vs NoSQL." It is "what does the read/write path need?"
 
 ---
 
@@ -320,6 +388,79 @@ Scalability from sharding
 +
 Redundancy from replication
 ```
+
+---
+
+## Stateless Web Tier
+
+Horizontal scaling of app servers only stays simple when any server can handle any request:
+
+```text
+Client → LB → App 1
+Client → LB → App 2
+Client → LB → App 3
+```
+
+If session data lives only in `App 1`, the load balancer must keep that user pinned there with sticky sessions. That works for small systems, but it makes server removal, autoscaling, and failure handling harder.
+
+Example failure:
+
+```text
+User A session lives on App 1
+App 1 dies
+LB sends User A to App 2
+App 2 has no session data
+→ user appears logged out or request fails
+```
+
+The usual production fix is to move state out of the web tier:
+
+```text
+Client → LB → any App → Redis/DB/session store
+```
+
+Now app servers are replaceable workers. Autoscaling can add or remove them based on traffic without migrating user sessions.
+
+This is why "stateless" does not mean the product has no state. It means **the app server does not own state locally**. The state still exists, but it lives in a shared store that every app server can reach.
+
+### Sticky sessions vs shared session store
+
+| Approach | Benefit | Problem |
+|----------|---------|---------|
+| Sticky sessions | Simple; fewer shared-store reads | Server failure loses/pins sessions; rebalancing is harder |
+| Shared session store | Any app server can handle any request | Adds a dependency and shared-store latency |
+
+For interviews, prefer stateless app servers unless there is a strong reason not to.
+
+---
+
+## Multi-Region Scaling
+
+Multi-region is not just "deploy the same app twice." The hard parts are routing, data, and operations:
+
+- **Traffic routing:** GeoDNS or global load balancing sends users to the nearest healthy region.
+- **Data synchronization:** failover is useless if the backup region does not have the user's data.
+- **Cache behavior:** regional caches may be warm for local users and cold after failover.
+- **Deployment consistency:** config, schema, and service versions must stay compatible across regions.
+
+Interview answer: start single-region, then add multi-region when latency, disaster recovery, or business continuity justify the complexity.
+
+### Failover mental model
+
+Normal traffic:
+
+```text
+India users → Singapore region
+US users    → US-East region
+```
+
+If Singapore is down:
+
+```text
+India users → US-East region
+```
+
+That failover only works if US-East can authenticate the users, read enough recent data, and run compatible service versions. Otherwise DNS failover simply moves users to a region that cannot serve them correctly.
 
 ---
 
@@ -836,9 +977,14 @@ A: No. Sharding provides capacity. Replication provides redundancy.
 **Q: What is active redundancy?**  
 A: Multiple active components serving traffic while also being able to replace each other upon failure.
 
+**Q: Why do stateless app servers scale better?**  
+A: Any server can handle any request, so load balancers and autoscaling can add/remove instances without session pinning.
+
+**Q: What are the hard parts of multi-region?**  
+A: Routing users correctly, synchronizing data, handling regional cache misses, and keeping deployments consistent.
+
 **Q: Why are sequential disk operations faster than random ones?**  
 A: They avoid repeated seek and positioning overhead, especially on HDDs.
 
 **Q: Why do caches improve performance so dramatically?**  
 A: They replace expensive disk reads with much faster memory lookups.
-

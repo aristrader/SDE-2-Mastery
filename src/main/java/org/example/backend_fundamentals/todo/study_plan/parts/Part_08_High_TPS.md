@@ -8,7 +8,7 @@
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Latency numbers every programmer should know (L1 → memory → SSD → network → cross-region) | 🔴 💼 🎯 | L | 40 min | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) · 📖 Jeff Dean's "Latency numbers every programmer should know" · 💻 Warm-up: write latency cheat sheet from memory — L1, L2, RAM, SSD, HDD, intra-DC RTT, cross-region RTT (10 min) |
 | 2 | Throughput math | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
-| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 3 | GC tuning (G1GC vs ZGC) for latency — pause times vs throughput | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Thread dumps, heap dumps, MAT (Memory Analyzer Tool) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write OOM program, generate heap dump (-XX:+HeapDumpOnOutOfMemoryError), open in MAT, find leak (45 min) |
 | 5 | Profiling tools — async-profiler, JFR, flame graphs | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |

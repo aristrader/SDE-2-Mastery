@@ -30,14 +30,14 @@
 | 21 | Sticky sessions vs distributed session store | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: sticky-session concept + modern shared-store alternative covered; session-store design details pending | 📖 `system_design/components/load_balancing/index.md` (concept only) |
 | 22 | Sharding — strategies and pain points (revisited from Part 6) | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — strategies, shard keys, routing (mongos/Vitess), scatter-gather, cross-shard joins, rebalancing pain | 📖 `databases/sharding/index.md` · (Cross-ref Part 6.10) |
 | 23 | Consensus — Paxos and Raft (high-level enough to discuss) | 🟠 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📺 "Raft in 30 min" — thesecretlivesofdata.com (interactive visualization) |
-| 24 | Quorum reads/writes (R + W > N) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Vector clocks, Lamport timestamps | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Eventual consistency in practice — read repair, anti-entropy, hinted handoff | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 24 | Quorum reads/writes (R + W > N) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `databases/key_value_store/index.md` |
+| 25 | Vector clocks, Lamport timestamps | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `databases/key_value_store/index.md` |
+| 26 | Eventual consistency in practice — read repair, anti-entropy, hinted handoff | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `databases/key_value_store/index.md` |
 | 27 | Service mesh — sidecar pattern, Istio/Linkerd intuition | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered service discovery, registries, gateways, and service mesh architecture tradeoffs. | 📖 `networking/api_gateway/index.md` |
 | 28 | Reverse proxies — nginx, Envoy, HAProxy | 🟠 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: reverse-proxy concept/uses covered; nginx/Envoy/HAProxy specifics pending | 📖 `networking/proxies_vpn/index.md` (concept only) |
 | 29 | Probabilistic structures — Bloom filter, Cuckoo filter, Count-Min sketch, HyperLogLog, T-Digest | 🟠 💼 🎯 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | Consistent hashing (with virtual nodes) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~45 min (ChatGPT) | 📖 `databases/sharding/index.md` · 📖 `system_design/components/caching/index.md` · 📺 ByteByteGo "Consistent Hashing" video (~15 min) · 💻 Warm-up: implement a basic consistent-hash ring with 100 virtual nodes in Java; add/remove a node, count keys that migrate (45 min) |
-| 31 | Merkle trees — Git internals, anti-entropy in Dynamo-style DBs, blockchain | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 31 | Merkle trees — Git internals, anti-entropy in Dynamo-style DBs, blockchain | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `databases/key_value_store/index.md` |
 | 32 | Geospatial structures — geohash, S2 (Google), H3 (Uber), R-tree, quadtree | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Geohash, Quadtree, S2, and H3 fully covered through deep-dive conversation and consolidated notes. | 📖 `system_design/case_studies/location_and_uber_architecture/` (docs 01-03, 07) |
 | 33 | Tries — autocomplete, IP prefix matching | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Inverted index — search systems fundamental | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

@@ -31,6 +31,17 @@ Cross Region (Large latency. Avoid for every request)
 ↓
 Internet (Largest latency)
 
+### What to conclude from latency numbers
+
+The exact numbers age over time, but the ordering stays useful:
+
+- Memory is fast; disk is slow.
+- Disk seeks are much worse than sequential reads/writes.
+- Same-region network calls are manageable; cross-region calls are expensive.
+- Compression can be cheaper than sending large uncompressed payloads over the internet, but CPU cost still matters.
+
+Use these conclusions to justify design choices. "Put this in Redis" is a weak answer by itself; "this avoids repeated disk-backed DB lookups on a hot read path" is the real reasoning.
+
 **Key Analogy (Memory vs. Storage):**
 Opening a Word Document:
 - Initially: SSD
@@ -84,4 +95,6 @@ A. 500 × 0.2 = 100 active requests in flight.
 **Q. Why can't we just create 10,000 threads for 10,000 requests?**
 A. Threads are expensive (stack memory, JVM overhead) and context-switching 10,000 threads on an 8-core machine will waste CPU time thrashing rather than doing useful work.
 
+**Q. Why avoid cross-region calls in the hot path?**
+A. Cross-region latency is large and variable; it can dominate p99 even if local service code is fast.
 

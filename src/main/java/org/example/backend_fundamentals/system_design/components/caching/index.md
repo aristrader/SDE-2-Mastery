@@ -26,6 +26,12 @@ The hardest problem in caching is keeping cache and database synchronized. If th
 - **Delete the cache entry** (`UPDATE DB` + `DEL cache_key`) — next read repopulates the cache.
 - **Update the cache entry** (`UPDATE DB` + `UPDATE CACHE`) — both stay synchronized.
 
+### Expiration policy
+
+Every cache entry should usually have a TTL. No TTL risks serving stale data forever and slowly filling memory with dead keys. Too-short TTLs cause constant reloads from the database; too-long TTLs make stale reads more likely.
+
+Interview answer: set TTL from the data's freshness requirement and update frequency, then measure hit rate, stale-read impact, and origin/database load.
+
 ### Cache states
 
 | State | Meaning |
@@ -45,6 +51,8 @@ Read → check cache → hit? return
                    → miss → read DB → store in cache → return
 ```
 
+This is the pattern most Java/Spring + Redis applications use: service code checks Redis, falls back to the database, then writes the value back to Redis.
+
 ### Read-through
 
 The application talks **only to the cache**; on a miss the *cache itself* fetches from the DB.
@@ -54,15 +62,21 @@ The application talks **only to the cache**; on a miss the *cache itself* fetche
 | Application manages cache population | Cache manages cache population |
 | App talks to cache and DB | App talks only to cache |
 
+Naming caveat: some system-design material loosely calls the generic "check cache, then DB" flow read-through. In most production Redis discussions, if the application performs the DB fallback, call it **cache-aside**.
+
 ## Cache write patterns
 
 ### Write-through
 
 Writes go to cache and database **synchronously**: write → cache → DB → success. Strong consistency, slower writes, cache always fresh. Good when consistency matters.
 
+Use this when stale reads are more damaging than write latency. Example: a user's entitlement/subscription status should not lag behind payment state for long.
+
 ### Write-around
 
 Writes **bypass the cache** and go straight to the DB; the cache is populated later during reads (read-after-write is a miss). Useful for many-writes/few-reads workloads — avoids wasting cache space.
+
+Use this when most written data is never read again soon. Example: append-heavy audit events where caching each write would evict useful hot data.
 
 ### Write-back (write-behind)
 
@@ -70,9 +84,13 @@ Writes go to **cache first**, success returns immediately, and the database is u
 
 Important detail: **Redis does not magically update the database** — a background worker, queue consumer, or application process performs the eventual DB write.
 
+Use this only when the application can tolerate delayed persistence or has a durable queue/write-ahead mechanism protecting the pending write.
+
 ## Cache eviction
 
 When the cache is full, entries must be removed. **LRU (Least Recently Used)** — removes entries not accessed recently — is the most important policy for interviews. FIFO and others exist but are far less commonly discussed; understanding LRU well is usually sufficient.
+
+Do not run caches at the memory cliff. Keep headroom so traffic spikes, hot-key growth, or failover from another cache node do not immediately trigger mass eviction.
 
 ## Cache layers
 
@@ -178,6 +196,7 @@ Real systems don't place one position per server — each physical node appears 
 4. **"Consistent hashing means no keys move."** Incorrect — keys still move, but only the keys needed by the new node, instead of nearly all keys.
 5. **"Going 4 → 5 nodes shifts every node's data."** True for modulo hashing / repartitioning a line — NOT consistent hashing, which changes ownership only for ranges affected by the inserted node.
 6. **"Distributed cache nodes all contain some of the same data."** Not by default — each node owns its keys; shared copies exist only when replication is configured.
+7. **"Cache can be the source of truth."** Usually incorrect. Most caches are volatile; if Redis/Memcached restarts, important data must still exist in durable storage.
 
 ## Performance characteristics
 
@@ -216,3 +235,5 @@ A. Adding/removing nodes remaps most keys → massive cache misses.
 **Q. Why does consistent hashing help?**
 A. Only the subset of keys needed by the new node remaps instead of nearly all keys.
 
+**Q. Why does cache TTL matter?**
+A. It bounds staleness and memory growth, but too-short TTLs can create database reload storms.
