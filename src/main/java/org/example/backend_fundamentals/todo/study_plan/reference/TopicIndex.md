@@ -67,7 +67,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **CDD vs EDD (KYC)** → Part 29 row 5
 - **Cell-based architecture** → Part 29 row 138
 - **Certificate pinning (mobile)** → Part 31 row 32
-- **Chunking (RAG)** → Part 23 row 14
+- **Chunking (RAG)** → Part 23 row 14, `gen_ai/rag/index.md`
 - **Circuit breaker (Resilience4j)** → Part 03, Part 31 row 39
 - **Client-Server Communication Patterns** → Part 11 rows 28-30
 - **Clustering (heartbeats, leader election, failover — Redis/Kafka)** → Part 07 row 67
@@ -114,7 +114,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **EDNS Client Subnet (ECS)** → Part 11 row 11
 - **Egress cost optimization (NAT GW, CloudFront, VPC endpoints)** → Part 14
 - **eKYC vs in-person** → Part 29 row 4
-- **Embeddings (face / text)** → Part 29 row 15, Part 23 row 12
+- **Embeddings (face / text)** → Part 29 row 15, Part 23 row 12, `gen_ai/rag/index.md`
 - **Encryption at rest / in transit** → Part 16, Part 28 row 7
 - **Enums with behaviour (abstract methods, interface impl)** → Part 04, Part 1b row 19
 - **EnvelopeEncryption (KMS)** → Part 16, Part 31 row 21
@@ -215,6 +215,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Lombok (@Builder, @Value, @Data, @Slf4j, @RequiredArgsConstructor)** → Part 04, Part 1b row 5
 - **Long polling** → Part 11 row 30
 - **LRU / LFU cache** → PracticeProblems § 1 #7-8
+- **LLD Parking Lot** → Part 04 row 44, Part 30 row 2, `system_design/case_studies/parking_lot/`
 
 ## M
 
@@ -251,7 +252,8 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **OpenSearch / ELK** → PracticeProblems § 2 #20
 - **OpenTelemetry** → Part 21
 - **OSI Model (vs TCP/IP, mental framework)** → Part 11 row 1
-- **Outbox + CDC** → Part 10, Part 29 row 134
+- **Outbox + CDC** → Part 10, Part 29 row 134, `databases/distributed_transactions/index.md`
+- **Outbox pattern / dual-write problem** → Part 04 row 40, Part 10 rows 14, 16, `databases/distributed_transactions/index.md`
 
 ## P
 
@@ -283,7 +285,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 ## R
 
-- **RAG (retrieval-augmented generation)** → Part 23 rows 12-17
+- **RAG (retrieval-augmented generation)** → Part 23 rows 12-17, `gen_ai/rag/index.md`
 - **Rate limiting (token bucket, sliding window, distributed)** → Part 07 row 13, Part 09, PracticeProblems § 1 #9, § 2 #13
 - **RBAC / ABAC / ReBAC** → Part 19
 - **Reactor / Project Reactor** → Part 02, Part 03
@@ -380,7 +382,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## V
 
 - **Varints / Protobuf encoding** → Part 11 row 13, Part 12 row 2
-- **Vector databases (pgvector, Pinecone)** → Part 23 row 13
+- **Vector databases (pgvector, Pinecone)** → Part 23 row 13, `gen_ai/rag/index.md`
 - **Vendor abstraction / adapter** → Part 31 row 9
 - **Vendor failover** → Part 31 row 11
 - **Verifiable Credentials (W3C VC)** → Part 29 row 121

@@ -4,234 +4,212 @@ order: 30
 
 # Derived Queries & @Query
 
----
-
-## How Spring Data parses method names
-
-At startup, Spring Data parses each method name not backed by `@Query` into a `PartTree`. The parse is deterministic and fails fast if the name is invalid or references a field that doesn't exist on the entity.
-
-**Structure:** `<subject> + By + <predicate>`
-
-- **Subject** controls what is returned: `find`/`read`/`get`/`query`/`stream` → entity/collection; `count` → Long; `exists` → boolean; `delete`/`remove` → void or deleted count.
-- **By** is the separator between subject and predicate.
-- **Predicate** is one or more conditions joined by `And`/`Or`, with optional `OrderBy` at the end.
-
-### Subject prefix table
-
-| Subject prefix | Return type | Example |
-|---|---|---|
-| `findBy` / `readBy` / `getBy` / `queryBy` / `streamBy` | entity / collection | `findByEmail` |
-| `countBy` | `Long` | `countByTenantId` |
-| `existsBy` | `boolean` | `existsByEmailAndTenantId` |
-| `deleteBy` / `removeBy` | `void` or `long` (deleted count) | `deleteByExpiresAtBefore` |
-
-### Predicate keyword table
-
-| Keyword | SQL equivalent | Example |
-|---|---|---|
-| `And` | AND | `findByFirstNameAndLastName` |
-| `Or` | OR | `findByStatusOrRole` |
-| `Between` | BETWEEN ? AND ? | `findByAgeBetween` |
-| `LessThan` / `LessThanEqual` | < / <= | `findBySalaryLessThan` |
-| `GreaterThan` / `GreaterThanEqual` | > / >= | `findByCreatedAtGreaterThan` |
-| `Like` | LIKE ? (you supply %) | `findByEmailLike` |
-| `Containing` | LIKE %?% | `findByNameContaining` |
-| `StartingWith` | LIKE ?% | `findByNameStartingWith` |
-| `In` | IN (…) | `findByStatusIn(List<Status>)` |
-| `IsNull` / `IsNotNull` | IS NULL / IS NOT NULL | `findByDeletedAtIsNull` |
-| `OrderBy` | ORDER BY … ASC/DESC | `findByStatusOrderByCreatedAtDesc` |
-| `Distinct` | SELECT DISTINCT | `findDistinctByLastName` |
-| `Top` / `First` | LIMIT / FETCH FIRST | `findTop3ByOrderByScoreDesc` |
+Spring Data can create queries from repository method names. For interviews, know when derived queries are clean, when to switch to `@Query`, and the basics of pagination/projections.
 
 ---
 
-## Real examples with generated SQL
+## Derived queries
+
+Spring parses repository method names at application startup.
 
 ```java
-// 1 — simple equality
-List<User> findByEmail(String email);
-// SELECT * FROM user WHERE email = ?
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 
-// 2 — compound predicate
-List<Order> findByStatusAndCreatedAtGreaterThan(OrderStatus status, LocalDateTime since);
-// SELECT * FROM order WHERE status = ? AND created_at > ?
+    boolean existsByEmailAndTenantId(String email, Long tenantId);
 
-// 3 — IN + null check
-List<Document> findByStatusInAndDeletedAtIsNull(List<Status> statuses);
-// SELECT * FROM document WHERE status IN (?,?,…) AND deleted_at IS NULL
-
-// 4 — pagination + ordering baked in
-List<Product> findTop5ByActiveTrueOrderByRatingDesc();
-// SELECT * FROM product WHERE active = true ORDER BY rating DESC LIMIT 5
-
-// 5 — existence check (no data load)
-boolean existsByEmailAndTenantId(String email, Long tenantId);
-// SELECT COUNT(*) > 0 FROM user WHERE email = ? AND tenant_id = ?
+    List<User> findByStatusOrderByCreatedAtDesc(UserStatus status);
+}
 ```
+
+Common prefixes:
+
+- `findBy...` / `getBy...` / `readBy...`
+- `existsBy...`
+- `countBy...`
+- `deleteBy...`
+
+Common keywords:
+
+- `And`, `Or`
+- `Between`
+- `LessThan`, `GreaterThan`
+- `In`
+- `IsNull`, `IsNotNull`
+- `Containing`, `StartingWith`
+- `OrderBy`
+- `Top`, `First`
 
 ---
 
-## Limits of derived queries
+## When derived queries are good
 
-Method names get unwieldy fast. Queries with 4+ conditions, OR branches, JOINs, or aggregations produce unreadable names. Use `@Query` when:
+Use derived queries for simple predicates:
 
-- The predicate has more than 2–3 conditions.
-- You need an OR across different fields.
-- The query involves a JOIN that's not navigable by association.
-- You need DB-specific functions, CTEs, window functions.
+```java
+List<Order> findByStatus(OrderStatus status);
+
+List<Order> findByCustomerIdAndStatus(Long customerId, OrderStatus status);
+
+boolean existsByEmail(String email);
+```
+
+They are readable, short, and fail fast at startup if the field name is wrong.
+
+Example mistake:
+
+```java
+List<User> findByEmailAddress(String email);
+```
+
+If the entity field is `email`, not `emailAddress`, startup fails with a property reference error.
 
 ---
 
-## @Query with JPQL
+## When to use @Query
 
-JPQL operates on **entity and field names**, not table/column names. Portable across DB vendors.
+Use `@Query` when the method name becomes hard to read.
 
 ```java
-// Named parameters — always prefer over positional for readability
-@Query("SELECT u FROM User u WHERE u.tenantId = :tenantId AND u.status = :status")
-List<User> findActiveByTenant(@Param("tenantId") Long tenantId,
-                              @Param("status") UserStatus status);
-
-// Positional — works but fragile if params are reordered
-@Query("SELECT u FROM User u WHERE u.email = ?1")
-Optional<User> findByEmail(String email);
-
-// JOIN FETCH — avoids N+1 by loading association in one query
-@Query("SELECT o FROM Order o JOIN FETCH o.lineItems WHERE o.id = :id")
-Optional<Order> findWithLineItems(@Param("id") Long id);
+@Query("""
+    select o
+    from Order o
+    where o.customer.id = :customerId
+      and o.status = :status
+      and o.createdAt >= :from
+    """)
+List<Order> findRecentOrders(Long customerId, OrderStatus status, Instant from);
 ```
 
-**JPQL gotchas:**
-- Field names must match entity field names, not column names. `u.createdAt`, not `u.created_at`.
-- `JOIN FETCH` in JPQL with `Pageable` causes a Hibernate warning — it loads all results into memory then paginates in Java (not SQL). Use `countQuery` or a separate query for the count if you need pagination with fetch joins.
+Switch to `@Query` for:
+
+- 3+ conditions where the method name becomes long
+- joins/fetch joins
+- aggregations
+- custom sorting/filtering logic
+- queries that need to be read by humans later
+
+JPQL uses entity names and field names, not table/column names.
 
 ---
 
-## @Query with native SQL
+## Native queries
+
+Use native SQL only when JPQL cannot express the query cleanly.
 
 ```java
-@Query(value = "SELECT * FROM user WHERE tenant_id = :tenantId AND created_at > NOW() - INTERVAL '30 days'",
-       nativeQuery = true)
-List<User> findRecentByTenant(@Param("tenantId") Long tenantId);
+@Query(
+    value = """
+        select *
+        from users
+        where tenant_id = :tenantId
+          and created_at > now() - interval '30 days'
+        """,
+    nativeQuery = true
+)
+List<User> findRecentUsers(Long tenantId);
 ```
 
-- Operates on **table and column names**. Breaks if table/column is renamed.
-- Necessary for DB-specific functions (`NOW() - INTERVAL`, `ILIKE`, `jsonb_` ops), CTEs, window functions, `RETURNING`, anything JPQL can't express.
-- Spring Data still maps results to entity types (by column name) or projections.
-- Pagination requires a separate `countQuery`:
+Use cases:
 
-```java
-@Query(value = "SELECT * FROM user WHERE tenant_id = :id",
-       countQuery = "SELECT COUNT(*) FROM user WHERE tenant_id = :id",
-       nativeQuery = true)
-Page<User> findByTenant(@Param("id") Long id, Pageable pageable);
-```
+- database-specific functions
+- window functions
+- CTEs
+- vendor-specific JSON operations
+
+Trade-off: native SQL is less portable and uses table/column names.
 
 ---
 
 ## @Modifying
 
-Required for any `@Query` that issues an UPDATE or DELETE. Without it, Spring Data treats the query as a SELECT and throws.
+Use `@Modifying` for update/delete queries.
 
 ```java
 @Modifying
 @Transactional
-@Query("UPDATE User u SET u.status = :status WHERE u.tenantId = :tenantId")
-int deactivateAllByTenant(@Param("status") UserStatus status,
-                          @Param("tenantId") Long tenantId);
+@Query("update User u set u.status = :status where u.tenantId = :tenantId")
+int updateStatusForTenant(UserStatus status, Long tenantId);
 ```
 
-- **Must be combined with `@Transactional`** (on the method or calling service).
-- Returns `int` (affected row count) or `void`.
-- `clearAutomatically = true` evicts modified entities from the persistence context after the update. Without it, in-memory entities don't reflect the bulk update — you'll read stale data if you load the same entities in the same transaction.
+Important points:
+
+- It needs a transaction.
+- Return `int` if you want affected row count.
+- Bulk updates bypass managed entity state.
+
+If entities were already loaded in the same persistence context, use `clearAutomatically = true` to avoid stale in-memory data.
 
 ```java
 @Modifying(clearAutomatically = true)
-@Transactional
-@Query("DELETE FROM Session s WHERE s.expiresAt < :now")
-int deleteExpiredSessions(@Param("now") LocalDateTime now);
+@Query("delete from Session s where s.expiresAt < :now")
+int deleteExpiredSessions(Instant now);
 ```
 
 ---
 
 ## Projections
 
-Loading full entities when you only need 2–3 fields is wasteful. Projections fix that.
+Use projections when you need only a few fields instead of full entities.
 
-### Interface-based (Spring generates proxy)
+Interface projection:
 
 ```java
 public interface UserSummary {
-    String getFirstName();
-    String getLastName();
+    Long getId();
     String getEmail();
-
-    // Computed field via SpEL
-    @Value("#{target.firstName + ' ' + target.lastName}")
-    String getFullName();
 }
 
 List<UserSummary> findByTenantId(Long tenantId);
-// SELECT first_name, last_name, email FROM user WHERE tenant_id = ?
-// (only declared fields fetched — cheaper than SELECT *)
 ```
 
-Spring generates a JDK proxy implementing the interface. `target` in `@Value` SpEL refers to the backing object with all fields.
-
-### Class-based (DTO via JPQL constructor expression)
+DTO projection:
 
 ```java
-public record UserDto(String firstName, String email) {}
+public record UserSummaryDto(Long id, String email) {
+}
 
-@Query("SELECT new com.example.UserDto(u.firstName, u.email) FROM User u WHERE u.tenantId = :id")
-List<UserDto> findDtosByTenant(@Param("id") Long tenantId);
+@Query("select new com.example.UserSummaryDto(u.id, u.email) from User u where u.tenantId = :tenantId")
+List<UserSummaryDto> findSummaries(Long tenantId);
 ```
 
-No proxy overhead — Hibernate calls the constructor directly. More explicit: you know exactly what's fetched.
+Use projections for read-only screens/APIs where loading the full entity graph is unnecessary.
 
 ---
 
-## Pagination — Page vs Slice
-
-Both accept a `Pageable` parameter:
+## Page vs Slice
 
 ```java
-Page<User>  findByTenantId(Long tenantId, Pageable pageable);
+Page<User> findByTenantId(Long tenantId, Pageable pageable);
+
 Slice<User> findByTenantId(Long tenantId, Pageable pageable);
 ```
 
-| | `Page<T>` | `Slice<T>` |
+| Return type | What it gives | Cost |
 |---|---|---|
-| Count query | Yes — fires `SELECT COUNT(*)` | No |
-| Knows total pages | Yes (`getTotalPages()`, `getTotalElements()`) | No — only `hasNext()` |
-| Cost | Higher (2 queries) | Lower (1 query) |
-| Use case | Paginated UI with page numbers | Infinite scroll, cursor-based load more |
+| `Page<T>` | content + total elements/pages | runs count query |
+| `Slice<T>` | content + has next page | avoids count query |
 
-```java
-// Caller
-Pageable page = PageRequest.of(0, 20, Sort.by("createdAt").descending());
-Page<User> result = userRepo.findByTenantId(tenantId, page);
-```
+Use `Page` when UI needs total pages. Use `Slice` for “load more” or infinite scroll.
 
 ---
 
 ## Quick recall
 
-**Q. What subject prefixes does Spring Data recognise in a derived query?**
-A. `find`/`read`/`get`/`query`/`stream` (data), `count` (Long), `exists` (boolean), `delete`/`remove` (void or deleted count).
+**Q. When are derived queries good?**  
+A. Simple, readable predicates like `findByEmail` or `existsByEmailAndTenantId`.
 
-**Q. What's the difference between `Like` and `Containing` keywords?**
-A. `Like` passes the value as-is (you include `%`); `Containing` wraps the value in `%…%` automatically.
+**Q. When should you switch to `@Query`?**  
+A. When the method name becomes long, needs joins, aggregation, or custom logic.
 
-**Q. Why use `@Modifying(clearAutomatically = true)`?**
-A. Bulk UPDATE/DELETE bypasses Hibernate's cache — `clearAutomatically` evicts affected entities so subsequent reads in the same TX don't return stale state.
+**Q. JPQL uses table names or entity names?**  
+A. Entity and field names.
 
-**Q. Interface projection vs DTO projection — which is cheaper?**
-A. DTO (class-based with `new` in JPQL) avoids proxy creation overhead; interface projection generates a JDK proxy per row. DTO is faster at high row counts.
+**Q. Why use `@Modifying`?**  
+A. For update/delete queries; otherwise Spring treats the query like a select.
 
-**Q. `Page` vs `Slice` — when does `Slice` win?**
-A. Infinite scroll / load-more UIs — `Slice` skips the `COUNT(*)` query; `Page` fires it every time, which is expensive on large tables.
+**Q. Why use projections?**  
+A. To fetch only needed fields for read-only use cases.
 
-**Q. Why can't you use `JOIN FETCH` with `Pageable` in JPQL?**
-A. Hibernate can't push pagination into SQL when a fetch join multiplies rows; it fetches all rows and paginates in memory. Use a separate count query or avoid fetch joins with pagination.
-
+**Q. `Page` vs `Slice`?**  
+A. `Page` runs a count query and knows totals. `Slice` only knows whether there is a next page.

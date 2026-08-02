@@ -235,11 +235,3 @@ A. Override = same call site runs different code based on the actual object (ins
 
 **Q. The fix when you really want a swap-in stub?**
 A. Make the method an instance method and inject the implementation (DI). The call becomes virtual and runtime-type wins.
-
----
-
-## Related topics
-
-- **Inheritance** — the mechanism that creates the chain virtual dispatch walks.
-- **Abstract Class vs Interface** — both can host abstract methods that get polymorphically dispatched.
-- **Access Modifiers Deep Dive** — `private` methods are not virtual; `protected` and `public` instance methods are.

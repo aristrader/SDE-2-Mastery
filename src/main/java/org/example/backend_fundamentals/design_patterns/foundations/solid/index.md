@@ -137,11 +137,3 @@ A. Does the high-level class name a concrete low-level class anywhere in its fie
 **Q. "Program to an interface, not an implementation" — what does it mean in practice?**
 A. Hold the most abstract type that still does the job. `HR` holds `HiringProcess` (not `AndroidHiringProcess`); `furnishRoom` takes `FurnitureSetFactory` (not `CheapFurnitureFactory`); the loop in `PolymorphicPrototypeRun` holds `List<Shape>` (not `List<Circle>`).
 
----
-
-## Related topics
-
-- **DIP vs DI** — DIP overlaps with the DI deep-dive; here just understand the principle, the other doc covers how DI delivers on DIP.
-- **Inheritance / LSP** — LSP is the formal is-a test from the Inheritance doc.
-- **Coupling and Cohesion** — SRP is fundamentally about high cohesion.
-

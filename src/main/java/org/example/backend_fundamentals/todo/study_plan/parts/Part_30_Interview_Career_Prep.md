@@ -9,7 +9,7 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Coding round — brute force → optimize → code → test → edge cases | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Machine coding / LLD — clarify → classes → interfaces → sequence → edge cases (45–90 min) | 🔴 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: 60-min LLD timed mock — pick a problem from `reference/PracticeProblems.md`, run the full clarify→classes→interfaces sequence end-to-end (60 min) |
+| 2 | Machine coding / LLD — clarify → classes → interfaces → sequence → edge cases (45–90 min) | 🔴 🎯 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Parking Lot completed end-to-end; more timed mocks still pending | 💻 `system_design/case_studies/parking_lot/exercise/index.md` · 📖 `system_design/case_studies/parking_lot/design/index.md` |
 | 3 | System design / HLD — requirements → estimates → API → HLD → deep-dive → tradeoffs | 🔴 🎯 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: 45-min HLD timed mock — pick a problem from `reference/PracticeProblems.md`, sketch requirements→estimates→API→HLD on paper (45 min) |
 | 4 | Behavioral / leadership — STAR method, prepared stories (have 5–8 ready) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write down 3 STAR stories from your last year (situation → task → action → result + explicit impact) (45 min) |
 | 5 | SDE2 vs SDE3 vs Staff vs Principal — scope of impact, ambiguity tolerance, influence radius (Basic concept only) | 🔴 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |

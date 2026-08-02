@@ -291,11 +291,3 @@ A. `HashSet.addAll` internally calls `this.add`, which dispatches virtually to t
 
 **Q. One place in this repo where `extends` is correct and why?**
 A. `AndroidHiringProcess extends DeveloperHiringProcess`. The parent's `onboard()` is `final` (template method); the child supplies the `createDeveloper()` hook only. Substitutability holds — `HR` works against `HiringProcess` and neither child surprises it.
-
----
-
-## Related topics
-
-- **Polymorphism** — the runtime mechanism inheritance enables.
-- **Abstract Class vs Interface** — picks which inheritance flavour fits.
-- **SOLID — LSP** — the formal version of the is-a test.

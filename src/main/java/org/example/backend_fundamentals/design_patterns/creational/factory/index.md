@@ -247,15 +247,3 @@ Are services (collaborators) involved? Will I test with
    mocks? Are multiple flows likely?                      ── Yes ─▶ Production variant.
 Otherwise                                                 ────▶ Learning variant.
 ```
-
----
-
-## Related files
-
-- `simple_factory/SimpleFactory.md` — dedicated walkthrough.
-- `factory_method_basic/FactoryMethodBasic.md` — dedicated walkthrough.
-- `factory_method/FactoryMethodProd.md` — dedicated walkthrough.
-- `CreationalPatternsRoadmap.md` — where factories sit in the overall learning order.
-- `../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — the underlying principles that govern these decisions.
-- `/java/oop/access_modifiers/deep_dive/` — why `protected`, `final`, `abstract`, `private` in each variant.
-- `../../design_patterns/pattern_selection/index.md` — next step: orchestrating multiple factories (Strategy / Registry / DI).

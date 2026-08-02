@@ -24,8 +24,8 @@
 | 13 | Optional — proper use vs misuse | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/coding_fluency/optional/index.md` · 💻 `java/coding_fluency/optional/exercise/index.md` |
 | 14 | Functional interfaces — Function, Predicate, Consumer, Supplier, BiFunction | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory covered from lambda/function-interface dump | 📖 `java/coding_fluency/lambdas/index.md` · 📖 `java/coding_fluency/functional_interfaces/index.md` · 📖 `java/coding_fluency/method_references/index.md` |
 | 15 | GC algorithms — G1 (default), ZGC, Shenandoah, Parallel; tuning intuition | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered in GC page | 📖 `java/jvm/gc/index.md` |
-| 16 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JVM execution role covered; bootstrap/platform/app hierarchy pending | 📖 `java/jvm/bytecode_execution/index.md` |
+| 17 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JIT role covered; C1/C2/tiered/inlining details pending | 📖 `java/jvm/bytecode_execution/index.md` |
 | 18 | WeakHashMap, IdentityHashMap, EnumMap — when each is right | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Hashtable vs HashMap vs ConcurrentHashMap — history & differences (Hashtable is legacy — know for comparison only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Collisions, load factor, rehashing cost | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered across HashMap and hashing pages | 📖 `java/collections/maps/hashmap/index.md` · 📖 `java/collections/hashing/hashmap_mechanics/index.md` |

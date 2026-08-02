@@ -160,12 +160,3 @@ mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.factor
 
 See `../factory_method/FactoryMethodProd.md` for the step-by-step differences and `../Factory.md` for a side-by-side comparison. The migration is small but deliberate &mdash; six concrete changes that you can make one at a time.
 
-## Related files
-
-- `../simple_factory/SimpleFactory.md` — the preceding step.
-- `../factory_method/FactoryMethodProd.md` — the next step up.
-- `../Factory.md` — overall comparison.
-- `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — design principles behind these choices.
-- `/java/oop/access_modifiers/deep_dive/` — why `protected`, `final`, `abstract`, etc.
-
-

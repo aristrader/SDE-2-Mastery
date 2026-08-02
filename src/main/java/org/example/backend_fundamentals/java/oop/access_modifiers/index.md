@@ -46,11 +46,6 @@ class Helper {
 }
 ```
 
-## Related topics
-
-- `static_and_final` covers `static`, `final`, constants, final references, final methods, and final classes.
-- `access_modifiers/deep_dive` covers modifier choices in template methods and inheritance hooks.
-
 ## Quick recall
 
 - **Do local variables get defaults?** No.

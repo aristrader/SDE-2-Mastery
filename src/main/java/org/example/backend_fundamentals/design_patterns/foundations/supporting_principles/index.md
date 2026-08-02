@@ -65,6 +65,30 @@ The shortcut: each method should call methods on
 
 Reaching through a chain (`a.b.c.d`) means the calling code knows too much about A's internals — and any change deep in the chain ripples outward.
 
+The practical rule: **do not navigate through objects to make a behaviour decision somewhere else**. Move that behaviour to the object that owns the data.
+
+```java
+// Smell — service knows Account -> Profile -> Address internals
+if (account.getProfile().getAddress().getCountry().equals("IN")) {
+    shipping.applyDomesticRate();
+}
+
+// Better — Account owns the question
+if (account.hasDomesticAddress("IN")) {
+    shipping.applyDomesticRate();
+}
+```
+
+DTOs are the common exception. A DTO is often just a data shape, so `orderDto.customer().address().city()` is not automatically a design failure. But if many callers need the same deep path, flatten it or expose the exact read model the screen/API needs.
+
+```java
+// Acceptable in one mapper/view boundary
+String city = orderDto.customer().address().city();
+
+// Better if many callers need this field
+record OrderSummaryDto(String orderId, String customerCity) {}
+```
+
 ---
 
 ## Separation of Concerns
@@ -154,13 +178,4 @@ A. Detect invalid state at the earliest point (usually constructor or method ent
 
 **Q. POLA — what does it govern?**
 A. API behaviour matches reasonable caller expectations. `getX()` that mutates state is astonishing — and wrong. Drives naming, return types, and side-effect discipline.
-
----
-
-## Related topics
-
-- **SOLID — SRP** — SLAP is SRP applied at the method level.
-- **Coupling and Cohesion** — Tell Don't Ask + Law of Demeter both reduce coupling.
-- **Encapsulation** — Tell Don't Ask is the behavioural side of encapsulation.
-
 

@@ -15,12 +15,12 @@
 | 8 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Caching strategies for LLM calls (prompt caching, semantic caching) | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Embeddings — what they are, similarity metrics  (Basic concept only)| 🟠 💼 🆕 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Hybrid search — BM25 + vector | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 12 | Embeddings — what they are, similarity metrics  (Basic concept only)| 🟠 💼 🆕 | MP | 15 min | [ ] | [x] | [ ] | [ ] | Partial: embedding concept + vector meaning/search covered; similarity metrics detail pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 13 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector DB purpose + common options covered; pgvector implementation pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 14 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: fixed/section/semantic chunking covered; overlap/eval tuning pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 15 | Hybrid search — BM25 + vector | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector + keyword motivation covered; BM25 mechanics pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
 | 16 | Reranking — Cohere / cross-encoder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Failure modes — bad chunks, retrieval misses, hallucinations under context | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 17 | Failure modes — bad chunks, retrieval misses, hallucinations under context | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: retrieval miss, bad chunking, unsupported answers, stale index covered; eval harness pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
 | 18 | Agent loop — plan, act, observe, reflect | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | ReAct pattern, function calling for tools | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Multi-step agents — when to use, when not | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -34,7 +34,8 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~0 hrs (no 🔴 — 🟠 is the baseline here) | ~0 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~40.5 hrs  (Basic concept only)| ~3.7 wk | | 15 min | Full Part (all items including 🟡) | ~43 hrs | ~3.9 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~40.5 hrs (Basic concept only) | ~3.7 wk | ~17 min so far |
+| Full Part (all items including 🟡) | ~43 hrs | ~3.9 wk | ~17 min so far |
 
 ## Frequently asked
 

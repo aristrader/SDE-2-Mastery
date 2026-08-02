@@ -183,10 +183,3 @@ Run:
 mvn -q exec:java -Dexec.mainClass="org.example.design_patterns.creational.factory_method.FactoryMethodRun"
 ```
 
-## Related files
-
-- `../factory_method_basic/FactoryMethodBasic.md` — the preceding step.
-- `../Factory.md` — overall comparison + the exact diff between basic and prod.
-- `../../../todo/study_plan/deep_dives/DesignThinkingProcess.md` — design principles behind these choices.
-- `/java/oop/access_modifiers/deep_dive/` — why `protected`, `final`, `private`, etc.
-

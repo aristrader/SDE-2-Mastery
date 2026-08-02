@@ -10,9 +10,9 @@ Open this every Monday. Fill 3 cells per week (~60 seconds). The Status emoji is
 
 | Week | Parts (this week's focus) | Budget | Spent | Done rows | Status |
 |------|---------------------------|--------|-------|-----------|--------|
-| 1 | 1 (Java/JVM) + 2 (Concurrency) | 10-12 hrs | _ | _ | ☐ |
-| 2 | 1b (Java & Spring Coding Fluency) + 3 (Spring) | 10-12 hrs | _ | _ | ☐ |
-| 3 | 4 (Design Patterns) + 5 (UML light) | 10-12 hrs | _ | _ | ☐ |
+| 1 | 1 (Java/JVM) + 2 (Concurrency) | 10-12 hrs | _ | 36 done, 7 partial | ✅ |
+| 2 | 1b (Java & Spring Coding Fluency) + 3 (Spring) | 10-12 hrs | _ | 24 done, 18 partial | ✅ |
+| 3 | 4 (Design Patterns) + 5 (UML light) | 10-12 hrs | _ | Part 4: 23 done, 4 partial; Part 5 pending | ✅ |
 | 4 | 6 (DB) + start 7 (HLD). **LLD problems start Sat.** | 10-12 hrs | _ | _ | ☐ |
 | 5 | 7 (finish) + 8 (High TPS) + 9 (Caching) | 10-12 hrs | _ | _ | ☐ |
 | 6 | 10 (Messaging) + 11 (Networking) + 12 (API). **HLD problems start Sat.** | 10-12 hrs | _ | _ | ☐ |

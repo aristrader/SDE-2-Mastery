@@ -82,11 +82,3 @@ A. Return `Collections.unmodifiableList(list)` (read-only view) or `List.copyOf(
 
 **Q. Why is constructor-level encapsulation stronger than a validating setter?**
 A. The object is born valid (constructor checks the invariant) and a `final` field can never become invalid afterward — there's no setter to misuse later.
-
----
-
-## Related topics
-
-- **Abstraction** — works alongside encapsulation. Abstraction hides *complexity*; encapsulation hides *state*.
-- **Access Modifiers Deep Dive** — the precise Java mechanics behind field-level and package-level encapsulation.
-- **Java Collections** — `Collections.unmodifiableList(...)` and `List.copyOf(...)` are the practical tools for fixing the "returning a mutable field" violation.

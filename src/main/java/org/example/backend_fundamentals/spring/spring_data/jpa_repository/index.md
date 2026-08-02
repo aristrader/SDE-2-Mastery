@@ -4,253 +4,195 @@ order: 20
 
 # JPA Repository Hierarchy
 
----
-
-## The hierarchy at a glance
-
-```
-Repository  (marker — no methods)
-  └── CrudRepository  (save, findById, findAll, delete, count, exists)
-        └── PagingAndSortingRepository  (+ findAll(Pageable), findAll(Sort))
-              └── JpaRepository  (+ flush, saveAndFlush, deleteAllInBatch, getReferenceById)
-```
-
-`Repository` is a pure marker — Spring Data uses it to detect what to proxy. `CrudRepository` gives the 13 basic CRUD methods. `PagingAndSortingRepository` layers sorting and pagination. `JpaRepository` adds JPA-specific operations with no meaning outside a JPA context.
+Spring Data JPA repositories remove most boilerplate CRUD code. For interviews, focus on what each repository level gives, where transactions should live, and the practical difference between `save`, `saveAndFlush`, `findById`, and `getReferenceById`.
 
 ---
 
-## What JpaRepository adds over CrudRepository
+## Repository hierarchy
 
-| Method | What it does |
+```text
+Repository
+  └── CrudRepository
+        └── PagingAndSortingRepository
+              └── JpaRepository
+```
+
+| Interface | What it gives |
 |---|---|
-| `flush()` | Synchronise persistence context to DB immediately |
-| `saveAndFlush(entity)` | `save` + immediate `flush` in one call |
-| `deleteAllInBatch(entities)` | Single DELETE … WHERE id IN (…) — avoids N individual DELETEs |
-| `deleteAllInBatch()` | Truncate-like DELETE with no WHERE — use with care |
-| `getReferenceById(id)` | Returns a Hibernate proxy; no SELECT issued until a field is accessed |
-| `findAll(Example)` | Query-by-example support (inherited via `QueryByExampleExecutor`) |
+| `Repository` | marker interface |
+| `CrudRepository` | `save`, `findById`, `findAll`, `delete`, `count`, `exists` |
+| `PagingAndSortingRepository` | paging and sorting methods |
+| `JpaRepository` | JPA-specific methods like `flush`, `saveAndFlush`, batch deletes, `getReferenceById` |
 
-Batch deletes are the most practically useful — replacing a loop of `deleteById` calls with one SQL statement is a common performance fix.
-
----
-
-## @EnableJpaRepositories — scanning and configuration
-
-Spring Boot auto-configures `@EnableJpaRepositories` via `JpaRepositoriesAutoConfiguration`. You need it explicitly only when:
-
-- You have multiple `DataSource` / `EntityManagerFactory` beans and need to bind repositories to a specific one.
-- Your repository interfaces live outside the `@SpringBootApplication` package (and you're not using component scan).
+Most Spring Boot applications use `JpaRepository` directly.
 
 ```java
-@Configuration
-@EnableJpaRepositories(
-    basePackages = "com.example.repositories",
-    entityManagerFactoryRef = "primaryEntityManagerFactory",
-    transactionManagerRef = "primaryTransactionManager"
-)
-public class PrimaryJpaConfig { ... }
-```
-
-Without `basePackages`, Spring scans from the `@EnableJpaRepositories`-annotated class's package downward. Misconfiguring this in multi-datasource setups is a common source of "no qualifying bean of type Repository" errors at startup.
-
----
-
-## How Spring Data generates implementations at runtime
-
-Spring Data doesn't generate bytecode at compile time. At startup:
-
-1. `JpaRepositoriesAutoConfiguration` triggers a `JpaRepositoryFactory`.
-2. The factory inspects every interface that extends `Repository` (or a sub-interface).
-3. For each interface, it creates a **JDK dynamic proxy** backed by `SimpleJpaRepository<T, ID>`.
-4. Method calls are dispatched: if the method is declared in `SimpleJpaRepository` (e.g., `save`, `findById`), that implementation runs directly. If the method name follows a naming convention (derived query), a `PartTreeJpaQuery` is built and cached at startup. If `@Query` is present, a `NamedQuery` or `NativeQuery` is built instead.
-
-`SimpleJpaRepository` is the implementation worth knowing — it wraps `EntityManager` and contains the concrete code behind every standard repository method.
-
----
-
-## @Transactional on SimpleJpaRepository
-
-```java
-// Simplified view of SimpleJpaRepository
-@Repository
-@Transactional(readOnly = true)           // class-level default
-public class SimpleJpaRepository<T, ID> {
-
-    @Transactional                         // overrides class-level for writes
-    public <S extends T> S save(S entity) { ... }
-
-    @Transactional                         // overrides class-level for writes
-    public void delete(T entity) { ... }
-
-    // findById, findAll — inherit class-level readOnly = true
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 }
 ```
 
-Key consequences:
+Here:
 
-- `save()` and `delete()` are `@Transactional` — Spring opens a transaction if none exists, commits on return. Calling `save()` from outside a `@Transactional` service works but creates a short-lived per-save transaction. Prefer service-level transactions so the entire unit of work commits atomically.
-- `findById()` and `findAll()` are `readOnly = true` — Hibernate skips dirty checking on returned entities, reducing overhead.
-- Multiple repository calls in a service with no outer `@Transactional` each get their own transaction — breaks atomicity and blocks first-level cache sharing.
-
-**Rule of thumb:** always put `@Transactional` at the service layer, not just on individual repository calls. The repository's built-in `@Transactional` is a safety net, not the right boundary.
-
----
-
-## saveAndFlush vs save
-
-| | `save()` | `saveAndFlush()` |
-|---|---|---|
-| When SQL is sent | At transaction commit (or explicit flush) | Immediately |
-| Use case | Normal persistence — let the ORM batch | Need DB to see data before TX ends |
-| Risk | Stale reads within the same TX | Extra round-trip; breaks write batching |
-
-**When saveAndFlush matters:** calling a stored procedure or native query in the same transaction that must read the just-persisted rows — the DB sees the data only after it's flushed to the connection. Also: integration tests asserting DB state mid-transaction (though test isolation usually avoids this).
-
----
-
-## save() — persist vs merge
-
-`save()` in `SimpleJpaRepository` does different things depending on whether the entity is new:
+- `User` is the JPA entity managed by this repository.
+- `Long` is the type of the entity's primary key field.
 
 ```java
-// SimpleJpaRepository.save() — simplified
-public <S extends T> S save(S entity) {
-    if (entityInformation.isNew(entity)) {
-        em.persist(entity);     // INSERT — entity becomes managed
-        return entity;
-    } else {
-        return em.merge(entity); // SELECT + UPDATE (or just UPDATE if already in PC)
+@Entity
+public class User {
+    @Id
+    private Long id;
+
+    private String email;
+}
+```
+
+---
+
+## Runtime implementation
+
+You write an interface:
+
+```java
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    List<Order> findByStatus(OrderStatus status);
+}
+```
+
+Spring creates the implementation at runtime.
+
+Interview-level answer:
+
+> Spring Data creates a proxy for the repository interface. Standard methods are backed by `SimpleJpaRepository`; derived query methods are parsed from method names.
+
+---
+
+## Transactions belong at service layer
+
+Repository methods have transactional behavior, but the service method should usually define the real business transaction.
+
+Bad boundary:
+
+```java
+public void placeOrder(Order order) {
+    orderRepository.save(order);       // transaction 1
+    paymentRepository.save(payment);   // transaction 2
+}
+```
+
+Better:
+
+```java
+@Service
+public class OrderService {
+
+    @Transactional
+    public void placeOrder(CreateOrderRequest request) {
+        Order order = orderRepository.save(new Order(request));
+        paymentRepository.save(Payment.forOrder(order));
     }
 }
 ```
 
-- **New entity** (`id == null`, or implements `Persistable` and `isNew()` returns true): calls `EntityManager.persist()` — no SELECT, entity is attached to the persistence context.
-- **Existing entity** (has an id): calls `EntityManager.merge()` — Hibernate may issue a SELECT to load the managed version, copies state from the detached object, then marks it dirty for UPDATE at flush. The returned reference is the managed entity; **the passed-in object remains detached**.
+Why:
 
-**Interview trap:** calling `save(existingEntity)` and continuing to use the passed-in reference instead of the returned one. Changes to the passed-in object after `save()` are not tracked.
+- one business use case commits or rolls back together
+- fewer per-call transactions
+- Hibernate first-level cache works across the full use case
 
-**`isNew` determination:** Spring Data checks if the `@Id` field is `null` (or `0` for primitives). `@GeneratedValue` works naturally. For manually assigned IDs (e.g., UUIDs), implement `Persistable<ID>` to override `isNew()` — otherwise `save()` always calls `merge()`, issuing a needless SELECT.
+Repository transactions are a safety net, not the best business boundary.
 
 ---
 
-## getReferenceById vs findById
+## save() means persist or merge
 
-| | `getReferenceById(id)` | `findById(id)` |
-|---|---|---|
-| SQL issued | None (lazy proxy) | `SELECT * FROM … WHERE id = ?` immediately |
-| Returns | Hibernate proxy object | `Optional<T>` (present if found) |
-| LazyInitializationException | Thrown if proxy accessed outside TX | Never — entity is fully loaded |
-| Primary use case | Setting a FK association without loading the entity | When you actually need the entity's fields |
+`save()` behaves differently depending on whether the entity is new.
 
 ```java
-// Efficient FK assignment — no SELECT for the Author
-Book book = new Book();
-book.setAuthor(authorRepository.getReferenceById(authorId));  // proxy only
-bookRepository.save(book);
+User user = new User();
+user.setEmail("a@example.com");
 
-// Versus — issues a SELECT just to get the ID back for FK
-Author author = authorRepository.findById(authorId).orElseThrow();
-book.setAuthor(author);
+User saved = userRepository.save(user);
 ```
 
-Don't confuse with the deprecated `getById` / `getOne` — prefer `getReferenceById` (Spring Data 2.7+).
+For a new entity, Spring Data calls `EntityManager.persist`.
+
+For an existing/detached entity, it calls `EntityManager.merge`.
+
+```java
+User detached = new User();
+detached.setId(10L);
+detached.setEmail("new@example.com");
+
+User managed = userRepository.save(detached);
+```
+
+Important trap:
+
+> With merge, the returned object is the managed one. Keep using the returned reference.
+
+If IDs are manually assigned, Spring may think the object is existing and call `merge`, causing an unnecessary select. In that case, implement `Persistable` only if you really need custom “new entity” detection.
+
+---
+
+## save vs saveAndFlush
+
+| Method | What happens |
+|---|---|
+| `save()` | persists changes; SQL is usually sent at flush/commit |
+| `saveAndFlush()` | saves and immediately flushes SQL to the database |
+
+Normal code should use `save()`.
+
+Use `saveAndFlush()` only when something inside the same transaction must see the database row immediately, for example:
+
+- calling a stored procedure after saving
+- running a native query that must read the inserted row
+- a test that must assert DB state before transaction commit
+
+Do not use `saveAndFlush()` everywhere. It adds extra database round trips and can reduce batching.
+
+---
+
+## findById vs getReferenceById
+
+| Method | Behavior | Use when |
+|---|---|---|
+| `findById(id)` | immediately queries DB and returns `Optional<T>` | you need the entity data |
+| `getReferenceById(id)` | returns a lazy proxy; may not query immediately | you only need a foreign-key reference |
+
+Example: assigning an existing author to a new book.
+
+```java
+Book book = new Book();
+book.setTitle("Spring Notes");
+book.setAuthor(authorRepository.getReferenceById(authorId));
+
+bookRepository.save(book);
+```
+
+This can avoid selecting the author row just to set the foreign key.
+
+If the referenced row does not exist, the failure may happen later when the proxy is accessed or when the FK constraint is checked.
 
 ---
 
 ## Quick recall
 
-**Q. What does JpaRepository add over CrudRepository?**
-A. JPA-specific ops: `flush`, `saveAndFlush`, batch deletes (`deleteAllInBatch`), and `getReferenceById` (proxy, no SELECT).
+**Q. Which repository interface is commonly used in Spring Data JPA?**  
+A. `JpaRepository`.
 
-**Q. What backs every Spring Data repository at runtime?**
-A. A JDK proxy dispatching to `SimpleJpaRepository`, built by `JpaRepositoryFactory` at startup.
+**Q. What does Spring create for repository interfaces?**  
+A. A runtime proxy backed by Spring Data JPA implementation code.
 
-**Q. Why is `SimpleJpaRepository` marked `@Transactional(readOnly = true)` at class level?**
-A. All read methods inherit it — Hibernate skips dirty checking, reducing overhead. Write methods override with `@Transactional`.
+**Q. Where should `@Transactional` usually be placed?**  
+A. On service methods that represent business use cases.
 
-**Q. When would you use `saveAndFlush` instead of `save`?**
-A. When you need the DB to see the data before the transaction ends — e.g., before calling a stored procedure in the same TX.
+**Q. `save()` on new vs existing entity?**  
+A. New entity uses `persist`; existing/detached entity uses `merge`.
 
-**Q. `getReferenceById` vs `findById` — what's the practical difference?**
-A. `getReferenceById` returns a proxy with no SELECT; `findById` hits the DB immediately and returns `Optional<T>`. Use the proxy for FK-only assignments.
+**Q. `save()` vs `saveAndFlush()`?**  
+A. `save()` is normal. `saveAndFlush()` forces SQL immediately and should be rare.
 
-**Q. What goes wrong if you call `repository.save()` in a loop with no outer `@Transactional`?**
-A. Each save gets its own transaction — no atomicity, no batching, higher overhead. Wrap in a service-level `@Transactional`.
-
-**Q. `save()` on a new entity vs an existing entity — what Hibernate operation runs?**
-A. New entity (null id): `EntityManager.persist()` — direct INSERT, no SELECT. Existing entity (non-null id): `EntityManager.merge()` — may SELECT first, then UPDATE. Always use the returned reference after `merge()`.
-
-**Q. When do you need `@EnableJpaRepositories` explicitly in Spring Boot?**
-A. In multi-datasource setups to bind specific repository packages to a specific `EntityManagerFactory`/`TransactionManager`. Boot's auto-configuration handles single-datasource projects automatically.
-
-
-
-## Why this matters
-Every KYC event — identity checks, document uploads, status transitions — ends up persisted. Knowing the JPA annotation contracts cold means you stop second-guessing nullability, sequence strategies, and why your JDBC batch update silently broke.
-
----
-
-## Domain model
-
-```java
-// The entity you'll build out across the exercises.
-// Start with a skeleton and add annotations exercise by exercise.
-
-// @Entity                          // Exercise 1
-// @Table(name = "transactions")    // Exercise 1
-public class Transaction {
-
-    // @Id                                          // Exercise 1
-    // @GeneratedValue(strategy = GenerationType.IDENTITY) // Exercise 1
-    private Long id;
-
-    // @Column(nullable = false, unique = true)     // Exercise 1
-    private String referenceId;
-
-    // @Column(nullable = false)                    // Exercise 1
-    private String status;
-
-    // @Column(precision = 19, scale = 4)           // Exercise 1
-    private BigDecimal amount;
-
-    // @Column(nullable = false, updatable = false) // Exercise 1
-    private LocalDateTime createdAt;
-
-    // @Transient                                   // Exercise 5
-    // private boolean highValue; — computed, not stored
-
-    // JPA needs this — add it with Lombok: @NoArgsConstructor
-    // If using @Builder, also add @AllArgsConstructor
-}
-```
-
-## Practice recall
-
-**Q.** Why does a JPA entity need a no-arg constructor?
-**A.** The JPA provider (Hibernate) instantiates entities via reflection using `Class.newInstance()` — it must have a no-arg constructor (public or protected).
-
-**Q.** `@GeneratedValue(strategy = IDENTITY)` vs `SEQUENCE` — what does IDENTITY break?
-**A.** IDENTITY requires the DB to assign the key after each INSERT, which prevents JDBC batch inserts. SEQUENCE pre-allocates keys in blocks, enabling batching.
-
-**Q.** What does `@GeneratedValue(strategy = AUTO)` actually do?
-**A.** Hibernate inspects the dialect and picks IDENTITY, SEQUENCE, or TABLE. In practice it often picks TABLE (a slow lock-based approach), so prefer SEQUENCE or IDENTITY explicitly.
-
-**Q.** A derived query method is named `findByReferenceNo` but the field is `referenceId` — when does this fail?
-**A.** At application startup, with `PropertyReferenceException` — not at query time.
-
-**Q.** What happens if you omit `@Transactional` from a `@Modifying` repository method?
-**A.** Spring throws `TransactionRequiredException` at runtime when the method is called outside an active transaction.
-
-**Q.** Does `@Transient` (JPA annotation) and `transient` (Java keyword) do the same thing?
-**A.** No. `@Transient` tells JPA to skip column mapping. `transient` tells Java serialization to skip the field. JPA ignores the `transient` keyword — you need the annotation for JPA exclusion.
-
-
-## Common Gotchas
-
-- `@Column` defaults to `length = 255`. Fine for UUIDs or structured keys, but `description` or `notes` fields get silently truncated by some databases. Always set `length` explicitly for string fields you didn't design as short.
-- Spring Data parses method names at startup, not at call time. A typo (e.g., `findByRefId` when the field is `referenceId`) fails startup with `PropertyReferenceException` — loud, but the cause can be non-obvious.
-- Keep repository calls behind a service transaction. A `TransactionService` with `@RequiredArgsConstructor` should call derived queries, `save(...)`, and `@Modifying` methods; service-level `@Transactional` gives one atomic boundary and avoids per-call transaction churn.
-- `@Modifying` without an active transaction throws `TransactionRequiredException` at runtime. Repository-level `@Transactional` makes the modifying method independently usable; service-level `@Transactional` wraps the larger use case.
-- After `save()`, the returned entity is the JPA-managed version with the generated `id` populated. The object you passed in may not have `id` set yet (depends on flush timing) — always use the returned instance.
-- `@Transient` is for computed object state such as `highValueCache` populated in `@PostLoad`; JPA will not create a column for it.
-- The Java `transient` keyword alone does NOT prevent JPA mapping. It only affects Java serialization. Use `@Transient` for JPA exclusion; the two concepts are orthogonal.
+**Q. `findById` vs `getReferenceById`?**  
+A. `findById` loads now. `getReferenceById` gives a proxy, useful for FK assignment.

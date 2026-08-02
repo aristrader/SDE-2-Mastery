@@ -6,260 +6,203 @@ order: 30
 
 ---
 
-## Full lifecycle sequence
+## Mental model
 
-```
-1.  Instantiation          — constructor called; object exists but has no dependencies yet
-2.  Dependency injection   — @Autowired fields and setters populated
-3.  Aware callbacks        — BeanNameAware, BeanFactoryAware, ApplicationContextAware (in that order)
-4.  BPP before-init        — BeanPostProcessor.postProcessBeforeInitialization() on EVERY bean
-5.  Init                   — @PostConstruct  →  InitializingBean.afterPropertiesSet()  →  @Bean(initMethod)
-6.  BPP after-init         — BeanPostProcessor.postProcessAfterInitialization() on EVERY bean
-7.  Bean ready for use
-8.  Destruction            — @PreDestroy  →  DisposableBean.destroy()  →  @Bean(destroyMethod)
-                             (singleton only — prototype beans never reach step 8)
+Spring does more than call constructors. For a normal singleton bean, the useful lifecycle is:
+
+```text
+create object -> inject dependencies -> run init callbacks -> apply proxies -> bean is used -> run destroy callbacks
 ```
 
-Steps 4 and 6 apply to **every bean in the context**, not just the bean being initialized. `BeanPostProcessor` implementations run as interceptors across the entire container.
+Interviewers usually care because lifecycle explains:
+
+- why constructor code may be too early for some initialization
+- when `@PostConstruct` and `@PreDestroy` run
+- why `@Transactional` works through proxies
+- why prototype beans are not destroyed by Spring
 
 ---
 
-## @PostConstruct — why not the constructor?
+## Constructor vs `@PostConstruct`
+
+Constructor: use it to receive required dependencies and set fields.
+
+`@PostConstruct`: use it when initialization needs already-injected dependencies.
 
 ```java
 @Component
 public class CacheWarmer {
+    private final ProductRepository repository;
 
-    @Autowired
-    private ProductRepository repository;  // injected AFTER constructor
+    public CacheWarmer(ProductRepository repository) {
+        this.repository = repository;
+    }
 
     @PostConstruct
     public void warmUp() {
-        // repository is available here — injection is done
         repository.findTopProducts().forEach(cache::put);
     }
 }
 ```
 
-The constructor fires at step 1, before injection. `@Autowired` fields are null inside the constructor. `@PostConstruct` fires at step 5, after all dependencies are set — safe to use them.
+With constructor injection, dependencies are available in the constructor. `@PostConstruct` is still useful for startup work that should run after Spring finishes wiring the bean.
 
-Other init-method equivalents, in Spring's processing order within step 5:
-1. `@PostConstruct`
-2. `InitializingBean.afterPropertiesSet()`
-3. `@Bean(initMethod = "...")`
-
-If you declare all three on one bean, they all run, in that order.
+Keep heavy startup work small. A slow `@PostConstruct` slows application startup.
 
 ---
 
-## @PreDestroy — singleton only
+## `@PreDestroy`
+
+Use `@PreDestroy` to release resources held by a Spring-managed singleton bean when the application shuts down.
 
 ```java
 @Component
-public class ConnectionPool {
-
-    private Pool pool;
+public class FileImportWorker {
+    private ExecutorService executor;
 
     @PostConstruct
-    public void init() {
-        pool = Pool.create();
+    public void start() {
+        executor = Executors.newSingleThreadExecutor();
     }
 
     @PreDestroy
-    public void shutdown() {
-        pool.close();  // called when ApplicationContext is closed
+    public void stop() {
+        executor.shutdown();
     }
 }
 ```
 
-`@PreDestroy` fires when `ApplicationContext.close()` is invoked (or when the JVM shutdown hook fires in a Spring Boot app). It is **only called for singleton-scoped beans**.
+`@PreDestroy` is tied to **bean instances**, not just classes. Spring calls it only for objects it created and manages as beans. If you create an object yourself with `new`, Spring will not call its `@PreDestroy` method.
 
-Prototype beans never receive `@PreDestroy`. Spring creates them and hands them off — lifecycle management after creation is the caller's responsibility. If a prototype bean holds resources, the caller must close them.
+Main interview use cases:
+
+- Stop background threads or executors.
+- Close network clients, connection pools, file handles, or messaging clients.
+- Flush buffered logs, metrics, audit events, or queued messages.
+- Release distributed locks or mark a worker instance offline.
+- Stop accepting work and cleanly finish/cancel in-flight work.
+
+The OS eventually reclaims process memory and file descriptors, but `@PreDestroy` is about clean application shutdown before the process disappears.
+
+Prototype gotcha: Spring creates prototype beans, but does not track and destroy them later. If a prototype owns a resource, the caller must close it.
 
 ---
 
-## BeanFactoryPostProcessor — before beans exist
+## Proxies and lifecycle
 
-`BeanFactoryPostProcessor` runs **before any bean is instantiated**. It receives the `ConfigurableListableBeanFactory` and can read or modify `BeanDefinition` metadata — but must not trigger early bean instantiation.
-
-```
-Context refresh starts
-  → BeanFactoryPostProcessor.postProcessBeanFactory()   ← runs HERE, on BeanDefinitions
-  → Bean instantiation begins
-  → BeanPostProcessor.postProcessBefore/AfterInitialization()  ← runs per bean, during init
-```
+Spring features like `@Transactional`, `@Async`, and `@Cacheable` usually work by wrapping your bean in a proxy.
 
 ```java
-@Component
-public class CustomBFP implements BeanFactoryPostProcessor {
-
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
-        BeanDefinition bd = beanFactory.getBeanDefinition("myService");
-        bd.setScope(BeanDefinition.SCOPE_PROTOTYPE);  // change scope before instantiation
+@Service
+public class PaymentService {
+    @Transactional
+    public void capturePayment(Order order) {
+        // transaction starts before this method and commits/rolls back after it
     }
 }
 ```
 
-Spring uses `BeanFactoryPostProcessor` internally for:
-- `PropertySourcesPlaceholderConfigurer` — resolves `${...}` placeholders in `BeanDefinition` values
-- `ConfigurationClassPostProcessor` — processes `@Configuration`, `@ComponentScan`, `@Import`
+Interview point: the object you inject may be a Spring proxy around your real class. That is why calls coming from another bean can trigger `@Transactional`, but self-invocation usually does not:
 
-**Key distinction:**
+```java
+public void outer() {
+    inner(); // same object call, bypasses proxy
+}
 
-| | `BeanFactoryPostProcessor` | `BeanPostProcessor` |
-|---|---|---|
-| Runs | Before any bean instantiation | Around each bean's init callbacks |
-| Operates on | `BeanDefinition` metadata | Bean instances |
-| Can modify | Scope, class, property values in definitions | The bean object itself (can replace with proxy) |
-| Spring uses it for | `@Configuration` processing, property placeholders | AOP proxies, `@Autowired`, `@PostConstruct` |
+@Transactional
+public void inner() {
+}
+```
+
+The lifecycle detail worth knowing: proxies are created after the bean itself is initialized, before other beans use it.
 
 ---
 
-## BeanPostProcessor
+## BeanPostProcessor in one paragraph
 
-A `BeanPostProcessor` intercepts every bean in the context at two points: just before init callbacks run, and just after. Spring uses this internally for nearly all its advanced features.
+`BeanPostProcessor` is the extension point Spring uses to intercept bean creation before and after init callbacks. Application code rarely writes one, but knowing it exists explains many Spring features.
+
+| Feature | Why lifecycle matters |
+| --- | --- |
+| `@Autowired` | Spring processes injection metadata while building beans |
+| `@PostConstruct` / `@PreDestroy` | Spring detects and calls lifecycle annotations |
+| `@Transactional` / `@Async` / `@Cacheable` | Spring can replace the bean with a proxy |
+
+Interview line: you usually do not implement `BeanPostProcessor`, but Spring uses it heavily under the hood.
+
+---
+
+## `@Bean(initMethod/destroyMethod)`
+
+For third-party classes, you cannot add `@PostConstruct` or `@PreDestroy` to the class. Use `@Bean` lifecycle attributes.
 
 ```java
-@Component
-public class AuditBeanPostProcessor implements BeanPostProcessor {
-
-    private static final Logger log = LoggerFactory.getLogger(AuditBeanPostProcessor.class);
-
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) {
-        log.debug("Before init: {}", beanName);
-        return bean;  // must return the bean (or a replacement)
+@Configuration
+public class ClientConfig {
+    @Bean(initMethod = "connect", destroyMethod = "close")
+    public ExternalClient externalClient() {
+        return new ExternalClient();
     }
-
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) {
-        log.debug("After init: {}", beanName);
-        return bean;
-    }
 }
 ```
 
-**You can return a different object.** The return value replaces the bean in the context. This is how AOP works: `postProcessAfterInitialization` returns a CGLIB proxy wrapping the original bean. Every `@Transactional`, `@Cacheable`, and `@Async` bean you use is a proxy created here.
-
-### What Spring builds on BeanPostProcessor
-
-| Feature | BPP implementation |
-|---|---|
-| AOP proxies (`@Transactional`, `@Cacheable`) | `AbstractAutoProxyCreator` |
-| `@Autowired` processing | `AutowiredAnnotationBeanPostProcessor` |
-| `@PostConstruct` / `@PreDestroy` | `CommonAnnotationBeanPostProcessor` |
-| `@Scheduled` | `ScheduledAnnotationBeanPostProcessor` |
-| `@Async` | `AsyncAnnotationBeanPostProcessor` |
-
-`BeanPostProcessor` beans are themselves special: they are instantiated before other beans and are not eligible for `@Autowired` from regular beans (Spring warns if you try).
+Use annotations when you own the class. Use `initMethod` / `destroyMethod` when configuration creates a library object.
 
 ---
 
-## InitializingBean / DisposableBean vs annotations
+## `@DependsOn`
 
-| | `InitializingBean` / `DisposableBean` | `@PostConstruct` / `@PreDestroy` |
-|---|---|---|
-| Coupling | Coupled to Spring (`org.springframework.beans.factory`) | JSR-250 (`javax.annotation`) — framework-agnostic |
-| Testability | Must mock or wire a Spring context to trigger | Plain POJO call — test frameworks call the annotated method directly |
-| Preference | Legacy code or framework internals | Always prefer in application code |
+Spring already creates dependencies first when they are injected through constructors.
 
-Spring processes both if present. Order within step 5: `@PostConstruct` runs before `InitializingBean.afterPropertiesSet()`.
-
-The interface approach is occasionally useful in framework or library code that controls the lifecycle explicitly. In application code, there's no reason to couple to Spring interfaces.
-
----
-
-## The prototype @PreDestroy gap — explicit gotcha
-
-```java
-@Component
-@Scope("prototype")
-public class StreamProcessor implements AutoCloseable {
-
-    private InputStream stream;
-
-    @PostConstruct
-    public void open() { stream = openStream(); }
-
-    @PreDestroy  // NEVER CALLED by Spring for prototype beans
-    public void close() { stream.close(); }
-}
-```
-
-If this bean holds a stream, connection, or any other resource, it leaks. Spring creates the bean (runs `@PostConstruct`) and then forgets about it; `@PreDestroy` is silently skipped.
-
-**Patterns to handle this:**
-
-1. **Implement `AutoCloseable`** and have the caller close it in a try-with-resources block.
-2. **`@Bean` with explicit `destroyMethod`** — only works if the bean is singleton.
-3. **Don't put stateful resources in prototype beans** — prefer a factory that manages the resource lifecycle explicitly.
-
----
-
-## Aware callbacks
-
-Three commonly used `Aware` interfaces, called at step 3 in order:
-
-| Interface | What it injects | Typical use |
-|---|---|---|
-| `BeanNameAware` | The bean's name in the context | Logging, debugging |
-| `BeanFactoryAware` | The `BeanFactory` that created this bean | Dynamic `getBean()` calls |
-| `ApplicationContextAware` | The full `ApplicationContext` | Publishing events, reaching other beans at runtime |
-
-`ApplicationContextAware` is the most common. Prefer constructor injection when the dependency is known at compile time; use `ApplicationContextAware` only when you need dynamic resolution at runtime (e.g., the scope-mismatch fix).
-
----
-
-## @DependsOn — explicit initialization ordering
-
-Spring infers bean ordering from injection relationships — if `BeanA` takes `BeanB` as a constructor argument, `BeanB` is created first. But sometimes a bean depends on a side effect of another bean (e.g., a database schema migration, a static registry initialization) without holding a direct reference to it.
-
-`@DependsOn` makes the ordering explicit:
-
-```java
-@Component
-@DependsOn("flywayMigration")   // flywayMigration bean is guaranteed to init first
-public class UserRepository {
-    // safe to query — schema is ready
-}
-```
+Use `@DependsOn` only when one bean depends on another bean's side effect, not its object reference.
 
 ```java
 @Bean
-@DependsOn({"kafkaAdminSetup", "schemaRegistry"})  // multiple dependencies
-public KafkaConsumer kafkaConsumer() { ... }
+@DependsOn("flyway")
+public ReportRepository reportRepository() {
+    return new ReportRepository();
+}
 ```
 
-**`@DependsOn` also affects destroy order** — the named beans are destroyed after the bean that depends on them (reverse of init order).
+Use case: a migration/setup bean must run before another bean starts. If you need `@DependsOn` often, prefer making the dependency explicit through constructor injection.
 
-Use `@DependsOn` sparingly. If you need it often, it usually signals a missing explicit dependency that should be injected instead.
+---
+
+## What to avoid
+
+- Do not put business logic in lifecycle callbacks.
+- Do not use lifecycle callbacks to hide missing dependencies.
+- Do not rely on prototype `@PreDestroy`.
+- Do not implement Spring lifecycle interfaces in app code unless there is a real framework-level reason.
+- Do not use self-invocation and expect proxy annotations like `@Transactional` to fire.
 
 ---
 
 ## Quick recall
 
-**Q. At which lifecycle step are AOP proxies created?**
-A. Step 6 — `BeanPostProcessor.postProcessAfterInitialization()`. `AbstractAutoProxyCreator` wraps the bean in a CGLIB proxy here.
+**Q. Basic singleton lifecycle?**
+A. Create object, inject dependencies, run init callbacks, apply proxies, use bean, run destroy callbacks on shutdown.
 
-**Q. Why use `@PostConstruct` instead of the constructor for init logic?**
-A. The constructor fires before dependency injection — `@Autowired` fields are null. `@PostConstruct` fires after injection, so all dependencies are available.
+**Q. When use `@PostConstruct`?**
+A. Startup initialization that needs dependencies already wired.
 
-**Q. Why is `@PreDestroy` never called on prototype beans?**
-A. Spring does not track prototype beans after creation. It hands them off and has no hook to call destroy on them. The caller owns the lifecycle.
+**Q. When use `@PreDestroy`?**
+A. Cleanup for singleton beans when the context shuts down: stop executors, flush buffers, close clients/pools, release locks.
 
-**Q. What is `BeanPostProcessor` and what does Spring use it for internally?**
-A. An interceptor that runs before and after init callbacks on every bean. Spring uses it to create AOP proxies, process `@Autowired`, `@PostConstruct`, `@Scheduled`, and `@Async`.
+**Q. Is `@PreDestroy` tied to a class or a bean?**
+A. A Spring-managed bean instance. Spring only calls it for objects in the application context.
 
-**Q. `InitializingBean` vs `@PostConstruct` — which and why?**
-A. Prefer `@PostConstruct`. It's JSR-250, not Spring-specific, so the class stays portable. `InitializingBean` couples the class to Spring's API.
+**Q. Are prototype beans destroyed by Spring?**
+A. No. Spring creates them and hands them off; caller owns cleanup.
 
-**Q. What happens if you inject a regular bean into a `BeanPostProcessor`?**
-A. Spring warns and may fail — `BeanPostProcessor` beans are created early, before the regular bean instantiation cycle, so regular beans are not yet available for injection into them.
+**Q. Why does `@Transactional` sometimes fail on self-invocation?**
+A. The call bypasses the Spring proxy.
 
-**Q. `BeanFactoryPostProcessor` vs `BeanPostProcessor` — key difference?**
-A. BFP runs before any bean is instantiated and operates on `BeanDefinition` metadata. BPP wraps each individual bean's init callbacks and operates on bean instances (can return a proxy).
+**Q. What is `BeanPostProcessor` useful for knowing?**
+A. It explains how Spring applies lifecycle annotations and creates proxies for features like `@Transactional`.
 
-**Q. When do you use `@DependsOn`?**
-A. When a bean relies on a side effect of another bean (e.g., a migration runner) but holds no direct reference to it. Without `@DependsOn`, Spring has no way to infer the ordering.
+**Q. `@PostConstruct` vs `@Bean(initMethod)`?**
+A. Use `@PostConstruct` when you own the class; use `initMethod` for third-party objects built in config.
 
+**Q. When use `@DependsOn`?**
+A. Rarely, when a bean depends on another bean's startup side effect.

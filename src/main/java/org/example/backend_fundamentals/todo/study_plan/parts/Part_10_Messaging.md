@@ -19,9 +19,9 @@
 | 11 | Kinesis — shards, retention, consumer types | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | RabbitMQ — exchanges, queues, bindings, routing keys | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RabbitMQ model (queue, deliver-ACK-delete, vs Kafka log) covered; exchanges/bindings/routing-keys pending. ~9 min (ChatGPT) | 📖 `messaging/message_brokers/index.md` |
 | 13 | Event-driven architecture — events vs commands | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — event ("this happened") vs command ("do this"), fan-out, pub/sub extensibility | 📖 `messaging/queues_pubsub/index.md` · 📖 `messaging/eda/index.md` |
-| 14 | Outbox pattern (revisit) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 4.3) |
+| 14 | Outbox pattern (revisit) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Dual-write problem + outbox row in same DB transaction + async publish covered. | (Cross-ref Part 4.3) · 📖 `databases/distributed_transactions/index.md` |
 | 15 | Change Data Capture (CDC) — Debezium, AWS DMS, MySQL binlog, Postgres logical replication | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run Debezium against local Postgres, observe a row INSERT propagate to a Kafka topic (30 min) |
-| 16 | Transactional outbox + CDC — reliable event publishing without 2PC | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | Transactional outbox + CDC — reliable event publishing without 2PC | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: outbox concept covered; CDC/Debezium implementation pending. | 📖 `databases/distributed_transactions/index.md` |
 | 17 | Choreography vs orchestration in event-driven architecture | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~15 min (ChatGPT) — choreography vs orchestration, Saga vs Pub/Sub | (Cross-ref Part 4.3 Sagas) · 📖 `databases/distributed_transactions/saga/index.md` |
 | 18 | Stream processing — Kafka Streams, Flink basics | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Schema registry, Avro / Protobuf for events; schema evolution rules | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

@@ -120,11 +120,3 @@ A. `Object` forces callers to cast, which means they must know the actual stored
 
 **Q. "Program to an interface, not an implementation" — what does that look like in this repo?**
 A. Hold the most abstract type that still does the job. `HR` holds `HiringProcess` (not `AndroidHiringProcess`); `furnishRoom` takes `FurnitureSetFactory` (not `CheapFurnitureFactory`); the loop in `PolymorphicPrototypeRun` holds `List<Shape>` (not `List<Circle>`).
-
----
-
-## Related topics
-
-- **Encapsulation** — its frequently-confused sibling.
-- **Abstract Class vs Interface** — the Java mechanics for expressing abstraction.
-- **SOLID — DIP** — "depend on abstractions" makes "what *is* an abstraction in this code?" a real question.

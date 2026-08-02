@@ -6,248 +6,198 @@ order: 20
 
 Row 8 — 🔴 💼 | MP | 1 hr 45 min
 
+Spring REST is Spring MVC used for APIs: controller methods read HTTP input and return data, usually JSON.
+
+For interviews, focus on request mapping, request bodies, validation, status codes, and when `ResponseEntity` is needed.
+
 ---
 
-## @RestController internals
+## @RestController
 
-`@RestController` is a composed annotation:
+`@RestController` means:
 
 ```java
 @Controller
 @ResponseBody
-public @interface RestController { ... }
+public @interface RestController { }
 ```
 
-`@ResponseBody` at the class level tells `RequestMappingHandlerAdapter` to pass every return value through `HttpMessageConverter` rather than to a `ViewResolver`. No ModelAndView involved.
-
-**@Controller vs @RestController:** use `@Controller` when some methods render views and others return data (annotate data-returning methods individually with `@ResponseBody`). Use `@RestController` for pure REST endpoints — every method writes to the response body.
-
----
-
-## @RequestBody
+So every method return value is written to the HTTP response body instead of being treated as a view name.
 
 ```java
-@PostMapping("/users")
-public ResponseEntity<User> create(@RequestBody @Valid CreateUserRequest req) { ... }
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public UserResponse get(@PathVariable Long id) {
+        return userService.get(id);
+    }
+}
 ```
 
-- Jackson's `MappingJackson2HttpMessageConverter` reads the HTTP body stream and deserializes it to `CreateUserRequest`
-- `required = true` by default — if the body is absent or `Content-Type` is missing/wrong, Spring throws `HttpMessageNotReadableException` → 400
-- Set `required = false` to allow an empty body (method parameter will be `null`)
-- `@Valid` (or `@Validated`) on `@RequestBody` triggers JSR-380 Bean Validation after deserialization; failure raises `MethodArgumentNotValidException` → 400
-
-**Deserialization gotcha:** Jackson ignores unknown properties by default (configurable via `DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES`). A missing field keeps the default value — it does NOT fail unless you use `@JsonProperty(required = true)` or set `FAIL_ON_NULL_FOR_PRIMITIVES`.
+Use `@Controller` for MVC pages/views. Use `@RestController` for JSON APIs.
 
 ---
 
-## @PathVariable vs @RequestParam vs @RequestHeader
-
-| Annotation | Extraction point | Type conversion | Required by default | Notes |
-|---|---|---|---|---|
-| `@PathVariable` | URI template segment `/users/{id}` | Yes — via `ConversionService` | Yes | Name inferred from param name if not specified |
-| `@RequestParam` | Query string `?page=2` or form field | Yes | Yes (configurable) | `defaultValue` implicitly sets `required=false` |
-| `@RequestHeader` | HTTP request header | Yes | Yes (configurable) | Header names are case-insensitive in HTTP but Spring matches them case-insensitively |
+## Reading request input
 
 ```java
 @GetMapping("/users/{id}/orders")
-public List<Order> getOrders(
-    @PathVariable Long id,                              // /users/42/orders
-    @RequestParam(defaultValue = "0") int page,        // ?page=2  (required=false implicitly)
-    @RequestParam(required = false) String status,     // ?status=OPEN
-    @RequestHeader("X-Correlation-Id") String corrId   // header
-) { ... }
-```
-
-Type conversion uses Spring's `ConversionService`. Built-in converters handle `String → Long`, `String → UUID`, `String → Enum` (by name), etc. Register custom ones via `WebMvcConfigurer.addFormatters()`.
-
----
-
-## Validation
-
-### JSR-380 Bean Validation with @Valid
-
-```java
-public class CreateUserRequest {
-    @NotBlank
-    @Size(max = 100)
-    private String name;
-
-    @Email
-    @NotNull
-    private String email;
-
-    @Min(18)
-    private int age;
+public List<OrderResponse> orders(
+        @PathVariable Long id,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(required = false) String status,
+        @RequestHeader("X-Request-Id") String requestId) {
+    return orderService.findOrders(id, page, status);
 }
 ```
 
-`@Valid` triggers validation after deserialization. Failure throws `MethodArgumentNotValidException` — contains a `BindingResult` with all field errors.
-
-### @Valid vs @Validated
-
-| | `@Valid` | `@Validated` |
+| Annotation | Reads from | Example |
 |---|---|---|
-| Source | JSR-380 standard | Spring-specific |
-| Group validation | No | Yes — `@Validated(CreateGroup.class)` |
-| Cascaded validation | Yes — recurses into nested objects with `@Valid` on field | Yes |
-| Method-level validation on service beans | No | Yes (via AOP proxy) |
+| `@PathVariable` | URL path | `/users/{id}` |
+| `@RequestParam` | query string | `?page=2` |
+| `@RequestHeader` | header | `X-Request-Id` |
+| `@RequestBody` | request body | JSON payload |
 
-**Method-level validation on services:** annotate the service class with `@Validated`; Spring wraps it in a proxy that validates constrained parameters and return values.
+Spring converts strings to common Java types such as `Long`, `UUID`, enums, and numbers.
 
 ---
 
-## ResponseEntity\<T\>
+## @RequestBody and validation
 
 ```java
-// Return POJO directly — Spring infers 200 OK, picks converter from Accept header
-@GetMapping("/{id}")
-public User getUser(@PathVariable Long id) { return userService.find(id); }
+public record CreateUserRequest(
+        @NotBlank String name,
+        @Email String email,
+        @Min(18) int age) {
+}
+```
 
-// ResponseEntity — full control over status + headers + body
+```java
+@PostMapping("/users")
+public ResponseEntity<UserResponse> create(
+        @RequestBody @Valid CreateUserRequest request) {
+
+    UserResponse created = userService.create(request);
+    URI location = URI.create("/users/" + created.id());
+    return ResponseEntity.created(location).body(created);
+}
+```
+
+What happens:
+
+1. Jackson converts JSON into `CreateUserRequest`.
+2. `@Valid` runs Bean Validation.
+3. If validation fails, Spring throws `MethodArgumentNotValidException`.
+4. Your exception handler should return a clean `400` or `422` response.
+
+`@Validated` is Spring-specific and mainly matters for validation groups or method-level validation on services. For normal request DTO validation, `@Valid` is enough.
+
+---
+
+## ResponseEntity
+
+Return the object directly when `200 OK` is enough:
+
+```java
+@GetMapping("/{id}")
+public UserResponse get(@PathVariable Long id) {
+    return userService.get(id);
+}
+```
+
+Use `ResponseEntity` when you need status or headers:
+
+```java
 @PostMapping
-public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRequest req) {
-    User created = userService.create(req);
-    URI location = URI.create("/users/" + created.getId());
+public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest request) {
+    UserResponse created = userService.create(request);
     return ResponseEntity
-        .created(location)          // 201 Created + Location header
-        .header("X-User-Id", String.valueOf(created.getId()))
+        .created(URI.create("/users/" + created.id()))
         .body(created);
 }
 
-// No body
 @DeleteMapping("/{id}")
-public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+public ResponseEntity<Void> delete(@PathVariable Long id) {
     userService.delete(id);
-    return ResponseEntity.noContent().build();  // 204 No Content
+    return ResponseEntity.noContent().build();
 }
 ```
 
-**When to use `ResponseEntity` vs returning the object directly:**
-- Return directly when 200 + default headers are always correct
-- Use `ResponseEntity` when you need to: set a non-200 status (201, 202, 204), add response headers (Location, ETag, Cache-Control), conditionally return different status codes, or return an empty body with a specific status
+Interview rule:
+
+> Return DTO directly for simple `200`. Use `ResponseEntity` for `201`, `204`, headers, or conditional statuses.
 
 ---
 
-## HATEOAS (Hypermedia as the Engine of Application State)
+## HTTP status codes
 
-REST maturity level 3 (Richardson model). Responses include hypermedia links so clients discover actions without hardcoding URLs.
-
-Spring HATEOAS (`spring-boot-starter-hateoas`) provides:
-- `EntityModel<T>` — wraps a domain object with links
-- `CollectionModel<T>` — wraps a collection with links
-- `WebMvcLinkBuilder.linkTo(methodOn(...))` — builds type-safe links from controller methods
-
-```java
-@GetMapping("/{id}")
-public EntityModel<User> getUser(@PathVariable Long id) {
-    User user = userService.find(id);
-    return EntityModel.of(user,
-        linkTo(methodOn(UserController.class).getUser(id)).withSelfRel(),
-        linkTo(methodOn(UserController.class).deleteUser(id)).withRel("delete")
-    );
-}
-```
-
-Response includes `_links`:
-```json
-{
-  "id": 42, "name": "Alice",
-  "_links": {
-    "self":   { "href": "/users/42" },
-    "delete": { "href": "/users/42" }
-  }
-}
-```
-
-Most REST APIs stop at level 2 (verbs + status codes). HATEOAS is worth knowing for interviews; rare in production Spring Boot apps unless building a public hypermedia API.
-
----
-
-## HTTP status semantics
-
-Correct status codes are a common interview topic.
-
-| Status | When to use |
+| Status | Typical use |
 |---|---|
-| 200 OK | Successful GET/PUT/PATCH with a body |
-| 201 Created | Successful POST that created a resource — include `Location` header pointing to the new resource |
-| 204 No Content | Successful DELETE or PUT/PATCH with no body to return |
-| 400 Bad Request | Malformed request syntax, invalid JSON, type mismatch |
-| 404 Not Found | Resource does not exist |
-| 409 Conflict | Request conflicts with current state — e.g., duplicate email on register, optimistic lock conflict |
-| 415 Unsupported Media Type | `Content-Type` doesn't match controller's `consumes` |
-| 422 Unprocessable Entity | Request is well-formed but semantically invalid — e.g., Bean Validation failure (`MethodArgumentNotValidException`). Preferred over 400 when the body parsed correctly but business rules failed. |
+| `200 OK` | successful read/update with response body |
+| `201 Created` | resource created; include `Location` header |
+| `204 No Content` | success with no body, often DELETE |
+| `400 Bad Request` | invalid JSON, missing parameter, type mismatch |
+| `404 Not Found` | resource does not exist |
+| `409 Conflict` | duplicate resource, state/version conflict |
+| `415 Unsupported Media Type` | request `Content-Type` is not accepted |
 
-**409 vs 422:** 409 = state conflict (already exists, version mismatch). 422 = validation failure (parsed fine, semantically wrong). Many APIs use 400 for both — 422 is the more precise choice for validation errors.
-
----
-
-## HTTP method semantics
-
-| Method | Safe | Idempotent | Typical use |
-|---|---|---|---|
-| GET | Yes | Yes | Fetch resource — must not change state |
-| HEAD | Yes | Yes | Like GET but no body — check existence, get headers |
-| POST | No | No | Create resource, submit data, trigger action |
-| PUT | No | Yes | Full replace — same request N times = same state |
-| PATCH | No | No* | Partial update — *can be made idempotent with conditional updates |
-| DELETE | No | Yes | Delete — second call on deleted resource should return 404 or 204 |
-
-**Safe** = no observable side effects. **Idempotent** = N identical requests = same server state as 1.
-
-PUT sends the full resource; an omitted field is replaced with null/default. PATCH sends only changed fields — the server must merge correctly. Matters for API design (and is a common interview question).
+For validation failures, many teams use `400`. Some APIs use `422` to mean “JSON was valid, but the business/validation rules failed.” In interviews, explain the distinction and follow the API convention.
 
 ---
 
-## Shorthand mapping annotations
+## HTTP methods
 
-All are composed on `@RequestMapping`:
+| Method | Meaning | Idempotent? |
+|---|---|---|
+| `GET` | read | yes |
+| `POST` | create or submit command | no |
+| `PUT` | full replace | yes |
+| `PATCH` | partial update | not guaranteed |
+| `DELETE` | delete | yes |
+
+Key distinction:
+
+- `PUT` sends the full replacement resource.
+- `PATCH` sends only the changed fields.
+
+---
+
+## consumes and produces
 
 ```java
-@GetMapping("/users")        // @RequestMapping(method = GET)
-@PostMapping("/users")       // @RequestMapping(method = POST)
-@PutMapping("/users/{id}")   // @RequestMapping(method = PUT)
-@PatchMapping("/users/{id}") // @RequestMapping(method = PATCH)
-@DeleteMapping("/users/{id}")// @RequestMapping(method = DELETE)
-```
-
----
-
-## produces / consumes pinning
-
-```java
-@RestController
-@RequestMapping(
-    value = "/api/v1",
-    produces = MediaType.APPLICATION_JSON_VALUE   // all methods produce JSON
+@PostMapping(
+    value = "/users",
+    consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE
 )
-public class UserController {
-
-    @PostMapping(
-        value = "/users",
-        consumes = MediaType.APPLICATION_JSON_VALUE  // only accept JSON body
-    )
-    public User create(@RequestBody CreateUserRequest req) { ... }
+public UserResponse create(@RequestBody @Valid CreateUserRequest request) {
+    return userService.create(request);
 }
 ```
 
-- `produces`: if `Accept` header doesn't match → 406 Not Acceptable
-- `consumes`: if `Content-Type` doesn't match → 415 Unsupported Media Type
-- Useful to prevent accidental `text/xml` bodies from reaching your controller
+- `consumes` restricts request body type. Mismatch can return `415`.
+- `produces` restricts response body type. Mismatch can return `406`.
+
+Use these when the API contract must be strict.
 
 ---
 
-## @CrossOrigin and global CORS
+## CORS
 
-**Per-controller (narrow):**
+CORS controls whether browsers allow frontend JavaScript from one origin to call your backend.
+
+For one controller:
 
 ```java
-@CrossOrigin(origins = "https://app.example.com", maxAge = 3600)
+@CrossOrigin(origins = "https://app.example.com")
 @RestController
-public class UserController { ... }
+public class UserController {
+}
 ```
 
-**Global (preferred for consistency):**
+For APIs, global config is usually cleaner:
 
 ```java
 @Configuration
@@ -256,43 +206,31 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
             .allowedOrigins("https://app.example.com")
-            .allowedMethods("GET", "POST", "PUT", "DELETE")
-            .allowedHeaders("*")
-            .allowCredentials(true)
-            .maxAge(3600);
+            .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }
 ```
 
-**Critical gotcha:** `@CrossOrigin` / `WebMvcConfigurer` CORS only applies to requests reaching `DispatcherServlet`. Spring Security's CORS filter runs earlier. If you use Spring Security, configure CORS there too (or first); otherwise Spring Security's pre-flight OPTIONS check will 403 before your CORS config runs.
-
-```java
-// In SecurityFilterChain:
-http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-```
+Important interview gotcha: if Spring Security is enabled, CORS must be allowed in the security filter chain too, because security runs before Spring MVC.
 
 ---
 
 ## Quick recall
 
-**Q. What does @RestController add over @Controller?**
-A. It meta-annotates `@ResponseBody` on the class — every method's return value goes through `HttpMessageConverter` to the response body; no view resolution. Missing or wrong `Content-Type` on the request body triggers `HttpMessageNotReadableException` → 400.
+**Q. What does `@RestController` add over `@Controller`?**  
+A. It adds `@ResponseBody`, so return values are written as response body data.
 
-**Q. @Valid vs @Validated — when does @Validated matter?**
-A. When you need validation groups (different rules per use case) or method-level validation on `@Service` beans via AOP proxy.
+**Q. `@PathVariable` vs `@RequestParam`?**  
+A. Path variable comes from the URL path. Request param comes from query string/form params.
 
-**Q. PUT vs PATCH — key difference?**
-A. PUT is a full replace (missing fields → null/default). PATCH is a partial update (only changed fields). PUT is idempotent by definition; PATCH is not guaranteed to be.
+**Q. When is `ResponseEntity` needed?**  
+A. When you need status, headers, an empty body, or conditional response handling.
 
-**Q. When is ResponseEntity necessary instead of returning the POJO directly?**
-A. When you need a non-200 status (201, 204), custom headers (Location, ETag), or a conditionally empty body.
+**Q. `@Valid` vs `@Validated`?**  
+A. `@Valid` is standard request DTO validation. `@Validated` is Spring-specific and useful for groups or method validation.
 
-**Q. How does @PathVariable type conversion work?**
-A. Spring's `ConversionService` converts the String path segment to the parameter type (`Long`, `UUID`, `Enum`, etc.). Register custom converters via `WebMvcConfigurer.addFormatters()`.
+**Q. PUT vs PATCH?**  
+A. PUT is full replacement and idempotent. PATCH is partial update and may or may not be idempotent.
 
-**Q. @CrossOrigin vs WebMvcConfigurer CORS vs Spring Security CORS — which wins?**
-A. Spring Security filter chain runs before `DispatcherServlet`. If security is present, configure CORS in `HttpSecurity.cors()` first; `WebMvcConfigurer`/`@CrossOrigin` alone won't be reached for preflight if security blocks it.
-
-**Q. 409 Conflict vs 422 Unprocessable Entity — when to use each?**
-A. 409 = state conflict (duplicate resource, optimistic lock failure). 422 = well-formed body that fails semantic/business validation (`MethodArgumentNotValidException`). Many APIs use 400 for both; 422 is the precise choice for validation errors.
-
+**Q. Why configure CORS in Spring Security too?**  
+A. Security filters run before MVC, so preflight requests can be blocked before MVC CORS config is reached.

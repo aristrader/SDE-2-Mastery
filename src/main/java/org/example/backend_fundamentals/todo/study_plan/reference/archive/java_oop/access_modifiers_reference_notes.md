@@ -614,11 +614,3 @@ Every modifier in `DeveloperHiringProcess` is the output of running the heuristi
 | `checkBudget()`, `provisionLaptop()` | `private` | Default; no current need for subclass customization. |
 
 If any of those needs change, the modifier changes with it — **the modifier is a decision, not a default**.
-
----
-
-## Related topics
-
-- **SOLID principles** — SRP and DIP directly drive many of the modifier decisions here (single responsibility → private helpers; dependency inversion → depend on the interface, not the concrete).
-- **Abstract class vs Interface** — the "Why the interface can't express some of these choices" section above is a preview; the full comparison is its own topic.
-- **Design Thinking Process** — "abstraction shape follows from state" is a companion principle: the right modifier choice often follows from asking what state the class holds and who needs it.

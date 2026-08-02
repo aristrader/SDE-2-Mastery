@@ -6,230 +6,276 @@ order: 10
 
 Row 7 — 🔴 💼 | D | 2 hrs
 
----
+Spring MVC is the web layer used by Spring Boot to route HTTP requests to controller methods.
 
-## DispatcherServlet — the Front Controller
+For interviews, focus on:
 
-`DispatcherServlet` is a single `jakarta.servlet.http.HttpServlet` at the entry point of every HTTP request. (Boot 2.x used `javax.servlet`; Boot 3.x migrated to `jakarta.servlet` as part of the Jakarta EE 9+ baseline.) Instead of one servlet per URL (the old model), one servlet handles everything and delegates to the right handler internally.
-
-**Registration:**
-- Classic: declared in `web.xml` with `<servlet-mapping>` to `/*` or `/`
-- Programmatic: implement `WebApplicationInitializer`, call `context.addServlet(...).addMapping("/")`
-- Spring Boot: `DispatcherServletAutoConfiguration` registers it automatically via `DispatcherServletRegistrationBean`; you never touch `web.xml`
-
-**ApplicationContext hierarchy:**
-- Root `WebApplicationContext` — created by `ContextLoaderListener`; holds service/repo beans shared across servlets
-- Servlet `WebApplicationContext` — child of root; holds MVC beans (controllers, `HandlerMapping`, `ViewResolver`) scoped to this `DispatcherServlet`
-- Spring Boot collapses these into a single context by default
+- What `DispatcherServlet` does
+- How a request reaches a controller method
+- When to use interceptor vs filter
+- How request/response bodies are converted
+- How `@RequestMapping` combines paths, HTTP methods, and media types
 
 ---
 
-## Request processing pipeline
+## DispatcherServlet
 
-```
-Client HTTP Request
-      │
-      ▼
-DispatcherServlet.doDispatch()
-      │
-      ├─► HandlerMapping.getHandler()
-      │       → returns HandlerExecutionChain (handler + interceptors)
-      │
-      ├─► HandlerAdapter.supports(handler)
-      │       → picks the adapter that knows how to invoke this handler
-      │
-      ├─► HandlerInterceptor.preHandle()   ← runs before controller
-      │
-      ├─► HandlerAdapter.handle()
-      │       → resolves method arguments (via HandlerMethodArgumentResolvers)
-      │       → invokes controller method
-      │       → converts return value (via HandlerMethodReturnValueHandlers)
-      │       → returns ModelAndView (null if @ResponseBody)
-      │
-      ├─► HandlerInterceptor.postHandle()  ← after controller, before view
-      │
-      ├─► ViewResolver.resolveViewName()  ← skipped for @ResponseBody
-      │       → maps logical name (e.g. "home") to a View object
-      │
-      ├─► View.render()
-      │
-      └─► HandlerInterceptor.afterCompletion()  ← always, even on exception
-```
+`DispatcherServlet` is Spring MVC's **Front Controller**.
 
-**Key class for @RequestMapping:** `RequestMappingHandlerMapping` scans `@Controller` beans and builds a map of `(method, path, consumes, produces, headers, params)` → handler method at startup.
+It receives the HTTP request, finds the matching controller method, invokes it, and writes the response.
 
-**Key adapter:** `RequestMappingHandlerAdapter` knows how to invoke `HandlerMethod` objects — it wires together argument resolvers, return value handlers, and message converters.
+In Spring Boot, you usually do **not** declare it manually. Boot auto-registers it when `spring-boot-starter-web` is present.
+
+Older Spring MVC apps could register it manually, but for normal Boot interview prep the important answer is:
+
+> Boot creates and registers `DispatcherServlet`; our job is to write controllers.
 
 ---
 
-## HandlerInterceptors
+## Request flow
 
-Implement `HandlerInterceptor`:
+Simplified request flow:
 
-```java
-public interface HandlerInterceptor {
-    // return false to abort the chain (e.g. auth failed — write 401 yourself)
-    default boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) { return true; }
-
-    // only called if handler returned normally (not on exception)
-    default void postHandle(HttpServletRequest req, HttpServletResponse res, Object handler, ModelAndView mav) {}
-
-    // always called after response committed (cleanup — close resources, log timing)
-    default void afterCompletion(HttpServletRequest req, HttpServletResponse res, Object handler, Exception ex) {}
-}
+```text
+HTTP request
+    ↓
+DispatcherServlet
+    ↓
+HandlerMapping finds the controller method
+    ↓
+HandlerAdapter invokes the method
+    ↓
+Argument resolvers fill parameters
+    ↓
+Controller method runs
+    ↓
+Return value is converted to response
 ```
 
-Register via `WebMvcConfigurer.addInterceptors()`. Order is insertion order; `preHandle` fires in order, `postHandle` and `afterCompletion` fire in reverse.
-
-**Common uses:** authentication checks in `preHandle`, MDC population (request-id), per-request timing, audit logging in `afterCompletion`.
-
-**Interceptor vs Filter:**
-| | `HandlerInterceptor` | `jakarta.servlet.Filter` |
-|---|---|---|
-| Runs relative to DispatcherServlet | After DS — inside `doDispatch()` | Before DispatcherServlet |
-| Knows the handler | Yes — receives `handler` param | No |
-| Access to `ModelAndView` | Yes (postHandle) | No |
-| Applied to | Only requests dispatched through `DispatcherServlet` | All requests including static assets, error pages |
-
-A `Filter` runs in the servlet container before `DispatcherServlet` sees the request — no access to handler or `ModelAndView`, but intercepts every request regardless of whether Spring MVC handles it. Use `Filter` for things that must run even if Spring MVC isn't involved (e.g., raw CORS headers, request body logging before routing).
-
----
-
-## HandlerMethodArgumentResolver
-
-How `@RequestBody`, `@PathVariable`, `@RequestParam`, etc. get populated — each annotation has a dedicated resolver.
-
-```java
-public interface HandlerMethodArgumentResolver {
-    boolean supportsParameter(MethodParameter parameter);
-    Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                           NativeWebRequest webRequest, WebDataBinderFactory binderFactory);
-}
-```
-
-`RequestMappingHandlerAdapter` iterates its ordered list of resolvers; first one where `supportsParameter()` returns `true` wins.
-
-**Built-in resolvers (sample):**
-
-| Resolver | Handles |
-|---|---|
-| `RequestResponseBodyMethodProcessor` | `@RequestBody` + `@ResponseBody` |
-| `PathVariableMethodArgumentResolver` | `@PathVariable` |
-| `RequestParamMethodArgumentResolver` | `@RequestParam` + simple scalar params |
-| `RequestHeaderMethodArgumentResolver` | `@RequestHeader` |
-| `SessionAttributeMethodArgumentResolver` | `@SessionAttribute` |
-
-**Custom resolver pattern:**
-
-```java
-@Component
-public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
-    @Override
-    public boolean supportsParameter(MethodParameter param) {
-        return param.hasParameterAnnotation(CurrentUser.class);
-    }
-
-    @Override
-    public Object resolveArgument(MethodParameter param, ModelAndViewContainer mav,
-                                   NativeWebRequest req, WebDataBinderFactory binder) {
-        // pull authenticated user from SecurityContext or JWT claim
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-}
-
-// register
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new CurrentUserArgumentResolver());
-    }
-}
-```
-
----
-
-## MessageConverters — @RequestBody / @ResponseBody serialization
-
-`HttpMessageConverter<T>` reads the HTTP body into a Java type (`@RequestBody`) and writes a Java type back to the body (`@ResponseBody`).
-
-**Selection:** `RequestResponseBodyMethodProcessor` iterates the converter list and picks the first that:
-1. `canRead(targetType, contentType)` — for `@RequestBody`
-2. `canWrite(returnType, acceptedMediaTypes)` — for `@ResponseBody`
-
-**Default converters registered by Spring MVC (order matters):**
-
-| Converter | Handles |
-|---|---|
-| `ByteArrayHttpMessageConverter` | `byte[]` ↔ `application/octet-stream` |
-| `StringHttpMessageConverter` | `String` ↔ `text/plain`, `*/*` |
-| `ResourceHttpMessageConverter` | `Resource` ↔ `application/octet-stream` |
-| `MappingJackson2HttpMessageConverter` | Any POJO ↔ `application/json` |
-| `Jaxb2RootElementHttpMessageConverter` | JAXB-annotated ↔ `application/xml` |
-
-Spring Boot auto-configures Jackson via `JacksonAutoConfiguration`. Customize it:
-
-```java
-@Bean
-public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-    return builder -> builder
-        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .simpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-}
-```
-
-**Content negotiation:** `ContentNegotiationManager` determines the response media type:
-1. Path extension (`.json`) — deprecated, disabled by default
-2. `format` query param — disabled by default
-3. `Accept` header — primary mechanism
-4. Default media type — configured fallback
-
----
-
-## @RequestMapping — class vs method level
+Example:
 
 ```java
 @RestController
-@RequestMapping("/api/v1/users")          // class-level: base path for all methods
+@RequestMapping("/users")
 public class UserController {
 
-    @GetMapping("/{id}")                  // resolves to GET /api/v1/users/{id}
-    public User getUser(@PathVariable Long id) { ... }
-
-    @PostMapping                          // resolves to POST /api/v1/users
-    @RequestMapping(
-        method = RequestMethod.POST,
-        consumes = MediaType.APPLICATION_JSON_VALUE,   // only accepts JSON body
-        produces = MediaType.APPLICATION_JSON_VALUE    // only produces JSON
-    )
-    public User createUser(@RequestBody @Valid CreateUserRequest req) { ... }
+    @GetMapping("/{id}")
+    public UserResponse getUser(@PathVariable Long id) {
+        return userService.findUser(id);
+    }
 }
 ```
 
-`produces` triggers 406 Not Acceptable if the client's `Accept` header doesn't match. `consumes` triggers 415 Unsupported Media Type if `Content-Type` doesn't match. Useful for strict API contracts.
+For `GET /users/10`:
+
+1. `DispatcherServlet` receives the request.
+2. Spring matches it to `getUser`.
+3. `@PathVariable` converts `"10"` into `Long id`.
+4. The method returns `UserResponse`.
+5. Jackson writes the object as JSON.
+
+Know the flow and responsibilities.
+
+---
+
+## HandlerInterceptor
+
+`HandlerInterceptor` lets you run logic before and after a controller method.
+
+Common use cases:
+
+- request logging
+- correlation id / MDC setup
+- audit timing
+- simple pre-controller checks
+
+```java
+public class RequestTimingInterceptor implements HandlerInterceptor {
+
+    @Override
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response,
+                             Object handler) {
+        request.setAttribute("startTime", System.currentTimeMillis());
+        return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object handler,
+                                Exception ex) {
+        long start = (long) request.getAttribute("startTime");
+        long tookMs = System.currentTimeMillis() - start;
+        log.info("{} {} took {} ms", request.getMethod(), request.getRequestURI(), tookMs);
+    }
+}
+```
+
+Register it:
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestTimingInterceptor())
+            .addPathPatterns("/api/**");
+    }
+}
+```
+
+This registers the interceptor with Spring MVC, not with one controller class.
+
+Scope it with path patterns:
+
+- `addPathPatterns("/api/**")` applies to matching API routes.
+- `excludePathPatterns("/api/public/**")` skips matching routes.
+- If you do not restrict paths, it can apply broadly to MVC requests.
+
+Important callback behavior:
+
+- `preHandle` runs before the controller.
+- Returning `false` stops the request; you must write the response yourself.
+- `afterCompletion` runs after request completion and is useful for cleanup/logging.
+
+---
+
+## Interceptor vs Filter
+
+| Use this | When |
+|---|---|
+| `Filter` | Work must happen before Spring MVC, such as security, CORS, compression, request wrapping |
+| `HandlerInterceptor` | Work is Spring MVC-specific and may need controller/handler information |
+
+Main difference:
+
+- A `Filter` runs before `DispatcherServlet`.
+- An `Interceptor` runs inside Spring MVC after a handler is chosen.
+
+Use filters for low-level web concerns. Use interceptors for controller-level cross-cutting concerns.
+
+---
+
+## Argument resolvers
+
+Argument resolvers are how Spring fills controller method parameters.
+
+```java
+@GetMapping("/users/{id}")
+public UserResponse getUser(
+        @PathVariable Long id,
+        @RequestParam(defaultValue = "false") boolean includeOrders,
+        @RequestHeader("X-Request-Id") String requestId) {
+    return userService.findUser(id, includeOrders);
+}
+```
+
+Spring resolves:
+
+- `@PathVariable` from the URL path
+- `@RequestParam` from the query string
+- `@RequestHeader` from headers
+- `@RequestBody` from the HTTP body
+
+Spring uses this mechanism internally to populate controller parameters.
+
+---
+
+## Message converters
+
+Message converters convert between HTTP bodies and Java objects.
+
+They are used mainly for:
+
+- `@RequestBody`: JSON request body → Java object
+- `@ResponseBody` / `@RestController`: Java object → JSON response body
+
+```java
+@PostMapping("/users")
+public UserResponse create(@RequestBody @Valid CreateUserRequest request) {
+    return userService.create(request);
+}
+```
+
+In a normal Spring Boot REST app:
+
+- Jackson is used for JSON.
+- Boot configures the JSON converter automatically.
+- You usually customize Jackson through properties or an `ObjectMapper` customizer, not by touching converters directly.
+
+Practical things to know:
+
+- Wrong request `Content-Type` can cause `415 Unsupported Media Type`.
+- Unsupported response `Accept` header can cause `406 Not Acceptable`.
+- Invalid JSON can cause `400 Bad Request`.
+
+---
+
+## @RequestMapping
+
+Use class-level mapping for a common base path and method-level mapping for individual operations.
+
+```java
+@RestController
+@RequestMapping("/api/v1/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public UserResponse getUser(@PathVariable Long id) {
+        return userService.findUser(id);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public UserResponse createUser(@RequestBody @Valid CreateUserRequest request) {
+        return userService.create(request);
+    }
+}
+```
+
+Final routes:
+
+- `GET /api/v1/users/{id}`
+- `POST /api/v1/users`
+
+`consumes` means what request body type the endpoint accepts.
+
+`produces` means what response body type the endpoint returns.
+
+```java
+@GetMapping(
+    value = "/{id}",
+    produces = MediaType.APPLICATION_JSON_VALUE
+)
+public UserResponse getUser(@PathVariable Long id) {
+    return userService.findUser(id);
+}
+```
+
+For most REST APIs, you can rely on Boot defaults unless the API contract must be strict.
 
 ---
 
 ## Quick recall
 
-**Q. What is DispatcherServlet and why is there only one?**
-A. It's the Front Controller — single entry point for all HTTP; delegates internally to handlers. One servlet avoids per-URL servlet sprawl and centralizes cross-cutting concerns.
+**Q. What is `DispatcherServlet`?**  
+A. Spring MVC's Front Controller. It receives requests, routes them to controller methods, and writes responses.
 
-**Q. In what order do HandlerInterceptor callbacks fire?**
-A. `preHandle` (request order) → controller → `postHandle` (reverse order) → view → `afterCompletion` (reverse order, always).
+**Q. Do we manually declare `DispatcherServlet` in Spring Boot?**  
+A. Usually no. Boot auto-registers it when the web starter is present.
 
-**Q. Why return `false` from `preHandle`?**
-A. To short-circuit the chain — the handler and subsequent interceptors won't run. You must write the response yourself (e.g. send 401) before returning false.
+**Q. What is the simplified MVC request flow?**  
+A. Request → `DispatcherServlet` → handler mapping → controller invocation → message conversion/response.
 
-**Q. How does Spring know which converter to use for `@ResponseBody`?**
-A. Content negotiation picks the target media type from `Accept` header, then the converter list is scanned for the first `canWrite(type, mediaType)` match — typically `MappingJackson2HttpMessageConverter` for JSON.
+**Q. Filter vs interceptor?**  
+A. Filter runs before Spring MVC. Interceptor runs inside Spring MVC and can access handler/controller context.
 
-**Q. HandlerInterceptor vs Filter — when to use which?**
-A. Filter for pre-Spring concerns (raw CORS, body buffering, applies to static assets too). Interceptor when you need handler/ModelAndView access or want to scope to MVC-dispatched requests only.
+**Q. What are message converters used for?**  
+A. They convert request/response bodies, commonly JSON ↔ Java objects using Jackson.
 
-**Q. How do you inject a custom object into a controller method parameter?**
-A. Implement `HandlerMethodArgumentResolver`, register via `WebMvcConfigurer.addArgumentResolvers()`. `supportsParameter()` selects it; `resolveArgument()` builds the value.
+**Q. What causes 415 vs 406?**  
+A. 415 means request `Content-Type` is not supported. 406 means response type requested by `Accept` is not supported.
 
-**Q. What triggers a 415 Unsupported Media Type vs a 406 Not Acceptable?**
-A. 415: request `Content-Type` doesn't match controller's `consumes`. 406: client's `Accept` header doesn't match controller's `produces`.
-
+**Q. What does class-level `@RequestMapping` do?**  
+A. It defines a base path shared by all handler methods in that controller.

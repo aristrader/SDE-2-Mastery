@@ -677,7 +677,7 @@
                 "link": "/spring/spring_core/caching/"
               },
               {
-                "text": "Spring Transactions — @Transactional Deep Dive",
+                "text": "Spring Transactions",
                 "link": "/spring/spring_core/transactions/"
               },
               {
@@ -1120,7 +1120,7 @@
                 "link": "/design_patterns/foundations/solid/"
               },
               {
-                "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+                "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI)",
                 "link": "/design_patterns/foundations/dip_vs_di/"
               },
               {
@@ -1393,6 +1393,40 @@
         ]
       }
     ],
+    "/gen_ai/": [
+      {
+        "text": "GenAI",
+        "items": [
+          {
+            "text": "RAG",
+            "link": "/gen_ai/rag/"
+          }
+        ]
+      }
+    ],
+    "/dsa/": [
+      {
+        "text": "DSA",
+        "items": [
+          {
+            "text": "BFS",
+            "link": "/dsa/bfs/"
+          },
+          {
+            "text": "DFS",
+            "link": "/dsa/dfs/"
+          },
+          {
+            "text": "C++ STL Cheat Sheet",
+            "link": "/dsa/stl_cheatsheet/"
+          },
+          {
+            "text": "Java Collections Cheat Sheet",
+            "link": "/dsa/java_cheatsheet/"
+          }
+        ]
+      }
+    ],
     "/practice/": [
       {
         "text": "Practice Scratchpad",
@@ -1475,6 +1509,16 @@
       "text": "Health and Fitness",
       "link": "/health_fitness/",
       "activeMatch": "/health_fitness/"
+    },
+    {
+      "text": "GenAI",
+      "link": "/gen_ai/",
+      "activeMatch": "/gen_ai/"
+    },
+    {
+      "text": "DSA",
+      "link": "/dsa/",
+      "activeMatch": "/dsa/"
     },
     {
       "text": "Practice Scratchpad",
@@ -5898,7 +5942,7 @@
                 }
               },
               {
-                "text": "Spring Transactions — @Transactional Deep Dive",
+                "text": "Spring Transactions",
                 "link": "/spring/spring_core/transactions/",
                 "order": 50,
                 "schema": "practice",
@@ -7401,7 +7445,7 @@
                 }
               },
               {
-                "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+                "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI)",
                 "link": "/design_patterns/foundations/dip_vs_di/",
                 "order": 30,
                 "schema": "practice",
@@ -8251,6 +8295,108 @@
         ]
       },
       {
+        "text": "GenAI",
+        "link": "/gen_ai/",
+        "order": 180,
+        "schema": "theory",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "RAG",
+            "link": "/gen_ai/rag/",
+            "order": 10,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
+        "text": "DSA",
+        "link": "/dsa/",
+        "order": 190,
+        "schema": "theory",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "BFS",
+            "link": "/dsa/bfs/",
+            "order": 10,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "DFS",
+            "link": "/dsa/dfs/",
+            "order": 20,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "C++ STL Cheat Sheet",
+            "link": "/dsa/stl_cheatsheet/",
+            "order": 30,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Java Collections Cheat Sheet",
+            "link": "/dsa/java_cheatsheet/",
+            "order": 40,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
         "text": "Practice Scratchpad",
         "link": "/practice/",
         "order": 1000,
@@ -8864,7 +9010,7 @@
       "link": "/spring/spring_core/caching/"
     },
     {
-      "text": "Spring Transactions — @Transactional Deep Dive",
+      "text": "Spring Transactions",
       "link": "/spring/spring_core/transactions/"
     },
     {
@@ -9244,7 +9390,7 @@
       "link": "/design_patterns/foundations/solid/"
     },
     {
-      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI)",
       "link": "/design_patterns/foundations/dip_vs_di/"
     },
     {
@@ -9470,6 +9616,34 @@
     {
       "text": "Monthly Log",
       "link": "/health_fitness/tracking_playbook/monthly/"
+    },
+    {
+      "text": "GenAI",
+      "link": "/gen_ai/"
+    },
+    {
+      "text": "RAG",
+      "link": "/gen_ai/rag/"
+    },
+    {
+      "text": "DSA",
+      "link": "/dsa/"
+    },
+    {
+      "text": "BFS",
+      "link": "/dsa/bfs/"
+    },
+    {
+      "text": "DFS",
+      "link": "/dsa/dfs/"
+    },
+    {
+      "text": "C++ STL Cheat Sheet",
+      "link": "/dsa/stl_cheatsheet/"
+    },
+    {
+      "text": "Java Collections Cheat Sheet",
+      "link": "/dsa/java_cheatsheet/"
     },
     {
       "text": "Practice Scratchpad",
@@ -16777,7 +16951,7 @@
       "referenceHtml": "<h1>Solution</h1>"
     },
     "/spring/spring_core/transactions/": {
-      "text": "Spring Transactions — @Transactional Deep Dive",
+      "text": "Spring Transactions",
       "link": "/spring/spring_core/transactions/",
       "pageType": "theory",
       "parentLink": "/spring/spring_core/transactions/",
@@ -16791,7 +16965,7 @@
       }
     },
     "/spring/spring_core/transactions/exercise/": {
-      "text": "Spring Transactions — @Transactional Deep Dive",
+      "text": "Spring Transactions",
       "link": "/spring/spring_core/transactions/exercise/",
       "pageType": "exercise",
       "parentLink": "/spring/spring_core/transactions/",
@@ -16806,7 +16980,7 @@
       "practiceSet": null
     },
     "/spring/spring_core/transactions/solution/": {
-      "text": "Spring Transactions — @Transactional Deep Dive",
+      "text": "Spring Transactions",
       "link": "/spring/spring_core/transactions/solution/",
       "pageType": "solution",
       "parentLink": "/spring/spring_core/transactions/",
@@ -20158,7 +20332,7 @@
       "referenceHtml": "<h1>Solution</h1>"
     },
     "/design_patterns/foundations/dip_vs_di/": {
-      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI)",
       "link": "/design_patterns/foundations/dip_vs_di/",
       "pageType": "theory",
       "parentLink": "/design_patterns/foundations/dip_vs_di/",
@@ -20172,7 +20346,7 @@
       }
     },
     "/design_patterns/foundations/dip_vs_di/exercise/": {
-      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI)",
       "link": "/design_patterns/foundations/dip_vs_di/exercise/",
       "pageType": "exercise",
       "parentLink": "/design_patterns/foundations/dip_vs_di/",
@@ -20187,7 +20361,7 @@
       "practiceSet": null
     },
     "/design_patterns/foundations/dip_vs_di/solution/": {
-      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details",
+      "text": "Dependency Inversion (DIP) vs. Dependency Injection (DI)",
       "link": "/design_patterns/foundations/dip_vs_di/solution/",
       "pageType": "solution",
       "parentLink": "/design_patterns/foundations/dip_vs_di/",
@@ -21720,6 +21894,104 @@
       "link": "/health_fitness/tracking_playbook/monthly/",
       "pageType": "theory",
       "parentLink": "/health_fitness/tracking_playbook/monthly/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/gen_ai/": {
+      "text": "GenAI",
+      "link": "/gen_ai/",
+      "pageType": "theory",
+      "parentLink": "/gen_ai/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/gen_ai/rag/": {
+      "text": "RAG",
+      "link": "/gen_ai/rag/",
+      "pageType": "theory",
+      "parentLink": "/gen_ai/rag/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/dsa/": {
+      "text": "DSA",
+      "link": "/dsa/",
+      "pageType": "theory",
+      "parentLink": "/dsa/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/dsa/bfs/": {
+      "text": "BFS",
+      "link": "/dsa/bfs/",
+      "pageType": "theory",
+      "parentLink": "/dsa/bfs/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/dsa/dfs/": {
+      "text": "DFS",
+      "link": "/dsa/dfs/",
+      "pageType": "theory",
+      "parentLink": "/dsa/dfs/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/dsa/stl_cheatsheet/": {
+      "text": "C++ STL Cheat Sheet",
+      "link": "/dsa/stl_cheatsheet/",
+      "pageType": "theory",
+      "parentLink": "/dsa/stl_cheatsheet/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/dsa/java_cheatsheet/": {
+      "text": "Java Collections Cheat Sheet",
+      "link": "/dsa/java_cheatsheet/",
+      "pageType": "theory",
+      "parentLink": "/dsa/java_cheatsheet/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,

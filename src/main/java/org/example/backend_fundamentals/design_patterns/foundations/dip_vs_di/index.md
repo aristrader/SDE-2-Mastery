@@ -2,9 +2,9 @@
 order: 30
 ---
 
-# Dependency Inversion (DIP) vs. Dependency Injection (DI) — the details
+# Dependency Inversion (DIP) vs. Dependency Injection (DI)
 
-> Two ideas that constantly get conflated. They are **related but distinct**, and you can have one without the other. Both are central to almost every pattern that enables testing and substitution.
+> DIP and DI are related, but they are not the same thing. DIP is about the type you depend on. DI is about how that dependency is supplied.
 
 ---
 
@@ -38,7 +38,7 @@ HR ──── depends on ┘
 
 Both ends point at the same abstraction. High-level code no longer reaches *down* at low-level details; details point *up* at a stable abstraction. That arrow flip is the "inversion."
 
-### Where DIP lives in the production factory_method code
+### Where DIP lives in the production Factory Method code
 
 Exactly here:
 
@@ -47,7 +47,7 @@ Exactly here:
 private final HiringProcess hiringProcess;   // ← interface, not the concrete abstract class
 ```
 
-If this were `private final DeveloperHiringProcess hiringProcess;` (as in the *learning* variant), DIP would be partially violated — HR would be locked to the developer branch even though `DeveloperHiringProcess` is itself an abstract class. The interface above is the *most abstract* suitable type for HR's role; depending on it, not the abstract class, is what makes the dependency DIP-clean.
+If this were `private final DeveloperHiringProcess hiringProcess;` (as in the learning variant), DIP would be weaker. `DeveloperHiringProcess` is abstract, but it still means "developer hiring only." `HR` does not need to know that. `HR` only needs "something that can onboard an employee."
 
 The production code has three layers:
 
@@ -75,7 +75,7 @@ public class AndroidHiringProcess extends DeveloperHiringProcess {
 }
 ```
 
-`DeveloperHiringProcess` is an abstraction, but it is still a *developer-specific* abstraction. It represents one branch of hiring flows: Android, backend, iOS, and any other developer role. `HiringProcess` is the broader contract HR actually needs: "give me something that can onboard one employee."
+`DeveloperHiringProcess` is an abstraction, but it is still a developer-specific abstraction. It represents one branch of hiring flows: Android, backend, iOS, and any other developer role. `HiringProcess` is the broader contract HR actually needs.
 
 That distinction matters when wiring:
 
@@ -111,21 +111,21 @@ So the dependency chain reads:
 HR ──depends on──▶ HiringProcess ◀──implemented by── DeveloperHiringProcess ◀──extended by── AndroidHiringProcess
 ```
 
-If a future `SalesHiringProcess` implements `HiringProcess` as a sibling of `DeveloperHiringProcess`, `HR` does not change. If `HR` depended on `DeveloperHiringProcess`, that new sales branch would not fit the constructor even though the code still used constructor injection. That is the subtle difference: DI would still be present, but DIP would be weaker.
+If a future `SalesHiringProcess` implements `HiringProcess` as a sibling of `DeveloperHiringProcess`, `HR` does not change. If `HR` depended on `DeveloperHiringProcess`, the sales branch would not fit the constructor. That code would still use constructor injection, but the dependency type would be too narrow.
 
 ---
 
 ## Dependency Injection (DI) — the **technique**
 
-A technique for *how* a class receives its dependencies — push them in from outside, instead of constructing them internally. Three common flavours in Java:
+A technique for how a class receives its dependencies: pass them in from outside instead of constructing them internally.
 
 | Flavour | What it looks like | When to use |
 | --- | --- | --- |
 | **Constructor injection** | `HR(HiringProcess hp) { this.hp = hp; }` | Default. Fields can be `final`; dependencies guaranteed at construction. |
 | **Setter injection** | `void setProcess(HiringProcess hp)` | Optional dependencies, or when breaking circular dependencies. |
-| **Field injection** | `@Autowired HiringProcess hp;` (Spring) | Convenient but harder to test, fields cannot be `final`, dependencies hidden — usually avoided in modern style. |
+| **Field injection** | `@Autowired HiringProcess hp;` (Spring) | Avoid in new code. Fields cannot be `final`; dependencies are hidden. |
 
-DI is **just the mechanic** of pushing dependencies in. It says nothing about whether what gets pushed in is an abstraction or a concretion.
+DI is just the mechanic of passing dependencies in. It does not guarantee DIP. You can inject the wrong type.
 
 ---
 
@@ -142,10 +142,10 @@ DI is **just the mechanic** of pushing dependencies in. It says nothing about wh
 
 | | DI ✓ | DI ✗ |
 | --- | --- | --- |
-| **DIP ✓** | **Best practice.** HR receives a `HiringProcess` interface in its constructor. | Rare. HR holds an interface field but constructs the implementation internally (reflection, service locator). DIP honoured but no testability win from DI. |
-| **DIP ✗** | **The subtle trap.** HR gets injected, but the parameter type is concrete. *"I'm using DI"* — yet the code still couples to a specific implementation. | The classic mess. HR does `new AndroidHiringProcess()` inside its own constructor. |
+| **DIP ✓** | **Best practice.** `HR` receives a `HiringProcess` interface in its constructor. | Rare. `HR` holds an interface field but still creates the implementation itself. |
+| **DIP ✗** | **Common trap.** `HR` receives a dependency, but the type is concrete or too narrow. | Worst case. `HR` does `new AndroidHiringProcess()` internally. |
 
-The bottom-right (neither) is where most legacy code lives. The top-left (both) is where you want to be.
+Aim for the top-left: constructor injection plus an interface type.
 
 ---
 
@@ -153,20 +153,36 @@ The bottom-right (neither) is where most legacy code lives. The top-left (both) 
 
 **DIP violations:**
 
-- A high-level class names a concrete class in a field, parameter, or return type.
-- The class can't be unit-tested without spinning up real low-level dependencies.
-- Adding a new variant of a low-level component requires editing high-level code.
+- A high-level class names a concrete or too-specific class in a field, parameter, or return type.
+- A class cannot be tested without real low-level dependencies.
+- Adding a new variant means editing the high-level class.
+
+Example:
+
+```java
+class HR {
+  private final AndroidHiringProcess hiringProcess; // too specific
+}
+```
+
+Better:
+
+```java
+class HR {
+  private final HiringProcess hiringProcess; // broad enough for HR's role
+}
+```
 
 **DI without DIP (the trap):**
 
-- A class accepts a dependency via its constructor (DI ✓) but the parameter type is concrete.
-- *"I'm using DI"* feels true, yet the type signature still couples high-level to low-level.
+- A class accepts a dependency via its constructor, but the parameter type is concrete or too narrow.
+- "I'm using DI" is true, but the type signature is still coupled.
 - Easy fix: change the parameter type from `ConcreteClass` to `AnInterface`.
 
 **DIP without DI (rare):**
 
-- Code holds an interface field but constructs the implementation internally via `new` or a static lookup.
-- Principle honoured (field type), testability lost (no seam to inject a mock).
+- Code holds an interface field but constructs the implementation internally with `new` or a static lookup.
+- The field type is okay, but testing is still harder because callers cannot pass a fake.
 
 ---
 
@@ -175,7 +191,7 @@ The bottom-right (neither) is where most legacy code lives. The top-left (both) 
 > **DIP says:** *depend on abstractions, not concretions.*
 > **DI says:** *don't construct your dependencies — receive them.*
 >
-> They reinforce each other in modern code, but answer different questions: DIP is *what type*, DI is *how it arrives*. In casual talk it doesn't matter; in design discussions, the distinction avoids bad refactors.
+> They reinforce each other, but answer different questions: DIP is *what type*, DI is *how it arrives*.
 
 ---
 
@@ -198,24 +214,24 @@ public class SignupService {
 }
 ```
 
-When a class news-up its own collaborators, you can't:
+When a class creates its own collaborators, you cannot:
 
-- Replace the real implementation in tests (no place to inject a mock).
+- Replace the real implementation in tests.
 - Swap implementations per environment (dev vs prod, local SMTP vs SES).
 - Configure the dependency from outside (timeouts, URLs, retries).
 - Reuse the class with a different collaborator.
 
-DI moves construction out of the using class into a separate **wiring layer** — either explicit setup in `main()` (manual DI) or a container like Spring.
+DI moves construction to a wiring layer: either explicit setup in `main()` or a container like Spring.
 
 ### Why constructor injection wins over the other flavours
 
-Constructor injection is the modern default — and Spring's official recommendation since v4 — for these reasons:
+Constructor injection is the default in modern Java/Spring:
 
-1. **Final fields.** Dependency cannot be reassigned — JMM publication guarantees + thread safety + clear intent.
-2. **No half-initialised objects.** The object cannot even *exist* without its full set of dependencies.
-3. **Visible dependency list.** The constructor signature is the one place to read what a class needs.
-4. **Testable without a framework.** `new SignupService(mockSender)` works in any test; no Spring required.
-5. **Spring-agnostic.** The class doesn't depend on `@Autowired` or any framework annotation. Spring detects the single constructor automatically.
+1. Fields can be `final`.
+2. The object cannot exist without required dependencies.
+3. The constructor shows what the class needs.
+4. Tests can call `new SignupService(fakeSender)` without Spring.
+5. With one constructor, Spring can inject it automatically.
 
 ### `@Autowired` vs DI — they are at different levels
 
@@ -227,7 +243,7 @@ A common confusion worth nailing down:
 | Where does it live? | Anywhere — plain Java, manual `main()` wiring, or any framework | Only in Spring (and Spring-compatible) projects |
 | Is one necessary for the other? | No. You can do DI with no annotations at all (manual DI). | `@Autowired` is one *implementation* of DI — Spring's. |
 
-Three subtleties about `@Autowired` worth knowing:
+Three rules:
 
 1. **Modern Spring (4.3+) auto-injects a single constructor.** No annotation needed:
    ```java
@@ -238,7 +254,7 @@ Three subtleties about `@Autowired` worth knowing:
    }
    // No @Autowired anywhere. Spring detects the single constructor and uses it.
    ```
-   Adding `@Autowired` here is redundant. Older Spring code carries it as habit; new code should drop it.
+   Adding `@Autowired` here is redundant.
 
 2. **`@Autowired` on a field = field injection (avoid).**
    ```java
@@ -247,17 +263,17 @@ Three subtleties about `@Autowired` worth knowing:
      @Autowired private EmailSender sender;   // field injection
    }
    ```
-   The downsides: cannot make the field `final`; dependencies hidden from constructor signature; only constructible via Spring, i.e. impossible to unit-test without the framework. Tolerated historically; avoid in new code.
+   The downsides: the field cannot be `final`, dependencies are hidden, and the class is annoying to test without Spring.
 
-3. **`@Autowired` on a setter = setter injection (rare).** Used for genuinely optional dependencies or to break circular dependencies. Modern code expresses optional dependencies as `Optional<Foo>` constructor parameters or with `@Nullable`, not as setters.
+3. **`@Autowired` on a setter = setter injection.** Use this rarely, usually for optional dependencies.
 
-**Bottom line:** in modern Spring, prefer constructor injection with no `@Autowired` annotation at all. The constructor itself is the DI mechanism; the annotation is a Spring-internal hint that's no longer needed.
+**Bottom line:** prefer constructor injection. In modern Spring, a single constructor usually needs no `@Autowired`.
 
 ### Inversion of Control — the broader principle DI is a special case of
 
-DI is a specific case of **Inversion of Control (IoC)**: instead of a class controlling how its dependencies arrive, something else (the caller, a container) controls it. Hollywood Principle: *"Don't call us, we'll call you."*
+DI is one kind of **Inversion of Control (IoC)**: the class does not control how dependencies arrive. The caller or container controls that.
 
-IoC shows up beyond construction too — the JVM calling `main()`, Spring calling `@PostConstruct`, JUnit calling `@Test` methods. DI is the *construction-time* face of IoC.
+IoC appears elsewhere too: Spring calls lifecycle methods, JUnit calls test methods, and frameworks call your handlers. DI is the construction-time version.
 
 ### How DI relates to the other creational patterns
 
@@ -265,53 +281,47 @@ Once DI is in your codebase, several patterns from this repo shift in role:
 
 | Pattern | What DI does to it |
 | --- | --- |
-| **Singleton** | Spring beans default to **singleton scope** — the container is your singleton manager. `getInstance()`, double-checked locking, Bill Pugh holders all become unnecessary in a Spring app. Your Singleton implementations remain *correct*; they just become *unneeded* once Spring is wiring things. |
-| **Factory Method** | Subsumed when the factory exists *only* to hand callers an instance. The container constructs and injects. Factories survive when they make non-trivial **runtime** choices (pick a strategy by input not known at wiring time). |
-| **Builder** | Orthogonal — both coexist. DI gives you long-lived **collaborators**; Builder constructs short-lived **values**. A `JobOffer` is built per request; the `EmailSender` that delivers it is wired once at startup. |
-| **Static factory methods (EJ Item 1)** | Spring's `@Bean` methods inside `@Configuration` classes *are* static factory methods. Side Quest A pays off here. |
+| **Singleton** | Spring beans are singleton-scoped by default. You usually do not need manual `getInstance()` code in a Spring app. |
+| **Factory Method** | Often unnecessary when the factory only creates an object. Still useful when the choice happens at runtime. |
+| **Builder** | Separate concern. DI wires long-lived services; Builder creates short-lived values. |
+| **Static factory methods** | Spring `@Bean` methods are factory methods owned by configuration code. |
 
 ### Spring's role beyond manual DI
 
-Spring is a **DI container**. You annotate classes (`@Service`, `@Component`, `@Repository`, `@Controller`, or `@Configuration` + `@Bean`); Spring scans them at startup, builds the dependency graph, and instantiates everything in the right order.
+Spring is a DI container. It scans components, builds the object graph, and creates objects in the right order.
 
 Three things Spring adds beyond manual DI:
 
-1. **Automatic graph construction.** No hand-written `main()` wiring code; component scanning does it.
-2. **Bean scopes.** `singleton` (default — one per container), `prototype` (new instance per injection), `request` / `session` for web apps.
-3. **Lifecycle hooks.** `@PostConstruct`, `@PreDestroy`, `ApplicationContextAware`, etc.
+1. Automatic graph construction.
+2. Bean scopes: `singleton`, `prototype`, `request`, `session`.
+3. Lifecycle hooks like `@PostConstruct` and `@PreDestroy`.
 
-### Why "manual DI first, then Spring" is the recommended order
+### Manual DI before Spring
 
-Two passes that teach different things:
+Manual DI makes the idea obvious:
 
-- **Manual DI in plain `main()`** teaches that DI is *just constructor parameters*. No magic. Feel the pain when the graph gets bigger than five classes — you're typing `new` for every node.
-- **Spring** teaches that the container *is* automation of the manual setup, plus scopes and lifecycle. Without doing manual DI first, Spring feels mysterious; afterwards, it feels like exactly what you'd build if you did the manual version a hundred times.
+- The class receives dependencies through constructors.
+- Some outside code creates the objects and passes them in.
+- As the graph grows, that outside wiring becomes repetitive.
 
-Skipping manual DI and going straight to Spring is the most common reason developers cargo-cult `@Autowired` everywhere without understanding what the annotation actually does.
-
----
-
-## Concept-check questions to answer before coding
-
-1. In `creational/factory/factory_method/`, `HR` already takes a `HiringProcess` in its constructor. So `HR` is *already* using DI. What about `EmailService` and `OfferLetterService` — are they DI-friendly too? What signal in `DeveloperHiringProcess`'s constructor tells you the answer?
-2. Spring beans default to singleton scope. If `EmailService` is a Spring bean and `AndroidHiringProcess` and `BackendHiringProcess` are too, how many `EmailService` instances does Spring create? What does that imply for `EmailService`'s thread-safety obligations?
-3. Suppose you write `class HR { private final HiringProcess hp = new AndroidHiringProcess(...); }`. List two reasons this is hard to test, and the *one* small change that fixes both.
+Spring automates that repetitive wiring and adds scopes/lifecycle. It is easier to understand after seeing the manual version once.
 
 ---
 
-## Suggested practice path (three stages)
+## Quick checks
 
-- [ ] **Stage 1 — Audit pass on `factory_method/`.** Confirm everything is DI-clean already (most of it is). Identify the wiring code in `FactoryMethodRun.main()` — that's literally a manual DI bootstrap.
-- [ ] **Stage 2 — Manual DI from scratch in a new package.** Small `signup-service` style example contrasting "bad" (internal `new`) with "good" (constructor-injected), with a hand-written `main()` doing the wiring. Feel the typing as the graph grows.
-- [ ] **Stage 3 — Spring layer on top.** Add `@Service` / `@Component` annotations, an `@SpringBootApplication` entry point, watch the wiring code disappear. Demonstrate singleton vs prototype scope side-by-side.
+1. `HR(HiringProcess hiringProcess)` is both DI and DIP. The dependency is passed in, and the type is an interface.
+2. `DeveloperHiringProcess(EmailService emailService, OfferLetterService offerLetterService)` is DI-friendly. Its services are constructor parameters, not hidden `new` calls.
+3. If `EmailService` is a default Spring bean, Spring creates one instance per application context. That means it must be thread-safe if multiple requests can use it.
+4. `private final HiringProcess hp = new AndroidHiringProcess(...)` uses a good field type, but it is not DI. Move the `HiringProcess` parameter into the constructor.
 
 ---
 
 ## Pointers in this codebase
 
-- `creational/factory_method/HR.java` — DIP applied (field is the `HiringProcess` interface) + DI applied (constructor injection).
-- `creational/factory_method_basic/HR.java` — DIP only partially applied (field is `DeveloperHiringProcess`, the abstract class — an abstraction, but not the most abstract suitable one) + DI applied. Useful contrast — same DI mechanic, weaker DIP.
-- `creational/Factory.md` — discusses the migration that introduced DIP at the HR layer (change #5 in the transition).
+- `design_patterns/creational/factory/factory_method/playground/HR.java` — DIP applied: field type is `HiringProcess`; DI applied: constructor injection.
+- `design_patterns/creational/factory/factory_method_basic/playground/HR.java` — DI applied, but DIP is weaker: field type is `DeveloperHiringProcess`.
+- `design_patterns/creational/factory/index.md` — explains the migration that added `HiringProcess` above `DeveloperHiringProcess`.
 
 ---
 
@@ -331,10 +341,3 @@ A. When there is a real runtime choice, not just "give me this dependency."
 
 **Q. What is the one-line fix for `private final HiringProcess hp = new AndroidHiringProcess(...)`?**
 A. Accept `HiringProcess` in the constructor and assign it to the field.
-
----
-
-## Related topics
-
-- **SOLID — DIP** — this doc is the deep dive; the SOLID doc has the one-line summary.
-- **Pattern Selection Exercise** (`design_patterns/pattern_selection/index.md`) — Stage 3 of the practice path above is implemented there with Strategy/Registry/DI variants.

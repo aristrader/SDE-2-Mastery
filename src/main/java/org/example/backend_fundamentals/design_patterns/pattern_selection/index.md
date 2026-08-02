@@ -136,7 +136,14 @@ A keyed lookup of pre-built factories. HR is constructed once with the full map.
 
 ## Option 3 — Dependency Injection: framework-wired registry
 
+Option 3 is still a registry at runtime. The difference from Option 2 is that
+Spring creates and maintains the registry map for you.
+
 ```java
+public interface DeveloperHiringProcess {
+  Employee onboard();
+}
+
 @Service
 public class HR {
   private final Map<String, DeveloperHiringProcess> processes;
@@ -147,19 +154,82 @@ public class HR {
     this.processes = processes;
   }
 
-  public Employee hireForTeam(String beanName) {
-    return processes.get(beanName).onboard();
+  public Employee hireForTeam(String role) {
+    DeveloperHiringProcess process = processes.get(role);
+    if (process == null) {
+      throw new IllegalArgumentException("Unknown role: " + role);
+    }
+    return process.onboard();
   }
 }
 
-@Component("android") class AndroidHiringProcess extends DeveloperHiringProcess { ... }
-@Component("backend") class BackendHiringProcess extends DeveloperHiringProcess { ... }
-@Component("ios")     class IosHiringProcess     extends DeveloperHiringProcess { ... }
+@Component("android")
+public class AndroidHiringProcess implements DeveloperHiringProcess {
+  @Override
+  public Employee onboard() {
+    return new Employee("Android Developer");
+  }
+}
+
+@Component("backend")
+public class BackendHiringProcess implements DeveloperHiringProcess {
+  @Override
+  public Employee onboard() {
+    return new Employee("Backend Developer");
+  }
+}
+
+@Component("ios")
+public class IosHiringProcess implements DeveloperHiringProcess {
+  @Override
+  public Employee onboard() {
+    return new Employee("iOS Developer");
+  }
+}
 ```
 
 ### What it is
 
 A DI container (Spring, Guice, Micronaut, etc.) auto-assembles the registry from every bean that implements the interface.
+
+In Spring specifically, this constructor parameter is the trigger:
+
+```java
+public HR(Map<String, DeveloperHiringProcess> processes)
+```
+
+Spring reads that as:
+
+> Give `HR` a map of every bean whose type is `DeveloperHiringProcess`.
+
+The map key is the bean name:
+
+```java
+@Component("android") // map key = "android"
+```
+
+So Spring injects something equivalent to:
+
+```java
+Map.of(
+    "android", androidHiringProcessBean,
+    "backend", backendHiringProcessBean,
+    "ios", iosHiringProcessBean)
+```
+
+If you omit the explicit component name:
+
+```java
+@Component
+public class AndroidHiringProcess implements DeveloperHiringProcess { ... }
+```
+
+then Spring's default bean name is usually `androidHiringProcess`, so the map key changes too.
+
+That is why Option 2 and Option 3 look similar:
+
+- **Option 2:** you manually write the map.
+- **Option 3:** Spring writes the map from registered beans.
 
 ### Pros
 
@@ -187,6 +257,7 @@ A DI container (Spring, Guice, Micronaut, etc.) auto-assembles the registry from
 | --- | --- | --- | --- | --- |
 | Number of HR objects | One per type | **One total** | **One total** | **One total** |
 | Where the "which type?" choice lives | Caller that constructs HR | Caller that calls `hireForTeam` | HR (via map) | Framework + key at call time |
+| Who builds the lookup map? | Nobody | Nobody | Your code | Spring / DI container |
 | Has a type discriminator (enum/string)? | No | No | **Yes** | Yes (bean key) |
 | Open/Closed for adding a new type | Respected | Respected | **Partial** (map edit) | Respected |
 | Requires a framework | No | No | No | **Yes** |
@@ -202,7 +273,7 @@ A DI container (Spring, Guice, Micronaut, etc.) auto-assembles the registry from
 | HR binds to one process at construction | Plain **Factory Method** client *(current)* |
 | Caller passes the process per call | **Strategy Pattern** |
 | HR holds a `Map<Key, Factory>` | **Registry** / **Service Locator** |
-| Spring injects a `Map<String, Factory>` | **Dependency Injection** + "polymorphism by interface" |
+| Spring injects a `Map<String, Factory>` | **Dependency Injection** creating a framework-managed registry |
 
 Factory Method pushed the "which type?" question out of the *factory* and into the *subclass choice*. But someone, somewhere, still has to make that choice. These three options just move it around:
 
@@ -211,44 +282,6 @@ Factory Method pushed the "which type?" question out of the *factory* and into t
 - **DI**: framework resolves at wire-time from config/annotations.
 
 None of the three is strictly better &mdash; they sit on a spectrum from "compile-time wiring" to "runtime config-driven wiring."
-
----
-
-## Suggested exercises (this is the "project")
-
-Work through these in order. Each one is additive and shouldn't take more than an hour.
-
-### Exercise 1 — Implement Option 1 (Strategy)
-
-- [ ] Create package `design_patterns/creational/factory_method/strategy_variant/`.
-- [ ] Copy (don't move) `HR` and `FactoryMethodRun` into it.
-- [ ] Refactor `HR` so `hireForTeam` accepts the process as a parameter.
-- [ ] Update `FactoryMethodRun` to construct **one** HR and make three calls.
-- [ ] Observe: how much did the code shrink? What did the caller have to learn?
-
-### Exercise 2 — Implement Option 2 (Registry)
-
-- [ ] Create package `design_patterns/creational/factory_method/registry_variant/`.
-- [ ] Add a `Role` enum inside the package.
-- [ ] Build an `HR` that constructs a `Map<Role, DeveloperHiringProcess>` in its constructor.
-- [ ] Add a `hireForTeam(Role role)` method.
-- [ ] Add a new type (`WindowsDeveloper` + `WindowsHiringProcess`) and count how many files you had to edit to make it reachable from HR. Compare with Option 1.
-
-### Exercise 3 — Implement Option 3 (DI with Spring)
-
-- [ ] If the project already has Spring on the classpath, add `@Component("android")`, `@Component("backend")`, `@Component("ios")` to the existing concrete processes.
-- [ ] Annotate HR with `@Service` and constructor-inject `Map<String, DeveloperHiringProcess>`.
-- [ ] Write a small runner (`@SpringBootApplication` + `CommandLineRunner`) that calls `hr.hireForTeam("android")` and friends.
-- [ ] Add `@Component("windows")` on a new class. Do **not** edit HR. Run. It should just work.
-
-### Exercise 4 — Reflect and write up
-
-Answer these in your own notes (not code):
-
-- [ ] In each variant, what is the smallest possible change to add a `Windows` developer?
-- [ ] In each variant, where does the knowledge of the type set live?
-- [ ] In each variant, can two teams add their own developer types in parallel without conflicts?
-- [ ] If you were building a plugin system where third parties contribute hiring processes, which variant would you pick? Why?
 
 ---
 
@@ -265,26 +298,14 @@ Answer these in your own notes (not code):
 
 ---
 
-## Related patterns to learn around this
-
-These patterns cluster around the same concern and are worth picking up together:
-
-- [ ] **Strategy Pattern** &mdash; the canonical name for "pass the algorithm as a parameter". Structurally identical to Factory Method.
-- [ ] **Registry / Service Locator** &mdash; keyed lookup of pre-built objects. A form of Simple Factory sitting on top of multiple Factory Methods.
-- [ ] **Abstract Factory** &mdash; when you need *families* of related products, not just one. One step up from Factory Method.
-- [ ] **Chain of Responsibility** &mdash; when multiple handlers should each get a chance at the request. An alternative to Registry when order matters.
-- [ ] **Plugin / Extension Point** architecture &mdash; what you build on top of Registry or DI when you want third parties to contribute implementations.
-
----
-
 ## TL;DR
 
 - The "three HR objects" smell in the current Factory Method example is **not** a flaw in Factory Method &mdash; it's a different concern (orchestration) pretending to be part of the same lesson.
 - **One HR** is achievable in three ways: **Strategy** (pass per call), **Registry** (HR holds a map), **DI** (framework wires the map).
+- Option 2 and Option 3 both use a map. The difference is ownership: your code builds the Option 2 map; Spring builds the Option 3 map from beans.
 - Strategy ≈ Factory Method structurally; the difference is intent (*do* vs *create*).
 - Registry compromises OCP slightly; DI restores it fully at the cost of a framework.
 - In production Spring code, Option 3 (DI) wins. Without a framework, Option 2 (Registry) is the pragmatic next step.
-- This file is a **mini project** &mdash; work through the exercises and you'll have touched four patterns (Factory Method + Strategy + Registry + DI) on one concrete scenario. That's some of the highest ROI design-pattern practice you can do.
 
 ## Quick recall
 
@@ -297,18 +318,11 @@ A. Registry.
 **Q. If Spring injects `Map<String, Implementation>`, what is the design shape?**
 A. Dependency Injection plus polymorphism by interface.
 
+**Q. What makes Spring put values into that map?**
+A. The constructor asks for `Map<String, DeveloperHiringProcess>`, so Spring injects all `DeveloperHiringProcess` beans keyed by bean name.
+
 **Q. Is "one HR object" a Factory Method problem?**
 A. No. It is an orchestration/wiring concern around the factory method.
 
 **Q. Which option is usually best in production Spring code?**
 A. DI with constructor injection and framework-managed implementation lookup.
-
----
-
-## Related files
-
-- `design_patterns/creational/factory_method/` &mdash; the starting point (plain Factory Method).
-- `design_patterns/creational/simple_factory/` &mdash; Simple Factory, for contrast.
-- `design_patterns/creational/Factory.md` &mdash; Simple Factory vs Factory Method comparison.
-- `design_patterns/creational/CreationalPatternsRoadmap.md` &mdash; the overall learning sequence.
-- `design_patterns/todo/FoundationsToRead.md` &mdash; SOLID, abstract-vs-interface, OCP-in-practice.

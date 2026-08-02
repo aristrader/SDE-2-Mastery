@@ -80,11 +80,35 @@ In 2PC, the PREPARED state doesn't tell a participant whether the coordinator *i
 Modern systems avoid one giant distributed ACID transaction. A **Saga** is a sequence of **local** transactions, each with a **compensating action** that undoes it. On failure, run the compensations for the completed steps:
 
 ```text
-Create Order ✓  →  Reserve Inventory ✓  →  Charge Payment ✗
-Compensate:  Release Inventory,  Cancel Order
+Charge Card ✓  →  Reserve Inventory ✗
+Compensate:  Refund Payment
 ```
 
 Saga does **not** give instant consistency — it gives **eventual consistency**. The system passes through visible intermediate states, then converges.
+
+Compensation is a **business undo**, not a database rollback. A refund is visible to the customer. A cancellation email cannot unsend the previous email. That is the real trade-off: no cross-service locks, but every completed step needs a clear compensation story.
+
+### Choreography vs orchestration
+
+| Style | How it works | Fits |
+|---|---|---|
+| Choreography | services publish/listen to events; each service decides the next local action | small, linear flows with few steps |
+| Orchestration | one workflow/orchestrator commands each step and records progress | longer flows, branching, retries, visibility, tricky compensation |
+
+Choreography is simple at first:
+
+```text
+PaymentCharged event → Inventory tries reserve → InventoryFailed event → Payment refunds
+```
+
+But with many services, debugging means reconstructing state from logs/events. Orchestration keeps the workflow state in one place:
+
+```text
+Orchestrator: charge payment → reserve inventory → write ledger
+if inventory fails: refund payment
+```
+
+The orchestrator is not the same as a 2PC coordinator. If it crashes, it restarts from its durable workflow state. It does not leave remote database rows locked in `PREPARED`.
 
 ### When compensations themselves fail
 
@@ -101,6 +125,28 @@ A background worker loops: pick pending task → execute → mark complete, or r
 ### Saga via Kafka (choreography)
 
 Event-driven sagas: create order → publish event; inventory service consumes → publishes its event; payment service consumes. On payment failure, **compensation events** are published and order/inventory roll back via their own consumers. (This is *choreography* — no central orchestrator; each service reacts to events.)
+
+## Dual-write problem and transactional outbox
+
+Saga steps often need to do two things:
+
+1. write local state to the service database
+2. publish an event for the next step
+
+That is a **dual write**. If the DB commit succeeds but event publish fails, the saga stalls. If the event publishes but the DB write fails, downstream services react to something that did not commit.
+
+Transactional outbox fixes this by making the event part of the local DB transaction:
+
+```text
+BEGIN
+  update payment.status = CHARGED
+  insert into outbox_events(type='PaymentCharged', order_id=123)
+COMMIT
+
+publisher/CDC reads outbox_events → publishes to Kafka
+```
+
+The broker publish is still asynchronous and at-least-once, so consumers must be idempotent. But the local state change and the intent to publish commit atomically in one database.
 
 ## Kafka delivery semantics & idempotency
 
@@ -147,6 +193,12 @@ A. PRE-COMMIT tells participants commit was agreed, so they can time out and com
 
 **Q. What does Saga guarantee, and how does it handle compensation failure?**
 A. Eventual consistency via local transactions + compensating actions. Failed compensations are retried (pending state → worker → DLQ → human), and must be idempotent.
+
+**Q. Choreography vs orchestration saga — when does orchestration win?**
+A. When the flow has many steps, branching, operational visibility needs, or tricky compensation. The orchestrator stores workflow state and resumes after crashes without holding remote DB locks.
+
+**Q. What problem does transactional outbox solve?**
+A. Dual write: DB commit + event publish cannot be atomic if done separately. Outbox writes the event row in the same DB transaction; a publisher/CDC process emits it later.
 
 **Q. How do you get "exactly-once" in practice?**
 A. You usually don't — use at-least-once delivery + idempotent processing (dedup by id / idempotency keys) = effectively-once.

@@ -6,241 +6,325 @@ order: 20
 
 ---
 
-## What IoC actually is
+## Interview mental model
 
-**Inversion of Control** flips who is in charge. In traditional code, your class creates its dependencies. With IoC, the framework creates and wires everything — your code just declares what it needs.
+**IoC** means Spring controls object creation and wiring. Your class declares what it needs; Spring creates the objects and injects dependencies.
 
-> You don't call the framework. The framework calls you.
+**DI** is how IoC happens in code: constructor, setter, or field injection. Prefer constructor injection.
 
-**DI is the mechanism that implements IoC.** You declare dependencies (via constructor, field, or setter); the container resolves and injects them. The container also manages the full lifecycle — creation, wiring, init callbacks, and destruction.
+```java
+@Service
+public class OrderService {
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+```
+
+`OrderService` does not create `PaymentService`. Spring does.
+
+Why this matters in interviews: IoC is the big idea, DI is the coding technique, and the container is the runtime object that makes it happen.
 
 ---
 
-## ApplicationContext vs BeanFactory
+## Container object
 
-| | `BeanFactory` | `ApplicationContext` |
-|---|---|---|
-| Bean creation | Lazy — on first `getBean()` | Eager — all singletons at startup |
-| Events | No | Yes (`ApplicationEvent`, `@EventListener`) |
-| i18n | No | Yes (`MessageSource`) |
-| AOP support | Limited | Full (proxy creation via `BeanPostProcessor`) |
-| Environment / properties | No | Yes (`@Value`, `Environment`) |
-| Use in practice | Never directly | Always |
+Spring's container object is called `ApplicationContext`. It is responsible for finding bean definitions, creating bean instances, wiring dependencies, applying framework features like proxies, and managing lifecycle.
 
-`ApplicationContext` extends `BeanFactory`. In production code, always use `ApplicationContext` (or let Spring Boot wire it). `BeanFactory` is an internal interface — knowing it exists matters for interviews; using it directly does not.
+In Spring Boot, you normally do not declare or inject it. This line creates it:
 
-**Eager init at startup is a feature, not a problem.** A misconfigured bean blows up at startup, not on the first production request at 3 AM. This is the fail-fast principle.
+```java
+SpringApplication.run(App.class, args);
+```
 
-Common `ApplicationContext` implementations:
+`BeanFactory` is the lower-level parent abstraction behind this. Know the name for interviews, but real Spring Boot apps use `ApplicationContext`.
 
-- `AnnotationConfigApplicationContext` — standalone apps, annotation-based config
-- `AnnotationConfigServletWebServerApplicationContext` — Spring Boot web apps (created internally)
-- `ClassPathXmlApplicationContext` — legacy XML-based config (rarely seen post-2015)
+---
+
+## How beans get registered
+
+Spring can only inject objects it knows as beans.
+
+Use stereotype annotations for your app classes:
+
+```java
+@Service
+public class PaymentService {
+}
+
+@Repository
+public class OrderRepository {
+}
+```
+
+Use `@Bean` when the object is created by configuration code, often for third-party classes:
+
+```java
+@ConfigurationProperties(prefix = "payment")
+public record PaymentProperties(String provider, int timeoutMs) {
+}
+
+@Configuration
+public class PaymentConfig {
+    @Bean
+    public PaymentClient paymentClient(PaymentProperties properties) {
+        return new PaymentClient(properties.provider(), properties.timeoutMs());
+    }
+}
+```
+
+`PaymentProperties` is supplied from external config:
+
+```properties
+payment.provider=stripe
+payment.timeout-ms=3000
+```
+
+Spring binds those values into `PaymentProperties`, then injects that object into the `@Bean` method.
+
+For Spring to find standalone `@ConfigurationProperties` classes, add scanning on the main app:
+
+```java
+@SpringBootApplication
+@ConfigurationPropertiesScan
+public class App {
+}
+```
+
+Interview distinction:
+
+| Use | When |
+| --- | --- |
+| `@Component` / `@Service` / `@Repository` | You own the class and want component scanning to find it |
+| `@Bean` | You need custom construction logic or the class comes from a library |
+
+---
+
+## What happens at startup
+
+You do not need deep internals for interviews. Know this flow:
+
+1. Spring Boot creates the container.
+2. Component scanning finds annotated classes.
+3. Configuration classes contribute `@Bean` methods.
+4. Spring creates singleton beans by default.
+5. Spring resolves constructor dependencies and injects them.
+6. Bean post-processors apply features such as AOP/proxies.
+7. The app starts handling requests.
+
+Use case: if `OrderService` needs `PaymentService`, Spring must know both as beans before it can wire them.
 
 ---
 
 ## Bean scopes
 
-### singleton (default)
+| Scope | Meaning | Interview note |
+| --- | --- | --- |
+| `singleton` | One bean instance per `ApplicationContext` | Default. Keep services stateless. |
+| `prototype` | New instance whenever requested from Spring | Spring creates it but does not manage full destruction lifecycle. |
+| `request` | One instance per HTTP request | Web apps only. |
+| `session` | One instance per HTTP session | Web apps only. |
+| `application` | One instance per servlet context | Web apps only. |
 
-One instance per `ApplicationContext`. Every injection point and every `getBean()` call returns the same object.
+Most backend services are singleton beans:
 
 ```java
-@Component  // singleton by default
+@Service
 public class OrderService {
-    // same instance injected everywhere in this context
+    private int processedCount; // avoid this shared mutable state
 }
 ```
 
-**Shared state risk:** if you put mutable instance fields on a singleton bean, every thread hits the same object. Design singletons to be stateless or protect state with synchronization.
+That field is shared by all requests because there is one `OrderService` instance. Prefer local variables, method parameters, database state, or properly synchronized state.
 
-### prototype
+---
 
-A new instance is created every time the bean is requested — via injection or `getBean()`.
+## Scope mismatch
+
+If a singleton directly injects a prototype, the prototype is created once during singleton creation and then reused.
 
 ```java
 @Component
 @Scope("prototype")
 public class ReportGenerator {
-    // fresh instance per caller
 }
-```
 
-**Critical gotcha:** Spring creates prototype beans on demand but **does not manage their lifecycle after creation**. `@PreDestroy` is never called on prototype beans. If the bean holds resources (connections, file handles), the caller is responsible for cleanup.
-
-### request / session / application
-
-Web-only scopes. One bean per:
-
-- `request` — one per HTTP request; destroyed when the request completes
-- `session` — one per HTTP session; destroyed when the session expires
-- `application` — one per `ServletContext` (effectively a singleton across the web application)
-
-Declare with `@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)` — the `proxyMode` is required when injecting a short-lived scoped bean into a longer-lived one (e.g., request-scoped into a singleton).
-
----
-
-## Scope mismatch — the silent bug
-
-Injecting a `prototype` (or `request`-scoped) bean into a `singleton` bean:
-
-```java
-@Component  // singleton
+@Service
 public class OrderProcessor {
+    private final ReportGenerator generator;
 
-    @Autowired
-    private ReportGenerator generator;  // prototype — but you get the SAME one forever
+    public OrderProcessor(ReportGenerator generator) {
+        this.generator = generator;
+    }
 
     public void process(Order order) {
-        generator.generate(order);  // always the same ReportGenerator instance
+        generator.generate(order); // same instance every time
     }
 }
 ```
 
-The singleton is created once at startup, and Spring injects one `ReportGenerator` at that moment. Every subsequent call to `process()` uses **that same instance** — prototype semantics are lost.
-
-**Fix 1 — inject `ApplicationContext`, call `getBean()` each time:**
+Fix: inject `ObjectProvider<ReportGenerator>` and ask for a fresh object when needed.
 
 ```java
-@Component
+@Service
 public class OrderProcessor {
+    private final ObjectProvider<ReportGenerator> generators;
 
-    @Autowired
-    private ApplicationContext ctx;
+    public OrderProcessor(ObjectProvider<ReportGenerator> generators) {
+        this.generators = generators;
+    }
 
     public void process(Order order) {
-        ReportGenerator generator = ctx.getBean(ReportGenerator.class);  // fresh each time
+        ReportGenerator generator = generators.getObject();
         generator.generate(order);
     }
 }
 ```
 
-**Fix 2 — `@Lookup` method injection (cleaner, Spring-managed):**
+For request/session beans injected into singletons, use a scoped proxy:
 
 ```java
 @Component
-public abstract class OrderProcessor {
-
-    public void process(Order order) {
-        ReportGenerator generator = createGenerator();
-        generator.generate(order);
-    }
-
-    @Lookup
-    protected abstract ReportGenerator createGenerator();  // Spring overrides this at runtime
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class RequestContext {
 }
 ```
 
-Spring subclasses `OrderProcessor` at runtime and overrides `createGenerator()` to call `getBean()` internally. The class must be non-final; the method must be non-final and non-private.
+Spring injects a proxy into the singleton. The proxy resolves the real request-scoped object for the current HTTP request.
 
 ---
 
-## BeanDefinitionRegistry and component scanning
+## Component scanning
 
-Before the `ApplicationContext` can create any beans, it builds a registry of `BeanDefinition` objects — one per bean. A `BeanDefinition` describes how to create the bean: class name, scope, constructor arguments, property values, init/destroy method names, and lazy-init flag. No instantiation happens yet — this is pure metadata.
+Spring finds beans through component scanning:
 
-`BeanDefinitionRegistry` is the interface through which `BeanDefinition`s are registered; `DefaultListableBeanFactory` implements it. You rarely interact with it directly, but it underlies `@ComponentScan`, XML config, and `@Bean` methods — they all register `BeanDefinition`s into the registry.
+```java
+@Component
+public class PaymentService {
+}
+```
 
-### `@ComponentScan` — base package resolution
+With Spring Boot:
 
 ```java
 @SpringBootApplication  // placed in com.example.myapp
-public class MyApp { }
+public class App {
+}
 ```
 
-`@ComponentScan` with no explicit `basePackages` scans **the package of the annotated class and all its sub-packages**. This is why Spring Boot apps place their main class at the top-level package (`com.example.myapp`) — everything underneath gets scanned automatically.
-
-If the main class sits in `com.example.myapp.config` without `basePackages`, components in `com.example.myapp.service` are missed. Set `basePackages` explicitly when the main class is not at the root package.
+Spring scans `com.example.myapp` and all subpackages. Put the main class at the root package.
 
 ```java
-@ComponentScan(basePackages = "com.example.myapp")   // explicit, safe
+com.example.myapp.App
+com.example.myapp.service.PaymentService
+com.example.myapp.repository.OrderRepository
+```
+
+If the main class is in the wrong package, Spring may not find your beans.
+
+Fix by moving `App` to the root package or by setting an explicit scan base package:
+
+```java
+@SpringBootApplication(scanBasePackages = "com.example.myapp")
+public class App {
+}
 ```
 
 ---
 
-## Environment abstraction — profiles and properties
+## Properties and profiles
 
-The `Environment` abstraction (`org.springframework.core.env.Environment`) provides unified access to:
-
-- **Properties** — from `application.properties`, `application.yml`, system properties, environment variables, and custom `PropertySource` implementations. Injected via `@Value("${some.property}")` or `environment.getProperty("some.property")`.
-- **Profiles** — named sets of beans/config. Activate with `spring.profiles.active=prod`. Beans annotated `@Profile("prod")` are only registered when that profile is active.
+Use `@Value` for a single property:
 
 ```java
-@Component
-public class DataSourceConfig {
-
-    @Autowired
-    private Environment env;
-
-    public String getDbUrl() {
-        return env.getProperty("spring.datasource.url");  // resolves across all PropertySources
-    }
-}
-
-@Bean
-@Profile("prod")                    // registered only when prod profile is active
-public DataSource prodDataSource() { ... }
-
-@Bean
-@Profile("!prod")                   // registered in every non-prod profile
-public DataSource devDataSource() { ... }
+@Value("${payment.timeout-ms}")
+private int paymentTimeoutMs;
 ```
 
-`ApplicationContext` extends `EnvironmentCapable`, so it exposes `getEnvironment()`. `BeanFactory` does not — one of the concrete advantages of `ApplicationContext` over the raw `BeanFactory`.
+Use `@ConfigurationProperties` for grouped config:
+
+```java
+@ConfigurationProperties(prefix = "payment")
+public record PaymentProperties(String provider, int timeoutMs) {
+}
+```
+
+This maps config like:
+
+```properties
+payment.provider=stripe
+payment.timeout-ms=3000
+```
+
+Use `@Profile` to load beans only in certain environments:
+
+```java
+@Bean
+@Profile("prod")
+public PaymentClient realPaymentClient() { ... }
+```
+
+Activate a profile with:
+
+```properties
+spring.profiles.active=prod
+```
+
+Spring's underlying abstraction for this is `Environment`, but direct `Environment` injection is not the default app-code pattern.
 
 ---
 
 ## Eager vs lazy initialization
 
-**Eager (default for singletons):** all singleton beans are instantiated when the `ApplicationContext` starts.
+Singleton beans are eager by default:
 
-- Pro: misconfigured beans fail at startup, not in production under load
-- Pro: no first-request latency spike
-- Con: slower startup (matters for serverless / CLI tools)
+- startup is slower
+- wiring errors fail fast
+- first request does not pay bean creation cost
 
-**Lazy (`@Lazy`):** bean is created on first use.
+`@Lazy` creates a bean only when first needed:
 
 ```java
-@Component
+@Service
 @Lazy
-public class HeavyReportingService {
-    // instantiated only when first injected or requested
+public class HeavyReportService {
 }
 ```
 
-- Pro: faster startup, saves memory if the bean is rarely used
-- Con: config errors surface at runtime, not startup; first caller pays the init cost
-
-`@Lazy` on a `@Configuration` class makes all `@Bean` methods in that class lazy. `@Lazy` at an injection point defers resolution even if the target bean is normally eager.
+Use `@Lazy` sparingly. It can hide startup errors until runtime.
 
 ---
 
 ## Quick recall
 
-**Q. What is IoC and how does DI implement it?**
-A. IoC: framework controls object creation and wiring, not your code. DI: you declare dependencies; the container injects them — that's how IoC is achieved.
+**Q. What creates the Spring container in Boot?**
+A. `SpringApplication.run(...)`.
 
-**Q. ApplicationContext vs BeanFactory — which do you use and why?**
-A. Always `ApplicationContext`. It adds eager singleton init (fail-fast), events, AOP, and property resolution on top of `BeanFactory`'s lazy baseline.
+**Q. What is `ApplicationContext`?**
+A. Spring's main container object. It creates beans and wires dependencies.
 
-**Q. What is the scope mismatch problem?**
-A. Injecting a prototype (or request-scoped) bean into a singleton — the singleton captures one instance at startup; prototype semantics are lost. Fix with `ApplicationContext.getBean()` or `@Lookup`.
+**Q. What should most services use instead of `ApplicationContext.getBean()`?**
+A. Constructor injection.
 
-**Q. What does Spring NOT do for prototype beans that it does for singletons?**
-A. `@PreDestroy` is never called on prototype beans — Spring hands them off and forgets them. Caller is responsible for cleanup.
+**Q. `@Component` / `@Service` vs `@Bean`?**
+A. Use stereotypes for classes you own; use `@Bean` for custom construction or third-party classes.
 
-**Q. Why is eager singleton init called "fail-fast"?**
-A. Misconfigured beans blow up at startup before any traffic hits, rather than failing on the first production request.
+**Q. Which scope is default?**
+A. `singleton`.
 
-**Q. When would you use `@Lazy`?**
-A. Slow-starting beans that are rarely needed (CLI tools, seldom-used services), or to break certain circular dependency situations — but prefer redesigning over using `@Lazy` as a band-aid.
+**Q. Why keep singleton services stateless?**
+A. One instance is shared by many threads.
 
-**Q. What does `@ComponentScan` scan when no `basePackages` is specified?**
-A. The package of the annotated class and all sub-packages. Place the main class at the root package so everything underneath is covered.
+**Q. How do you get a fresh prototype from a singleton?**
+A. Inject `ObjectProvider<PrototypeBean>` and call `getObject()`.
 
-**Q. What is a `BeanDefinition` and when is it created?**
-A. Metadata describing how to create a bean (class, scope, init method, etc.). Created during context refresh before any bean is instantiated — the registry is built first, then instantiation follows.
+**Q. `@Value` vs `@ConfigurationProperties`?**
+A. `@Value` for one property; `@ConfigurationProperties` for grouped config.
 
-**Q. What does the `Environment` abstraction unify?**
-A. Properties (from files, system env, CLI args) and profiles. `@Value`, `@Profile`, and `environment.getProperty()` all go through it. Available on `ApplicationContext` but not on raw `BeanFactory`.
+**Q. What registers standalone `@ConfigurationProperties` classes?**
+A. `@ConfigurationPropertiesScan` on the main app, or `@EnableConfigurationProperties(SomeProperties.class)` for explicit registration.
 
+**Q. Why is eager singleton initialization useful?**
+A. It catches wiring/config errors at startup instead of during the first request.

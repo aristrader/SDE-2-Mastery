@@ -6,297 +6,358 @@ order: 10
 
 ---
 
-## The three injection styles
+## Core idea
 
-### Constructor injection
+Dependency Injection means a class declares the collaborators it needs, and Spring supplies them.
 
 ```java
 @Service
 public class OrderService {
-
     private final PaymentGateway paymentGateway;
-    private final NotificationService notificationService;
 
-    // @Autowired optional since Spring 4.3 when there's a single constructor
-    public OrderService(PaymentGateway paymentGateway, NotificationService notificationService) {
+    public OrderService(PaymentGateway paymentGateway) {
         this.paymentGateway = paymentGateway;
-        this.notificationService = notificationService;
     }
 }
 ```
 
-### Field injection
+`OrderService` does not create `PaymentGateway`. That keeps object creation outside the business class and makes the dependency visible.
+
+---
+
+## Constructor injection
+
+Use constructor injection for required dependencies.
 
 ```java
 @Service
-public class OrderService {
+public class KycVerificationService {
+    private final UserRepository userRepository;
+    private final DocumentValidator documentValidator;
 
-    @Autowired
-    private PaymentGateway paymentGateway;
-
-    @Autowired
-    private NotificationService notificationService;
+    public KycVerificationService(
+            UserRepository userRepository,
+            DocumentValidator documentValidator) {
+        this.userRepository = userRepository;
+        this.documentValidator = documentValidator;
+    }
 }
 ```
 
-### Setter injection
+Why interviewers prefer this:
+
+- Required dependencies are visible in one place.
+- Fields can be `final`.
+- The object is fully initialized after construction.
+- Unit tests can use plain Java: `new KycVerificationService(repo, validator)`.
+- A long constructor exposes a design smell: the class may be doing too much.
+
+Since Spring 4.3, `@Autowired` is optional when the class has exactly one constructor.
+
+With Lombok, the common production style is:
+
+```java
+@Service
+@RequiredArgsConstructor
+public class KycVerificationService {
+    private final UserRepository userRepository;
+    private final DocumentValidator documentValidator;
+}
+```
+
+Gotcha: `@RequiredArgsConstructor` only includes `final` fields and `@NonNull` fields. If a dependency is not `final`, Lombok will not put it in the constructor.
+
+---
+
+## Field injection
+
+Field injection works in a running Spring app, but avoid it in application code.
 
 ```java
 @Service
 public class OrderService {
-
+    @Autowired
     private PaymentGateway paymentGateway;
+}
+```
+
+Problems:
+
+- Dependencies are hidden across fields.
+- Fields cannot be `final`.
+- Plain unit tests cannot construct the object correctly without Spring or reflection.
+- A class with many dependencies does not look painful until runtime or refactoring.
+
+Use this only in legacy code or tiny examples where testability is not the point.
+
+---
+
+## Setter injection
+
+Use setter injection only for optional dependencies or rare lifecycle/circular-dependency workarounds.
+
+```java
+@Service
+public class ReportService {
     private NotificationService notificationService;
 
-    @Autowired
-    public void setPaymentGateway(PaymentGateway paymentGateway) {
-        this.paymentGateway = paymentGateway;
-    }
-
-    @Autowired(required = false)  // marks dependency as optional
+    @Autowired(required = false)
     public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 }
 ```
 
----
+If the bean is missing, Spring skips the setter. The field remains `null`, so the code must handle that.
 
-## Why constructor injection wins
-
-**1. Mandatory dependencies explicit at compile time.**
-If `PaymentGateway` is missing, the code won't compile. With field injection, the compiler is silent — the NPE shows up at runtime, possibly deep inside a call chain.
-
-**2. Object is always fully initialized.**
-By the time the constructor returns, all dependencies are set. No window where a half-constructed bean is visible to another thread.
-
-**3. `final` fields — immutability.**
-Constructor-injected fields can be `final`. Immutability eliminates entire classes of threading bugs and is the recommended style for service-layer beans that should be stateless.
-
-**4. Testable without Spring.**
-```java
-// No Spring context needed — pure unit test
-OrderService service = new OrderService(mockPaymentGateway, mockNotificationService);
-```
-Field-injected classes require a Spring context or reflection-based test helpers (`ReflectionTestUtils`) to inject mocks. Constructor injection collapses this to a plain `new`.
-
-**5. Spring itself recommends it since 4.3.**
-The Spring team deprecated field injection in their own documentation. Single-constructor classes no longer need `@Autowired` — Spring detects and uses the only constructor automatically.
+For optional dependencies, `ObjectProvider<T>` is usually cleaner because it still works with constructor injection.
 
 ---
 
-## Why field injection is problematic
+## Multiple beans of same type
 
-- **Breaks immutability** — fields cannot be `final`.
-- **Hides dependencies** — a class with 8 `@Autowired` fields doesn't advertise its coupling. A constructor with 8 parameters screams "this class is doing too much" — which is the right signal.
-- **Can't unit-test without Spring** — no way to inject mocks through the public API; must use reflection.
-- **`@Autowired` on a `final` field is a compile error** — Spring cannot set a `final` field after construction; it will refuse.
-- Widely considered a code smell in contemporary Spring codebases.
-
----
-
-## When setter injection is legitimate
-
-Setter injection is appropriate in two narrow cases:
-
-1. **Optional dependencies.** `@Autowired(required = false)` on a setter — the setter is only called if the bean exists. Check for null before use.
-2. **Circular dependency as a last resort.** If two beans each require the other at construction time, one side can use setter injection so Spring can first instantiate both, then wire the setter. This is a design smell — prefer breaking the cycle with an intermediate service or event.
-
----
-
-## @Autowired resolution order
-
-When Spring resolves an `@Autowired` injection point it applies these rules in order: 40. **By type** — find all beans assignable to the declared type. If exactly one, done.
-2. **`@Qualifier`** — if the injection point carries `@Qualifier("name")`, filter candidates to that specific bean name or qualifier. Overrides everything else.
-3. **`@Primary`** — if multiple candidates remain and no `@Qualifier` was given, the bean marked `@Primary` wins.
-4. **By name** — last resort: if still multiple candidates, match the field/parameter name against bean names.
-
-If none of these produces exactly one candidate: `NoUniqueBeanDefinitionException`.
+If two beans implement the same interface, Spring needs help choosing one.
 
 ```java
-@Autowired
-@Qualifier("stripeGateway")
-private PaymentGateway paymentGateway;  // ignores all other PaymentGateway beans
+public interface PaymentGateway {
+    void charge(Order order);
+}
+
+@Component("stripeGateway")
+public class StripeGateway implements PaymentGateway { ... }
+
+@Component("razorpayGateway")
+public class RazorpayGateway implements PaymentGateway { ... }
 ```
 
-> Common interview trap: the order is often misquoted as "type → name → Qualifier → Primary". The correct order puts `@Qualifier` before `@Primary`, and name-matching is the fallback of last resort, not step 2.
+This injection is ambiguous:
+
+```java
+@Service
+public class CheckoutService {
+    private final PaymentGateway paymentGateway;
+
+    public CheckoutService(PaymentGateway paymentGateway) {
+        this.paymentGateway = paymentGateway;
+    }
+}
+```
+
+Spring sees two possible `PaymentGateway` beans and cannot know whether checkout should use Stripe or Razorpay.
+
+Use `@Qualifier` when the injection point needs a specific bean:
+
+```java
+@Service
+public class CheckoutService {
+    private final PaymentGateway paymentGateway;
+
+    public CheckoutService(@Qualifier("stripeGateway") PaymentGateway paymentGateway) {
+        this.paymentGateway = paymentGateway;
+    }
+}
+```
+
+Use `@Primary` when one implementation should be the default:
+
+```java
+@Primary
+@Component
+public class StripeGateway implements PaymentGateway { ... }
+```
+
+Then this works because `StripeGateway` is the default:
+
+```java
+public CheckoutService(PaymentGateway paymentGateway) {
+    this.paymentGateway = paymentGateway;
+}
+```
+
+You do not need `@Qualifier` or `@Primary` when there is only one bean of that type:
+
+```java
+@Component
+public class StripeGateway implements PaymentGateway { ... }
+
+@Service
+public class CheckoutService {
+    public CheckoutService(PaymentGateway paymentGateway) {
+        // only one PaymentGateway exists, so Spring injects StripeGateway
+    }
+}
+```
+
+You also usually do not put `@Qualifier` on the main service when the choice is runtime data. Example: if each order says which gateway to use, checkout should not hard-code Stripe in its constructor. Use a resolver instead.
+
+Interview line: Spring first resolves by type. If more than one candidate exists, `@Qualifier` is explicit; `@Primary` is the default fallback. If ambiguity remains, Spring may try matching the parameter/field name; if it still cannot choose exactly one, startup fails.
 
 ---
 
-## ObjectProvider — lazy and optional injection
+## Injecting all implementations
 
-`ObjectProvider<T>` is Spring's preferred way to inject a bean lazily or optionally without a full `ApplicationContext` reference.
+When runtime selection is needed, inject a collection or map.
+
+```java
+@Service
+public class PaymentGatewayResolver {
+    private final Map<String, PaymentGateway> gateways;
+
+    public PaymentGatewayResolver(Map<String, PaymentGateway> gateways) {
+        this.gateways = gateways;
+    }
+
+    public PaymentGateway forName(String name) {
+        PaymentGateway gateway = gateways.get(name);
+        if (gateway == null) {
+            throw new IllegalArgumentException("Unsupported gateway: " + name);
+        }
+        return gateway;
+    }
+}
+```
+
+Spring injects all `PaymentGateway` beans into the map, keyed by bean name:
+
+```text
+stripeGateway -> StripeGateway
+razorpayGateway -> RazorpayGateway
+```
+
+This is useful for Strategy/registry-style code.
+
+Usage:
+
+```java
+@Service
+public class CheckoutService {
+    private final PaymentGatewayResolver gatewayResolver;
+
+    public CheckoutService(PaymentGatewayResolver gatewayResolver) {
+        this.gatewayResolver = gatewayResolver;
+    }
+
+    public void checkout(Order order) {
+        PaymentGateway gateway = gatewayResolver.forName(order.paymentGatewayName());
+        gateway.charge(order);
+    }
+}
+```
+
+Here `CheckoutService` does not need `@Qualifier`, because it does not want one fixed implementation. It asks the resolver at runtime.
+
+Rule of thumb:
+
+| Situation | Use |
+| --- | --- |
+| Only one implementation exists | Plain constructor injection |
+| One implementation should be the app-wide default | `@Primary` |
+| This class always needs one specific implementation | `@Qualifier` |
+| Request/order/user data decides implementation at runtime | Resolver with `Map<String, T>` |
+
+---
+
+## ObjectProvider
+
+Use `ObjectProvider<T>` when a dependency is optional, lazy, or should be requested fresh each time.
 
 ```java
 @Service
 public class ReportService {
+    private final ObjectProvider<AuditLogger> auditLogger;
 
-    private final ObjectProvider<HeavyAuditLogger> auditLoggerProvider;
-
-    public ReportService(ObjectProvider<HeavyAuditLogger> auditLoggerProvider) {
-        this.auditLoggerProvider = auditLoggerProvider;
+    public ReportService(ObjectProvider<AuditLogger> auditLogger) {
+        this.auditLogger = auditLogger;
     }
 
     public void generate() {
-        // resolved on first call, not at construction time
-        auditLoggerProvider.ifAvailable(logger -> logger.log("report generated"));
+        auditLogger.ifAvailable(logger -> logger.log("report generated"));
     }
 }
 ```
 
-Key methods:
-- `getObject()` — resolves now; throws if none exists (like `getBean()`)
-- `getIfAvailable()` — returns `null` if no bean exists; never throws
-- `getIfUnique()` — returns `null` if zero or more than one candidate
-- `ifAvailable(Consumer<T>)` — run the lambda only if a bean exists
+Common methods:
 
-Use `ObjectProvider` in preference to `@Autowired(required = false)` on a field — it's explicit about optionality and works with constructor injection, preserving immutability.
+| Method | Meaning |
+| --- | --- |
+| `getObject()` | Resolve now; fail if missing |
+| `getIfAvailable()` | Return bean or `null` |
+| `ifAvailable(...)` | Run only if bean exists |
+
+Use case: optional integrations, expensive/lazy collaborators, or prototype beans needed from a singleton.
 
 ---
 
-## Circular dependency
+## Circular dependencies
 
-### With constructor injection — fails fast
+Constructor cycles fail at startup:
 
-```
-BeanA depends on BeanB (via constructor)
-BeanB depends on BeanA (via constructor)
-→ BeanCurrentlyInCreationException at startup
+```text
+ServiceA -> ServiceB -> ServiceA
 ```
 
-Spring cannot construct `BeanA` without `BeanB`, nor `BeanB` without `BeanA`. It detects the cycle and throws immediately. This is the right outcome — circular dependencies are a design flaw and you want to know at startup.
+That is usually good. It exposes a design problem early.
 
-### With field injection — masked at runtime
+Bad quick fixes:
 
-Spring resolves field-injected circular dependencies by creating one bean without its dependencies first (leaving fields null), injecting the partially-constructed proxy into the other bean, then backfilling. The beans "work" at runtime but:
+- `@Lazy` on one constructor parameter
+- setter injection on one side
 
-- One bean is momentarily in an inconsistent state during wiring.
-- The cycle is hidden — it won't be caught until you switch to constructor injection.
-- It can interact badly with AOP proxies.
+They can unblock wiring, but they do not fix the design. The better fix is usually to extract the shared responsibility into a third service or publish an event instead of calling back directly.
 
-### Breaking a constructor circular dep without redesigning
-
-If a redesign is not immediately possible, two escape hatches exist:
-
-**Option 1 — setter injection on one side.** Convert one side's dependency to a setter. Spring constructs both beans first, then wires the setter, so the cycle no longer blocks instantiation.
-
-**Option 2 — `@Lazy` on one constructor parameter.** Spring injects a CGLIB proxy placeholder; the real bean is resolved on first method call.
+Example temporary workaround:
 
 ```java
 @Service
-public class BeanA {
-    private final BeanB beanB;
+public class OrderService {
+    private final PaymentService paymentService;
 
-    public BeanA(@Lazy BeanB beanB) {   // Spring injects a proxy; BeanB resolves lazily
-        this.beanB = beanB;
+    public OrderService(@Lazy PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 }
 ```
 
-Both options are workarounds that hide a coupling problem. **The right fix is to redesign.** Common patterns: introduce a third service both depend on, use `ApplicationEvent` to decouple, or restructure responsibilities so the cycle cannot exist.
+`@Lazy` makes Spring inject a proxy first and resolve the real `PaymentService` later. This is okay only as a temporary legacy workaround when refactoring immediately is risky and the cycle is understood. It should not be the final design.
+
+When it is acceptable:
+
+- Legacy code where a direct refactor would be risky right now.
+- A short-lived migration step while extracting a third service or event.
+- Framework integration code where lifecycle ordering is genuinely constrained.
+
+In normal application design, circular dependencies are not okay. They usually mean two services own mixed responsibilities.
 
 ---
 
 ## Quick recall
 
-**Q. Why can't you unit-test a field-injected class without Spring?**
-A. There's no API to set the dependencies — they're private fields with no constructor or setter. You'd need `ReflectionTestUtils` or a Spring test context.
+**Q. Which injection style should you prefer?**
+A. Constructor injection.
 
-**Q. What is the `@Autowired` resolution order?**
-A. Type → `@Qualifier` → `@Primary` → name (by field/parameter name). `@Qualifier` beats `@Primary`; name-match is the last resort. Ambiguity throws `NoUniqueBeanDefinitionException`.
+**Q. Why is field injection discouraged?**
+A. Hidden dependencies, no `final`, harder plain unit tests.
 
-**Q. Constructor injection and `final` — what's the connection?**
-A. Constructor-injected fields can be declared `final`, enforcing immutability. Field-injected fields cannot be `final` — Spring sets them after construction via reflection.
+**Q. Lombok `@RequiredArgsConstructor` gotcha?**
+A. It only includes `final` and `@NonNull` fields. Non-final dependencies are skipped.
 
-**Q. When does a circular dependency become a `BeanCurrentlyInCreationException`?**
-A. Only with constructor injection. Spring detects it at startup and fails immediately. Field injection masks cycles by wiring partially-constructed beans.
+**Q. When is setter injection acceptable?**
+A. Optional dependency, or rare temporary workaround for a circular dependency.
 
-**Q. What is the legitimate use case for setter injection?**
-A. Optional dependencies (`@Autowired(required = false)`) and, as a last resort, breaking circular dependencies — though the real fix is redesigning to remove the cycle.
+**Q. What if two beans implement the same interface?**
+A. Use `@Qualifier` for explicit choice or `@Primary` for default choice.
 
-**Q. Since when is `@Autowired` optional on a constructor?**
-A. Since Spring 4.3 — when a class has exactly one constructor, Spring autowires it automatically without the annotation.
+**Q. How do you inject all implementations of an interface?**
+A. Use `List<T>` or `Map<String, T>`; map keys are bean names.
 
-**Q. What is `ObjectProvider<T>` and when do you use it?**
-A. A Spring wrapper for lazy or optional injection. Use `getIfAvailable()` / `ifAvailable()` when the dependency may not exist, instead of `@Autowired(required = false)` on a field — compatible with constructor injection.
+**Q. When is `@Qualifier` not the right tool?**
+A. When the implementation is chosen at runtime; inject a resolver backed by `Map<String, T>` instead.
 
-**Q. How does `@Lazy` break a constructor circular dependency?**
-A. Spring injects a CGLIB proxy instead of the real bean at construction time. The real bean is resolved on the first method call. It's a workaround — prefer redesigning to remove the cycle.
+**Q. What is `ObjectProvider` for?**
+A. Lazy, optional, or fresh-per-call dependency lookup without injecting `ApplicationContext`.
 
+**Q. What does a constructor circular dependency usually mean?**
+A. The design is coupled incorrectly; extract a third responsibility or use events.
 
-
-## Why this matters
-Constructor injection is the Spring team's recommended wiring style for exactly the reasons you hit on a KYC platform: services have 5-8 mandatory dependencies, and field injection hides them all. Getting this pattern into muscle memory means you never write an untestable service again — every dependency is visible at the call site, and unit tests spin up in milliseconds with no Spring context.
-
----
-
-## Domain model
-
-```java
-// The collaborators a real KYC service would depend on.
-// You'll wire these in the exercises below.
-
-public interface UserRepository {
-    Optional<User> findById(String userId);
-}
-
-public interface DocumentValidator {
-    boolean validate(String documentType, byte[] content);
-}
-
-// Optional collaborator — may not be configured in all environments.
-public interface NotificationService {
-    void sendAlert(String userId, String message);
-}
-```
-
-## Circular dependency — what happens and how to fix it
-
-If `ServiceA` requires `ServiceB` in its constructor and `ServiceB` requires `ServiceA`, Spring fails at startup with `BeanCurrentlyInCreationException` — caught eagerly at boot, not at first use. A feature, not a bug.
-
-Two fixes:
-1. **`@Lazy` on one constructor parameter** — Spring injects a proxy and resolves the real bean only on first call.
-2. **Convert one dependency to setter injection** — break the cycle by wiring one collaborator after construction.
-
-The cleaner long-term fix is to refactor: extract a third component both services depend on instead of depending on each other.
-
-## Practice recall
-
-**Q.** Why pair `@RequiredArgsConstructor` with `final` fields?
-**A.** Lombok only generates the constructor for `final` (and `@NonNull`) fields — non-final fields are silently excluded and will be `null`.
-
-**Q.** Since Spring 4.3, when can you omit `@Autowired` on a constructor?
-**A.** When the class has exactly one constructor — Spring injects it automatically.
-
-**Q.** How does Spring inject constructor dependencies — does it use reflection on private fields?
-**A.** No. Spring calls the constructor directly. Dependencies become `final` the moment the constructor returns; there is no reflective field-writing after the fact.
-
-**Q.** What are the two benefits of declaring injected fields `final`?
-**A.** Immutability (the field can never be reassigned) and testability (you can construct the object in plain Java with `new Service(dep1, dep2)`).
-
-**Q.** What exception does Spring throw for a circular constructor dependency, and when?
-**A.** `BeanCurrentlyInCreationException`, thrown at application startup — not at first use.
-
-**Q.** How do you break a constructor-injection circular dependency?
-**A.** Add `@Lazy` to one constructor parameter (Spring injects a proxy), or convert one side to setter injection. The root fix is to refactor the cycle away entirely.
-
-**Q.** What is the main testability advantage of constructor injection over field injection?
-**A.** You can instantiate the class in plain Java (`new Service(dep1, dep2)`) with no Spring context or reflection tricks.
-
-**Q.** When is setter injection appropriate instead of constructor injection?
-**A.** For genuinely optional dependencies where the service must function even when the collaborator is absent.
-
-**Q.** If two beans implement the same interface, how does Spring decide which to inject?
-**A.** It prefers the `@Primary` bean; use `@Qualifier("beanName")` at the injection point to override that default.
-
-
-## Common Gotchas
-
-- `@RequiredArgsConstructor` only generates a constructor for `final` and `@NonNull` fields. Non-final fields are silently skipped — they will be `null` at runtime. Always pair `@RequiredArgsConstructor` with `final`.
-- A plain Java test of a constructor-injected service needs no Spring extension: instantiate fake collaborators and call `new KycVerificationService(repo, validator)`.
-- The same test shape does not work for field injection. Private fields have no constructor API, and the default no-arg constructor leaves them null unless Spring or reflection sets them.
-- With field injection (Exercise 3 below) you cannot do this — you'd need Mockito's `@InjectMocks` or a Spring test context. Constructor injection removes that dependency entirely.
-- Field injection works fine in a running Spring app — the cost is purely testability and an obscured dependency graph. The pain surfaces during refactoring and onboarding, not in greenfield happy-path code.
-- `@Autowired(required = false)` means Spring skips injection if no bean of that type exists — it does NOT mean the field gets a default. The field starts `null` and stays `null` if nothing is wired. Always null-check before use.
-- Optional collaborators can be setter-injected or wrapped in `ObjectProvider<T>`. Guard calls like `if (notificationService != null) { ... }` when using nullable setter injection.
-- The `@Qualifier` value defaults to the bean name, which defaults to the uncapitalised class name (`aiDocumentValidator`). Rename the class and the qualifier breaks silently at startup. Prefer a named constant or explicit `@Component("name")` to avoid this fragility.
+**Q. When is a circular dependency workaround acceptable?**
+A. Temporarily in legacy/migration code, with a plan to remove it. It should not be the final design.

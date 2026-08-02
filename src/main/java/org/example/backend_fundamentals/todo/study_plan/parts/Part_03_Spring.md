@@ -6,25 +6,25 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | IoC container, beans, scopes (singleton, prototype, request, session) | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_core/ioc_container/index.md` |
-| 2 | Dependency injection — constructor vs field vs setter | 🔴 💼 | L | 50 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_core/dependency_injection/index.md` · 💻 Warm-up: constructor injection + @Configuration with one @Bean (20 min) |
-| 3 | Bean lifecycle — @PostConstruct, @PreDestroy, BeanPostProcessor | 🔴 💼 | M | 1 hr 20 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_core/bean_lifecycle/index.md` · 💻 Warm-up: bean with @PostConstruct + @PreDestroy log + custom BeanPostProcessor that logs each bean (20 min) |
-| 4 | Auto-configuration — how it actually works (@EnableAutoConfiguration, conditions) | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring_boot/auto_configuration/index.md` |
-| 5 | Starter ecosystem | 🔴 💼 | M | 1 hr 15 min | [ ] | [ ] | [ ] | [ ] | | 📖 `spring_boot/starters/index.md` · 💻 Warm-up: Spring Boot app from scratch — main class + @RestController + curl hit (30 min) |
-| 6 | Actuator — health, info, metrics, env, custom endpoints | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring_boot/actuator/index.md` |
-| 7 | MVC — DispatcherServlet, handler mapping, controller, view resolution | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_web/mvc/index.md` |
-| 8 | REST — @RestController, @RequestBody, @PathVariable, validation | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_web/rest/index.md` · 💻 Warm-up: @RequestBody with @Valid + @NotBlank / @Email + custom @Constraint annotation (15 min) |
-| 9 | Exception handling — @ExceptionHandler, @ControllerAdvice, ResponseEntity | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_web/exception_handling/index.md` |
-| 10 | Repository hierarchy — CrudRepository, JpaRepository | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_data/jpa_repository/index.md` · 💻 Warm-up: @Entity + JpaRepository + REST CRUD endpoints, test with curl (30 min) |
-| 11 | Derived queries, @Query (JPQL), native queries | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_data/derived_queries/index.md` |
-| 12 | Transactions — @Transactional propagation, isolation, rollback rules | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_core/transactions/index.md` · 📖 Baeldung "@Transactional propagation guide" (~40 min) · 💻 Warm-up: @Transactional method that throws → observe rollback (15 min) |
-| 13 | Entity lifecycle — transient, managed, detached, removed | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_data/entity_lifecycle/index.md` |
-| 14 | Feign / OpenFeign — declarative HTTP clients, interceptors, error decoders, retryers | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_cloud/feign/index.md` · 💻 Warm-up: minimal @FeignClient to httpbin.org + RequestInterceptor that adds Authorization header (30 min) |
-| 15 | SecurityFilterChain (modern config style) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `security/index.md` · 📖 Spring Security 6 migration guide (skip historical bits) · 💻 Warm-up: minimal SecurityFilterChain @Bean with httpBasic + one protected route (15 min) |
-| 16 | Authentication providers, UserDetailsService | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `security/index.md` |
-| 17 | Authorization — method security, @PreAuthorize, SpEL | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `security/index.md` |
-| 18 | Spring caching abstraction — @Cacheable, @CacheConfig, @CacheEvict, @CachePut; provider adapters (Caffeine, EhCache, Redis) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_core/caching/index.md` · 💻 Warm-up: @Cacheable on a slow method + @CacheEvict on an update method, verify cache hit/miss (15 min) |
-| 19 | Jackson customization — @JsonView, @JsonIgnore, custom serializers / deserializers, MappingJackson2HttpMessageConverter, Mixins | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_web/jackson/index.md` · 💻 Warm-up: two @JsonView views on a single DTO + custom serializer for an Instant field (use java.time — not java.util.Date) (20 min) |
+| 1 | IoC container, beans, scopes (singleton, prototype, request, session) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_core/ioc_container/index.md` · 💻 `spring/spring_core/ioc_container/exercise/index.md` |
+| 2 | Dependency injection — constructor vs field vs setter | 🔴 💼 | L | 50 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_core/dependency_injection/index.md` · 💻 `spring/spring_core/dependency_injection/exercise/index.md` |
+| 3 | Bean lifecycle — @PostConstruct, @PreDestroy, BeanPostProcessor | 🔴 💼 | M | 1 hr 20 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_core/bean_lifecycle/index.md` · 💻 `spring/spring_core/bean_lifecycle/exercise/index.md` |
+| 4 | Auto-configuration — how it actually works (@EnableAutoConfiguration, conditions) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring_boot/auto_configuration/index.md` · 💻 `spring_boot/auto_configuration/exercise/index.md` |
+| 5 | Starter ecosystem | 🔴 💼 | M | 1 hr 15 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring_boot/starters/index.md` · 💻 `spring_boot/starters/exercise/index.md` |
+| 6 | Actuator — health, info, metrics, env, custom endpoints | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring_boot/actuator/index.md` · 💻 `spring_boot/actuator/exercise/index.md` |
+| 7 | MVC — DispatcherServlet, handler mapping, controller, view resolution | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_web/mvc/index.md` · 💻 `spring/spring_web/mvc/exercise/index.md` |
+| 8 | REST — @RestController, @RequestBody, @PathVariable, validation | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_web/rest/index.md` · 💻 `spring/spring_web/rest/exercise/index.md` |
+| 9 | Exception handling — @ExceptionHandler, @ControllerAdvice, ResponseEntity | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_web/exception_handling/index.md` · 💻 `spring/spring_web/exception_handling/exercise/index.md` |
+| 10 | Repository hierarchy — CrudRepository, JpaRepository | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_data/jpa_repository/index.md` · 💻 `spring/spring_data/jpa_repository/exercise/index.md` |
+| 11 | Derived queries, @Query (JPQL), native queries | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_data/derived_queries/index.md` · 💻 `spring/spring_data/derived_queries/exercise/index.md` |
+| 12 | Transactions — @Transactional propagation, isolation, rollback rules | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_core/transactions/index.md` · 💻 `spring/spring_core/transactions/exercise/index.md` |
+| 13 | Entity lifecycle — transient, managed, detached, removed | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_data/entity_lifecycle/index.md` · 💻 `spring/spring_data/entity_lifecycle/exercise/index.md` |
+| 14 | Feign / OpenFeign — declarative HTTP clients, interceptors, error decoders, retryers | 🔴 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_cloud/feign/index.md` · 💻 `spring/spring_cloud/feign/exercise/index.md` |
+| 15 | SecurityFilterChain (modern config style) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/security_filter_chain/index.md` · 💻 `spring/spring_security/security_filter_chain/exercise/index.md` |
+| 16 | Authentication providers, UserDetailsService | 🔴 💼 🔐 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/authentication_providers/index.md` · 💻 `spring/spring_security/authentication_providers/exercise/index.md` |
+| 17 | Authorization — method security, @PreAuthorize, SpEL | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/authorization/index.md` · 💻 `spring/spring_security/authorization/exercise/index.md` |
+| 18 | Spring caching abstraction — @Cacheable, @CacheConfig, @CacheEvict, @CachePut; provider adapters (Caffeine, EhCache, Redis) | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_core/caching/index.md` · 💻 `spring/spring_core/caching/exercise/index.md` |
+| 19 | Jackson customization — @JsonView, @JsonIgnore, custom serializers / deserializers, MappingJackson2HttpMessageConverter, Mixins | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_web/jackson/index.md` · 💻 `spring/spring_web/jackson/exercise/index.md` |
 | 20 | @Configuration vs @Component, @Bean methods | 🟠 💼 | M | 1 hr 5 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Configuration with 2 @Bean methods + @ConditionalOnProperty toggle (20 min) |
 | 21 | Profiles, @ConditionalOnXxx | 🟠 💼 | M | 1 hr 10 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Profile("dev") + @Profile("prod") + @ConfigurationProperties POJO loading from yaml (25 min) |
 | 22 | Properties — @Value, @ConfigurationProperties, externalized config | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -34,9 +34,9 @@
 | 26 | Testing — @SpringBootTest, @MockBean, slice tests (@WebMvcTest, @DataJpaTest) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @WebMvcTest with MockMvc — test one controller endpoint in isolation (20 min) |
 | 27 | Filters, interceptors, HandlerMethodArgumentResolver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: HandlerInterceptor that generates + injects correlationId into MDC (30 min) |
 | 28 | Async controllers, DeferredResult, Callable returns | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @EnableAsync + @Async method returning CompletableFuture (20 min) |
-| 29 | @Async + thread-context propagation — MDC, tenant context, SecurityContext across async boundaries; TaskDecorator pattern | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `spring/spring_core/async_mdc/index.md` · 💻 Warm-up: write a `TaskDecorator` that copies MDC + SecurityContext into the async thread; verify with a log line printing the tenant id (30 min) |
+| 29 | @Async + thread-context propagation — MDC, tenant context, SecurityContext across async boundaries; TaskDecorator pattern | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_core/async_mdc/index.md` · 💻 `spring/spring_core/async_mdc/exercise/index.md` |
 | 30 | Content negotiation | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 31 | Lazy vs eager — N+1 problem and fixes (JOIN FETCH, @EntityGraph) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT; doc already existed — added circular-ref-vs-N+1 gotcha, LAZY-default reasoning, 2nd-level-cache note) | 📖 `spring/spring_data/jpa_lazy_eager/index.md` · 📖 Vlad Mihalcea "N+1 query problem" blog (~30 min) |
+| 31 | Lazy vs eager — N+1 problem and fixes (JOIN FETCH, @EntityGraph) | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_data/jpa_lazy_eager/index.md` · 💻 `spring/spring_data/jpa_lazy_eager/exercise/index.md` |
 | 32 | Pagination, sorting, specifications, Querydsl | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | Optimistic locking (@Version), pessimistic locking | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Multiple datasources, read replicas routing | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -45,8 +45,8 @@
 | 37 | Config server, distributed config | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 38 | Sleuth / Micrometer tracing | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 39 | Micrometer Observation API — unified metrics + tracing + logging (Spring Boot 3); @Observed, ObservationRegistry, ObservationHandler | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 40 | OAuth2 resource server, OAuth2 client | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `security/index.md` |
-| 41 | JWT validation, JWK Set, custom claims | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 `security/index.md` |
+| 40 | OAuth2 resource server, OAuth2 client | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: resource-server page exists; needs one quick personal revision | 📖 `spring/spring_security/o_auth2_resource_server/index.md` · 💻 `spring/spring_security/o_auth2_resource_server/exercise/index.md` |
+| 41 | JWT validation, JWK Set, custom claims | 🔴 💼 🔐 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/jwt_validation/index.md` · 💻 `spring/spring_security/jwt_validation/exercise/index.md` |
 | 42 | CSRF, CORS configuration | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 43 | @Scheduled — task scheduling, cron expressions, ThreadPoolTaskScheduler, fixedRate vs fixedDelay vs cron | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Scheduled cron + @Scheduled fixedRate on two methods, observe timing (15 min) |
 | 44 | WebClient — reactive non-blocking HTTP client (replacement for RestTemplate for new code); distinct from Feign | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: WebClient GET / POST to httpbin.org with .block() then with subscribe() (20 min) |
@@ -54,7 +54,7 @@
 | 46 | ApplicationContext events, listeners | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 47 | DevTools, hot reload | 🟡 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 48 | Spring Boot 3 / Jakarta migration concerns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 49 | WebFlux — when (and when not) to use, reactive contracts | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 49 | WebFlux — when (and when not) to use, reactive contracts | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: WebFlux threading model covered; broader reactive contracts pending | 📖 `spring/spring_web/webflux_threading_model/index.md` |
 | 50 | OpenAPI / Swagger generation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 51 | Auditing (@CreatedDate etc.), envers | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 52 | Liquibase / Flyway migrations | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -70,7 +70,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~40.42 hrs | ~3.7 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~72 hrs | ~6.55 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~84.67 hrs | ~7.7 wk | ~1 hr so far |
+| Full Part (all items including 🟡 + 🟢) | ~84.67 hrs | ~7.7 wk | ~1 hr so far; rows 1-12 and 19 done after quick revision |
 
 > Spring is your daily tool — expect a large fraction of items to be ✅ Done at Survey time. Actual study time will be a small fraction of these estimates.
 

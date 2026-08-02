@@ -124,10 +124,3 @@ A. No access to instance state (there is none), no `final`, no `protected` visib
 
 **Q. The four decision questions in order?**
 A. (1) Need state across implementations? (2) Taxonomy or capability? (3) Could the capability cut across unrelated hierarchies? (4) Need a template method with locked algorithm? Two or more "yes / capability" answers → interface; otherwise abstract class.
-
----
-
-## Related topics
-
-- **Access Modifiers Deep Dive** — explains *why* the modifiers chosen for `DeveloperHiringProcess` (protected ctor, public final, protected abstract, private helpers) only work in an abstract class.
-- **Inheritance** — covers `extends` mechanics that abstract classes use; interfaces use `implements`.
