@@ -8,14 +8,14 @@
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Latency numbers every programmer should know (L1 → memory → SSD → network → cross-region) | 🔴 💼 🎯 | L | 40 min | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) · 📖 Jeff Dean's "Latency numbers every programmer should know" · 💻 Warm-up: write latency cheat sheet from memory — L1, L2, RAM, SSD, HDD, intra-DC RTT, cross-region RTT (10 min) |
 | 2 | Throughput math | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
-| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
+| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 35-40 — powers of two, QPS, peak QPS, Twitter/media storage estimate, retention, units, rounding assumptions | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 3 | GC tuning (G1GC vs ZGC) for latency — pause times vs throughput | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Thread dumps, heap dumps, MAT (Memory Analyzer Tool) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write OOM program, generate heap dump (-XX:+HeapDumpOnOutOfMemoryError), open in MAT, find leak (45 min) |
 | 5 | Profiling tools — async-profiler, JFR, flame graphs | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |
 | 6 | Non-blocking I/O (NIO, epoll, kqueue) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
-| 6 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 12, 15, and 95-96 — read-heavy systems use replicas/cache; write-heavy paths need partitioning/quorum tuning | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
+| 7 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 15-16 and 89 — cache frequently read data, avoid treating volatile cache as source of truth, keep hot data in memory and colder data on disk | 📖 `system_design/components/caching/index.md` · 📖 `databases/key_value_store/index.md` |
+| 8 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 39-40 — estimate average QPS, peak QPS, and use round assumptions rather than sizing only from smooth averages | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 9 | GC tuning intuition (without going overboard) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Connection pool sizing (HikariCP — `pool size = ((cores × 2) + effective_spindle_count)`) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6 HikariCP) |
 | 10 | Object pooling (e.g., HikariCP internals) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -25,7 +25,7 @@
 | 14 | Async I/O, non-blocking | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
 | 18 | Precomputation / materialization | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Read-path optimization (denormalization, fan-out on write) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Write-path optimization (LSM trees, append-only logs) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | Write-path optimization (LSM trees, append-only logs) | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 105-106 — commit log, memory table/cache, flush to sorted SSTables, and Bloom-filter-assisted read path | 📖 `databases/key_value_store/index.md` |
 | 21 | Microbenchmarking — JMH, pitfalls | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Lock-free data structures | 🟡 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Off-heap memory | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
