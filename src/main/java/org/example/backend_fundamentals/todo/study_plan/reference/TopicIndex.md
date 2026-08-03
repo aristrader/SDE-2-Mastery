@@ -246,6 +246,8 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **NIST 800-63 IAL/AAL** → Part 29 rows 2-3
 - **Noisy neighbor isolation** → Part 29 row 88
 - **Non-linear step ordering (KYC)** → Part 29 row 23
+- **Notification system HLD (push, SMS, email, queues, retries, dedupe)** → Part 07 row 53, `system_design/case_studies/notification_system/`
+- **Notification dispatch LLD (type vs channel vs provider)** → Part 04 row 61, `system_design/case_studies/notification_lld/`
 
 ## O
 

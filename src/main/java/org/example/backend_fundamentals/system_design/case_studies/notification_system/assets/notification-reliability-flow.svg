@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="420" viewBox="0 0 1040 420" role="img" aria-labelledby="title desc">
+  <title id="title">Notification reliability flow</title>
+  <desc id="desc">A notification event is persisted, enqueued, retried on transient failures, moved to a dead letter queue on permanent failures, and monitored through alerts and analytics.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .good { fill: #dcfce7; }
+      .warn { fill: #fef3c7; }
+      .bad { fill: #fee2e2; }
+      .blue { fill: #dbeafe; }
+      .label { font-family: Arial, sans-serif; font-size: 16px; fill: #0f172a; font-weight: 700; }
+      .small { font-family: Arial, sans-serif; font-size: 13px; fill: #334155; }
+      .line { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 6 5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="35" y="75" width="140" height="75" class="box blue"/>
+  <text x="105" y="106" text-anchor="middle" class="label">Event</text>
+  <text x="105" y="128" text-anchor="middle" class="small">eventId + userId</text>
+
+  <rect x="220" y="75" width="150" height="75" class="box blue"/>
+  <text x="295" y="106" text-anchor="middle" class="label">Dedupe</text>
+  <text x="295" y="128" text-anchor="middle" class="small">seen eventId?</text>
+
+  <rect x="415" y="75" width="150" height="75" class="box good"/>
+  <text x="490" y="106" text-anchor="middle" class="label">Persist log</text>
+  <text x="490" y="128" text-anchor="middle" class="small">source of truth</text>
+
+  <rect x="610" y="75" width="150" height="75" class="box warn"/>
+  <text x="685" y="106" text-anchor="middle" class="label">Queue job</text>
+  <text x="685" y="128" text-anchor="middle" class="small">at-least-once</text>
+
+  <rect x="805" y="75" width="150" height="75" class="box warn"/>
+  <text x="880" y="106" text-anchor="middle" class="label">Worker send</text>
+  <text x="880" y="128" text-anchor="middle" class="small">provider adapter</text>
+
+  <rect x="805" y="225" width="150" height="75" class="box good"/>
+  <text x="880" y="256" text-anchor="middle" class="label">Success</text>
+  <text x="880" y="278" text-anchor="middle" class="small">mark sent/delivered</text>
+
+  <rect x="610" y="225" width="150" height="75" class="box warn"/>
+  <text x="685" y="256" text-anchor="middle" class="label">Retry</text>
+  <text x="685" y="278" text-anchor="middle" class="small">backoff + max tries</text>
+
+  <rect x="415" y="225" width="150" height="75" class="box bad"/>
+  <text x="490" y="256" text-anchor="middle" class="label">DLQ</text>
+  <text x="490" y="278" text-anchor="middle" class="small">manual/debug path</text>
+
+  <rect x="220" y="225" width="150" height="75" class="box blue"/>
+  <text x="295" y="256" text-anchor="middle" class="label">Alerting</text>
+  <text x="295" y="278" text-anchor="middle" class="small">DLQ, lag, failures</text>
+
+  <rect x="35" y="225" width="140" height="75" class="box blue"/>
+  <text x="105" y="256" text-anchor="middle" class="label">Analytics</text>
+  <text x="105" y="278" text-anchor="middle" class="small">open/click events</text>
+
+  <path d="M175 112 H220" class="line"/>
+  <path d="M370 112 H415" class="line"/>
+  <path d="M565 112 H610" class="line"/>
+  <path d="M760 112 H805" class="line"/>
+  <path d="M880 150 V225" class="line"/>
+  <path d="M805 262 H760" class="dash"/>
+  <path d="M610 262 H565" class="dash"/>
+  <path d="M415 262 H370" class="line"/>
+  <path d="M220 262 H175" class="dash"/>
+  <path d="M685 225 V170 Q685 150 720 150 H805" class="dash"/>
+
+  <text x="515" y="360" text-anchor="middle" class="small">Strong interview answer: durable at-least-once delivery, idempotency/dedupe, retry with backoff, DLQ and monitoring.</text>
+</svg>

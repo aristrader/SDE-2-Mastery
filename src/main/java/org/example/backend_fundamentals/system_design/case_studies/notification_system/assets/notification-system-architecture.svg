@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+  <title id="title">Notification system architecture</title>
+  <desc id="desc">Producer services call stateless notification API servers, which read cache and database metadata, enqueue per-channel jobs, and workers deliver through push, SMS, and email providers.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .api { fill: #e0f2fe; }
+      .data { fill: #ecfdf5; }
+      .queue { fill: #fff7ed; }
+      .worker { fill: #fef9c3; }
+      .provider { fill: #f1f5f9; }
+      .label { font-family: Arial, sans-serif; font-size: 16px; fill: #0f172a; font-weight: 700; }
+      .small { font-family: Arial, sans-serif; font-size: 13px; fill: #334155; }
+      .line { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .thin { stroke: #64748b; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="30" y="70" width="150" height="90" class="box"/>
+  <text x="105" y="105" text-anchor="middle" class="label">Product</text>
+  <text x="105" y="126" text-anchor="middle" class="small">services</text>
+  <text x="105" y="146" text-anchor="middle" class="small">billing, order, auth</text>
+
+  <rect x="30" y="240" width="150" height="80" class="box"/>
+  <text x="105" y="274" text-anchor="middle" class="label">Scheduler</text>
+  <text x="105" y="296" text-anchor="middle" class="small">server-side jobs</text>
+
+  <rect x="240" y="120" width="180" height="150" class="box api"/>
+  <text x="330" y="156" text-anchor="middle" class="label">Notification API</text>
+  <text x="330" y="184" text-anchor="middle" class="small">auth + validation</text>
+  <text x="330" y="205" text-anchor="middle" class="small">preferences</text>
+  <text x="330" y="226" text-anchor="middle" class="small">template lookup</text>
+  <text x="330" y="247" text-anchor="middle" class="small">enqueue jobs</text>
+
+  <rect x="485" y="50" width="150" height="80" class="box data"/>
+  <text x="560" y="83" text-anchor="middle" class="label">Cache</text>
+  <text x="560" y="105" text-anchor="middle" class="small">user/device/settings</text>
+
+  <rect x="485" y="165" width="150" height="105" class="box data"/>
+  <text x="560" y="201" text-anchor="middle" class="label">DB</text>
+  <text x="560" y="224" text-anchor="middle" class="small">contacts</text>
+  <text x="560" y="243" text-anchor="middle" class="small">templates + logs</text>
+
+  <rect x="485" y="330" width="150" height="80" class="box data"/>
+  <text x="560" y="364" text-anchor="middle" class="label">Analytics</text>
+  <text x="560" y="386" text-anchor="middle" class="small">sent/open/click</text>
+
+  <rect x="700" y="55" width="150" height="70" class="box queue"/>
+  <text x="775" y="86" text-anchor="middle" class="label">Push queue</text>
+  <text x="775" y="107" text-anchor="middle" class="small">APNS / FCM</text>
+
+  <rect x="700" y="170" width="150" height="70" class="box queue"/>
+  <text x="775" y="201" text-anchor="middle" class="label">SMS queue</text>
+  <text x="775" y="222" text-anchor="middle" class="small">rate limited</text>
+
+  <rect x="700" y="285" width="150" height="70" class="box queue"/>
+  <text x="775" y="316" text-anchor="middle" class="label">Email queue</text>
+  <text x="775" y="337" text-anchor="middle" class="small">bulk + transactional</text>
+
+  <rect x="900" y="55" width="145" height="70" class="box worker"/>
+  <text x="972" y="86" text-anchor="middle" class="label">Push workers</text>
+  <text x="972" y="107" text-anchor="middle" class="small">stateless</text>
+
+  <rect x="900" y="170" width="145" height="70" class="box worker"/>
+  <text x="972" y="201" text-anchor="middle" class="label">SMS workers</text>
+  <text x="972" y="222" text-anchor="middle" class="small">provider adapter</text>
+
+  <rect x="900" y="285" width="145" height="70" class="box worker"/>
+  <text x="972" y="316" text-anchor="middle" class="label">Email workers</text>
+  <text x="972" y="337" text-anchor="middle" class="small">provider adapter</text>
+
+  <rect x="900" y="425" width="145" height="75" class="box provider"/>
+  <text x="972" y="457" text-anchor="middle" class="label">Providers</text>
+  <text x="972" y="478" text-anchor="middle" class="small">APNS, FCM,</text>
+  <text x="972" y="496" text-anchor="middle" class="small">Twilio, SendGrid</text>
+
+  <path d="M180 115 H240" class="line"/>
+  <path d="M180 280 H210 Q225 280 225 245 V198 Q225 195 240 195" class="line"/>
+  <path d="M420 165 H470 Q485 165 505 120" class="thin"/>
+  <path d="M420 210 H485" class="thin"/>
+  <path d="M420 245 H455 Q470 245 470 320 V370 H485" class="thin"/>
+
+  <path d="M420 170 H660 Q680 170 700 90" class="line"/>
+  <path d="M420 205 H700" class="line"/>
+  <path d="M420 240 H660 Q680 240 700 320" class="line"/>
+
+  <path d="M850 90 H900" class="line"/>
+  <path d="M850 205 H900" class="line"/>
+  <path d="M850 320 H900" class="line"/>
+
+  <path d="M972 125 V425" class="thin"/>
+  <path d="M972 240 V425" class="thin"/>
+  <path d="M972 355 V425" class="thin"/>
+
+  <text x="560" y="462" text-anchor="middle" class="small">queues isolate channel failures; workers scale independently</text>
+</svg>

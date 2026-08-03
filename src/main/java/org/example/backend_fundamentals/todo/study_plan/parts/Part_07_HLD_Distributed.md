@@ -59,7 +59,7 @@
 | 50 | HLD — Uber / ride-sharing | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Deep-dive covered location updates, candidate discovery, state machines, ETA/Routing (A*, Dijkstra), and regional matching clusters. | 📖 `system_design/case_studies/location_and_uber_architecture/` (docs 04-06) |
 | 51 | HLD — Dropbox / file sync | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 52 | HLD — Google Drive / collaborative editing | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 53 | HLD — Notification service | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 53 | HLD — Notification service | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 151-165 — requirements, push/SMS/email provider flow, contact info, async queues, workers, templates, settings, reliability, dedupe, retries, rate limiting, monitoring, and analytics | 📖 `system_design/case_studies/notification_system/` |
 | 54 | HLD — Distributed cache (design Redis-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: distributed cache placement, cache tier, consistent hashing, virtual nodes, cache miss storm, and replication/sharding distinction covered from Alex Xu pages 15-16 and 71-85; full Redis-like design still pending | 📖 `system_design/components/caching/index.md` |
 | 55 | HLD — Distributed message queue (design Kafka-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 56 | HLD — Rate limiter (distributed) | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered fully along with the rate limiting concepts deep-dive. | 📖 `system_design/components/rate_limiting/` |
