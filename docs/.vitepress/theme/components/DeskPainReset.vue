@@ -22,31 +22,16 @@
     </div>
 
     <div v-if="selected" class="desk-reset__overlay" role="presentation" @click.self="selected = null">
-      <section
-        class="desk-reset__modal"
-        role="dialog"
-        aria-modal="true"
-        :aria-label="selected.name"
-      >
+      <section class="desk-reset__modal" role="dialog" aria-modal="true" :aria-label="selected.name">
         <button type="button" class="desk-reset__close" aria-label="Close preview" @click="selected = null">
           Close
         </button>
         <h2>{{ selected.name }}</h2>
         <p class="desk-reset__dose">{{ selected.dose }}</p>
-        <div class="desk-reset__diagram" role="img" :aria-label="`${selected.name} movement diagram`">
-          <article v-for="frame in selected.frames" :key="frame.label" class="desk-reset__frame">
-            <svg viewBox="0 0 160 150" aria-hidden="true">
-              <circle cx="80" cy="34" r="12" class="figure" />
-              <path :d="frame.torso" class="figure-line" />
-              <path :d="frame.arms" class="figure-line" />
-              <path :d="frame.legs" class="figure-line" />
-              <path v-if="frame.arrow" :d="frame.arrow" class="arrow" />
-              <circle v-if="frame.target" :cx="frame.target[0]" :cy="frame.target[1]" r="13" class="target" />
-            </svg>
-            <strong>{{ frame.label }}</strong>
-            <span>{{ frame.cue }}</span>
-          </article>
-        </div>
+        <img class="desk-reset__photo" :src="selected.image" :alt="`${selected.name} reference image`" />
+        <a class="desk-reset__source" :href="selected.source" target="_blank" rel="noreferrer">
+          Open image source
+        </a>
         <ol>
           <li v-for="step in selected.steps" :key="step">{{ step }}</li>
         </ol>
@@ -59,136 +44,55 @@
 import { ref } from 'vue'
 
 const selected = ref(null)
-
-const poses = {
-  stand: {
-    torso: 'M80 48 L80 88',
-    arms: 'M54 68 L80 58 L106 68',
-    legs: 'M80 88 L60 124 M80 88 L100 124',
-  },
-  reachBack: {
-    torso: 'M80 48 C88 66 88 78 80 94',
-    arms: 'M58 75 L78 82 L102 76',
-    legs: 'M80 94 L62 124 M80 94 L104 124',
-  },
-  hinge: {
-    torso: 'M80 50 C93 70 108 80 122 88',
-    arms: 'M92 72 L130 74 M92 72 L128 90',
-    legs: 'M80 88 L60 124 M80 88 L102 124',
-  },
-  tuck: {
-    torso: 'M80 48 L80 90',
-    arms: 'M56 70 L80 66 L104 70',
-    legs: 'M80 90 L62 124 M80 90 L100 124',
-  },
-  rotate: {
-    torso: 'M80 48 L80 90',
-    arms: 'M60 68 L80 62 L108 58',
-    legs: 'M80 90 L62 124 M80 90 L100 124',
-  },
-  sideBend: {
-    torso: 'M80 48 C70 62 68 76 74 92',
-    arms: 'M55 68 L74 68 L96 58',
-    legs: 'M74 92 L58 124 M74 92 L96 124',
-  },
-  shoulder: {
-    torso: 'M80 48 L80 90',
-    arms: 'M50 58 C64 50 96 50 110 58',
-    legs: 'M80 90 L62 124 M80 90 L100 124',
-  },
-  retract: {
-    torso: 'M80 48 L80 90',
-    arms: 'M48 70 C62 62 98 62 112 70',
-    legs: 'M80 90 L62 124 M80 90 L100 124',
-  },
-  doorway: {
-    torso: 'M88 48 L88 92',
-    arms: 'M88 66 L124 42 M88 66 L124 90',
-    legs: 'M88 92 L68 124 M88 92 L108 124',
-  },
-  wallSlide: {
-    torso: 'M80 48 L80 90',
-    arms: 'M58 58 L58 28 M102 58 L102 28',
-    legs: 'M80 90 L62 124 M80 90 L100 124',
-  },
-  neck: {
-    torso: 'M80 50 L80 92',
-    arms: 'M56 70 L80 66 L104 70',
-    legs: 'M80 92 L62 124 M80 92 L100 124',
-  },
-}
-
-function frame(label, pose, cue, arrow = '', target = null) {
-  return { label, cue, ...poses[pose], arrow, target }
-}
+const lcsd = 'https://www.lcsd.gov.hk/en/healthy/common/graphics/exercise/'
+const lcsdSource = 'https://www.lcsd.gov.hk/en/healthy/exercise/exercise2.html'
 
 const groups = [
   {
     title: 'Back Relief',
-    note: 'Low-key standing options for office breaks.',
+    note: 'Office-friendly moves with confirmed matching reference images.',
     moves: [
       {
-        name: 'Walk and reset',
-        dose: '1 to 2 min',
-        frames: [
-          frame('Stand', 'stand', 'Tall posture'),
-          frame('Step', 'stand', 'Slow easy walk', 'M58 118 C78 104 88 104 108 118'),
-        ],
-        steps: ['Stand tall.', 'Walk slowly.', 'Let arms swing and breathe normally.'],
+        name: 'Standing knee lift',
+        dose: '8/side',
+        image: `${lcsd}27.jpg`,
+        source: lcsdSource,
+        steps: ['Stand tall and hold the desk lightly.', 'Lift one knee as high as comfortable.', 'Stretch the same leg slightly back, then switch sides.'],
       },
       {
-        name: 'Tall-stand glute squeeze',
-        dose: '10 reps, 3 sec hold',
-        frames: [
-          frame('Neutral', 'stand', 'Ribs over hips'),
-          frame('Squeeze', 'tuck', 'Glutes on, low back quiet', '', [80, 92]),
-        ],
-        steps: ['Stand as if waiting for a call.', 'Squeeze both glutes gently.', 'Release without arching the back.'],
-      },
-      {
-        name: 'Standing march',
-        dose: '10/side',
-        frames: [
-          frame('Tall', 'stand', 'Stay upright'),
-          frame('March', 'stand', 'Lift knee gently', 'M68 118 C72 88 80 78 92 82'),
-        ],
-        steps: ['Stand tall near your desk.', 'Lift one knee a little.', 'Switch sides slowly without leaning back.'],
-      },
-      {
-        name: 'Desk hip-flexor shift',
-        dose: '20 sec/side',
-        frames: [
-          frame('Step back', 'stand', 'One foot behind'),
-          frame('Shift', 'tuck', 'Front of hip opens', 'M66 96 L92 96', [70, 94]),
-        ],
-        steps: ['Hold the desk lightly.', 'Step one foot back.', 'Tuck pelvis slightly and shift forward until the front of the hip opens.'],
-      },
-      {
-        name: 'Standing back bends',
+        name: 'Standing waist extension',
         dose: '6 to 8 reps',
-        frames: [
-          frame('Hands on hips', 'stand', 'Brace lightly'),
-          frame('Lean back', 'reachBack', 'Small comfortable arc', 'M91 58 C112 64 116 84 102 98'),
-        ],
-        steps: ['Place hands on hips.', 'Gently lean chest back.', 'Return to tall standing without forcing the low back.'],
+        image: `${lcsd}30.jpg`,
+        source: lcsdSource,
+        steps: ['Stand tall with hands on the back of your waist.', 'Push hips and waist slightly forward.', 'Keep neck and upper body controlled; do not over-lean backward.'],
       },
       {
-        name: 'Desk hip-hinge stretch',
-        dose: '20 sec',
-        frames: [
-          frame('Hands on desk', 'stand', 'Soft knees'),
-          frame('Hinge', 'hinge', 'Spine long, hips back', 'M98 74 L124 74'),
-        ],
-        steps: ['Hands on desk.', 'Step back and hinge at hips.', 'Keep knees soft and spine long.'],
-      },
-      {
-        name: 'Standing pelvic tilts',
+        name: 'Wall back press',
         dose: '8 to 10 reps',
-        frames: [
-          frame('Neutral', 'stand', 'Find middle'),
-          frame('Tilt', 'tuck', 'Tuck gently', 'M67 93 C78 105 90 105 101 93', [80, 90]),
-        ],
-        steps: ['Hands on hips.', 'Tuck pelvis slightly under.', 'Return to neutral slowly.'],
+        image: `${lcsd}32.jpg`,
+        source: lcsdSource,
+        steps: ['Stand with upper back near a wall.', 'Draw abdomen in slightly.', 'Press the back gently toward the wall, then return to neutral.'],
+      },
+      {
+        name: 'Upper body rotation',
+        dose: '4/side',
+        image: `${lcsd}23.jpg`,
+        source: lcsdSource,
+        steps: ['Stand with feet apart and knees soft.', 'Turn upper body slowly to one side.', 'Return through center and switch sides.'],
+      },
+      {
+        name: 'Standing side bend',
+        dose: '20 sec/side',
+        image: `${lcsd}25.jpg`,
+        source: lcsdSource,
+        steps: ['Stand tall, optionally near a wall.', 'Raise one arm.', 'Bend trunk slowly to the opposite side, then switch.'],
+      },
+      {
+        name: 'Seated hamstring hinge',
+        dose: '20 sec/side',
+        image: `${lcsd}35.jpg`,
+        source: lcsdSource,
+        steps: ['Sit at the edge of a chair.', 'Straighten one leg with heel down.', 'Hinge forward with a straight back, then switch sides.'],
       },
     ],
   },
@@ -198,48 +102,38 @@ const groups = [
     moves: [
       {
         name: 'Shoulder rolls',
-        dose: '10 reps',
-        frames: [
-          frame('Lift', 'shoulder', 'Shoulders up'),
-          frame('Back/down', 'retract', 'Roll away from ears', 'M54 54 C80 34 108 54 104 76'),
-        ],
-        steps: ['Lift shoulders gently.', 'Roll them back.', 'Drop them down away from ears.'],
+        dose: '8 each way',
+        image: `${lcsd}05.jpg`,
+        source: lcsdSource,
+        steps: ['Bring shoulders forward and inward.', 'Lift shoulders and rotate toward the back.', 'Repeat the other direction.'],
       },
       {
-        name: 'Scapular retractions',
-        dose: '12 reps',
-        frames: [
-          frame('Relaxed', 'stand', 'Ribs down'),
-          frame('Retract', 'retract', 'Shoulder blades back/down', '', [80, 66]),
-        ],
-        steps: ['Keep ribs down.', 'Pull shoulder blades back and slightly down.', 'Release without shrugging.'],
+        name: 'Shoulders back and forth',
+        dose: '8 reps',
+        image: `${lcsd}14.jpg`,
+        source: lcsdSource,
+        steps: ['Bring shoulders forward and inward.', 'Return to neutral.', 'Bring shoulders backward, then relax.'],
       },
       {
-        name: 'Doorway chest stretch',
-        dose: '30 sec',
-        frames: [
-          frame('Set arm', 'doorway', 'Forearm on frame'),
-          frame('Step through', 'doorway', 'Chest opens gently', 'M104 76 L122 76', [106, 68]),
-        ],
-        steps: ['Forearm on door frame.', 'Step through lightly.', 'Keep neck relaxed.'],
+        name: 'Doorframe arm stretch',
+        dose: '20 to 30 sec',
+        image: `${lcsd}18.jpg`,
+        source: lcsdSource,
+        steps: ['Hold the doorframe with both hands.', 'Step one leg forward.', 'Lean forward gently without forcing the shoulders.'],
       },
       {
-        name: 'Wall slides',
-        dose: '8 to 10 reps',
-        frames: [
-          frame('Start', 'retract', 'Back near wall'),
-          frame('Slide', 'wallSlide', 'Arms travel up', 'M62 70 L62 34 M98 70 L98 34'),
-        ],
-        steps: ['Back near wall.', 'Slide arms upward as far as comfortable.', 'Keep shoulders down.'],
+        name: 'Chest lift with arms behind',
+        dose: '8 reps',
+        image: `${lcsd}16.jpg`,
+        source: lcsdSource,
+        steps: ['Stand tall with fingers interlocked behind your back.', 'Raise arms slowly.', 'Bring shoulders backward without leaning forward.'],
       },
       {
-        name: 'Desk lat stretch',
+        name: 'Elbow-pull shoulder stretch',
         dose: '20 sec/side',
-        frames: [
-          frame('Hand on desk', 'stand', 'Anchor one hand'),
-          frame('Sit back', 'hinge', 'Reach long through side', '', [104, 76]),
-        ],
-        steps: ['One hand on desk.', 'Sit hips back slightly.', 'Reach long through the side body.'],
+        image: `${lcsd}06.jpg`,
+        source: lcsdSource,
+        steps: ['Rest one arm across the opposite shoulder.', 'Pull the elbow lightly toward the body.', 'Switch sides.'],
       },
     ],
   },
@@ -248,40 +142,32 @@ const groups = [
     note: 'Keep all neck work light and slow.',
     moves: [
       {
-        name: 'Chin tucks',
-        dose: '8 to 10 reps',
-        frames: [
-          frame('Forward', 'neck', 'Eyes level'),
-          frame('Tuck', 'neck', 'Slide head straight back', 'M99 34 L75 34', [80, 34]),
-        ],
-        steps: ['Eyes level.', 'Slide head straight back.', 'Make a gentle double chin without looking down.'],
-      },
-      {
         name: 'Neck rotations',
-        dose: '5/side',
-        frames: [
-          frame('Center', 'neck', 'Sit tall'),
-          frame('Turn', 'rotate', 'Rotate slowly', 'M70 30 C88 16 108 24 112 42'),
-        ],
-        steps: ['Sit or stand tall.', 'Turn head slowly to one side.', 'Return through center and switch.'],
+        dose: '4/side',
+        image: `${lcsd}02.jpg`,
+        source: lcsdSource,
+        steps: ['Look forward.', 'Turn neck slowly to one side.', 'Return through center and switch sides.'],
       },
       {
-        name: 'Levator stretch',
+        name: 'Neck side stretch',
         dose: '20 sec/side',
-        frames: [
-          frame('Turn', 'rotate', 'Look toward armpit'),
-          frame('Nod', 'sideBend', 'Gentle diagonal stretch', 'M76 34 C66 44 62 54 64 66', [72, 50]),
-        ],
-        steps: ['Look toward one armpit.', 'Gently nod down.', 'Keep the opposite shoulder relaxed.'],
+        image: `${lcsd}03.jpg`,
+        source: lcsdSource,
+        steps: ['Look forward.', 'Stretch neck slowly to one side.', 'Return to center and switch sides.'],
       },
       {
-        name: 'Neck side bend',
+        name: 'Looking up and down',
+        dose: '4 reps',
+        image: `${lcsd}04.jpg`,
+        source: lcsdSource,
+        steps: ['Draw chin gently toward the neck.', 'Lower the head.', 'Return to center, then lean back only slightly.'],
+      },
+      {
+        name: 'Arm and neck stretch',
         dose: '20 sec/side',
-        frames: [
-          frame('Tall', 'neck', 'Shoulders low'),
-          frame('Side bend', 'sideBend', 'Ear toward shoulder', 'M78 34 C62 38 58 52 60 66', [70, 48]),
-        ],
-        steps: ['Keep shoulders low.', 'Bring ear gently toward shoulder.', 'Do not pull hard.'],
+        image: `${lcsd}09.jpg`,
+        source: lcsdSource,
+        steps: ['Stand tall.', 'Hold one wrist near the opposite waist or hip.', 'Stretch neck gently away from that side, then switch.'],
       },
     ],
   },
@@ -425,66 +311,25 @@ const groups = [
   right: 16px;
 }
 
-.desk-reset__modal ol {
-  margin: 14px 0 0;
-  padding-left: 22px;
-}
-
-.desk-reset__diagram {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-}
-
-.desk-reset__frame {
+.desk-reset__photo {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background: var(--vp-c-bg-soft);
-  padding: 10px;
 }
 
-.desk-reset__frame svg {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 15;
-}
-
-.desk-reset__frame strong,
-.desk-reset__frame span {
-  display: block;
-}
-
-.desk-reset__frame span {
-  color: var(--vp-c-text-2);
+.desk-reset__source {
+  display: inline-block;
+  margin-top: 8px;
   font-size: 0.9rem;
 }
 
-.figure {
-  fill: #dbeafe;
-  stroke: #2563eb;
-  stroke-width: 5;
-}
-
-.figure-line {
-  fill: none;
-  stroke: #1f2937;
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.arrow {
-  fill: none;
-  stroke: #ea580c;
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-dasharray: 7 7;
-}
-
-.target {
-  fill: rgba(22, 163, 74, 0.22);
-  stroke: #16a34a;
-  stroke-width: 3;
+.desk-reset__modal ol {
+  margin: 14px 0 0;
+  padding-left: 22px;
 }
 
 @media (max-width: 900px) {
