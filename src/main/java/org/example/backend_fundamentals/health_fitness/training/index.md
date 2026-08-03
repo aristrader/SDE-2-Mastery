@@ -6,6 +6,8 @@ order: 20
 
 Daily workout means morning walk/run + strength workout, then evening mobility to calm down after office sitting. A/B/C workouts repeat with two variants.
 
+This is a 1-month home base phase before gym work: build walking tolerance, basic strength, joint control, and posture endurance without equipment. A backpack is enough for rows.
+
 ## Daily Time Budget
 
 | Block | Time |
@@ -38,3 +40,7 @@ Hard days should finish around 1 hr 45 min including normal gaps. Lighter days a
 | Normal bad day | 20 min walk + 1 mobility drill |
 | Very bad day | 10 min walk + desk reset |
 | Missed workout | Continue schedule; do not double next day |
+
+## After 4 weeks
+
+Start gym work when walking is consistent, movements are pain-free, and the home workouts feel controlled. Keep the same movement patterns: squat, hinge, push, pull, carry/core, calves, and mobility.

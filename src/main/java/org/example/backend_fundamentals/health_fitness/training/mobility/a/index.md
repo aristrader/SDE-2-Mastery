@@ -16,5 +16,6 @@ Neck, shoulders, chest. Use this after a desk-heavy day or when the neck feels f
 | Scapular retractions | 12-15 | Rhomboids, mid traps |
 | Wall slides | 8-10 | Shoulders, lower traps |
 | Doorway chest stretch | 30 sec | Pecs |
+| Desk lat stretch | 20 sec/side | Lats, overhead reach |
 
 Chin tuck cue: make a gentle double chin by sliding the head backward. Keep eyes level and do not jam the neck.

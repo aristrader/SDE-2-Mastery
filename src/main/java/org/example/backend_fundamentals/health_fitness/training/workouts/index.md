@@ -6,11 +6,11 @@ order: 40
 
 | Day | Workout | Focus |
 | --- | --- | --- |
-| Monday | [Workout A V1](./a/) | Squat, push, upper back, core |
-| Tuesday | [Workout B V1](./b/) | Hinge, lunge, shoulders, posture |
+| Monday | [Workout A V1](./a/) | Squat, push, row, upper back, core |
+| Tuesday | [Workout B V1](./b/) | Hinge, lunge, row, shoulders, posture |
 | Wednesday | [Workout C V1](./c/) | Full body, posture, core |
-| Thursday | [Workout A V2](./a/) | Squat variation, chest angle, upper back, core |
-| Friday | [Workout B V2](./b/) | Hinge variation, single-leg, shoulders |
+| Thursday | [Workout A V2](./a/) | Squat variation, chest angle, row, upper back, core |
+| Friday | [Workout B V2](./b/) | Hinge variation, single-leg, row, shoulders |
 | Saturday | [Workout C V2](./c/) | Full body variation, posture, core |
 | Sunday | [Recovery](./recovery/) | Light: full-body reset |
 
@@ -25,6 +25,8 @@ order: 40
 
 A/B/C repeat with variants. Use V1 early week and V2 later week. Keep Sunday recovery easy.
 
+Use one set less when recovery is poor. Add reps or range only when form stays clean.
+
 ## Coverage
 
 | Area | Covered by | Limit |
@@ -32,8 +34,20 @@ A/B/C repeat with variants. Use V1 early week and V2 later week. Keep Sunday rec
 | Legs | Squat, lunge, sit-to-stand, wall sit | Good base |
 | Glutes/hamstrings | Bridge, hinge, Romanian deadlift | Good base |
 | Chest | Incline pushup, pushup plus | Good base |
-| Back | Prone W raise, Y-T-W, swimmers, wall slides | Good no-equipment posture base |
+| Back | Backpack row, prone W raise, Y-T-W, swimmers, wall slides | Better with row; posture base without equipment |
 | Shoulders | Wall lean, lateral raise, Y-T-W, wall slides | Good rehab/base |
-| Arms | Pushups and close-grip incline pushups | Limited without equipment, enough for now |
+| Arms | Pushups, close-grip incline pushups, backpack rows | Good base |
 | Core | Dead bug, plank, side plank, bird dog, bear plank | Good base |
 | Calves/shins | Calf raise, tibialis raise | Good base |
+
+## Weekly body-part check
+
+| Body part | Minimum weekly hit |
+| --- | --- |
+| Legs/quads | Squat/sit-to-stand/wall sit 3-4x |
+| Hips/glutes/hamstrings | Hinge/bridge/lunge 3-4x |
+| Chest/triceps | Pushup variations 3x |
+| Back/biceps | Backpack row 2-3x + prone posture work |
+| Shoulders/scapula | Wall slides, Y-T-W, pushup plus 3-4x |
+| Core | Dead bug, plank, side plank, bird dog 4-6x |
+| Calves/ankles | Calf raise/tibialis + mobility 2-3x |

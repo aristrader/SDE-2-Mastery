@@ -17,3 +17,4 @@ Upper back, shoulder blades, posture.
 | Wall angels or wall slides | 8-10 | Shoulder mobility, lower traps |
 | Doorway chest stretch | 30 sec | Pecs |
 | Scapular retractions | 12-15 | Shoulder blades back/down |
+| Bird dog | 6/side | Core, spine control |
