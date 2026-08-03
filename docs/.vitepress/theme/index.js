@@ -7,6 +7,7 @@ import ArchitectureBoard from './components/ArchitectureBoard.vue'
 import ExerciseNav from './components/ExerciseNav.vue'
 import AutoTopicGrid from './components/AutoTopicGrid.vue'
 import ExerciseWorkspace from './components/ExerciseWorkspace.vue'
+import DeskPainReset from './components/DeskPainReset.vue'
 
 export default {
   ...DefaultTheme,
@@ -18,5 +19,6 @@ export default {
     app.component('ExerciseNav', ExerciseNav)
     app.component('AutoTopicGrid', AutoTopicGrid)
     app.component('ExerciseWorkspace', ExerciseWorkspace)
+    app.component('DeskPainReset', DeskPainReset)
   }
 }
