@@ -39,6 +39,107 @@ Return 429 for rejected requests
 Support configurable rules
 ```
 
+## Functional requirements
+
+- Apply limits by user, IP, API key, tenant, endpoint, or global rule.
+- Allow requests under quota.
+- Reject or delay requests over quota.
+- Return a clear throttling response for HTTP APIs.
+- Support different rules for different endpoints/plans.
+- Allow rules to change without redeploying every API service.
+
+## Non-functional requirements
+
+- Very low added latency because the limiter is on the request path.
+- Distributed correctness across many API servers.
+- Memory efficient counter storage.
+- High availability: limiter failures should not take down the whole API unless the endpoint requires fail-closed behavior.
+- Observable: operators must know which rules are rejecting traffic and whether valid users are blocked.
+
+## Back-of-envelope estimation
+
+Use estimates to justify Redis/shared in-memory storage:
+
+```text
+Peak API traffic: 100K requests/sec
+Limiter check per request: 100K checks/sec
+Average counter key size: ~100 bytes including metadata
+Active identities in a 1-minute window: 10M
+Counter memory: 10M * 100 bytes ~= 1 GB before overhead
+```
+
+Design implications:
+
+| Estimate | Implication |
+|----------|-------------|
+| One check per request | Limiter must be in-memory/nearby, not relational DB backed |
+| Many active keys | Use TTL so inactive counters expire automatically |
+| Hot global limits | Watch Redis hot keys and shard high-traffic counters if needed |
+| Multi-region traffic | Decide regional vs global quota accuracy |
+
+Exact numbers do not matter. The interview point is that the limiter is hot-path infrastructure, so disk-backed writes per request are not acceptable.
+
+## API sketch
+
+External clients mostly see normal API responses plus rate-limit headers:
+
+```text
+HTTP 200 OK
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 42
+```
+
+When throttled:
+
+```text
+HTTP 429 Too Many Requests
+Retry-After: 30
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 0
+```
+
+Internal limiter API:
+
+```text
+checkAndConsume(identity, ruleId, cost = 1) -> ALLOW | REJECT
+```
+
+Rule examples:
+
+```text
+login:user:{email}        -> 5 requests/minute
+post:user:{userId}        -> 2 requests/second
+payments:tenant:{tenant}  -> 100 requests/minute
+global:/api/v1/search     -> 10K requests/second
+```
+
+## Data model
+
+Rules:
+
+```text
+Rule(ruleId, dimension, endpoint, algorithm, limit, window, burst, action)
+```
+
+Runtime counters in Redis:
+
+```text
+rate:{ruleId}:{identity}:{window} -> count/tokens/timestamps
+ttl = rule window + small buffer
+```
+
+For token bucket:
+
+```text
+bucket:{ruleId}:{identity} -> {tokens, lastRefillTimestamp}
+```
+
+For sliding window log:
+
+```text
+zset:{ruleId}:{identity} -> sorted timestamps
+```
+
 ## High-level architecture
 
 ![Distributed rate limiter architecture](../assets/rate-limiter-architecture.svg)

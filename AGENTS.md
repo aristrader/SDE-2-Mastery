@@ -59,7 +59,7 @@ Use schema families under `backend_fundamentals`; choose the lightest schema tha
 - Practice module: `index.md`, `exercise/index.md`, `solution/index.md` for non-code practice topics.
 - System design module: `index.md`, `design/index.md`, `exercise/index.md`, optional `assets/`.
 - Theory-only module: `index.md` only, for topics where exercises would be artificial. Add exercise/solution later only when there is real practice value.
-- If study material needs diagrams/images, create original repo-owned visuals rather than copying screenshots from books, courses, or PDFs. Prefer simple SVG or Draw.io diagrams in the module's `assets/` directory and embed with normal Markdown image syntax.
+- If study material needs diagrams/images, create original repo-owned visuals rather than copying screenshots from books, courses, PDFs, or copyrighted web pages. Prefer simple SVG or Draw.io diagrams in the module's `assets/` directory and embed with normal Markdown image syntax.
 - Do not add `assets/` to a theory-only module unless you also convert it to a valid module shape (`exercise/` plus `design/` or `solution/`), because navigation validation treats `assets/` as module content.
 - Module `index.md` files need valid YAML frontmatter and `order: X`.
 - `exercise/index.md` uses `search: false` and `order: 10`.

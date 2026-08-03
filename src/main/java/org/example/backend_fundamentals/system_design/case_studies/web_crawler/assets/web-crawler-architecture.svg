@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-labelledby="title desc">
+  <title id="title">Web crawler architecture</title>
+  <desc id="desc">Seed URLs enter the URL frontier, fetchers download pages, parsers and dedup stores process content, extracted URLs return to the frontier.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; fill: #111827; }
+      .box { fill: #f8fafc; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .store { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; rx: 8; }
+      .safe { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .line { stroke: #374151; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .label { font-size: 17px; font-weight: 700; }
+      .small { font-size: 13px; fill: #4b5563; }
+    </style>
+  </defs>
+
+  <rect x="40" y="70" width="130" height="70" class="box"/>
+  <text x="105" y="101" text-anchor="middle" class="label">Seed URLs</text>
+  <text x="105" y="123" text-anchor="middle" class="small">domains/topics</text>
+
+  <rect x="230" y="70" width="150" height="70" class="box"/>
+  <text x="305" y="101" text-anchor="middle" class="label">URL frontier</text>
+  <text x="305" y="123" text-anchor="middle" class="small">priority + politeness</text>
+
+  <rect x="450" y="70" width="145" height="70" class="box"/>
+  <text x="523" y="101" text-anchor="middle" class="label">Fetchers</text>
+  <text x="523" y="123" text-anchor="middle" class="small">HTTP + timeout</text>
+
+  <rect x="665" y="70" width="130" height="70" class="box"/>
+  <text x="730" y="101" text-anchor="middle" class="label">Parser</text>
+  <text x="730" y="123" text-anchor="middle" class="small">HTML + links</text>
+
+  <rect x="850" y="70" width="100" height="70" class="store"/>
+  <text x="900" y="101" text-anchor="middle" class="label">Content</text>
+  <text x="900" y="123" text-anchor="middle" class="small">storage</text>
+
+  <rect x="450" y="205" width="145" height="70" class="safe"/>
+  <text x="523" y="235" text-anchor="middle" class="label">Robots cache</text>
+  <text x="523" y="257" text-anchor="middle" class="small">host rules</text>
+
+  <rect x="665" y="205" width="130" height="70" class="safe"/>
+  <text x="730" y="235" text-anchor="middle" class="label">Content seen</text>
+  <text x="730" y="257" text-anchor="middle" class="small">fingerprints</text>
+
+  <rect x="665" y="340" width="130" height="70" class="safe"/>
+  <text x="730" y="370" text-anchor="middle" class="label">URL filter</text>
+  <text x="730" y="392" text-anchor="middle" class="small">policy/traps</text>
+
+  <rect x="450" y="340" width="145" height="70" class="safe"/>
+  <text x="523" y="370" text-anchor="middle" class="label">URL seen</text>
+  <text x="523" y="392" text-anchor="middle" class="small">normalized hashes</text>
+
+  <path d="M 170 105 L 230 105" class="line"/>
+  <path d="M 380 105 L 450 105" class="line"/>
+  <path d="M 595 105 L 665 105" class="line"/>
+  <path d="M 795 105 L 850 105" class="line"/>
+  <path d="M 523 140 L 523 205" class="line"/>
+  <path d="M 730 140 L 730 205" class="line"/>
+  <path d="M 730 275 L 730 340" class="line"/>
+  <path d="M 665 375 L 595 375" class="line"/>
+  <path d="M 450 375 C 330 375 305 250 305 140" class="line"/>
+</svg>

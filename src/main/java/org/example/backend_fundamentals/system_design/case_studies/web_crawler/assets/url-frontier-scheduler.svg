@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-labelledby="title desc">
+  <title id="title">URL frontier priority and politeness scheduler</title>
+  <desc id="desc">Front priority queues feed a host router. Active host queues are scheduled by next allowed fetch time, then workers fetch one URL per eligible host.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; fill: #111827; }
+      .front { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .host { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .store { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; rx: 8; }
+      .worker { fill: #f8fafc; stroke: #475569; stroke-width: 2; rx: 8; }
+      .line { stroke: #374151; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .label { font-size: 16px; font-weight: 700; }
+      .small { font-size: 13px; fill: #4b5563; }
+      .section { font-size: 20px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <text x="45" y="42" class="section">Front queues: priority and freshness</text>
+  <rect x="45" y="70" width="160" height="56" class="front"/>
+  <text x="125" y="103" text-anchor="middle" class="label">High priority</text>
+  <rect x="45" y="145" width="160" height="56" class="front"/>
+  <text x="125" y="178" text-anchor="middle" class="label">Medium priority</text>
+  <rect x="45" y="220" width="160" height="56" class="front"/>
+  <text x="125" y="253" text-anchor="middle" class="label">Low priority</text>
+
+  <rect x="280" y="135" width="150" height="76" class="worker"/>
+  <text x="355" y="166" text-anchor="middle" class="label">Weighted</text>
+  <text x="355" y="188" text-anchor="middle" class="small">queue selector</text>
+
+  <rect x="505" y="135" width="150" height="76" class="worker"/>
+  <text x="580" y="166" text-anchor="middle" class="label">Host router</text>
+  <text x="580" y="188" text-anchor="middle" class="small">hash(host) % N</text>
+
+  <text x="45" y="340" class="section">Back queues: politeness by active host</text>
+  <rect x="45" y="365" width="170" height="70" class="host"/>
+  <text x="130" y="394" text-anchor="middle" class="label">host A URLs</text>
+  <text x="130" y="416" text-anchor="middle" class="small">nextAllowed=10:01</text>
+
+  <rect x="250" y="365" width="170" height="70" class="host"/>
+  <text x="335" y="394" text-anchor="middle" class="label">host B URLs</text>
+  <text x="335" y="416" text-anchor="middle" class="small">nextAllowed=10:03</text>
+
+  <rect x="455" y="365" width="170" height="70" class="host"/>
+  <text x="540" y="394" text-anchor="middle" class="label">active host heap</text>
+  <text x="540" y="416" text-anchor="middle" class="small">earliest host first</text>
+
+  <rect x="700" y="365" width="110" height="70" class="worker"/>
+  <text x="755" y="394" text-anchor="middle" class="label">Worker</text>
+  <text x="755" y="416" text-anchor="middle" class="small">fetch one</text>
+
+  <rect x="850" y="365" width="100" height="70" class="store"/>
+  <text x="900" y="394" text-anchor="middle" class="label">Web</text>
+  <text x="900" y="416" text-anchor="middle" class="small">servers</text>
+
+  <rect x="700" y="135" width="210" height="76" class="store"/>
+  <text x="805" y="166" text-anchor="middle" class="label">Durable frontier store</text>
+  <text x="805" y="188" text-anchor="middle" class="small">inactive/large host queues</text>
+
+  <path d="M 205 98 L 280 160" class="line"/>
+  <path d="M 205 173 L 280 173" class="line"/>
+  <path d="M 205 248 L 280 186" class="line"/>
+  <path d="M 430 173 L 505 173" class="line"/>
+  <path d="M 655 173 L 700 173" class="line"/>
+  <path d="M 580 211 C 530 275 335 310 130 365" class="line"/>
+  <path d="M 580 211 C 570 275 420 315 335 365" class="line"/>
+  <path d="M 215 400 L 250 400" class="line"/>
+  <path d="M 420 400 L 455 400" class="line"/>
+  <path d="M 625 400 L 700 400" class="line"/>
+  <path d="M 810 400 L 850 400" class="line"/>
+</svg>

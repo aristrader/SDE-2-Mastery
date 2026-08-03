@@ -103,6 +103,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Device fingerprinting** → Part 29 row 112
 - **DHCP & MAC addresses (leases, identity vs location, spoofing)** → Part 11 row 31
 - **DI vs DIP** → Part 04, PracticeProblems § 3 Q18
+- **Distributed ID generation (UUID vs ticket server vs Snowflake)** → `system_design/concepts/distributed_id_generation/`
 - **Distributed locks (Redlock, ZK)** → Part 07, PracticeProblems § 2 #19
 - **DNS / DNS-based discovery** → Part 11, Part 13
 - **DORA metrics** → Part 26 row 17
@@ -381,6 +382,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **UML (class / sequence / state / activity)** → Part 05
 - **UBO screening** → Part 29 row 129
 - **UDP (DNS, VoIP, gaming)** → Part 11 row 4
+- **URL shortener HLD (base62, redirects, cache, sharding)** → Part 07 row 44, PracticeProblems § 2 #1, `system_design/case_studies/url_shortener/`
 
 ## V
 
@@ -394,6 +396,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 ## W
 
+- **Web crawler HLD (URL frontier, politeness, dedup, robots.txt)** → Part 07 row 57, PracticeProblems § 2 #14, `system_design/case_studies/web_crawler/`
 - **Webhook signing (HMAC + timestamp + nonce)** → Part 20, Part 29 rows 30-33
 - **Webhooks** → Part 11 row 22
 - **WebMvcTest / SpringBootTest** → Part 25 row 4

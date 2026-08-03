@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="470" viewBox="0 0 940 470" role="img" aria-labelledby="title desc">
+  <title id="title">URL shortener create and redirect flows</title>
+  <desc id="desc">Create flow validates a long URL, generates an ID, base62 encodes it, and stores the mapping. Redirect flow checks cache, falls back to database, and returns redirect.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; fill: #111827; }
+      .title { font-size: 22px; font-weight: 800; }
+      .step { fill: #f8fafc; stroke: #0f766e; stroke-width: 2; rx: 8; }
+      .read { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .line { stroke: #374151; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .label { font-size: 16px; font-weight: 700; }
+      .small { font-size: 13px; fill: #4b5563; }
+    </style>
+  </defs>
+
+  <text x="40" y="42" class="title">Create short URL</text>
+  <rect x="40" y="70" width="135" height="70" class="step"/>
+  <text x="108" y="100" text-anchor="middle" class="label">longUrl</text>
+  <text x="108" y="122" text-anchor="middle" class="small">input</text>
+
+  <rect x="220" y="70" width="135" height="70" class="step"/>
+  <text x="288" y="100" text-anchor="middle" class="label">Validate</text>
+  <text x="288" y="122" text-anchor="middle" class="small">scheme/length</text>
+
+  <rect x="400" y="70" width="135" height="70" class="step"/>
+  <text x="468" y="100" text-anchor="middle" class="label">Generate ID</text>
+  <text x="468" y="122" text-anchor="middle" class="small">globally unique</text>
+
+  <rect x="580" y="70" width="135" height="70" class="step"/>
+  <text x="648" y="100" text-anchor="middle" class="label">Base62</text>
+  <text x="648" y="122" text-anchor="middle" class="small">ID -> code</text>
+
+  <rect x="760" y="70" width="135" height="70" class="step"/>
+  <text x="828" y="100" text-anchor="middle" class="label">Store row</text>
+  <text x="828" y="122" text-anchor="middle" class="small">return shortUrl</text>
+
+  <path d="M 175 105 L 220 105" class="line"/>
+  <path d="M 355 105 L 400 105" class="line"/>
+  <path d="M 535 105 L 580 105" class="line"/>
+  <path d="M 715 105 L 760 105" class="line"/>
+
+  <text x="40" y="252" class="title">Redirect short URL</text>
+  <rect x="40" y="280" width="135" height="70" class="read"/>
+  <text x="108" y="310" text-anchor="middle" class="label">shortCode</text>
+  <text x="108" y="332" text-anchor="middle" class="small">GET /{code}</text>
+
+  <rect x="220" y="280" width="135" height="70" class="read"/>
+  <text x="288" y="310" text-anchor="middle" class="label">Check cache</text>
+  <text x="288" y="332" text-anchor="middle" class="small">hot links</text>
+
+  <rect x="400" y="280" width="135" height="70" class="read"/>
+  <text x="468" y="310" text-anchor="middle" class="label">Read DB</text>
+  <text x="468" y="332" text-anchor="middle" class="small">on miss</text>
+
+  <rect x="580" y="280" width="135" height="70" class="read"/>
+  <text x="648" y="310" text-anchor="middle" class="label">Redirect</text>
+  <text x="648" y="332" text-anchor="middle" class="small">301 or 302</text>
+
+  <rect x="760" y="280" width="135" height="70" class="read"/>
+  <text x="828" y="310" text-anchor="middle" class="label">Analytics</text>
+  <text x="828" y="332" text-anchor="middle" class="small">async event</text>
+
+  <path d="M 175 315 L 220 315" class="line"/>
+  <path d="M 355 315 L 400 315" class="line"/>
+  <path d="M 535 315 L 580 315" class="line"/>
+  <path d="M 715 315 L 760 315" class="line"/>
+  <path d="M 288 280 C 335 230 560 230 648 280" class="line"/>
+  <text x="458" y="230" text-anchor="middle" class="small">cache hit skips DB</text>
+</svg>

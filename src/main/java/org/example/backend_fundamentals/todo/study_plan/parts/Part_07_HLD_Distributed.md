@@ -50,7 +50,7 @@
 | 41 | Geo-distribution, multi-region active-active vs active-passive | 🟠 💼 🎯 | D | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: GeoDNS routing, multi-data-center failover, cross-DC replication, deployment consistency, and DC outage handling covered from Alex Xu pages 23-24 and 103; active-active vs active-passive terminology pending | 📖 `system_design/concepts/scalability/index.md` · 📖 `databases/key_value_store/index.md` |
 | 42 | Hot partition mitigation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: hot-shard cause (low-cardinality keys like country) + good-shard-key choice + virtual nodes covered; key-salting/write-sharding mitigations pending. ~18 min (ChatGPT) | 📖 `databases/sharding/index.md` |
 | 43 | Async processing, queue offload | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 25-26 — producer/consumer decoupling, durable queue buffer, worker scaling from queue size, photo-processing example | 📖 `messaging/message_brokers/index.md` |
-| 44 | HLD — URL shortener | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | See `reference/PracticeProblems.md` § HLD |
+| 44 | HLD — URL shortener | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 119-131 — requirements, estimation, APIs, 301 vs 302, hash+collision vs base62, distributed ID dependency, cache-backed redirects, scaling/failure talking points | 📖 `system_design/case_studies/url_shortener/` |
 | 45 | HLD — Pastebin | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 46 | HLD — Twitter / news feed | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 47 | HLD — Instagram / image-heavy feed | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -63,7 +63,7 @@
 | 54 | HLD — Distributed cache (design Redis-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: distributed cache placement, cache tier, consistent hashing, virtual nodes, cache miss storm, and replication/sharding distinction covered from Alex Xu pages 15-16 and 71-85; full Redis-like design still pending | 📖 `system_design/components/caching/index.md` |
 | 55 | HLD — Distributed message queue (design Kafka-like) | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 56 | HLD — Rate limiter (distributed) | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered fully along with the rate limiting concepts deep-dive. | 📖 `system_design/components/rate_limiting/` |
-| 57 | HLD — Web crawler | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 57 | HLD — Web crawler | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 132-150 + focused external validation — crawler purpose, estimation, pipeline, URL frontier, politeness, priority, freshness, robots.txt, dedup, traps, storage, and distributed worker scaling | 📖 `system_design/case_studies/web_crawler/` |
 | 58 | HLD — Search autocomplete / typeahead | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 59 | HLD — KYC / identity verification platform — your domain | 🟠 🎯 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | Portfolio piece — polish this one |
 | 60 | Backpressure, flow control | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — producer/consumer rate mismatch, 429/503, rate limiting, bounded buffers | 📖 `messaging/queues_pubsub/index.md` |
