@@ -25,23 +25,29 @@ Weak signal:
 - You silently think for long stretches.
 - You defend the first design as if it is perfect.
 
-## The 4-step flow
+## Delivery flow for a 45-minute round
 
 ![System design interview flow](./assets/hld-interview-flow.svg)
 
-### Step 1: Clarify scope
+| Phase | Time | Output |
+| --- | --- | --- |
+| Requirements | 5 min | 3-5 functional and 3-5 quantified non-functional requirements |
+| Core entities and interface | 5 min | Key nouns, essential API/events, and an optional data flow |
+| High-level design | 10-15 min | Main components plus one concrete read/write flow |
+| Critical deep dives | 10-15 min | Bottleneck, tradeoff, failure behavior, and scale path |
+| Wrap-up | 3-5 min | Risks, observability, and next design step |
+
+Follow the interviewer if they redirect, but keep returning to the next unfinished phase. A complete simple system scores better than an unfinished ambitious one.
+
+### 1. Clarify requirements
 
 Spend the first few minutes narrowing the problem:
 
-- What are the must-have features?
-- Is this web, mobile, backend API, or all of them?
-- What is the scale: DAU, QPS, data size, regions?
-- What is the read/write ratio?
-- What consistency or latency expectations matter?
-- Are media files, search, notifications, ranking, payments, or external vendors involved?
-- Can we use existing infrastructure such as object storage, CDN, queue, gateway, or managed DB?
+- Functional: What are the three most important user actions? What is explicitly out of scope?
+- Non-functional: What scale, read/write shape, latency, durability, consistency, availability, security, or compliance requirement changes the design?
+- Constraints: Single region or global? Existing managed services? Third-party dependencies? Burst traffic?
 
-Do not skip this. If you design the wrong product, the rest of the answer is noise.
+Write down only the requirements that will drive a decision. "Low latency" is vague; "feed p99 below 200 ms" is useful. Do not invent a large feature list.
 
 Example for news feed:
 
@@ -58,7 +64,22 @@ Interviewer: 10M DAU, max 5000 friends per user.
 
 Those answers decide whether you talk about media storage, CDN, fanout, ranking, and celebrity users.
 
-### Step 2: Propose high-level design
+### 2. Name core entities and the interface
+
+Before drawing infrastructure, name the core resources and actors. For a feed: `User`, `Post`, `Follow`, and `Timeline`. This gives the API and data model stable language without prematurely writing every table column.
+
+For a narrow service, sketch the few API operations or events now. For a broad product, keep the contract light until the main flow is clear.
+
+```text
+Broad product: flows and components first
+Narrow service: API + core data model early
+```
+
+Use REST by default for an external CRUD-style interface; introduce gRPC/RPC or a real-time channel only when it solves a stated need. Derive the actor from authentication rather than trusting a user ID supplied in the request body.
+
+If the system is a pipeline, write a short data flow before the diagram, for example: `upload -> validate -> persist -> enqueue processing -> notify`. Skip this for simple request/response systems.
+
+### 3. Propose high-level design
 
 Draw the first usable architecture:
 
@@ -85,24 +106,11 @@ Use concrete flows, not just boxes. For a feed system:
 - Publishing flow: user writes post → store post → fan out or enqueue feed update.
 - Retrieval flow: user opens feed → read timeline/cache → hydrate post/user/media details.
 
-### API and schema timing
+Start with the smallest architecture that serves the functional requirements. Walk through one important request end-to-end and narrate which state changes at each step. Add cache, queue, replication, sharding, or CDN only when a non-functional requirement creates a reason.
 
-Do not always start with API endpoints and database schema. For broad questions like "Design YouTube" or "Design Google Search," API/schema is too low-level early. For narrower backend problems like URL shortener, rate limiter, parking reservation, or chat message send/read, a small API sketch helps anchor the design.
+At this point, ask for buy-in: "This covers the main flows. Would you like me to deepen the write path, read path, or storage strategy?"
 
-Good rule:
-
-```text
-Broad product HLD → flows and components first
-Narrow backend service → API + core data model can appear early
-```
-
-Ask the interviewer:
-
-```text
-"Would you like me to define the API/data model now, or stay at component level first?"
-```
-
-### Step 3: Deep dive on the critical parts
+### 4. Deep dive on the critical parts
 
 Pick the components that carry the design risk. Senior interviews usually care about bottlenecks and tradeoffs, not every table column.
 
@@ -120,7 +128,9 @@ Bad deep dives:
 - Designing a perfect ranking algorithm when the interview is about scalable feed delivery.
 - Writing every API field before agreeing on the architecture.
 
-### Step 4: Wrap up
+Use estimates when the result changes a choice: cache size, partition count, queue throughput, object-storage cost, or whether one node is enough. Do not calculate numbers merely to prove that traffic is large.
+
+### 5. Wrap up
 
 End by showing critical thinking:
 
@@ -137,30 +147,13 @@ Good closing:
 "The current design supports the required scale by caching reads, using a queue for async fanout, and storing media in object storage behind CDN. The risks are hot users, queue lag, and cache invalidation. I would monitor feed publish latency, queue depth, cache hit rate, DB QPS, and p99 feed read latency."
 ```
 
-## Time allocation
-
-For a 45-minute round:
-
-| Phase | Time |
-|-------|------|
-| Clarify scope | 3-8 min |
-| High-level design | 10-15 min |
-| Deep dive | 15-20 min |
-| Wrap-up | 3-5 min |
-
-Adjust if the interviewer steers you. Some interviewers want a broad architecture; some want a narrow deep dive.
-
 ## Interview checklist
 
-- Clarify requirements before drawing.
-- Write assumptions where both of you can see them.
-- Start with a simple design, then scale it.
-- Use back-of-envelope estimates when scale affects the architecture.
-- Add API/schema only when it clarifies the design at the right level.
-- Explain tradeoffs, not just choices.
-- Ask for feedback after the high-level design.
-- Deep dive into the risky components first.
-- Discuss failures, retries, monitoring, and rollout before time ends.
+- Requirements: core actions, exclusions, scale, latency, and consistency/durability.
+- Contract: entities, APIs/events, and a data flow only when it clarifies the design.
+- Architecture: one complete flow through the main boxes and relevant stored state.
+- Depth: the highest-risk bottleneck, a rejected alternative, and failure behavior.
+- Close: metrics, alerts, rollout, and what breaks at the next order of magnitude.
 
 ## Gotchas / Trick questions
 

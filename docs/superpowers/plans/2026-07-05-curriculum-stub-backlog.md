@@ -28,8 +28,8 @@ This report lists markdown files that appear to be empty, placeholders, AI-gener
 - `src/main/java/org/example/backend_fundamentals/networking/api_gateway/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/proxies_vpn/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/tcp_vs_udp/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
-- `src/main/java/org/example/backend_fundamentals/networking/api_design/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
-- `src/main/java/org/example/backend_fundamentals/networking/api_design/graphql/exercise/index.md`: Low content stub (6 lines total, no meaningful body)
+- `src/main/java/org/example/backend_fundamentals/api_design/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
+- `src/main/java/org/example/backend_fundamentals/api_design/graphql/exercise/index.md`: Low content stub (6 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/dns/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/http_basics/exercise/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/java/collections/maps/linked_hashmap/exercise/index.md`: Historical low-content stub, now expanded and moved under maps.
@@ -121,8 +121,8 @@ This report lists markdown files that appear to be empty, placeholders, AI-gener
 - `src/main/java/org/example/backend_fundamentals/networking/api_gateway/solution/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/proxies_vpn/solution/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/tcp_vs_udp/solution/index.md`: Low content stub (8 lines total, no meaningful body)
-- `src/main/java/org/example/backend_fundamentals/networking/api_design/solution/index.md`: Low content stub (8 lines total, no meaningful body)
-- `src/main/java/org/example/backend_fundamentals/networking/api_design/graphql/solution/index.md`: Low content stub (6 lines total, no meaningful body)
+- `src/main/java/org/example/backend_fundamentals/api_design/solution/index.md`: Low content stub (8 lines total, no meaningful body)
+- `src/main/java/org/example/backend_fundamentals/api_design/graphql/solution/index.md`: Low content stub (6 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/dns/solution/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/networking/http_basics/solution/index.md`: Low content stub (8 lines total, no meaningful body)
 - `src/main/java/org/example/backend_fundamentals/java/collections/maps/linked_hashmap/solution/index.md`: Historical low-content stub, now expanded and moved under maps.

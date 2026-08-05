@@ -213,6 +213,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## L
 
 - **Lazy initialization** → Part 04 (Singleton)
+- **LLD interview framework (requirements → entities → class design → core behavior → verification)** → Part 30 row 2, `system_design/lld_interview_framework/`
 - **Liveness (active / passive / PAD)** → Part 29 rows 10-13
 - **Load balancer (L4 vs L7, redundancy, draining, consistent hashing)** → Part 07 row 6, Part 11, Part 26
 - **Local vs distributed cache** → Part 09
@@ -241,6 +242,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 - **Normalization / normal forms (1NF–BCNF, functional/partial/transitive dependencies)** → Part 06 (row 1)
 - **N-tier / layered architecture (layer vs tier, closed vs open layers)** → Part 07 (row 68)
+- **News feed HLD (fanout on write/read, hybrid, feed cache, post cache)** → Part 07 row 46, `system_design/case_studies/news_feed/`
 - **NFC chip reading (e-passport)** → Part 29 row 8, Part 31 row 29
 - **NIST FRVT** → Part 29 row 18
 - **NIST 800-63 IAL/AAL** → Part 29 rows 2-3
@@ -264,6 +266,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## P
 
 - **PACE vs BAC (NFC)** → Part 29 row 8
+- **Pagination (offset, cursor, keyset)** → Part 12 row 4, `databases/pagination/index.md`
 - **Publish-subscribe / point-to-point / fan-out (event vs command)** → Part 07 (row 12), Part 10 (rows 10, 13)
 - **Pattern matching in switch (instanceof binding, exhaustive)** → Part 01 row 31, Part 1b rows 24, 27
 - **Partial completion (KYC)** → Part 29 row 65, Part 31 row 62

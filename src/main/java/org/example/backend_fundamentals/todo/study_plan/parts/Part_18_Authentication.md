@@ -6,12 +6,12 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 2 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `networking/api_design/api_technologies_summary/index.md` |
+| 2 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
 | 3 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
 | 4 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs | [x] | [x] | [ ] | [ ] | | 📖 `security/authentication/index.md` · 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
 | 5 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `networking/api_design/api_technologies_summary/index.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
-| 7 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `networking/api_design/api_technologies_summary/index.md` |
+| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
+| 7 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
 | 8 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` |
 | 9 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` |
 | 10 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |

@@ -855,6 +855,10 @@
           {
             "text": "Distributed Key-Value Store",
             "link": "/databases/key_value_store/"
+          },
+          {
+            "text": "Pagination",
+            "link": "/databases/pagination/"
           }
         ]
       }
@@ -882,29 +886,6 @@
           {
             "text": "Client ↔ Server Communication Patterns",
             "link": "/networking/communication_patterns/"
-          },
-          {
-            "text": "API Technologies Study Notes — Complete Conversation Dump",
-            "link": "/networking/api_design/",
-            "items": [
-              {
-                "text": "Graph Databases & GraphQL — Related in Name Only",
-                "link": "/networking/api_design/graphql/"
-              },
-              {
-                "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
-                "link": "/networking/api_design/api_technologies_summary/"
-              },
-              {
-                "text": "API Technologies Study Notes — Complete Conversation Dump",
-                "link": "/networking/api_design/protobuf_grpc/"
-              },
-              {
-                "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
-                "link": "/networking/api_design/api_technologies_comparison/"
-              }
-            ],
-            "collapsed": true
           },
           {
             "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -1051,6 +1032,14 @@
               {
                 "text": "Notification System",
                 "link": "/system_design/case_studies/notification_system/"
+              },
+              {
+                "text": "Notification LLD",
+                "link": "/system_design/case_studies/notification_lld/"
+              },
+              {
+                "text": "News Feed System",
+                "link": "/system_design/case_studies/news_feed/"
               }
             ],
             "collapsed": true
@@ -1058,6 +1047,10 @@
           {
             "text": "System Design Interview Framework",
             "link": "/system_design/interview_framework/"
+          },
+          {
+            "text": "Low-Level Design Interview Framework",
+            "link": "/system_design/lld_interview_framework/"
           }
         ]
       }
@@ -1421,6 +1414,29 @@
         ]
       }
     ],
+    "/api_design/": [
+      {
+        "text": "API Design",
+        "items": [
+          {
+            "text": "Graph Databases & GraphQL — Related in Name Only",
+            "link": "/api_design/graphql/"
+          },
+          {
+            "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+            "link": "/api_design/api_technologies_summary/"
+          },
+          {
+            "text": "API Technologies Study Notes — Complete Conversation Dump",
+            "link": "/api_design/protobuf_grpc/"
+          },
+          {
+            "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+            "link": "/api_design/api_technologies_comparison/"
+          }
+        ]
+      }
+    ],
     "/gen_ai/": [
       {
         "text": "GenAI",
@@ -1537,6 +1553,11 @@
       "text": "Health and Fitness",
       "link": "/health_fitness/",
       "activeMatch": "/health_fitness/"
+    },
+    {
+      "text": "API Design",
+      "link": "/api_design/",
+      "activeMatch": "/api_design/"
     },
     {
       "text": "GenAI",
@@ -6651,6 +6672,20 @@
               "playground": false,
               "assets": true
             }
+          },
+          {
+            "text": "Pagination",
+            "link": "/databases/pagination/",
+            "order": 120,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
           }
         ]
       },
@@ -6737,78 +6772,6 @@
               "playground": false,
               "assets": false
             }
-          },
-          {
-            "text": "API Technologies Study Notes — Complete Conversation Dump",
-            "link": "/networking/api_design/",
-            "order": 60,
-            "schema": "practice",
-            "practiceSet": null,
-            "capabilities": {
-              "exercise": true,
-              "solution": true,
-              "design": false,
-              "playground": false,
-              "assets": false
-            },
-            "items": [
-              {
-                "text": "Graph Databases & GraphQL — Related in Name Only",
-                "link": "/networking/api_design/graphql/",
-                "order": 10,
-                "schema": "practice",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
-                "link": "/networking/api_design/api_technologies_summary/",
-                "order": 20,
-                "schema": "theory",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": false,
-                  "solution": false,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "API Technologies Study Notes — Complete Conversation Dump",
-                "link": "/networking/api_design/protobuf_grpc/",
-                "order": 30,
-                "schema": "theory",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": false,
-                  "solution": false,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              },
-              {
-                "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
-                "link": "/networking/api_design/api_technologies_comparison/",
-                "order": 40,
-                "schema": "theory",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": false,
-                  "solution": false,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
-              }
-            ]
           },
           {
             "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -7269,6 +7232,34 @@
                   "playground": false,
                   "assets": true
                 }
+              },
+              {
+                "text": "Notification LLD",
+                "link": "/system_design/case_studies/notification_lld/",
+                "order": 60,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "News Feed System",
+                "link": "/system_design/case_studies/news_feed/",
+                "order": 70,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": true
+                }
               }
             ]
           },
@@ -7284,6 +7275,20 @@
               "design": true,
               "playground": false,
               "assets": true
+            }
+          },
+          {
+            "text": "Low-Level Design Interview Framework",
+            "link": "/system_design/lld_interview_framework/",
+            "order": 70,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
             }
           }
         ]
@@ -8421,6 +8426,78 @@
         ]
       },
       {
+        "text": "API Design",
+        "link": "/api_design/",
+        "order": 160,
+        "schema": "practice",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": true,
+          "solution": true,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Graph Databases & GraphQL — Related in Name Only",
+            "link": "/api_design/graphql/",
+            "order": 10,
+            "schema": "practice",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": true,
+              "solution": true,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+            "link": "/api_design/api_technologies_summary/",
+            "order": 20,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "API Technologies Study Notes — Complete Conversation Dump",
+            "link": "/api_design/protobuf_grpc/",
+            "order": 30,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+            "link": "/api_design/api_technologies_comparison/",
+            "order": 40,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
         "text": "GenAI",
         "link": "/gen_ai/",
         "order": 180,
@@ -9292,6 +9369,10 @@
       "link": "/databases/key_value_store/"
     },
     {
+      "text": "Pagination",
+      "link": "/databases/pagination/"
+    },
+    {
       "text": "Networking",
       "link": "/networking/"
     },
@@ -9314,26 +9395,6 @@
     {
       "text": "Client ↔ Server Communication Patterns",
       "link": "/networking/communication_patterns/"
-    },
-    {
-      "text": "API Technologies Study Notes — Complete Conversation Dump",
-      "link": "/networking/api_design/"
-    },
-    {
-      "text": "Graph Databases & GraphQL — Related in Name Only",
-      "link": "/networking/api_design/graphql/"
-    },
-    {
-      "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
-      "link": "/networking/api_design/api_technologies_summary/"
-    },
-    {
-      "text": "API Technologies Study Notes — Complete Conversation Dump",
-      "link": "/networking/api_design/protobuf_grpc/"
-    },
-    {
-      "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
-      "link": "/networking/api_design/api_technologies_comparison/"
     },
     {
       "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -9464,8 +9525,20 @@
       "link": "/system_design/case_studies/notification_system/"
     },
     {
+      "text": "Notification LLD",
+      "link": "/system_design/case_studies/notification_lld/"
+    },
+    {
+      "text": "News Feed System",
+      "link": "/system_design/case_studies/news_feed/"
+    },
+    {
       "text": "System Design Interview Framework",
       "link": "/system_design/interview_framework/"
+    },
+    {
+      "text": "Low-Level Design Interview Framework",
+      "link": "/system_design/lld_interview_framework/"
     },
     {
       "text": "Performance Engineering",
@@ -9770,6 +9843,26 @@
     {
       "text": "Monthly Log",
       "link": "/health_fitness/tracking_playbook/monthly/"
+    },
+    {
+      "text": "API Design",
+      "link": "/api_design/"
+    },
+    {
+      "text": "Graph Databases & GraphQL — Related in Name Only",
+      "link": "/api_design/graphql/"
+    },
+    {
+      "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+      "link": "/api_design/api_technologies_summary/"
+    },
+    {
+      "text": "API Technologies Study Notes — Complete Conversation Dump",
+      "link": "/api_design/protobuf_grpc/"
+    },
+    {
+      "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+      "link": "/api_design/api_technologies_comparison/"
     },
     {
       "text": "GenAI",
@@ -18701,6 +18794,20 @@
       },
       "referenceHtml": "<h1>Design</h1>\n<h2>Design a distributed key-value store</h2>\n<p>Assumptions:</p>\n<ul>\n<li>values are small, usually less than 10 KB</li>\n<li>total data is too large for one machine</li>\n<li>low-latency <code>get</code> and <code>put</code></li>\n<li>high availability during node failures</li>\n<li>tunable consistency</li>\n<li>automatic node add/remove</li>\n</ul>\n<h2>High-level design</h2>\n<pre><code>Client\n  -&gt; Coordinator node\n  -&gt; Consistent hash ring\n  -&gt; N replica nodes\n  -&gt; return after R or W quorum</code></pre>\n<p>The coordinator does not need to be a special central server. Any node can act as coordinator for a request. That avoids a single point of failure.</p>\n<h2>Data placement</h2>\n<p>1. Hash the key onto the ring.</p>\n<p>2. Walk clockwise to find the first physical node.</p>\n<p>3. Continue walking to choose <code>N</code> unique physical nodes for replication.</p>\n<p>4. Use virtual nodes so distribution is smooth and weighted by capacity.</p>\n<h2>Write path</h2>\n<pre><code>put(k, v)\n  -&gt; coordinator picks N replicas\n  -&gt; each replica appends to commit log\n  -&gt; each replica writes memtable\n  -&gt; coordinator returns after W ACKs\n  -&gt; memtable eventually flushes to SSTable</code></pre>\n<h2>Read path</h2>\n<pre><code>get(k)\n  -&gt; coordinator asks R replicas\n  -&gt; replicas check memtable/cache\n  -&gt; Bloom filter narrows SSTables\n  -&gt; SSTable read\n  -&gt; coordinator reconciles versions\n  -&gt; return latest/merged value</code></pre>\n<h2>Consistency choice</h2>\n<p>For an AP-style design, use eventual consistency with quorums:</p>\n<ul>\n<li><code>N=3, W=1, R=1</code>: fastest, weakest</li>\n<li><code>N=3, W=2, R=2</code>: stronger common default</li>\n<li><code>N=3, W=3, R=1</code>: fast reads, slow writes</li>\n<li><code>N=3, W=1, R=3</code>: fast writes, slow reads</li>\n</ul>\n<p>If the product cannot tolerate stale or conflicting values, a Dynamo-style AP store is the wrong default. Pick a CP database or strongly consistent configuration.</p>\n<h2>Failure handling</h2>\n<ul>\n<li><strong>Gossip:</strong> nodes share heartbeat/membership updates.</li>\n<li><strong>Sloppy quorum:</strong> use healthy substitute nodes when assigned replicas are down.</li>\n<li><strong>Hinted handoff:</strong> substitutes return missed writes to the owner after recovery.</li>\n<li><strong>Merkle tree repair:</strong> compare replica ranges and sync only differences.</li>\n<li><strong>Cross-DC replication:</strong> survive full data-center outages.</li>\n</ul>\n<h2>Interview wrap-up</h2>\n<p>This design scales writes/storage by partitioning keys with consistent hashing, improves availability by replicating each key to <code>N</code> nodes, tunes latency vs consistency with <code>R/W</code> quorums, handles temporary failures with hinted handoff, and repairs permanent drift with anti-entropy/Merkle trees.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What should you deep dive first?</strong>  </p>\n<p>A. Partitioning, replication/quorums, failure repair, then read/write path.</p>\n<p><strong>Q. What is the main tradeoff?</strong>  </p>\n<p>A. Availability/latency vs consistency/conflict complexity.</p>"
     },
+    "/databases/pagination/": {
+      "text": "Pagination",
+      "link": "/databases/pagination/",
+      "pageType": "theory",
+      "parentLink": "/databases/pagination/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/networking/": {
       "text": "Networking",
       "link": "/networking/",
@@ -18934,136 +19041,6 @@
         "assets": false
       },
       "referenceHtml": "<h1>Solution</h1>"
-    },
-    "/networking/api_design/": {
-      "text": "API Technologies Study Notes — Complete Conversation Dump",
-      "link": "/networking/api_design/",
-      "pageType": "theory",
-      "parentLink": "/networking/api_design/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/networking/api_design/exercise/": {
-      "text": "API Technologies Study Notes — Complete Conversation Dump",
-      "link": "/networking/api_design/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/networking/api_design/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "practiceSet": null
-    },
-    "/networking/api_design/solution/": {
-      "text": "API Technologies Study Notes — Complete Conversation Dump",
-      "link": "/networking/api_design/solution/",
-      "pageType": "solution",
-      "parentLink": "/networking/api_design/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solution</h1>"
-    },
-    "/networking/api_design/graphql/": {
-      "text": "Graph Databases & GraphQL — Related in Name Only",
-      "link": "/networking/api_design/graphql/",
-      "pageType": "theory",
-      "parentLink": "/networking/api_design/graphql/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/networking/api_design/graphql/exercise/": {
-      "text": "Graph Databases & GraphQL — Related in Name Only",
-      "link": "/networking/api_design/graphql/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/networking/api_design/graphql/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "practiceSet": null
-    },
-    "/networking/api_design/graphql/solution/": {
-      "text": "Graph Databases & GraphQL — Related in Name Only",
-      "link": "/networking/api_design/graphql/solution/",
-      "pageType": "solution",
-      "parentLink": "/networking/api_design/graphql/",
-      "schema": "practice",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": false,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solution</h1>"
-    },
-    "/networking/api_design/api_technologies_summary/": {
-      "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
-      "link": "/networking/api_design/api_technologies_summary/",
-      "pageType": "theory",
-      "parentLink": "/networking/api_design/api_technologies_summary/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/networking/api_design/protobuf_grpc/": {
-      "text": "API Technologies Study Notes — Complete Conversation Dump",
-      "link": "/networking/api_design/protobuf_grpc/",
-      "pageType": "theory",
-      "parentLink": "/networking/api_design/protobuf_grpc/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
-    "/networking/api_design/api_technologies_comparison/": {
-      "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
-      "link": "/networking/api_design/api_technologies_comparison/",
-      "pageType": "theory",
-      "parentLink": "/networking/api_design/api_technologies_comparison/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
     },
     "/networking/api_gateway/": {
       "text": "Consolidated Technical Notes: Service Discovery, Load Balancers, Gateways, and Service Mesh",
@@ -20173,6 +20150,94 @@
       },
       "referenceHtml": "<h1>Design a Notification System</h1>\n<h2>Problem</h2>\n<p>Design a scalable notification system that supports push notifications, SMS, and email.</p>\n<h2>Clarify scope</h2>\n<p>Ask:</p>\n<ul>\n<li>Which channels are required: push, SMS, email, WhatsApp, in-app?</li>\n<li>Is delivery hard real-time or soft real-time?</li>\n<li>What triggers notifications: services, user actions, scheduled jobs, campaigns?</li>\n<li>Can users opt out by channel and notification type?</li>\n<li>What daily volume and burst traffic should we handle?</li>\n<li>Do we need delivery analytics such as sent, delivered, opened, clicked?</li>\n<li>Are notifications transactional, marketing, or both?</li>\n</ul>\n<p>Reasonable interview assumptions:</p>\n<pre><code>10M push/day, 1M SMS/day, 5M email/day\nSoft real-time delivery\nInternal services and schedulers trigger sends\nUsers can opt out\nProvider failures are expected</code></pre>\n<h2>Functional requirements</h2>\n<ul>\n<li>Send push, SMS, and email notifications.</li>\n<li>Store contact info and device tokens.</li>\n<li>Respect user notification settings.</li>\n<li>Support templates.</li>\n<li>Retry transient provider failures.</li>\n<li>Track delivery status and analytics events.</li>\n</ul>\n<h2>Non-functional requirements</h2>\n<ul>\n<li>Durable notification jobs.</li>\n<li>Horizontally scalable API servers and workers.</li>\n<li>Channel isolation.</li>\n<li>Low latency for transactional notifications.</li>\n<li>Rate limiting to protect users and provider quotas.</li>\n<li>Observability for queues, workers, providers, and delivery status.</li>\n</ul>\n<h2>API sketch</h2>\n<p>Internal send API:</p>\n<pre><code>POST /v1/notifications\nContent-Type: application/json\n\n{\n  &quot;eventId&quot;: &quot;payment-123-receipt&quot;,\n  &quot;userId&quot;: &quot;u123&quot;,\n  &quot;type&quot;: &quot;PAYMENT_RECEIPT&quot;,\n  &quot;channels&quot;: [&quot;PUSH&quot;, &quot;EMAIL&quot;],\n  &quot;templateId&quot;: &quot;payment_receipt_v3&quot;,\n  &quot;params&quot;: {\n    &quot;amount&quot;: &quot;499.00&quot;,\n    &quot;merchant&quot;: &quot;Acme&quot;\n  },\n  &quot;priority&quot;: &quot;HIGH&quot;\n}</code></pre>\n<p>Response:</p>\n<pre><code>202 Accepted\n{\n  &quot;notificationId&quot;: &quot;n789&quot;,\n  &quot;status&quot;: &quot;QUEUED&quot;\n}</code></pre>\n<p>Return <code>202</code> because provider delivery happens asynchronously.</p>\n<h2>Data model</h2>\n<pre><code>user_contact(\n  user_id bigint primary key,\n  email varchar,\n  phone varchar,\n  updated_at timestamp\n)\n\ndevice_token(\n  device_id varchar primary key,\n  user_id bigint,\n  platform varchar,\n  token varchar,\n  status varchar,\n  updated_at timestamp\n)\n\nnotification_setting(\n  user_id bigint,\n  notification_type varchar,\n  channel varchar,\n  opt_in boolean,\n  primary key(user_id, notification_type, channel)\n)\n\nnotification_log(\n  notification_id varchar primary key,\n  event_id varchar unique,\n  user_id bigint,\n  notification_type varchar,\n  channel varchar,\n  status varchar,\n  attempt_count int,\n  next_retry_at timestamp,\n  created_at timestamp,\n  updated_at timestamp\n)</code></pre>\n<p>Keep <code>event_id</code> unique for producer-level dedupe. Keep per-channel log rows if one logical event fans out to push + email + SMS.</p>\n<h2>Architecture</h2>\n<p>![Notification system architecture](../assets/notification-system-architecture.svg)</p>\n<p>Component responsibilities:</p>\n<p>| Component | Responsibility |</p>\n<p>| --- | --- |</p>\n<p>| Producer services | Trigger notification requests |</p>\n<p>| Notification API | Auth, validation, preference checks, metadata lookup, enqueue |</p>\n<p>| Cache | Hot user/device/settings/template reads |</p>\n<p>| DB | Source of truth for contacts, settings, templates, logs |</p>\n<p>| Channel queues | Buffer ready delivery jobs independently |</p>\n<p>| Workers | Consume jobs and call provider adapters |</p>\n<p>| Providers | APNS, FCM, SMS vendors, email vendors |</p>\n<p>| Analytics/monitoring | Delivery status, queue health, opens, clicks |</p>\n<h2>Flow</h2>\n<p>1. Producer service calls <code>POST /v1/notifications</code>.</p>\n<p>2. API authenticates producer and validates payload.</p>\n<p>3. API checks dedupe by <code>eventId</code>.</p>\n<p>4. API loads user contact info, devices, settings, and template metadata.</p>\n<p>5. API skips opted-out channel/type pairs.</p>\n<p>6. API writes notification log rows.</p>\n<p>7. API publishes one delivery job per target channel.</p>\n<p>8. Worker consumes job and calls provider adapter.</p>\n<p>9. Worker updates status to <code>SENT</code>, <code>FAILED_RETRYABLE</code>, <code>FAILED_FINAL</code>, or <code>DELIVERED</code> when callbacks exist.</p>\n<p>10. Events flow into analytics and monitoring.</p>\n<h2>Deep dive decisions</h2>\n<h3>Queue placement</h3>\n<p>Put queues after the notification API for the standard design. The API turns a raw business request into validated, authorized, preference-checked delivery jobs.</p>\n<p>At very high scale, you can add an ingestion queue before the notification API too:</p>\n<pre><code>producer -&gt; ingestion queue -&gt; orchestrator -&gt; channel queues -&gt; workers</code></pre>\n<p>Mention this only if the interviewer pushes on producer burst absorption.</p>\n<h3>Per-channel queues</h3>\n<p>Use per-channel queues because channels have different limits, costs, providers, and failure modes. A SendGrid slowdown should not stop OTP push notifications.</p>\n<h3>Cache usage</h3>\n<p>Cache metadata needed to build/send notifications:</p>\n<ul>\n<li>user contact info</li>\n<li>device tokens</li>\n<li>notification settings</li>\n<li>templates</li>\n</ul>\n<p>Do not treat cache as the durable notification queue. The queue stores jobs; DB/log stores delivery truth.</p>\n<h3>Retry and DLQ</h3>\n<p>Use exponential backoff with max attempts:</p>\n<pre><code>attempt 1 -&gt; immediate\nattempt 2 -&gt; +30 seconds\nattempt 3 -&gt; +2 minutes\nattempt 4 -&gt; +10 minutes\nthen DLQ + alert</code></pre>\n<p>Tune by channel. OTP retries after 10 minutes may be useless; email receipt retries may still be valuable.</p>\n<h3>Priority</h3>\n<p>Prioritize transactional over marketing:</p>\n<pre><code>OTP / security alert &gt; payment receipt &gt; delivery update &gt; marketing</code></pre>\n<p>Implement with separate priority queues or a priority field consumed by the scheduler. Keep strict rate limits even for high-priority traffic so one bug cannot spam a user.</p>\n<h3>Provider failover</h3>\n<p>Use adapters and routing rules:</p>\n<pre><code>SMS India -&gt; Provider A\nSMS US -&gt; Provider B\nProvider timeout -&gt; retry same provider or fail over based on message type</code></pre>\n<p>For OTP/payment, avoid aggressive failover that may duplicate sends unless idempotency is strong.</p>\n<h2>Failure modes</h2>\n<p>| Failure | Handling |</p>\n<p>| --- | --- |</p>\n<p>| Notification API down | Producers retry with idempotency key |</p>\n<p>| Cache down | Read from DB; slower but correct |</p>\n<p>| DB down | Do not accept jobs that cannot be logged durably |</p>\n<p>| Queue lag | Autoscale workers, shed low-priority campaigns |</p>\n<p>| Worker crash | Message not acked; retry after visibility timeout/lease expiry |</p>\n<p>| Provider outage | Retry, fail over if safe, DLQ after max attempts |</p>\n<p>| Duplicate producer request | Dedupe by <code>event_id</code> |</p>\n<p>| User disabled channel | Skip before enqueue and record skipped status if audit matters |</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why return <code>202 Accepted</code> from send API?</strong>  </p>\n<p>A. The API accepts and queues work; actual provider delivery is async.</p>\n<p><strong>Q. Why not call providers directly from product services?</strong>  </p>\n<p>A. It duplicates vendor logic, bypasses preferences/rate limits, and makes failures harder to control.</p>\n<p><strong>Q. Why separate notification type from channel?</strong>  </p>\n<p>A. Type is business intent; channel is delivery method. A payment receipt can go through email and push.</p>\n<p><strong>Q. When should DB failure reject a notification request?</strong>  </p>\n<p>A. When the system cannot persist the notification log/outbox durably.</p>\n<p><strong>Q. What is the clean worker mental model?</strong>  </p>\n<p>A. Stateless consumers pull channel jobs, call provider adapters, update status, and retry/DLQ failures.</p>"
     },
+    "/system_design/case_studies/notification_lld/": {
+      "text": "Notification LLD",
+      "link": "/system_design/case_studies/notification_lld/",
+      "pageType": "theory",
+      "parentLink": "/system_design/case_studies/notification_lld/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/system_design/case_studies/notification_lld/exercise/": {
+      "text": "Notification LLD",
+      "link": "/system_design/case_studies/notification_lld/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/system_design/case_studies/notification_lld/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/system_design/case_studies/notification_lld/design/": {
+      "text": "Notification LLD",
+      "link": "/system_design/case_studies/notification_lld/design/",
+      "pageType": "design",
+      "parentLink": "/system_design/case_studies/notification_lld/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Notification LLD Design</h1>\n<h2>Responsibilities</h2>\n<p>| Class | Role |</p>\n<p>| --- | --- |</p>\n<p>| <code>NotificationService</code> | Orchestrates validation, rendering, routing, sending |</p>\n<p>| <code>TemplateRenderer</code> | Converts request + channel into a message |</p>\n<p>| <code>ChannelRouter</code> | Finds the right sender for a channel |</p>\n<p>| <code>NotificationSender</code> | Strategy interface for channel senders |</p>\n<p>| <code>EmailProviderClient</code> / <code>SmsProviderClient</code> / <code>PushProviderClient</code> | Vendor adapters |</p>\n<h2>Flow</h2>\n<pre><code>request\n  -&gt; validate recipient/channel data\n  -&gt; render channel-specific message\n  -&gt; find sender by channel\n  -&gt; sender calls provider client\n  -&gt; collect per-channel SendResult</code></pre>\n<h2>Boundaries</h2>\n<ul>\n<li><code>NotificationService</code> does not know SendGrid/Twilio/Firebase APIs.</li>\n<li>Channel senders do not decide templates.</li>\n<li>Provider clients do not know notification type.</li>\n<li>Each channel returns its own <code>SendResult</code>.</li>\n</ul>\n<h2>Quick recall</h2>\n<p><strong>Q. Why not put email/SMS/push if-else inside the service?</strong>  </p>\n<p>A. It couples orchestration to every channel and vendor. Strategy + router keeps it replaceable.</p>\n<p><strong>Q. What changes when adding WhatsApp?</strong>  </p>\n<p>A. Add <code>WHATSAPP</code>, a sender, a provider client, and template support. Existing senders stay unchanged.</p>"
+    },
+    "/system_design/case_studies/news_feed/": {
+      "text": "News Feed System",
+      "link": "/system_design/case_studies/news_feed/",
+      "pageType": "theory",
+      "parentLink": "/system_design/case_studies/news_feed/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      }
+    },
+    "/system_design/case_studies/news_feed/exercise/": {
+      "text": "News Feed System",
+      "link": "/system_design/case_studies/news_feed/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/system_design/case_studies/news_feed/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/system_design/case_studies/news_feed/design/": {
+      "text": "News Feed System",
+      "link": "/system_design/case_studies/news_feed/design/",
+      "pageType": "design",
+      "parentLink": "/system_design/case_studies/news_feed/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Design a News Feed System</h1>\n<h2>Problem</h2>\n<p>Design a news feed system like Facebook feed, Twitter timeline, or Instagram home feed.</p>\n<h2>Clarify scope</h2>\n<p>Ask:</p>\n<ul>\n<li>Is it web, mobile, or both?</li>\n<li>Is the relationship model friends, follows, or both?</li>\n<li>Is feed order reverse chronological or ranked?</li>\n<li>How many DAU?</li>\n<li>How many friends/followers can a user have?</li>\n<li>Can posts contain images and videos?</li>\n<li>Do we need likes, replies, notifications, and privacy controls?</li>\n</ul>\n<p>Reasonable assumptions:</p>\n<pre><code>10M DAU\nReverse chronological feed\n5000 friends max per user\nText, image, and video posts\nNo ranking ML in the base design</code></pre>\n<h2>Functional requirements</h2>\n<ul>\n<li>Publish a post.</li>\n<li>Retrieve a user's feed.</li>\n<li>Include text and media references.</li>\n<li>Respect authentication, privacy, mute/block/share settings.</li>\n<li>Show basic metadata: author, profile image, post content, media, likes/replies.</li>\n</ul>\n<h2>Non-functional requirements</h2>\n<ul>\n<li>Low-latency feed reads.</li>\n<li>Durable posts.</li>\n<li>Scalable fanout.</li>\n<li>High availability.</li>\n<li>Cache-heavy design.</li>\n<li>Eventual consistency is acceptable for feed propagation.</li>\n</ul>\n<h2>API sketch</h2>\n<p>Publish:</p>\n<pre><code>POST /v1/me/feed\n\n{\n  &quot;content&quot;: &quot;Hello&quot;,\n  &quot;mediaIds&quot;: [&quot;image-123&quot;]\n}</code></pre>\n<p>Read:</p>\n<pre><code>GET /v1/me/feed?cursor=2026-08-04T10:00:00Z_987&amp;limit=20</code></pre>\n<p>Use cursor pagination because new posts can arrive while a user scrolls.</p>\n<h2>Data model</h2>\n<pre><code>post(\n  post_id bigint primary key,\n  author_id bigint,\n  content text,\n  media_ids json,\n  created_at timestamp\n)\n\nfriend_edge(\n  user_id bigint,\n  friend_id bigint,\n  created_at timestamp,\n  primary key(user_id, friend_id)\n)\n\nfeed_entry(\n  user_id bigint,\n  post_id bigint,\n  author_id bigint,\n  created_at timestamp,\n  primary key(user_id, created_at, post_id)\n)</code></pre>\n<p>The DB is the source of truth. Cache stores hot feed IDs and hot post/user/action/counter data.</p>\n<h2>Architecture</h2>\n<p>![News feed architecture](../assets/news-feed-architecture.svg)</p>\n<p>Component responsibilities:</p>\n<p>| Component | Responsibility |</p>\n<p>| --- | --- |</p>\n<p>| Web servers | Auth, rate limiting, route requests |</p>\n<p>| Post service | Validate and persist posts |</p>\n<p>| Fanout service | Find recipients and create fanout jobs |</p>\n<p>| Graph service/store | Friend/follower relationships |</p>\n<p>| Fanout queue | Buffer feed-entry writes |</p>\n<p>| Fanout workers | Append post IDs to user feed caches |</p>\n<p>| News feed service | Fetch feed IDs and hydrate feed items |</p>\n<p>| Caches | Feed IDs, post objects, users, actions, counters |</p>\n<p>| CDN | Serve image/video bytes |</p>\n<h2>Publish flow</h2>\n<p>1. User posts content.</p>\n<p>2. Web server authenticates and rate-limits.</p>\n<p>3. Post service stores post in DB.</p>\n<p>4. Post service writes post object to content cache.</p>\n<p>5. Fanout service reads friends/followers from graph store.</p>\n<p>6. Fanout service filters recipients by privacy/mute/share settings.</p>\n<p>7. Fanout service sends fanout jobs to queue.</p>\n<p>8. Fanout workers append <code>postId</code> to each recipient's news feed cache.</p>\n<p>9. Notification service may send push notifications.</p>\n<h2>Retrieval flow</h2>\n<p>1. User requests feed.</p>\n<p>2. News feed service reads post IDs from news feed cache.</p>\n<p>3. Service fetches post objects from post cache.</p>\n<p>4. Service fetches author/profile data from user cache.</p>\n<p>5. Service fetches action/counter data.</p>\n<p>6. Service returns hydrated JSON.</p>\n<p>Hydration means converting:</p>\n<pre><code>[postId1, postId2, postId3]</code></pre>\n<p>into:</p>\n<pre><code>[\n  { post, author, mediaUrls, viewerActions, counters },\n  ...\n]</code></pre>\n<h2>Fanout deep dive</h2>\n<p>![Fanout models](../assets/news-feed-fanout-models.svg)</p>\n<h3>Fanout on write</h3>\n<p>When Alice posts, push Alice's <code>postId</code> into every friend's feed cache immediately.</p>\n<p>Good:</p>\n<ul>\n<li>fast feed reads</li>\n<li>feed is ready before the user opens the app</li>\n</ul>\n<p>Bad:</p>\n<ul>\n<li>expensive for users with many followers</li>\n<li>wasted work for inactive users</li>\n</ul>\n<h3>Fanout on read</h3>\n<p>When Bob opens the app, pull recent posts from Bob's friends and merge them then.</p>\n<p>Good:</p>\n<ul>\n<li>avoids wasted work for inactive users</li>\n<li>avoids celebrity hot-write explosion</li>\n</ul>\n<p>Bad:</p>\n<ul>\n<li>slower reads</li>\n<li>expensive if the user follows many active accounts</li>\n</ul>\n<h3>Hybrid</h3>\n<p>Use fanout-on-write for normal users and fanout-on-read for celebrities/high-follower users.</p>\n<pre><code>normal author post -&gt; push postId into recipients' feed caches\ncelebrity author post -&gt; store post normally, merge into followers' feeds when they read</code></pre>\n<p>This is the default interview answer because it protects read latency for most users and prevents hot accounts from flooding the system.</p>\n<h2>Cache layers</h2>\n<p>| Cache | Key shape | Value |</p>\n<p>| --- | --- | --- |</p>\n<p>| News feed | <code>feed:{userId}</code> | recent ordered <code>postId</code>s |</p>\n<p>| Content/post | <code>post:{postId}</code> | post content and media IDs |</p>\n<p>| User | <code>user:{userId}</code> | name, profile image, account metadata |</p>\n<p>| Social graph | <code>friends:{userId}</code> | friend/follower IDs |</p>\n<p>| Action | <code>action:{userId}:{postId}</code> | liked/replied/saved state |</p>\n<p>| Counter | <code>counter:{postId}</code> | like/reply/share counts |</p>\n<p>Keep feed cache as IDs so updates to post/user/action/counter data do not require rewriting every cached feed entry.</p>\n<h2>Deep dives interviewers may ask</h2>\n<h3>Why two caches: feed cache and post cache?</h3>\n<p>Feed cache answers: &quot;Which post IDs should this user see?&quot;</p>\n<p>Post cache answers: &quot;What is the content of this post ID?&quot;</p>\n<p>This avoids duplicating full post objects into thousands of user feeds.</p>\n<h3>What if fanout is delayed?</h3>\n<p>Return the feed currently in cache and let it be slightly stale. For important posts, the client can refresh later or the system can show a &quot;new posts available&quot; indicator.</p>\n<h3>What if a user mutes someone?</h3>\n<p>Apply mute/privacy filters before fanout. If the setting changes after fanout, either filter on read or asynchronously remove stale feed entries. For interviews, filtering on read is the simpler correctness safety net.</p>\n<h3>What if cache misses?</h3>\n<p>Read from the feed-entry store or rebuild with read-time merge. Do not make cache the only source of truth.</p>\n<h2>Failure modes</h2>\n<p>| Failure | Handling |</p>\n<p>| --- | --- |</p>\n<p>| DB write fails | Do not publish/fanout the post |</p>\n<p>| Post written but fanout event lost | Use outbox or durable event log |</p>\n<p>| Fanout worker crash | Queue retry; idempotent append |</p>\n<p>| Duplicate feed entries | Unique key or set semantics on <code>(userId, postId)</code> |</p>\n<p>| Celebrity post overload | Pull celebrity posts at read time |</p>\n<p>| Feed cache evicted | Rebuild from durable feed-entry store |</p>\n<p>| CDN slow | Feed metadata still loads; media can lazy-load |</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why is feed read path optimized heavily?</strong>  </p>\n<p>A. Users read/refresh feeds far more often than they publish posts.</p>\n<p><strong>Q. What does fanout mean?</strong>  </p>\n<p>A. Delivering a new post ID to the feeds of friends/followers.</p>\n<p><strong>Q. Why use hybrid fanout?</strong>  </p>\n<p>A. It gives fast reads for normal users while avoiding huge write bursts for celebrity accounts.</p>\n<p><strong>Q. Why keep web servers stateless?</strong>  </p>\n<p>A. Any request can go to any server, so horizontal scaling and failover are simpler.</p>\n<p><strong>Q. Where are images/videos stored?</strong>  </p>\n<p>A. In CDN/object storage; feed responses carry URLs/metadata, not media bytes.</p>"
+    },
     "/system_design/interview_framework/": {
       "text": "System Design Interview Framework",
       "link": "/system_design/interview_framework/",
@@ -20216,6 +20281,20 @@
         "assets": true
       },
       "referenceHtml": "<h1>Design</h1>\n<h2>Worked HLD flow: rate limiter</h2>\n<p>Use this as a timed interview script.</p>\n<h3>Clarify</h3>\n<ul>\n<li>Is this server-side or client-side? Assume server-side.</li>\n<li>What dimensions? Assume user, IP, API key, endpoint, and global.</li>\n<li>Distributed? Assume many app servers.</li>\n<li>Strict or approximate? Assume accurate enough, with low latency.</li>\n<li>What response? <code>429 Too Many Requests</code> with retry headers.</li>\n</ul>\n<h3>Estimate</h3>\n<ul>\n<li>Peak RPS determines gateway and Redis capacity.</li>\n<li>Number of identities determines key count.</li>\n<li>Number of rules determines rule-cache size.</li>\n<li>Hot global keys may need sharding.</li>\n</ul>\n<h3>High-level design</h3>\n<pre><code>Client -&gt; Gateway/middleware -&gt; Rate limiter -&gt; Redis\n                              -&gt; API service if allowed\n                              -&gt; 429 if rejected</code></pre>\n<h3>Deep dive</h3>\n<p>Focus on:</p>\n<ul>\n<li>token bucket vs sliding window</li>\n<li>Redis key design and TTL</li>\n<li>atomic check-and-update</li>\n<li>hot keys</li>\n<li>fail-open vs fail-closed</li>\n<li>monitoring rejected requests and limiter latency</li>\n</ul>\n<h3>Wrap up</h3>\n<p>Summarize:</p>\n<pre><code>This design protects APIs with gateway-side rules, Redis-backed atomic counters, token bucket for burst-friendly traffic, stricter sliding windows for abuse-sensitive endpoints, 429 responses for clients, and monitoring for false positives, hot keys, and Redis latency.</code></pre>\n<h2>Quick recall</h2>\n<p><strong>Q. Why is this a good HLD practice example?</strong>  </p>\n<p>A. It forces requirements, estimates, algorithms, distributed state, failure behavior, and monitoring into one design.</p>"
+    },
+    "/system_design/lld_interview_framework/": {
+      "text": "Low-Level Design Interview Framework",
+      "link": "/system_design/lld_interview_framework/",
+      "pageType": "theory",
+      "parentLink": "/system_design/lld_interview_framework/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/performance/": {
       "text": "Performance Engineering",
@@ -22326,6 +22405,136 @@
       "link": "/health_fitness/tracking_playbook/monthly/",
       "pageType": "theory",
       "parentLink": "/health_fitness/tracking_playbook/monthly/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/api_design/": {
+      "text": "API Design",
+      "link": "/api_design/",
+      "pageType": "theory",
+      "parentLink": "/api_design/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/api_design/exercise/": {
+      "text": "API Design",
+      "link": "/api_design/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/api_design/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/api_design/solution/": {
+      "text": "API Design",
+      "link": "/api_design/solution/",
+      "pageType": "solution",
+      "parentLink": "/api_design/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/api_design/graphql/": {
+      "text": "Graph Databases & GraphQL — Related in Name Only",
+      "link": "/api_design/graphql/",
+      "pageType": "theory",
+      "parentLink": "/api_design/graphql/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/api_design/graphql/exercise/": {
+      "text": "Graph Databases & GraphQL — Related in Name Only",
+      "link": "/api_design/graphql/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/api_design/graphql/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/api_design/graphql/solution/": {
+      "text": "Graph Databases & GraphQL — Related in Name Only",
+      "link": "/api_design/graphql/solution/",
+      "pageType": "solution",
+      "parentLink": "/api_design/graphql/",
+      "schema": "practice",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Solution</h1>"
+    },
+    "/api_design/api_technologies_summary/": {
+      "text": "API Technologies: REST, GraphQL, gRPC, Protobuf, JWT, Sessions",
+      "link": "/api_design/api_technologies_summary/",
+      "pageType": "theory",
+      "parentLink": "/api_design/api_technologies_summary/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/api_design/protobuf_grpc/": {
+      "text": "API Technologies Study Notes — Complete Conversation Dump",
+      "link": "/api_design/protobuf_grpc/",
+      "pageType": "theory",
+      "parentLink": "/api_design/protobuf_grpc/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/api_design/api_technologies_comparison/": {
+      "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
+      "link": "/api_design/api_technologies_comparison/",
+      "pageType": "theory",
+      "parentLink": "/api_design/api_technologies_comparison/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,

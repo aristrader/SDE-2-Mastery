@@ -1,9 +1,12 @@
 ---
-order: 60
+order: 160
 ---
 
-# API Technologies Study Notes — Complete Conversation Dump
-# Part 1/3 — APIs, REST, Statelessness, Sessions, JWT, HTTP Status Codes
+# API Design
+
+## API Technologies Study Notes — Part 1/3
+
+APIs, REST, statelessness, sessions, JWT, HTTP status codes.
 
 This document captures all topics, questions, misconceptions, corrections, examples, and follow-up clarifications discussed in this part of the conversation.
 
