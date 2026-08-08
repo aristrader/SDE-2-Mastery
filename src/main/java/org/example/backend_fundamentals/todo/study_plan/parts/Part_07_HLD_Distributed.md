@@ -55,7 +55,7 @@
 | 46 | HLD — Twitter / news feed | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 166-177 — requirements, publish/read APIs, post service, feed service, fanout service, push vs pull fanout, hybrid fanout for hot accounts, feed/post cache split, cache layers, CDN media, and scaling talking points | 📖 `system_design/case_studies/news_feed/` |
 | 47 | HLD — Instagram / image-heavy feed | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 48 | HLD — WhatsApp / chat | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 178-199 — WebSocket transport, stateful chat-server connections, service discovery, durable ordered history, per-device sync, small-group fanout, presence, and offline notifications | 📖 `system_design/case_studies/chat_system/` |
-| 49 | HLD — YouTube / video streaming | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 49 | HLD — YouTube / video streaming | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 220-243 — direct resumable upload, async DAG transcoding, metadata readiness, adaptive CDN playback, fault handling, security, and cost optimization | 📖 `system_design/case_studies/youtube/` |
 | 50 | HLD — Uber / ride-sharing | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Deep-dive covered location updates, candidate discovery, state machines, ETA/Routing (A*, Dijkstra), and regional matching clusters. | 📖 `system_design/case_studies/location_and_uber_architecture/` (docs 04-06) |
 | 51 | HLD — Dropbox / file sync | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 52 | HLD — Google Drive / collaborative editing | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |

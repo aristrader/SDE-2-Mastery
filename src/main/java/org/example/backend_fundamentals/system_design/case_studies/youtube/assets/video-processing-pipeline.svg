@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="490" viewBox="0 0 1280 490" role="img" aria-labelledby="title description">
+  <title id="title">Video upload and processing pipeline</title>
+  <desc id="description">A user uploads video directly to object storage. An event drives preprocessing and a dependency-aware transcoding DAG. Output storage, metadata readiness, and CDN delivery follow.</desc>
+  <style>
+    .title { font: 700 25px Arial, sans-serif; fill: #1d2433; }
+    .label { font: 700 16px Arial, sans-serif; fill: #1d2433; }
+    .body { font: 14px Arial, sans-serif; fill: #394150; }
+    .small { font: 13px Arial, sans-serif; fill: #394150; }
+    .box { stroke-width: 2; rx: 8; }
+    .arrow { stroke: #5e6b7a; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    .dash { stroke-dasharray: 7 6; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5e6b7a"/></marker>
+  </defs>
+  <rect width="1280" height="490" fill="#fbfcfe"/>
+  <text x="48" y="50" class="title">On-demand video: direct upload, async processing, CDN playback</text>
+
+  <rect x="45" y="130" width="145" height="105" class="box" fill="#e8f4ff" stroke="#2477b7"/>
+  <text x="81" y="166" class="label">Creator client</text>
+  <text x="65" y="191" class="body">Multipart, resumable</text>
+  <text x="76" y="212" class="body">GOP-aligned upload</text>
+
+  <rect x="255" y="105" width="175" height="125" class="box" fill="#eef8ed" stroke="#47955a"/>
+  <text x="285" y="143" class="label">Object storage</text>
+  <text x="290" y="169" class="body">Original source</text>
+  <text x="287" y="191" class="body">Durable upload</text>
+
+  <rect x="500" y="90" width="190" height="150" class="box" fill="#fff4e7" stroke="#d98527"/>
+  <text x="548" y="128" class="label">Preprocessor</text>
+  <text x="530" y="154" class="body">Validate and split GOPs</text>
+  <text x="530" y="176" class="body">Build processing DAG</text>
+  <text x="530" y="198" class="body">Persist retry inputs</text>
+
+  <rect x="765" y="65" width="220" height="205" class="box" fill="#f5edff" stroke="#8352b4"/>
+  <text x="819" y="105" class="label">Transcoding DAG</text>
+  <text x="800" y="137" class="body">Inspect / demux</text>
+  <text x="800" y="165" class="body">Video encode    Audio encode</text>
+  <text x="800" y="193" class="body">Thumbnail       Watermark</text>
+  <text x="800" y="224" class="small">Queues, scheduler, compatible workers</text>
+
+  <rect x="1055" y="105" width="175" height="125" class="box" fill="#e8f4ff" stroke="#2477b7"/>
+  <text x="1087" y="143" class="label">Output storage</text>
+  <text x="1080" y="169" class="body">Renditions, segments,</text>
+  <text x="1092" y="191" class="body">manifest, thumbnails</text>
+
+  <path d="M190 182 H255" class="arrow"/>
+  <path d="M430 168 H500" class="arrow"/>
+  <path d="M690 168 H765" class="arrow"/>
+  <path d="M985 168 H1055" class="arrow"/>
+
+  <rect x="510" y="335" width="185" height="82" class="box" fill="#fff0f1" stroke="#bf4b5a"/>
+  <text x="540" y="367" class="label">Completion event</text>
+  <text x="538" y="392" class="body">Required outputs ready</text>
+
+  <rect x="780" y="335" width="185" height="82" class="box" fill="#eef8ed" stroke="#47955a"/>
+  <text x="810" y="367" class="label">Metadata READY</text>
+  <text x="808" y="392" class="body">Cache and DB update</text>
+
+  <rect x="1045" y="335" width="185" height="82" class="box" fill="#e8f4ff" stroke="#2477b7"/>
+  <text x="1105" y="367" class="label">CDN</text>
+  <text x="1064" y="392" class="body">Manifest and segments</text>
+
+  <path d="M1142 230 V335" class="arrow"/>
+  <path d="M1055 376 H965" class="arrow"/>
+  <path d="M780 376 H695" class="arrow"/>
+  <path d="M1115 417 V452 H1170" class="arrow dash"/>
+  <text x="973" y="458" class="small">Viewer receives adaptive segments from nearby CDN edge</text>
+</svg>
