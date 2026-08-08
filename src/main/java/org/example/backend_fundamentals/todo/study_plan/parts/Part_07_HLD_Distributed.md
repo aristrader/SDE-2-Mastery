@@ -40,7 +40,7 @@
 | 31 | Merkle trees — Git internals, anti-entropy in Dynamo-style DBs, blockchain | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 102-103 — Merkle tree construction, root/hash comparison, repair only differing key ranges in Dynamo-style anti-entropy | 📖 `databases/key_value_store/index.md` |
 | 32 | Geospatial structures — geohash, S2 (Google), H3 (Uber), R-tree, quadtree | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Geohash, Quadtree, S2, and H3 fully covered through deep-dive conversation and consolidated notes. | 📖 `system_design/case_studies/location_and_uber_architecture/` (docs 01-03, 07) |
 | 33 | Tries — autocomplete, IP prefix matching | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 34 | Inverted index — search systems fundamental | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 34 | Inverted index — search systems fundamental | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered — term-to-posting-list model, analyzers, AND/OR queries, phrase positions, ranking boundary, and Elasticsearch -> Lucene -> inverted-index relationship | 📖 `system_design/concepts/inverted_index/index.md` |
 | 35 | Bulkheads | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 36 | Dead-letter queues | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Saga pattern (revisited from LLD) | 🟠 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — local txns + compensations, eventual consistency, compensation-failure handling (retry/pending/DLQ/idempotency), Kafka choreography | 📖 `databases/distributed_transactions/index.md` · (Cross-ref Part 4.3) |
@@ -52,9 +52,9 @@
 | 43 | Async processing, queue offload | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 25-26 — producer/consumer decoupling, durable queue buffer, worker scaling from queue size, photo-processing example | 📖 `messaging/message_brokers/index.md` |
 | 44 | HLD — URL shortener | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 119-131 — requirements, estimation, APIs, 301 vs 302, hash+collision vs base62, distributed ID dependency, cache-backed redirects, scaling/failure talking points | 📖 `system_design/case_studies/url_shortener/` |
 | 45 | HLD — Pastebin | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 46 | HLD — Twitter / news feed | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 46 | HLD — Twitter / news feed | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 166-177 — requirements, publish/read APIs, post service, feed service, fanout service, push vs pull fanout, hybrid fanout for hot accounts, feed/post cache split, cache layers, CDN media, and scaling talking points | 📖 `system_design/case_studies/news_feed/` |
 | 47 | HLD — Instagram / image-heavy feed | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 48 | HLD — WhatsApp / chat | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 48 | HLD — WhatsApp / chat | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 178-199 — WebSocket transport, stateful chat-server connections, service discovery, durable ordered history, per-device sync, small-group fanout, presence, and offline notifications | 📖 `system_design/case_studies/chat_system/` |
 | 49 | HLD — YouTube / video streaming | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 50 | HLD — Uber / ride-sharing | 🟠 🎯 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | Deep-dive covered location updates, candidate discovery, state machines, ETA/Routing (A*, Dijkstra), and regional matching clusters. | 📖 `system_design/case_studies/location_and_uber_architecture/` (docs 04-06) |
 | 51 | HLD — Dropbox / file sync | 🟠 🎯 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |

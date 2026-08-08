@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540" role="img" aria-labelledby="title desc">
+  <title id="title">Chat system architecture</title>
+  <desc id="desc">Clients connect through service discovery to stateful chat servers, which persist messages, route live events, coordinate presence, and notify offline users.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 16px; }
+    .title { font-size: 22px; font-weight: 700; }
+    .box { stroke: #475569; stroke-width: 2; rx: 6; }
+    .client { fill: #dbeafe; } .api { fill: #dcfce7; } .chat { fill: #fef3c7; }
+    .data { fill: #fce7f3; } .event { fill: #e0e7ff; } .external { fill: #ffedd5; }
+    .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .dash { stroke-dasharray: 7 5; }
+    .label { font-size: 14px; fill: #475569; }
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
+  <text x="40" y="40" class="title">Chat System: connection ownership and durable message routing</text>
+  <rect x="45" y="100" width="150" height="68" class="box client"/><text x="83" y="140">Web / mobile</text>
+  <rect x="245" y="100" width="165" height="68" class="box api"/><text x="270" y="132">API servers</text><text x="263" y="154" class="label">login, profile, settings</text>
+  <rect x="460" y="100" width="170" height="68" class="box event"/><text x="482" y="132">Service discovery</text><text x="491" y="154" class="label">region + capacity</text>
+  <rect x="700" y="82" width="170" height="104" class="box chat"/><text x="739" y="125">Chat servers</text><text x="721" y="149" class="label">WebSocket owners</text><text x="726" y="169" class="label">route live messages</text>
+  <rect x="925" y="100" width="150" height="68" class="box client"/><text x="962" y="140">Recipient devices</text>
+  <path d="M195 134 H245 M410 134 H460 M630 134 H700 M870 134 H925" class="arrow"/>
+  <text x="650" y="72" class="label">persistent WebSocket</text>
+  <rect x="215" y="318" width="190" height="75" class="box data"/><text x="240" y="351">Message store</text><text x="231" y="375" class="label">ordered chat history</text>
+  <rect x="470" y="318" width="190" height="75" class="box event"/><text x="492" y="351">Sync stream / inbox</text><text x="498" y="375" class="label">recipient catch-up</text>
+  <rect x="725" y="318" width="155" height="75" class="box data"/><text x="756" y="351">Presence store</text><text x="745" y="375" class="label">heartbeat expiry</text>
+  <rect x="930" y="318" width="145" height="75" class="box external"/><text x="953" y="351">Notification</text><text x="968" y="375">system</text>
+  <path d="M785 186 V270 H310 V318 M785 186 V270 H565 V318 M785 186 V318 M785 186 V270 H1002 V318" class="arrow"/>
+  <path d="M1002 318 V245 H870" class="arrow dash"/>
+  <text x="904" y="235" class="label">offline only</text>
+  <text x="45" y="470" class="label">HTTP remains appropriate for regular account APIs. WebSocket is used only where server-to-client real-time delivery is required.</text>
+</svg>
+

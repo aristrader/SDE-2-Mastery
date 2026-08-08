@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="590" viewBox="0 0 1120 590" role="img" aria-labelledby="title desc">
+  <title id="title">News feed architecture</title>
+  <desc id="desc">News feed publish path stores posts and fans out post IDs into feed cache. Read path fetches feed IDs and hydrates them from post, user, action, counter caches and CDN media.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .web { fill: #e0f2fe; }
+      .service { fill: #fef9c3; }
+      .data { fill: #ecfdf5; }
+      .queue { fill: #fff7ed; }
+      .cdn { fill: #f1f5f9; }
+      .label { font-family: Arial, sans-serif; font-size: 16px; fill: #0f172a; font-weight: 700; }
+      .small { font-family: Arial, sans-serif; font-size: 13px; fill: #334155; }
+      .line { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 1.8; fill: none; stroke-dasharray: 6 5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="35" y="90" width="140" height="75" class="box"/>
+  <text x="105" y="121" text-anchor="middle" class="label">Client</text>
+  <text x="105" y="143" text-anchor="middle" class="small">web / mobile</text>
+
+  <rect x="220" y="90" width="150" height="75" class="box web"/>
+  <text x="295" y="121" text-anchor="middle" class="label">Web servers</text>
+  <text x="295" y="143" text-anchor="middle" class="small">auth + rate limit</text>
+
+  <rect x="420" y="35" width="150" height="75" class="box service"/>
+  <text x="495" y="66" text-anchor="middle" class="label">Post service</text>
+  <text x="495" y="88" text-anchor="middle" class="small">persist post</text>
+
+  <rect x="420" y="155" width="150" height="75" class="box service"/>
+  <text x="495" y="186" text-anchor="middle" class="label">Feed service</text>
+  <text x="495" y="208" text-anchor="middle" class="small">hydrate feed</text>
+
+  <rect x="625" y="35" width="150" height="75" class="box data"/>
+  <text x="700" y="66" text-anchor="middle" class="label">Post DB/cache</text>
+  <text x="700" y="88" text-anchor="middle" class="small">postId -> post</text>
+
+  <rect x="625" y="155" width="150" height="75" class="box data"/>
+  <text x="700" y="186" text-anchor="middle" class="label">Feed cache</text>
+  <text x="700" y="208" text-anchor="middle" class="small">userId -> postIds</text>
+
+  <rect x="420" y="300" width="150" height="75" class="box service"/>
+  <text x="495" y="331" text-anchor="middle" class="label">Fanout service</text>
+  <text x="495" y="353" text-anchor="middle" class="small">recipient filters</text>
+
+  <rect x="625" y="300" width="150" height="75" class="box data"/>
+  <text x="700" y="331" text-anchor="middle" class="label">Graph store</text>
+  <text x="700" y="353" text-anchor="middle" class="small">friends/followers</text>
+
+  <rect x="820" y="300" width="130" height="75" class="box queue"/>
+  <text x="885" y="331" text-anchor="middle" class="label">Fanout queue</text>
+  <text x="885" y="353" text-anchor="middle" class="small">target + postId</text>
+
+  <rect x="990" y="300" width="110" height="75" class="box service"/>
+  <text x="1045" y="331" text-anchor="middle" class="label">Workers</text>
+  <text x="1045" y="353" text-anchor="middle" class="small">append IDs</text>
+
+  <rect x="625" y="450" width="150" height="75" class="box data"/>
+  <text x="700" y="480" text-anchor="middle" class="label">Hydration caches</text>
+  <text x="700" y="502" text-anchor="middle" class="small">user/action/counter</text>
+
+  <rect x="820" y="450" width="130" height="75" class="box cdn"/>
+  <text x="885" y="480" text-anchor="middle" class="label">CDN</text>
+  <text x="885" y="502" text-anchor="middle" class="small">images/videos</text>
+
+  <path d="M175 128 H220" class="line"/>
+  <path d="M370 112 H395 Q410 112 420 88" class="line"/>
+  <path d="M370 145 H395 Q410 145 420 180" class="line"/>
+  <path d="M570 72 H625" class="line"/>
+  <path d="M570 192 H625" class="line"/>
+  <path d="M570 82 Q620 135 570 315" class="dash"/>
+  <path d="M570 338 H625" class="line"/>
+  <path d="M775 338 H820" class="line"/>
+  <path d="M950 338 H990" class="line"/>
+  <path d="M1045 300 V250 Q1045 205 775 205" class="line"/>
+  <path d="M570 205 Q610 315 625 462" class="dash"/>
+  <path d="M570 205 Q700 390 820 462" class="dash"/>
+
+  <text x="300" y="35" class="small">Publish: create post, then fan out post IDs asynchronously</text>
+  <text x="300" y="265" class="small">Read: fetch feed IDs, then hydrate full feed items</text>
+</svg>

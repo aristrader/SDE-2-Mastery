@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="430" viewBox="0 0 1120 430" role="img" aria-labelledby="title desc">
+  <title id="title">Chat message delivery and device synchronization</title>
+  <desc id="desc">A sender's chat server durably writes an ordered message, then sends recipient sync events, live WebSocket delivery for online devices, or a notification for offline devices.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 16px; }
+    .title { font-size: 22px; font-weight: 700; } .box { stroke: #475569; stroke-width: 2; rx: 6; }
+    .sender { fill: #dbeafe; } .server { fill: #fef3c7; } .store { fill: #fce7f3; } .stream { fill: #e0e7ff; } .receiver { fill: #dcfce7; } .offline { fill: #ffedd5; }
+    .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); } .dash { stroke-dasharray: 7 5; }
+    .label { font-size: 14px; fill: #475569; }
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
+  <text x="40" y="40" class="title">Message flow: persist first, then deliver or synchronize</text>
+  <rect x="45" y="115" width="145" height="72" class="box sender"/><text x="78" y="157">Sender device</text>
+  <rect x="260" y="115" width="170" height="72" class="box server"/><text x="294" y="148">Sender chat server</text><text x="300" y="170" class="label">assign messageId</text>
+  <rect x="500" y="115" width="170" height="72" class="box store"/><text x="535" y="148">Message store</text><text x="522" y="170" class="label">durable + ordered</text>
+  <rect x="740" y="115" width="170" height="72" class="box stream"/><text x="772" y="148">Recipient sync</text><text x="788" y="170" class="label">event / inbox</text>
+  <rect x="965" y="75" width="120" height="72" class="box receiver"/><text x="982" y="117">Online device</text>
+  <rect x="965" y="245" width="120" height="72" class="box offline"/><text x="982" y="278">Offline user</text><text x="985" y="300" class="label">push wake-up</text>
+  <path d="M190 151 H260 M430 151 H500 M670 151 H740 M910 135 H965 M910 168 V281 H965" class="arrow"/>
+  <text x="62" y="105" class="label">SEND(clientMessageId)</text><text x="447" y="105" class="label">ACK only after write</text>
+  <path d="M1025 147 V205 H585 V187" class="arrow dash"/>
+  <text x="650" y="224" class="label">reconnect: SYNC after each device's lastSyncedMessageId</text>
+  <text x="45" y="375" class="label">Delivery can replay after failure. Sender retries use clientMessageId; recipient devices deduplicate messageId.</text>
+</svg>
