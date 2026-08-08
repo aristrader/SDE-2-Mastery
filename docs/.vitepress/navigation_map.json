@@ -1048,6 +1048,10 @@
               {
                 "text": "Chat System",
                 "link": "/system_design/case_studies/chat_system/"
+              },
+              {
+                "text": "Search Autocomplete System",
+                "link": "/system_design/case_studies/search_autocomplete/"
               }
             ],
             "collapsed": true
@@ -7296,6 +7300,20 @@
                   "playground": false,
                   "assets": true
                 }
+              },
+              {
+                "text": "Search Autocomplete System",
+                "link": "/system_design/case_studies/search_autocomplete/",
+                "order": 90,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": true
+                }
               }
             ]
           },
@@ -9575,6 +9593,10 @@
     {
       "text": "Chat System",
       "link": "/system_design/case_studies/chat_system/"
+    },
+    {
+      "text": "Search Autocomplete System",
+      "link": "/system_design/case_studies/search_autocomplete/"
     },
     {
       "text": "System Design Interview Framework",
@@ -20339,6 +20361,50 @@
         "assets": true
       },
       "referenceHtml": "<h1>Design a Chat System</h1>\n<h2>Problem</h2>\n<p>Design a text chat system like Messenger for 50M DAU. Support one-to-one chat, groups of at most 100 users, online presence, web/mobile clients, multiple devices, indefinite history, and push notifications for offline recipients.</p>\n<h2>Clarify scope</h2>\n<p>Ask:</p>\n<ul>\n<li>Is it one-to-one, small group, large public channel, or all three?</li>\n<li>What is the group member limit?</li>\n<li>Is low delivery latency required? Is eventual delivery acceptable while offline?</li>\n<li>Is ordering required per conversation or globally?</li>\n<li>Are messages text only? What is the maximum size?</li>\n<li>Do clients support multiple devices and history retention?</li>\n<li>Do we need presence, read receipts, push notifications, E2EE, and search?</li>\n<li>What are DAU and expected concurrent WebSocket connections?</li>\n</ul>\n<h2>Requirements</h2>\n<h3>Functional</h3>\n<ul>\n<li>Send and receive messages in one-to-one and small group conversations.</li>\n<li>Persist history and synchronize missed messages across devices.</li>\n<li>Show online/offline presence.</li>\n<li>Push-notify offline recipients.</li>\n</ul>\n<h3>Non-functional</h3>\n<ul>\n<li>Low-latency live delivery.</li>\n<li>Durable messages; no loss after accepted send.</li>\n<li>Ordered messages within a conversation.</li>\n<li>Horizontally scalable connection and storage tiers.</li>\n<li>Tolerate reconnects, retries, and duplicate delivery.</li>\n</ul>\n<h2>APIs and WebSocket events</h2>\n<p>HTTP is suitable for authentication and profile APIs. Use WebSocket after login for real-time events.</p>\n<pre><code>WS client -&gt; server: SEND_MESSAGE { clientMessageId, conversationId, body }\nWS server -&gt; client: MESSAGE { messageId, conversationId, senderId, body }\nWS server -&gt; client: ACK { clientMessageId, messageId }\nWS client -&gt; server: SYNC { afterMessageId }\nWS client -&gt; server: HEARTBEAT</code></pre>\n<p><code>clientMessageId</code> makes sender retries idempotent. <code>messageId</code> is the durable ordering/deduplication identity.</p>\n<h2>Architecture</h2>\n<p>![Chat system architecture](../assets/chat-system-architecture.svg)</p>\n<p>| Component | Responsibility |</p>\n<p>| --- | --- |</p>\n<p>| API servers | Login, signup, profile, settings; stateless HTTP |</p>\n<p>| Service discovery | Select a healthy chat server by region and connection capacity |</p>\n<p>| Chat servers | Own WebSockets, authenticate events, route live messages |</p>\n<p>| Message store | Durable ordered history, partitioned by conversation/channel |</p>\n<p>| Sync stream/inbox | Decouple durable write from recipient/device delivery |</p>\n<p>| Presence servers/store | Heartbeats, online state, presence events |</p>\n<p>| Notification system | Push notification for offline users |</p>\n<h2>Message storage</h2>\n<p>Store normal relational data such as profiles/settings/friends in a relational database. Put chat history in a distributed key-value or wide-column store, partitioned by conversation/channel. It supports high write volume, low-latency recent reads, and scalable historical storage.</p>\n<pre><code>message(\n  conversation_id,\n  message_id,\n  sender_id,\n  body,\n  created_at,\n  primary key(conversation_id, message_id)\n)</code></pre>\n<p>For one-to-one conversations, derive a stable <code>conversationId</code> from the two user IDs. For groups, <code>conversationId</code> is the channel/group ID and is the partition key.</p>\n<h2>Send and receive flow</h2>\n<p>1. Sender connects to a chat server through WebSocket selected by service discovery.</p>\n<p>2. Sender emits <code>SEND_MESSAGE</code> with <code>clientMessageId</code>.</p>\n<p>3. Chat server checks membership and deduplicates sender retry.</p>\n<p>4. Server assigns a sortable <code>messageId</code> and durably writes the message.</p>\n<p>5. Server appends a recipient sync event after the write.</p>\n<p>6. Connected recipient devices receive live WebSocket pushes from their chat-server owner.</p>\n<p>7. Offline recipients receive a push notification and synchronize history when they open/reconnect.</p>\n<p>8. Recipients ACK/read separately; delivery retries may replay, so dedupe by <code>messageId</code>.</p>\n<h2>Ordering and delivery semantics</h2>\n<p>Require ordering <strong>within one conversation</strong>, not system-wide. A per-conversation sequence is the simplest option; a time-sortable globally unique ID is also acceptable. The storage partition and ID ordering must agree.</p>\n<p>The correct delivery claim is at-least-once. A server can persist a message, crash before ACK, and receive a sender retry. Store <code>(senderId, clientMessageId) -&gt; messageId</code> to return the first result, and let recipients ignore repeated <code>messageId</code>s.</p>\n<h2>Multiple devices</h2>\n<p>Track a cursor per user-device. On reconnect, each device requests messages after its cursor; then it advances the cursor only after durable local handling.</p>\n<pre><code>(userId, deviceId) -&gt; lastSyncedMessageId</code></pre>\n<p>Live push is an optimization. The durable message store and cursor are the correctness path.</p>\n<h2>Group chat</h2>\n<p>For the stated maximum of 100 members, persist one channel message and fan out lightweight references to member inboxes. This is deliberately a small-group design.</p>\n<p>For large groups, explain the change: store one channel log and have clients pull recent channel messages, or use a hybrid. Do not make a copy per member for a 100,000-member channel.</p>\n<h2>Presence flow</h2>\n<p>1. WebSocket connect writes presence with a heartbeat expiry.</p>\n<p>2. Heartbeats refresh it periodically.</p>\n<p>3. Logout clears it immediately.</p>\n<p>4. Missed heartbeat beyond a grace interval changes status to offline.</p>\n<p>5. Presence events are pushed to subscribed friends; large groups fetch on demand.</p>\n<p>Presence is approximate. A user can be online but inactive, or disconnect immediately after an update.</p>\n<h2>Failure handling</h2>\n<p>| Failure | Design response |</p>\n<p>| --- | --- |</p>\n<p>| Chat server unavailable | Client reconnects using service discovery and syncs from cursor |</p>\n<p>| Message accepted twice | Sender idempotency by <code>clientMessageId</code> |</p>\n<p>| Recipient sees duplicate | Ignore already-processed <code>messageId</code> |</p>\n<p>| Push notification missing | Reconnect/history sync remains correct |</p>\n<p>| Short network loss | Heartbeat grace period avoids false offline state |</p>\n<p>| Storage latency/outage | Do not ACK accepted send before a durable write; surface retryable error |</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the main state on a chat server?</strong>  </p>\n<p>A. The active persistent WebSocket connections it owns.</p>\n<p><strong>Q. What owns correctness when a user is offline?</strong>  </p>\n<p>A. Durable message history plus a per-device sync cursor, not the push notification.</p>\n<p><strong>Q. What ordering should the design promise?</strong>  </p>\n<p>A. Per-conversation/channel ordering.</p>\n<p><strong>Q. What does a heartbeat solve?</strong>  </p>\n<p>A. It avoids marking a user offline on every brief network interruption.</p>"
+    },
+    "/system_design/case_studies/search_autocomplete/": {
+      "text": "Search Autocomplete System",
+      "link": "/system_design/case_studies/search_autocomplete/",
+      "pageType": "theory",
+      "parentLink": "/system_design/case_studies/search_autocomplete/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      }
+    },
+    "/system_design/case_studies/search_autocomplete/exercise/": {
+      "text": "Search Autocomplete System",
+      "link": "/system_design/case_studies/search_autocomplete/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/system_design/case_studies/search_autocomplete/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/system_design/case_studies/search_autocomplete/design/": {
+      "text": "Search Autocomplete System",
+      "link": "/system_design/case_studies/search_autocomplete/design/",
+      "pageType": "design",
+      "parentLink": "/system_design/case_studies/search_autocomplete/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Design a Search Autocomplete System</h1>\n<h2>Problem</h2>\n<p>Design a search-as-you-type service that returns the five most popular stored queries matching a typed prefix. Assume 10M daily active users, English lowercase query strings, prefix-only matching, no spell correction, and a sub-100 ms target.</p>\n<h2>Clarify scope</h2>\n<p>Ask:</p>\n<ul>\n<li>Does matching apply only at the beginning of the query, or can it match in the middle?</li>\n<li>How many suggestions are returned, and what ranks them?</li>\n<li>Are results global, country-specific, personalized, or trending?</li>\n<li>How fresh must the ranking be?</li>\n<li>Are spell correction, special characters, and multiple languages in scope?</li>\n<li>Is it safe to cache results in browsers and shared caches?</li>\n</ul>\n<p>The base answer assumes prefix matching, top 5 by historical frequency, and periodically rebuilt global results.</p>\n<h2>Requirements</h2>\n<h3>Functional</h3>\n<ul>\n<li>Return five ranked suggestions for a prefix.</li>\n<li>Record completed search queries for future rankings.</li>\n<li>Remove unsafe suggestions quickly.</li>\n<li>Rebuild and publish updated suggestion data without interrupting reads.</li>\n</ul>\n<h3>Non-functional</h3>\n<ul>\n<li>Serve autocomplete below 100 ms.</li>\n<li>Support roughly 24K average QPS and 48K peak QPS from keystrokes.</li>\n<li>Keep query serving highly available and cache-first.</li>\n<li>Scale storage without making popular prefix ranges hot partitions.</li>\n</ul>\n<h2>API</h2>\n<pre><code>GET /v1/autocomplete?q=kaf&amp;limit=5&amp;locale=en-IN\n\n200 OK\n{\n  &quot;prefix&quot;: &quot;kaf&quot;,\n  &quot;suggestions&quot;: [\n    { &quot;query&quot;: &quot;kafka&quot;, &quot;score&quot;: 98231 },\n    { &quot;query&quot;: &quot;kafka consumer group&quot;, &quot;score&quot;: 40218 }\n  ]\n}</code></pre>\n<p>The client should debounce input and discard responses that do not match its latest prefix.</p>\n<p>There is intentionally no public <code>POST /save-query</code> in the base design. The Search Service emits <code>QuerySearched</code> only after it executes an actual submitted search. This avoids counting keystrokes and avoids trusting a redundant client-side popularity write.</p>\n<h2>Architecture</h2>\n<p>![Search autocomplete architecture](../assets/search-autocomplete-architecture.svg)</p>\n<p>| Component | Responsibility |</p>\n<p>| --- | --- |</p>\n<p>| Search-event log | Append-only input for analytics and ranking. |</p>\n<p>| Aggregator | Produces query-frequency totals for a fixed time window. |</p>\n<p>| Trie workers | Build a new trie snapshot and top-K lists. |</p>\n<p>| Trie DB | Persists completed trie snapshots or <code>prefix -&gt; node</code> records. |</p>\n<p>| Trie cache | Serves the active trie snapshot from memory. |</p>\n<p>| Filter service | Blocks unsafe or disallowed suggestions before response. |</p>\n<p>| API servers | Read cache, enforce request limits, and return suggestions. |</p>\n<p>| Shard-map manager | Routes prefix ranges to balanced trie shards. |</p>\n<h2>Trie representation</h2>\n<p>Each trie node represents a prefix and stores references to its top 5 completed query strings. For <code>tr</code>, the node might contain <code>[true, try, tree]</code> ordered by score.</p>\n<pre><code>prefix &quot;tr&quot; -&gt; node.topSuggestions = [true (35), try (29), tree (10)]</code></pre>\n<p>This makes a request <code>O(prefix length + K)</code>. Do not traverse the entire subtree and sort candidates at request time.</p>\n<h2>Build path</h2>\n<p>1. Search Service emits <code>QuerySearched</code>; events are appended to analytics logs.</p>\n<p>2. Aggregators calculate frequency by query and time window.</p>\n<p>3. Workers build and validate a complete new trie snapshot.</p>\n<p>4. Workers persist it in trie DB.</p>\n<p>5. Cache replicas load it and traffic switches atomically from the old snapshot to the new snapshot.</p>\n<p>Use snapshot replacement for the base solution. Incremental updates must recompute the top-K list for the changed query and every ancestor prefix, which is expensive at high event volume.</p>\n<p>The snapshot or its aggregated query-frequency inputs are durable and replicated. Serving replicas load the active snapshot into RAM. The trie is a data structure, not a requirement for a special database product.</p>\n<h3>Publish without a thundering herd</h3>\n<p>Workers build and validate <code>v43</code> while clients continue reading <code>v42</code>. Cache replicas load <code>v43</code> in the background and switch to it atomically only after it is ready. Never invalidate the active trie first and let every request miss to durable storage. A replacement replica recovers by loading the current version; it does not rebuild the trie.</p>\n<h2>Read path</h2>\n<p>1. Client sends a debounced prefix request.</p>\n<p>2. API server routes to the shard for the prefix range.</p>\n<p>3. Filter layer rejects blocked results.</p>\n<p>4. API server reads the prefix node and its top 5 from trie cache.</p>\n<p>5. On a miss, it fetches the node from trie DB and repopulates cache.</p>\n<p>6. Client displays results without a full-page refresh.</p>\n<h2>Scale and follow-ups</h2>\n<p>Partition by data-balanced prefix ranges, not equal alphabet ranges. A high-volume <code>s</code> range may need more shards than <code>u-z</code> combined. The shard map provides this prefix-to-shard lookup and supports deeper range splits.</p>\n<p>For locale-specific results, build separate tries per locale and put read replicas near users. For trending results, merge a recency-weighted stream-processing overlay with the stable snapshot. For personalized results, check a small user-recent-search layer first.</p>\n<p>Use a rolling historical window, a minimum-frequency threshold, and time decay to keep results relevant and bound trie size. Rebuild frequency and retention window are independent: hourly builds can still use the last 30 days of events.</p>\n<h3>Scope boundaries</h3>\n<p>The trie solves prefix lookup. Infix/substring matching needs a different index, typically tokens in an inverted index or character n-grams. Fuzzy matching is a separate requirement, commonly backed by optimized n-gram or search-engine capabilities; do not scan every query with edit distance in the base request path.</p>\n<p>A graph database is not the default trie store because this is deterministic prefix traversal, not multi-hop relationship exploration. A time-series store can be useful for windowed counts, but it does not replace the serving trie.</p>\n<h2>Failure handling</h2>\n<p>| Scenario | Response |</p>\n<p>| --- | --- |</p>\n<p>| Cache replica fails | Route to another replica; fall back to trie DB on a miss. |</p>\n<p>| Build job fails | Keep serving the last validated snapshot. |</p>\n<p>| Suggestion becomes unsafe | Block it immediately in filter layer; delete it from the next snapshot asynchronously. |</p>\n<p>| Popular prefix overloads a shard | Split its prefix range more deeply and update shard map. |</p>\n<p>| Stale browser response arrives | Client discards it because its prefix is no longer current. |</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the main serving data structure?</strong>  </p>\n<p>A. A trie whose nodes cache the top-K suggestions for their prefixes.</p>\n<p><strong>Q. Why are immutable snapshots useful?</strong>  </p>\n<p>A. They let the system build and validate new ranking data without disrupting reads on the old snapshot.</p>\n<p><strong>Q. How are unsafe suggestions removed quickly?</strong>  </p>\n<p>A. A filter runs before cache results are returned; durable removal follows asynchronously.</p>\n<p><strong>Q. What is needed for real-time trending suggestions?</strong>  </p>\n<p>A. Stream aggregation and a recency-weighted overlay, not only periodic trie rebuilds.</p>\n<p><strong>Q. Why is sticky session routing not a consistency solution?</strong>  </p>\n<p>A. It only pins users to independently stale mutable tries; serving state must come from shared versioned data.</p>"
     },
     "/system_design/interview_framework/": {
       "text": "System Design Interview Framework",

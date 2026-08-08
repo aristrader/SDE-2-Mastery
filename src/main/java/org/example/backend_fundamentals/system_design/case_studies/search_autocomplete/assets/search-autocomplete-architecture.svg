@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="600" viewBox="0 0 1160 600" role="img" aria-labelledby="title desc">
+  <title id="title">Search autocomplete architecture</title>
+  <desc id="desc">A cache-first read path serves prefix suggestions from a trie, while an asynchronous analytics pipeline builds and publishes trie snapshots.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 16px; }
+    .title { font-size: 22px; font-weight: 700; } .box { stroke: #475569; stroke-width: 2; rx: 6; }
+    .client { fill: #dbeafe; } .api { fill: #dcfce7; } .cache { fill: #fef3c7; }
+    .data { fill: #fce7f3; } .stream { fill: #e0e7ff; } .policy { fill: #ffedd5; }
+    .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .dash { stroke-dasharray: 7 5; } .label { font-size: 14px; fill: #475569; }
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
+  <text x="38" y="40" class="title">Search Autocomplete: asynchronous trie build and cache-first prefix lookup</text>
+  <text x="45" y="86" class="label">Read path: every typed prefix needs a fast, precomputed top-K response.</text>
+  <rect x="45" y="110" width="135" height="70" class="box client"/><text x="76" y="151">Client</text>
+  <rect x="245" y="110" width="150" height="70" class="box api"/><text x="282" y="151">API servers</text>
+  <rect x="460" y="110" width="125" height="70" class="box policy"/><text x="486" y="141">Filter</text><text x="476" y="163" class="label">safety rules</text>
+  <rect x="650" y="110" width="150" height="70" class="box cache"/><text x="690" y="141">Trie cache</text><text x="676" y="163" class="label">prefix -> top 5</text>
+  <rect x="870" y="110" width="150" height="70" class="box data"/><text x="910" y="141">Trie DB</text><text x="885" y="163" class="label">snapshot source</text>
+  <path d="M180 145 H245 M395 145 H460 M585 145 H650 M800 145 H870" class="arrow"/>
+  <path d="M870 178 V225 H725 V180" class="arrow dash"/><text x="731" y="216" class="label">cache miss refill</text>
+  <text x="45" y="290" class="label">Build path: raw events are aggregated and converted into a new immutable trie snapshot.</text>
+  <rect x="45" y="325" width="150" height="70" class="box stream"/><text x="70" y="355">Search-event log</text><text x="82" y="377" class="label">append only</text>
+  <rect x="260" y="325" width="145" height="70" class="box stream"/><text x="287" y="355">Aggregator</text><text x="281" y="377" class="label">query frequency</text>
+  <rect x="470" y="325" width="145" height="70" class="box api"/><text x="504" y="355">Workers</text><text x="490" y="377" class="label">build top-K trie</text>
+  <rect x="680" y="325" width="150" height="70" class="box data"/><text x="714" y="355">Trie DB</text><text x="697" y="377" class="label">validated snapshot</text>
+  <rect x="895" y="325" width="175" height="70" class="box cache"/><text x="922" y="355">Trie-cache replicas</text><text x="937" y="377" class="label">atomic swap</text>
+  <path d="M195 360 H260 M405 360 H470 M615 360 H680 M830 360 H895" class="arrow"/>
+  <text x="45" y="500" class="label">Shard-map manager routes each prefix range to a balanced trie shard; popular prefixes can split at deeper characters.</text>
+</svg>
