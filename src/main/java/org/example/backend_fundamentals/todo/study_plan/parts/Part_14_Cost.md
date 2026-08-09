@@ -6,12 +6,12 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Pricing intuition for top 10 AWS services you use | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: open AWS Pricing Calculator, model the cost of a 1M-req/day API (Lambda + DynamoDB + S3) — note where the bulk of cost lives (20 min) |
-| 2 | The silent killers — NAT Gateway data transfer, cross-AZ traffic, inter-region traffic, NLB cross-zone | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | S3 cost breakdown — storage + requests + transfer + lifecycle transitions | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Database Capacity Planning — IOPS, storage tiering, connection pool sizing, index write-amplification | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: compute required IOPS and storage for a 10M-req/day service with 1KB payloads and 5 secondary indexes (15 min) |
-| 5 | Per-request cost model — useful for product-level decisions | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Capacity planning — peak QPS, growth headroom, scaling lead time | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Pricing intuition for top 10 AWS services you use | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Provider-specific cost awareness, not active interview coverage. | 💻 Warm-up: open AWS Pricing Calculator, model the cost of a 1M-req/day API (Lambda + DynamoDB + S3) — note where the bulk of cost lives (20 min) |
+| 2 | The silent killers — NAT Gateway data transfer, cross-AZ traffic, inter-region traffic, NLB cross-zone | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Practical cloud cost awareness. | |
+| 3 | S3 cost breakdown — storage + requests + transfer + lifecycle transitions | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | AWS billing detail. | |
+| 4 | Database capacity planning — IOPS, storage tiering, connection pool sizing, index write-amplification | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Applied operational sizing; generic estimation remains red in Part 8. | 💻 Warm-up: compute required IOPS and storage for a 10M-req/day service with 1KB payloads and 5 secondary indexes (15 min) |
+| 5 | Per-request cost model — useful for product-level decisions | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Product and architecture judgment, not a standard interview requirement. | |
+| 6 | Capacity planning — peak QPS, growth headroom, scaling lead time | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Applied-cost follow-up; the interview estimation model is covered in Part 8. | |
 | 7 | Lambda — duration × memory × invocations, plus integration costs (API Gateway, etc.) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | RDS — instance + storage + IOPS + backups + Multi-AZ doubling | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Cost vs performance tradeoffs — gp3 vs io2, Multi-AZ vs single-AZ for non-prod, Graviton vs Intel | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -20,9 +20,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~8.75 hrs | ~0.8 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~17.25 hrs | ~1.6 wk | |
-| Full Part (all items including 🟡) | ~18.25 hrs | ~1.7 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~0 hrs (no 🔴 — 🟠 is the baseline here) | ~0 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~12.25 hrs | ~1.11 wk | |
+| Full Part (all items including 🟡) | ~12.25 hrs | ~1.11 wk | |
 
 ## Key diagrams
 

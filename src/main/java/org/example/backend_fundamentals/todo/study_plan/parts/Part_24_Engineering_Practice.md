@@ -18,9 +18,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~5.25 hrs | ~0.5 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~9.0 hrs | ~0.85 wk | |
-| Full Part (all items including 🟡) | ~10.5 hrs | ~0.95 wk | ~3.0 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5.25 hrs | ~0.48 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~8.25 hrs | ~0.75 wk | |
+| Full Part (all items including 🟡) | ~8.25 hrs | ~0.75 wk | ~3.0 hrs so far |
 
 > This Part is soft-skills-heavy. Time estimates assume *reading + reflecting + producing artifacts* (a design doc, a brag log, a code review checklist). The real learning is over months of practice, not study hours.
 

@@ -6,11 +6,11 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
 | 2 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [x] | [ ] | [ ] | | 📖 `security/cryptography/tls_certificates_diffie_hellman/index.md` · 📖 `security/cryptography/tls_https_pki/index.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
 | 3 | Why you never use a root directly — intermediates, ability to revoke | 🔴 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | CSR — what's in it, key generation flow | 🔴 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Certificate lifecycle — issuance, renewal, revocation, rotation | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 [BPTLS 2ed free sample PDF](https://www.feistyduck.com/books/bulletproof-tls-and-pki/bulletproof-tls-and-pki-2ed-sample.pdf) (60 pages but ~30 min effective if you skip preface + basics you already know) · 📖 smallstep "Everything about certs" blog (~30 min alternative) |
+| 1 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Recognize SAN and validity when diagnosing a certificate error; do not memorize extension details. | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
+| 5 | CSR — what's in it, key generation flow | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | Operational recognition only: public key and requested identity are submitted for signing. | |
+| 6 | Certificate lifecycle — issuance, renewal, revocation, rotation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Practical integration knowledge, not active interview-depth coverage. | 📖 [BPTLS 2ed free sample PDF](https://www.feistyduck.com/books/bulletproof-tls-and-pki/bulletproof-tls-and-pki-2ed-sample.pdf) (60 pages but ~30 min effective if you skip preface + basics you already know) · 📖 smallstep "Everything about certs" blog (~30 min alternative) |
 | 7 | CRL vs OCSP vs short-lived certs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Public vs private PKI — when each fits | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | ACME protocol — Let's Encrypt automation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -22,9 +22,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~6.33 hrs | ~0.6 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~19.42 hrs | ~1.8 wk | |
-| Full Part (all items including 🟡 MED) | ~22.42 hrs | ~2 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~1.5 hrs | ~0.14 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~13.75 hrs | ~1.25 wk | |
+| Full Part (all items including 🟡 MED) | ~13.75 hrs | ~1.25 wk | |
 
 > Time estimates assume zero baseline (you've never seen the topic). Subtract whatever you already know.
 > Fill in "Actual time" after finishing the Part — useful for calibrating future Parts.

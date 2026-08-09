@@ -19,6 +19,8 @@
 | 14 | Webhook signing — HMAC-SHA256 (Stripe-style), key rotation flow | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement HMAC-SHA256 webhook signer + verifier in Java; include timestamp + nonce (45 min) |
 | 20 | Per-tenant data residency — region pinning (DC-JKT vs AWS-SG, your reality) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Per-tenant rate limits & quotas — burst vs sustained | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 44 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
+| 45 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Re-KYC, periodic refresh, expiry triggers | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Idempotency keys for verification operations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design an Idempotency-Key header contract — TTL, conflict semantics, storage strategy (30 min) |
 | 24 | Partial completion, resume, abandon semantics | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -28,7 +30,6 @@
 | 28 | Ordering — per-resource ordering vs "out-of-order safe" event design | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 29 | Per-partner endpoint health tracking, per-partner circuit breaker | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | SSRF protection — URL allowlist, blocked IP ranges, no-follow redirects | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-
 | 32 | Polling fallback (`GET /verify/status`, your current model) for partners who can't accept webhooks | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | Webhook event schema versioning | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Per-tenant SLAs, monitoring, alerting | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -41,16 +42,15 @@
 | 41 | Cell-based architecture (advanced isolation pattern) (Basic concept only) | 🟡 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 42 | ONNX for model interoperability (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 43 | GPU vs CPU inference economics; batching strategies (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 44 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
-| 45 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~55 hrs | ~5 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~155 hrs | ~14 wk | |
-| Full Part (all items including 🟡) | ~178 hrs | ~16 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~17.25 hrs | ~1.57 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~36 hrs | ~3.27 wk | |
+| Full Part (all items including 🟡) | ~40 hrs | ~3.64 wk | |
 
 > This is **by far the largest Part** because it's your literal job. The Sprint plan does NOT aim for full 🔴 coverage in 3 months — Part 29 is a 9-month investment. Sprint priority: rows 1–14 (fundamentals + biometrics) + rows 22–27 (orchestration patterns — what you already live with). The rest is post-Sprint deepening.
 

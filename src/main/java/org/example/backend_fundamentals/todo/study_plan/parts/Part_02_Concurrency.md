@@ -15,12 +15,13 @@
 | 6 | ExecutorService, ThreadPoolExecutor — core / max pool, queue strategy, rejection policies | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/executor_service/index.md` · 📖 Baeldung "Guide to ThreadPoolExecutor" · 💻 Warm-up: run 1000 threads via fixed pool + virtual pool, compare (20 min) |
 | 7 | Future, CompletableFuture — composition, exception handling, thenCompose vs thenApply | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 `java/concurrency/completable_future/index.md` · 📖 `java/concurrency/completable_future/basics/index.md` · 📖 `java/concurrency/completable_future/composition/index.md` · 📖 `java/concurrency/completable_future/failure_timeouts/index.md` · 📖 `java/concurrency/completable_future/backend_workflows/index.md` · 💻 Warm-up: supplyAsync().thenApply().join() chain (15 min) |
 | 8 | Locks — ReentrantLock, ReentrantReadWriteLock, fair vs unfair | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered at interview depth; StampedLock/fairness intentionally kept recognition-level | 📖 `java/concurrency/locks/index.md` · 💻 `java/concurrency/locks/exercise/index.md` |
-| 9 | Reentrancy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Covered under `synchronized` and `ReentrantLock` | 📖 `java/concurrency/synchronized_keyword/index.md` · 📖 `java/concurrency/locks/index.md` |
 | 10 | Deadlock, livelock, starvation — causes and prevention | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered with lock ordering, pool starvation, and exercises | 📖 `java/concurrency/deadlock_livelock_starvation/index.md` · 💻 `java/concurrency/deadlock_livelock_starvation/exercise/index.md` |
+| 14 | Atomic family — AtomicInteger, AtomicReference, LongAdder | 🔴 💼 | MP | 1 hr 40 min | [x] | [ ] | [ ] | [ ] | Covered with CAS, read-and-reset, AtomicReference, LongAdder | 📖 `java/concurrency/atomic_classes/index.md` · 💻 `java/concurrency/atomic_classes/exercise/index.md` |
+| 25 | ThreadLocal — uses, leaks in pooled threads | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | Reentrancy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Covered under `synchronized` and `ReentrantLock` | 📖 `java/concurrency/synchronized_keyword/index.md` · 📖 `java/concurrency/locks/index.md` |
 | 11 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [x] | [ ] | [ ] | [ ] | Covered; practical stance is prefer higher-level APIs | 📖 `java/concurrency/wait_notify/index.md` · 💻 `java/concurrency/wait_notify/exercise/index.md` |
 | 12 | Semaphore, CountDownLatch, CyclicBarrier, Phaser — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | StampedLock — optimistic reads | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Recognition-level only; intentionally not deep-studied because it is advanced/rare for SDE-2 interviews | 📖 `java/concurrency/locks/index.md` |
-| 14 | Atomic family — AtomicInteger, AtomicReference, LongAdder | 🔴 💼 | MP | 1 hr 40 min | [x] | [ ] | [ ] | [ ] | Covered with CAS, read-and-reset, AtomicReference, LongAdder | 📖 `java/concurrency/atomic_classes/index.md` · 💻 `java/concurrency/atomic_classes/exercise/index.md` |
 | 15 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered for CHM, CopyOnWrite, atomic map operations; ConcurrentSkipListMap recognition is enough for now | 📖 `java/concurrency/concurrent_collections/index.md` · 💻 `java/concurrency/concurrent_collections/exercise/index.md` |
 | 16 | BlockingQueue family — ArrayBlockingQueue, LinkedBlockingQueue, SynchronousQueue, DelayQueue | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 17 | Virtual threads (Loom) — what they are, when they help, pinning gotchas | 🟠 💼 🆕 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 JEP 444 (Virtual Threads) + Oracle Loom intro |
@@ -31,7 +32,6 @@
 | 22 | Thread confinement | 🟠 💼 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: concept appears in examples, but no focused page yet | |
 | 23 | ForkJoinPool, common pool, parallel streams under the hood | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | ScheduledExecutorService — proper way to do periodic tasks | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | ThreadLocal — uses, leaks in pooled threads | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Scoped values (replacing ThreadLocal) | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Reactive — Reactor (Mono / Flux), backpressure | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
@@ -41,9 +41,9 @@ Reading + warm-up exercises (warm-ups are listed inline in the Resources column 
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~22.25 hrs | ~2 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~42.25 hrs | ~3.85 wk | |
-| Full Part (all items including 🟡) | ~47.5 hrs | ~4.3 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~15.17 hrs | ~1.38 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~28 hrs | ~2.55 wk | |
+| Full Part (all items including 🟡) | ~32.75 hrs | ~2.98 wk | |
 
 Heavier hands-on practice (Practice + Advanced) is tracked separately at the bottom of the Hands-on section.
 

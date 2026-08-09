@@ -8,12 +8,12 @@
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Thread dumps — jstack, `kill -3`, capture under load | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `jstack <pid>` on a running Spring Boot app, identify RUNNABLE / WAITING / BLOCKED states (20 min) |
 | 2 | Reading thread dumps — find BLOCKED, identify lock contention, deadlocks | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Heap dumps — jmap, `-XX:+HeapDumpOnOutOfMemoryError` | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Heap analysis — Eclipse MAT (dominator tree, retained heap, leak suspects) | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: open a sample heap dump (or generate via `jmap -dump`) in Eclipse MAT, navigate to Leak Suspects report (30 min) |
+| 3 | Heap-dump diagnosis — when to capture for OOM / suspected leaks, what it contains, and how retained heap points to the retaining owner | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Interview scope: explain the diagnostic flow and common retainers such as an unbounded cache, static collection, or uncleared `ThreadLocal`. | |
 | 6 | tcpdump basics, Wireshark for deep dives | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Slow query logs — MySQL slow_log, Postgres pg_stat_statements | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: enable `log_min_duration_statement = 1000` in Postgres, capture a slow query, read the log line (15 min) |
 | 11 | 5 whys, fishbone (Ishikawa) analysis | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Reproducing in staging / lower envs | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | Heap-dump tooling and leak hunting — `jmap` / `jcmd`, Eclipse MAT, Leak Suspects, dominator tree, retained heap | 🟠 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | Practical production depth; do not memorize command variants for interviews. | 💻 Warm-up: open a sample heap dump (or generate via `jmap -dump`) in Eclipse MAT, navigate to Leak Suspects report (30 min) |
 | 13 | GC log analysis — gceasy.io, GCViewer | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | JFR — continuous low-overhead profiling in prod | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 16 | jstat, jcmd, jinfo, jps — command-line forensics | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -30,9 +30,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~23.58 hrs | ~2.15 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~43.58 hrs | ~3.95 wk | |
-| Full Part (all items including 🟡) | ~45.08 hrs | ~4.1 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~10.75 hrs | ~0.98 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.25 hrs | ~2.48 wk | |
+| Full Part (all items including 🟡) | ~27.25 hrs | ~2.48 wk | |
 
 ## Frequently asked
 
@@ -65,7 +65,7 @@
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
 - **Thread dump analysis fluency** (~3.5 hrs combined rows 1+2) — most senior daily skill. Practice with several real dumps. Understand BLOCKED, WAITING, deadlock detection output, lock chain reconstruction.
-- **Heap dump leak hunting** (~3.5 hrs combined rows 3+4) — most production-critical OOM skill. Eclipse MAT navigation: Dominator Tree, retained heap, leak suspects, OQL queries.
+- **Heap dump leak hunting** (~4 hrs combined rows 3+4) — production OOM skill. The red requirement is the diagnostic flow; Eclipse MAT navigation, retained-heap investigation, and OQL are practical depth.
 - **Postmortem writing** (~2 hrs row 24) — STAR-style postmortem with blameless tone, action items + owners. Becomes promotion material when done well.
 - **Incident response playbook for KYC verification failures** (~2.5 hrs combined) — runbook entries for top 5 likely failure modes. Test in a game day.
 

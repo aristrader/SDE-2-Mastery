@@ -6,33 +6,33 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 3b | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered | |
 | 5 | Terraform — providers, state, modules, workspaces | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write Terraform that provisions an S3 bucket with versioning + lifecycle, apply + destroy (30 min) |
-| 6 | Daily Linux fluency — ps, top, htop, lsof, netstat / ss, tcpdump, strace | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`), find which files a process has open (`lsof -p <pid>`), watch syscalls (`strace -p <pid>`) (30 min) |
-
-| 8 | Filesystem layout, permissions, ulimits | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-
+| 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
+| 3b | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 6 | Linux troubleshooting basics — process/CPU inspection (`ps`, `top`), open files (`lsof`), listening connections (`ss`) | 🟠 💼 | M | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | `tcpdump` and `strace` are optional operational depth. | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`) and inspect its open files (`lsof -p <pid>`) (20 min) |
+| 8 | Filesystem, permissions, and limits — config/log locations, ownership, disk-full diagnosis, file-descriptor limits | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Know the failure modes; do not study filesystem internals. | |
 | 12 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
 | 14 | Kubernetes — StatefulSet, DaemonSet, Job, CronJob | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-
 | 17 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
-
 | 19 | Blue-green, canary, feature flags | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Bash scripting fluency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | awk, sed, jq for log mining | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-
 | 25 | SSH — key-based auth, `~/.ssh/config`, ssh-agent, host key verification, port forwarding (`-L`/`-R`/`-D`), ProxyJump / bastion | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate ed25519 keypair, add to authorized_keys on a remote, set up a `~/.ssh/config` alias with ProxyJump bastion, verify host key is pinned in known_hosts (20 min) |
-| 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
+
+
+
+
+
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~20.08 hrs | ~1.83 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~42.33 hrs | ~3.85 wk | |
-| Full Part (all items including 🟡) | ~45.83 hrs | ~4.17 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5 hrs | ~0.45 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21 hrs | ~1.91 wk | |
+| Full Part (all items including 🟡) | ~21 hrs | ~1.91 wk | |
 
 ## Frequently asked
 

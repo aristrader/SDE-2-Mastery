@@ -43,9 +43,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (rows 1–12) | ~7 hrs | ~0.6 wk | |
-| 🔴 + 🟠 HIGH (rows 1–21) | ~13.3 hrs | ~1.2 wk | |
-| Full Part (all rows) | ~16.7 hrs | ~1.5 wk | |
+| 🔴 MUST only (rows 1–12) | ~6.83 hrs | ~0.62 wk | |
+| 🔴 + 🟠 HIGH (rows 1–21) | ~14.08 hrs | ~1.28 wk | |
+| Full Part (all rows) | ~16.67 hrs | ~1.52 wk | |
 
 > Estimates assume zero prior fluency with each API. Subtract heavily for anything you already write daily.
 

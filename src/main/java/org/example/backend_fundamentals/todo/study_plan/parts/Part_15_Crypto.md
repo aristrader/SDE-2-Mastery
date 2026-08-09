@@ -22,16 +22,16 @@
 | 14 | Nonce, IV — reuse pitfalls (catastrophic for GCM) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | SSRF | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Insecure deserialization | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Concept mentioned as handshake mechanism, details pending | 📖 `security/cryptography/tls_https_pki/index.md` |
 | 21 | OWASP Top 10 — full list | 🟠 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Concept mentioned as handshake mechanism, details pending | 📖 `security/cryptography/tls_https_pki/index.md` |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~17.5 hrs | ~1.6 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~28.85 hrs | ~2.6 wk | |
-| Full Part (all items including 🟡) | ~30.35 hrs | ~2.75 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~14.25 hrs | ~1.3 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21.5 hrs | ~1.95 wk | |
+| Full Part (all items including 🟡) | ~23 hrs | ~2.09 wk | |
 
 ## Key diagrams
 

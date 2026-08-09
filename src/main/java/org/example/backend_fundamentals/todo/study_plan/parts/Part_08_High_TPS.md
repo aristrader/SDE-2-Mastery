@@ -10,16 +10,15 @@
 | 2 | Throughput math | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
 | 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 35-40 — powers of two, QPS, peak QPS, Twitter/media storage estimate, retention, units, rounding assumptions | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 3 | GC tuning (G1GC vs ZGC) for latency — pause times vs throughput | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Thread dumps, heap dumps, MAT (Memory Analyzer Tool) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write OOM program, generate heap dump (-XX:+HeapDumpOnOutOfMemoryError), open in MAT, find leak (45 min) |
 | 5 | Profiling tools — async-profiler, JFR, flame graphs | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |
 | 6 | Non-blocking I/O (NIO, epoll, kqueue) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
+| 11 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
 | 6 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 12, 15, and 95-96 — read-heavy systems use replicas/cache; write-heavy paths need partitioning/quorum tuning | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 7 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 15-16 and 89 — cache frequently read data, avoid treating volatile cache as source of truth, keep hot data in memory and colder data on disk | 📖 `system_design/components/caching/index.md` · 📖 `databases/key_value_store/index.md` |
 | 8 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 39-40 — estimate average QPS, peak QPS, and use round assumptions rather than sizing only from smooth averages | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 9 | GC tuning intuition (without going overboard) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Connection pool sizing (HikariCP — `pool size = ((cores × 2) + effective_spindle_count)`) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6 HikariCP) |
 | 10 | Object pooling (e.g., HikariCP internals) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
 | 12 | P50 / P90 / P99 / P99.9 latency — tail latency matters more than average | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 Gil Tene — "How NOT to measure latency" (~30 min, canonical) |
 | 13 | Load testing — JMeter, Gatling, k6, Locust | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write k6 script with 10 VUs ramping to 100 over 30s against a local endpoint, read the p95 (30 min) |
 | 14 | Async I/O, non-blocking | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
@@ -34,9 +33,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.67 hrs | ~0.9 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~26.17 hrs | ~2.4 wk | |
-| Full Part (all items including 🟡) | ~30.67 hrs | ~2.8 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~8.17 hrs | ~0.74 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~20.92 hrs | ~1.9 wk | |
+| Full Part (all items including 🟡) | ~24.92 hrs | ~2.27 wk | |
 
 ## Key diagrams
 

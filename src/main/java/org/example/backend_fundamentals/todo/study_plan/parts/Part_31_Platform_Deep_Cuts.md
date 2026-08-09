@@ -10,33 +10,33 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
-| 2 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Document switching mid-flow — historical attempts vs effective context (your design) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
-| 5 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Crash resilience — write-ahead correlation IDs BEFORE vendor calls; recovery / replay flows (your exact liveness-piggyback risk) | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Idempotency on retry — never duplicate transactions when SDK retries blindly | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | SDK versioning, backward compatibility, force-upgrade mechanism | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Vendor abstraction layer — adapter pattern; normalize different score scales and field names | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch the `VendorClient` interface + 2 concrete adapters (geoX, ASG-NEO) — score normalization, field mapping (45 min) |
-| 10 | Vendor capability matrix — which provider supports which document × country × operation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Vendor failover — primary + secondary; consistency cost of failing over mid-flow | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Vendor result normalization — different vendors return different shapes; one internal schema | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Capture → upload → quality check → vendor submission pipeline | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Quality assessment pre-vendor (your ImageQualityService pattern) — reject early, save money | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Image retention policy — purge after N days; right-to-be-forgotten cascade | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Per-partner configuration — accepted documents, vendor preferences, score thresholds, capture modes | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Flow types — what operations are required per product (your `flow_type` field is this) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | KYC funnel metrics — start → document_capture → liveness → face_match → verified | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define 5 funnel metrics + Datadog query for each (drop-off per step) (30 min) |
-| 19 | Drop-off per step (which step loses users — usually liveness) | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Verification success rate, broken down by partner / country / document type | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | FRR / FAR at your production threshold — competing concerns on your specific operating point | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (See Part 29 row 16 for FAR/FRR theory) |
-| 22 | SDK crash before vendor call → correlation IDs orphaned (your liveness-piggyback risk, formalized) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Document switching mid-flow → status computation uses only latest doc context (your design) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | Historical-attempt schema evolution without breaking back-compat (CARD_FRONT vs CARD_BOTH legacy handling) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Duplicate transaction IDs from partners (the `Duplicate partnerTrxId` errors in your logs) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Vendor returning errors in 200 OK bodies — you've filtered these in Datadog | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Java `TimeoutException` propagating from vendor calls — what you do at the boundary | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
+| 2 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Document switching mid-flow — historical attempts vs effective context (your design) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 5 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 7 | Idempotency on retry — never duplicate transactions when SDK retries blindly | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | SDK versioning, backward compatibility, force-upgrade mechanism | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 9 | Vendor abstraction layer — adapter pattern; normalize different score scales and field names | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch the `VendorClient` interface + 2 concrete adapters (geoX, ASG-NEO) — score normalization, field mapping (45 min) |
+| 10 | Vendor capability matrix — which provider supports which document × country × operation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 13 | Capture → upload → quality check → vendor submission pipeline | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 14 | Quality assessment pre-vendor (your ImageQualityService pattern) — reject early, save money | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 15 | Image retention policy — purge after N days; right-to-be-forgotten cascade | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | Per-partner configuration — accepted documents, vendor preferences, score thresholds, capture modes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 17 | Flow types — what operations are required per product (your `flow_type` field is this) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 18 | KYC funnel metrics — start → document_capture → liveness → face_match → verified | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define 5 funnel metrics + Datadog query for each (drop-off per step) (30 min) |
+| 19 | Drop-off per step (which step loses users — usually liveness) | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | Verification success rate, broken down by partner / country / document type | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 22 | SDK crash before vendor call → correlation IDs orphaned (your liveness-piggyback risk, formalized) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 23 | Document switching mid-flow → status computation uses only latest doc context (your design) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 24 | Historical-attempt schema evolution without breaking back-compat (CARD_FRONT vs CARD_BOTH legacy handling) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 25 | Duplicate transaction IDs from partners (the `Duplicate partnerTrxId` errors in your logs) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 26 | Vendor returning errors in 200 OK bodies — you've filtered these in Datadog | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 28 | Government ID gateways — Dukcapil (Indonesia), JPN (Malaysia), MyInfo / Singpass (Singapore) — your integrations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 29 | NFC chip reading from e-passports — DSC, CSCA, country signing certs (your integration, not theory) | 🟠 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 29 row 8 + Part 17 PKI) |
 | 31 | Root / jailbreak detection — and the arms race with bypass tooling (your stance) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
@@ -80,9 +80,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~42 hrs | ~3.8 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~85 hrs | ~7.7 wk | |
-| Full Part (all items including 🟡) | ~88 hrs | ~8 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~10 hrs | ~0.91 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~82.25 hrs | ~7.48 wk | |
+| Full Part (all items including 🟡) | ~83.75 hrs | ~7.61 wk | |
 
 > Trimmed from 88 rows down to 71 by removing items that duplicated Part 29 fundamentals (doc anatomy, ICAO, MRZ theory, 1:1 vs 1:N, FAR/FRR theory, PAD theory, NIST FRVT, biometric template generic, deepfake-defense generic, driver's-licence generic, iris/fingerprint/voice). Anything left here is **your platform's actual implementation, decision, or war story**. For the general theory, refer to Part 29.
 

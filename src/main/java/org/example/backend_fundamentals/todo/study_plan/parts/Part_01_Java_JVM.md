@@ -19,10 +19,10 @@
 | 8 | ConcurrentHashMap — CAS for empty bins, synchronized on head node, compute/merge atomicity | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~35 min | 📖 `java/collections/maps/concurrent_hashmap/index.md` |
 | 9 | LinkedHashMap — insertion vs access order, LRU cache implementation | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/linked_hashmap/index.md` · 💻 `java/collections/maps/linked_hashmap/exercise/index.md` |
 | 10 | TreeMap — Red-Black tree, sorted operations, ceilingKey / floorKey | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/treemap/index.md` · 💻 `java/collections/maps/treemap/exercise/index.md` |
-| 11 | Collections framework architecture (interfaces vs implementations) | 🟠 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered in collections hub and implementation-choice pages | 📖 `java/collections/index.md` · 📖 `java/collections/maps/implementation_choice/index.md` |
 | 12 | Streams API — intermediate vs terminal, lazy evaluation, parallel streams (and when NOT to use) | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered from Streams dump | 📖 `java/coding_fluency/streams/foundations/index.md` · 📖 `java/coding_fluency/streams/intermediate_operations/index.md` · 📖 `java/coding_fluency/streams/terminal_operations/index.md` · 📖 `java/coding_fluency/streams/primitive_parallel/index.md` · 💻 `java/coding_fluency/streams/intermediate_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/terminal_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/interview_drills/exercise/index.md` |
-| 13 | Optional — proper use vs misuse | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/coding_fluency/optional/index.md` · 💻 `java/coding_fluency/optional/exercise/index.md` |
 | 14 | Functional interfaces — Function, Predicate, Consumer, Supplier, BiFunction | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory covered from lambda/function-interface dump | 📖 `java/coding_fluency/lambdas/index.md` · 📖 `java/coding_fluency/functional_interfaces/index.md` · 📖 `java/coding_fluency/method_references/index.md` |
+| 11 | Collections framework architecture (interfaces vs implementations) | 🟠 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered in collections hub and implementation-choice pages | 📖 `java/collections/index.md` · 📖 `java/collections/maps/implementation_choice/index.md` |
+| 13 | Optional — proper use vs misuse | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/coding_fluency/optional/index.md` · 💻 `java/coding_fluency/optional/exercise/index.md` |
 | 15 | GC algorithms — G1 (default), ZGC, Shenandoah, Parallel; tuning intuition | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered in GC page | 📖 `java/jvm/gc/index.md` |
 | 16 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JVM execution role covered; bootstrap/platform/app hierarchy pending | 📖 `java/jvm/bytecode_execution/index.md` |
 | 17 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JIT role covered; C1/C2/tiered/inlining details pending | 📖 `java/jvm/bytecode_execution/index.md` |
@@ -41,14 +41,13 @@
 | 30 | Queue / Deque — ArrayDeque, PriorityQueue, BlockingQueue family | 🟡 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: Queue, Deque, ArrayDeque, LinkedList, and PriorityQueue covered. BlockingQueue pending. | 📖 `java/collections/queues/index.md` |
 | 31 | Records, sealed classes, pattern matching (Java 17+) | 🟢 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: records covered; sealed classes and pattern matching pending | 📖 `java/coding_fluency/records/index.md` |
 | 32 | Text blocks, switch expressions, var | 🟢 🆕 | L | 30 min | [ ] | [x] | [ ] | [ ] | Partial: switch expressions covered; text blocks and `var` pending | 📖 `java/foundations/control_flow/index.md` |
-
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~20.92 hrs | ~1.9 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~36.92 hrs | ~3.35 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~50.67 hrs | ~4.6 wk | ~7 hr 44 min so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~18.42 hrs | ~1.67 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~26.92 hrs | ~2.45 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~38.42 hrs | ~3.49 wk | ~7 hr 44 min so far |
 
 > Time estimates assume zero baseline (you've never seen the topic). Subtract whatever you already know.
 > Fill in "Actual time" after finishing the Part — useful for calibrating future Parts.

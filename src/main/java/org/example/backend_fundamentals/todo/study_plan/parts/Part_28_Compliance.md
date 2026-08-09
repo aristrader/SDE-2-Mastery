@@ -8,6 +8,7 @@
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | PII classification & tagging (data inventory is the first step) (Basic concept only) | 🔴 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 2 | Data minimization — collect only what's needed; question every field (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Audit logs — what / when / who; tamper-evident storage | 🔴 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
 | 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🔴 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
 | 6 | Retention policies enforced in code, not just in docs | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -16,15 +17,14 @@
 | 9 | Tokenization vs encryption — when each fits (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Pseudonymization, anonymization, k-anonymity (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~36.5 hrs | ~3.3 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~55 hrs | ~5 wk | |
-| Full Part (all items including 🟡) | ~56 hrs | ~5.1 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~10.33 hrs | ~0.94 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~12.58 hrs | ~1.14 wk | |
+| Full Part (all items including 🟡) | ~12.58 hrs | ~1.14 wk | |
 
 ## Key diagrams
 

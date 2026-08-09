@@ -22,6 +22,8 @@
 | 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: clustering (Redis Cluster, shards, replication, failover) covered; data types, persistence, eviction, pub/sub, streams pending. ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/index.md` · 📖 redis.io "Introduction to Redis" (~30 min) |
 | 16 | N+1 query problem — detection (Hibernate/JPA) and fixes | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 33 | DynamoDB — partition keys, GSI/LSI, hot partitions, on-demand vs provisioned | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/index.md` |
 | 17 | Row-level security (RLS) in DBs (e.g. Postgres for multi-tenant) | 🟠 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Deadlocks — detection, prevention | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: transaction states/lifecycle + distributed transactions + 2PC (prepare/commit, blocking problem, recovery) + 3PC + Saga/compensating + FLP/consensus covered; savepoints + XA pending. ~45 min (ChatGPT, 3 pastes) | 📖 `databases/distributed_transactions/index.md` · 📖 `databases/transactions/index.md` |
@@ -38,23 +40,21 @@
 | 30 | Graph (Neo4j, Neptune) | 🟠 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: fraud-detection use cases (shared devices, cycles) covered; Neo4j/Neptune specifics pending | 📖 `databases/graph/index.md` (use cases only) |
 | 31 | Time-series (Prometheus, InfluxDB, TimescaleDB) | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 32 | Search (Elasticsearch, OpenSearch) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | DynamoDB — partition keys, GSI/LSI, hot partitions, on-demand vs provisioned | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 34 | Elasticsearch — inverted index, mapping, analyzers | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Partitioning (range, list, hash) | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — horizontal vs vertical, hash/list/range/composite criteria | 📖 `databases/sharding/index.md` |
 | 36 | JSON columns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Vector (pgvector, Pinecone, Weaviate, Milvus) — also covered in GenAI | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency, Dynamo/Cassandra-style quorum reads/writes, commit log, memtable, SSTable, Bloom-filter read path covered from Alex Xu pages 95-107; partition + clustering keys pending | 📖 `databases/replication/index.md` (quorum part) · 📖 `databases/key_value_store/index.md` |
 | 39 | MongoDB — sharding, secondary indexes, aggregation pipeline | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/index.md` |
 | 41 | Database federation — federated DBs vs sharding, cross-DB join/transaction cost, modern database-per-service + Saga + BFF | 🟡 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — federation vs sharding contrast, why it faded, BFF as service-layer aggregation | 📖 `databases/federation/index.md` |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~37.92 hrs | ~3.45 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~64.92 hrs | ~5.9 wk | |
-| Full Part (all items including 🟡) | ~71.17 hrs | ~6.5 wk | ~6.8 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~23.58 hrs | ~2.14 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~46 hrs | ~4.18 wk | |
+| Full Part (all items including 🟡) | ~52.5 hrs | ~4.77 wk | ~6.8 hrs so far |
 
 > Database is foundational for most senior interviews. Isolation levels + indexes + EXPLAIN are interview-canonical and worth Mastery time.
 

@@ -77,9 +77,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~31.25 hrs | ~2.85 wk | rows 2-10, 15, 17, 23-24, 29, 39, 44 done |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~78.5 hrs | ~7.15 wk | rows 2-10, 15, 17, 23-24, 26-29, 39, 42-44 done |
-| Full Part (all items including 🟡 + 🟢) | ~92.5 hrs | ~8.4 wk | ~6.5 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~30.5 hrs | ~2.77 wk | rows 2-10, 15, 17, 23-24, 29, 39, 44 done |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~69 hrs | ~6.27 wk | rows 2-10, 15, 17, 23-24, 26-29, 39, 42-44 done |
+| Full Part (all items including 🟡 + 🟢) | ~81 hrs | ~7.36 wk | ~6.5 hrs so far |
 
 > Heavy Part — but a large fraction is already ✅ Done from your active design-patterns track. Mark accordingly during Survey.
 

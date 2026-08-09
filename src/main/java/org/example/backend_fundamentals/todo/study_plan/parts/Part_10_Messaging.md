@@ -12,6 +12,7 @@
 | 4 | Idempotency keys | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: idempotency keys + dedup-by-txn-id + payment-key example + safe-to-retry covered; hands-on dedup-table warm-up pending. ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/index.md` · (Cross-ref Part 7 idempotency) |
 | 5 | Dead-letter queues, retries, poison messages | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — DLQ after N retries, poison pill (malformed vs STOP sentinel), ACK-driven retry | 📖 `messaging/queues_pubsub/index.md` |
 | 6 | Spring Kafka — `@KafkaListener`, `ConcurrentMessageListenerContainer`, `DefaultErrorHandler`, dead-letter publishing recovery, batch listeners | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @KafkaListener consuming from a topic, simulate exception, configure DefaultErrorHandler with 3-retry exponential backoff + DLT recoverer (30 min) |
+| 14 | Outbox pattern (revisit) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Dual-write problem + outbox row in same DB transaction + async publish covered. | (Cross-ref Part 4.3) · 📖 `databases/distributed_transactions/index.md` |
 | 7 | Kafka — partitions, replicas, ISR, offsets, compaction, exactly-once semantics | 🟠 💼 🎯 | D | 3 hrs 30 min | [ ] | [x] | [ ] | [ ] | Partial: log-not-queue model + offsets/offset-commit + consumer-crash redelivery/duplicates covered; partitions/replicas/ISR/compaction pending. ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/index.md` · 📖 Confluent Kafka docs "Architecture" page (~30 min) · 💻 Warm-up: produce + consume to a local Kafka topic with 3 partitions, observe consumer-group rebalance (30 min) |
 | 8 | Retry topics pattern (Uber / Confluent-style) — `topic.retry.5m`, `topic.retry.30m`, `topic.dlt` chains; non-blocking retry without parking the consumer thread; Spring's `@RetryableTopic` annotation | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | SQS — standard vs FIFO, visibility timeout, long polling | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: long polling + FIFO ordering concept covered; visibility timeout + standard-vs-FIFO specifics pending. ~9 min (ChatGPT) | 📖 `messaging/queues_pubsub/index.md` |
@@ -19,7 +20,6 @@
 | 11 | Kinesis — shards, retention, consumer types | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | RabbitMQ — exchanges, queues, bindings, routing keys | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RabbitMQ model (queue, deliver-ACK-delete, vs Kafka log) covered; exchanges/bindings/routing-keys pending. ~9 min (ChatGPT) | 📖 `messaging/message_brokers/index.md` |
 | 13 | Event-driven architecture — events vs commands | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — event ("this happened") vs command ("do this"), fan-out, pub/sub extensibility | 📖 `messaging/queues_pubsub/index.md` · 📖 `messaging/eda/index.md` |
-| 14 | Outbox pattern (revisit) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Dual-write problem + outbox row in same DB transaction + async publish covered. | (Cross-ref Part 4.3) · 📖 `databases/distributed_transactions/index.md` |
 | 15 | Change Data Capture (CDC) — Debezium, AWS DMS, MySQL binlog, Postgres logical replication | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: run Debezium against local Postgres, observe a row INSERT propagate to a Kafka topic (30 min) |
 | 16 | Transactional outbox + CDC — reliable event publishing without 2PC | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: outbox concept covered; CDC/Debezium implementation pending. | 📖 `databases/distributed_transactions/index.md` |
 | 17 | Choreography vs orchestration in event-driven architecture | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~15 min (ChatGPT) — choreography vs orchestration, Saga vs Pub/Sub | (Cross-ref Part 4.3 Sagas) · 📖 `databases/distributed_transactions/saga/index.md` |
@@ -30,9 +30,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~12.75 hrs | ~1.16 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~34 hrs | ~3.1 wk | |
-| Full Part (all items including 🟡) | ~37 hrs | ~3.36 wk | ~2.3 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.75 hrs | ~0.89 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.5 hrs | ~2.5 wk | |
+| Full Part (all items including 🟡) | ~30.5 hrs | ~2.77 wk | ~2.3 hrs so far |
 
 ## Key diagrams
 

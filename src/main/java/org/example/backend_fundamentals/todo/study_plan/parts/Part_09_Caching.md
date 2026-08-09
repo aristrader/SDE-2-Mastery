@@ -17,16 +17,16 @@
 | 9 | Hot key problem & mitigation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Cache key design — tenant-scoped, versioned, collision-safe (e.g., `kyc:v1:tenant:{tenantId}:doc:{docId}`); cross-tenant safety; key versioning for schema migrations | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Redis specifically — data structures, persistence (RDB/AOF), Sentinel, Cluster | 🟠 💼 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: Cluster (16384 hash slots, masters/replicas, failover) covered; data structures, RDB/AOF, Sentinel pending | 📖 `system_design/components/caching/index.md` (Cluster only) · 📖 redis.io intro · 💻 Warm-up: connect with `redis-cli`, exercise SET/GET/EXPIRE/TTL/HSET/LPUSH/ZADD from memory (20 min) |
-| 12 | Memcached vs Redis tradeoffs | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Caffeine (in-JVM cache) — for Spring apps | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Caffeine builder with maximumSize + expireAfterWrite + recordStats (20 min) |
+| 12 | Memcached vs Redis tradeoffs | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~10.25 hrs | ~0.93 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21 hrs | ~1.9 wk | |
-| Full Part (all items including 🟡) | ~21.83 hrs | ~2 wk | ~2.25 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~8.5 hrs | ~0.77 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~18.75 hrs | ~1.7 wk | |
+| Full Part (all items including 🟡) | ~19.5 hrs | ~1.77 wk | ~2.25 hrs so far |
 
 ## Key diagrams
 

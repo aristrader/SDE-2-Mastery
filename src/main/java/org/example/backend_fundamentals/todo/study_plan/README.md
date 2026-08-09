@@ -75,6 +75,10 @@ Each doc has:
 > **Week:** 5 (Jun 15–21) — *(update each Monday)*
 > **Today's deliverable:** *(update each session)*
 
+## Priority cleanup TODO
+
+- [ ] Review the red tier one Part at a time. For each Part, propose both directions: demote red rows that are not normal interview must-haves, and promote lower-priority rows that are. Do not change any priority until the user approves that Part.
+
 ## If you're behind schedule
 
 - Defer any unstarted Mastery items to Consolidation.

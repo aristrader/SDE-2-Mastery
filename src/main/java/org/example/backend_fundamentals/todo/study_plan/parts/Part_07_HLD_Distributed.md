@@ -10,12 +10,9 @@
 | 2 | PACELC — the practical extension | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — Else branch (latency vs consistency), PA/EL vs PC/EC | 📖 `system_design/concepts/cap_pacelc/index.md` |
 | 3 | Consistency models — strong, sequential, causal, eventual, read-your-writes, monotonic reads | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: strong, weak, and eventual consistency covered from Alex Xu page 96; sequential, causal, read-your-writes, and monotonic reads pending | 📖 `system_design/concepts/cap_pacelc/index.md` · 📖 Jepsen "Consistency Models" page (jepsen.io/consistency — diagram + descriptions, ~30 min) |
 | 4 | Replication — leader/follower, multi-leader, leaderless (Dynamo-style) | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: leader/follower, replica promotion, and Dynamo-style leaderless replication/quorums covered from Alex Xu pages 12-14 and 93-107; multi-leader pending | 📖 *Designing Data-Intensive Applications* ch 5 (Kleppmann, ~45 min) · 📖 `databases/replication/index.md` · 📖 `databases/key_value_store/index.md` |
-| 5 | Partitioning — by range, hash, consistent hashing | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — range/hash/list/composite, DB partitioning view, consistent hashing (ring + virtual nodes) | 📖 `databases/sharding/index.md` · 📖 `system_design/components/caching/index.md` (cache lens) |
 | 6 | Load balancers — L4 vs L7, algorithms (round-robin, least-conn, consistent hash, EWMA) | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~4.5 hr (ChatGPT). Algorithms (RR/least-conn/EWMA) pending | 📖 `system_design/components/load_balancing/index.md` · 📖 `system_design/components/load_balancing/index.md` |
 | 7 | Reverse proxy vs API gateway | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr total (ChatGPT). API Gateway + BFF added | 📖 `networking/proxies_vpn/index.md` · 📖 `networking/api_gateway/index.md` |
 | 8 | CDN — edge caching, cache-control, invalidation, push vs pull | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT). Cache-Control header mechanics pending (Part 11 row 8) | 📖 `system_design/components/cdn/index.md` |
-| 9 | Caching — patterns (cache-aside, read-through, write-through, write-behind, refresh-ahead) | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Refresh-ahead pending. Time counted in Part 9 row 1 | 📖 `system_design/components/caching/index.md` · (Cross-ref Part 9 — Caching deep dive) |
-| 10 | Cache invalidation — TTL, event-based, write-through | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: TTL/cache expiry, stale-cache risk, CDN invalidation, object versioning, and cache consistency covered from Alex Xu pages 15-18; event-based invalidation and refresh-ahead pending | 📖 `system_design/components/caching/index.md` · 📖 `system_design/components/cdn/index.md` |
 | 11 | Message queue vs stream — semantics differences | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — broker (deliver-and-discard) vs streaming/commit-log (store + replay), offsets, RabbitMQ vs Kafka | 📖 `messaging/message_brokers/index.md` | 
 | 12 | Pub-sub vs point-to-point | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT, 2 pastes) — queue (competing consumers, command) vs topic (fan-out, event), filtering, durability, multi-protocol delivery, who-does-work-vs-who-wants-to-know | 📖 `messaging/queues_pubsub/index.md` |
 | 13 | Rate limiting — fixed window, sliding window, token bucket, leaky bucket | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 51-70 — fixed window, sliding window log/counter, token bucket, leaky bucket, Redis counters, distributed race/sync issues, 429 headers, monitoring | 📖 `system_design/components/rate_limiting/` · 💻 Warm-up: implement token bucket — tryAcquire() with periodic refill (30 min) |
@@ -28,7 +25,9 @@
 | 19 | Horizontal vs vertical scaling — tradeoffs | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — vertical vs horizontal, active redundancy, sequential vs random IO | 📖 `system_design/concepts/scalability/index.md` |
 | 20 | Stateless service design | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 20-22 — move session/state out of web tier, any app server can handle any request, autoscaling becomes easier | 📖 `system_design/concepts/scalability/index.md` |
 | 21 | Sticky sessions vs distributed session store | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 20-22 — sticky-session failure/rebalancing problems and shared Redis/DB/NoSQL session-store alternative | 📖 `system_design/concepts/scalability/index.md` |
-| 22 | Sharding — strategies and pain points (revisited from Part 6) | 🔴 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — strategies, shard keys, routing (mongos/Vitess), scatter-gather, cross-shard joins, rebalancing pain | 📖 `databases/sharding/index.md` · (Cross-ref Part 6.10) |
+| 66 | Availability, reliability, fault tolerance — Nines, sequence vs parallel, HA vs FT, redundancy | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/concepts/availability/index.md` |
+| 69 | Monolith vs microservices — modular monolith, distributed monolith (anti-pattern), SOA, cohesion/coupling, sync vs event-driven, when NOT to | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — trade-off framing, modular→micro evolution, distributed-monolith signs, loose-coupling≠EDA, when not to use | 📖 `system_design/patterns/architecture/index.md` |
+| 71 | Disaster Recovery — RTO, RPO, backup vs replication, hot/warm/cold sites | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | RTO, RPO, replication vs backup, cost vs recovery tradeoffs covered. | 📖 `system_design/concepts/disaster_recovery/index.md` |
 | 23 | Consensus — Paxos and Raft (high-level enough to discuss) | 🟠 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📺 "Raft in 30 min" — thesecretlivesofdata.com (interactive visualization) |
 | 24 | Quorum reads/writes (R + W > N) | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 95-96 — N/W/R definitions, coordinator behavior, latency vs consistency, `R + W > N` overlap rule | 📖 `databases/key_value_store/index.md` |
 | 25 | Vector clocks, Lamport timestamps | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector clocks and conflict detection covered from Alex Xu pages 97-99; Lamport timestamps pending | 📖 `databases/key_value_store/index.md` |
@@ -66,26 +65,23 @@
 | 57 | HLD — Web crawler | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 132-150 + focused external validation — crawler purpose, estimation, pipeline, URL frontier, politeness, priority, freshness, robots.txt, dedup, traps, storage, and distributed worker scaling | 📖 `system_design/case_studies/web_crawler/` |
 | 58 | HLD — Search autocomplete / typeahead | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 200-219 — requirements/estimation, cached top-K trie, async analytics build, immutable snapshot replacement, filter, cache, prefix-range sharding, locales, and trending overlay boundary | 📖 `system_design/case_studies/search_autocomplete/` |
 | 59 | HLD — KYC / identity verification platform — your domain | 🟠 🎯 🔐 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | Portfolio piece — polish this one |
+| 67 | Clustering fundamentals — cluster vs LB, heartbeats, failure detection, replica promotion / leader election (Redis & Kafka examples) | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/index.md` |
+| 70 | Domain-Driven Design (strategic) — bounded context, domain boundaries, context ≠ DB, data duplication for independence, DDD → service boundaries | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — bounded context = meaning/ownership not DB, "no universal Customer", DDD identifies microservice seams. Tactical building blocks: Part 4 row 59 | 📖 `engineering_practice/ddd/index.md` |
 | 60 | Backpressure, flow control | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — producer/consumer rate mismatch, 429/503, rate limiting, bounded buffers | 📖 `messaging/queues_pubsub/index.md` |
 | 61 | Chaos engineering | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 62 | Failure mode analysis | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 63 | HLD — Payment system (idempotency, ledger) | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 64 | HLD — Ad-click counter at scale | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 65 | HLD — Distributed locks | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 66 | Availability, reliability, fault tolerance — Nines, sequence vs parallel, HA vs FT, redundancy | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/concepts/availability/index.md` |
-| 67 | Clustering fundamentals — cluster vs LB, heartbeats, failure detection, replica promotion / leader election (Redis & Kafka examples) | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/index.md` |
 | 68 | N-tier / layered architecture — layer vs tier, 1/2/3-tier, closed vs open layers, modern request path | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — layer (logical) vs tier (physical), 3-tier gatekeeper, closed/open layers | 📖 `system_design/patterns/n_tier/index.md` |
-| 69 | Monolith vs microservices — modular monolith, distributed monolith (anti-pattern), SOA, cohesion/coupling, sync vs event-driven, when NOT to | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — trade-off framing, modular→micro evolution, distributed-monolith signs, loose-coupling≠EDA, when not to use | 📖 `system_design/patterns/architecture/index.md` |
-| 70 | Domain-Driven Design (strategic) — bounded context, domain boundaries, context ≠ DB, data duplication for independence, DDD → service boundaries | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) — bounded context = meaning/ownership not DB, "no universal Customer", DDD identifies microservice seams. Tactical building blocks: Part 4 row 59 | 📖 `engineering_practice/ddd/index.md` |
-| 71 | Disaster Recovery — RTO, RPO, backup vs replication, hot/warm/cold sites | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | RTO, RPO, replication vs backup, cost vs recovery tradeoffs covered. | 📖 `system_design/concepts/disaster_recovery/index.md` |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~37.17 hrs | ~3.4 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~90.67 hrs | ~8.2 wk | |
-| Full Part (all items including 🟡) | ~101.42 hrs | ~9.2 wk | ~17.8 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~24.5 hrs | ~2.23 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~82 hrs | ~7.45 wk | |
+| Full Part (all items including 🟡) | ~90.25 hrs | ~8.2 wk | ~17.8 hrs so far |
 
 > Heaviest interview block at senior+. The HLD problems (rows 44-65) overlap with `reference/PracticeProblems.md` § HLD — pick 5-7 problems to walk through end-to-end, especially #59 (KYC platform — portfolio piece).
 
@@ -183,9 +179,6 @@ A. At least one node in your read set has the latest write — because read and 
 
 **Q. Circuit breaker three states.**
 A. CLOSED (normal, monitoring failures). OPEN (failure rate exceeded → fast-fail, no actual calls). HALF-OPEN (test window — N probe calls; success → CLOSED, failure → back to OPEN).
-
-**Q. Cache-aside vs read-through — quick distinction.**
-A. Cache-aside: app reads cache; on miss, reads DB + writes cache. App owns the logic. Read-through: cache itself fetches from DB on miss. App just queries cache. Most Redis usage is cache-aside; some libraries (Caffeine LoadingCache) implement read-through.
 
 **Q. Idempotency-Key design — three rules.**
 A. (1) Client generates, server caches. (2) Cache by `(key, request_hash) → response`. (3) Same key + different hash = client error (rejected with 412). Default TTL: 24h for payment-like operations, longer for KYC verifications.

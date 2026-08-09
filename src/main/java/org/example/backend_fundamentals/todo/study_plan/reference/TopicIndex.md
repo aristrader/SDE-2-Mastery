@@ -333,7 +333,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Server-Sent Events (SSE)** → Part 11 row 29
 - **Service discovery** → Part 11
 - **Session token (short-lived)** → Part 31 row 4
-- **Sharding (strategies, shard keys, routing/mongos/Vitess, scatter-gather, consistent hashing, virtual nodes)** → Part 06 (rows 10, 35), Part 07 (rows 5, 22, 30, 42)
+- **Sharding (database strategies, shard keys, routing/mongos/Vitess, scatter-gather)** → Part 06 (rows 10, 35); **consistent hashing and hot-partition mitigation** → Part 07 (rows 30, 42)
 - **Shadow traffic** → Part 26 row 9, Part 31 row 38
 - **Side-channel / timing attacks** → Part 15
 - **Sigstore / cosign (supply-chain signing)** → Part 22

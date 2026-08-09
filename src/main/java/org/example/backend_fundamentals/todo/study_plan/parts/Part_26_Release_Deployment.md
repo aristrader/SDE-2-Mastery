@@ -18,18 +18,18 @@
 | 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 11 | Semantic versioning | 🟠 💼 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
-
 | 14 | Multi-version compatibility (rolling deploy implies N and N+1 coexist) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-
 | 19 | Hot-fix workflow | 🟢 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
+
+
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~12.5 hrs | ~1.15 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~24.5 hrs | ~2.25 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~25.75 hrs | ~2.35 wk | ~3.0 hrs |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~8.25 hrs | ~0.75 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~13 hrs | ~1.18 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~13.5 hrs | ~1.23 wk | ~3.0 hrs |
 
 ## Frequently asked
 

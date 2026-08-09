@@ -22,9 +22,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~3.75 hrs | ~0.3 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~8.5 hrs | ~0.8 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~10.75 hrs | ~1 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~3.75 hrs | ~0.34 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~8.5 hrs | ~0.77 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~10.75 hrs | ~0.98 wk | |
 
 > Short Part. Practical use matters more than theoretical fluency — draw 2-3 diagrams of your real KYC platform as the deliverable.
 
