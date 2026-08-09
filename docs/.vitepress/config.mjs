@@ -62,6 +62,7 @@ export default withMermaid({
   ignoreDeadLinks: false,
   cleanUrls: true,
   vite: {
+    server: { host: true },
     plugins: [
       JAVA_RUNNER_ENABLED && localJavaRunnerPlugin(),
       javaLspBridgePlugin(),
