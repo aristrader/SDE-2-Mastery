@@ -31,8 +31,6 @@
 | 20 | Collisions, load factor, rehashing cost | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered across HashMap and hashing pages | 📖 `java/collections/maps/hashmap/index.md` · 📖 `java/collections/hashing/hashmap_mechanics/index.md` |
 | 21 | Annotations & meta-annotations | 🟡 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | Reflection — uses, costs, when to avoid | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Heap dumps & analysis (Eclipse MAT, jmap) | 🟡 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | 🎓 Eclipse MAT tutorial — load a sample heap, find a leak |
-| 24 | Thread dumps & analysis (jstack) | 🟡 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | JFR (Java Flight Recorder) & JMC | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | JVM flags worth knowing (Xmx, Xms, +HeapDumpOnOutOfMemoryError, GC logs) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 27 | Map.of(), Map.copyOf(), Collections.unmodifiableMap — immutability flavors | 🟡 | L | 30 min | [x] | [ ] | [ ] | [ ] | Covered in immutable maps/collections pages | 📖 `java/collections/maps/immutable_maps/index.md` · 📖 `java/coding_fluency/immutable_collections/index.md` |
@@ -47,7 +45,7 @@
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~18.42 hrs | ~1.67 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~26.92 hrs | ~2.45 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~38.42 hrs | ~3.49 wk | ~7 hr 44 min so far |
+| Full Part (all items including 🟡 + 🟢) | ~36.42 hrs | ~3.31 wk | ~7 hr 44 min so far |
 
 > Time estimates assume zero baseline (you've never seen the topic). Subtract whatever you already know.
 > Fill in "Actual time" after finishing the Part — useful for calibrating future Parts.

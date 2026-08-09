@@ -29,11 +29,9 @@
 | 20 | Route 53 — routing policies (latency, weighted, geo, failover) | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: DNS-based LB / failover / CDN-steering concepts covered; Route 53 policy specifics pending | 📖 `networking/dns/index.md` (concepts only) |
 | 21 | GraphQL — schema, resolvers, N+1, DataLoader | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~2 hr total (ChatGPT). N+1 problem covered | 📖 `databases/graph/index.md` · 📖 `api_design/api_technologies_summary/index.md` |
 | 22 | Webhooks — design, retries, signing | 🟠 💼 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: Definition and comparison to polling/WebSockets covered; design, retries, signing pending | 📖 `networking/communication_patterns/index.md` · 💻 Warm-up: write a webhook receiver that verifies HMAC-SHA256 signature against a shared secret with timestamp window (30 min) |
-| 23 | Async REST (long-running operations pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | NAT, port forwarding, CGNAT (carrier-grade NAT — ISPs sharing one public IP across many customers), Anycast (same IP advertised from many locations — CDNs, DNS, AWS Global Accelerator) | 🟠 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Anycast + port forwarding not covered yet | 📖 `networking/ip_addressing/index.md` |
 | 25 | IP address allocation hierarchy — IANA → 5 RIRs (ARIN, RIPE NCC, APNIC, LACNIC, AFRINIC) → ISPs → end users; ICANN's coordinating role | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | IPv4 exhaustion + secondary market — IANA 2011, RIR depletion timeline, brokers (e.g., IPv4.Global), RIR-approved transfers, why legacy /8 blocks (MIT, HP, DoD) shaped today's scarcity | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 27 | Wireshark / tcpdump basics | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `tcpdump -i lo0 port 8080 -w cap.pcap` while hitting an endpoint, open in Wireshark, identify the TCP handshake (15 min) |
 | 28 | WebSockets — handshake, frames, use cases | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: SDE2-level comparison to SSE/Webhooks covered; handshake & frames pending | 📖 `networking/communication_patterns/index.md` |
 | 29 | Server-Sent Events (SSE) — including microservices fan-out pattern | 🟡 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: Concept and comparison to WebSockets covered; microservices fan-out pattern pending | 📖 `networking/communication_patterns/index.md` |
 | 30 | Long polling vs short polling | 🟡 | M | 30 min | [x] | [ ] | [ ] | [ ] | ~30 min (ChatGPT) | 📖 `networking/communication_patterns/index.md` |
@@ -46,8 +44,8 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~10.25 hrs | ~0.93 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~28.75 hrs | ~2.61 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~36.5 hrs | ~3.32 wk | ~8.75 hrs so far |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.25 hrs | ~2.48 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~33.5 hrs | ~3.05 wk | ~8.75 hrs so far |
 
 ## Key diagrams
 

@@ -18,7 +18,6 @@
 | 27 | Java `TimeoutException` propagating from vendor calls — what you do at the boundary | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
 | 2 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Document switching mid-flow — historical attempts vs effective context (your design) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | Idempotency on retry — never duplicate transactions when SDK retries blindly | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | SDK versioning, backward compatibility, force-upgrade mechanism | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -33,7 +32,6 @@
 | 19 | Drop-off per step (which step loses users — usually liveness) | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Verification success rate, broken down by partner / country / document type | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 22 | SDK crash before vendor call → correlation IDs orphaned (your liveness-piggyback risk, formalized) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Document switching mid-flow → status computation uses only latest doc context (your design) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Historical-attempt schema evolution without breaking back-compat (CARD_FRONT vs CARD_BOTH legacy handling) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 25 | Duplicate transaction IDs from partners (the `Duplicate partnerTrxId` errors in your logs) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Vendor returning errors in 200 OK bodies — you've filtered these in Datadog | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -81,8 +79,8 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~10 hrs | ~0.91 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~82.25 hrs | ~7.48 wk | |
-| Full Part (all items including 🟡) | ~83.75 hrs | ~7.61 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~79.25 hrs | ~7.2 wk | |
+| Full Part (all items including 🟡) | ~80.75 hrs | ~7.34 wk | |
 
 > Trimmed from 88 rows down to 71 by removing items that duplicated Part 29 fundamentals (doc anatomy, ICAO, MRZ theory, 1:1 vs 1:N, FAR/FRR theory, PAD theory, NIST FRVT, biometric template generic, deepfake-defense generic, driver's-licence generic, iris/fingerprint/voice). Anything left here is **your platform's actual implementation, decision, or war story**. For the general theory, refer to Part 29.
 

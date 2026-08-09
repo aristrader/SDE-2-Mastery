@@ -20,6 +20,10 @@ Upload/download bytes    -> direct client-to-storage transfer
 Remote change awareness  -> event plus notification
 ```
 
+## Architecture visual
+
+![Google Drive-style high-level architecture](../assets/google-drive-hld-reference.png)
+
 ## APIs and state
 
 ```text

@@ -21,7 +21,6 @@
 | 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` (replication part) |
 | 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: clustering (Redis Cluster, shards, replication, failover) covered; data types, persistence, eviction, pub/sub, streams pending. ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/index.md` · 📖 redis.io "Introduction to Redis" (~30 min) |
-| 16 | N+1 query problem — detection (Hibernate/JPA) and fixes | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 33 | DynamoDB — partition keys, GSI/LSI, hot partitions, on-demand vs provisioned | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/index.md` |
 | 17 | Row-level security (RLS) in DBs (e.g. Postgres for multi-tenant) | 🟠 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -32,9 +31,7 @@
 | 22 | Materialized views | 🟠 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `databases/views/index.md` |
 | 23 | Stored procedures / triggers — and why most teams avoid them now | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Schema migrations safely (Flyway, Liquibase) — backward-compatible changes | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Connection pooling — HikariCP, sizing math | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 📖 HikariCP "About Pool Sizing" wiki (~15 min, gold) |
 | 26 | Caching layer in front (Redis) | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 15-16 — cache tier, cache-aside/read-through flow, TTL, consistency, SPOF, overprovisioning, eviction | 📖 `system_design/components/caching/index.md` |
-| 27 | Vertical vs horizontal scaling | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 9 and 28 — scale-up vs scale-out tradeoffs, limits, SPOF, cost, and sharding as horizontal DB scaling | 📖 `system_design/concepts/scalability/index.md` |
 | 28 | Multi-master, conflict resolution | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — multi-leader, regional models, LWW/merge/human, OT/CRDT for collaborative editing | 📖 `databases/replication/index.md` |
 | 29 | Wide-column (Cassandra, ScyllaDB, HBase) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 30 | Graph (Neo4j, Neptune) | 🟠 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: fraud-detection use cases (shared devices, cycles) covered; Neo4j/Neptune specifics pending | 📖 `databases/graph/index.md` (use cases only) |
@@ -43,7 +40,6 @@
 | 34 | Elasticsearch — inverted index, mapping, analyzers | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Partitioning (range, list, hash) | 🟡 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — horizontal vs vertical, hash/list/range/composite criteria | 📖 `databases/sharding/index.md` |
 | 36 | JSON columns | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | Vector (pgvector, Pinecone, Weaviate, Milvus) — also covered in GenAI | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 38 | Cassandra — partition + clustering keys, tunable consistency | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: tunable consistency, Dynamo/Cassandra-style quorum reads/writes, commit log, memtable, SSTable, Bloom-filter read path covered from Alex Xu pages 95-107; partition + clustering keys pending | 📖 `databases/replication/index.md` (quorum part) · 📖 `databases/key_value_store/index.md` |
 | 39 | MongoDB — sharding, secondary indexes, aggregation pipeline | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 41 | Database federation — federated DBs vs sharding, cross-DB join/transaction cost, modern database-per-service + Saga + BFF | 🟡 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — federation vs sharding contrast, why it faded, BFF as service-layer aggregation | 📖 `databases/federation/index.md` |
@@ -52,9 +48,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~23.58 hrs | ~2.14 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~46 hrs | ~4.18 wk | |
-| Full Part (all items including 🟡) | ~52.5 hrs | ~4.77 wk | ~6.8 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~22.08 hrs | ~2.01 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~42.25 hrs | ~3.84 wk | |
+| Full Part (all items including 🟡) | ~48 hrs | ~4.36 wk | ~6.8 hrs so far |
 
 > Database is foundational for most senior interviews. Isolation levels + indexes + EXPLAIN are interview-canonical and worth Mastery time.
 

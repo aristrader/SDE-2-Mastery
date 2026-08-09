@@ -77,7 +77,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Compliance reporting** → Part 28, Part 31 row 54
 - **Concurrency primitives** → Part 02 (entire Part)
 - **Concurrent collections (ConcurrentHashMap, CopyOnWriteArrayList)** → Part 02 row 15, Part 01 row 8
-- **Connection pool / HikariCP** → Part 03, Part 06, Part 08
+- **Connection pool / HikariCP** → Part 03, Part 08
 - **Consistency models** → Part 07
 - **Container security (Trivy, Snyk, ECR scanning, distroless, SBOM, Sigstore)** → Part 22
 - **Contract testing (Pact)** → Part 25 row 13
@@ -189,7 +189,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 ## J
 
 - **Jackson (custom serializers, polymorphic types)** → Part 03, Part 1b row 15
-- **JPA N+1 problem + JOIN FETCH / @EntityGraph fix** → Part 03, Part 06, Part 1b row 21
+- **JPA N+1 problem + JOIN FETCH / @EntityGraph fix** → Part 03, Part 1b row 21
 - **JaCoCo (coverage)** → Part 25 row 19
 - **Java Memory Model (JMM)** → Part 02
 - **JIT compilation** → Part 01
@@ -261,7 +261,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **OpenTelemetry** → Part 21
 - **OSI Model (vs TCP/IP, mental framework)** → Part 11 row 1
 - **Outbox + CDC** → Part 10, Part 29 row 134, `databases/distributed_transactions/index.md`
-- **Outbox pattern / dual-write problem** → Part 04 row 40, Part 10 rows 14, 16, `databases/distributed_transactions/index.md`
+- **Outbox pattern / dual-write problem** → Part 04 row 40, Part 10 row 16, `databases/distributed_transactions/index.md`
 
 ## P
 

@@ -41,9 +41,7 @@
 | 33 | Tries — autocomplete, IP prefix matching | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: prefix trie, top-K node cache, and trie update trade-offs covered from Alex Xu pages 206-215; IP prefix matching remains pending | 📖 `system_design/case_studies/search_autocomplete/` |
 | 34 | Inverted index — search systems fundamental | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered — term-to-posting-list model, analyzers, AND/OR queries, phrase positions, ranking boundary, and Elasticsearch -> Lucene -> inverted-index relationship | 📖 `system_design/concepts/inverted_index/index.md` |
 | 35 | Bulkheads | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 36 | Dead-letter queues | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Saga pattern (revisited from LLD) | 🟠 💼 🎯 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — local txns + compensations, eventual consistency, compensation-failure handling (retry/pending/DLQ/idempotency), Kafka choreography | 📖 `databases/distributed_transactions/index.md` · (Cross-ref Part 4.3) |
-| 38 | Outbox pattern (revisited) | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 4.3) |
 | 39 | Compensating transactions | 🟠 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~13 min (ChatGPT) — compensation actions, failure handling (retry/pending/DLQ/human), idempotency requirement | 📖 `databases/distributed_transactions/index.md` |
 | 40 | Read/write separation | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 6.3 read replicas) |
 | 41 | Geo-distribution, multi-region active-active vs active-passive | 🟠 💼 🎯 | D | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: GeoDNS routing, multi-data-center failover, cross-DC replication, deployment consistency, and DC outage handling covered from Alex Xu pages 23-24 and 103; active-active vs active-passive terminology pending | 📖 `system_design/concepts/scalability/index.md` · 📖 `databases/key_value_store/index.md` |
@@ -80,8 +78,8 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~24.5 hrs | ~2.23 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~82 hrs | ~7.45 wk | |
-| Full Part (all items including 🟡) | ~90.25 hrs | ~8.2 wk | ~17.8 hrs so far |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~80.5 hrs | ~7.32 wk | |
+| Full Part (all items including 🟡) | ~88.75 hrs | ~8.07 wk | ~17.8 hrs so far |
 
 > Heaviest interview block at senior+. The HLD problems (rows 44-65) overlap with `reference/PracticeProblems.md` § HLD — pick 5-7 problems to walk through end-to-end, especially #59 (KYC platform — portfolio piece).
 

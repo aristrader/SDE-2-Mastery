@@ -12,7 +12,6 @@
 | 4 | Idempotency keys | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: idempotency keys + dedup-by-txn-id + payment-key example + safe-to-retry covered; hands-on dedup-table warm-up pending. ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/index.md` · (Cross-ref Part 7 idempotency) |
 | 5 | Dead-letter queues, retries, poison messages | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~9 min (ChatGPT) — DLQ after N retries, poison pill (malformed vs STOP sentinel), ACK-driven retry | 📖 `messaging/queues_pubsub/index.md` |
 | 6 | Spring Kafka — `@KafkaListener`, `ConcurrentMessageListenerContainer`, `DefaultErrorHandler`, dead-letter publishing recovery, batch listeners | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @KafkaListener consuming from a topic, simulate exception, configure DefaultErrorHandler with 3-retry exponential backoff + DLT recoverer (30 min) |
-| 14 | Outbox pattern (revisit) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Dual-write problem + outbox row in same DB transaction + async publish covered. | (Cross-ref Part 4.3) · 📖 `databases/distributed_transactions/index.md` |
 | 7 | Kafka — partitions, replicas, ISR, offsets, compaction, exactly-once semantics | 🟠 💼 🎯 | D | 3 hrs 30 min | [ ] | [x] | [ ] | [ ] | Partial: log-not-queue model + offsets/offset-commit + consumer-crash redelivery/duplicates covered; partitions/replicas/ISR/compaction pending. ~13 min (ChatGPT) | 📖 `databases/distributed_transactions/index.md` · 📖 Confluent Kafka docs "Architecture" page (~30 min) · 💻 Warm-up: produce + consume to a local Kafka topic with 3 partitions, observe consumer-group rebalance (30 min) |
 | 8 | Retry topics pattern (Uber / Confluent-style) — `topic.retry.5m`, `topic.retry.30m`, `topic.dlt` chains; non-blocking retry without parking the consumer thread; Spring's `@RetryableTopic` annotation | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | SQS — standard vs FIFO, visibility timeout, long polling | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: long polling + FIFO ordering concept covered; visibility timeout + standard-vs-FIFO specifics pending. ~9 min (ChatGPT) | 📖 `messaging/queues_pubsub/index.md` |
@@ -30,9 +29,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.75 hrs | ~0.89 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.5 hrs | ~2.5 wk | |
-| Full Part (all items including 🟡) | ~30.5 hrs | ~2.77 wk | ~2.3 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~9 hrs | ~0.82 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~26.75 hrs | ~2.43 wk | |
+| Full Part (all items including 🟡) | ~29.75 hrs | ~2.7 wk | ~2.3 hrs so far |
 
 ## Key diagrams
 
