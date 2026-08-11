@@ -4,7 +4,7 @@ order: 10
 
 # Mobility A
 
-Neck, shoulders, chest. Use this after a desk-heavy day or when the neck feels forward/tight.
+Neck, shoulders, chest, upper back. Use this after a desk-heavy day or when the neck feels forward/tight.
 
 | Movement | Dose | Target |
 | --- | --- | --- |
@@ -16,6 +16,8 @@ Neck, shoulders, chest. Use this after a desk-heavy day or when the neck feels f
 | Scapular retractions | 12-15 | Rhomboids, mid traps |
 | Wall slides | 8-10 | Shoulders, lower traps |
 | Doorway chest stretch | 30 sec | Pecs |
+| Cat cow | 8-10 | Spine flex/extend, back relief |
+| Thoracic extension on chair | 8-10 | Upper-back extension |
 | Desk lat stretch | 20 sec/side | Lats, overhead reach |
 
 Chin tuck cue: make a gentle double chin by sliding the head backward. Keep eyes level and do not jam the neck.
