@@ -9,18 +9,17 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | KYC flow archetypes — collection → verification → screening → decision | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | eKYC vs in-person vs hybrid flows (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Multi-step verification state machine — operations × components × statuses | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch your current `kyc_status` state machine on paper — states, transitions, terminal vs non-terminal (30 min) |
 | 6 | Step ordering — strict vs non-linear; tradeoffs (you chose non-linear) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Source-of-truth separation — required ops from flow config, history from attempts table | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Webhook delivery semantics — at-least-once (and why exactly-once is impractical) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 13 messaging) |
 | 14 | Webhook signing — HMAC-SHA256 (Stripe-style), key rotation flow | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement HMAC-SHA256 webhook signer + verifier in Java; include timestamp + nonce (45 min) |
-| 20 | Per-tenant data residency — region pinning (DC-JKT vs AWS-SG, your reality) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | Per-tenant rate limits & quotas — burst vs sustained | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 44 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
-| 45 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | eKYC vs in-person vs hybrid flows (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 20 | Per-tenant data residency — region pinning (DC-JKT vs AWS-SG, your reality) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 21 | Per-tenant rate limits & quotas — burst vs sustained | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic rate limiting is covered in Part 7; this row is tenant-specific application. | |
+| 44 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
 | 22 | Re-KYC, periodic refresh, expiry triggers | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 23 | Idempotency keys for verification operations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design an Idempotency-Key header contract — TTL, conflict semantics, storage strategy (30 min) |
 | 24 | Partial completion, resume, abandon semantics | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -35,6 +34,7 @@
 | 34 | Per-tenant SLAs, monitoring, alerting | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 35 | Noisy-neighbor isolation — connection pools, thread budgets, downstream quotas | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 36 | Per-tenant audit logs — billing dispute resolution + compliance | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 45 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🟡 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 37 | Outbox + CDC for reliable webhook publishing | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 13) |
 | 38 | EventBridge / SNS as fan-out hub for multi-subscriber events (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 39 | Tenant offboarding — data export, deletion guarantees | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -48,11 +48,11 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~17.25 hrs | ~1.57 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~36 hrs | ~3.27 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.75 hrs | ~0.89 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~33.5 hrs | ~3.05 wk | |
 | Full Part (all items including 🟡) | ~40 hrs | ~3.64 wk | |
 
-> This is **by far the largest Part** because it's your literal job. The Sprint plan does NOT aim for full 🔴 coverage in 3 months — Part 29 is a 9-month investment. Sprint priority: rows 1–14 (fundamentals + biometrics) + rows 22–27 (orchestration patterns — what you already live with). The rest is post-Sprint deepening.
+> This is **by far the largest Part** because it's your literal job. The Sprint plan prioritizes the remaining 🔴 rows; 🟠 domain and orchestration depth follows after the interview essentials.
 
 ## Key diagrams
 

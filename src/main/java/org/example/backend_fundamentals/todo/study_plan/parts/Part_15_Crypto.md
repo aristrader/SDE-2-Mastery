@@ -7,16 +7,16 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Symmetric encryption — AES (modes: GCM, CBC, CTR), ChaCha20-Poly1305 | 🔴 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Asymmetric encryption — RSA, ECC, key sizes | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RSA/ECC concept mentioned, key sizes pending | 📖 `security/cryptography/tls_https_pki/index.md` |
 | 3 | Hash functions — SHA-2 family, SHA-3, properties (preimage, collision) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: SHA-256 a string via Java MessageDigest from memory + verify with `echo -n "hello" \| shasum -a 256` (10 min) |
 | 4 | MAC — HMAC, vs digital signature | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Java HMAC-SHA256 over a payload with shared secret + verify equality timing-safely (10 min) |
 | 5 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Key derivation — PBKDF2, scrypt, Argon2, HKDF | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 7 | SQL injection, parameterized queries | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
 | 9 | CSRF | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Replay attacks — timestamps, nonces | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Timing attacks, constant-time comparison | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 2 | Asymmetric encryption — RSA, ECC, key sizes | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RSA/ECC concept mentioned, key sizes pending | 📖 `security/cryptography/tls_https_pki/index.md` |
+| 6 | Key derivation — PBKDF2, scrypt, Argon2, HKDF | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | Timing attacks, constant-time comparison | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Random number generation — CSPRNG, /dev/urandom, SecureRandom | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 13 | Password hashing — never SHA-256 plain, use Argon2 / bcrypt | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Argon2id hash + verify in Java (Spring Security's BCryptPasswordEncoder + Argon2 via Bouncy Castle); compare hash output (20 min) |
 | 14 | Nonce, IV — reuse pitfalls (catastrophic for GCM) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -29,7 +29,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~14.25 hrs | ~1.3 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.75 hrs | ~0.89 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21.5 hrs | ~1.95 wk | |
 | Full Part (all items including 🟡) | ~23 hrs | ~2.09 wk | |
 

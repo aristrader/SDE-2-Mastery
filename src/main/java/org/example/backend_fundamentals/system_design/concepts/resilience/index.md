@@ -31,6 +31,32 @@ The circuit breaker operates in three primary states:
 - **Circuit Breaker**: Protects the system against unhealthy dependencies by failing fast.
 - **Bulkhead**: Protects against resource exhaustion by isolating resources (e.g., separating thread pools for different downstream services). If one service hangs, only its dedicated pool is exhausted, keeping other services operational.
 
+## External-call timeout boundary
+
+A timeout does **not** prove that the vendor did no work. The request may have reached the vendor, the vendor may have created a verification, and only the response may have been lost. Treat a timeout as an **unknown outcome**, not as an automatic failure or an automatic retry.
+
+At the boundary, translate transport/client exceptions into a small internal outcome model. The concrete Java exception differs by client: a `CompletableFuture#get` can throw `TimeoutException`; HTTP clients may expose `SocketTimeoutException`, a wrapped `IOException`, or a client-specific exception. Do not make the business decision by matching one exception class alone.
+
+```text
+vendor call times out
+  -> record operation as PENDING_UNKNOWN with correlation ID and idempotency key
+  -> do not blindly repeat a non-idempotent request
+  -> if vendor supports lookup: query status using the same correlation ID
+  -> otherwise retry only when the vendor contract guarantees idempotency
+  -> reconcile asynchronously or move to review after the retry/time budget
+```
+
+The request must carry an idempotency key or correlation ID that is durably recorded before the call. It lets a retry, webhook, status lookup, and support investigation refer to the same operation. For a read-only or explicitly idempotent request, a bounded retry with exponential backoff and jitter can be reasonable. For a create/charge/verification-start request without that guarantee, retrying after a timeout can create duplicates.
+
+| Outcome at the boundary | Default handling |
+| --- | --- |
+| Validation or known permanent vendor error | Map to a stable client-visible failure; do not retry. |
+| Connect/read timeout | Mark outcome unknown; resolve through status lookup, idempotent retry, or reconciliation. |
+| Transient 5xx / overload | Bounded retry only when safe; then circuit-break or queue for later processing. |
+| Circuit open | Fail fast or return a pending/degraded state; do not wait for another network timeout. |
+
+The API response should reflect what is known. Returning `VERIFICATION_FAILED` immediately after an unknown vendor outcome is misleading. A `PENDING` response plus later webhook/polling completion is often the correct product behavior.
+
 ## Fallback Responses
 Instead of returning generic errors when the circuit is open, applications should use fallback mechanisms:
 - **Product Catalog**: Return cached data instead of failing.
@@ -45,4 +71,3 @@ In practice, production systems rarely rely on a single pattern. A typical resil
 4. **Fallback** (graceful degradation if the circuit is open or retries are exhausted)
 
 *Note on Implementation: In Java/Spring Boot ecosystems, libraries like Resilience4j are commonly used to implement these patterns.*
-

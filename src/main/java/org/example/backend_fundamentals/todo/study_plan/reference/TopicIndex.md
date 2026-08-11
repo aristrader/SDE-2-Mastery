@@ -155,6 +155,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 
 - **HashMap internals** → Part 01
 - **Hashing / consistent hashing (virtual nodes)** → Part 07, Part 09
+- **Heap-dump diagnosis (retained heap, retaining owner, common Java leak causes)** → Part 27 row 3
 - **Hexagonal / ports & adapters** → Part 04
 - **HikariCP** → Part 03, Part 06
 - **HMAC-SHA256 (webhook signing)** → Part 20, Part 29 row 31
@@ -339,6 +340,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Sigstore / cosign (supply-chain signing)** → Part 22
 - **Site-to-Site (S2S) VPN** → Part 13 row 33
 - **Short polling** → Part 11 row 30
+- **Slow-query investigation (`EXPLAIN ANALYZE`, scans, indexes, row estimates, locks)** → Part 27 row 7
 - **Snyk (image scanning)** → Part 22
 - **SNS — topics, subscriptions, fanout, FIFO** → Part 13, Part 10
 - **SOC 2** → Part 28 row 14
@@ -371,6 +373,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **TCP vs UDP** → Part 11 rows 2, 4
 - **Text blocks (Java 15+)** → Part 01 row 32, Part 1b row 26
 - **Telemetry (SDK, PII-safe)** → Part 31 row 34
+- **Terraform state (remote backend, encryption, locking)** → Part 22 row 5
 - **TestContainers** → Part 25 row 12
 - **Test pyramid** → Part 25 row 1
 - **Threshold tuning (FAR/FRR)** → Part 29 row 17
@@ -378,6 +381,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **Token bucket / leaky bucket** → Part 09, PracticeProblems § 1 #9
 - **Tokenization vs encryption** → Part 28 row 16
 - **Top-K heavy hitters / trending counter (windowed aggregation, materialized ranking, local-to-global merge)** → Part 07 row 64, `system_design/case_studies/top_k_heavy_hitters/`
+- **Timeout at an external-call boundary (unknown outcome, idempotency, status lookup)** → Part 07 (timeouts/retries), Part 31 row 27, `system_design/concepts/resilience/`
 - **Tracing (OpenTelemetry, Jaeger)** → Part 21
 - **Transactions / distributed commit (states/lifecycle, 2PC blocking, 3PC, Saga/compensating)** → Part 06 (rows 6, 19), Part 07 (rows 37, 39)
 - **Trivy (image scanning)** → Part 22

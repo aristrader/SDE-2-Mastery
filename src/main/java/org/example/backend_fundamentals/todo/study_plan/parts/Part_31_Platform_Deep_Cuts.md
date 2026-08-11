@@ -15,7 +15,7 @@
 | 11 | Vendor failover — primary + secondary; consistency cost of failing over mid-flow | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 12 | Vendor result normalization — different vendors return different shapes; one internal schema | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | FRR / FAR at your production threshold — competing concerns on your specific operating point | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (See Part 29 row 16 for FAR/FRR theory) |
-| 27 | Java `TimeoutException` propagating from vendor calls — what you do at the boundary | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 27 | External-call timeout boundary — unknown outcome, idempotent retry, status lookup, and stable response mapping | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory covered: a timeout can mean the vendor completed work but its response was lost; classify by outcome rather than one Java exception type | 📖 `system_design/concepts/resilience/index.md` |
 | 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
 | 2 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 5 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |

@@ -7,8 +7,8 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered | |
-| 5 | Terraform — providers, state, modules, workspaces | 🔴 💼 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write Terraform that provisions an S3 bucket with versioning + lifecycle, apply + destroy (30 min) |
 | 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
+| 5 | Terraform — infrastructure as code, state, remote shared backend/locking (Basic concept only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Know why teams use remote encrypted state and locking; providers, module design, workspaces, and hands-on provisioning are not interview priority. | |
 | 3b | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 6 | Linux troubleshooting basics — process/CPU inspection (`ps`, `top`), open files (`lsof`), listening connections (`ss`) | 🟠 💼 | M | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | `tcpdump` and `strace` are optional operational depth. | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`) and inspect its open files (`lsof -p <pid>`) (20 min) |
 | 8 | Filesystem, permissions, and limits — config/log locations, ownership, disk-full diagnosis, file-descriptor limits | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Know the failure modes; do not study filesystem internals. | |
@@ -30,9 +30,9 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~5 hrs | ~0.45 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21 hrs | ~1.91 wk | |
-| Full Part (all items including 🟡) | ~21 hrs | ~1.91 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~2.5 hrs | ~0.23 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~19.25 hrs | ~1.75 wk | |
+| Full Part (all items including 🟡) | ~19.25 hrs | ~1.75 wk | |
 
 ## Frequently asked
 
@@ -67,7 +67,6 @@
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
 - **Docker multi-stage + distroless image** (~2.5 hrs row 1) — production-grade Dockerfile. Build slim image, document size reduction, demonstrate cold-start improvement.
-- **Terraform state + collaboration** (~2.5 hrs row 3) — remote backend with locking. Module structure. Workspaces for env separation. Migration story from local to remote.
 - **K8s deployment patterns** (~3 hrs rows 7+8+9) — Pod / Deployment / Service / Ingress + probes + autoscaling. Deploy a real-ish workload, observe HPA scaling.
 - **Linux production debugging fluency** (~3 hrs row 4) — lsof, strace, tcpdump, ss, jstack, jmap on a real Java service. Daily senior signal.
 
@@ -78,8 +77,7 @@ Warm-up DevOps exercises are listed inline in the topic-table Resources column (
 ### Practice — mid-level (~30-60 min each)
 
 1. **Distroless Spring Boot Docker image** (~60 min) — multi-stage Dockerfile: build stage uses `eclipse-temurin:17-jdk`, runtime uses `gcr.io/distroless/java17-debian12`. Compare image size to fat-jar approach.
-2. **Terraform module for VPC** (~60 min) — write a reusable module that takes CIDR + AZs as input, outputs VPC + public/private subnets + route tables. Apply, destroy, reapply.
-3. **K8s rolling deployment + readiness probe** (~45 min) — Deployment manifest with readiness probe on `/actuator/health/readiness`. Trigger a rolling update with broken probe — observe no traffic shift. Fix probe, re-deploy.
+2. **K8s rolling deployment + readiness probe** (~45 min) — Deployment manifest with readiness probe on `/actuator/health/readiness`. Trigger a rolling update with broken probe — observe no traffic shift. Fix probe, re-deploy.
 
 ### Advanced — senior-grade depth (~60+ min each)
 
@@ -90,11 +88,11 @@ Warm-up DevOps exercises are listed inline in the topic-table Resources column (
 
 | Tier | Total time | Weeks @ 10–12 hrs/wk | Actual time |
 |------|------------|----------------------|-------------|
-| Practice (mid-level) | ~2.75 hrs | ~0.25 wk | |
+| Practice (mid-level) | ~1.75 hrs | ~0.16 wk | |
 | Advanced (senior-grade) | ~2.75 hrs | ~0.25 wk | |
-| **Combined hands-on (Practice + Advanced)** | **~5.5 hrs** | **~0.5 wk** | |
+| **Combined hands-on (Practice + Advanced)** | **~4.5 hrs** | **~0.41 wk** | |
 
-> Warm-up exercises (counted in main Time summary above) total ~2 hrs for Part 22 across 5 in-table warm-ups.
+> Warm-up exercises (counted in main Time summary above) total ~1.5 hrs for Part 22 across 4 in-table warm-ups.
 
 ## Quick recall
 

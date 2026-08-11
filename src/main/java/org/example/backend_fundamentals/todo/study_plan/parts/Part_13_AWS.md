@@ -14,8 +14,8 @@
 | 17 | STS, AssumeRole, role chaining | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
 | 19 | Secrets Manager vs Parameter Store | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
 | 25 | SNS — topics, subscriptions, fanout, FIFO topics, message filtering | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 24 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Queue delivery semantics and idempotent consumers are covered in Part 10; retain this as AWS product mapping. | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
 | 2 | EC2 & ASG Advanced — user data, instance metadata, lifecycle hooks | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Lambda Basics — concurrency, cold starts vs provisioned concurrency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | The generic compute-choice model is red in Part 22; this is AWS operational depth. | 💻 Warm-up: deploy a basic Java Lambda via SAM CLI + invoke (30 min) |
 | 3b | Lambda Advanced — layers, event destinations | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
@@ -47,7 +47,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~14.25 hrs | ~1.3 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~12.75 hrs | ~1.16 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~37.5 hrs | ~3.41 wk | |
 | Full Part (all items including 🟡) | ~38.75 hrs | ~3.52 wk | |
 

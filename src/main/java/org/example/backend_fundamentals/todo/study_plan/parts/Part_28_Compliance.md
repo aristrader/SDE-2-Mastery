@@ -9,10 +9,10 @@
 | 1 | PII classification & tagging (data inventory is the first step) (Basic concept only) | 🔴 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 2 | Data minimization — collect only what's needed; question every field (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Audit logs — what / when / who; tamper-evident storage | 🔴 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
-| 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🔴 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
-| 6 | Retention policies enforced in code, not just in docs | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 4 | Audit logs — what / when / who; tamper-evident storage | 🟠 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
+| 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🟠 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
+| 6 | Retention policies enforced in code, not just in docs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 7 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 8 | Data localization & residency requirements (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 9 | Tokenization vs encryption — when each fits (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
 | 10 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
@@ -22,7 +22,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~10.33 hrs | ~0.94 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~2 hrs | ~0.18 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~12.58 hrs | ~1.14 wk | |
 | Full Part (all items including 🟡) | ~12.58 hrs | ~1.14 wk | |
 
@@ -139,5 +139,4 @@ A. GDPR erasure vs AML retention (typically 5-7 years). Resolution: erase non-re
 
 **Q. Audit log — what makes it tamper-evident?**
 A. Append-only (no DELETE/UPDATE perms), hash chain linking entries, immutable storage (S3 Object Lock), or external witness signing each entry. Defense in depth.
-
 

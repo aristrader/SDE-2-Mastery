@@ -18,11 +18,11 @@
 | 10 | Sharding — strategies (range, hash, directory), resharding pain | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~18 min (ChatGPT) — hash/list/range/composite strategies, shard keys, app-vs-DB routing (mongos/Vitess), scatter-gather, lookup table, resharding/consistent-hashing | 📖 `databases/sharding/index.md` · 📖 `databases/sql_vs_nosql/index.md` (when-to-shard) |
 | 11 | Key-value (Redis, DynamoDB, Memcached) | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 87-109 — KV API, single-node baseline, distributed hash table, CAP, consistent hashing, replication, quorum, vector clocks, gossip, hinted handoff, Merkle trees, SSTable/Bloom-filter read/write paths | 📖 `databases/key_value_store/index.md` |
 | 12 | Document (MongoDB, DynamoDB) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: MongoDB schema flexibility / validation / transactions / document-modeling limits covered; DynamoDB pending | 📖 `databases/sql_vs_nosql/index.md` (MongoDB parts) |
-| 13 | MySQL — InnoDB internals, gap locks, replication | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` (replication part) |
-| 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | Redis — data types, persistence, eviction, clustering, pub/sub, streams | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: clustering (Redis Cluster, shards, replication, failover) covered; data types, persistence, eviction, pub/sub, streams pending. ~1.5 hr (ChatGPT) | 📖 `system_design/clustering/index.md` · 📖 redis.io "Introduction to Redis" (~30 min) |
-| 33 | DynamoDB — partition keys, GSI/LSI, hot partitions, on-demand vs provisioned | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 40 | SQL vs NoSQL — when each fits: schemaless myth, transactions myth, relational-modeling argument, who-enforces-relationships, DB-level security (defense in depth) | 🔴 💼 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `databases/sql_vs_nosql/index.md` |
+| 13 | MySQL — InnoDB internals, gap locks, replication | 🟠 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: replication (primary-replica, async, semi-sync, binlog) covered; InnoDB internals + gap locks pending. ~18 min (ChatGPT) | 📖 `databases/replication/index.md` (replication part) |
+| 14 | PostgreSQL — MVCC, vacuum, indexes, extensions | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 33 | DynamoDB — partition keys, GSI/LSI, hot partitions, on-demand vs provisioned | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic partition-key and NoSQL selection principles remain red; this row is vendor-specific depth. | |
 | 17 | Row-level security (RLS) in DBs (e.g. Postgres for multi-tenant) | 🟠 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 18 | Deadlocks — detection, prevention | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 19 | Transactions — savepoints, distributed, XA, 2PC | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: transaction states/lifecycle + distributed transactions + 2PC (prepare/commit, blocking problem, recovery) + 3PC + Saga/compensating + FLP/consensus covered; savepoints + XA pending. ~45 min (ChatGPT, 3 pastes) | 📖 `databases/distributed_transactions/index.md` · 📖 `databases/transactions/index.md` |
@@ -48,7 +48,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~22.08 hrs | ~2.01 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~17.58 hrs | ~1.6 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~42.25 hrs | ~3.84 wk | |
 | Full Part (all items including 🟡) | ~48 hrs | ~4.36 wk | ~6.8 hrs so far |
 

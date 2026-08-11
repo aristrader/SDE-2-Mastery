@@ -6,33 +6,32 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Thread dumps — jstack, `kill -3`, capture under load | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `jstack <pid>` on a running Spring Boot app, identify RUNNABLE / WAITING / BLOCKED states (20 min) |
-| 2 | Reading thread dumps — find BLOCKED, identify lock contention, deadlocks | 🔴 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Heap-dump diagnosis — when to capture for OOM / suspected leaks, what it contains, and how retained heap points to the retaining owner | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Interview scope: explain the diagnostic flow and common retainers such as an unbounded cache, static collection, or uncleared `ThreadLocal`. | |
-| 6 | tcpdump basics, Wireshark for deep dives | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Slow query logs — MySQL slow_log, Postgres pg_stat_statements | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: enable `log_min_duration_statement = 1000` in Postgres, capture a slow query, read the log line (15 min) |
-| 11 | 5 whys, fishbone (Ishikawa) analysis | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Reproducing in staging / lower envs | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Thread-dump triage — capture, identify BLOCKED / WAITING, lock contention, deadlocks, and exhausted pools | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Interview scope: explain the first sweep and recognise a JVM deadlock; command variants and deep lock-chain reconstruction are practical depth | 💻 Warm-up: `jstack <pid>` on a running Spring Boot app, identify RUNNABLE / WAITING / BLOCKED states (20 min) |
+| 3 | Heap-dump diagnosis — when to capture, what it contains, retained heap, and common retainers | 🔴 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Interview scope only: OOM/suspected leak -> heap snapshot -> retaining owner. Know unbounded cache, static collection, listener leak, and uncleared `ThreadLocal`; do not study MAT navigation or dump commands. | |
+| 6 | tcpdump basics, Wireshark for deep dives | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 7 | Slow-query investigation — identify the query, inspect `EXPLAIN ANALYZE`, check scan/index/rows/stats/locks, verify the fix | 🔴 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Interview scope only: traces, DB metrics, or slow-query reporting identify the query; do not memorise MySQL/Postgres log settings or admin commands. | |
+| 12 | Reproducing in staging / lower envs | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 4 | Heap-dump tooling and leak hunting — `jmap` / `jcmd`, Eclipse MAT, Leak Suspects, dominator tree, retained heap | 🟠 💼 | D | 3 hrs | [ ] | [ ] | [ ] | [ ] | Practical production depth; do not memorize command variants for interviews. | 💻 Warm-up: open a sample heap dump (or generate via `jmap -dump`) in Eclipse MAT, navigate to Leak Suspects report (30 min) |
 | 13 | GC log analysis — gceasy.io, GCViewer | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 15 | JFR — continuous low-overhead profiling in prod | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | jstat, jcmd, jinfo, jps — command-line forensics | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | mitmproxy / Charles for HTTP intercept | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | dig, nslookup — DNS forensics | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | `ss` / `netstat` — open connections, TIME_WAIT, port exhaustion | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 16 | jstat, jcmd, jinfo, jps — command-line forensics | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 17 | mitmproxy / Charles for HTTP intercept | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 18 | dig, nslookup — DNS forensics | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 19 | `ss` / `netstat` — open connections, TIME_WAIT, port exhaustion | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 20 | Lock waits, deadlock graph | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 21 | Replication lag investigation | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Bisecting bad commits (`git bisect`) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 23 | Bisecting bad commits (`git bisect`) | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 | 24 | Postmortem writing — blameless, action items with owners | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
 | 26 | Knowing when to escalate vs continue investigating | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 11 | 5 whys, fishbone (Ishikawa) analysis | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~10.75 hrs | ~0.98 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.25 hrs | ~2.48 wk | |
-| Full Part (all items including 🟡) | ~27.25 hrs | ~2.48 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~2.75 hrs | ~0.25 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~20.75 hrs | ~1.89 wk | |
+| Full Part (all items including 🟡) | ~23 hrs | ~2.09 wk | |
 
 ## Frequently asked
 
