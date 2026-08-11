@@ -30,7 +30,7 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~2.75 hrs | ~0.25 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~20.75 hrs | ~1.89 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~15.5 hrs | ~1.41 wk | |
 | Full Part (all items including 🟡) | ~23 hrs | ~2.09 wk | |
 
 ## Frequently asked

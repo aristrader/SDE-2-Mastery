@@ -8,7 +8,7 @@
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Class diagram — relationships (association, aggregation, composition, inheritance, dependency) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  | 📖 Refactoring Guru — "UML class diagram" quick ref (~20 min) |
 | 2 | Sequence diagram — for any flow with > 2 services | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 3 | State diagram — perfect for KYC status, order state, etc. | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | State diagram — perfect for KYC status, order state, etc. | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 4 | Activity diagram | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 5 | Component diagram | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 6 | Deployment diagram — infra-level | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
@@ -22,7 +22,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~3.75 hrs | ~0.34 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~2.25 hrs | ~0.2 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~8.5 hrs | ~0.77 wk | |
 | Full Part (all items including 🟡 + 🟢) | ~10.75 hrs | ~0.98 wk | |
 

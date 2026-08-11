@@ -6,36 +6,34 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | Latency numbers every programmer should know (L1 → memory → SSD → network → cross-region) | 🔴 💼 🎯 | L | 40 min | [x] | [ ] | [ ] | [ ] |  | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) · 📖 Jeff Dean's "Latency numbers every programmer should know" · 💻 Warm-up: write latency cheat sheet from memory — L1, L2, RAM, SSD, HDD, intra-DC RTT, cross-region RTT (10 min) |
-| 2 | Throughput math | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] |  | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
-| 3 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 35-40 — powers of two, QPS, peak QPS, Twitter/media storage estimate, retention, units, rounding assumptions | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
-| 4 | GC tuning (G1GC vs ZGC) for latency — pause times vs throughput | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | Profiling tools — async-profiler, JFR, flame graphs | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |
-| 6 | Non-blocking I/O (NIO, epoll, kqueue) | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
-| 7 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] |  | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
-| 8 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 12, 15, and 95-96 — read-heavy systems use replicas/cache; write-heavy paths need partitioning/quorum tuning | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
-| 9 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 15-16 and 89 — cache frequently read data, avoid treating volatile cache as source of truth, keep hot data in memory and colder data on disk | 📖 `system_design/components/caching/index.md` · 📖 `databases/key_value_store/index.md` |
-| 10 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 39-40 — estimate average QPS, peak QPS, and use round assumptions rather than sizing only from smooth averages | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
-| 11 | GC tuning intuition (without going overboard) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 1 | Throughput math | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] |  | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
+| 2 | Storage estimation — daily writes × retention × replication factor | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 35-40 — powers of two, QPS, peak QPS, Twitter/media storage estimate, retention, units, rounding assumptions | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
+| 3 | Thread pool sizing — Little's Law | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] |  | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) |
+| 4 | P50 / P90 / P99 / P99.9 latency — tail latency matters more than average | 🔴 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 Gil Tene — "How NOT to measure latency" (~30 min, canonical) |
+| 5 | Latency orders of magnitude — memory, storage, network, cross-region; reason approximately, do not memorise exact numbers | 🟠 💼 🎯 | L | 40 min | [x] | [ ] | [ ] | [ ] |  | 📖 [Latency & Little's Law](/performance/latency_throughput_littles_law/) · 📖 Jeff Dean's "Latency numbers every programmer should know" |
+| 6 | GC tuning intuition — G1 vs ZGC, pause-time vs throughput; avoid flag memorisation | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | Profiling basics — async-profiler, JFR, flame-graph interpretation | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Interview scope: identify when to profile and read the hot path; tool operation is practical depth. | 💻 Warm-up: run async-profiler on a spin-loop program, generate flame graph, identify hot method (45 min) |
+| 8 | Async and non-blocking I/O — NIO, epoll/kqueue at a high level, WebFlux threading implications | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Interview scope: explain the execution model and trade-offs; skip selector/OS internals. | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
+| 9 | Read/write ratio reasoning | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 12, 15, and 95-96 — read-heavy systems use replicas/cache; write-heavy paths need partitioning/quorum tuning | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
+| 10 | Hot vs cold data, tiering | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 15-16 and 89 — cache frequently read data, avoid treating volatile cache as source of truth, keep hot data in memory and colder data on disk | 📖 `system_design/components/caching/index.md` · 📖 `databases/key_value_store/index.md` |
+| 11 | Peak-to-average ratio (don't size for average) | 🟠 💼 🎯 | M | 30 min | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 39-40 — estimate average QPS, peak QPS, and use round assumptions rather than sizing only from smooth averages | 📖 [Back-of-the-Envelope Capacity Estimation](/performance/capacity_estimation/) |
 | 12 | Connection pool sizing (HikariCP — `pool size = ((cores × 2) + effective_spindle_count)`) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  | (Cross-ref Part 6 HikariCP) |
 | 13 | Object pooling (e.g., HikariCP internals) | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 14 | P50 / P90 / P99 / P99.9 latency — tail latency matters more than average | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 Gil Tene — "How NOT to measure latency" (~30 min, canonical) |
-| 15 | Load testing — JMeter, Gatling, k6, Locust | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write k6 script with 10 VUs ramping to 100 over 30s against a local endpoint, read the p95 (30 min) |
-| 16 | Async I/O, non-blocking | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 [Threading & WebFlux](/spring/spring_web/webflux_threading_model/) |
-| 17 | Precomputation / materialization | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 18 | Read-path optimization (denormalization, fan-out on write) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 19 | Write-path optimization (LSM trees, append-only logs) | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 105-106 — commit log, memory table/cache, flush to sorted SSTables, and Bloom-filter-assisted read path | 📖 `databases/key_value_store/index.md` |
-| 20 | Microbenchmarking — JMH, pitfalls | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 21 | Lock-free data structures | 🟡 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 22 | Off-heap memory | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | Load testing — JMeter, Gatling, k6, Locust | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write k6 script with 10 VUs ramping to 100 over 30s against a local endpoint, read the p95 (30 min) |
+| 15 | Precomputation / materialization | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | Read-path optimization (denormalization, fan-out on write) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | Write-path optimization (LSM trees, append-only logs) | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered from Alex Xu pages 105-106 — commit log, memory table/cache, flush to sorted SSTables, and Bloom-filter-assisted read path | 📖 `databases/key_value_store/index.md` |
+| 18 | Microbenchmarking — JMH, pitfalls | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 19 | Lock-free data structures | 🟡 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 20 | Off-heap memory | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~8.17 hrs | ~0.74 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~20.92 hrs | ~1.9 wk | |
-| Full Part (all items including 🟡) | ~24.92 hrs | ~2.27 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~4 hrs | ~0.36 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~17.92 hrs | ~1.63 wk | |
+| Full Part (all items including 🟡) | ~21.92 hrs | ~1.99 wk | |
 
 ## Key diagrams
 

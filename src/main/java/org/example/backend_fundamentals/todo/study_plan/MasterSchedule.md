@@ -93,11 +93,11 @@ Open this every Monday. Fill 3 cells per week (~60 seconds). The Status emoji is
 
 ### Light touch — fold into spare slots / Sun overflow
 
-Parts **14** (Cost), **21** (Observability), **24** (Engineering Practice), **25** (Testing), **26** (Release), **27** (Debugging), **28** (Compliance), **30** (Interview Prep). Mostly already known at the basic level — a Conversant-level pass is enough.
+Parts **14** (Cost), **21** (Observability), **23** (GenAI backend baseline), **24** (Engineering Practice), **25** (Testing), **26** (Release), **27** (Debugging), **28** (Compliance), **30** (Interview Prep). Mostly already known at the basic level — a Conversant-level pass is enough.
 
 ### Deferred to Consolidation
 
-Part **23** (GenAI) — entire Part. Re-visit Month 4+.
+Part **23** (GenAI) — defer only advanced RAG tuning, agent internals, model catalogues, and MCP implementation. Cover its 🔴 backend baseline during Sprint spare slots.
 
 ---
 

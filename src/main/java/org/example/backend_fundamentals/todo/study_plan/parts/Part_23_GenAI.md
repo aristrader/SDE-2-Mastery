@@ -1,41 +1,43 @@
 # Part 23 — GenAI & LLMs
 
-> **Phase placement: Consolidation only.** This Part has zero 🔴 rows — nothing here is required for SDE2/SDE3 KYC-backend interviews in the Sprint window. The 🟠 items are senior-fluency-nice-to-have but ~40 hrs is a heavy Sprint cost for a topic adjacent to your stack. Treat this Part as Month 4+ material. For an AI/ML-heavy interview, prioritize prompt engineering, function calling, and prompt injection.
+> **Phase placement:** Cover the 🔴 backend baseline during the Sprint. It focuses on integrating AI safely into applications, not model training, ML mathematics, GPU infrastructure, or data-engineering pipelines. Advanced RAG tuning, agent internals, model catalogues, and MCP implementation remain Consolidation material.
 
-> **Sprint allocation:** Deferred to Consolidation (Month 4+) — zero 🔴 rows; no Sprint coverage required. **Budget: 0 hrs in Sprint (deferred).**
+> **Sprint allocation:** Shared light block during Weeks 10-12. **Budget: ~7-8 hrs for 🔴 backend fundamentals.**
 
 ## 23 GenAI & LLMs — topic inventory
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Open vs closed models — Llama, Mistral, Claude, GPT, Gemini | 🟠 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 2 | Prompt engineering — system prompts, few-shot, CoT, structured output  (Basic concept only) | 🟠 💼 🆕 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
-| 3 | Function calling / tool use | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Claude / OpenAI function calling — define a tool schema, call API, parse tool response, return result (30 min) |
-| 4 | Streaming responses, token-by-token UX | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 6 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 7 | Caching strategies for LLM calls (prompt caching, semantic caching) | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 8 | Embeddings — what they are, similarity metrics  (Basic concept only) | 🟠 💼 🆕 | MP | 15 min | [ ] | [x] | [ ] | [ ] | Partial: embedding concept + vector meaning/search covered; similarity metrics detail pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 9 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector DB purpose + common options covered; pgvector implementation pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 10 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: fixed/section/semantic chunking covered; overlap/eval tuning pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 11 | Hybrid search — BM25 + vector | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector + keyword motivation covered; BM25 mechanics pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 12 | Reranking — Cohere / cross-encoder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 13 | Failure modes — bad chunks, retrieval misses, hallucinations under context | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: retrieval miss, bad chunking, unsupported answers, stale index covered; eval harness pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 14 | Agent loop — plan, act, observe, reflect | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 15 | ReAct pattern, function calling for tools | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 16 | Multi-step agents — when to use, when not | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 17 | MCP (Model Context Protocol) — what it is, how servers / clients work, why it standardizes tool access | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 18 | Building MCP servers (your future leverage)  (Basic concept only) | 🟠 💼 🆕 | D | 15 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
-| 19 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 20 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 1 | LLM mental model for backend engineers — tokens, context window, training vs inference, attention at a high level, probabilistic output, hallucinations | 🔴 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Basic concept only; no transformer mathematics or training algorithms. |  |
+| 2 | Prompting basics — system/user roles, zero-shot, few-shot, structured instructions | 🔴 💼 🆕 | L | 15 min | [ ] | [ ] | [ ] | [ ] | Basic concept only; prompting is not a substitute for output validation. | 💻 Warm-up: write zero-shot and few-shot prompts for one extraction task (15 min) |
+| 3 | Backend LLM integration — model APIs, function/tool calling, structured output, schema validation, timeouts, retries, and rate limits | 🔴 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Treat model output as untrusted external input. | 💻 Warm-up: define a typed tool schema, mock execution, validate the response, and handle one failure (30 min) |
+| 4 | RAG end-to-end mental model — ingest, chunk, embed, store, retrieve, augment, generate; when it fits and how retrieval misses fail | 🔴 💼 🎯 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Backend architecture baseline; detailed retrieval tuning remains lower priority. | 📖 `gen_ai/rag/index.md` |
+| 5 | GenAI security basics — prompt injection, PII/secrets leakage, least-privilege tools, output validation, and approval for sensitive actions | 🔴 💼 🔐 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Never put secrets in prompts; RAG does not eliminate prompt injection. |  |
+| 6 | Cost and latency basics — input/output tokens, context size, model selection, and caching awareness | 🔴 💼 🆕 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Estimate and bound usage; do not memorise provider prices. |  |
+| 7 | Agent basics — model vs agent, bounded tool loop, termination conditions, and when a deterministic workflow is better | 🔴 💼 🆕 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Basic concept only; agents add cost, latency, and failure modes. |  |
+| 8 | Skills — reusable instructions and workflows that teach an agent a specialised capability; discovery and invocation | 🔴 💼 🆕 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Concept is portable; packaging and precedence are platform-specific. |  |
+| 9 | Plugins — packaged capabilities that may bundle skills, tools, integrations, or configuration | 🔴 💼 🆕 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Know the concept and lifecycle; exact plugin formats are platform-specific. |  |
+| 10 | MCP fundamentals — client, server, tools, resources, and why MCP standardises access to external systems | 🔴 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Theory only; implementation remains lower priority. |  |
+| 11 | Streaming responses, token-by-token UX | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Caching strategies for LLM calls — prompt caching and semantic caching | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 13 | Embeddings — what they are and similarity metrics | 🟠 💼 🆕 | L | 15 min | [ ] | [x] | [ ] | [ ] | Partial: embedding concept + vector meaning/search covered; similarity metrics detail pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 14 | RAG failure analysis and evaluation — bad chunks, retrieval misses, unsupported answers, stale indexes, golden sets | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: retrieval miss, bad chunking, unsupported answers, stale index covered; evaluation harness pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 15 | Open vs closed model catalogue and provider comparison | 🟡 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Learn selection criteria when needed; do not memorise model brands or benchmark tables. |  |
+| 16 | Vector-database product details — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟡 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector DB purpose + common options covered; pgvector implementation pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 17 | Advanced chunking — overlap, hierarchical and semantic strategies | 🟡 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: fixed/section/semantic chunking covered; overlap/eval tuning pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 18 | Hybrid search — BM25 + vector | 🟡 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector + keyword motivation covered; BM25 mechanics pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 19 | Reranking — cross-encoders and provider rerankers | 🟡 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 20 | ReAct and agent-loop internals — plan, act, observe, reflect | 🟡 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 21 | Multi-step agent orchestration internals | 🟡 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 22 | Building an MCP server | 🟡 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Implementation practice, not a generic backend interview requirement. | 💻 Warm-up: expose one tool from a minimal MCP server and invoke it from a client (60 min) |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~0 hrs (no 🔴 — 🟠 is the baseline here) | ~0 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~25.5 hrs | ~2.32 wk | ~17 min so far |
-| Full Part (all items including 🟡) | ~25.5 hrs | ~2.32 wk | ~17 min so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~7.75 hrs | ~0.7 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~12.5 hrs | ~1.14 wk | ~17 min so far |
+| Full Part (all items including 🟡) | ~23.25 hrs | ~2.11 wk | ~17 min so far |
 
 ## Frequently asked
 
@@ -51,7 +53,9 @@
    - **Why asked:** Senior LLM engineering. Build a golden set (50-200 representative inputs with expected outputs / acceptable variations). Run prompts vs golden set on each model/prompt change. Score with deterministic checks (regex, JSON validity) + LLM-as-judge (another model rates correctness). Track regression on each release.
 6. **Q:** What's MCP, why does it matter?
    - **Why asked:** 2025 hot topic. Model Context Protocol — Anthropic's open standard for connecting LLMs to tools / data sources. Standardizes the "give the LLM access to my system" interface (resources, tools, prompts). MCP servers expose capabilities; MCP clients (Claude Desktop, Cursor, etc.) consume them. Avoids each tool integration being bespoke.
-7. **Q:** Why does prompt caching save money?
+7. **Q:** Tool, skill, plugin, and MCP — how do they differ?
+   - **Why asked:** Tests whether you can reason about the agent integration stack. A tool is an executable operation. A skill is reusable task guidance or workflow knowledge. A plugin packages capabilities for installation or distribution. MCP is a protocol through which clients discover and invoke tools or access resources. Skill and plugin packaging varies by platform.
+8. **Q:** Why does prompt caching save money?
    - **Why asked:** Cost optimization. Long system prompts repeated per request = redundant tokens. Prompt caching (Anthropic, OpenAI now): cache the prefix on the provider side, charge less on cache hit. Practical: structure prompts with stable prefix (system + few-shot examples) + variable suffix (user input). Significant cost savings on RAG with long context.
 
 ## Trick questions / gotchas
@@ -68,8 +72,8 @@
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
 - **Function calling end-to-end** (~2.5 hrs) — define schemas, handle multi-turn tool invocations, error paths, parallel tool calls. Most useful practical LLM pattern for backend integration.
-- **RAG basics with pgvector** (~3 hrs) — embeddings + vector DB + chunking + retrieval. Build a simple KYC-docs Q&A as the worked example.
-- **Building an MCP server** (~3 hrs) — future leverage. Spec-aligned MCP server exposing a tool. Connect to Claude Desktop, invoke. Could become useful for KYC workflows (e.g., MCP server that fetches KYC status).
+- **RAG architecture walkthrough** (~2 hrs) — explain ingest, chunk, embed, retrieve, augment, and generate, including retrieval misses and unsupported answers. Implementation with a specific vector database is optional.
+- **Agent integration vocabulary** (~1.5 hrs) — clearly distinguish models, agents, tools, skills, plugins, and MCP, then explain where each fits in a backend workflow.
 - **Prompt injection + LLM security** (~2.5 hrs) — modern attack surface. Catalog defenses. Apply to any LLM feature you'd add to KYC.
 
 ## Hands-on exercises (Practice + Advanced)
@@ -95,7 +99,7 @@ Warm-up GenAI exercises are listed inline in the topic-table Resources column (c
 | Advanced (senior-grade) | ~2.75 hrs | ~0.25 wk | |
 | **Combined hands-on (Practice + Advanced)** | **~5.5 hrs** | **~0.5 wk** | |
 
-> Warm-up exercises (counted in main Time summary above) total ~90 min for Part 23 across 3 in-table warm-ups.
+> Warm-up exercises (counted in main Time summary above) total ~1 hr 45 min for Part 23 across 3 in-table warm-ups.
 
 ## Quick recall
 
@@ -113,6 +117,9 @@ A. Separate system from user content, validate output, sandbox tool calls, human
 
 **Q. MCP in one sentence.**
 A. Model Context Protocol — Anthropic's open standard for connecting LLMs to tools and data sources, so each integration isn't bespoke.
+
+**Q. Tool vs skill vs plugin?**
+A. A tool performs an operation; a skill provides reusable task guidance; a plugin packages capabilities for installation. Exact skill and plugin formats are platform-specific.
 
 **Q. Prompt caching — what does it save?**
 A. Cost. Cache the stable prefix (system prompt + few-shot examples) on provider side. On cache hit, charge only for the variable suffix. Huge savings on RAG with long contexts.

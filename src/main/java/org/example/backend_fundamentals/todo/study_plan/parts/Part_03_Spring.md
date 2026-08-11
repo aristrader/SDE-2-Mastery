@@ -17,11 +17,11 @@
 | 9 | Derived queries, @Query (JPQL), native queries | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_data/derived_queries/index.md` · 💻 `spring/spring_data/derived_queries/exercise/index.md` |
 | 10 | Transactions — @Transactional propagation, isolation, rollback rules | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring/spring_core/transactions/index.md` · 💻 `spring/spring_core/transactions/exercise/index.md` |
 | 11 | Entity lifecycle — transient, managed, detached, removed | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_data/entity_lifecycle/index.md` · 💻 `spring/spring_data/entity_lifecycle/exercise/index.md` |
-| 12 | SecurityFilterChain (modern config style) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/security_filter_chain/index.md` · 💻 `spring/spring_security/security_filter_chain/exercise/index.md` |
-| 13 | Authorization — method security, @PreAuthorize, SpEL | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/authorization/index.md` · 💻 `spring/spring_security/authorization/exercise/index.md` |
-| 14 | Lazy vs eager — N+1 problem and fixes (JOIN FETCH, @EntityGraph) | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_data/jpa_lazy_eager/index.md` · 💻 `spring/spring_data/jpa_lazy_eager/exercise/index.md` |
-| 15 | JWT validation, JWK Set, custom claims | 🔴 💼 🔐 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/jwt_validation/index.md` · 💻 `spring/spring_security/jwt_validation/exercise/index.md` |
-| 16 | AOP — proxies, JDK vs CGLIB, common pitfalls (self-invocation) | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 📖 Baeldung "Comparing JDK Proxy vs CGLIB" + Spring AOP reference · 💻 Warm-up: @Around aspect that logs method timing on annotated methods (20 min) |
+| 12 | Lazy vs eager — N+1 problem and fixes (JOIN FETCH, @EntityGraph) | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_data/jpa_lazy_eager/index.md` · 💻 `spring/spring_data/jpa_lazy_eager/exercise/index.md` |
+| 13 | AOP — proxies, JDK vs CGLIB, common pitfalls (self-invocation) | 🔴 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 📖 Baeldung "Comparing JDK Proxy vs CGLIB" + Spring AOP reference · 💻 Warm-up: @Around aspect that logs method timing on annotated methods (20 min) |
+| 14 | SecurityFilterChain (modern config style) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/security_filter_chain/index.md` · 💻 `spring/spring_security/security_filter_chain/exercise/index.md` |
+| 15 | Authorization — method security, @PreAuthorize, SpEL | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/authorization/index.md` · 💻 `spring/spring_security/authorization/exercise/index.md` |
+| 16 | JWT validation, JWK Set, custom claims | 🟠 💼 🔐 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_security/jwt_validation/index.md` · 💻 `spring/spring_security/jwt_validation/exercise/index.md` |
 | 17 | Starter ecosystem | 🟠 💼 | M | 1 hr 15 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring_boot/starters/index.md` · 💻 `spring_boot/starters/exercise/index.md` |
 | 18 | Actuator — health, info, metrics, env, custom endpoints | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `spring_boot/actuator/index.md` · 💻 `spring_boot/actuator/exercise/index.md` |
 | 19 | Feign / OpenFeign — declarative HTTP clients, interceptors, error decoders, retryers | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: page exists; needs one quick personal revision | 📖 `spring/spring_cloud/feign/index.md` · 💻 `spring/spring_cloud/feign/exercise/index.md` |
@@ -68,7 +68,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~21.42 hrs | ~1.95 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~17.42 hrs | ~1.58 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~56.17 hrs | ~5.11 wk | |
 | Full Part (all items including 🟡 + 🟢) | ~68.42 hrs | ~6.22 wk | ~1 hr so far; completed topics are marked in the inventory |
 

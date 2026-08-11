@@ -25,8 +25,8 @@
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
 | 🔴 MUST only (Sprint priority — 3-month plan) | ~8.75 hrs | ~0.8 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~10.25 hrs | ~0.93 wk | |
-| Full Part (all items including 🟡) | ~10.5 hrs | ~0.95 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~10 hrs | ~0.91 wk | |
+| Full Part (all items including 🟡) | ~10.25 hrs | ~0.93 wk | |
 
 > The real learning here is in *practice*, not study hours. Mock interviews + actual interviews compound faster than reading. Treat this Part as a forcing function: use mocks to discover gaps in Parts 1–29, then go deepen there.
 

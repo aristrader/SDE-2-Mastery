@@ -18,13 +18,13 @@
 | 10 | Deadlock, livelock, starvation — causes and prevention | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered with lock ordering, pool starvation, and exercises | 📖 `java/concurrency/deadlock_livelock_starvation/index.md` · 💻 `java/concurrency/deadlock_livelock_starvation/exercise/index.md` |
 | 11 | Atomic family — AtomicInteger, AtomicReference, LongAdder | 🔴 💼 | MP | 1 hr 40 min | [x] | [ ] | [ ] | [ ] | Covered with CAS, read-and-reset, AtomicReference, LongAdder | 📖 `java/concurrency/atomic_classes/index.md` · 💻 `java/concurrency/atomic_classes/exercise/index.md` |
 | 12 | ThreadLocal — uses, leaks in pooled threads | 🔴 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 13 | Reentrancy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Covered under `synchronized` and `ReentrantLock` | 📖 `java/concurrency/synchronized_keyword/index.md` · 📖 `java/concurrency/locks/index.md` |
-| 14 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [x] | [ ] | [ ] | [ ] | Covered; practical stance is prefer higher-level APIs | 📖 `java/concurrency/wait_notify/index.md` · 💻 `java/concurrency/wait_notify/exercise/index.md` |
-| 15 | Semaphore, CountDownLatch, CyclicBarrier, Phaser — when each fits | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 16 | StampedLock — optimistic reads | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Recognition-level only; intentionally not deep-studied because it is advanced/rare for SDE-2 interviews | 📖 `java/concurrency/locks/index.md` |
-| 17 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered for CHM, CopyOnWrite, atomic map operations; ConcurrentSkipListMap recognition is enough for now | 📖 `java/concurrency/concurrent_collections/index.md` · 💻 `java/concurrency/concurrent_collections/exercise/index.md` |
-| 18 | BlockingQueue family — ArrayBlockingQueue, LinkedBlockingQueue, SynchronousQueue, DelayQueue | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 19 | Virtual threads (Loom) — what they are, when they help, pinning gotchas | 🟠 💼 🆕 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 JEP 444 (Virtual Threads) + Oracle Loom intro |
+| 13 | Semaphore, CountDownLatch, CyclicBarrier, Phaser — when each fits | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | BlockingQueue family — ArrayBlockingQueue, LinkedBlockingQueue, SynchronousQueue, DelayQueue | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | Virtual threads (Loom) — what they are, when they help, pinning gotchas | 🔴 💼 🆕 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 JEP 444 (Virtual Threads) + Oracle Loom intro |
+| 16 | Reentrancy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Covered under `synchronized` and `ReentrantLock` | 📖 `java/concurrency/synchronized_keyword/index.md` · 📖 `java/concurrency/locks/index.md` |
+| 17 | wait / notify / notifyAll — and why you should rarely use them today | 🟠 💼 | M | 1 hr 20 min | [x] | [ ] | [ ] | [ ] | Covered; practical stance is prefer higher-level APIs | 📖 `java/concurrency/wait_notify/index.md` · 💻 `java/concurrency/wait_notify/exercise/index.md` |
+| 18 | StampedLock — optimistic reads | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Recognition-level only; intentionally not deep-studied because it is advanced/rare for SDE-2 interviews | 📖 `java/concurrency/locks/index.md` |
+| 19 | Concurrent collections — ConcurrentHashMap vs CopyOnWriteArrayList vs ConcurrentSkipListMap — when each fits | 🟠 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | Covered for CHM, CopyOnWrite, atomic map operations; ConcurrentSkipListMap recognition is enough for now | 📖 `java/concurrency/concurrent_collections/index.md` · 💻 `java/concurrency/concurrent_collections/exercise/index.md` |
 | 20 | Structured concurrency | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 | 21 | Producer-consumer, futures composition, fan-out / fan-in | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 22 | Double-checked locking — pre / post Java 5 (volatile fix) | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Covered under JMM safe publication and DCL | 📖 `java/concurrency/jmm/index.md` |
@@ -41,7 +41,7 @@ Reading + warm-up exercises (warm-ups are listed inline in the Resources column 
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~15.17 hrs | ~1.38 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~18.67 hrs | ~1.7 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~28 hrs | ~2.55 wk | |
 | Full Part (all items including 🟡) | ~32.75 hrs | ~2.98 wk | |
 

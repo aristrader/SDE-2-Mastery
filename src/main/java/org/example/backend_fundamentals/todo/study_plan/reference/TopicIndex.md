@@ -11,6 +11,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **ACID** → Part 06 (DB fundamentals)
 - **Active-active vs active-passive** → Part 07 (HA), Part 31 (DC-JKT vs AWS-SG)
 - **Adapter pattern** → Part 04 (Structural), Part 31 (vendor abstraction)
+- **AI agents (tool loop, termination, deterministic-workflow alternative)** → Part 23
 - **AtomicInteger / AtomicReference / LongAdder** → Part 02
 - **Anycast (same IP from many locations — CDNs, DNS, Global Accelerator)** → Part 11
 - **ArgoCD sync loop / kustomization.yaml** → Part 22
@@ -139,13 +140,14 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Flow type (KYC)** → Part 29, Part 31
 - **Flyway / Liquibase** → Part 26
 - **Forgery detection (docs)** → Part 29
+- **Function / tool calling (LLMs)** → Part 23
 - **Funnel metrics (KYC)** → Part 31
 
 ## G
 
 - **Garbage collection (G1, ZGC, Shenandoah)** → Part 01
 - **GDPR** → Part 28
-- **GenAI / LLMs** → Part 23 (entire Part — Consolidation only)
+- **GenAI / LLMs** → Part 23 (backend baseline in Sprint; advanced depth in Consolidation)
 - **Global vs distributed cache** → Part 09
 - **gp3 vs io2 (RDS storage)** → Part 14
 - **gRPC** → Part 11, Part 12
@@ -190,12 +192,13 @@ Format: **Topic** → Part NN — secondary cross-references.
 ## J
 
 - **Jackson (custom serializers, polymorphic types)** → Part 03, Part 1b
-- **JPA N+1 problem + JOIN FETCH / @EntityGraph fix** → Part 03, Part 1b
 - **JaCoCo (coverage)** → Part 25
 - **Java Memory Model (JMM)** → Part 02
+- **JDK vs JRE vs JVM** → Part 01
 - **JIT compilation** → Part 01
 - **JMeter / Gatling / k6** → Part 25, Part 08
 - **JPA / Hibernate** → Part 03, Part 06
+- **JPA N+1 problem + JOIN FETCH / @EntityGraph fix** → Part 03, Part 1b
 - **JWT** → Part 18, Part 20
 - **JWT → GrantedAuthority mapping (Spring Security)** → Part 19
 
@@ -279,12 +282,14 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Pattern selection scenarios (Singleton / Factory / Builder / Static Factory / Abstract Factory — 25 production scenarios)** → design_patterns/pattern_selection_scenarios/index.md, Part 04
 - **PaymentProcessorResolver / runtime strategy selection** → Part 04; design_patterns/behavioral/strategy_vs_template_method/index.md, design_patterns/pattern_selection/exercise/index.md
 - **PEP screening** → Part 29
+- **Plugins (AI capability packaging)** → Part 23
 - **Polling (Short vs Long)** → Part 11
 - **Polling vs webhook** → Part 29, Part 31 FAQ #4
 - **Promotion criteria** → Part 30
 - **Proxy (forward vs reverse), VPN tunneling, national firewalls** → Part 11, Part 07
 - **PromQL / Grafana** → Part 21
 - **Prompt injection** → Part 23
+- **Prompting basics** → Part 23
 - **Proxy pattern** → Part 04, PracticeProblems § 3 Q12
 
 ## Q
@@ -323,7 +328,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Sequential vs random IO** → Part 07
 
 - **S3 pre-signed URL** → Part 13, Part 31
-- **Saga / orchestration vs choreography** → PracticeProblems § 3 Q16, Part 29
+- **Saga / orchestration vs choreography** → Part 04, PracticeProblems § 3 Q16, Part 29
 - **Sanctions / PEP / adverse media** → Part 29
 - **SBOM (Software Bill of Materials)** → Part 22
 - **SDK ↔ backend auth** → Part 29, Part 31
@@ -349,6 +354,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Spring AOP / Proxies** → Part 03
 - **Spring Boot actuator** → Part 03, Part 21
 - **Spring Security architecture (filter chain, SecurityContext, @PreAuthorize)** → Part 19
+- **Skills (reusable agent instructions/workflows)** → Part 23
 - **SQL vs NoSQL (schemaless myth, transactions myth, relational-modeling argument)** → Part 06
 - **SQS — queue types, DLQ, visibility timeout, redrive** → Part 13, Part 10
 - **SSE-KMS** → Part 13, Part 16

@@ -6,46 +6,45 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | JDK vs JRE vs JVM distinction, Java standard libraries overview | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `java/jvm/jdk_jre_jvm/index.md` |  |
+| 1 | JDK vs JRE vs JVM — compiler, runtime libraries, bytecode execution, and standard-library boundary | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Consolidates the former duplicate JVM/JRE/JDK row. | 📖 `java/jvm/jdk_jre_jvm/index.md` |
 | 2 | Object model, inheritance, interfaces, abstract classes — when each fits | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered in Java/OOP route | 📖 `java/oop/index.md` · 📖 `java/oop/object_model/index.md` · 📖 `java/oop/abstract_class_vs_interface/index.md` |
 | 3 | String immutability — string pool, heap vs pool, why final, hashCode caching, StringBuilder | 🔴 💼 🎯 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/foundations/string/index.md` |
-| 4 | JVM vs JRE vs JDK — bytecode execution, runtime libs, compiler | 🔴 💼 | L | 30 min | [x] | [ ] | [ ] | [ ] | Notes: Covered in OS/Containers notes |  |
-| 5 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/generics/index.md` · *Effective Java* Items 26-33 (Bloch) |
-| 6 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 3 min | 📖 `java/oop/equals_hashcode/index.md` · 📖 `java/collections/sorting/index.md` · *Effective Java* Items 10-14 |
-| 7 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [x] | [ ] | [ ] | [x] | Theory + structured practice covered | 📖 `java/foundations/exceptions/index.md` · 💻 `java/foundations/exceptions/hierarchy/exercise/index.md` · 💻 `java/foundations/exceptions/propagation/exercise/index.md` · 💻 `java/foundations/exceptions/finally_resources/exercise/index.md` · 💻 `java/foundations/exceptions/design_custom/exercise/index.md` |
-| 8 | Memory areas — heap (+ string pool inside heap), stack, metaspace, code cache | 🔴 💼 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~30 min |  |
-| 9 | Garbage collection — generational hypothesis, young/old, GC pauses | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~10 min | 📖 `java/jvm/gc/index.md` |
-| 10 | HashMap internals — bucket array, hashing, resizing, treeify threshold (8/6), load factor | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/collections/maps/hashmap/index.md` · 📖 Baeldung "Guide to HashMap" + JEP 180 (treeification) |
-| 11 | ConcurrentHashMap — CAS for empty bins, synchronized on head node, compute/merge atomicity | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~35 min | 📖 `java/collections/maps/concurrent_hashmap/index.md` |
-| 12 | LinkedHashMap — insertion vs access order, LRU cache implementation | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/linked_hashmap/index.md` · 💻 `java/collections/maps/linked_hashmap/exercise/index.md` |
-| 13 | TreeMap — Red-Black tree, sorted operations, ceilingKey / floorKey | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/treemap/index.md` · 💻 `java/collections/maps/treemap/exercise/index.md` |
-| 14 | Streams API — intermediate vs terminal, lazy evaluation, parallel streams (and when NOT to use) | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered from Streams dump | 📖 `java/coding_fluency/streams/foundations/index.md` · 📖 `java/coding_fluency/streams/intermediate_operations/index.md` · 📖 `java/coding_fluency/streams/terminal_operations/index.md` · 📖 `java/coding_fluency/streams/primitive_parallel/index.md` · 💻 `java/coding_fluency/streams/intermediate_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/terminal_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/interview_drills/exercise/index.md` |
-| 15 | Functional interfaces — Function, Predicate, Consumer, Supplier, BiFunction | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory covered from lambda/function-interface dump | 📖 `java/coding_fluency/lambdas/index.md` · 📖 `java/coding_fluency/functional_interfaces/index.md` · 📖 `java/coding_fluency/method_references/index.md` |
-| 16 | Collections framework architecture (interfaces vs implementations) | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered in collections hub and implementation-choice pages | 📖 `java/collections/index.md` · 📖 `java/collections/maps/implementation_choice/index.md` |
-| 17 | List family — ArrayList vs LinkedList (and why LinkedList is rarely the right choice) | 🔴 | M | 45 min | [x] | [ ] | [ ] | [ ] |  | 📖 `java/collections/lists/index.md` |
-| 18 | Queue / Deque — ArrayDeque, PriorityQueue, BlockingQueue family | 🔴 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: Queue, Deque, ArrayDeque, LinkedList, and PriorityQueue covered. BlockingQueue pending. | 📖 `java/collections/queues/index.md` |
+| 4 | Generics — wildcards, bounds, type erasure, PECS rule | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 10 min | 📖 `java/generics/index.md` · *Effective Java* Items 26-33 (Bloch) |
+| 5 | equals / hashCode / Comparable / Comparator contracts — most-broken contract in practice | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~2 hrs 3 min | 📖 `java/oop/equals_hashcode/index.md` · 📖 `java/collections/sorting/index.md` · *Effective Java* Items 10-14 |
+| 6 | Exception handling — checked vs unchecked, exception translation, try-with-resources | 🔴 💼 | M | 1 hr 10 min | [x] | [ ] | [ ] | [x] | Theory + structured practice covered | 📖 `java/foundations/exceptions/index.md` · 💻 `java/foundations/exceptions/hierarchy/exercise/index.md` · 💻 `java/foundations/exceptions/propagation/exercise/index.md` · 💻 `java/foundations/exceptions/finally_resources/exercise/index.md` · 💻 `java/foundations/exceptions/design_custom/exercise/index.md` |
+| 7 | Memory areas — heap (+ string pool inside heap), stack, metaspace, code cache | 🔴 💼 | D | 1 hr | [x] | [ ] | [ ] | [ ] | ~30 min |  |
+| 8 | Garbage collection — generational hypothesis, young/old, GC pauses | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~10 min | 📖 `java/jvm/gc/index.md` |
+| 9 | HashMap internals — bucket array, hashing, resizing, treeify threshold (8/6), load factor | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~15 min | 📖 `java/collections/maps/hashmap/index.md` · 📖 Baeldung "Guide to HashMap" + JEP 180 (treeification) |
+| 10 | ConcurrentHashMap — CAS for empty bins, synchronized on head node, compute/merge atomicity | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [x] | ~35 min | 📖 `java/collections/maps/concurrent_hashmap/index.md` |
+| 11 | LinkedHashMap — insertion vs access order, LRU cache implementation | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/linked_hashmap/index.md` · 💻 `java/collections/maps/linked_hashmap/exercise/index.md` |
+| 12 | TreeMap — Red-Black tree, sorted operations, ceilingKey / floorKey | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/treemap/index.md` · 💻 `java/collections/maps/treemap/exercise/index.md` |
+| 13 | Streams API — intermediate vs terminal, lazy evaluation, parallel streams (and when NOT to use) | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered from Streams dump | 📖 `java/coding_fluency/streams/foundations/index.md` · 📖 `java/coding_fluency/streams/intermediate_operations/index.md` · 📖 `java/coding_fluency/streams/terminal_operations/index.md` · 📖 `java/coding_fluency/streams/primitive_parallel/index.md` · 💻 `java/coding_fluency/streams/intermediate_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/terminal_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/interview_drills/exercise/index.md` |
+| 14 | Functional interfaces — Function, Predicate, Consumer, Supplier, BiFunction | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory covered from lambda/function-interface dump | 📖 `java/coding_fluency/lambdas/index.md` · 📖 `java/coding_fluency/functional_interfaces/index.md` · 📖 `java/coding_fluency/method_references/index.md` |
+| 15 | Collections framework architecture (interfaces vs implementations) | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered in collections hub and implementation-choice pages | 📖 `java/collections/index.md` · 📖 `java/collections/maps/implementation_choice/index.md` |
+| 16 | List family — ArrayList vs LinkedList (and why LinkedList is rarely the right choice) | 🔴 | M | 45 min | [x] | [ ] | [ ] | [ ] |  | 📖 `java/collections/lists/index.md` |
+| 17 | Queue / Deque — ArrayDeque and PriorityQueue | 🔴 | M | 45 min | [ ] | [x] | [ ] | [ ] | Queue, Deque, ArrayDeque, LinkedList, and PriorityQueue are covered; completion status remains for user review. BlockingQueue coverage is owned by Part 02. | 📖 `java/collections/queues/index.md` |
+| 18 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🔴 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JVM execution role covered; bootstrap/platform/app hierarchy pending | 📖 `java/jvm/bytecode_execution/index.md` |
 | 19 | Optional — proper use vs misuse | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/coding_fluency/optional/index.md` · 💻 `java/coding_fluency/optional/exercise/index.md` |
 | 20 | GC algorithms — G1 (default), ZGC, Shenandoah, Parallel; tuning intuition | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered in GC page | 📖 `java/jvm/gc/index.md` |
-| 21 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JVM execution role covered; bootstrap/platform/app hierarchy pending | 📖 `java/jvm/bytecode_execution/index.md` |
-| 22 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JIT role covered; C1/C2/tiered/inlining details pending | 📖 `java/jvm/bytecode_execution/index.md` |
-| 23 | WeakHashMap, IdentityHashMap, EnumMap — when each is right | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 24 | Hashtable vs HashMap vs ConcurrentHashMap — history & differences (Hashtable is legacy — know for comparison only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 25 | Collisions, load factor, rehashing cost | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered across HashMap and hashing pages | 📖 `java/collections/maps/hashmap/index.md` · 📖 `java/collections/hashing/hashmap_mechanics/index.md` |
-| 26 | Annotations & meta-annotations | 🟡 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 27 | Reflection — uses, costs, when to avoid | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 28 | JFR (Java Flight Recorder) & JMC | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 29 | JVM flags worth knowing (Xmx, Xms, +HeapDumpOnOutOfMemoryError, GC logs) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 30 | Map.of(), Map.copyOf(), Collections.unmodifiableMap — immutability flavors | 🟡 | L | 30 min | [x] | [ ] | [ ] | [ ] | Covered in immutable maps/collections pages | 📖 `java/collections/maps/immutable_maps/index.md` · 📖 `java/coding_fluency/immutable_collections/index.md` |
-| 31 | Set family — HashSet, LinkedHashSet, TreeSet, CopyOnWriteArraySet | 🟡 | M | 45 min | [x] | [ ] | [ ] | [ ] |  | 📖 `java/collections/sets/index.md` |
-| 32 | Records, sealed classes, pattern matching (Java 17+) | 🟢 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: records covered; sealed classes and pattern matching pending | 📖 `java/coding_fluency/records/index.md` |
-| 33 | Text blocks, switch expressions, var | 🟢 🆕 | L | 30 min | [ ] | [x] | [ ] | [ ] | Partial: switch expressions covered; text blocks and `var` pending | 📖 `java/foundations/control_flow/index.md` |
+| 21 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JIT role covered; C1/C2/tiered/inlining details pending | 📖 `java/jvm/bytecode_execution/index.md` |
+| 22 | WeakHashMap, IdentityHashMap, EnumMap — when each is right | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 23 | Hashtable vs HashMap vs ConcurrentHashMap — history & differences (Hashtable is legacy — know for comparison only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 24 | Collisions, load factor, rehashing cost | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered across HashMap and hashing pages | 📖 `java/collections/maps/hashmap/index.md` · 📖 `java/collections/hashing/hashmap_mechanics/index.md` |
+| 25 | Annotations & meta-annotations | 🟡 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 26 | Reflection — uses, costs, when to avoid | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 27 | JFR (Java Flight Recorder) & JMC | 🟡 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 28 | JVM flags worth knowing (Xmx, Xms, +HeapDumpOnOutOfMemoryError, GC logs) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 29 | Map.of(), Map.copyOf(), Collections.unmodifiableMap — immutability flavors | 🟡 | L | 30 min | [x] | [ ] | [ ] | [ ] | Covered in immutable maps/collections pages | 📖 `java/collections/maps/immutable_maps/index.md` · 📖 `java/coding_fluency/immutable_collections/index.md` |
+| 30 | Set family — HashSet, LinkedHashSet, TreeSet, CopyOnWriteArraySet | 🟡 | M | 45 min | [x] | [ ] | [ ] | [ ] |  | 📖 `java/collections/sets/index.md` |
+| 31 | Records, sealed classes, pattern matching (Java 17+) | 🟢 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: records covered; sealed classes and pattern matching pending | 📖 `java/coding_fluency/records/index.md` |
+| 32 | Text blocks, switch expressions, var | 🟢 🆕 | L | 30 min | [ ] | [x] | [ ] | [ ] | Partial: switch expressions covered; text blocks and `var` pending | 📖 `java/foundations/control_flow/index.md` |
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~20.92 hrs | ~1.9 wk | |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~28.42 hrs | ~2.58 wk | |
-| Full Part (all items including 🟡 + 🟢) | ~36.42 hrs | ~3.31 wk | ~7 hr 44 min so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~21.42 hrs | ~1.95 wk | |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.92 hrs | ~2.54 wk | |
+| Full Part (all items including 🟡 + 🟢) | ~35.92 hrs | ~3.27 wk | ~7 hr 44 min so far |
 
 > Time estimates assume zero baseline (you've never seen the topic). Subtract whatever you already know.
 > Fill in "Actual time" after finishing the Part — useful for calibrating future Parts.

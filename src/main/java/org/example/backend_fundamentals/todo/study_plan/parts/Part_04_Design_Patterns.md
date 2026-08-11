@@ -33,52 +33,52 @@
 | 23 | God class, anemic domain model, primitive obsession | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/coupling_cohesion_smells/index.md` · 💻 `design_patterns/foundations/coupling_cohesion_smells/exercise/index.md` |
 | 24 | Tight coupling, circular dependencies | 🔴 💼 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: coupling spectrum covered; circular dependency specifics pending | 📖 `design_patterns/foundations/coupling_cohesion_smells/index.md` |
 | 25 | Composition over inheritance — why | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `java/oop/pillars/composition_vs_inheritance/index.md` · 📖 `design_patterns/foundations/solid/index.md` |
-| 26 | Unit of Work | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 27 | Law of Demeter | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
-| 28 | Tell, don't ask | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
-| 29 | Prototype | 🟠 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (demo + doc) | 💻 repo demo: `creational/prototype/` |
-| 30 | Object Pool (not GoF but ubiquitous) | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 31 | Composite | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 32 | Bridge | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 33 | Iterator | 🟠 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 34 | Mediator | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 35 | Visitor | 🟠 | D | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 Refactoring Guru "Visitor" explainer |
-| 36 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 37 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
-| 38 | Event Sourcing — same | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
-| 39 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Expanded with local transactions, compensation, choreography vs orchestration, orchestrator recovery. | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `databases/distributed_transactions/saga/index.md` · 📖 `databases/distributed_transactions/index.md` |
-| 40 | Outbox pattern — reliable event publishing | 🟠 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: dual-write problem + outbox table + async publisher/CDC concept covered; implementation pending. | 📖 microservices.io — "Pattern: Transactional outbox" · 📖 `databases/distributed_transactions/index.md` |
-| 41 | Idempotent receiver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 42 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
-| 43 | Shotgun surgery, feature envy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/coupling_cohesion_smells/index.md` |
-| 44 | LLD — Parking Lot | 🟠 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Design, exercise, runnable playground, and DB-concurrency extension covered | 📖 `system_design/case_studies/parking_lot/index.md` · 📖 `system_design/case_studies/parking_lot/design/index.md` · 💻 `system_design/case_studies/parking_lot/exercise/index.md` · 📖 `system_design/case_studies/parking_lot/database_concurrency/index.md` |
-| 45 | LLD — Splitwise | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 46 | LLD — Snake & Ladder / Chess / Tic-Tac-Toe (state + rules) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 47 | LLD — Elevator system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 48 | LLD — LRU / LFU cache | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 49 | LLD — Rate limiter (token bucket) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 50 | LLD — Logger with levels | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 51 | LLD — In-memory key-value store with TTL | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 52 | LLD — ATM / Vending machine (pure state machine) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 53 | LLD — Library management | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 54 | LLD — BookMyShow / movie ticket booking (concurrency on seat lock) | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 55 | Command-Query Separation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 56 | Flyweight | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 57 | Memento, Interpreter | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 58 | Anti-corruption layer | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 59 | Aggregate, Entity, Value Object (DDD building blocks) | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 60 | Hexagonal / ports and adapters | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 61 | LLD — Notification dispatch system (multi-channel) | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 62 | LLD — Job scheduler / cron | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 63 | LLD — Online food ordering / ride-sharing core domain | 🟡 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 26 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Expanded with local transactions, compensation, choreography vs orchestration, orchestrator recovery. | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `databases/distributed_transactions/saga/index.md` · 📖 `databases/distributed_transactions/index.md` |
+| 27 | Outbox pattern — reliable event publishing | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: dual-write problem + outbox table + async publisher/CDC concept covered; implementation pending. | 📖 microservices.io — "Pattern: Transactional outbox" · 📖 `databases/distributed_transactions/index.md` |
+| 28 | LLD — Parking Lot | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Design, exercise, runnable playground, and DB-concurrency extension covered | 📖 `system_design/case_studies/parking_lot/index.md` · 📖 `system_design/case_studies/parking_lot/design/index.md` · 💻 `system_design/case_studies/parking_lot/exercise/index.md` · 📖 `system_design/case_studies/parking_lot/database_concurrency/index.md` |
+| 29 | LLD — Splitwise | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 30 | LLD — Snake & Ladder / Chess / Tic-Tac-Toe (state + rules) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 31 | LLD — Elevator system | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 32 | LLD — LRU / LFU cache | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 33 | LLD — Rate limiter (token bucket) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 34 | LLD — Logger with levels | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 35 | LLD — In-memory key-value store with TTL | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 36 | LLD — ATM / Vending machine (pure state machine) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 37 | LLD — Library management | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 38 | LLD — BookMyShow / movie ticket booking (concurrency on seat lock) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 39 | LLD — Notification dispatch system (multi-channel) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 40 | LLD — Job scheduler / cron | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 41 | LLD — Online food ordering / ride-sharing core domain | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 42 | Unit of Work | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 43 | Law of Demeter | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
+| 44 | Tell, don't ask | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
+| 45 | Prototype | 🟠 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (demo + doc) | 💻 repo demo: `creational/prototype/` |
+| 46 | Object Pool (not GoF but ubiquitous) | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 47 | Composite | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 48 | Bridge | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 49 | Iterator | 🟠 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 50 | Mediator | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 51 | Visitor | 🟠 | D | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 Refactoring Guru "Visitor" explainer |
+| 52 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 53 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
+| 54 | Event Sourcing — same | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
+| 55 | Idempotent receiver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 56 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
+| 57 | Shotgun surgery, feature envy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/coupling_cohesion_smells/index.md` |
+| 58 | Command-Query Separation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 59 | Flyweight | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 60 | Memento, Interpreter | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 61 | Anti-corruption layer | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 62 | Aggregate, Entity, Value Object (DDD building blocks) | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 63 | Hexagonal / ports and adapters | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 64 | Clean Architecture, Onion Architecture | 🟢 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~30.5 hrs | ~2.77 wk | Completed topics are marked in the inventory |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~69 hrs | ~6.27 wk | Completed topics are marked in the inventory |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~54.5 hrs | ~4.95 wk | Completed topics are marked in the inventory |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~73.5 hrs | ~6.68 wk | Completed topics are marked in the inventory |
 | Full Part (all items including 🟡 + 🟢) | ~81 hrs | ~7.36 wk | ~6.5 hrs so far |
 
 > Heavy Part — but a large fraction is already ✅ Done from your active design-patterns track. Mark accordingly during Survey.
