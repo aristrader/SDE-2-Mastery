@@ -1060,6 +1060,10 @@
               {
                 "text": "Google Drive System Design",
                 "link": "/system_design/case_studies/google_drive_system_design/"
+              },
+              {
+                "text": "Top-K Heavy Hitters System Design",
+                "link": "/system_design/case_studies/top_k_heavy_hitters/"
               }
             ],
             "collapsed": true
@@ -7350,6 +7354,20 @@
                   "playground": false,
                   "assets": true
                 }
+              },
+              {
+                "text": "Top-K Heavy Hitters System Design",
+                "link": "/system_design/case_studies/top_k_heavy_hitters/",
+                "order": 120,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": true
+                }
               }
             ]
           },
@@ -9641,6 +9659,10 @@
     {
       "text": "Google Drive System Design",
       "link": "/system_design/case_studies/google_drive_system_design/"
+    },
+    {
+      "text": "Top-K Heavy Hitters System Design",
+      "link": "/system_design/case_studies/top_k_heavy_hitters/"
     },
     {
       "text": "System Design Interview Framework",
@@ -20537,6 +20559,50 @@
         "assets": true
       },
       "referenceHtml": "<h1>Design Google Drive System</h1>\n<h2>Requirements</h2>\n<p>Support arbitrary files up to 10 GB across desktop, mobile, and web clients. Users upload/download, share files, retain revisions, and see changes made on another device. Files are encrypted in transit and at rest. Metadata operations such as folder listing or starting an upload should normally complete within about 500 ms; transfer time is handled separately by the data plane. The base answer excludes collaborative text editing; arbitrary-file conflicts are preserved rather than automatically merged.</p>\n<h2>Derive the design</h2>\n<p>Start with <code>client -&gt; API server -&gt; database</code>. It fails because databases and API servers become the storage and bandwidth bottleneck for multi-GB files. Split responsibilities:</p>\n<pre><code>Metadata and permissions -&gt; transactional metadata store\nLarge file bytes         -&gt; durable object storage\nUpload/download bytes    -&gt; direct client-to-storage transfer\nRemote change awareness  -&gt; event plus notification</code></pre>\n<h2>Architecture visual</h2>\n<p>![Google Drive-style high-level architecture](../assets/google-drive-hld-reference.png)</p>\n<h2>APIs and state</h2>\n<pre><code>POST /v1/files\n{ &quot;name&quot;: &quot;resume.docx&quot;, &quot;sizeBytes&quot;: 734003200, &quot;baseVersion&quot;: 5 }\n\n201 Created\n{ &quot;fileId&quot;: &quot;f_123&quot;, &quot;uploadId&quot;: &quot;u_456&quot;, &quot;status&quot;: &quot;UPLOADING&quot;, &quot;partUploadAuthorization&quot;: &quot;...&quot; }\n\nPOST /v1/files/f_123/uploads/u_456/complete\nGET  /v1/files/f_123/download\nGET  /v1/files/f_123/revisions?limit=20</code></pre>\n<pre><code>UPLOADING -&gt; READY -&gt; DELETED\n     |          |\n     -&gt; FAILED  -&gt; new version creates a new immutable FileVersion</code></pre>\n<p>The API creates state with <code>POST</code>. Object-storage completion, not a client request, is authoritative for transition to <code>READY</code>.</p>\n<h2>Upload path</h2>\n<p>1. A sync client watches a local file save and submits metadata plus <code>baseVersion</code>.</p>\n<p>2. API service validates ownership/permission and creates a multipart upload session in <code>UPLOADING</code>.</p>\n<p>3. Client uploads parts directly to object storage using short-lived scoped authorization and resumes only failed parts.</p>\n<p>4. Storage emits a completion event to a durable queue.</p>\n<p>5. Worker conditionally writes the immutable <code>FileVersion</code>, updates <code>File.currentVersion</code>, and emits <code>FileChanged</code>.</p>\n<p>6. Notification service alerts online devices; offline devices reconcile from retained event/change state.</p>\n<p>Use conditional version writes and idempotency so a duplicate completion event cannot create two versions or send an incorrect state transition.</p>\n<h2>Sync and conflict path</h2>\n<pre><code>Remote FileChanged -&gt; sync client fetches metadata -&gt; compare local version/hashes\n  -&gt; current: do nothing\n  -&gt; stale: direct-download missing blocks -&gt; reconstruct/apply new version</code></pre>\n<p>For an update, require <code>baseVersion</code>. If the server current version differs, preserve the submitted update as a conflicted copy rather than silently overwriting data. This is sufficient for arbitrary binary files. OT/CRDT design belongs to a collaborative-document follow-up.</p>\n<h2>Scale and recovery</h2>\n<ul>\n<li>Keep API services stateless behind a load balancer; durable state lives in metadata DB, object storage, and queues.</li>\n<li>Replicate metadata and object data; use backups/PITR as well as replication.</li>\n<li>Route a user to a nearby region and asynchronously replicate files and metadata where bounded staleness is acceptable.</li>\n<li>Reconnect notification clients gradually after an outage and run reconciliation as a fallback.</li>\n<li>Use block hashes for changed-block synchronization only when the bandwidth saving justifies its extra client and metadata complexity.</li>\n</ul>\n<h2>Quick recall</h2>\n<p><strong>Q. Why is an object-storage event needed after direct upload?</strong></p>\n<p>A. The client can disappear after storage accepted the bytes; the storage event reliably drives the server-side completion workflow.</p>\n<p><strong>Q. What is the base conflict strategy?</strong></p>\n<p>A. Compare <code>baseVersion</code> with the current version and preserve a conflicted copy on mismatch.</p>\n<p><strong>Q. What does the notification service do?</strong></p>\n<p>A. It tells devices that a file changed. Devices fetch metadata and synchronize separately.</p>"
+    },
+    "/system_design/case_studies/top_k_heavy_hitters/": {
+      "text": "Top-K Heavy Hitters System Design",
+      "link": "/system_design/case_studies/top_k_heavy_hitters/",
+      "pageType": "theory",
+      "parentLink": "/system_design/case_studies/top_k_heavy_hitters/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      }
+    },
+    "/system_design/case_studies/top_k_heavy_hitters/exercise/": {
+      "text": "Top-K Heavy Hitters System Design",
+      "link": "/system_design/case_studies/top_k_heavy_hitters/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/system_design/case_studies/top_k_heavy_hitters/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/system_design/case_studies/top_k_heavy_hitters/design/": {
+      "text": "Top-K Heavy Hitters System Design",
+      "link": "/system_design/case_studies/top_k_heavy_hitters/design/",
+      "pageType": "design",
+      "parentLink": "/system_design/case_studies/top_k_heavy_hitters/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Design Top-K Heavy Hitters</h1>\n<h2>Requirements</h2>\n<p>Return the top 100 most-viewed videos globally for fixed hourly, daily, monthly, and all-time windows, with <code>K &lt;= 1,000</code>. A view should appear in the next ranking within one minute. Ranking reads should take tens of milliseconds. The source video platform already writes a durable <code>VideoViewed</code> event stream; the ranking system consumes it. Results are exact for the base answer.</p>\n<p>The key design choice is to calculate rankings continuously, not when a client calls the API.</p>\n<h2>Derivation</h2>\n<p>The simple starting point is one consumer updating a relational counter per video and a <code>count</code> index serving all-time top K. It proves the API but cannot sustain high-rate indexed writes. Adding hourly buckets supports time windows, but a monthly request now scans, groups, and sorts a large range. Cache alone only hides that query until an expiry creates a slow miss.</p>\n<p>The final design fixes each bottleneck in order: partition by video ID, aggregate events before writing, materialize the fixed windows clients are allowed to request, and prepublish a small ranked snapshot to cache. This is the explanation to give before drawing the components below.</p>\n<h2>Components</h2>\n<p>| Component | Responsibility |</p>\n<p>| --- | --- |</p>\n<p>| Event stream | Durable, replayable <code>VideoViewed(eventId, videoId, eventTime)</code> log, partitioned by <code>videoId</code>. |</p>\n<p>| Stream aggregators | Deduplicate as required, assign events to event-time windows, and keep per-video counts in checkpointed state. |</p>\n<p>| Aggregate store | Holds durable materialized counts and immutable ranking snapshots. It is recoverable derived state, not the raw-event authority. |</p>\n<p>| Candidate merger | Merges local top candidates into one exact global top-K list for each window. |</p>\n<p>| Snapshot publisher | Writes the new ranked list to the aggregate store and Redis/cache on the freshness schedule. |</p>\n<p>| Ranking API | Stateless read service that validates <code>window</code>, <code>limit</code>, and dimensions, then reads the snapshot/cache. |</p>\n<h2>Event path</h2>\n<pre><code>Video service -&gt; VideoViewed topic (key = videoId)\n              -&gt; stream task that owns videoId\n              -&gt; event-time window count + checkpoint\n              -&gt; local top M candidates\n              -&gt; global candidate merger\n              -&gt; TopKSnapshot + Redis</code></pre>\n<p>The stream processor retains state like:</p>\n<pre><code>(metric=views, windowStart=10:00, region=global, videoId=42) -&gt; 183421</code></pre>\n<p>Maintain counts for each supported fixed query shape rather than deriving a month by scanning hourly data at read time. For every event, update the current hour, day, month, and all-time aggregate for that video. For each fixed window, the merger produces:</p>\n<pre><code>(metric=views, windowStart=10:00, region=global) -&gt;\n  [(1, video_42, 183421), (2, video_99, 175820), ...]</code></pre>\n<p>The API returns that second record. It does not query every count, group, sort, or invoke a stream job.</p>\n<h2>Exact distributed top K</h2>\n<p>Each item has one aggregation owner because the source stream key is <code>videoId</code>. A shard can retain a min-heap of its best <code>M</code> values and periodically emit that compact candidate set. The global merger applies another min-heap of size <code>K</code> to the union.</p>\n<p>With single-owner item counts, local top <code>K</code> is mathematically sufficient for exact global top <code>K</code>; a local rank <code>K+1</code> item already has at least K items above it. In practice, use <code>M &gt; K</code> to give room for dimensions, partial aggregate merges, and operational simplicity.</p>\n<h2>Time handling</h2>\n<p>Start with tumbling windows, such as <code>[10:00, 11:00)</code>. A watermark plus allowed lateness prevents a slightly delayed event from being placed in the wrong hour. Example policy: amend a window until one minute after it ends; route later events to a late-event stream and monitor them.</p>\n<p>For a required 60-minute sliding window refreshed every minute:</p>\n<pre><code>currentCount = previousCount + counts[new minute] - counts[expired minute]</code></pre>\n<p>Store minute buckets long enough to subtract the expired one. This is a valid deep dive, not the base design.</p>\n<h2>Read path and failure behavior</h2>\n<pre><code>Client -&gt; load balancer -&gt; Ranking API -&gt; Redis snapshot -&gt; response\n                                      -&gt; durable snapshot only when cache is unavailable</code></pre>\n<p>Publishing a snapshot before the previous one expires avoids read-through cache misses. If publishing breaks, return the previous snapshot and include/record its age rather than allowing every request to run a heavy aggregate query.</p>\n<p>The raw event stream remains retained. A task failure restores its checkpoint and replays the tail; a bad aggregation release rebuilds all derived state from the raw stream. Duplicate events are handled according to the upstream delivery guarantee with event-ID dedupe or atomic state-plus-offset checkpointing.</p>\n<h2>Optional approximation</h2>\n<p>A Count-Min Sketch replaces huge exact count state with hashed counters. It estimates the count for an item but cannot list item IDs, so it requires a separate bounded candidate heap. Sketch collisions overestimate counts. Use it for tolerant trending features, never silently for exact reporting.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Where is the source of truth?</strong></p>\n<p>A. The retained raw event log. Counts, snapshots, and cache entries can be rebuilt from it.</p>\n<p><strong>Q. Why keep a durable snapshot as well as Redis?</strong></p>\n<p>A. Redis is the fast serving layer; the durable snapshot rehydrates it after cache loss and supports a controlled stale fallback.</p>\n<p><strong>Q. What changes for a sliding window?</strong></p>\n<p>A. Keep fine-grained buckets and add the newest bucket while subtracting the bucket that expires.</p>"
     },
     "/system_design/interview_framework/": {
       "text": "System Design Interview Framework",

@@ -377,6 +377,7 @@ Format: **Topic** → Part NN (row #) — secondary cross-refs.
 - **TLS 1.2 / 1.3** → Part 16
 - **Token bucket / leaky bucket** → Part 09, PracticeProblems § 1 #9
 - **Tokenization vs encryption** → Part 28 row 16
+- **Top-K heavy hitters / trending counter (windowed aggregation, materialized ranking, local-to-global merge)** → Part 07 row 64, `system_design/case_studies/top_k_heavy_hitters/`
 - **Tracing (OpenTelemetry, Jaeger)** → Part 21
 - **Transactions / distributed commit (states/lifecycle, 2PC blocking, 3PC, Saga/compensating)** → Part 06 (rows 6, 19), Part 07 (rows 37, 39)
 - **Trivy (image scanning)** → Part 22
