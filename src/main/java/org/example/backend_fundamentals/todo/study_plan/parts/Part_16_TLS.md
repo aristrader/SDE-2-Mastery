@@ -6,16 +6,16 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 0 | TLS/SSL Basics (Encryption, Auth, Integrity, CA, HTTPS) | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | High-level TLS concepts | 📖 `security/cryptography/tls_https_pki/index.md` |
+| 1 | TLS/SSL Basics (Encryption, Auth, Integrity, CA, HTTPS) | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [ ] | [ ] | [ ] | High-level TLS concepts | 📖 `security/cryptography/tls_https_pki/index.md` |
 | 2 | Full handshake walkthrough — ClientHello, ServerHello, key exchange | 🔴 💼 🔐 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | High-level overview covered | 📖 `security/cryptography/tls_https_pki/index.md`, 📖 `security/cryptography/tls_https_pki/index.md` · 💻 Warm-up: `openssl s_client -connect google.com:443 -tls1_3 -trace` — identify ClientHello, ServerHello, key exchange in the trace output (30 min) |
-| 1 | TLS 1.2 vs TLS 1.3 — TLS 1.3 reduces setup latency; 0-RTT has replay-risk trade-offs | 🟠 💼 🔐 | L | 30 min | [ ] | [ ] | [ ] | [ ] | Know the operational takeaway, not the message-by-message handshake. | |
-| 3 | Cipher suites — negotiated crypto policy and avoiding deprecated / weak algorithms | 🟠 💼 🔐 | L | 15 min | [ ] | [ ] | [ ] | [ ] | Do not memorize naming conventions or suite components. | |
-| 5 | SNI — hostname selection for the correct certificate on shared infrastructure; ESNI / ECH term recognition only | 🟠 💼 🔐 | L | 15 min | [ ] | [ ] | [ ] | [ ] | ESNI / ECH internals are not active interview coverage. | |
-| 7 | Session resumption — session IDs, session tickets | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | HSTS, preload lists | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Mutual TLS (mTLS) — when, how, cert rotation | 🟠 💼 🔐 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Basics covered | 📖 `security/cryptography/tls_https_pki/index.md` (Cross-ref Part 17 PKI) · 💻 Warm-up: configure Spring Boot with server.ssl.client-auth=need; generate client cert with openssl; curl with --cert/--key; observe rejection without cert (30 min) |
-| 11 | Common attacks — BEAST, CRIME, POODLE, Heartbleed, downgrade attacks | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | TLS terminator placement (LB, sidecar, app) | 🟠 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | TLS 1.2 vs TLS 1.3 — TLS 1.3 reduces setup latency; 0-RTT has replay-risk trade-offs | 🟠 💼 🔐 | L | 30 min | [ ] | [ ] | [ ] | [ ] | Know the operational takeaway, not the message-by-message handshake. |  |
+| 4 | Cipher suites — negotiated crypto policy and avoiding deprecated / weak algorithms | 🟠 💼 🔐 | L | 15 min | [ ] | [ ] | [ ] | [ ] | Do not memorize naming conventions or suite components. |  |
+| 5 | SNI — hostname selection for the correct certificate on shared infrastructure; ESNI / ECH term recognition only | 🟠 💼 🔐 | L | 15 min | [ ] | [ ] | [ ] | [ ] | ESNI / ECH internals are not active interview coverage. |  |
+| 6 | Session resumption — session IDs, session tickets | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | HSTS, preload lists | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | Mutual TLS (mTLS) — when, how, cert rotation | 🟠 💼 🔐 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Basics covered | 📖 `security/cryptography/tls_https_pki/index.md` (Cross-ref Part 17 PKI) · 💻 Warm-up: configure Spring Boot with server.ssl.client-auth=need; generate client cert with openssl; curl with --cert/--key; observe rejection without cert (30 min) |
+| 9 | Common attacks — BEAST, CRIME, POODLE, Heartbleed, downgrade attacks | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | TLS terminator placement (LB, sidecar, app) | 🟠 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -75,9 +75,9 @@ sequenceDiagram
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **End-to-end TLS handshake walk-through** (~3 hrs rows 1 + 2 combined) — Mastery item across Parts 16 + 17. Capture with Wireshark or openssl s_client trace. Identify each handshake message. Interview-canonical.
-- **mTLS rotation for KYC bank integration** (~3 hrs row 10) — directly your platform. Dual-cert overlap window, rotation procedure, monitoring, alerting. Becomes STAR-story material.
-- **Cipher suite policy + audit** (~2.5 hrs rows 3 + 4 + 11) — define a modern cipher suite policy for your KYC platform. Test against current setup with SSL Labs. Address any non-PFS ciphers, weak hashes.
+- **End-to-end TLS handshake walk-through** (~3 hrs) — Mastery item across Parts 16 + 17. Capture with Wireshark or openssl s_client trace. Identify each handshake message. Interview-canonical.
+- **mTLS rotation for KYC bank integration** (~3 hrs) — directly your platform. Dual-cert overlap window, rotation procedure, monitoring, alerting. Becomes STAR-story material.
+- **Cipher suite policy + audit** (~2.5 hrs) — define a modern cipher suite policy for your KYC platform. Test against current setup with SSL Labs. Address any non-PFS ciphers, weak hashes.
 
 ## Hands-on exercises (Practice + Advanced)
 

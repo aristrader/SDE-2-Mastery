@@ -6,24 +6,24 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Symmetric encryption — AES (modes: GCM, CBC, CTR), ChaCha20-Poly1305 | 🔴 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Hash functions — SHA-2 family, SHA-3, properties (preimage, collision) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: SHA-256 a string via Java MessageDigest from memory + verify with `echo -n "hello" \| shasum -a 256` (10 min) |
-| 4 | MAC — HMAC, vs digital signature | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Java HMAC-SHA256 over a payload with shared secret + verify equality timing-safely (10 min) |
-| 5 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | SQL injection, parameterized queries | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
-| 9 | CSRF | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Replay attacks — timestamps, nonces | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Asymmetric encryption — RSA, ECC, key sizes | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RSA/ECC concept mentioned, key sizes pending | 📖 `security/cryptography/tls_https_pki/index.md` |
-| 6 | Key derivation — PBKDF2, scrypt, Argon2, HKDF | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Timing attacks, constant-time comparison | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Random number generation — CSPRNG, /dev/urandom, SecureRandom | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Password hashing — never SHA-256 plain, use Argon2 / bcrypt | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Argon2id hash + verify in Java (Spring Security's BCryptPasswordEncoder + Argon2 via Bouncy Castle); compare hash output (20 min) |
-| 14 | Nonce, IV — reuse pitfalls (catastrophic for GCM) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | SSRF | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | Insecure deserialization | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | OWASP Top 10 — full list | 🟠 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Concept mentioned as handshake mechanism, details pending | 📖 `security/cryptography/tls_https_pki/index.md` |
+| 1 | Symmetric encryption — AES (modes: GCM, CBC, CTR), ChaCha20-Poly1305 | 🔴 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | Hash functions — SHA-2 family, SHA-3, properties (preimage, collision) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: SHA-256 a string via Java MessageDigest from memory + verify with `echo -n "hello" \| shasum -a 256` (10 min) |
+| 3 | MAC — HMAC, vs digital signature | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Java HMAC-SHA256 over a payload with shared secret + verify equality timing-safely (10 min) |
+| 4 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | SQL injection, parameterized queries | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
+| 7 | CSRF | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | Replay attacks — timestamps, nonces | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | Asymmetric encryption — RSA, ECC, key sizes | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RSA/ECC concept mentioned, key sizes pending | 📖 `security/cryptography/tls_https_pki/index.md` |
+| 10 | Key derivation — PBKDF2, scrypt, Argon2, HKDF | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Timing attacks, constant-time comparison | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Random number generation — CSPRNG, /dev/urandom, SecureRandom | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 13 | Password hashing — never SHA-256 plain, use Argon2 / bcrypt | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Argon2id hash + verify in Java (Spring Security's BCryptPasswordEncoder + Argon2 via Bouncy Castle); compare hash output (20 min) |
+| 14 | Nonce, IV — reuse pitfalls (catastrophic for GCM) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | SSRF | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | Insecure deserialization | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | OWASP Top 10 — full list | 🟠 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 18 | Diffie-Hellman, ECDH key exchange | 🟡 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Concept mentioned as handshake mechanism, details pending | 📖 `security/cryptography/tls_https_pki/index.md` |
 
 ## Time summary
 
@@ -109,10 +109,10 @@ sequenceDiagram
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **AEAD + AES-GCM end-to-end** (~3 hrs rows 1 + 5 + 14) — when to use, why GCM beat CBC, nonce hygiene, key rotation strategy. Connect to Part 13 KMS envelope encryption.
-- **Password hashing with Argon2id** (~2 hrs row 13) — directly application security. Spring Security's encoder factory pattern + parameter tuning (memory, time, parallelism).
-- **Webhook signing pattern** (~2.5 hrs row 4 + row 10 + row 11) — HMAC + timestamp + constant-time comparison. Production-grade implementation for your KYC partner integration.
-- **Common attack catalog** (~3 hrs combined rows 7-19) — walk through each attack with example + defense. Pair with code review of your KYC platform for these issues.
+- **AEAD + AES-GCM end-to-end** (~3 hrs) — when to use, why GCM beat CBC, nonce hygiene, key rotation strategy. Connect to Part 13 KMS envelope encryption.
+- **Password hashing with Argon2id** (~2 hrs) — directly application security. Spring Security's encoder factory pattern + parameter tuning (memory, time, parallelism).
+- **Webhook signing pattern** (~2.5 hrs) — HMAC + timestamp + constant-time comparison. Production-grade implementation for your KYC partner integration.
+- **Common attack catalog** (~3 hrs) — walk through each attack with example + defense. Pair with code review of your KYC platform for these issues.
 
 ## Hands-on exercises (Practice + Advanced)
 

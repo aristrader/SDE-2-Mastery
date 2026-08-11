@@ -6,17 +6,17 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
-| 1 | Class diagram — relationships (association, aggregation, composition, inheritance, dependency) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | 📖 Refactoring Guru — "UML class diagram" quick ref (~20 min) |
-| 2 | Sequence diagram — for any flow with > 2 services | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | State diagram — perfect for KYC status, order state, etc. | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Activity diagram | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Component diagram | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Deployment diagram — infra-level | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | C4 model — Context, Container, Component, Code (modern alternative) | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | 📖 c4model.com — official intro (~30 min) |
-| 8 | Tooling — PlantUML, Mermaid (Markdown-native), draw.io, Excalidraw | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 Mermaid live editor — try sequence/state/class examples |
-| 9 | Use case diagram | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | ER diagram | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Object diagram, package diagram | 🟢 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Class diagram — relationships (association, aggregation, composition, inheritance, dependency) | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  | 📖 Refactoring Guru — "UML class diagram" quick ref (~20 min) |
+| 2 | Sequence diagram — for any flow with > 2 services | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | State diagram — perfect for KYC status, order state, etc. | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 4 | Activity diagram | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Component diagram | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Deployment diagram — infra-level | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | C4 model — Context, Container, Component, Code (modern alternative) | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 c4model.com — official intro (~30 min) |
+| 8 | Tooling — PlantUML, Mermaid (Markdown-native), draw.io, Excalidraw | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 🎓 Mermaid live editor — try sequence/state/class examples |
+| 9 | Use case diagram | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | ER diagram | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Object diagram, package diagram | 🟢 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 

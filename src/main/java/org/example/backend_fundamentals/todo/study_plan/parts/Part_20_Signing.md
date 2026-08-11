@@ -6,13 +6,13 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 2 | Sign-then-encrypt vs encrypt-then-sign — choose carefully | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | HMAC for symmetric scenarios (webhook signing) | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: HMAC-SHA256 over a JSON payload + base64-encode + constant-time verify (15 min) |
-| 4 | RSA-PSS, ECDSA, EdDSA — modern signature algorithms | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Webhook signing — Stripe-style HMAC, replay protection with timestamps | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: build a webhook receiver that verifies HMAC over `timestamp + body` with 5-min replay window (30 min) |
-| 6 | Detached signatures — for documents, JARs | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 6b | Document signing — PDF signatures, eIDAS (Europe), relevant to KYC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | JWS detached payloads | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Sign-then-encrypt vs encrypt-then-sign — choose carefully | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | HMAC for symmetric scenarios (webhook signing) | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: HMAC-SHA256 over a JSON payload + base64-encode + constant-time verify (15 min) |
+| 3 | RSA-PSS, ECDSA, EdDSA — modern signature algorithms | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 4 | Webhook signing — Stripe-style HMAC, replay protection with timestamps | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: build a webhook receiver that verifies HMAC over `timestamp + body` with 5-min replay window (30 min) |
+| 5 | Detached signatures — for documents, JARs | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Document signing — PDF signatures, eIDAS (Europe), relevant to KYC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | JWS detached payloads | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -100,9 +100,9 @@ sequenceDiagram
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Webhook signing end-to-end for KYC partners** (~3 hrs combined rows 3+5) — Stripe-style HMAC over `timestamp + body`, replay protection, key rotation. Implement sender + receiver, test both happy and attack paths.
-- **HMAC vs digital signature decision** (~2 hrs row 1) — practical decision tree. When non-repudiation matters → asymmetric. When only integrity within an org → HMAC.
-- **Document signing for KYC compliance** (~2.5 hrs row 9) — eIDAS levels, PDF signatures (PAdES), workflow integration with Privy.id or similar. Maps to your KYC platform's document handling.
+- **Webhook signing end-to-end for KYC partners** (~3 hrs) — Stripe-style HMAC over `timestamp + body`, replay protection, key rotation. Implement sender + receiver, test both happy and attack paths.
+- **HMAC vs digital signature decision** (~2 hrs) — practical decision tree. When non-repudiation matters → asymmetric. When only integrity within an org → HMAC.
+- **Document signing for KYC compliance** (~2.5 hrs) — eIDAS levels, PDF signatures (PAdES), workflow integration with Privy.id or similar. Maps to your KYC platform's document handling.
 
 ## Hands-on exercises (Practice + Advanced)
 

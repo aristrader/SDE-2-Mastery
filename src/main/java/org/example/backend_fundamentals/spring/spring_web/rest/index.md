@@ -4,7 +4,7 @@ order: 20
 
 # Spring REST
 
-Row 8 — 🔴 💼 | MP | 1 hr 45 min
+Study-plan priority — 🔴 💼 | MP | 1 hr 45 min
 
 Spring REST is Spring MVC used for APIs: controller methods read HTTP input and return data, usually JSON.
 

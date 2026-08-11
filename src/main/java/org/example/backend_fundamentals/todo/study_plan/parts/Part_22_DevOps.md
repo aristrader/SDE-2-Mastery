@@ -6,20 +6,20 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 4 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered | |
-| 27 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
-| 5 | Terraform — infrastructure as code, state, remote shared backend/locking (Basic concept only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Know why teams use remote encrypted state and locking; providers, module design, workspaces, and hands-on provisioning are not interview priority. | |
-| 3b | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Linux troubleshooting basics — process/CPU inspection (`ps`, `top`), open files (`lsof`), listening connections (`ss`) | 🟠 💼 | M | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | `tcpdump` and `strace` are optional operational depth. | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`) and inspect its open files (`lsof -p <pid>`) (20 min) |
-| 8 | Filesystem, permissions, and limits — config/log locations, ownership, disk-full diagnosis, file-descriptor limits | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Know the failure modes; do not study filesystem internals. | |
-| 12 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` | |
-| 14 | Kubernetes — StatefulSet, DaemonSet, Job, CronJob | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
-| 19 | Blue-green, canary, feature flags | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Bash scripting fluency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | awk, sed, jq for log mining | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | SSH — key-based auth, `~/.ssh/config`, ssh-agent, host key verification, port forwarding (`-L`/`-R`/`-D`), ProxyJump / bastion | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: generate ed25519 keypair, add to authorized_keys on a remote, set up a `~/.ssh/config` alias with ProxyJump bastion, verify host key is pinned in known_hosts (20 min) |
+| 1 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered |  |
+| 2 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` |  |
+| 3 | Terraform — infrastructure as code, state, remote shared backend/locking (Basic concept only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Know why teams use remote encrypted state and locking; providers, module design, workspaces, and hands-on provisioning are not interview priority. |  |
+| 4 | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Linux troubleshooting basics — process/CPU inspection (`ps`, `top`), open files (`lsof`), listening connections (`ss`) | 🟠 💼 | M | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | `tcpdump` and `strace` are optional operational depth. | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`) and inspect its open files (`lsof -p <pid>`) (20 min) |
+| 6 | Filesystem, permissions, and limits — config/log locations, ownership, disk-full diagnosis, file-descriptor limits | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Know the failure modes; do not study filesystem internals. |  |
+| 7 | Kubernetes — probes (liveness, readiness, startup), resource requests / limits | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | Kubernetes — HPA, VPA, cluster autoscaler | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` |  |
+| 9 | Kubernetes — StatefulSet, DaemonSet, Job, CronJob | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | GitHub Actions / GitLab CI / Jenkins — pipelines, secrets | 🟠 💼 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: GitHub Actions workflow that runs mvn test on PR + deploys on push to main (15 min) |
+| 11 | Blue-green, canary, feature flags | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Bash scripting fluency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 13 | awk, sed, jq for log mining | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | SSH — key-based auth, `~/.ssh/config`, ssh-agent, host key verification, port forwarding (`-L`/`-R`/`-D`), ProxyJump / bastion | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: generate ed25519 keypair, add to authorized_keys on a remote, set up a `~/.ssh/config` alias with ProxyJump bastion, verify host key is pinned in known_hosts (20 min) |
 
 
 
@@ -66,9 +66,9 @@
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Docker multi-stage + distroless image** (~2.5 hrs row 1) — production-grade Dockerfile. Build slim image, document size reduction, demonstrate cold-start improvement.
-- **K8s deployment patterns** (~3 hrs rows 7+8+9) — Pod / Deployment / Service / Ingress + probes + autoscaling. Deploy a real-ish workload, observe HPA scaling.
-- **Linux production debugging fluency** (~3 hrs row 4) — lsof, strace, tcpdump, ss, jstack, jmap on a real Java service. Daily senior signal.
+- **Docker multi-stage + distroless image** (~2.5 hrs) — production-grade Dockerfile. Build slim image, document size reduction, demonstrate cold-start improvement.
+- **K8s deployment patterns** (~3 hrs) — Pod / Deployment / Service / Ingress + probes + autoscaling. Deploy a real-ish workload, observe HPA scaling.
+- **Linux production debugging fluency** (~3 hrs) — lsof, strace, tcpdump, ss, jstack, jmap on a real Java service. Daily senior signal.
 
 ## Hands-on exercises (Practice + Advanced)
 

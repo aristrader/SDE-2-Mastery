@@ -1,6 +1,6 @@
 # Part 23 — GenAI & LLMs
 
-> **Phase placement: Consolidation only.** This Part has zero 🔴 rows — nothing here is required for SDE2/SDE3 KYC-backend interviews in the Sprint window. The 🟠 items are senior-fluency-nice-to-have but ~40 hrs is a heavy Sprint cost for a topic adjacent to your stack. Treat this Part as Month 4+ material. If you have an AI/ML-heavy interview in the Sprint window, promote rows 1, 5, 6, 25 (attention basics, prompt engineering, function calling, prompt injection) — that's ~7 hrs and covers the senior-fluency baseline.
+> **Phase placement: Consolidation only.** This Part has zero 🔴 rows — nothing here is required for SDE2/SDE3 KYC-backend interviews in the Sprint window. The 🟠 items are senior-fluency-nice-to-have but ~40 hrs is a heavy Sprint cost for a topic adjacent to your stack. Treat this Part as Month 4+ material. For an AI/ML-heavy interview, prioritize prompt engineering, function calling, and prompt injection.
 
 > **Sprint allocation:** Deferred to Consolidation (Month 4+) — zero 🔴 rows; no Sprint coverage required. **Budget: 0 hrs in Sprint (deferred).**
 
@@ -8,26 +8,26 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 4 | Open vs closed models — Llama, Mistral, Claude, GPT, Gemini | 🟠 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Prompt engineering — system prompts, few-shot, CoT, structured output  (Basic concept only)| 🟠 💼 🆕 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
-| 6 | Function calling / tool use | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Claude / OpenAI function calling — define a tool schema, call API, parse tool response, return result (30 min) |
-| 7 | Streaming responses, token-by-token UX | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Caching strategies for LLM calls (prompt caching, semantic caching) | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Embeddings — what they are, similarity metrics  (Basic concept only)| 🟠 💼 🆕 | MP | 15 min | [ ] | [x] | [ ] | [ ] | Partial: embedding concept + vector meaning/search covered; similarity metrics detail pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 13 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector DB purpose + common options covered; pgvector implementation pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 14 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: fixed/section/semantic chunking covered; overlap/eval tuning pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 15 | Hybrid search — BM25 + vector | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector + keyword motivation covered; BM25 mechanics pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 16 | Reranking — Cohere / cross-encoder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Failure modes — bad chunks, retrieval misses, hallucinations under context | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: retrieval miss, bad chunking, unsupported answers, stale index covered; eval harness pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
-| 18 | Agent loop — plan, act, observe, reflect | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | ReAct pattern, function calling for tools | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Multi-step agents — when to use, when not | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | MCP (Model Context Protocol) — what it is, how servers / clients work, why it standardizes tool access | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | Building MCP servers (your future leverage)  (Basic concept only)| 🟠 💼 🆕 | D | 15 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
-| 25 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Open vs closed models — Llama, Mistral, Claude, GPT, Gemini | 🟠 💼 🆕 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | Prompt engineering — system prompts, few-shot, CoT, structured output  (Basic concept only) | 🟠 💼 🆕 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write 3 prompts for the same task (zero-shot, few-shot with 2 examples, CoT) — compare outputs (30 min) |
+| 3 | Function calling / tool use | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Claude / OpenAI function calling — define a tool schema, call API, parse tool response, return result (30 min) |
+| 4 | Streaming responses, token-by-token UX | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Output validation, JSON mode, schema-enforced output | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Cost & latency — tokens in / out, model selection ladder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | Caching strategies for LLM calls (prompt caching, semantic caching) | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | Embeddings — what they are, similarity metrics  (Basic concept only) | 🟠 💼 🆕 | MP | 15 min | [ ] | [x] | [ ] | [ ] | Partial: embedding concept + vector meaning/search covered; similarity metrics detail pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 9 | Vector databases — pgvector, Pinecone, Weaviate, Milvus, OpenSearch k-NN | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector DB purpose + common options covered; pgvector implementation pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 10 | Chunking strategies, overlap, hierarchical | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: fixed/section/semantic chunking covered; overlap/eval tuning pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 11 | Hybrid search — BM25 + vector | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: vector + keyword motivation covered; BM25 mechanics pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 12 | Reranking — Cohere / cross-encoder | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 13 | Failure modes — bad chunks, retrieval misses, hallucinations under context | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: retrieval miss, bad chunking, unsupported answers, stale index covered; eval harness pending. ~17 min transcript import | 📖 `gen_ai/rag/index.md` |
+| 14 | Agent loop — plan, act, observe, reflect | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | ReAct pattern, function calling for tools | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | Multi-step agents — when to use, when not | 🟠 💼 🆕 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | MCP (Model Context Protocol) — what it is, how servers / clients work, why it standardizes tool access | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 18 | Building MCP servers (your future leverage)  (Basic concept only) | 🟠 💼 🆕 | D | 15 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write a minimal MCP server in Python or TypeScript exposing one tool, connect to Claude Desktop, invoke (30 min) |
+| 19 | Prompt injection — direct, indirect, defense | 🟠 💼 🔐 🆕 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 20 | Data leakage from prompts | 🟠 💼 🔐 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -67,10 +67,10 @@
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Function calling end-to-end** (~2.5 hrs row 6) — define schemas, handle multi-turn tool invocations, error paths, parallel tool calls. Most useful practical LLM pattern for backend integration.
-- **RAG basics with pgvector** (~3 hrs combined rows 12-14) — embeddings + vector DB + chunking + retrieval. Build a simple KYC-docs Q&A as the worked example.
-- **Building an MCP server** (~3 hrs row 22) — future leverage. Spec-aligned MCP server exposing a tool. Connect to Claude Desktop, invoke. Could become useful for KYC workflows (e.g., MCP server that fetches KYC status).
-- **Prompt injection + LLM security** (~2.5 hrs row 25) — modern attack surface. Catalog defenses. Apply to any LLM feature you'd add to KYC.
+- **Function calling end-to-end** (~2.5 hrs) — define schemas, handle multi-turn tool invocations, error paths, parallel tool calls. Most useful practical LLM pattern for backend integration.
+- **RAG basics with pgvector** (~3 hrs) — embeddings + vector DB + chunking + retrieval. Build a simple KYC-docs Q&A as the worked example.
+- **Building an MCP server** (~3 hrs) — future leverage. Spec-aligned MCP server exposing a tool. Connect to Claude Desktop, invoke. Could become useful for KYC workflows (e.g., MCP server that fetches KYC status).
+- **Prompt injection + LLM security** (~2.5 hrs) — modern attack surface. Catalog defenses. Apply to any LLM feature you'd add to KYC.
 
 ## Hands-on exercises (Practice + Advanced)
 

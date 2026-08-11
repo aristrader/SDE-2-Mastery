@@ -4,7 +4,7 @@ order: 40
 
 # Spring Exception Handling
 
-Row 9 — 🔴 💼 | MP | 1.5 hrs
+Study-plan priority — 🔴 💼 | MP | 1.5 hrs
 
 REST APIs should not leak raw stack traces or random Spring error bodies. The usual interview answer is: use `@RestControllerAdvice` with specific `@ExceptionHandler` methods and return one consistent error shape.
 

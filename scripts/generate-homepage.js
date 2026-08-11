@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { assertSequentialStudyPlanRows } = require('./normalize-study-plan-rows');
 
 const BASE_DIR = process.env.LMS_BASE_DIR || path.join(__dirname, '../src/main/java/org/example/backend_fundamentals');
 const OUT_FILE = process.env.LMS_OUT_FILE || path.join(__dirname, '../docs/.vitepress/navigation_map.json');
@@ -541,6 +542,7 @@ async function main() {
         assertJavaFilesInPlayground(BASE_DIR);
         assertNoManualGeneratedWorkspaceInMarkdown(BASE_DIR);
         assertNoLooseMarkdownFiles(BASE_DIR);
+        assertSequentialStudyPlanRows();
         const tree = await validateAndScan(BASE_DIR, true);
         
         // Flatten the tree for navigation_map.json

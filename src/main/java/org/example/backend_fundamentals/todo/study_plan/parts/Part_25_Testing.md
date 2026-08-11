@@ -6,23 +6,23 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Test pyramid — many unit, some integration, few e2e | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Mocking — Mockito basics, when to mock vs not (rule: mock at boundaries, not internals) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Mockito @Mock + @InjectMocks + when().thenReturn() + verify().times(N) (15 min) |
-| 2 | Unit-test tooling — JUnit 5 basics, AssertJ / Hamcrest, parameterized tests | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Useful implementation fluency, not a red interview requirement. | 💻 Warm-up: JUnit 5 test class with @ParameterizedTest + @MethodSource + AssertJ chained assertions (15 min) |
+| 1 | Test pyramid — many unit, some integration, few e2e | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | Mocking — Mockito basics, when to mock vs not (rule: mock at boundaries, not internals) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Mockito @Mock + @InjectMocks + when().thenReturn() + verify().times(N) (15 min) |
+| 3 | Unit-test tooling — JUnit 5 basics, AssertJ / Hamcrest, parameterized tests | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Useful implementation fluency, not a red interview requirement. | 💻 Warm-up: JUnit 5 test class with @ParameterizedTest + @MethodSource + AssertJ chained assertions (15 min) |
 | 4 | Spring controller-test scope — `@WebMvcTest` + `MockMvc`; compare with slower full-context `@SpringBootTest` | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Know the scope and trade-off; use the smallest test that exercises the behavior. | 💻 Warm-up: @WebMvcTest one controller, mock its service via @MockBean, hit via MockMvc (20 min) |
-| 5 | Specialized Spring test slices — `@DataJpaTest`, `@JsonTest`, `@WebFluxTest`, and `TestRestTemplate` | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Know these as targeted alternatives; their annotation details are not a must-have interview focus. | |
-| 6 | Arrange-Act-Assert (AAA) structure | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Basic test readability convention, not a standalone interview requirement. | |
-| 7 | Basic test hygiene — one behavior per test, descriptive names, and isolation from shared mutable state / execution order | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | A compact team-quality baseline; know it but do not treat it as a standalone interview area. | |
-| 11 | Integration tests — with real DB, real Redis, real Kafka | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | TestContainers — Postgres, MySQL, Redis, Kafka, Elasticsearch | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @Testcontainers + PostgreSQLContainer for an integration test against a real Postgres (30 min) |
-| 13 | Contract testing — Pact, Spring Cloud Contract (consumer-driven) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | WireMock for external HTTP | 🟠 💼 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | EmbeddedKafka, embedded Redis | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Test data builders, ObjectMother pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Fixtures vs factories | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | TDD — when it helps, when it doesn't | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | Coverage — JaCoCo; line vs branch coverage and their limits | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Test pyramid inversion — when API tests dominate (microservices reality) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 5 | Specialized Spring test slices — `@DataJpaTest`, `@JsonTest`, `@WebFluxTest`, and `TestRestTemplate` | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Know these as targeted alternatives; their annotation details are not a must-have interview focus. |  |
+| 6 | Arrange-Act-Assert (AAA) structure | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Basic test readability convention, not a standalone interview requirement. |  |
+| 7 | Basic test hygiene — one behavior per test, descriptive names, and isolation from shared mutable state / execution order | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | A compact team-quality baseline; know it but do not treat it as a standalone interview area. |  |
+| 8 | Integration tests — with real DB, real Redis, real Kafka | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | TestContainers — Postgres, MySQL, Redis, Kafka, Elasticsearch | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: @Testcontainers + PostgreSQLContainer for an integration test against a real Postgres (30 min) |
+| 10 | Contract testing — Pact, Spring Cloud Contract (consumer-driven) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | WireMock for external HTTP | 🟠 💼 | MP | 1 hr 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | EmbeddedKafka, embedded Redis | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 13 | Test data builders, ObjectMother pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | Fixtures vs factories | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | TDD — when it helps, when it doesn't | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | Coverage — JaCoCo; line vs branch coverage and their limits | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | Test pyramid inversion — when API tests dominate (microservices reality) | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 
 ## Time summary
@@ -63,9 +63,9 @@
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Spring controller tests + TestContainers integration tests** (~2.25 hrs combined rows 4 + 12) — modern Spring testing stack. @WebMvcTest for controllers, TestContainers for repositories, full @SpringBootTest sparingly.
-- **Contract testing with Pact** (~3 hrs row 13) — KYC platform is multi-service. Consumer-driven contracts catch cross-service breaks. Worth the setup investment.
-- **Test discipline + naming + AAA** (~1.25 hrs combined rows 6-7) — get the team to write maintainable tests. Soft skill but high leverage for codebase quality.
+- **Spring controller tests + TestContainers integration tests** (~2.25 hrs) — modern Spring testing stack. @WebMvcTest for controllers, TestContainers for repositories, full @SpringBootTest sparingly.
+- **Contract testing with Pact** (~3 hrs) — KYC platform is multi-service. Consumer-driven contracts catch cross-service breaks. Worth the setup investment.
+- **Test discipline + naming + AAA** (~1.25 hrs) — get the team to write maintainable tests. Soft skill but high leverage for codebase quality.
 
 ## Hands-on exercises (Practice + Advanced)
 

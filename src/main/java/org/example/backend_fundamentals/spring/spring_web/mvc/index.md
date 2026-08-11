@@ -4,7 +4,7 @@ order: 10
 
 # Spring MVC
 
-Row 7 — 🔴 💼 | D | 2 hrs
+Study-plan priority — 🔴 💼 | D | 2 hrs
 
 Spring MVC is the web layer used by Spring Boot to route HTTP requests to controller methods.
 

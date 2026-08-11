@@ -10,69 +10,69 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 4 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
-| 6 | Crash resilience — write-ahead correlation IDs BEFORE vendor calls; recovery / replay flows (your exact liveness-piggyback risk) | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Vendor failover — primary + secondary; consistency cost of failing over mid-flow | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Vendor result normalization — different vendors return different shapes; one internal schema | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | FRR / FAR at your production threshold — competing concerns on your specific operating point | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (See Part 29 row 16 for FAR/FRR theory) |
-| 27 | External-call timeout boundary — unknown outcome, idempotent retry, status lookup, and stable response mapping | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory covered: a timeout can mean the vendor completed work but its response was lost; classify by outcome rather than one Java exception type | 📖 `system_design/concepts/resilience/index.md` |
-| 1 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
-| 2 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | Idempotency on retry — never duplicate transactions when SDK retries blindly | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | SDK versioning, backward compatibility, force-upgrade mechanism | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Vendor abstraction layer — adapter pattern; normalize different score scales and field names | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch the `VendorClient` interface + 2 concrete adapters (geoX, ASG-NEO) — score normalization, field mapping (45 min) |
-| 10 | Vendor capability matrix — which provider supports which document × country × operation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Capture → upload → quality check → vendor submission pipeline | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | Quality assessment pre-vendor (your ImageQualityService pattern) — reject early, save money | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | Image retention policy — purge after N days; right-to-be-forgotten cascade | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 16 | Per-partner configuration — accepted documents, vendor preferences, score thresholds, capture modes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 17 | Flow types — what operations are required per product (your `flow_type` field is this) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | KYC funnel metrics — start → document_capture → liveness → face_match → verified | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: define 5 funnel metrics + Datadog query for each (drop-off per step) (30 min) |
-| 19 | Drop-off per step (which step loses users — usually liveness) | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Verification success rate, broken down by partner / country / document type | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 22 | SDK crash before vendor call → correlation IDs orphaned (your liveness-piggyback risk, formalized) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | Historical-attempt schema evolution without breaking back-compat (CARD_FRONT vs CARD_BOTH legacy handling) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Duplicate transaction IDs from partners (the `Duplicate partnerTrxId` errors in your logs) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Vendor returning errors in 200 OK bodies — you've filtered these in Datadog | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 28 | Government ID gateways — Dukcapil (Indonesia), JPN (Malaysia), MyInfo / Singpass (Singapore) — your integrations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 29 | NFC chip reading from e-passports — DSC, CSCA, country signing certs (your integration, not theory) | 🟠 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 29 row 8 + Part 17 PKI) |
-| 31 | Root / jailbreak detection — and the arms race with bypass tooling (your stance) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 32 | SSL / certificate pinning on mobile — rotate without bricking deployed apps | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 36 | Offline-first capture, queue-and-sync upload, time-skew handling | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | Cost-aware routing — cheapest first, fall back on failure (vs accuracy-weighted) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 38 | Shadow / A/B testing across vendors — accuracy comparison without affecting customers | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 39 | Per-vendor circuit breakers and rate limits | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 40 | Vendor credential rotation, secret hygiene | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 41 | Vendor mock-mode for staging and load testing | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 42 | Vendor result caching — when safe, when dangerous (face match: never; OCR: maybe) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 43 | Billing reconciliation with vendors (the Bank Sampoerna scenario — your war story) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 44 | Image access controls — who can view portraits? (you correctly excluded them from transaction API) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 45 | Sensitive content redaction in logs (filtering OCR/quality responses from Datadog) | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 46 | EXIF stripping — metadata leaks location and device | 🟠 💼 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 47 | Chunked / resumable uploads for poor connectivity | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 48 | Per-partner data residency — Malaysian partner data stays in MY region, enforced in code | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 49 | Per-partner SLA tiers — premium vs standard | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 50 | Per-partner branding / white-label | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 51 | Tenant isolation strategies for your platform — schema-per-tenant, row-level, separate DB for high-tier | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 29 row 35 for general theory) |
-| 52 | Partner onboarding flow — credentials, sandbox, go-live checklist | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 53 | Sandbox vs production environments per partner | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 54 | Per-partner audit / compliance reporting | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 55 | Per-vendor latency, error rate, cost — your Datadog dashboards | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 56 | Per-partner conversion rate | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 57 | Time-to-verified (P50 / P90 / P99) | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 58 | Operations dashboards for compliance team (cases under review, aging) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 59 | Manual review queue depth, reviewer throughput | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 60 | Vendor accuracy regression without notice (silent quality drop after their model update) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 61 | Cross-region replication lag during partner read-after-write | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 62 | Partial verification completion — user finishes some ops, abandons, returns days later | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 63 | Time skew between SDK and backend in offline-then-sync flows | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 64 | Vendor SLA breach during peak — graceful-degradation strategy | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 65 | Compliance reviewer override breaking automated state-machine assumptions | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 66 | Invalid base64 image strings from SDK (in your filtered errors) — defensive parsing | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 67 | ASG-NEO response not parseable as JSON — schema versioning between services | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 69 | Federated vendor SLAs / quotas — government gateways (Dukcapil, JPN) need special handling | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 71 | Per-partner quota / fair-use enforcement | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
+| 2 | Crash resilience — write-ahead correlation IDs BEFORE vendor calls; recovery / replay flows (your exact liveness-piggyback risk) | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | Vendor failover — primary + secondary; consistency cost of failing over mid-flow | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 4 | Vendor result normalization — different vendors return different shapes; one internal schema | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | FRR / FAR at your production threshold — competing concerns on your specific operating point | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | See Part 29 for FAR/FRR theory |
+| 6 | External-call timeout boundary — unknown outcome, idempotent retry, status lookup, and stable response mapping | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory covered: a timeout can mean the vendor completed work but its response was lost; classify by outcome rather than one Java exception type | 📖 `system_design/concepts/resilience/index.md` |
+| 7 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
+| 8 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | Idempotency on retry — never duplicate transactions when SDK retries blindly | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | SDK versioning, backward compatibility, force-upgrade mechanism | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Vendor abstraction layer — adapter pattern; normalize different score scales and field names | 🟠 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: sketch the `VendorClient` interface + 2 concrete adapters (geoX, ASG-NEO) — score normalization, field mapping (45 min) |
+| 13 | Vendor capability matrix — which provider supports which document × country × operation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | Capture → upload → quality check → vendor submission pipeline | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | Quality assessment pre-vendor (your ImageQualityService pattern) — reject early, save money | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | Image retention policy — purge after N days; right-to-be-forgotten cascade | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | Per-partner configuration — accepted documents, vendor preferences, score thresholds, capture modes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 18 | Flow types — what operations are required per product (your `flow_type` field is this) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 19 | KYC funnel metrics — start → document_capture → liveness → face_match → verified | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: define 5 funnel metrics + Datadog query for each (drop-off per step) (30 min) |
+| 20 | Drop-off per step (which step loses users — usually liveness) | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 21 | Verification success rate, broken down by partner / country / document type | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 22 | SDK crash before vendor call → correlation IDs orphaned (your liveness-piggyback risk, formalized) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 23 | Historical-attempt schema evolution without breaking back-compat (CARD_FRONT vs CARD_BOTH legacy handling) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 24 | Duplicate transaction IDs from partners (the `Duplicate partnerTrxId` errors in your logs) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 25 | Vendor returning errors in 200 OK bodies — you've filtered these in Datadog | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 26 | Government ID gateways — Dukcapil (Indonesia), JPN (Malaysia), MyInfo / Singpass (Singapore) — your integrations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 27 | NFC chip reading from e-passports — DSC, CSCA, country signing certs (your integration, not theory) | 🟠 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | Cross-ref Part 29 NFC theory and Part 17 PKI |
+| 28 | Root / jailbreak detection — and the arms race with bypass tooling (your stance) | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 29 | SSL / certificate pinning on mobile — rotate without bricking deployed apps | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 30 | Offline-first capture, queue-and-sync upload, time-skew handling | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 31 | Cost-aware routing — cheapest first, fall back on failure (vs accuracy-weighted) | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 32 | Shadow / A/B testing across vendors — accuracy comparison without affecting customers | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 33 | Per-vendor circuit breakers and rate limits | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 34 | Vendor credential rotation, secret hygiene | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 35 | Vendor mock-mode for staging and load testing | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 36 | Vendor result caching — when safe, when dangerous (face match: never; OCR: maybe) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 37 | Billing reconciliation with vendors (the Bank Sampoerna scenario — your war story) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 38 | Image access controls — who can view portraits? (you correctly excluded them from transaction API) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 39 | Sensitive content redaction in logs (filtering OCR/quality responses from Datadog) | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 40 | EXIF stripping — metadata leaks location and device | 🟠 💼 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 41 | Chunked / resumable uploads for poor connectivity | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 42 | Per-partner data residency — Malaysian partner data stays in MY region, enforced in code | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 43 | Per-partner SLA tiers — premium vs standard | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 44 | Per-partner branding / white-label | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 45 | Tenant isolation strategies for your platform — schema-per-tenant, row-level, separate DB for high-tier | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | Cross-ref Part 29 tenant-isolation theory |
+| 46 | Partner onboarding flow — credentials, sandbox, go-live checklist | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 47 | Sandbox vs production environments per partner | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 48 | Per-partner audit / compliance reporting | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 49 | Per-vendor latency, error rate, cost — your Datadog dashboards | 🟠 💼 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 50 | Per-partner conversion rate | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 51 | Time-to-verified (P50 / P90 / P99) | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 52 | Operations dashboards for compliance team (cases under review, aging) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 53 | Manual review queue depth, reviewer throughput | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 54 | Vendor accuracy regression without notice (silent quality drop after their model update) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 55 | Cross-region replication lag during partner read-after-write | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 56 | Partial verification completion — user finishes some ops, abandons, returns days later | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 57 | Time skew between SDK and backend in offline-then-sync flows | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 58 | Vendor SLA breach during peak — graceful-degradation strategy | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 59 | Compliance reviewer override breaking automated state-machine assumptions | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 60 | Invalid base64 image strings from SDK (in your filtered errors) — defensive parsing | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 61 | ASG-NEO response not parseable as JSON — schema versioning between services | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 62 | Federated vendor SLAs / quotas — government gateways (Dukcapil, JPN) need special handling | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 63 | Per-partner quota / fair-use enforcement | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -184,11 +184,11 @@ flowchart LR
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **SDK ↔ orchestrator architecture deep dive** (~8 hrs rows 4–8 + 22–23) — your literal half-system. Whiteboard from memory; defend every choice; cover SDK crash recovery, idempotency, force-upgrade.
-- **Vendor orchestration end-to-end** (~10 hrs rows 9–12 + 37–43) — adapter pattern, failover, capability matrix, cost-aware routing, billing reconciliation. The Bank Sampoerna scenario is your interview anecdote.
-- **Multi-tenant + data residency enforcement** (~6 hrs rows 16–17 + 48 + 51) — code-level enforcement of region pinning. DC-JKT vs AWS-SG. Document the proof you'd produce for a regulator.
-- **KYC funnel + observability** (~5 hrs rows 18–21 + 55–59) — Datadog queries, drop-off detection, P99 latency debug runbook. Senior-eng-grade observability.
-- **Failure-mode war stories formalized** (~6 hrs rows 22–27) — write each as a STAR-shaped story for behavioral interviews. SDK crash, doc switch, duplicate trxId, 200-OK-with-error, TimeoutException boundary handling.
+- **SDK ↔ orchestrator architecture deep dive** (~8 hrs) — your literal half-system. Whiteboard from memory; defend every choice; cover SDK crash recovery, idempotency, force-upgrade.
+- **Vendor orchestration end-to-end** (~10 hrs) — adapter pattern, failover, capability matrix, cost-aware routing, billing reconciliation. The Bank Sampoerna scenario is your interview anecdote.
+- **Multi-tenant + data residency enforcement** (~6 hrs) — code-level enforcement of region pinning. DC-JKT vs AWS-SG. Document the proof you'd produce for a regulator.
+- **KYC funnel + observability** (~5 hrs) — Datadog queries, drop-off detection, P99 latency debug runbook. Senior-eng-grade observability.
+- **Failure-mode war stories formalized** (~6 hrs) — write each as a STAR-shaped story for behavioral interviews. SDK crash, doc switch, duplicate trxId, 200-OK-with-error, TimeoutException boundary handling.
 
 ## Hands-on exercises (Practice + Advanced)
 

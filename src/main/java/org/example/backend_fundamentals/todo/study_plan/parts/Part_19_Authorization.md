@@ -6,16 +6,16 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | RBAC — roles, permissions, hierarchies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: model TenantAdmin/Agent/Viewer roles + write @PreAuthorize annotations on 3 endpoints (20 min) |
-| 2 | ABAC — attribute-based, policies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
-| 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
-| 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
-| 6 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 7 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] | | |
-| 8 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
-| 9 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
-| 11 | Method-level + URL-level + data-level authorization — defense in depth | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | | 📖 `spring/spring_security/authorization/index.md` |
-| 13 | Permission caching + TTL — authz checks per request are expensive; how to cache safely | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | RBAC — roles, permissions, hierarchies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: model TenantAdmin/Agent/Viewer roles + write @PreAuthorize annotations on 3 endpoints (20 min) |
+| 2 | ABAC — attribute-based, policies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
+| 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
+| 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
+| 5 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 6 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] |  |  |
+| 7 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
+| 8 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
+| 9 | Method-level + URL-level + data-level authorization — defense in depth | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
+| 10 | Permission caching + TTL — authz checks per request are expensive; how to cache safely | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -95,9 +95,9 @@ flowchart LR
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Multi-tenant authorization for your KYC platform** (~2.5 hrs row 7) — directly job-relevant. Walk through tenant_id derivation, RLS guard, audit trail, breach detection.
-- **Defense-in-depth authorization layers** (~2.5 hrs combined rows 7+8+9) — URL, method, data. Show how each catches a different class of bug.
-- **ReBAC + Zanzibar model** (~2 hrs row 5) — modern, hot topic at scale. Understand the relationship-graph approach. Compare to RBAC for KYC's document-access scenarios.
+- **Multi-tenant authorization for your KYC platform** (~2.5 hrs) — directly job-relevant. Walk through tenant_id derivation, RLS guard, audit trail, breach detection.
+- **Defense-in-depth authorization layers** (~2.5 hrs) — URL, method, data. Show how each catches a different class of bug.
+- **ReBAC + Zanzibar model** (~2 hrs) — modern, hot topic at scale. Understand the relationship-graph approach. Compare to RBAC for KYC's document-access scenarios.
 
 ## Hands-on exercises (Practice + Advanced)
 

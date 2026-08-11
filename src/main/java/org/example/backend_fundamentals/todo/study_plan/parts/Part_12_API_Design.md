@@ -8,17 +8,17 @@
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | RESTful resource modeling | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes HTTP verbs, status codes, over-fetching | 📖 `api_design/api_technologies_summary/index.md` |
 | 2 | REST vs GraphQL vs gRPC comparison & architecture | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes streaming types, trade-offs | 📖 `api_design/api_technologies_comparison/index.md` |
-| 3 | Versioning — URI, header, content negotiation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 3 | Versioning — URI, header, content negotiation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 4 | Pagination — offset, cursor, keyset | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered offset vs cursor vs keyset, concurrent-write bugs, stable sort keys, opaque cursor design, snapshot pagination, and interview traps | 📖 `databases/pagination/index.md` · 💻 Warm-up: implement keyset pagination — `WHERE id > :lastSeenId ORDER BY id LIMIT 20` + response includes `nextCursor` (30 min) |
-| 5 | Filtering, sorting, projections | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
-| 7 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
-| 8 | Authentication header design | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | OpenAPI spec & code-gen | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Async / long-running APIs (202 + status endpoint — your KYC pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | HATEOAS — what it is, why most APIs skip it | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | API deprecation strategy | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
+| 5 | Filtering, sorting, projections | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
+| 7 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
+| 8 | Authentication header design | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | OpenAPI spec & code-gen | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Async / long-running APIs (202 + status endpoint — your KYC pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | HATEOAS — what it is, why most APIs skip it | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 13 | API deprecation strategy | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -58,10 +58,10 @@
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Idempotency-Key end-to-end design** (~2.5 hrs row 5) — directly your KYC platform. Storage choices (Redis vs DB), TTL, request-hash matching, conflict handling.
-- **Async long-running API for KYC** (~2 hrs row 9) — your platform's exact pattern. 202 + status URL + webhook. Walk it through end-to-end.
-- **Pagination cursor design** (~2 hrs row 3) — cursor-based pagination for an unbounded list (e.g., transaction history). Encoding the cursor opaquely (Base64 of `(timestamp, id)`), security considerations.
-- **API versioning + deprecation strategy** (~2 hrs combined rows 2 + 12) — pick strategy, document migration path for partner banks. Sunset header standards.
+- **Idempotency-Key end-to-end design** (~2.5 hrs) — directly your KYC platform. Storage choices (Redis vs DB), TTL, request-hash matching, conflict handling.
+- **Async long-running API for KYC** (~2 hrs) — your platform's exact pattern. 202 + status URL + webhook. Walk it through end-to-end.
+- **Pagination cursor design** (~2 hrs) — cursor-based pagination for an unbounded list (e.g., transaction history). Encoding the cursor opaquely (Base64 of `(timestamp, id)`), security considerations.
+- **API versioning + deprecation strategy** (~2 hrs) — pick strategy, document migration path for partner banks. Sunset header standards.
 
 ## Hands-on exercises (Practice + Advanced)
 

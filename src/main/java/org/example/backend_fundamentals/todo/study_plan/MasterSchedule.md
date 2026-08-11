@@ -128,8 +128,8 @@ Pre-interview: full 6-cycle sweep in one ~3-hr session.
 ## End-of-Sprint criteria
 
 - [ ] 🔴 rows in Parts 1, 1b, 2-22 + 24-28 ticked (Done or `Visit Again`).
-- [ ] Part 29 (KYC): rows 1-14 + 22-27 ticked.
-- [ ] Part 31 (Platform): rows 1-27 ticked.
+- [ ] All 🔴 topics in Part 29 (KYC) ticked.
+- [ ] All 🔴 topics in Part 31 (Platform) ticked.
 - [ ] ≥4 LLD + ≥4 HLD problems walked. KYC platform HLD (#16) twice.
 - [ ] 5-8 STAR stories drafted.
 - [ ] Full 6-cycle Quick Recall sweep without `Visit Again` piling up.

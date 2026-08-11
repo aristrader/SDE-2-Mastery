@@ -4,7 +4,7 @@ order: 60
 
 # Design Pattern Practice — Production Scenarios
 
-> **Cross-referenced from:** Part 04 (Design Patterns) rows 7 (Singleton), 8 (Factory Method / Abstract Factory), 9 (Builder), 14 (Strategy). Sister doc to `design_patterns/pattern_selection/index.md` (single-domain "one HR, many factories" mini-project) — this doc is broader (25 scenarios across all creational patterns) and shallower per scenario.
+> **Cross-referenced from:** Part 04 topics Singleton, Factory Method, Abstract Factory, Builder, and Strategy. Sister doc to `design_patterns/pattern_selection/index.md` (single-domain "one HR, many factories" mini-project) — this doc is broader (25 scenarios across all creational patterns) and shallower per scenario.
 
 A scenario-based exercise sheet for practising **which pattern fits where** in real-world design. Each scenario is a brief production problem followed by *discussion prompts* and a *suggested approach*. Try to answer before reading the suggested approach.
 

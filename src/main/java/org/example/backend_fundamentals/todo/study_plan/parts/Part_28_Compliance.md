@@ -6,17 +6,17 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | PII classification & tagging (data inventory is the first step) (Basic concept only) | 🔴 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 2 | Data minimization — collect only what's needed; question every field (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | Audit logs — what / when / who; tamper-evident storage | 🟠 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
-| 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🟠 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
-| 6 | Retention policies enforced in code, not just in docs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Data localization & residency requirements (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Tokenization vs encryption — when each fits (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Pseudonymization, anonymization, k-anonymity (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | PII classification & tagging (data inventory is the first step) (Basic concept only) | 🔴 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | Data minimization — collect only what's needed; question every field (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | Encryption at rest, in transit (every hop, not just edge) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 4 | Audit logs — what / when / who; tamper-evident storage | 🟠 💼 🔐 | MP | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: sketch an append-only audit-log schema with hash-chain column; write the SQL CREATE + the hash-chain insert function (30 min) |
+| 5 | Right-to-be-forgotten implementation — soft delete vs hard delete, cascade design | 🟠 💼 🔐 | D | 2 hrs 50 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write a one-pager balancing GDPR erasure with 5-7 year AML retention; document which data is erased vs retained (20 min) |
+| 6 | Retention policies enforced in code, not just in docs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | DSAR (Data Subject Access Request) operational workflow — intake queue, identity verification of requester, 30-day SLA, fulfillment pipeline, audit trail | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | Data localization & residency requirements (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | Tokenization vs encryption — when each fits (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | Field-level encryption for highly sensitive columns | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Pseudonymization, anonymization, k-anonymity (Basic concept only) | 🟠 💼 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
@@ -96,9 +96,9 @@ flowchart LR
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **GDPR data subject rights end-to-end for KYC** (~3 hrs rows 1+14) — directly job-relevant. Implementation patterns for each right within KYC retention constraints.
-- **Audit log design for KYC platform** (~2.5 hrs row 13) — tamper-evident, regulator-queryable, performance-aware. Critical for KYC.
-- **Data residency enforcement in code** (~2 hrs row 20) — KYC platform across DC-JKT + AWS-SG. How code prevents cross-region data leak. Tenant-pinning logic.
+- **GDPR data subject rights end-to-end for KYC** (~3 hrs) — directly job-relevant. Implementation patterns for each right within KYC retention constraints.
+- **Audit log design for KYC platform** (~2.5 hrs) — tamper-evident, regulator-queryable, performance-aware. Critical for KYC.
+- **Data residency enforcement in code** (~2 hrs) — KYC platform across DC-JKT + AWS-SG. How code prevents cross-region data leak. Tenant-pinning logic.
 
 
 ## Hands-on exercises (Practice + Advanced)

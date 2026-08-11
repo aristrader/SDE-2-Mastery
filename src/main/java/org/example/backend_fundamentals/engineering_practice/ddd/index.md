@@ -4,7 +4,7 @@ order: 40
 
 # Domain-Driven Design & Bounded Contexts
 
-The strategic side of DDD — the part interviewers actually probe, and the part that drives service boundaries. (Tactical building blocks — Aggregate / Entity / Value Object — are a separate topic: Part 04 row 59.)
+The strategic side of DDD — the part interviewers actually probe, and the part that drives service boundaries. Tactical building blocks — Aggregate, Entity, and Value Object — are covered separately in Part 04.
 
 **Core idea:** software structure should mirror **business** structure. Organize around **business domains** (Customer Management, Orders, Payments, Inventory, Shipping) — *not* around database tables, controllers, packages, or technologies.
 
@@ -79,4 +79,3 @@ A. Bounded contexts reveal the natural business seams; those seams become micros
 
 **Q. What is DDD fundamentally about?**
 A. Structuring software around business responsibilities (domains) rather than tables/controllers/tech — discovering where responsibilities begin and end.
-

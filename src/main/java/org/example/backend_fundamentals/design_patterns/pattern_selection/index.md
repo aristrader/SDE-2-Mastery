@@ -4,7 +4,7 @@ order: 50
 
 # Pattern Selection Exercise — One Client, Many Factories
 
-> **Cross-referenced from:** Part 04 (Design Patterns) rows 8 (Factory Method / Abstract Factory), 14 (Strategy), 22 (Dependency Injection); Part 03 (Spring) for DI wiring.
+> **Cross-referenced from:** Part 04 topics Factory Method, Abstract Factory, Strategy, and Dependency Injection; Part 03 (Spring) for DI wiring.
 
 A self-contained mini-project for learning **when to reach for which pattern** by solving the same problem in three different ways. Pick this up when you want to actually *choose* between Strategy, Registry, and Dependency Injection rather than just reading about them.
 

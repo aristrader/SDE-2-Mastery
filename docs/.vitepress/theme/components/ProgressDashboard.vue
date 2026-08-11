@@ -20,6 +20,14 @@ function formatHours(mins) {
   return (mins / 60).toFixed(1) + ' hrs';
 }
 
+function percentage(done, total) {
+  return total > 0 ? Math.round((done / total) * 100) : 0;
+}
+
+function tierEmoji(tier) {
+  return { red: '🔴', orange: '🟠', yellow: '🟡', green: '🟢', white: '⚪' }[tier] || '⚪';
+}
+
 // --- 3-Month Sprint Calcs (🔴 MUST only) ---
 const sprintTopicPercentage = computed(() => {
   const red = props.data.global.tiers.red;
@@ -37,6 +45,7 @@ const sprintTimeOffset = computed(() => 283 - (283 * sprintTimePercentage.value)
 const sprintStart = new Date('2026-05-18T00:00:00')
 const sprintLengthDays = 12 * 7 // 84 days
 const sprintEnd = new Date(sprintStart.getTime() + sprintLengthDays * 24 * 60 * 60 * 1000)
+const sprintDateFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' })
 
 const today = new Date()
 const elapsedDays = Math.max(0, Math.min(sprintLengthDays, Math.floor((today - sprintStart) / (1000 * 60 * 60 * 24))))
@@ -59,7 +68,8 @@ function getCircleColor(percentage) {
 // Modal grouping logic
 const selectedTopics = computed(() => {
   if (!selectedPart.value) return { done: [], partial: [], left: [] }
-  const topics = selectedPart.value.topics || [];
+  const topics = (selectedPart.value.topics || [])
+    .filter(topic => viewMode.value !== 'sprint' || topic.tier === 'red');
   return {
     done: topics.filter(t => t.status === 'done'),
     partial: topics.filter(t => t.status === 'partial'),
@@ -101,9 +111,9 @@ const selectedTopics = computed(() => {
         
         <div class="timeline-bar-wrapper">
           <div class="timeline-labels">
-            <span>Start: May 18</span>
-            <span>Day {{ elapsedDays }} / 84</span>
-            <span>End: Aug 10</span>
+            <span>Start: {{ sprintDateFormatter.format(sprintStart) }}</span>
+            <span>{{ elapsedDays }} / {{ sprintLengthDays }} days elapsed</span>
+            <span>End: {{ sprintDateFormatter.format(sprintEnd) }}</span>
           </div>
           <div class="progress-bar-bg timeline-bg">
             <div class="progress-bar-fill bg-blue" :style="{ width: expectedPercentage + '%' }"></div>
@@ -161,9 +171,9 @@ const selectedTopics = computed(() => {
             <h3>{{ part.title }}</h3>
             <div class="part-progress-wrapper">
               <div class="progress-bar-bg">
-                <div class="progress-bar-fill" :style="{ width: (part.tiers.red.done / part.tiers.red.total * 100) + '%', backgroundColor: getCircleColor((part.tiers.red.done / part.tiers.red.total * 100)) }"></div>
+                <div class="progress-bar-fill" :style="{ width: percentage(part.tiers.red.done, part.tiers.red.total) + '%', backgroundColor: getCircleColor(percentage(part.tiers.red.done, part.tiers.red.total)) }"></div>
               </div>
-              <span class="part-percentage">{{ Math.round((part.tiers.red.done / part.tiers.red.total) * 100) }}%</span>
+              <span class="part-percentage">{{ percentage(part.tiers.red.done, part.tiers.red.total) }}%</span>
             </div>
             <div class="part-details">
               <span>{{ part.tiers.red.done }} / {{ part.tiers.red.total }} Core Topics</span>
@@ -245,6 +255,13 @@ const selectedTopics = computed(() => {
               <span class="tier-text">{{ data.global.tiers.green.done }} / {{ data.global.tiers.green.total }}</span>
             </div>
           </div>
+          <div class="tier-item" v-if="data.global.tiers.white.total > 0">
+            <span class="tier-label">⚪ OPTIONAL</span>
+            <div class="tier-progress">
+              <div class="tier-bar-bg"><div class="tier-bar-fill bg-white" :style="{ width: percentage(data.global.tiers.white.done, data.global.tiers.white.total) + '%' }"></div></div>
+              <span class="tier-text">{{ data.global.tiers.white.done }} / {{ data.global.tiers.white.total }}</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -285,8 +302,8 @@ const selectedTopics = computed(() => {
             <h4 class="text-green">✅ Completed ({{ selectedTopics.done.length }})</h4>
             <div class="topic-scroll-container">
               <ul class="topic-list" v-if="selectedTopics.done.length > 0">
-                <li v-for="t in selectedTopics.done" :key="t.num">
-                  <span class="tier-badge">{{ t.tier === 'red' ? '🔴' : t.tier === 'orange' ? '🟠' : t.tier === 'yellow' ? '🟡' : '🟢' }}</span>
+                <li v-for="t in selectedTopics.done" :key="t.num + ':' + t.name">
+                  <span class="tier-badge">{{ tierEmoji(t.tier) }}</span>
                   {{ t.name }}
                 </li>
               </ul>
@@ -298,8 +315,8 @@ const selectedTopics = computed(() => {
             <h4 class="text-gray">⚪ Left to do ({{ selectedTopics.left.length }})</h4>
             <div class="topic-scroll-container">
               <ul class="topic-list left-list" v-if="selectedTopics.left.length > 0">
-                <li v-for="t in selectedTopics.left" :key="t.num">
-                  <span class="tier-badge">{{ t.tier === 'red' ? '🔴' : t.tier === 'orange' ? '🟠' : t.tier === 'yellow' ? '🟡' : '🟢' }}</span>
+                <li v-for="t in selectedTopics.left" :key="t.num + ':' + t.name">
+                  <span class="tier-badge">{{ tierEmoji(t.tier) }}</span>
                   {{ t.name }}
                 </li>
               </ul>
@@ -311,8 +328,8 @@ const selectedTopics = computed(() => {
             <h4 class="text-orange">⏳ Partial ({{ selectedTopics.partial.length }})</h4>
             <div class="topic-scroll-container">
               <ul class="topic-list" v-if="selectedTopics.partial.length > 0">
-                <li v-for="t in selectedTopics.partial" :key="t.num">
-                  <span class="tier-badge">{{ t.tier === 'red' ? '🔴' : t.tier === 'orange' ? '🟠' : t.tier === 'yellow' ? '🟡' : '🟢' }}</span>
+                <li v-for="t in selectedTopics.partial" :key="t.num + ':' + t.name">
+                  <span class="tier-badge">{{ tierEmoji(t.tier) }}</span>
                   {{ t.name }}
                 </li>
               </ul>
@@ -531,6 +548,7 @@ const selectedTopics = computed(() => {
 .bg-orange { background-color: #f97316; }
 .bg-yellow { background-color: #eab308; }
 .bg-green { background-color: #10b981; }
+.bg-white { background-color: #94a3b8; }
 
 /* Parts Grid */
 .parts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }

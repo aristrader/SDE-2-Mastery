@@ -6,20 +6,20 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 2 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
-| 3 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 4 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs | [x] | [x] | [ ] | [ ] | | 📖 `security/authentication/index.md` · 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
-| 5 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 6 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
-| 7 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
-| 8 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` |
-| 9 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` |
-| 10 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
-| 12 | MFA — TOTP (RFC 6238), WebAuthn / FIDO2, push, SMS (and why SMS is weak) | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` · 💻 Warm-up: implement TOTP generator (HMAC-SHA1 over time-counter) from RFC 6238 — verify against Google Authenticator (20 min) |
-| 13 | Magic links, passwordless flows | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` |
-| 14 | SSO patterns | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] | | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
-| 15 | API keys — when to use, rotation strategy | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 16 | HMAC request signing (AWS SigV4 pattern) | 🟡 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] | | 📖 `security/authentication/index.md` |
+| 1 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
+| 2 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 3 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs | [x] | [x] | [ ] | [ ] |  | 📖 `security/authentication/index.md` · 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
+| 4 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 5 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
+| 6 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
+| 7 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
+| 8 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
+| 9 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] |  | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
+| 10 | MFA — TOTP (RFC 6238), WebAuthn / FIDO2, push, SMS (and why SMS is weak) | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` · 💻 Warm-up: implement TOTP generator (HMAC-SHA1 over time-counter) from RFC 6238 — verify against Google Authenticator (20 min) |
+| 11 | Magic links, passwordless flows | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
+| 12 | SSO patterns | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] |  | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
+| 13 | API keys — when to use, rotation strategy | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 14 | HMAC request signing (AWS SigV4 pattern) | 🟡 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
 
 ## Time summary
 
@@ -85,9 +85,9 @@ sequenceDiagram
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **OAuth + OIDC + PKCE end-to-end** (~3 hrs rows 3+4+5) — senior canonical. Walk through the full flow with concrete request/response examples. Code a client + AS toy.
-- **JWT pitfalls + algorithm confusion deep-dive** (~3 hrs rows 6+7+8) — interview gold. The 5 common JWT bugs. How to validate correctly.
-- **Refresh token rotation + reuse detection** (~2.5 hrs row 9) — modern best practice. Implement a refresh-token "family" tracker. Auto-revoke on detected reuse.
+- **OAuth + OIDC + PKCE end-to-end** (~3 hrs) — senior canonical. Walk through the full flow with concrete request/response examples. Code a client + AS toy.
+- **JWT pitfalls + algorithm confusion deep-dive** (~3 hrs) — interview gold. The 5 common JWT bugs. How to validate correctly.
+- **Refresh token rotation + reuse detection** (~2.5 hrs) — modern best practice. Implement a refresh-token "family" tracker. Auto-revoke on detected reuse.
 - **JWT design for KYC partner SDK** (~2.5 hrs combined) — short-lived access tokens for SDK, refresh tokens with rotation, key rotation strategy, JWK Set endpoint. Maps directly to your platform.
 
 ## Hands-on exercises (Practice + Advanced)

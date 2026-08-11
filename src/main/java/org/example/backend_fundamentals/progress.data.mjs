@@ -16,7 +16,8 @@ export default {
       red: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }, 
       orange: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }, 
       yellow: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }, 
-      green: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 } 
+      green: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 },
+      white: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }
     };
 
     function parseTime(timeStr) {
@@ -51,7 +52,8 @@ export default {
         red: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }, 
         orange: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }, 
         yellow: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }, 
-        green: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 } 
+        green: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 },
+        white: { total: 0, done: 0, totalMinutes: 0, doneMinutes: 0 }
       };
       const topics = [];
 
@@ -81,7 +83,7 @@ export default {
           const cols = line.split('|');
           if (cols.length >= 7) {
             const numCell = cols[1].trim();
-            if (/^\d+$/.test(numCell)) {
+            if (/^\d+[a-z]*$/i.test(numCell)) {
               totalTopics++;
               globalTotalTopics++;
               
@@ -91,6 +93,7 @@ export default {
               else if (tagsCell.includes('🟠')) rowTier = 'orange';
               else if (tagsCell.includes('🟡')) rowTier = 'yellow';
               else if (tagsCell.includes('🟢')) rowTier = 'green';
+              else if (tagsCell.includes('⚪')) rowTier = 'white';
               
               const timeCell = timeColIdx > -1 && cols[timeColIdx] ? cols[timeColIdx].trim() : '';
               const mins = parseTime(timeCell);

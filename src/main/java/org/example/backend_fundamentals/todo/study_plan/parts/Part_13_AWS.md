@@ -6,38 +6,38 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | EC2 & ASG Basics — instance families, AMIs, scaling policies | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
-| 4 | S3 Basics — storage classes, versioning, strong consistency | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 7 | RDS & Aurora Basics — Multi-AZ vs read replicas, storage-decoupled architecture | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only)| 🔴 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 15 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
-| 17 | STS, AssumeRole, role chaining | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 18 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
-| 19 | Secrets Manager vs Parameter Store | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | SNS — topics, subscriptions, fanout, FIFO topics, message filtering | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 24 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Queue delivery semantics and idempotent consumers are covered in Part 10; retain this as AWS product mapping. | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
-| 2 | EC2 & ASG Advanced — user data, instance metadata, lifecycle hooks | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | Lambda Basics — concurrency, cold starts vs provisioned concurrency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | The generic compute-choice model is red in Part 22; this is AWS operational depth. | 💻 Warm-up: deploy a basic Java Lambda via SAM CLI + invoke (30 min) |
-| 3b | Lambda Advanced — layers, event destinations | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | S3 Advanced — lifecycle rules, replication, prefix scaling, event notifications | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 6 | EBS — types (gp3, io2), snapshots | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | RDS & Aurora Advanced — parameter groups, Global Database, automated backups | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | DynamoDB Basics — partition keys, GSI, capacity modes | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Core DynamoDB design is red in Part 6; retain this as AWS-specific practice. | |
-| 9b | DynamoDB Advanced — LSI, DAX | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | VPC Advanced — route tables, IGW, NAT GW, NACLs  (Basic concept only)| 🟠 💼 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Load Balancers Basics — ALB vs NLB (L7 vs L4) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | The L4/L7 decision is red in Part 7; this is AWS implementation mapping. | |
-| 14 | CloudFront Basics — origins, edge caching | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | CloudWatch — metrics, logs (Logs Insights), alarms, dashboards | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Observability fundamentals are red in Part 21; this is the AWS tool mapping. | |
-| 26 | API Gateway — REST vs HTTP API, throttling, usage plans, Lambda authorizers, request/response mapping | 🟠 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | The generic API-gateway role is red in Part 7; these are AWS product details. | |
-| 27 | ECS vs EKS vs Fargate | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 29 | S3 — pre-signed URLs, Transfer Acceleration | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 30 | ElastiCache (Redis, Memcached) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 31 | OpenSearch (managed Elasticsearch) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 32 | RDS Proxy (for Lambda) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 35 | EventBridge — schema registry, rules, targets, audit / event bus pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 44 | Cognito — User Pools vs Identity Pools, federated identity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 12b | Load Balancers Advanced — CLB vs Gateway LB | 🟡 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 14b | CloudFront Advanced — OAC, signed URLs / cookies | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | EC2 & ASG Basics — instance families, AMIs, scaling policies | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
+| 2 | S3 Basics — storage classes, versioning, strong consistency | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | RDS & Aurora Basics — Multi-AZ vs read replicas, storage-decoupled architecture | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 4 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only) | 🔴 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
+| 6 | STS, AssumeRole, role chaining | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
+| 8 | Secrets Manager vs Parameter Store | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | SNS — topics, subscriptions, fanout, FIFO topics, message filtering | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Queue delivery semantics and idempotent consumers are covered in Part 10; retain this as AWS product mapping. | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
+| 11 | EC2 & ASG Advanced — user data, instance metadata, lifecycle hooks | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Lambda Basics — concurrency, cold starts vs provisioned concurrency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | The generic compute-choice model is red in Part 22; this is AWS operational depth. | 💻 Warm-up: deploy a basic Java Lambda via SAM CLI + invoke (30 min) |
+| 13 | Lambda Advanced — layers, event destinations | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | S3 Advanced — lifecycle rules, replication, prefix scaling, event notifications | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | EBS — types (gp3, io2), snapshots | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | RDS & Aurora Advanced — parameter groups, Global Database, automated backups | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | DynamoDB Basics — partition keys, GSI, capacity modes | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Core DynamoDB design is red in Part 6; retain this as AWS-specific practice. |  |
+| 18 | DynamoDB Advanced — LSI, DAX | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 19 | VPC Advanced — route tables, IGW, NAT GW, NACLs  (Basic concept only) | 🟠 💼 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 20 | Load Balancers Basics — ALB vs NLB (L7 vs L4) | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | The L4/L7 decision is red in Part 7; this is AWS implementation mapping. |  |
+| 21 | CloudFront Basics — origins, edge caching | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 22 | CloudWatch — metrics, logs (Logs Insights), alarms, dashboards | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Observability fundamentals are red in Part 21; this is the AWS tool mapping. |  |
+| 23 | API Gateway — REST vs HTTP API, throttling, usage plans, Lambda authorizers, request/response mapping | 🟠 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] | The generic API-gateway role is red in Part 7; these are AWS product details. |  |
+| 24 | ECS vs EKS vs Fargate | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 25 | S3 — pre-signed URLs, Transfer Acceleration | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 26 | ElastiCache (Redis, Memcached) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 27 | OpenSearch (managed Elasticsearch) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 28 | RDS Proxy (for Lambda) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 29 | EventBridge — schema registry, rules, targets, audit / event bus pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 30 | Cognito — User Pools vs Identity Pools, federated identity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 31 | Load Balancers Advanced — CLB vs Gateway LB | 🟡 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 32 | CloudFront Advanced — OAC, signed URLs / cookies | 🟡 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 
 
@@ -113,10 +113,10 @@ sequenceDiagram
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **IAM policy evaluation + permission boundaries** (~3 hrs combined rows 15+16) — senior-canonical AWS topic. Build a worked example with multiple policies, SCPs, boundaries; walk through evaluation.
-- **KMS envelope encryption end-to-end** (~3 hrs row 18) — directly your KYC platform. Encrypt KYC documents with envelope encryption, walk through key rotation, audit access via CloudTrail.
-- **VPC design for KYC platform** (~3 hrs combined rows 10+11+12+13+14) — public/private subnets, security groups vs NACLs, ALB/NLB choice, Route 53 routing. Document for cross-region (DC-JKT vs AWS-SG).
-- **DynamoDB partition key design + hot partition mitigation** (~2.5 hrs row 9) — directly common architecture decision. Tie to your KYC vendor result storage if applicable.
+- **IAM policy evaluation + permission boundaries** (~3 hrs) — senior-canonical AWS topic. Build a worked example with multiple policies, SCPs, boundaries; walk through evaluation.
+- **KMS envelope encryption end-to-end** (~3 hrs) — directly your KYC platform. Encrypt KYC documents with envelope encryption, walk through key rotation, audit access via CloudTrail.
+- **VPC design for KYC platform** (~3 hrs) — public/private subnets, security groups vs NACLs, ALB/NLB choice, Route 53 routing. Document for cross-region (DC-JKT vs AWS-SG).
+- **DynamoDB partition key design + hot partition mitigation** (~2.5 hrs) — directly common architecture decision. Tie to your KYC vendor result storage if applicable.
 
 ## Hands-on exercises (Practice + Advanced)
 

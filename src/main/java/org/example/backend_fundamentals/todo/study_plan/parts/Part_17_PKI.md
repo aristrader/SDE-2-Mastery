@@ -6,17 +6,17 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 2 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [x] | [ ] | [ ] | | 📖 `security/cryptography/tls_certificates_diffie_hellman/index.md` · 📖 `security/cryptography/tls_https_pki/index.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
-| 3 | Why you never use a root directly — intermediates, ability to revoke | 🔴 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 1 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Recognize SAN and validity when diagnosing a certificate error; do not memorize extension details. | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
-| 5 | CSR — what's in it, key generation flow | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | Operational recognition only: public key and requested identity are submitted for signing. | |
-| 6 | Certificate lifecycle — issuance, renewal, revocation, rotation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Practical integration knowledge, not active interview-depth coverage. | 📖 [BPTLS 2ed free sample PDF](https://www.feistyduck.com/books/bulletproof-tls-and-pki/bulletproof-tls-and-pki-2ed-sample.pdf) (60 pages but ~30 min effective if you skip preface + basics you already know) · 📖 smallstep "Everything about certs" blog (~30 min alternative) |
-| 7 | CRL vs OCSP vs short-lived certs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Public vs private PKI — when each fits | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | ACME protocol — Let's Encrypt automation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Certificate pinning — public-key pinning, problems | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 14 | keytool, openssl — daily-use commands | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] | | 🎓 OpenSSL Cookbook (Ristić, free online) · 💻 Warm-up: PEM → PKCS#12 → JKS conversion + reverse (20 min) |
-| 15 | Java truststores, keystores — JKS, PKCS12 | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [x] | [ ] | [ ] |  | 📖 `security/cryptography/tls_certificates_diffie_hellman/index.md` · 📖 `security/cryptography/tls_https_pki/index.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
+| 2 | Why you never use a root directly — intermediates, ability to revoke | 🔴 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Recognize SAN and validity when diagnosing a certificate error; do not memorize extension details. | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
+| 4 | CSR — what's in it, key generation flow | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | Operational recognition only: public key and requested identity are submitted for signing. |  |
+| 5 | Certificate lifecycle — issuance, renewal, revocation, rotation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Practical integration knowledge, not active interview-depth coverage. | 📖 [BPTLS 2ed free sample PDF](https://www.feistyduck.com/books/bulletproof-tls-and-pki/bulletproof-tls-and-pki-2ed-sample.pdf) (60 pages but ~30 min effective if you skip preface + basics you already know) · 📖 smallstep "Everything about certs" blog (~30 min alternative) |
+| 6 | CRL vs OCSP vs short-lived certs | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | Public vs private PKI — when each fits | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | ACME protocol — Let's Encrypt automation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | Certificate pinning — public-key pinning, problems | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | keytool, openssl — daily-use commands | 🟠 💼 🔐 | MP | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 🎓 OpenSSL Cookbook (Ristić, free online) · 💻 Warm-up: PEM → PKCS#12 → JKS conversion + reverse (20 min) |
+| 11 | Java truststores, keystores — JKS, PKCS12 | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 

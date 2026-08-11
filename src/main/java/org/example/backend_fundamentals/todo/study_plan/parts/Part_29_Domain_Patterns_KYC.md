@@ -8,40 +8,40 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | KYC flow archetypes — collection → verification → screening → decision | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | | |
-| 4 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 5 | Multi-step verification state machine — operations × components × statuses | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: sketch your current `kyc_status` state machine on paper — states, transitions, terminal vs non-terminal (30 min) |
-| 6 | Step ordering — strict vs non-linear; tradeoffs (you chose non-linear) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 8 | Source-of-truth separation — required ops from flow config, history from attempts table | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 13 | Webhook delivery semantics — at-least-once (and why exactly-once is impractical) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 13 messaging) |
-| 14 | Webhook signing — HMAC-SHA256 (Stripe-style), key rotation flow | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: implement HMAC-SHA256 webhook signer + verifier in Java; include timestamp + nonce (45 min) |
-| 2 | eKYC vs in-person vs hybrid flows (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 3 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 20 | Per-tenant data residency — region pinning (DC-JKT vs AWS-SG, your reality) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 21 | Per-tenant rate limits & quotas — burst vs sustained | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic rate limiting is covered in Part 7; this row is tenant-specific application. | |
-| 44 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
-| 22 | Re-KYC, periodic refresh, expiry triggers | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 23 | Idempotency keys for verification operations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: design an Idempotency-Key header contract — TTL, conflict semantics, storage strategy (30 min) |
-| 24 | Partial completion, resume, abandon semantics | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 25 | Retry budget — frontend-enforced vs backend-enforced vs hybrid; pros/cons | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 26 | Document switching mid-flow — historical preservation, latest-context computation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 27 | Sync (decision-now) vs async (decision-later) verification | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 28 | Ordering — per-resource ordering vs "out-of-order safe" event design | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 29 | Per-partner endpoint health tracking, per-partner circuit breaker | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 30 | SSRF protection — URL allowlist, blocked IP ranges, no-follow redirects | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 32 | Polling fallback (`GET /verify/status`, your current model) for partners who can't accept webhooks | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 33 | Webhook event schema versioning | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 34 | Per-tenant SLAs, monitoring, alerting | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 35 | Noisy-neighbor isolation — connection pools, thread budgets, downstream quotas | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 36 | Per-tenant audit logs — billing dispute resolution + compliance | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 45 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🟡 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 37 | Outbox + CDC for reliable webhook publishing | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | (Cross-ref Part 13) |
-| 38 | EventBridge / SNS as fan-out hub for multi-subscriber events (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 39 | Tenant offboarding — data export, deletion guarantees | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 40 | Tenant-scoped feature flags (different rollouts per partner) | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 41 | Cell-based architecture (advanced isolation pattern) (Basic concept only) | 🟡 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 42 | ONNX for model interoperability (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 43 | GPU vs CPU inference economics; batching strategies (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
+| 1 | KYC flow archetypes — collection → verification → screening → decision | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | Multi-step verification state machine — operations × components × statuses | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: sketch your current `kyc_status` state machine on paper — states, transitions, terminal vs non-terminal (30 min) |
+| 4 | Step ordering — strict vs non-linear; tradeoffs (you chose non-linear) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Source-of-truth separation — required ops from flow config, history from attempts table | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Webhook delivery semantics — at-least-once (and why exactly-once is impractical) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | (Cross-ref Part 13 messaging) |
+| 7 | Webhook signing — HMAC-SHA256 (Stripe-style), key rotation flow | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: implement HMAC-SHA256 webhook signer + verifier in Java; include timestamp + nonce (45 min) |
+| 8 | eKYC vs in-person vs hybrid flows (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | Per-tenant data residency — region pinning (DC-JKT vs AWS-SG, your reality) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Per-tenant rate limits & quotas — burst vs sustained | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic rate limiting is covered in Part 7; this row is tenant-specific application. |  |
+| 12 | MRZ parsing — Machine-Readable Zone, fields, check digits, format variants | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: parse a sample MRZ string by hand — split TD1/TD3 fields, validate check digit (15 min) |
+| 13 | Re-KYC, periodic refresh, expiry triggers | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | Idempotency keys for verification operations | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: design an Idempotency-Key header contract — TTL, conflict semantics, storage strategy (30 min) |
+| 15 | Partial completion, resume, abandon semantics | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 16 | Retry budget — frontend-enforced vs backend-enforced vs hybrid; pros/cons | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 17 | Document switching mid-flow — historical preservation, latest-context computation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 18 | Sync (decision-now) vs async (decision-later) verification | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 19 | Ordering — per-resource ordering vs "out-of-order safe" event design | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 20 | Per-partner endpoint health tracking, per-partner circuit breaker | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 21 | SSRF protection — URL allowlist, blocked IP ranges, no-follow redirects | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 22 | Polling fallback (`GET /verify/status`, your current model) for partners who can't accept webhooks | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 23 | Webhook event schema versioning | 🟠 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 24 | Per-tenant SLAs, monitoring, alerting | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 25 | Noisy-neighbor isolation — connection pools, thread budgets, downstream quotas | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 26 | Per-tenant audit logs — billing dispute resolution + compliance | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 27 | NFC chip reading on e-passports — BAC, PACE, Passive/Active/Chip Authentication | 🟡 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 28 | Outbox + CDC for reliable webhook publishing | 🟡 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | (Cross-ref Part 13) |
+| 29 | EventBridge / SNS as fan-out hub for multi-subscriber events (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 30 | Tenant offboarding — data export, deletion guarantees | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 31 | Tenant-scoped feature flags (different rollouts per partner) | 🟡 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 32 | Cell-based architecture (advanced isolation pattern) (Basic concept only) | 🟡 🔐 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 33 | ONNX for model interoperability (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 34 | GPU vs CPU inference economics; batching strategies (Basic concept only) | 🟡 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 
 ## Time summary
@@ -163,11 +163,11 @@ stateDiagram-v2
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **KYC orchestration state machine end-to-end** (~6 hrs rows 22–27) — your literal architecture. Be able to whiteboard it, defend every state/precedence/component-mapping decision in 20 minutes.
-- **Webhook delivery + signing + replay defense** (~5 hrs rows 30–33 + 80–86) — Stripe-grade reliability. Implement the signer/verifier in code; document the rotation flow.
-- **Liveness + face-match metrics & threshold tuning** (~5 hrs rows 10–17) — PAD + matching deep dive. Explain APCER/BPCER/FAR/FRR to a non-expert; defend your operating-point choice.
-- **Multi-tenant isolation + data residency** (~6 hrs rows 34–38) — DC-JKT vs AWS-SG enforcement, per-tenant config, billing reconciliation. Senior-eng-defensible.
-- **ICAO 9303 + NFC + DG parsing** (~5 hrs rows 6–9) — document-verification depth. Few competitors will have this; it's a moat topic.
+- **KYC orchestration state machine end-to-end** (~6 hrs) — your literal architecture. Be able to whiteboard it, defend every state/precedence/component-mapping decision in 20 minutes.
+- **Webhook delivery + signing + replay defense** (~5 hrs) — Stripe-grade reliability. Implement the signer/verifier in code; document the rotation flow.
+- **Liveness + face-match metrics & threshold tuning** (~5 hrs) — PAD + matching deep dive. Explain APCER/BPCER/FAR/FRR to a non-expert; defend your operating-point choice.
+- **Multi-tenant isolation + data residency** (~6 hrs) — DC-JKT vs AWS-SG enforcement, per-tenant config, billing reconciliation. Senior-eng-defensible.
+- **ICAO 9303 + NFC + DG parsing** (~5 hrs) — document-verification depth. Few competitors will have this; it's a moat topic.
 
 ## Hands-on exercises (Practice + Advanced)
 

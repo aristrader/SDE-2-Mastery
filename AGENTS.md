@@ -35,6 +35,7 @@ mvn -q compile
 mvn -q clean compile
 mvn -q exec:java -Dexec.mainClass="<FQCN>"
 node scripts/generate-homepage.js
+node scripts/normalize-study-plan-rows.js
 codegraph status .
 codegraph sync .
 ```
@@ -99,6 +100,8 @@ Use schema families under `backend_fundamentals`; choose the lightest schema tha
 
 - When the user references the study plan, read `src/main/java/org/example/backend_fundamentals/todo/study_plan/README.md` first.
 - Per-Part files in `src/main/java/org/example/backend_fundamentals/todo/study_plan/parts/` are the authoritative syllabus.
+- Keep each Part inventory numbered sequentially in displayed priority order. After reordering rows, run `node scripts/normalize-study-plan-rows.js --write`; the normal homepage generation validates this.
+- Cross-document study-plan references should use the Part and topic name, not row numbers, because priority changes can reorder rows.
 - Before creating or substantially editing study material linked from a Part row, read `src/main/java/org/example/backend_fundamentals/todo/study_plan/reference/DocCreationStandard.md`.
 - New study material should pass this bar: would a senior Java backend interviewer plausibly ask about it?
 - Do not tick `Done`, `Grilling`, or `Visit Again` for the user except during the temp-doc import workflow.

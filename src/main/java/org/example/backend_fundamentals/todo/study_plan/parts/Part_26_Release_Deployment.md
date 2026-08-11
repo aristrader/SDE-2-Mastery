@@ -13,13 +13,13 @@
 | 5 | Backward-compatible API changes — add fields, never remove or rename | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/index.md` |
 | 6 | Backward-compatible DB changes — expand / contract (add → migrate → switch → remove) | 🔴 💼 🎯 | D | 2 hrs 30 min | [x] | [ ] | [ ] | [ ] | ~30 min | 💻 Warm-up: walk through renaming `username → user_name` via expand-contract (add new col, dual-write, backfill, switch reads, drop old) on paper (30 min)<br>📖 `deployments/index.md` |
 | 7 | Rollback strategy for every change (incl. data migrations — hardest) | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] | ~25 min | 📖 `deployments/index.md` |
-| 8 | Dark launches — code deployed but disabled (Basic concept only) | 🟠 💼 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 9 | Shadow traffic — mirror prod to new service silently to compare (Basic concept only) | 🟠 💼 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] | | |
-| 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | | |
-| 11 | Semantic versioning | 🟠 💼 | L | 30 min | [ ] | [ ] | [ ] | [ ] | | |
-| 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
-| 14 | Multi-version compatibility (rolling deploy implies N and N+1 coexist) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | | |
-| 19 | Hot-fix workflow | 🟢 | M | 30 min | [ ] | [ ] | [ ] | [ ] | | |
+| 8 | Dark launches — code deployed but disabled (Basic concept only) | 🟠 💼 🎯 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | Shadow traffic — mirror prod to new service silently to compare (Basic concept only) | 🟠 💼 🎯 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | Trunk-based development vs GitFlow | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Semantic versioning | 🟠 💼 | L | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Database migration tools — Flyway, Liquibase (idempotent migrations) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Flyway migration `V1__init.sql` + `V2__add_email_col.sql` running on Spring Boot startup (15 min) |
+| 13 | Multi-version compatibility (rolling deploy implies N and N+1 coexist) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 14 | Hot-fix workflow | 🟢 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 
 
@@ -61,9 +61,9 @@
 
 ## Mastery candidates (top 3–5 from this Part — suggestions, not commitments)
 
-- **Expand-contract DB migration end-to-end** (~3 hrs row 6) — the senior-canonical safe migration. Walk through it for a real KYC schema change.
-- **Rollback strategy for data migrations** (~2.5 hrs row 7) — hardest case. Document patterns: shadow tables, accept-forward, PITR.
-- **Feature flag architecture for KYC platform** (~2.5 hrs row 4) — kill switches per partner, gradual rollouts for new verification logic, A/B testing on UX.
+- **Expand-contract DB migration end-to-end** (~3 hrs) — the senior-canonical safe migration. Walk through it for a real KYC schema change.
+- **Rollback strategy for data migrations** (~2.5 hrs) — hardest case. Document patterns: shadow tables, accept-forward, PITR.
+- **Feature flag architecture for KYC platform** (~2.5 hrs) — kill switches per partner, gradual rollouts for new verification logic, A/B testing on UX.
 
 ## Hands-on exercises (Practice + Advanced)
 
