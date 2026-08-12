@@ -7,12 +7,12 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Logs — structured (JSON), levels, correlation IDs | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` · 💻 Warm-up: configure Logback / Logstash encoder for JSON output with correlationId via MDC, hit endpoint, inspect log shape (15 min) |
-| 2 | Metrics — counters, gauges, histograms, summaries; RED & USE methods | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
-| 3 | Traces — spans, context propagation, OpenTelemetry | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
-| 4 | Prometheus + Grafana | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
-| 5 | Datadog (you use it daily) — APM, logs, metrics, monitors | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` · 💻 Warm-up: define a Datadog custom metric via dd-trace-java + verify in Datadog UI (20 min) |
-| 6 | Alerts — symptom-based not cause-based; runbooks per alert | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
-| 7 | On-call hygiene, incident response | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
+| 2 | Traces — spans, context propagation, OpenTelemetry | 🔴 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
+| 3 | Alerts — symptom-based not cause-based; runbooks per alert | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
+| 4 | Metrics — counters, gauges, histograms, summaries; RED & USE methods | 🟠 💼 🎯 | D | 2 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
+| 5 | On-call hygiene, incident response | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
+| 6 | Prometheus + Grafana | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Product-specific operation; generic metrics and dashboard reasoning remain red. | 📖 `system_design/concepts/observability/index.md` |
+| 7 | Datadog (you use it daily) — APM, logs, metrics, monitors | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Product-specific operation; generic observability reasoning remains red. | 📖 `system_design/concepts/observability/index.md` · 💻 Warm-up: define a Datadog custom metric via dd-trace-java + verify in Datadog UI (20 min) |
 | 8 | Events — discrete vs metric aggregation | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] |  |  |
 | 9 | OpenTelemetry — collector, SDKs, instrumentation | 🟠 💼 | D | 2 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` · 💻 Warm-up: wire OpenTelemetry Java agent into a Spring Boot app + export to OTLP collector (30 min) |
 | 10 | Postmortems, blameless culture, 5 whys | 🟠 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `system_design/concepts/observability/index.md` |
@@ -21,7 +21,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~11.5 hrs | ~1.05 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5 hrs | ~0.45 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~15.75 hrs | ~1.43 wk | |
 | Full Part (all items including 🟡) | ~15.75 hrs | ~1.43 wk | |
 

@@ -8,23 +8,24 @@
 |---|-------|------|------|------|------|---|----------|-------------|-------|-----------|
 | 1 | Patterns — cache-aside, read-through, write-through, write-behind, refresh-ahead | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Refresh-ahead pending; write-around covered as bonus | 📖 `system_design/components/caching/index.md` |
 | 2 | Invalidation strategies — TTL, explicit, event-driven | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: explicit delete-vs-update on write covered; TTL + event-driven strategies pending | 📖 `system_design/components/caching/index.md` (explicit only) · 💻 Warm-up: cache-aside with TTL using Spring `@Cacheable(unless=...)` + explicit eviction via `@CacheEvict` (15 min) |
-| 3 | Eviction policies — LRU, LFU, ARC, FIFO, random | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: LRU concept covered; LFU/ARC/FIFO details pending | 📖 `system_design/components/caching/index.md` (LRU only) |
+| 3 | Core eviction policies — LRU and LFU trade-offs | 🔴 💼 🎯 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: LRU concept covered; LFU pending. | 📖 `system_design/components/caching/index.md` (LRU only) |
 | 4 | Cache stampede / thundering herd — single-flight, request coalescing, jittered TTLs | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | Spring `@Cacheable` mechanics + pitfalls — self-invocation bypass (AOP proxy), SpEL key, `sync = true` for hot keys, condition vs unless, CacheManager wiring | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: reproduce the self-invocation trap — service method calls another method with @Cacheable on same class, observe cache bypass; fix via self-injection or AspectJ (30 min) |
-| 6 | Multi-tier caching — browser, CDN, gateway, app, distributed, DB buffer | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: local→Redis→DB layering + CPU-cache analogy + CDN tier covered; full browser/gateway/DB-buffer tier walk pending | 📖 `system_design/components/caching/index.md` + `system_design/components/cdn/index.md` (partial) |
-| 7 | Negative caching (caching "not found") | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 8 | Cache consistency models in microservices | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 9 | Hot key problem & mitigation | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 10 | Cache key design — tenant-scoped, versioned, collision-safe (e.g., `kyc:v1:tenant:{tenantId}:doc:{docId}`); cross-tenant safety; key versioning for schema migrations | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 11 | Redis specifically — data structures, persistence (RDB/AOF), Sentinel, Cluster | 🟠 💼 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: Cluster (16384 hash slots, masters/replicas, failover) covered; data structures, RDB/AOF, Sentinel pending | 📖 `system_design/components/caching/index.md` (Cluster only) · 📖 redis.io intro · 💻 Warm-up: connect with `redis-cli`, exercise SET/GET/EXPIRE/TTL/HSET/LPUSH/ZADD from memory (20 min) |
-| 12 | Caffeine (in-JVM cache) — for Spring apps | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Caffeine builder with maximumSize + expireAfterWrite + recordStats (20 min) |
-| 13 | Memcached vs Redis tradeoffs | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Cache consistency and stale-data handling in microservices | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Hot key problem & mitigation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | Secondary eviction policies — ARC, FIFO, and random | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Recognition-level comparison; LRU/LFU remain the interview baseline. |  |
+| 8 | Spring `@Cacheable` mechanics + pitfalls — self-invocation bypass (AOP proxy), SpEL key, `sync = true` for hot keys, condition vs unless, CacheManager wiring | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: reproduce the self-invocation trap — service method calls another method with @Cacheable on same class, observe cache bypass; fix via self-injection or AspectJ (30 min) |
+| 9 | Multi-tier caching — browser, CDN, gateway, app, distributed, DB buffer | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: local→Redis→DB layering + CPU-cache analogy + CDN tier covered; full browser/gateway/DB-buffer tier walk pending | 📖 `system_design/components/caching/index.md` + `system_design/components/cdn/index.md` (partial) |
+| 10 | Negative caching (caching "not found") | 🟠 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Cache key design — tenant-scoped, versioned, collision-safe (e.g., `kyc:v1:tenant:{tenantId}:doc:{docId}`); cross-tenant safety; key versioning for schema migrations | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 12 | Redis specifically — data structures, persistence (RDB/AOF), Sentinel, Cluster | 🟠 💼 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | ~45 min (ChatGPT). Partial: Cluster (16384 hash slots, masters/replicas, failover) covered; data structures, RDB/AOF, Sentinel pending | 📖 `system_design/components/caching/index.md` (Cluster only) · 📖 redis.io intro · 💻 Warm-up: connect with `redis-cli`, exercise SET/GET/EXPIRE/TTL/HSET/LPUSH/ZADD from memory (20 min) |
+| 13 | Caffeine (in-JVM cache) — for Spring apps | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Caffeine builder with maximumSize + expireAfterWrite + recordStats (20 min) |
+| 14 | Memcached vs Redis tradeoffs | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~8.5 hrs | ~0.77 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.5 hrs | ~0.86 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~18.75 hrs | ~1.7 wk | |
 | Full Part (all items including 🟡) | ~19.5 hrs | ~1.77 wk | ~2.25 hrs so far |
 

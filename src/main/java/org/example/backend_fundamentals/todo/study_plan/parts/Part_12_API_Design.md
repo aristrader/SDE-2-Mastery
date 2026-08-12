@@ -13,10 +13,10 @@
 | 5 | Filtering, sorting, projections | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 6 | Idempotency — Idempotency-Key header, design | 🔴 💼 🎯 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: middleware that reads `Idempotency-Key` header + stores `(key, response)` in Redis with 24h TTL + serves cached response on retry (20 min) |
 | 7 | Error response design (RFC 7807 Problem Details) | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: @RestControllerAdvice mapping a DomainException to ProblemDetail with type/title/status/detail/instance fields (15 min) |
-| 8 | Authentication header design | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 9 | OpenAPI spec & code-gen | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 10 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 11 | Async / long-running APIs (202 + status endpoint — your KYC pattern) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 8 | Async / long-running APIs — `202 Accepted`, status endpoint, and callbacks | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | Authentication header design | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 10 | OpenAPI spec & code-gen | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 11 | Bulk operations | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 12 | HATEOAS — what it is, why most APIs skip it | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 13 | API deprecation strategy | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
@@ -24,7 +24,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~13 hrs | ~1.18 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~11.5 hrs | ~1.05 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~16.75 hrs | ~1.52 wk | |
 | Full Part (all items including 🟡) | ~17.75 hrs | ~1.61 wk | ~2.0 hrs so far |
 

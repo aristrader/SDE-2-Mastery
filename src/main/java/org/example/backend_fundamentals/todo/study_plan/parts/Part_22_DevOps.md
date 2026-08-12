@@ -6,8 +6,8 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Docker — networking, volumes, compose | 🔴 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered |  |
-| 2 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` |  |
+| 1 | VM vs Container vs Lambda — Architecture, pros/cons, and SDE2 appropriate scope | 🔴 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | 📖 `deployments/kubernetes_and_containers/index.md` |  |
+| 2 | Docker — networking, volumes, compose | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Notes: compose basics (Kafka example) covered. |  |
 | 3 | Terraform — infrastructure as code, state, remote shared backend/locking (Basic concept only) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Know why teams use remote encrypted state and locking; providers, module design, workspaces, and hands-on provisioning are not interview priority. |  |
 | 4 | Container internals — namespaces, cgroups, overlayfs | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 | 5 | Linux troubleshooting basics — process/CPU inspection (`ps`, `top`), open files (`lsof`), listening connections (`ss`) | 🟠 💼 | M | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | `tcpdump` and `strace` are optional operational depth. | 💻 Warm-up: identify which process holds port 8080 (`lsof -i :8080`) and inspect its open files (`lsof -p <pid>`) (20 min) |
@@ -30,7 +30,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~2.5 hrs | ~0.23 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~1 hr | ~0.09 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~19.25 hrs | ~1.75 wk | |
 | Full Part (all items including 🟡) | ~19.25 hrs | ~1.75 wk | |
 

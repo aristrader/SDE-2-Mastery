@@ -16,6 +16,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Anycast (same IP from many locations — CDNs, DNS, Global Accelerator)** → Part 11
 - **ArgoCD sync loop / kustomization.yaml** → Part 22
 - **AOP (Aspect-Oriented Programming)** → Part 03, Part 1b (Spring proxies)
+- **API keys (use cases, storage, rotation)** → Part 18
 - **API gateway** → Part 12, Part 13 (AWS API Gateway)
 - **API Gateway (AWS) — REST vs HTTP API, throttling, Lambda authorizers** → Part 13
 - **API versioning** → Part 12
@@ -23,6 +24,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **AppConfig (AWS) — feature flags, configuration profiles** → Part 13
 - **APCER / BPCER / ACER** → Part 29
 - **@Async + thread-context propagation (MDC, tenant, SecurityContext)** → Part 03, Part 1b
+- **Async / long-running APIs (`202`, status resource, callbacks)** → Part 12
 - **AsyncProfiler** → Part 08, Part 25
 - **@Scheduled (fixedRate vs fixedDelay vs cron, TaskScheduler config)** → Part 03, Part 1b
 - **Audit logging (authz decisions)** → Part 19
@@ -55,6 +57,8 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Canary release** → Part 26, Part 29 (ML)
 - **Cassandra** → Part 06 (NoSQL)
 - **Cache-aside / read-through / write-through / write-behind** → Part 09
+- **Cache consistency and stale-data handling** → Part 09
+- **Cache eviction (LRU/LFU baseline; secondary policies)** → Part 09
 - **@Cacheable / @CacheEvict / @CachePut** → Part 09, Part 1b
 - **@Cacheable self-invocation trap** → Part 09
 - **Cache key design (tenant-scoped, versioned)** → Part 09
@@ -120,7 +124,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Embeddings (face / text)** → Part 29, Part 23, `gen_ai/rag/index.md`
 - **Encryption at rest / in transit** → Part 16, Part 28
 - **Enums with behaviour (abstract methods, interface impl)** → Part 04, Part 1b
-- **EnvelopeEncryption (KMS)** → Part 16, Part 31
+- **EnvelopeEncryption (KMS)** → Part 13, Part 16, Part 31
 - **EventBridge** → Part 13 (schema registry, audit / event bus pattern), Part 10
 - **EXIF stripping** → Part 31
 - **Expand-contract migration** → Part 26
@@ -163,6 +167,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **HMAC-SHA256 (webhook signing)** → Part 20, Part 29
 - **HSTS / CSP / X-Frame-Options** → Part 18
 - **HLD interview framework (clarify → high-level design → deep dive → wrap-up)** → Part 30, `system_design/interview_framework/`
+- **Hot key detection and mitigation** → Part 09
 - **HTTP status codes / methods** → Part 11
 - **HTTP/2, HTTP/3 (QUIC)** → Part 11
 - **HTTPS handshake** → Part 11, Part 16
@@ -204,7 +209,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 
 ## K
 
-- **KMS (envelope encryption)** → Part 16, Part 31
+- **KMS (envelope encryption)** → Part 13, Part 16, Part 31
 - **Kafka (partitioning, ordering, exactly-once)** → Part 10
 - **@KafkaListener + DefaultErrorHandler + DLT recoverer** → Part 10
 - **Kill switch placement** → Part 26, Part 31 trick question #3
@@ -239,6 +244,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **mTLS** → Part 16, Part 17, Part 29
 - **Model drift / canary (ML)** → Part 29
 - **Monolith vs microservices (modular monolith, distributed monolith anti-pattern, SOA, cohesion/coupling, when-not-to)** → Part 07
+- **Multi-version deployment compatibility** → Part 26
 - **MRZ parsing** → Part 29, Part 31
 - **MVCC** → Part 06
 

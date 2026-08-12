@@ -7,7 +7,7 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Test pyramid — many unit, some integration, few e2e | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 2 | Mocking — Mockito basics, when to mock vs not (rule: mock at boundaries, not internals) | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Mockito @Mock + @InjectMocks + when().thenReturn() + verify().times(N) (15 min) |
+| 2 | Mocking — Mockito basics, when to mock vs not (rule: mock at boundaries, not internals) | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Useful team-quality knowledge, not a red interview requirement. | 💻 Warm-up: Mockito @Mock + @InjectMocks + when().thenReturn() + verify().times(N) (15 min) |
 | 3 | Unit-test tooling — JUnit 5 basics, AssertJ / Hamcrest, parameterized tests | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Useful implementation fluency, not a red interview requirement. | 💻 Warm-up: JUnit 5 test class with @ParameterizedTest + @MethodSource + AssertJ chained assertions (15 min) |
 | 4 | Spring controller-test scope — `@WebMvcTest` + `MockMvc`; compare with slower full-context `@SpringBootTest` | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Know the scope and trade-off; use the smallest test that exercises the behavior. | 💻 Warm-up: @WebMvcTest one controller, mock its service via @MockBean, hit via MockMvc (20 min) |
 | 5 | Specialized Spring test slices — `@DataJpaTest`, `@JsonTest`, `@WebFluxTest`, and `TestRestTemplate` | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Know these as targeted alternatives; their annotation details are not a must-have interview focus. |  |
@@ -29,7 +29,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~2.25 hrs | ~0.2 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~0.75 hrs | ~0.07 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~18.5 hrs | ~1.68 wk | |
 | Full Part (all items including 🟡) | ~19.25 hrs | ~1.75 wk | |
 

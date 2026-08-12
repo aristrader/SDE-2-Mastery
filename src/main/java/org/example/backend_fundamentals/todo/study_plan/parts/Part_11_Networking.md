@@ -6,44 +6,45 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | OSI vs TCP/IP model | 🔴 💼 🎯 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: OSI-as-mental-framework framing covered; layer mapping + TCP/IP comparison pending | 📖 `networking/tcp_vs_udp/index.md` (framing only) |
-| 2 | TCP — handshake, sliding window, congestion control (Reno, CUBIC, BBR) | 🔴 💼 🎯 | D | 2.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: TCP guarantees (delivery/ordering/retransmit) covered; handshake, sliding window, congestion algorithms pending | 📖 `networking/tcp_vs_udp/index.md` (guarantees only) |
-| 3 | UDP — when it's right (DNS, real-time, QUIC) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). QUIC-specific coverage is still pending | 📖 `networking/tcp_vs_udp/index.md` |
-| 4 | HTTP methods, status codes (and which to use when) | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending | 📖 `networking/http_basics/index.md` · 💻 Warm-up: write controller endpoints returning 200/201/204/400/401/403/404/409/422/429/500 with proper ResponseEntity (10 min) |
-| 5 | HTTP caching essentials — `Cache-Control`, `ETag`, and conditional requests | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Practical API and CDN interview scope. |  |
-| 6 | CORS — preflight, simple requests | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
-| 7 | DNS resolution flow — recursive, authoritative, caching | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/dns/index.md` |
-| 8 | gRPC — Protobuf, streaming modes, deadlines | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Protobuf serialization, generated code, shared contracts, versioning covered; streaming modes & deadlines pending. ~1 hr (ChatGPT) | 📖 `api_design/protobuf_grpc/index.md` |
-| 9 | TCP operational details — head-of-line blocking, keepalive, TIME_WAIT | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Know these as troubleshooting concepts, not protocol-internals interview depth. |  |
-| 10 | HTTP/1.1 connection behavior — persistent connections; recognize pipelining and chunked encoding | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Pipelining and chunk framing are reference knowledge. |  |
-| 11 | HTTP/2 multiplexing — removes application-level request blocking on one connection | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Know the benefit and its limits; TCP-level loss can still block streams. |  |
-| 12 | Secondary cache validators — `Last-Modified` and `Vary` | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Useful HTTP behavior, but not a must-have interview topic. |  |
-| 13 | DNS record types — recognize `A`, `AAAA`, and `CNAME`; treat `MX`, `TXT`, and `SRV` as reference knowledge | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 14 | IPv4 vs IPv6 basics — 32-bit vs 128-bit, dotted-decimal vs hex, dual-stack, where each dominates today (public internet, mobile, cloud VPCs) | 🟠 💼 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: IPv4 scarcity (2^32) covered; IPv6 entirely pending | 📖 `networking/ip_addressing/index.md` (IPv4 scarcity only) |
-| 15 | Subnetting, CIDR, RFC 1918 private ranges (10/8, 172.16-31/12, 192.168/16) — why private IPs aren't routable on the public internet | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: private ranges + non-routability covered; subnetting/CIDR math pending | 📖 `networking/ip_addressing/index.md` (ranges + routability only) |
-| 16 | IP Address Types (Public/Private vs Static/Dynamic) — the 2x2 matrix, why databases use private static IPs, how hackers reach private IPs | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/ip_addressing/index.md` |
-| 17 | HTTP/3 / QUIC — over UDP, eliminates HoL blocking | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 18 | Content negotiation, Accept-Encoding (gzip, brotli) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 19 | Cookies — SameSite, Secure, HttpOnly | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 20 | TTL implications (DNS) | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT, including DNS hierarchy and players in the shared DNS doc) | 📖 `networking/dns/index.md` |
-| 21 | Route 53 — routing policies (latency, weighted, geo, failover) | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: DNS-based LB / failover / CDN-steering concepts covered; Route 53 policy specifics pending | 📖 `networking/dns/index.md` (concepts only) |
-| 22 | GraphQL — schema, resolvers, N+1, DataLoader | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~2 hr total (ChatGPT). N+1 problem covered | 📖 `databases/graph/index.md` · 📖 `api_design/api_technologies_summary/index.md` |
-| 23 | Webhooks — design, retries, signing | 🟠 💼 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: Definition and comparison to polling/WebSockets covered; design, retries, signing pending | 📖 `networking/communication_patterns/index.md` · 💻 Warm-up: write a webhook receiver that verifies HMAC-SHA256 signature against a shared secret with timestamp window (30 min) |
-| 24 | NAT, port forwarding, CGNAT (carrier-grade NAT — ISPs sharing one public IP across many customers), Anycast (same IP advertised from many locations — CDNs, DNS, AWS Global Accelerator) | 🟠 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Anycast + port forwarding not covered yet | 📖 `networking/ip_addressing/index.md` |
-| 25 | IP address allocation hierarchy — IANA → 5 RIRs (ARIN, RIPE NCC, APNIC, LACNIC, AFRINIC) → ISPs → end users; ICANN's coordinating role | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 26 | IPv4 exhaustion + secondary market — IANA 2011, RIR depletion timeline, brokers (e.g., IPv4.Global), RIR-approved transfers, why legacy /8 blocks (MIT, HP, DoD) shaped today's scarcity | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 27 | WebSockets — handshake, frames, use cases | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: SDE2-level comparison to SSE/Webhooks covered; handshake & frames pending | 📖 `networking/communication_patterns/index.md` |
-| 28 | Server-Sent Events (SSE) — including microservices fan-out pattern | 🟡 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: Concept and comparison to WebSockets covered; microservices fan-out pattern pending | 📖 `networking/communication_patterns/index.md` |
-| 29 | Long polling vs short polling | 🟡 | M | 30 min | [x] | [ ] | [ ] | [ ] | ~30 min (ChatGPT) | 📖 `networking/communication_patterns/index.md` |
-| 30 | DHCP (leases, MAC→IP mapping) + MAC addresses — identity vs location, spoofing, why routing uses IP not MAC, tracing via ISP/CGNAT logs | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/ip_addressing/index.md` |
-| 31 | Forward vs reverse proxy, DNS/IP blocking, VPN tunneling, national firewalls (DPI, active probing) | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Appended TLS/SNI + obfuscated VPNs | 📖 `networking/proxies_vpn/index.md` |
-| 32 | HTTP/2 implementation details — HPACK header compression and deprecated server push | 🟢 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Reference-only protocol detail. |  |
+| 1 | TCP connection basics — guarantees, three-way handshake, and why timeouts/retries matter | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: TCP guarantees (delivery/ordering/retransmit) covered; handshake pending. | 📖 `networking/tcp_vs_udp/index.md` |
+| 2 | UDP — when it's right (DNS, real-time, QUIC) | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). QUIC-specific coverage is still pending | 📖 `networking/tcp_vs_udp/index.md` |
+| 3 | HTTP methods, status codes (and which to use when) | 🔴 💼 🎯 | M | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending | 📖 `networking/http_basics/index.md` · 💻 Warm-up: write controller endpoints returning 200/201/204/400/401/403/404/409/422/429/500 with proper ResponseEntity (10 min) |
+| 4 | HTTP caching essentials — `Cache-Control`, `ETag`, and conditional requests | 🔴 💼 🎯 | M | 45 min | [ ] | [ ] | [ ] | [ ] | Practical API and CDN interview scope. |  |
+| 5 | CORS — preflight, simple requests | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
+| 6 | DNS resolution flow — recursive, authoritative, caching | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/dns/index.md` |
+| 7 | OSI vs TCP/IP model | 🟠 💼 🎯 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: OSI-as-mental-framework framing covered; layer mapping + TCP/IP comparison pending. | 📖 `networking/tcp_vs_udp/index.md` (framing only) |
+| 8 | gRPC — Protobuf, streaming modes, deadlines | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: Protobuf serialization, generated code, shared contracts, versioning covered; streaming modes & deadlines pending. ~1 hr (ChatGPT) | 📖 `api_design/protobuf_grpc/index.md` |
+| 9 | TCP flow-control and congestion-control mechanics — sliding window, Reno, CUBIC, BBR | 🟠 💼 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Know the purpose at a high level; algorithm details are not required interview coverage. | 📖 `networking/tcp_vs_udp/index.md` |
+| 10 | TCP operational details — head-of-line blocking, keepalive, TIME_WAIT | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Know these as troubleshooting concepts, not protocol-internals interview depth. |  |
+| 11 | HTTP/1.1 connection behavior — persistent connections; recognize pipelining and chunked encoding | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Pipelining and chunk framing are reference knowledge. |  |
+| 12 | HTTP/2 multiplexing — removes application-level request blocking on one connection | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Know the benefit and its limits; TCP-level loss can still block streams. |  |
+| 13 | Secondary cache validators — `Last-Modified` and `Vary` | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Useful HTTP behavior, but not a must-have interview topic. |  |
+| 14 | DNS record types — recognize `A`, `AAAA`, and `CNAME`; treat `MX`, `TXT`, and `SRV` as reference knowledge | 🟠 💼 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 15 | IPv4 vs IPv6 basics — 32-bit vs 128-bit, dotted-decimal vs hex, dual-stack, where each dominates today (public internet, mobile, cloud VPCs) | 🟠 💼 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: IPv4 scarcity (2^32) covered; IPv6 entirely pending | 📖 `networking/ip_addressing/index.md` (IPv4 scarcity only) |
+| 16 | Subnetting, CIDR, RFC 1918 private ranges (10/8, 172.16-31/12, 192.168/16) — why private IPs aren't routable on the public internet | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: private ranges + non-routability covered; subnetting/CIDR math pending | 📖 `networking/ip_addressing/index.md` (ranges + routability only) |
+| 17 | IP Address Types (Public/Private vs Static/Dynamic) — the 2x2 matrix, why databases use private static IPs, how hackers reach private IPs | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/ip_addressing/index.md` |
+| 18 | HTTP/3 / QUIC — over UDP, eliminates HoL blocking | 🟠 💼 🆕 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 19 | Content negotiation, Accept-Encoding (gzip, brotli) | 🟠 💼 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 20 | Cookies — SameSite, Secure, HttpOnly | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 21 | TTL implications (DNS) | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT, including DNS hierarchy and players in the shared DNS doc) | 📖 `networking/dns/index.md` |
+| 22 | Route 53 — routing policies (latency, weighted, geo, failover) | 🟠 💼 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: DNS-based LB / failover / CDN-steering concepts covered; Route 53 policy specifics pending | 📖 `networking/dns/index.md` (concepts only) |
+| 23 | GraphQL — schema, resolvers, N+1, DataLoader | 🟠 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~2 hr total (ChatGPT). N+1 problem covered | 📖 `databases/graph/index.md` · 📖 `api_design/api_technologies_summary/index.md` |
+| 24 | Webhooks — design, retries, signing | 🟠 💼 🎯 | D | 2 hrs | [ ] | [x] | [ ] | [ ] | Partial: Definition and comparison to polling/WebSockets covered; design, retries, signing pending | 📖 `networking/communication_patterns/index.md` · 💻 Warm-up: write a webhook receiver that verifies HMAC-SHA256 signature against a shared secret with timestamp window (30 min) |
+| 25 | NAT, port forwarding, CGNAT (carrier-grade NAT — ISPs sharing one public IP across many customers), Anycast (same IP advertised from many locations — CDNs, DNS, AWS Global Accelerator) | 🟠 💼 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Anycast + port forwarding not covered yet | 📖 `networking/ip_addressing/index.md` |
+| 26 | IP address allocation hierarchy — IANA → 5 RIRs (ARIN, RIPE NCC, APNIC, LACNIC, AFRINIC) → ISPs → end users; ICANN's coordinating role | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 27 | IPv4 exhaustion + secondary market — IANA 2011, RIR depletion timeline, brokers (e.g., IPv4.Global), RIR-approved transfers, why legacy /8 blocks (MIT, HP, DoD) shaped today's scarcity | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 28 | WebSockets — handshake, frames, use cases | 🟡 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: SDE2-level comparison to SSE/Webhooks covered; handshake & frames pending | 📖 `networking/communication_patterns/index.md` |
+| 29 | Server-Sent Events (SSE) — including microservices fan-out pattern | 🟡 | M | 45 min | [ ] | [x] | [ ] | [ ] | Partial: Concept and comparison to WebSockets covered; microservices fan-out pattern pending | 📖 `networking/communication_patterns/index.md` |
+| 30 | Long polling vs short polling | 🟡 | M | 30 min | [x] | [ ] | [ ] | [ ] | ~30 min (ChatGPT) | 📖 `networking/communication_patterns/index.md` |
+| 31 | DHCP (leases, MAC→IP mapping) + MAC addresses — identity vs location, spoofing, why routing uses IP not MAC, tracing via ISP/CGNAT logs | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT) | 📖 `networking/ip_addressing/index.md` |
+| 32 | Forward vs reverse proxy, DNS/IP blocking, VPN tunneling, national firewalls (DPI, active probing) | 🟡 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | ~45 min (ChatGPT). Appended TLS/SNI + obfuscated VPNs | 📖 `networking/proxies_vpn/index.md` |
+| 33 | HTTP/2 implementation details — HPACK header compression and deprecated server push | 🟢 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Reference-only protocol detail. |  |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~10.25 hrs | ~0.93 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~6.5 hrs | ~0.59 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.25 hrs | ~2.48 wk | |
 | Full Part (all items including 🟡 + 🟢) | ~33.5 hrs | ~3.05 wk | ~8.75 hrs so far |
 

@@ -6,14 +6,14 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Symmetric encryption — AES (modes: GCM, CBC, CTR), ChaCha20-Poly1305 | 🔴 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 2 | Hash functions — SHA-2 family, SHA-3, properties (preimage, collision) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: SHA-256 a string via Java MessageDigest from memory + verify with `echo -n "hello" \| shasum -a 256` (10 min) |
-| 3 | MAC — HMAC, vs digital signature | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Java HMAC-SHA256 over a payload with shared secret + verify equality timing-safely (10 min) |
-| 4 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | SQL injection, parameterized queries | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 6 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
-| 7 | CSRF | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 8 | Replay attacks — timestamps, nonces | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 1 | MAC — HMAC, vs digital signature | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: Java HMAC-SHA256 over a payload with shared secret + verify equality timing-safely (10 min) |
+| 2 | SQL injection, parameterized queries | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | XSS — reflected, stored, DOM | 🔴 💼 🔐 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/web_security/index.md` |
+| 4 | CSRF | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Replay attacks — timestamps, nonces | 🔴 💼 🔐 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | Hash functions — SHA-2 family, SHA-3, properties (preimage, collision) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: SHA-256 a string via Java MessageDigest from memory + verify with `echo -n "hello" \| shasum -a 256` (10 min) |
+| 7 | Symmetric encryption — AES modes (GCM, CBC, CTR), ChaCha20-Poly1305 | 🟠 💼 🔐 | D | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Cryptographic algorithm details; generic encryption-at-rest/in-transit remains red in Part 28. |  |
+| 8 | Authenticated encryption (AEAD) — AES-GCM, why not raw CBC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 9 | Asymmetric encryption — RSA, ECC, key sizes | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: RSA/ECC concept mentioned, key sizes pending | 📖 `security/cryptography/tls_https_pki/index.md` |
 | 10 | Key derivation — PBKDF2, scrypt, Argon2, HKDF | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 11 | Timing attacks, constant-time comparison | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
@@ -29,7 +29,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.75 hrs | ~0.89 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5.25 hrs | ~0.48 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~21.5 hrs | ~1.95 wk | |
 | Full Part (all items including 🟡) | ~23 hrs | ~2.09 wk | |
 

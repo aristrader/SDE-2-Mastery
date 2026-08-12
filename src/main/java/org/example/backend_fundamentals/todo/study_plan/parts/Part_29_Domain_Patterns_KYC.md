@@ -8,13 +8,13 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | KYC flow archetypes — collection → verification → screening → decision | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 2 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) (Basic concept only) | 🔴 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 3 | Multi-step verification state machine — operations × components × statuses | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: sketch your current `kyc_status` state machine on paper — states, transitions, terminal vs non-terminal (30 min) |
-| 4 | Step ordering — strict vs non-linear; tradeoffs (you chose non-linear) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | Source-of-truth separation — required ops from flow config, history from attempts table | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 6 | Webhook delivery semantics — at-least-once (and why exactly-once is impractical) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | (Cross-ref Part 13 messaging) |
-| 7 | Webhook signing — HMAC-SHA256 (Stripe-style), key rotation flow | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: implement HMAC-SHA256 webhook signer + verifier in Java; include timestamp + nonce (45 min) |
+| 1 | Multi-step verification state machine — operations × components × statuses | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: sketch your current `kyc_status` state machine on paper — states, transitions, terminal vs non-terminal (30 min) |
+| 2 | Webhook delivery semantics — at-least-once (and why exactly-once is impractical) | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | (Cross-ref Part 13 messaging) |
+| 3 | Webhook signing — HMAC-SHA256 (Stripe-style), key rotation flow | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: implement HMAC-SHA256 webhook signer + verifier in Java; include timestamp + nonce (45 min) |
+| 4 | Step ordering — strict vs non-linear; tradeoffs (you chose non-linear) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 5 | Source-of-truth separation — required ops from flow config, history from attempts table | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | KYC flow archetypes — collection → verification → screening → decision | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | 1:1 verification (KYC) vs 1:N identification (dedup, watchlists) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] | Basic domain theory. |  |
 | 8 | eKYC vs in-person vs hybrid flows (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 9 | CDD vs EDD — Customer Due Diligence vs Enhanced Due Diligence (Basic concept only) | 🟠 💼 🔐 | M | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 10 | Per-tenant data residency — region pinning (DC-JKT vs AWS-SG, your reality) | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
@@ -48,7 +48,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~9.75 hrs | ~0.89 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5.5 hrs | ~0.5 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~33.5 hrs | ~3.05 wk | |
 | Full Part (all items including 🟡) | ~40 hrs | ~3.64 wk | |
 

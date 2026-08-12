@@ -6,15 +6,15 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | EC2 & ASG Basics — instance families, AMIs, scaling policies | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
-| 2 | S3 Basics — storage classes, versioning, strong consistency | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 3 | RDS & Aurora Basics — Multi-AZ vs read replicas, storage-decoupled architecture | 🔴 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 4 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only) | 🔴 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
-| 6 | STS, AssumeRole, role chaining | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 7 | KMS — CMKs, data keys, envelope encryption, key policies, grants | 🔴 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
-| 8 | Secrets Manager vs Parameter Store | 🔴 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 9 | SNS — topics, subscriptions, fanout, FIFO topics, message filtering | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 1 | S3 Basics — storage classes, versioning, strong consistency | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only) | 🔴 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
+| 4 | EC2 and Auto Scaling Groups — compute instances and horizontal scaling | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Instance-family and AMI details are operational depth. | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
+| 5 | RDS and Aurora — Multi-AZ versus read replicas; Aurora storage architecture | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic HA and read-replica concepts remain red in Part 06. |  |
+| 6 | STS, AssumeRole, role chaining | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 7 | KMS — data keys, envelope encryption, key policies, grants | 🟠 💼 🔐 | D | 2.5 hrs | [ ] | [ ] | [ ] | [ ] | Useful cloud-security depth, not a must-have general backend interview topic. | 💻 Warm-up: `aws kms encrypt/decrypt` via CLI on a small payload + understand the wrap-data-key flow (20 min) |
+| 8 | Secrets Manager vs Parameter Store | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 9 | SNS — topics, subscriptions, fanout, FIFO topics, message filtering | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic Pub/Sub semantics remain red in Part 10. |  |
 | 10 | SQS — queue types (Standard vs FIFO), DLQ + redrive, visibility timeout, long polling, message attributes | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Queue delivery semantics and idempotent consumers are covered in Part 10; retain this as AWS product mapping. | 💻 Warm-up: send/receive messages via AWS CLI; configure DLQ + redrive policy; observe visibility timeout (20 min) |
 | 11 | EC2 & ASG Advanced — user data, instance metadata, lifecycle hooks | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 | 12 | Lambda Basics — concurrency, cold starts vs provisioned concurrency | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | The generic compute-choice model is red in Part 22; this is AWS operational depth. | 💻 Warm-up: deploy a basic Java Lambda via SAM CLI + invoke (30 min) |
@@ -47,7 +47,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~12.75 hrs | ~1.16 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~3.25 hrs | ~0.3 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~37.5 hrs | ~3.41 wk | |
 | Full Part (all items including 🟡) | ~38.75 hrs | ~3.52 wk | |
 

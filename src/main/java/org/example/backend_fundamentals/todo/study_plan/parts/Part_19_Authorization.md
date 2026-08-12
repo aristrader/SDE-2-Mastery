@@ -8,9 +8,9 @@
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | RBAC — roles, permissions, hierarchies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: model TenantAdmin/Agent/Viewer roles + write @PreAuthorize annotations on 3 endpoints (20 min) |
 | 2 | ABAC — attribute-based, policies | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
-| 3 | Spring Security architecture — filter chain, SecurityContext, @PreAuthorize internals | 🔴 💼 🎯 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
-| 4 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
-| 5 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 3 | JWT claim → GrantedAuthority mapping in Spring Security | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
+| 4 | OAuth scopes vs roles vs permissions — the distinction | 🔴 💼 🔐 | M | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 5 | Spring Security architecture — filter chain, SecurityContext, `@PreAuthorize` internals | 🟠 💼 🎯 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] | Product/framework depth; RBAC, ABAC, claims, and scopes remain red. | 📖 `spring/spring_security/authorization/index.md` · 💻 Warm-up: trace one request through SecurityFilterChain — DEBUG log + identify the 5 default filters in order (30 min) |
 | 6 | ReBAC — Google Zanzibar model, SpiceDB, OpenFGA | 🟠 💼 🔐 | MP | 2 hrs | [x] | [ ] | [ ] | [ ] |  |  |
 | 7 | PBAC (policy-based) — OPA / Rego, Cedar | 🟠 💼 🔐 | MP | 2.5 hrs | [x] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write a Rego policy that denies cross-tenant access (30 min) |
 | 8 | Multi-tenant authorization — tenant isolation | 🟠 💼 🔐 | D | 2.5 hrs | [x] | [ ] | [ ] | [ ] |  | 📖 `spring/spring_security/authorization/index.md` |
@@ -21,7 +21,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~8 hrs | ~0.73 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5.5 hrs | ~0.5 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~17.5 hrs | ~1.59 wk | |
 | Full Part (all items — no 🟡 in this Part) | ~17.5 hrs | ~1.59 wk | |
 
@@ -144,4 +144,3 @@ A. No — same Spring AOP proxy gotcha as @Transactional/@Async. Private method 
 
 **Q. Spring SecurityFilterChain — order of the key default filters?**
 A. `SecurityContextPersistenceFilter` → `BearerTokenAuthenticationFilter` (or `UsernamePasswordAuthenticationFilter`) → `ExceptionTranslationFilter` → `AuthorizationFilter` (formerly `FilterSecurityInterceptor`). Authentication populates `SecurityContext`; authorization reads from it. `@PreAuthorize` runs *after* the filter chain via method-level AOP proxy, not inside the chain.
-

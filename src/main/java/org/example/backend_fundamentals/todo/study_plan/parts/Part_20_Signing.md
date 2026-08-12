@@ -6,10 +6,10 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Sign-then-encrypt vs encrypt-then-sign — choose carefully | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 2 | HMAC for symmetric scenarios (webhook signing) | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: HMAC-SHA256 over a JSON payload + base64-encode + constant-time verify (15 min) |
-| 3 | RSA-PSS, ECDSA, EdDSA — modern signature algorithms | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 4 | Webhook signing — Stripe-style HMAC, replay protection with timestamps | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: build a webhook receiver that verifies HMAC over `timestamp + body` with 5-min replay window (30 min) |
+| 1 | HMAC for symmetric scenarios (webhook signing) | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: HMAC-SHA256 over a JSON payload + base64-encode + constant-time verify (15 min) |
+| 2 | Webhook signing — Stripe-style HMAC, replay protection with timestamps | 🔴 💼 🔐 🎯 | D | 2 hrs 30 min | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: build a webhook receiver that verifies HMAC over `timestamp + body` with 5-min replay window (30 min) |
+| 3 | Sign-then-encrypt vs encrypt-then-sign — choose carefully | 🟠 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 4 | RSA-PSS, ECDSA, EdDSA — modern signature algorithms | 🟠 💼 🔐 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 5 | Detached signatures — for documents, JARs | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 | 6 | Document signing — PDF signatures, eIDAS (Europe), relevant to KYC | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 7 | JWS detached payloads | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
@@ -18,7 +18,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~7 hrs | ~0.64 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~4 hrs | ~0.36 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~10.5 hrs | ~0.95 wk | |
 | Full Part (all items) | ~10.5 hrs | ~0.95 wk | |
 

@@ -10,12 +10,12 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🔴 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
-| 2 | Crash resilience — write-ahead correlation IDs BEFORE vendor calls; recovery / replay flows (your exact liveness-piggyback risk) | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 3 | Vendor failover — primary + secondary; consistency cost of failing over mid-flow | 🔴 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 4 | Vendor result normalization — different vendors return different shapes; one internal schema | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 5 | FRR / FAR at your production threshold — competing concerns on your specific operating point | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | See Part 29 for FAR/FRR theory |
-| 6 | External-call timeout boundary — unknown outcome, idempotent retry, status lookup, and stable response mapping | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory covered: a timeout can mean the vendor completed work but its response was lost; classify by outcome rather than one Java exception type | 📖 `system_design/concepts/resilience/index.md` |
+| 1 | Crash resilience — write-ahead correlation IDs BEFORE vendor calls; recovery / replay flows (your exact liveness-piggyback risk) | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 2 | Vendor result normalization — different vendors return different shapes; one internal schema | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 3 | External-call timeout boundary — unknown outcome, idempotent retry, status lookup, and stable response mapping | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory covered: a timeout can mean the vendor completed work but its response was lost; classify by outcome rather than one Java exception type | 📖 `system_design/concepts/resilience/index.md` |
+| 4 | SDK ↔ backend coordination — short-lived session tokens, refresh semantics, scoped permissions | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: design SDK auth contract — token lifetime, refresh trigger, scope claims, revocation (30 min) |
+| 5 | Vendor failover — primary + secondary; consistency cost of failing over mid-flow | 🟠 💼 🎯 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 6 | FRR / FAR at your production threshold — competing concerns on your specific operating point | 🟠 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | See Part 29 for FAR/FRR theory. |  |
 | 7 | SEA ID schemes you actually verify — KTP / e-KTP (Indonesia), MyKad (Malaysia), NRIC / FIN (Singapore), PhilSys (Philippines), Thai national ID | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: tabulate the 5 SEA IDs — field layout, capture mode (front/back/both), unique gotcha per scheme (30 min) |
 | 8 | Document capture modes (BOTH_SIDE, FRONT_ONLY, FRONT_BACK_SEPARATE) — your taxonomy and which doc requires what | 🟠 💼 🔐 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 | 9 | Pre-signed URL upload — SDK uploads directly to S3; backend never proxies binary | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
@@ -78,7 +78,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~10 hrs | ~0.91 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~5 hrs | ~0.45 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~79.25 hrs | ~7.2 wk | |
 | Full Part (all items including 🟡) | ~80.75 hrs | ~7.34 wk | |
 

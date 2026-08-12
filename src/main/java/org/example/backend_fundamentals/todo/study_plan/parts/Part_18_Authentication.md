@@ -7,25 +7,29 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | Session vs token-based auth — tradeoffs | 🔴 💼 🔐 🎯 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
-| 2 | OAuth 2.0 — roles (resource owner, client, AS, RS), all grant types | 🔴 💼 🔐 🎯 | D | 3 hrs | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 2 | OAuth 2.0 — roles (resource owner, client, authorization server, resource server) and client-credentials flow | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Core backend interview scope; authorization code + PKCE is covered separately below. ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
 | 3 | Authorization Code flow + PKCE (the right default) | 🔴 💼 🔐 🎯 | D | 2 hrs | [x] | [x] | [ ] | [ ] |  | 📖 `security/authentication/index.md` · 💻 Warm-up: walk through the 5 messages of Auth Code + PKCE from memory — `/authorize` → `/token` exchange + code_verifier (20 min) |
 | 4 | OIDC layered on top of OAuth2 — ID token vs access token | 🔴 💼 🔐 🎯 | MP | 2 hrs | [x] | [x] | [ ] | [ ] | ~1 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 5 | JWT — structure (header.payload.signature), JWS vs JWE | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
-| 6 | JWT signing algorithms — HS256 vs RS256 vs ES256; alg=none vulnerability | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; ES256 & alg=none pending. ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
-| 7 | JWT pitfalls — algorithm confusion, missing aud / iss / exp validation, key confusion | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
+| 5 | JWT — structure (header.payload.signature) and JWS | 🔴 💼 🔐 🎯 | D | 1 hr | [x] | [x] | [ ] | [ ] | Partial: Theory covered, warm-up pending. ~1.5 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` · 💻 Warm-up: craft an HS256 JWT manually (header + payload base64url + HMAC), verify on jwt.io (30 min) |
+| 6 | JWT signing algorithms — HS256 vs RS256 and the `alg=none` vulnerability | 🔴 💼 🔐 🎯 | D | 1 hr | [x] | [x] | [ ] | [ ] | Partial: HS256 vs RS256 covered; `alg=none` pending. ~1 hr (ChatGPT) | 📖 `api_design/api_technologies_summary/index.md` |
+| 7 | JWT validation — signature, allowed algorithm, and `aud` / `iss` / `exp` claims | 🔴 💼 🔐 🎯 | D | 1 hr | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
 | 8 | Refresh token rotation, reuse detection | 🔴 💼 🔐 🎯 | D | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
-| 9 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] |  | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
-| 10 | MFA — TOTP (RFC 6238), WebAuthn / FIDO2, push, SMS (and why SMS is weak) | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` · 💻 Warm-up: implement TOTP generator (HMAC-SHA1 over time-counter) from RFC 6238 — verify against Google Authenticator (20 min) |
-| 11 | Magic links, passwordless flows | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
-| 12 | SSO patterns | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] |  | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
-| 13 | API keys — when to use, rotation strategy | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
-| 14 | HMAC request signing (AWS SigV4 pattern) | 🟡 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
+| 9 | API keys — suitable use cases, secure storage, and rotation strategy | 🔴 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] | ~1.5 hr (ChatGPT) | 📖 `security/authentication/index.md` |
+| 10 | JWT encryption (JWE) — when it differs from signed JWTs | 🟠 💼 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Advanced token format; JWS remains the baseline. | 📖 `security/authentication/index.md` |
+| 11 | Advanced JWT attacks — algorithm confusion and key confusion | 🟠 💼 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Recognition-level security depth after core validation rules. | 📖 `security/authentication/index.md` |
+| 12 | Legacy and specialised OAuth grant types — implicit, resource-owner password, and device flow | 🟠 💼 🔐 | M | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Recognition only; do not study obsolete grant internals. | 📖 `security/authentication/index.md` |
+| 13 | ES256 implementation and key-format details | 🟠 💼 🔐 | M | 30 min | [ ] | [ ] | [ ] | [ ] | Advanced JWT algorithm detail. | 📖 `api_design/api_technologies_summary/index.md` |
+| 14 | SAML — assertions, IdP / SP, when SAML vs OIDC | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [ ] | [ ] |  | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
+| 15 | MFA — TOTP (RFC 6238), WebAuthn / FIDO2, push, SMS (and why SMS is weak) | 🟠 💼 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` · 💻 Warm-up: implement TOTP generator (HMAC-SHA1 over time-counter) from RFC 6238 — verify against Google Authenticator (20 min) |
+| 16 | Magic links, passwordless flows | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
+| 17 | SSO patterns | 🟠 💼 🔐 | M | 1 hr | [x] | [x] | [ ] | [ ] |  | 📖 `security/sso_saml_oidc_identity_brokers/index.md` |
+| 18 | HMAC request signing (AWS SigV4 pattern) | 🟡 🔐 | MP | 1.5 hrs | [x] | [x] | [x] | [ ] |  | 📖 `security/authentication/index.md` |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~14.5 hrs | ~1.32 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~12.5 hrs | ~1.14 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~20.5 hrs | ~1.86 wk | |
 | Full Part (all items including 🟡) | ~22 hrs | ~2 wk | ~3.5 hrs so far |
 

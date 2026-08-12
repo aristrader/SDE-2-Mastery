@@ -20,10 +20,10 @@
 | 12 | TreeMap — Red-Black tree, sorted operations, ceilingKey / floorKey | 🔴 💼 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/collections/maps/treemap/index.md` · 💻 `java/collections/maps/treemap/exercise/index.md` |
 | 13 | Streams API — intermediate vs terminal, lazy evaluation, parallel streams (and when NOT to use) | 🔴 💼 🎯 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered from Streams dump | 📖 `java/coding_fluency/streams/foundations/index.md` · 📖 `java/coding_fluency/streams/intermediate_operations/index.md` · 📖 `java/coding_fluency/streams/terminal_operations/index.md` · 📖 `java/coding_fluency/streams/primitive_parallel/index.md` · 💻 `java/coding_fluency/streams/intermediate_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/terminal_operations/exercise/index.md` · 💻 `java/coding_fluency/streams/interview_drills/exercise/index.md` |
 | 14 | Functional interfaces — Function, Predicate, Consumer, Supplier, BiFunction | 🔴 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory covered from lambda/function-interface dump | 📖 `java/coding_fluency/lambdas/index.md` · 📖 `java/coding_fluency/functional_interfaces/index.md` · 📖 `java/coding_fluency/method_references/index.md` |
-| 15 | Collections framework architecture (interfaces vs implementations) | 🔴 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Covered in collections hub and implementation-choice pages | 📖 `java/collections/index.md` · 📖 `java/collections/maps/implementation_choice/index.md` |
-| 16 | List family — ArrayList vs LinkedList (and why LinkedList is rarely the right choice) | 🔴 | M | 45 min | [x] | [ ] | [ ] | [ ] |  | 📖 `java/collections/lists/index.md` |
-| 17 | Queue / Deque — ArrayDeque and PriorityQueue | 🔴 | M | 45 min | [ ] | [x] | [ ] | [ ] | Queue, Deque, ArrayDeque, LinkedList, and PriorityQueue are covered; completion status remains for user review. BlockingQueue coverage is owned by Part 02. | 📖 `java/collections/queues/index.md` |
-| 18 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🔴 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JVM execution role covered; bootstrap/platform/app hierarchy pending | 📖 `java/jvm/bytecode_execution/index.md` |
+| 15 | List family — ArrayList vs LinkedList (and why LinkedList is rarely the right choice) | 🔴 | M | 45 min | [x] | [ ] | [ ] | [ ] |  | 📖 `java/collections/lists/index.md` |
+| 16 | Queue / Deque — ArrayDeque and PriorityQueue | 🔴 | M | 45 min | [ ] | [x] | [ ] | [ ] | Queue, Deque, ArrayDeque, LinkedList, and PriorityQueue are covered; completion status remains for user review. BlockingQueue coverage is owned by Part 02. | 📖 `java/collections/queues/index.md` |
+| 17 | Class loaders — bootstrap, platform, app; classloader hierarchy | 🔴 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JVM execution role covered; bootstrap/platform/app hierarchy pending | 📖 `java/jvm/bytecode_execution/index.md` |
+| 18 | Collections framework architecture (interfaces vs implementations) | 🟠 💼 | M | 1 hr | [x] | [ ] | [ ] | [ ] | Collection choice is covered by the concrete red rows. | 📖 `java/collections/index.md` · 📖 `java/collections/maps/implementation_choice/index.md` |
 | 19 | Optional — proper use vs misuse | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Theory + structured practice covered | 📖 `java/coding_fluency/optional/index.md` · 💻 `java/coding_fluency/optional/exercise/index.md` |
 | 20 | GC algorithms — G1 (default), ZGC, Shenandoah, Parallel; tuning intuition | 🟠 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered in GC page | 📖 `java/jvm/gc/index.md` |
 | 21 | JIT compilation — C1, C2, tiered compilation, inlining | 🟠 💼 | MP | 1 hr | [ ] | [x] | [ ] | [ ] | Partial: JIT role covered; C1/C2/tiered/inlining details pending | 📖 `java/jvm/bytecode_execution/index.md` |
@@ -42,7 +42,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~21.42 hrs | ~1.95 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~20.42 hrs | ~1.86 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~27.92 hrs | ~2.54 wk | |
 | Full Part (all items including 🟡 + 🟢) | ~35.92 hrs | ~3.27 wk | ~7 hr 44 min so far |
 

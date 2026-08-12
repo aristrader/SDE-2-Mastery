@@ -6,8 +6,8 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | Chain of trust — root → intermediate → leaf | 🔴 💼 🔐 🎯 | M | 1 hr | [x] | [x] | [ ] | [ ] |  | 📖 `security/cryptography/tls_certificates_diffie_hellman/index.md` · 📖 `security/cryptography/tls_https_pki/index.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
-| 2 | Why you never use a root directly — intermediates, ability to revoke | 🔴 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 1 | Chain of trust — root → intermediate → leaf | 🟠 💼 🔐 🎯 | M | 1 hr | [x] | [x] | [ ] | [ ] |  | 📖 `security/cryptography/tls_certificates_diffie_hellman/index.md` · 📖 `security/cryptography/tls_https_pki/index.md` · 📺 Hussein Nasser — TLS chain of trust (YouTube, ~30 min) · 💻 Warm-up: `openssl s_client -connect google.com:443 -servername google.com -showcerts` — identify leaf/intermediate/root (20 min) |
+| 2 | Why you never use a root directly — intermediates, ability to revoke | 🟠 💼 🔐 🎯 | M | 30 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 3 | X.509 certificate anatomy — Subject, Issuer, SANs, key usage, EKU, validity | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Recognize SAN and validity when diagnosing a certificate error; do not memorize extension details. | 💻 Warm-up: generate self-signed cert with `openssl req -x509...`, inspect with `openssl x509 -text -noout` (15 min) |
 | 4 | CSR — what's in it, key generation flow | 🟠 💼 🔐 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] | Operational recognition only: public key and requested identity are submitted for signing. |  |
 | 5 | Certificate lifecycle — issuance, renewal, revocation, rotation | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Practical integration knowledge, not active interview-depth coverage. | 📖 [BPTLS 2ed free sample PDF](https://www.feistyduck.com/books/bulletproof-tls-and-pki/bulletproof-tls-and-pki-2ed-sample.pdf) (60 pages but ~30 min effective if you skip preface + basics you already know) · 📖 smallstep "Everything about certs" blog (~30 min alternative) |
@@ -22,7 +22,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~1.5 hrs | ~0.14 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~0 hrs | ~0 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~13.75 hrs | ~1.25 wk | |
 | Full Part (all items including 🟡 MED) | ~13.75 hrs | ~1.25 wk | |
 
