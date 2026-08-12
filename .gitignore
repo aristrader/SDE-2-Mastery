@@ -48,3 +48,6 @@ docs/.vitepress/dist/
 
 ### Local practice scratch space ###
 src/main/java/org/example/backend_fundamentals/practice/
+
+### Local AI tool metadata ###
+.claude/
