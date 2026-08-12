@@ -7,8 +7,8 @@
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
 | 1 | S3 Basics — storage classes, versioning, strong consistency | 🔴 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 2 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only) | 🔴 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 3 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
+| 2 | IAM — users, groups, roles, policies, trust relationships | 🔴 💼 🔐 | D | 2 hrs | [ ] | [ ] | [ ] | [ ] |  | 💻 Warm-up: write IAM policy granting S3 read on one bucket + use Condition for source-IP restriction (20 min) |
+| 3 | VPC Basics — public vs private subnets, Security Groups  (Basic concept only) | 🟠 💼 | MP | 15 min | [ ] | [ ] | [ ] | [ ] |  |  |
 | 4 | EC2 and Auto Scaling Groups — compute instances and horizontal scaling | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Instance-family and AMI details are operational depth. | 💻 Warm-up: `aws ec2 describe-instances` + `aws ec2 run-instances` from CLI (15 min) |
 | 5 | RDS and Aurora — Multi-AZ versus read replicas; Aurora storage architecture | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Generic HA and read-replica concepts remain red in Part 06. |  |
 | 6 | STS, AssumeRole, role chaining | 🟠 💼 🔐 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
@@ -47,7 +47,7 @@
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~3.25 hrs | ~0.3 wk | |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~3 hrs | ~0.27 wk | |
 | 🔴 + 🟠 HIGH (must + high — senior coverage) | ~37.5 hrs | ~3.41 wk | |
 | Full Part (all items including 🟡) | ~38.75 hrs | ~3.52 wk | |
 
