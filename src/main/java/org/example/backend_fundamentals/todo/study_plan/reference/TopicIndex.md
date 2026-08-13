@@ -10,6 +10,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 
 - **ACID** → Part 06 (DB fundamentals)
 - **Active-active vs active-passive** → Part 07 (HA), Part 31 (DC-JKT vs AWS-SG)
+- **Airbnb HLD (listings, availability, booking)** → Part 07
 - **Adapter pattern** → Part 04 (Structural), Part 31 (vendor abstraction)
 - **AI agents (tool loop, termination, deterministic-workflow alternative)** → Part 23
 - **AtomicInteger / AtomicReference / LongAdder** → Part 02
@@ -77,6 +78,8 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Circuit breaker (Resilience4j)** → Part 03, Part 31
 - **Client-Server Communication Patterns** → Part 11
 - **Clustering (heartbeats, leader election, failover — Redis/Kafka)** → Part 07
+- **Code deployment system HLD (artifacts, rollout, rollback)** → Part 07
+- **Collaborative editing / Google Docs HLD (OT/CRDT, cursors, merge semantics)** → Part 07
 - **Compaction (Kafka)** → Part 10
 - **Compensating transactions / Saga** → Part 29, Part 04
 - **Compliance reporting** → Part 28, Part 31
@@ -105,11 +108,17 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Domain-Driven Design / Bounded Context (strategic DDD, context ≠ DB, DDD → service boundaries)** → Part 07, Part 04 (tactical building blocks)
 - **Design thinking process (pain → responsibilities → vary/stay → arrows → skeleton → verify)** → Part 04, deep_dives/DesignThinkingProcess.md
 - **Design review for OO responsibilities (checkout review: discount, payment resolver, entity vs service, shipping policy)** → Part 04; design_patterns/pattern_selection/exercise/index.md
+- **Digital wallet LLD (accounts, transfers, transaction states)** → Part 04
 - **Device fingerprinting** → Part 29
 - **DHCP & MAC addresses (leases, identity vs location, spoofing)** → Part 11
 - **DI vs DIP** → Part 04, PracticeProblems § 3 Q18
 - **Distributed ID generation (UUID vs ticket server vs Snowflake)** → `system_design/concepts/distributed_id_generation/`
+- **Distributed cache HLD (Redis-like)** → Part 07
+- **Distributed job scheduler HLD (leases, retries, scheduling)** → Part 07
+- **Distributed key-value store HLD (Dynamo-style)** → Part 07
 - **Distributed locks (Redlock, ZK)** → Part 07, PracticeProblems § 2 #19
+- **Distributed message queue HLD (Kafka-like)** → Part 07
+- **Distributed cloud storage HLD (S3-like)** → Part 07
 - **DNS / DNS-based discovery** → Part 11, Part 13
 - **DORA metrics** → Part 26
 - **Double-entry ledger** → Part 29
@@ -136,6 +145,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **FAR / FRR** → Part 29, Part 31
 - **FAR / FRR threshold tuning** → Part 29
 - **Feature flags** → Part 26, Part 29
+- **Food delivery HLD (order lifecycle, dispatch, tracking)** → Part 07
 - **Feign / Feign interceptors** → Part 03, Part 1b
 - **Functional interfaces (Function, Predicate, Consumer, Supplier, BiFunction)** → Part 01, Part 1b
 - **Fingerprinting (device)** → Part 29
@@ -167,6 +177,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **HMAC-SHA256 (webhook signing)** → Part 20, Part 29
 - **HSTS / CSP / X-Frame-Options** → Part 18
 - **HLD interview framework (clarify → high-level design → deep dive → wrap-up)** → Part 30, `system_design/interview_framework/`
+- **HLD case-study variants (payment, booking, marketplace, editor, conferencing, matching)** → Part 07
 - **Hot key detection and mitigation** → Part 09
 - **HTTP status codes / methods** → Part 11
 - **HTTP/2, HTTP/3 (QUIC)** → Part 11
@@ -223,6 +234,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 
 - **Lazy initialization** → Part 04 (Singleton)
 - **LLD interview framework (requirements → entities → class design → core behavior → verification)** → Part 30, `system_design/lld_interview_framework/`
+- **LLD domain variants (Stack Overflow, task management, booking, auction, social, restaurant, CricInfo, course registration, brokerage, music streaming)** → Part 04
 - **Liveness (active / passive / PAD)** → Part 29
 - **Load balancer (L4 vs L7, redundancy, draining, consistent hashing)** → Part 07, Part 11, Part 26
 - **Local vs distributed cache** → Part 09
@@ -381,6 +393,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 ## T
 
 - **TaskDecorator (context propagation)** → Part 03, Part 1b
+- **Traffic signal control LLD (state transitions and timed events)** → Part 04
 - **TCP (handshake, congestion, TIME_WAIT)** → Part 11
 - **TCP vs UDP** → Part 11
 - **Text blocks (Java 15+)** → Part 01, Part 1b

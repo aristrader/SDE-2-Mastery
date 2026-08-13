@@ -49,37 +49,51 @@
 | 39 | LLD — Notification dispatch system (multi-channel) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 40 | LLD — Job scheduler / cron | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 41 | LLD — Online food ordering / ride-sharing core domain | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 42 | Unit of Work | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 43 | Law of Demeter | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
-| 44 | Tell, don't ask | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
-| 45 | Prototype | 🟠 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (demo + doc) | 💻 repo demo: `creational/prototype/` |
-| 46 | Object Pool (not GoF but ubiquitous) | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 47 | Composite | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 48 | Bridge | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 49 | Iterator | 🟠 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 50 | Mediator | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 51 | Visitor | 🟠 | D | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 Refactoring Guru "Visitor" explainer |
-| 52 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 53 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
-| 54 | Event Sourcing — same | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
-| 55 | Idempotent receiver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 56 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
-| 57 | Shotgun surgery, feature envy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/coupling_cohesion_smells/index.md` |
-| 58 | Command-Query Separation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 59 | Flyweight | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 60 | Memento, Interpreter | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
-| 61 | Anti-corruption layer | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
-| 62 | Aggregate, Entity, Value Object (DDD building blocks) | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 63 | Hexagonal / ports and adapters | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 64 | Clean Architecture, Onion Architecture | 🟢 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 42 | LLD — Traffic signal control system | 🔴 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | State transitions, timer events, and pedestrian/priority rules. |
+| 43 | LLD — Digital wallet | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Accounts, transfers, transaction states, idempotency, and ledger boundary. |
+| 44 | Unit of Work | 🟠 💼 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 45 | LLD — Stack Overflow | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Questions, answers, voting, search boundary, and reputation rules. |
+| 46 | LLD — Task management system | 🟠 🎯 | M | 1 hr | [ ] | [ ] | [ ] | [ ] | Tasks, assignments, lifecycle, and notifications. |
+| 47 | LLD — Car rental system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Fleet availability, reservation, rental lifecycle, and pricing boundary. |
+| 48 | LLD — Online auction system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Listings, bids, auction lifecycle, and bid validation. |
+| 49 | LLD — Hotel management system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Room inventory, reservations, check-in/out, and pricing boundary. |
+| 50 | LLD — Airline management system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Flights, seats, booking, cancellation, and check-in boundary. |
+| 51 | LLD — Social network / Facebook | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Profiles, connections, posts, feeds, and notifications at object-model scope. |
+| 52 | LLD — Restaurant management system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Tables, reservations, orders, kitchen workflow, and billing boundary. |
+| 53 | LLD — CricInfo | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Match, innings, scorecard, ball events, and commentary model. |
+| 54 | LLD — Course registration system | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Courses, enrolment, capacity, prerequisites, and waitlist boundary. |
+| 55 | LLD — Online stock brokerage | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Orders, portfolio, execution boundary, and transaction lifecycle. |
+| 56 | LLD — Music streaming service | 🟠 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | Catalogue, playlists, playback sessions, and recommendation boundary. |
+| 57 | Law of Demeter | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
+| 58 | Tell, don't ask | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
+| 59 | Prototype | 🟠 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Done pre-time-tracking (demo + doc) | 💻 repo demo: `creational/prototype/` |
+| 60 | Object Pool (not GoF but ubiquitous) | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 61 | Composite | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 62 | Bridge | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 63 | Iterator | 🟠 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 64 | Mediator | 🟠 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 65 | Visitor | 🟠 | D | 1 hr | [ ] | [ ] | [ ] | [ ] |  | 📖 Refactoring Guru "Visitor" explainer |
+| 66 | Specification pattern | 🟠 💼 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 67 | CQRS — what it is, when it's overkill | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/cqrs/CQRS.md |
+| 68 | Event Sourcing — same | 🟠 💼 | D | 1.5 hrs | [x] | [x] | [x] | [x] | ~1.5 hr (ChatGPT) | 📖 design_patterns/event_sourcing/EventSourcing.md |
+| 69 | Idempotent receiver | 🟠 💼 | MP | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 70 | Premature abstraction, premature optimization | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/supporting_principles/index.md` |
+| 71 | Shotgun surgery, feature envy | 🟠 💼 | M | 45 min | [x] | [ ] | [ ] | [ ] | Done after quick revision | 📖 `design_patterns/foundations/coupling_cohesion_smells/index.md` |
+| 72 | Command-Query Separation | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 73 | Flyweight | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 74 | Memento, Interpreter | 🟡 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
+| 75 | Anti-corruption layer | 🟡 | M | 45 min | [ ] | [ ] | [ ] | [ ] |  |  |
+| 76 | Aggregate, Entity, Value Object (DDD building blocks) | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 77 | Hexagonal / ports and adapters | 🟡 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 78 | Clean Architecture, Onion Architecture | 🟢 | M | 1 hr | [ ] | [ ] | [ ] | [ ] |  |  |
 
 ## Time summary
 
 | Scope | Hours (zero baseline) | Weeks @ 10–12 hrs/wk | Actual time |
 |-------|-----------------------|----------------------|-------------|
-| 🔴 MUST only (Sprint priority — 3-month plan) | ~54.5 hrs | ~4.95 wk | Completed topics are marked in the inventory |
-| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~73.5 hrs | ~6.68 wk | Completed topics are marked in the inventory |
-| Full Part (all items including 🟡 + 🟢) | ~81 hrs | ~7.36 wk | ~6.5 hrs so far |
+| 🔴 MUST only (Sprint priority — 3-month plan) | ~57 hrs | ~5.18 wk | Completed topics are marked in the inventory |
+| 🔴 + 🟠 HIGH (must + high — senior coverage) | ~93.5 hrs | ~8.50 wk | Completed topics are marked in the inventory |
+| Full Part (all items including 🟡 + 🟢) | ~101 hrs | ~9.18 wk | ~6.5 hrs so far |
 
 > Heavy Part — but a large fraction is already ✅ Done from your active design-patterns track. Mark accordingly during Survey.
 
