@@ -6,17 +6,17 @@ order: 70
 
 An LLD round tests whether you can turn an ambiguous prompt into small, coherent objects and prove that the important behavior works. Do not start by writing code or by forcing design patterns into the model.
 
-## Delivery flow for a 45-minute round
+## Delivery flow for a 35-45 minute round
 
 | Phase | Time | Output |
 | --- | --- | --- |
 | Requirements | 5 min | Core actions, business rules, invalid cases, and explicit exclusions |
-| Entities and ownership | 3-5 min | A few entities, relationships, and the object coordinating the workflow |
+| Entities and relationships | 3 min | A few entities, ownership arrows, and the object coordinating the workflow |
 | Class design | 10-15 min | State, public methods, responsibilities, and focused interfaces |
-| Core behavior | 10-15 min | Pseudocode or Java for the main flow and its important edge cases |
-| Verify and extend | 5 min | One scenario trace, then a clean answer to a likely follow-up |
+| Implementation and verification | 10-12 min | Main-path pseudocode/Java, key invalid path, and one scenario trace |
+| Extensibility | Remaining time | A clean answer to one likely follow-up; do not rewrite the design |
 
-The interviewer may change the order or ask for code sooner. Follow that direction, but keep the design visible: requirements first, then responsibilities, then behavior.
+The interviewer may change the order or ask for code sooner. Follow that direction, but gently return to the flow: requirements first, structure second, behavior third. For a short round, spend less time on extensions, not on requirements or the core method.
 
 ## 1. Clarify requirements
 
@@ -29,7 +29,18 @@ Ask enough questions to turn the prompt into a small spec:
 
 Write the agreed requirements and exclusions. For a parking lot, vehicle entry, allocation, exit, fee calculation, and full-lot behavior may be in scope; database persistence and a mobile UI usually are not unless stated.
 
-## 2. Find entities and ownership
+Your whiteboard output should be short and explicit:
+
+```text
+Requirements
+1. ...
+2. ...
+
+Out of scope
+- ...
+```
+
+## 2. Find entities and relationships
 
 Start with meaningful nouns from the requirements. Create an entity when it owns changing state or enforces a rule. Keep data that has no independent behavior as a field instead of creating a class for every noun.
 
@@ -40,6 +51,14 @@ Then decide ownership:
 - Which objects are composed together, and which are just collaborators?
 
 Use simple boxes and arrows. Formal UML is optional; clear ownership matters more than notation.
+
+```text
+ParkingLot -> Floors -> ParkingSpots
+ParkingLot -> SpotFinder
+ParkingLot -> PricingPolicy
+```
+
+This is enough structure for an interviewer to follow. Do not spend time on formal UML notation unless they explicitly request it.
 
 ## 3. Design classes from requirements
 
@@ -71,11 +90,17 @@ Ticket park(Vehicle vehicle) {
 
 The code is not the point by itself. Explain which object validates each step, how state changes, and how the result is returned. Avoid complete getters/setters, persistence plumbing, or every constructor unless the interviewer asks.
 
-## 5. Verify, then handle an extension
+### Verify with one scenario
 
 Trace one concrete scenario: initial state, operation, collaborating calls, state after the operation, and result. This catches missing transitions and proves that the classes work together.
 
+Do this before extensions. It is a quick proof that your core logic works and often exposes a missing transition while you can still fix it.
+
+## 5. Handle extensions without redesigning
+
 For a follow-up, point to the existing boundary and explain the smallest extension. Example: a new pricing rule becomes another `PricingPolicy`; it should not require rewriting `Ticket` and every checkout call. If the follow-up is concurrency, state the invariant first, then choose synchronization or a transaction only where simultaneous updates can violate it.
+
+Stay high level unless asked to implement the extension. The signal is that the original responsibilities and mutation boundaries make the change local, not that you can name many patterns.
 
 ## Interview traps
 
@@ -84,6 +109,7 @@ For a follow-up, point to the existing boundary and explain the smallest extensi
 3. **Anemic objects.** Do not expose state so a service can reimplement every rule elsewhere.
 4. **Pattern dumping.** A pattern without a concrete variation point is extra complexity.
 5. **Skipping verification.** A short scenario trace often exposes a missing state change before the interviewer does.
+6. **Redesigning for a follow-up.** Point to the existing extension point before adding a new abstraction.
 
 ## Quick recall
 
@@ -100,4 +126,4 @@ A. With the object that owns the state needed to enforce it.
 A. Only when a requirement creates a real variation or lifecycle problem that the pattern simplifies.
 
 **Q. How do you end an LLD round?**
-A. Trace a non-trivial scenario, then show where a likely extension fits.
+A. Trace a non-trivial scenario, then show where a likely extension fits without rewriting the core design.
