@@ -1002,6 +1002,38 @@
               {
                 "text": "N-Tier Architecture",
                 "link": "/system_design/patterns/n_tier/"
+              },
+              {
+                "text": "Real-Time Updates",
+                "link": "/system_design/patterns/realtime_updates/"
+              },
+              {
+                "text": "Long-Running Tasks",
+                "link": "/system_design/patterns/long_running_tasks/"
+              },
+              {
+                "text": "Dealing With Contention",
+                "link": "/system_design/patterns/contention/"
+              },
+              {
+                "text": "Scaling Reads",
+                "link": "/system_design/patterns/scaling_reads/"
+              },
+              {
+                "text": "Scaling Writes",
+                "link": "/system_design/patterns/scaling_writes/"
+              },
+              {
+                "text": "Handling Large Blobs",
+                "link": "/system_design/patterns/large_blobs/"
+              },
+              {
+                "text": "Multi-Step Processes",
+                "link": "/system_design/patterns/multi_step_processes/"
+              },
+              {
+                "text": "Proximity Services",
+                "link": "/system_design/patterns/proximity_services/"
               }
             ],
             "collapsed": true
@@ -7172,6 +7204,118 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "Real-Time Updates",
+                "link": "/system_design/patterns/realtime_updates/",
+                "order": 30,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Long-Running Tasks",
+                "link": "/system_design/patterns/long_running_tasks/",
+                "order": 40,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Dealing With Contention",
+                "link": "/system_design/patterns/contention/",
+                "order": 50,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Scaling Reads",
+                "link": "/system_design/patterns/scaling_reads/",
+                "order": 60,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Scaling Writes",
+                "link": "/system_design/patterns/scaling_writes/",
+                "order": 70,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Handling Large Blobs",
+                "link": "/system_design/patterns/large_blobs/",
+                "order": 80,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Multi-Step Processes",
+                "link": "/system_design/patterns/multi_step_processes/",
+                "order": 90,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Proximity Services",
+                "link": "/system_design/patterns/proximity_services/",
+                "order": 100,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
               }
             ]
           },
@@ -9625,6 +9769,38 @@
     {
       "text": "N-Tier Architecture",
       "link": "/system_design/patterns/n_tier/"
+    },
+    {
+      "text": "Real-Time Updates",
+      "link": "/system_design/patterns/realtime_updates/"
+    },
+    {
+      "text": "Long-Running Tasks",
+      "link": "/system_design/patterns/long_running_tasks/"
+    },
+    {
+      "text": "Dealing With Contention",
+      "link": "/system_design/patterns/contention/"
+    },
+    {
+      "text": "Scaling Reads",
+      "link": "/system_design/patterns/scaling_reads/"
+    },
+    {
+      "text": "Scaling Writes",
+      "link": "/system_design/patterns/scaling_writes/"
+    },
+    {
+      "text": "Handling Large Blobs",
+      "link": "/system_design/patterns/large_blobs/"
+    },
+    {
+      "text": "Multi-Step Processes",
+      "link": "/system_design/patterns/multi_step_processes/"
+    },
+    {
+      "text": "Proximity Services",
+      "link": "/system_design/patterns/proximity_services/"
     },
     {
       "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
@@ -20039,6 +20215,118 @@
         "assets": false
       },
       "referenceHtml": "<h1>Design</h1>"
+    },
+    "/system_design/patterns/realtime_updates/": {
+      "text": "Real-Time Updates",
+      "link": "/system_design/patterns/realtime_updates/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/realtime_updates/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/long_running_tasks/": {
+      "text": "Long-Running Tasks",
+      "link": "/system_design/patterns/long_running_tasks/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/long_running_tasks/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/contention/": {
+      "text": "Dealing With Contention",
+      "link": "/system_design/patterns/contention/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/contention/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/scaling_reads/": {
+      "text": "Scaling Reads",
+      "link": "/system_design/patterns/scaling_reads/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/scaling_reads/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/scaling_writes/": {
+      "text": "Scaling Writes",
+      "link": "/system_design/patterns/scaling_writes/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/scaling_writes/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/large_blobs/": {
+      "text": "Handling Large Blobs",
+      "link": "/system_design/patterns/large_blobs/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/large_blobs/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/multi_step_processes/": {
+      "text": "Multi-Step Processes",
+      "link": "/system_design/patterns/multi_step_processes/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/multi_step_processes/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/system_design/patterns/proximity_services/": {
+      "text": "Proximity Services",
+      "link": "/system_design/patterns/proximity_services/",
+      "pageType": "theory",
+      "parentLink": "/system_design/patterns/proximity_services/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
     },
     "/system_design/clustering/": {
       "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",

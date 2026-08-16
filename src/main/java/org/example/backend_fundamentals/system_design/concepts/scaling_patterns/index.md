@@ -6,6 +6,8 @@ order: 100
 
 Use this page after drawing a simple functional design. Do not add every pattern. Name the pressure, apply the smallest fitting remedy, then state the cost it introduces.
 
+For focused interview playbooks, see [scaling reads](/system_design/patterns/scaling_reads/), [scaling writes](/system_design/patterns/scaling_writes/), [long-running tasks](/system_design/patterns/long_running_tasks/), [contention](/system_design/patterns/contention/), and [proximity services](/system_design/patterns/proximity_services/).
+
 ## The decision path
 
 ```text
