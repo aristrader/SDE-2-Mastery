@@ -178,6 +178,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **HSTS / CSP / X-Frame-Options** → Part 18
 - **HLD interview framework (clarify → high-level design → deep dive → wrap-up)** → Part 30, `system_design/interview_framework/`
 - **HLD case-study variants (payment, booking, marketplace, editor, conferencing, matching)** → Part 07
+- **HLD scaling patterns (bottleneck → targeted remedy → trade-off)** → Part 07, `system_design/concepts/scaling_patterns/`
 - **Hot key detection and mitigation** → Part 09
 - **HTTP status codes / methods** → Part 11
 - **HTTP/2, HTTP/3 (QUIC)** → Part 11

@@ -205,6 +205,86 @@ if now - lastSeen > 15s:
 
 TTL can help, but an explicit cleanup/state transition is easier to reason about in interviews.
 
+### Location ingestion and adaptive update rate
+
+Location updates are the highest-write path. Keep the **latest matching state** in a Redis cluster or another in-memory geospatial store, not in the primary relational database. A relational store can retain driver profiles and durable trip state, while an asynchronous event stream stores location history for analytics, fraud, and replay.
+
+Do not add a batching queue between the driver and the live matching index merely to reduce writes: the saved database load comes at the cost of stale locations and worse matching. Instead, reduce unnecessary writes at the source:
+
+- Send more frequently while a driver is available, moving quickly, or near a high-demand area.
+- Send less frequently while parked, offline, or far from demand.
+- Reject late/out-of-order updates using the client timestamp.
+- Expire an unavailable location using `lastSeen` plus a TTL safety net.
+
+```mermaid
+flowchart LR
+    Driver[Driver app] -->|adaptive GPS update| Ingest[Location ingest]
+    Ingest -->|latest location + cell + lastSeen| Geo[Redis geospatial index]
+    Ingest -->|durable async event| Stream[Location event stream]
+    Stream --> Analytics[Analytics / fraud / history]
+    Matcher[Matching service] -->|nearby cell query| Geo
+```
+
+### Matching lease versus final assignment
+
+Candidate discovery is eventually consistent: two matching workers can see the same available driver. Coordinate the short-lived offer with a lease, then make the accepted assignment durable.
+
+```text
+1. Worker selects the next ranked driver.
+2. Acquire lease atomically: SET driver-lock:{driverId} {rideId} NX PX 5s.
+3. Only the lease holder sends that driver an offer.
+4. On acceptance, conditionally persist:
+   driver AVAILABLE/RESERVED -> ASSIGNED for this ride
+   ride MATCHING -> ASSIGNED with this driver
+5. Release the lease; the durable assignment, not the lease, now prevents reuse.
+```
+
+The acceptance endpoint must be idempotent and verify that the offer still belongs to that ride. A lease timeout is not proof that no assignment succeeded: a late accept must read the durable ride and driver state before changing anything.
+
+For an interview, choose one offer strategy and state it clearly:
+
+| Strategy | Benefit | Cost |
+|---|---|---|
+| Sequential offers | Simple and avoids spamming drivers | Longer match time |
+| Small bounded fan-out | Faster match under low acceptance | Must atomically select one winner and cancel the rest |
+
+A cron job that resets `OFFERED` drivers is only reconciliation. It can leave a driver unnecessarily unavailable until the next run. A short lease/TTL handles normal expiry promptly; periodic reconciliation repairs crashes, missed expiry events, and inconsistent durable state.
+
+### Surge handling and service partitioning
+
+Place ride requests on a durable, region-partitioned queue when matching workers cannot absorb a burst. Workers consume by city or groups of adjacent geospatial cells, so a hard-to-match rural request does not block a dense-city request behind a global FIFO queue. Autoscale workers from queue lag and active-match count.
+
+The queue gives retry and crash recovery, but it is not permission to make riders wait indefinitely. Carry a request deadline, stop processing expired requests, and return a clear no-driver outcome within the matching SLO. Make `request ride` idempotent so a client retry or queue redelivery does not create multiple matching jobs.
+
+### Keep the primary database off the hot path
+
+Use the correct store for each access pattern:
+
+| Need | Primary path | Why |
+|---|---|---|
+| Latest nearby available drivers | Redis geospatial/cell index | High-rate writes and low-latency radius lookup |
+| Driver profile, rider profile, completed ride | Durable database | Transactional source of truth |
+| Driver availability while matching | Lease plus conditional state transition | Prevents double offers and assignments |
+| Location history and business analytics | Event stream plus async consumers | Does not slow live matching |
+| Repeated route/ETA lookup | Short-lived cache or routing-provider cache | Reduces expensive external routing calls; do not cache stale surge prices too long |
+
+### Region, cell, and data partitioning are different
+
+- **Geospatial cells** answer "which drivers are near this pickup?" They are a data index and may have hot cells.
+- **City/region partitions** answer "which matching workers own this local workload?" They limit coordination and reduce latency.
+- **Storage shards** distribute durable records such as rides. Choose a stable high-cardinality key such as `rideId` or a regional prefix plus `rideId`; do not shard by a low-cardinality field such as country alone.
+
+Handle a hot downtown cell by splitting to a finer cell resolution, expanding workers for that cell partition, and bounding the candidate list before route-ETA calls. Do not use cross-region matching by default: it increases latency and creates coordination pressure without helping a local ride.
+
+## Interview delivery
+
+Start with the functional path, then select two deep dives that prove the non-functional requirements. For Uber, the strongest pair is usually:
+
+1. **Low-latency, fresh nearby-driver discovery:** adaptive location updates, cell index, candidate funnel, ETA ranking.
+2. **Correct matching under concurrency:** offer lease, conditional assignment, timeout recovery, idempotent accept.
+
+Add region-partitioned queueing only when the interviewer asks about peak-event surges or failure recovery. Do not spend time on exact field types, a full routing-engine implementation, or ML pricing internals unless they change a design decision.
+
 ## Failure modes
 
 | Failure | Handling |
@@ -212,7 +292,9 @@ TTL can help, but an explicit cleanup/state transition is easier to reason about
 | Location updates delayed | Mark stale after threshold; do not match stale drivers |
 | Driver reservation race | Atomic compare-and-set on driver status |
 | Matching service down | Retry in same region; return graceful failure to rider |
+| Matching worker crashes after dequeue | Queue redelivery plus idempotent ride request; resume only while request deadline is valid |
 | Notification lost | Trip state remains source of truth; clients poll/refresh ride state |
+| Driver accepts after offer expiry | Validate lease/offer and durable ride state; reject stale acceptance safely |
 | Region outage | Route users to nearby healthy region only if data/driver pool can serve them |
 
 ## Monitoring
@@ -253,3 +335,9 @@ A. Atomic driver reservation so one driver is not assigned to two rides.
 
 **Q. What makes a driver stale?**  
 A. `lastSeen` exceeds a freshness threshold, so remove from available matching pool.
+
+**Q. Why not queue GPS writes and batch them into the main database?**
+A. Matching needs fresh state. Keep latest location in the hot geospatial store; stream history asynchronously instead.
+
+**Q. Why is a Redis lock alone not enough for assignment?**
+A. It coordinates a short offer. A durable conditional ride/driver transition decides the final winner after the lock expires.

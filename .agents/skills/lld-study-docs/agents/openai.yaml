@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLD Study Docs"
+  short_description: "Process LLD interview study material."
+  default_prompt: "Use $lld-study-docs to turn supplied LLD notes into validated object-design documentation."

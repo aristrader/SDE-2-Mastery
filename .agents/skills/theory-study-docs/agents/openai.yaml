@@ -1,0 +1,4 @@
+interface:
+  display_name: "Theory Study Docs"
+  short_description: "Process theory study material."
+  default_prompt: "Use $theory-study-docs to turn supplied theory notes into readable, validated interview-prep documentation."

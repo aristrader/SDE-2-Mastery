@@ -1,0 +1,4 @@
+interface:
+  display_name: "Study Exercise Docs"
+  short_description: "Process study exercises and solutions."
+  default_prompt: "Use $study-exercise-docs to turn supplied exercises into validated exercise and solution modules."

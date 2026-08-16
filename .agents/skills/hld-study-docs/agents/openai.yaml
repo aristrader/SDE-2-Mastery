@@ -1,0 +1,4 @@
+interface:
+  display_name: "HLD Study Docs"
+  short_description: "Process HLD interview study material."
+  default_prompt: "Use $hld-study-docs to turn supplied HLD notes into validated system-design documentation."
