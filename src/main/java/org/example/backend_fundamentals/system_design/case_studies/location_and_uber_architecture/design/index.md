@@ -33,6 +33,7 @@ Rider sees ETA and driver movement.
 
 - Driver can go online/offline.
 - Driver app sends location updates every few seconds.
+- Rider can receive a fare/ETA estimate before confirming a ride.
 - Rider requests a ride from pickup to drop-off.
 - System finds candidate available drivers near pickup.
 - System assigns/reserves a driver.
@@ -75,23 +76,28 @@ Do not store every GPS update in the primary relational DB hot path. Keep latest
 ## APIs
 
 ```text
-POST /drivers/{driverId}/status
+PATCH /drivers/me/status
 body: { status: "AVAILABLE" | "OFFLINE" }
 
-POST /drivers/{driverId}/location
-body: { lat, lon, timestamp }
+POST /drivers/me/location
+body: { lat, lon, clientObservedAt }
+
+POST /fare-estimates
+body: { pickupLat, pickupLon, dropoffLat, dropoffLon, vehicleType }
 
 POST /rides
-body: { riderId, pickupLat, pickupLon, dropoffLat, dropoffLon, vehicleType }
+body: { fareQuoteId, pickupLat, pickupLon, dropoffLat, dropoffLon, vehicleType }
 
 POST /rides/{rideId}/accept
-body: { driverId }
+body: { offerId }
 
 POST /rides/{rideId}/events
 body: { event: "ARRIVED" | "STARTED" | "COMPLETED" | "CANCELLED" }
 
 GET /rides/{rideId}
 ```
+
+The authenticated session determines the rider or driver identity. The server records receipt time, verifies that a fare quote is valid, and calculates authoritative fare data; a client-supplied `riderId`, `driverId`, price, or server timestamp is not trusted.
 
 ## Data model
 
@@ -100,7 +106,8 @@ Durable tables:
 ```text
 Driver(driver_id, status, vehicle_type, rating)
 Rider(rider_id, ...)
-Ride(ride_id, rider_id, driver_id, pickup, dropoff, status, created_at)
+FareQuote(fare_quote_id, rider_id, pickup, dropoff, vehicle_type, estimated_fare, expires_at)
+Ride(ride_id, rider_id, driver_id, pickup, dropoff, status, offer_expires_at, created_at)
 RideEvent(ride_id, event_type, timestamp, actor_id)
 ```
 
@@ -118,7 +125,9 @@ The cell index can be Geohash, H3, or S2. The key idea is the same: turn nearby 
 ```text
 Driver App -> Location Ingest -> Active Driver Store / Spatial Index
                                       |
-Rider App  -> Ride Service -> Matching Service -> Candidate drivers
+Rider App  -> Ride Service -> Fare / Route provider
+                  |                   |
+                  +-> Matching Service -> Candidate drivers
                                       |
                               Trip Service / DB
                                       |
@@ -130,6 +139,7 @@ Core components:
 - **Location ingest:** accepts frequent driver updates.
 - **Active driver store:** keeps only latest searchable driver state.
 - **Spatial index:** maps cells to available drivers.
+- **Fare/route provider:** supplies an expiring estimate and route ETA; cache short-lived, non-authoritative results where appropriate.
 - **Matching service:** fetches candidates, computes ETA/rank, reserves one driver.
 - **Trip service:** owns ride state machine.
 - **Notification service:** sends assignment/status updates.
@@ -147,14 +157,14 @@ Core components:
 
 ### Ride request and matching
 
-1. Rider creates ride request.
-2. Matching service computes pickup cell and neighboring cells.
-3. Fetch available drivers from those cells.
-4. Filter stale drivers using `lastSeen`.
-5. Compute distance/ETA for candidates.
-6. Rank by ETA, vehicle type, driver status, and business rules.
-7. Reserve one driver atomically.
-8. Notify driver and rider.
+1. Rider requests a fare estimate. Ride Service calls a routing/pricing dependency and stores a short-lived `FareQuote`.
+2. Rider confirms the quote; Ride Service validates it and creates one idempotent `REQUESTED` ride.
+3. Matching service computes pickup cell and neighboring cells.
+4. Fetch available drivers from those cells.
+5. Filter stale drivers using `lastSeen`.
+6. Compute distance/ETA for candidates.
+7. Rank by ETA, vehicle type, driver status, and business rules.
+8. Reserve one driver atomically, create a time-bounded offer, and notify driver and rider.
 
 ### Trip lifecycle
 
@@ -182,6 +192,8 @@ candidates -> exact distance -> route ETA -> assignment score
 ```
 
 Geohash is easy to store and query by prefix. H3/S2 are often better for production grids. Quadtree is useful conceptually, but a huge distributed quadtree is hard to update when drivers move every few seconds.
+
+With Redis specifically, `GEOADD` replaces a driver's previous position and `GEOSEARCH` returns drivers near a pickup. Keep a companion `lastSeen` timestamp index: a cleanup worker removes old driver IDs from both the timestamp and geo indexes. The active index is rebuildable from new phone updates, so Redis replication/persistence improves availability but durable trip state never depends on it.
 
 ### Driver reservation
 
@@ -212,9 +224,12 @@ Location updates are the highest-write path. Keep the **latest matching state** 
 Do not add a batching queue between the driver and the live matching index merely to reduce writes: the saved database load comes at the cost of stale locations and worse matching. Instead, reduce unnecessary writes at the source:
 
 - Send more frequently while a driver is available, moving quickly, or near a high-demand area.
+- Send more frequently when direction changes often, because a stale heading makes the ETA worse.
 - Send less frequently while parked, offline, or far from demand.
 - Reject late/out-of-order updates using the client timestamp.
 - Expire an unavailable location using `lastSeen` plus a TTL safety net.
+
+This decision belongs partly in the driver app: it can use GPS/speed/direction signals before transmitting. The backend still enforces the freshness rule; client-side adaptation lowers traffic but is not the source of truth.
 
 ```mermaid
 flowchart LR
@@ -249,6 +264,12 @@ For an interview, choose one offer strategy and state it clearly:
 | Small bounded fan-out | Faster match under low acceptance | Must atomically select one winner and cancel the rest |
 
 A cron job that resets `OFFERED` drivers is only reconciliation. It can leave a driver unnecessarily unavailable until the next run. A short lease/TTL handles normal expiry promptly; periodic reconciliation repairs crashes, missed expiry events, and inconsistent durable state.
+
+### Offer timeout and durable progress
+
+An offer is a human-in-the-loop step: a driver may accept, decline, lose connectivity, or never see the push notification. Store `offerExpiresAt` with the ride. On sending an offer, schedule a delayed retry event for that expiry; when it runs, conditionally check `ride.status == OFFERED` and `offerExpiresAt <= now` before trying the next ranked driver. If the driver accepts first, the same conditional state transition makes the delayed event a harmless no-op.
+
+For an SDE2 answer, a durable queue plus conditional transitions and reconciliation is enough. A workflow engine such as Temporal can own repeated offer, timeout, and retry steps when this workflow grows across many states, but it is an optional operational trade-off, not a required first component.
 
 ### Surge handling and service partitioning
 
@@ -327,6 +348,9 @@ A. Driver location updates and nearby-driver matching.
 **Q. Why not store every location update in the DB?**  
 A. Location writes are too frequent; keep latest active state in memory and stream history async.
 
+**Q. Why does a rider confirm a short-lived fare quote instead of sending a price?**
+A. Pricing is server-authoritative. An expiring quote prevents stale or client-tampered prices from becoming a ride.
+
 **Q. How do you find nearby drivers?**  
 A. Use Geohash/H3/S2 cells to fetch candidates, then compute exact distance/ETA.
 
@@ -341,3 +365,6 @@ A. Matching needs fresh state. Keep latest location in the hot geospatial store;
 
 **Q. Why is a Redis lock alone not enough for assignment?**
 A. It coordinates a short offer. A durable conditional ride/driver transition decides the final winner after the lock expires.
+
+**Q. What happens when a driver ignores an offer?**
+A. A durable delayed retry checks the persisted expiry and offer state, then safely tries the next candidate; reconciliation repairs exceptional failures.
