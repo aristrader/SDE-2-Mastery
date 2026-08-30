@@ -11,6 +11,19 @@ search: false
 
 Give a 35-45 minute HLD answer for a global YouTube-like product. Scope it to video upload, asynchronous processing, and on-demand playback. Do not spend time on recommendations, comments, subscriptions, or live streaming unless asked.
 
+## Timed mock
+
+Set a 45-minute timer. Keep upload and playback as separate paths from the beginning.
+
+| Time | What to produce |
+|---|---|
+| 0-5 min | Scope, upload/playback requirements, availability target |
+| 5-8 min | Upload volume, source storage, transcoding, and delivery estimate |
+| 8-13 min | Upload-session/playback APIs and video lifecycle |
+| 13-25 min | Direct upload, metadata, processing pipeline, storage, manifest, CDN |
+| 25-40 min | Deep dive: reliable processing DAG and global playback/cost |
+| 40-45 min | Failure recovery, security, and trade-offs |
+
 ### Task
 
 Design the system for 5M DAU, five views per user per day, 10% daily uploaders, 300 MB average upload, common formats/resolutions, and 1 GB maximum file size. Include:
@@ -32,6 +45,25 @@ Design the system for 5M DAU, five views per user per day, 10% daily uploaders, 
 - Explain how a DAG provides dependency ordering and parallelism without describing heap or worker-thread internals.
 - Describe adaptive playback as a manifest plus short CDN-served segments, not a full-file download.
 - Give one long-tail CDN-cost optimization and one recoverable versus non-recoverable processing failure.
+
+## Interviewer follow-ups
+
+1. Why should the queue contain a job/object reference instead of the uploaded video bytes?
+2. A transcoding worker crashes after writing some variants. How can retry be safe?
+3. Why are `UPLOADED` and `READY` different states?
+4. What happens if the closest CDN region has no cached segment?
+
+## Self-review
+
+| Signal | Score 0-2 |
+|---|---|
+| Upload control plane and byte data plane are separate | |
+| Processing uses durable state, idempotent jobs, and dependency ordering | |
+| Playback uses manifests, segments, adaptive bitrate, and CDN | |
+| Global routing and CDN cost are justified by the estimate | |
+| Failure, takedown, and authorization boundaries are explicit | |
+
+**Target:** at least `7/10`. Then compare with [Design](/system_design/case_studies/youtube/design/).
 
 ## Quick recall
 

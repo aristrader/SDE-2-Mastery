@@ -11,6 +11,19 @@ search: false
 
 Walk through the URL shortener HLD in 30-45 minutes.
 
+## Timed mock
+
+Set a 40-minute timer. Attempt the prompt before opening the design tab.
+
+| Time | What to produce |
+|---|---|
+| 0-5 min | Requirements, scope, redirect/analytics consistency choice |
+| 5-8 min | Create versus redirect QPS, storage, and short-code capacity |
+| 8-13 min | APIs, data model, and code-generation decision |
+| 13-25 min | Create path, redirect path, cache, database, and async analytics |
+| 25-35 min | Deep dive: ID generation/collision safety and redirect-read scale |
+| 35-40 min | Failure modes, abuse control, and trade-offs |
+
 ### Prompt
 
 Design a URL shortening service that creates compact aliases and redirects short URLs to original URLs at scale.
@@ -45,3 +58,17 @@ Design a URL shortening service that creates compact aliases and redirects short
 - You choose `301` or `302` based on analytics needs.
 - You keep analytics off the redirect critical path.
 - You mention caching, DB sharding/replication, and create-endpoint rate limiting.
+
+## Self-review
+
+Score each item `0`, `1`, or `2`: missing, named but vague, or explained with flow/trade-off/recovery.
+
+| Signal | Score |
+|---|---|
+| Requirements distinguish redirect latency from analytics | |
+| Code generation has a uniqueness/collision answer | |
+| Redirect is cache-first and analytics stays off its critical path | |
+| Read scale and create scale use different mechanisms | |
+| Abuse, expiry, and dependency failures have a response | |
+
+**Target:** at least `7/10`. Then compare with [Design](/system_design/case_studies/url_shortener/design/).

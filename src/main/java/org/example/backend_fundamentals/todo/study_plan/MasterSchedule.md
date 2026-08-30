@@ -1,10 +1,12 @@
-# Master Schedule — Sprint (12 weeks)
+# Master Schedule — Historical Sprint (12 weeks)
 
-10-12 hrs/week sustainable. Tick **Done** when you can give a 2-min out-loud explanation. Tick **Visit Again** when shaky. Use **Notes** for context the next-you will want.
+This was the original May 18-August 9, 2026 plan. It is retained for sequencing and does not represent the current week. Current readiness is tracked by the authoritative Part checkboxes and `Part_30_Interview_Career_Prep.md`.
+
+Do not backfill `Spent` or `Done rows` from memory. Leave unknown values unrecorded; do not mistake the original plan for a progress log.
 
 ---
 
-## 📊 Sprint Dashboard
+## 📊 Original Sprint Dashboard
 
 Open this every Monday. Fill 3 cells per week (~60 seconds). The Status emoji is your at-a-glance "am I on course?"
 
@@ -13,20 +15,21 @@ Open this every Monday. Fill 3 cells per week (~60 seconds). The Status emoji is
 | 1 | 1 (Java/JVM) + 2 (Concurrency) | 10-12 hrs | _ | 36 done, 7 partial | ✅ |
 | 2 | 1b (Java & Spring Coding Fluency) + 3 (Spring) | 10-12 hrs | _ | 24 done, 18 partial | ✅ |
 | 3 | 4 (Design Patterns) + 5 (UML light) | 10-12 hrs | _ | Part 4: 23 done, 4 partial; Part 5 pending | ✅ |
-| 4 | 6 (DB) + start 7 (HLD). **LLD problems start Sat.** | 10-12 hrs | _ | _ | ☐ |
-| 5 | 7 (finish) + 8 (High TPS) + 9 (Caching) | 10-12 hrs | _ | _ | ☐ |
-| 6 | 10 (Messaging) + 11 (Networking) + 12 (API). **HLD problems start Sat.** | 10-12 hrs | _ | _ | ☐ |
-| 7 | 13 (AWS) | 10-12 hrs | _ | _ | ☐ |
-| 8 | 15 (Crypto) + 16 (TLS) + 17 (PKI) | 10-12 hrs | _ | _ | ☐ |
-| 9 | 18 (AuthN) + 19 (AuthZ) + 20 (Signing) | 10-12 hrs | _ | _ | ☐ |
-| 10 | 22 (DevOps) + start 29 (KYC) | 10-12 hrs | _ | _ | ☐ |
-| 11 | 29 (finish) + 31 (Platform) | 10-12 hrs | _ | _ | ☐ |
-| 12 | Mock loop (LLD + HLD + behavioral) + STAR polish | 10-12 hrs | _ | _ | ☐ |
+| 4 | 6 (DB) + start 7 (HLD). **LLD problems start Sat.** | 10-12 hrs | not recorded | not recorded | ? |
+| 5 | 7 (finish) + 8 (High TPS) + 9 (Caching) | 10-12 hrs | not recorded | not recorded | ? |
+| 6 | 10 (Messaging) + 11 (Networking) + 12 (API). **HLD problems start Sat.** | 10-12 hrs | not recorded | not recorded | ? |
+| 7 | 13 (AWS) | 10-12 hrs | not recorded | not recorded | ? |
+| 8 | 15 (Crypto) + 16 (TLS) + 17 (PKI) | 10-12 hrs | not recorded | not recorded | ? |
+| 9 | 18 (AuthN) + 19 (AuthZ) + 20 (Signing) | 10-12 hrs | not recorded | not recorded | ? |
+| 10 | 22 (DevOps) + start 29 (KYC) | 10-12 hrs | not recorded | not recorded | ? |
+| 11 | 29 (finish) + 31 (Platform) | 10-12 hrs | not recorded | not recorded | ? |
+| 12 | Mock loop (LLD + HLD + behavioral) + STAR polish | 10-12 hrs | not recorded | not recorded | ? |
 | | **Cumulative** | **120-144 hrs** | **_** | **_** | |
 
 ### Status emoji legend
 
 - ☐ — not started yet
+- `?`: not recorded; never treat this as not done
 - ✅ — on track (Spent within ±2 hrs of Budget midpoint; Done rows in line with expected pace)
 - 🚀 — ahead (Spent ≤ Budget − 3 hrs, or Done rows exceed expected pace)
 - ⚠️ — behind (Spent ≥ Budget + 3 hrs, OR <50% of expected Done rows for this Part)

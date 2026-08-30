@@ -13,7 +13,7 @@ A 9-month executable study plan covering 32 Parts of backend / SDE mastery (per-
 ```
 study_plan/
 ├── README.md             ← you are here (read first)
-├── MasterSchedule.md     ← weekly calendar — open every Monday
+├── MasterSchedule.md     ← historical Sprint calendar and tracking rules
 ├── parts/                ← the 32 Part docs (your syllabus)
 ├── deep_dives/           ← long-form study material
 └── reference/            ← look up when you need it
@@ -34,6 +34,7 @@ study_plan/
 | Deep-dive a topic that needs more than its Part rows | `deep_dives/` |
 | Need a book / video / tool | `reference/Resources.md` |
 | Finish the Sprint | `reference/ConsolidationOutline.md` |
+| Prepare for an interview now | `parts/Part_30_Interview_Career_Prep.md` plus a timed case-study exercise |
 
 ## How to read a Part planning doc
 
@@ -71,9 +72,11 @@ Each doc has:
 ## Current phase + week
 
 > **Sprint start:** Monday, May 18, 2026 (Week 1 = May 18–24)
-> **Phase:** Sprint
-> **Week:** 5 (Jun 15–21) — *(update each Monday)*
-> **Today's deliverable:** *(update each session)*
+> **Original Sprint end:** Sunday, August 9, 2026
+> **Phase:** Post-Sprint interview preparation / application launch
+> **Current source of truth:** Per-Part checkboxes and `Part_30_Interview_Career_Prep.md`; do not infer readiness from the historical calendar.
+
+The Sprint calendar is retained as the original plan, not a claim of current progress. Unknown `Spent`, `Done rows`, and status values stay unrecorded rather than implying work was not done.
 
 ## Priority cleanup TODO
 
