@@ -1497,6 +1497,41 @@
         ]
       }
     ],
+    "/job_search/": [
+      {
+        "text": "Job Search",
+        "items": [
+          {
+            "text": "Candidate Profile",
+            "link": "/job_search/candidate_profile/"
+          },
+          {
+            "text": "Swapnil Agarwal — Résumé",
+            "link": "/job_search/my_resume/"
+          },
+          {
+            "text": "Outreach Templates",
+            "link": "/job_search/templates/"
+          },
+          {
+            "text": "Sample Résumés",
+            "link": "/job_search/sample_resumes/"
+          },
+          {
+            "text": "ATS Keyword Reference",
+            "link": "/job_search/ats_keywords/"
+          },
+          {
+            "text": "Application System",
+            "link": "/job_search/application_system/"
+          },
+          {
+            "text": "Application Plan",
+            "link": "/job_search/application_plan/"
+          }
+        ]
+      }
+    ],
     "/gen_ai/": [
       {
         "text": "GenAI",
@@ -1618,6 +1653,11 @@
       "text": "API Design",
       "link": "/api_design/",
       "activeMatch": "/api_design/"
+    },
+    {
+      "text": "Job Search",
+      "link": "/job_search/",
+      "activeMatch": "/job_search/"
     },
     {
       "text": "GenAI",
@@ -8768,6 +8808,120 @@
         ]
       },
       {
+        "text": "Job Search",
+        "link": "/job_search/",
+        "order": 170,
+        "schema": "theory",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "Candidate Profile",
+            "link": "/job_search/candidate_profile/",
+            "order": 10,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Swapnil Agarwal — Résumé",
+            "link": "/job_search/my_resume/",
+            "order": 20,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Outreach Templates",
+            "link": "/job_search/templates/",
+            "order": 30,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Sample Résumés",
+            "link": "/job_search/sample_resumes/",
+            "order": 40,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "ATS Keyword Reference",
+            "link": "/job_search/ats_keywords/",
+            "order": 50,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Application System",
+            "link": "/job_search/application_system/",
+            "order": 60,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          },
+          {
+            "text": "Application Plan",
+            "link": "/job_search/application_plan/",
+            "order": 70,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
+          }
+        ]
+      },
+      {
         "text": "GenAI",
         "link": "/gen_ai/",
         "order": 180,
@@ -10193,6 +10347,38 @@
     {
       "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
       "link": "/api_design/api_technologies_comparison/"
+    },
+    {
+      "text": "Job Search",
+      "link": "/job_search/"
+    },
+    {
+      "text": "Candidate Profile",
+      "link": "/job_search/candidate_profile/"
+    },
+    {
+      "text": "Swapnil Agarwal — Résumé",
+      "link": "/job_search/my_resume/"
+    },
+    {
+      "text": "Outreach Templates",
+      "link": "/job_search/templates/"
+    },
+    {
+      "text": "Sample Résumés",
+      "link": "/job_search/sample_resumes/"
+    },
+    {
+      "text": "ATS Keyword Reference",
+      "link": "/job_search/ats_keywords/"
+    },
+    {
+      "text": "Application System",
+      "link": "/job_search/application_system/"
+    },
+    {
+      "text": "Application Plan",
+      "link": "/job_search/application_plan/"
     },
     {
       "text": "GenAI",
@@ -23225,6 +23411,118 @@
       "link": "/api_design/api_technologies_comparison/",
       "pageType": "theory",
       "parentLink": "/api_design/api_technologies_comparison/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/": {
+      "text": "Job Search",
+      "link": "/job_search/",
+      "pageType": "theory",
+      "parentLink": "/job_search/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/candidate_profile/": {
+      "text": "Candidate Profile",
+      "link": "/job_search/candidate_profile/",
+      "pageType": "theory",
+      "parentLink": "/job_search/candidate_profile/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/my_resume/": {
+      "text": "Swapnil Agarwal — Résumé",
+      "link": "/job_search/my_resume/",
+      "pageType": "theory",
+      "parentLink": "/job_search/my_resume/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/templates/": {
+      "text": "Outreach Templates",
+      "link": "/job_search/templates/",
+      "pageType": "theory",
+      "parentLink": "/job_search/templates/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/sample_resumes/": {
+      "text": "Sample Résumés",
+      "link": "/job_search/sample_resumes/",
+      "pageType": "theory",
+      "parentLink": "/job_search/sample_resumes/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/ats_keywords/": {
+      "text": "ATS Keyword Reference",
+      "link": "/job_search/ats_keywords/",
+      "pageType": "theory",
+      "parentLink": "/job_search/ats_keywords/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/application_system/": {
+      "text": "Application System",
+      "link": "/job_search/application_system/",
+      "pageType": "theory",
+      "parentLink": "/job_search/application_system/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/application_plan/": {
+      "text": "Application Plan",
+      "link": "/job_search/application_plan/",
+      "pageType": "theory",
+      "parentLink": "/job_search/application_plan/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
