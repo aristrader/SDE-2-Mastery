@@ -41,3 +41,24 @@ matching, fraud prevention, risk decisioning, biometric verification, audit trai
 
 Pair a keyword with scope, engineering mechanism, or result. Do not add tools, metrics, or ownership claims
 solely for ATS coverage.
+
+## Free no-login ATS checkers
+
+Use these to check parseability, formatting, and missing keywords against a representative JD. Treat the score
+as a diagnostic signal, not a universal measure: each tool uses different rules and cannot predict a company's
+actual ATS or recruiter decision.
+
+- [AssessArc Resume Analyzer](https://www.assessarc.com/resume-analyzer) — upload a resume and optionally add
+  a JD for an estimated match score and keyword gaps.
+- [ResumeTune](https://resumetune.io/) — technical ATS-readability check with an optional JD; no account stated.
+- [ApplyCove ATS Resume Checker](https://applycove.com/ats-resume-checker/) — browser-based PDF scan and
+  optional JD keyword match; no sign-up stated.
+- [CVScan](https://www.cvscan.in/free-resume-checker) — India-oriented free audit for parsing, formatting, and
+  missing keywords; no sign-up stated for the audit.
+- [CV Review ATS Resume Checker](https://cv-review.com/hub/ats-resume-checker) — formatting, parsing, keyword,
+  and achievement checks; no sign-up stated.
+- [ResumeMetric](https://resumemetric.com/) — resume and target-JD compatibility scan; no login stated.
+- [HireFlow](https://hireflow.net/free-ats-resume-checker) — instant ATS scan for an uploaded resume with keyword
+  and formatting feedback; no login stated.
+- [PrismResume](https://prismresume.com/check) — free rules-based resume check by pasted text or PDF upload;
+  no sign-up stated.
