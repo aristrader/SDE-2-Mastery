@@ -29,4 +29,5 @@ roles in India or remote from India.
 - [Ready-to-send outreach](../outreach/ready_to_send/)
 - [Reusable message templates](../outreach/message_templates/)
 - [Reusable email templates](../outreach/email_templates/)
+- [Cover letter formats](../cover_letters/formats/full_cover_letter/)
 - [Sample resume references](../resume/sample_resumes/)

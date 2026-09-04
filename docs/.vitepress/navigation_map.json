@@ -1530,7 +1530,22 @@
             "items": [
               {
                 "text": "Message Templates",
-                "link": "/job_search/outreach/message_templates/"
+                "link": "/job_search/outreach/message_templates/",
+                "items": [
+                  {
+                    "text": "Senior or Alumni Referral",
+                    "link": "/job_search/outreach/message_templates/senior_alumni/"
+                  },
+                  {
+                    "text": "Hiring Manager or Unknown Contact",
+                    "link": "/job_search/outreach/message_templates/hiring_manager/"
+                  },
+                  {
+                    "text": "No Opening Visible",
+                    "link": "/job_search/outreach/message_templates/no_opening/"
+                  }
+                ],
+                "collapsed": true
               },
               {
                 "text": "Email Templates",
@@ -1538,11 +1553,26 @@
               },
               {
                 "text": "Ready-to-Send Outreach",
-                "link": "/job_search/outreach/ready_to_send/"
-              },
-              {
-                "text": "Cover Letter — Review Draft",
-                "link": "/job_search/outreach/cover_letter/"
+                "link": "/job_search/outreach/ready_to_send/",
+                "items": [
+                  {
+                    "text": "Senior or NIT Bhopal Alumni Referral",
+                    "link": "/job_search/outreach/ready_to_send/senior_alumni/"
+                  },
+                  {
+                    "text": "Hiring Manager or Unknown Contact",
+                    "link": "/job_search/outreach/ready_to_send/hiring_manager/"
+                  },
+                  {
+                    "text": "No Opening Visible",
+                    "link": "/job_search/outreach/ready_to_send/no_opening/"
+                  },
+                  {
+                    "text": "Referral Email",
+                    "link": "/job_search/outreach/ready_to_send/referral_email/"
+                  }
+                ],
+                "collapsed": true
               }
             ],
             "collapsed": true
@@ -1558,6 +1588,28 @@
               {
                 "text": "Application System",
                 "link": "/job_search/applications/tracking_system/"
+              }
+            ],
+            "collapsed": true
+          },
+          {
+            "text": "Cover Letters",
+            "link": "/job_search/cover_letters/",
+            "items": [
+              {
+                "text": "Formats",
+                "link": "/job_search/cover_letters/formats/",
+                "items": [
+                  {
+                    "text": "Cover Letter — Review Draft",
+                    "link": "/job_search/cover_letters/formats/full_cover_letter/"
+                  }
+                ],
+                "collapsed": true
+              },
+              {
+                "text": "Samples",
+                "link": "/job_search/cover_letters/samples/"
               }
             ],
             "collapsed": true
@@ -8952,7 +9004,51 @@
                   "design": false,
                   "playground": false,
                   "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Senior or Alumni Referral",
+                    "link": "/job_search/outreach/message_templates/senior_alumni/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Hiring Manager or Unknown Contact",
+                    "link": "/job_search/outreach/message_templates/hiring_manager/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "No Opening Visible",
+                    "link": "/job_search/outreach/message_templates/no_opening/",
+                    "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               },
               {
                 "text": "Email Templates",
@@ -8980,21 +9076,65 @@
                   "design": false,
                   "playground": false,
                   "assets": false
-                }
-              },
-              {
-                "text": "Cover Letter — Review Draft",
-                "link": "/job_search/outreach/cover_letter/",
-                "order": 40,
-                "schema": "theory",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": false,
-                  "solution": false,
-                  "design": false,
-                  "playground": false,
-                  "assets": false
-                }
+                },
+                "items": [
+                  {
+                    "text": "Senior or NIT Bhopal Alumni Referral",
+                    "link": "/job_search/outreach/ready_to_send/senior_alumni/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Hiring Manager or Unknown Contact",
+                    "link": "/job_search/outreach/ready_to_send/hiring_manager/",
+                    "order": 20,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "No Opening Visible",
+                    "link": "/job_search/outreach/ready_to_send/no_opening/",
+                    "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  },
+                  {
+                    "text": "Referral Email",
+                    "link": "/job_search/outreach/ready_to_send/referral_email/",
+                    "order": 40,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -9029,6 +9169,66 @@
               {
                 "text": "Application System",
                 "link": "/job_search/applications/tracking_system/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          },
+          {
+            "text": "Cover Letters",
+            "link": "/job_search/cover_letters/",
+            "order": 50,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Formats",
+                "link": "/job_search/cover_letters/formats/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                },
+                "items": [
+                  {
+                    "text": "Cover Letter — Review Draft",
+                    "link": "/job_search/cover_letters/formats/full_cover_letter/",
+                    "order": 10,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
+              },
+              {
+                "text": "Samples",
+                "link": "/job_search/cover_letters/samples/",
                 "order": 20,
                 "schema": "theory",
                 "practiceSet": null,
@@ -10504,6 +10704,18 @@
       "link": "/job_search/outreach/message_templates/"
     },
     {
+      "text": "Senior or Alumni Referral",
+      "link": "/job_search/outreach/message_templates/senior_alumni/"
+    },
+    {
+      "text": "Hiring Manager or Unknown Contact",
+      "link": "/job_search/outreach/message_templates/hiring_manager/"
+    },
+    {
+      "text": "No Opening Visible",
+      "link": "/job_search/outreach/message_templates/no_opening/"
+    },
+    {
       "text": "Email Templates",
       "link": "/job_search/outreach/email_templates/"
     },
@@ -10512,8 +10724,20 @@
       "link": "/job_search/outreach/ready_to_send/"
     },
     {
-      "text": "Cover Letter — Review Draft",
-      "link": "/job_search/outreach/cover_letter/"
+      "text": "Senior or NIT Bhopal Alumni Referral",
+      "link": "/job_search/outreach/ready_to_send/senior_alumni/"
+    },
+    {
+      "text": "Hiring Manager or Unknown Contact",
+      "link": "/job_search/outreach/ready_to_send/hiring_manager/"
+    },
+    {
+      "text": "No Opening Visible",
+      "link": "/job_search/outreach/ready_to_send/no_opening/"
+    },
+    {
+      "text": "Referral Email",
+      "link": "/job_search/outreach/ready_to_send/referral_email/"
     },
     {
       "text": "Applications",
@@ -10526,6 +10750,22 @@
     {
       "text": "Application System",
       "link": "/job_search/applications/tracking_system/"
+    },
+    {
+      "text": "Cover Letters",
+      "link": "/job_search/cover_letters/"
+    },
+    {
+      "text": "Formats",
+      "link": "/job_search/cover_letters/formats/"
+    },
+    {
+      "text": "Cover Letter — Review Draft",
+      "link": "/job_search/cover_letters/formats/full_cover_letter/"
+    },
+    {
+      "text": "Samples",
+      "link": "/job_search/cover_letters/samples/"
     },
     {
       "text": "GenAI",
@@ -23679,6 +23919,48 @@
         "assets": false
       }
     },
+    "/job_search/outreach/message_templates/senior_alumni/": {
+      "text": "Senior or Alumni Referral",
+      "link": "/job_search/outreach/message_templates/senior_alumni/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/message_templates/senior_alumni/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/message_templates/hiring_manager/": {
+      "text": "Hiring Manager or Unknown Contact",
+      "link": "/job_search/outreach/message_templates/hiring_manager/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/message_templates/hiring_manager/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/message_templates/no_opening/": {
+      "text": "No Opening Visible",
+      "link": "/job_search/outreach/message_templates/no_opening/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/message_templates/no_opening/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
     "/job_search/outreach/email_templates/": {
       "text": "Email Templates",
       "link": "/job_search/outreach/email_templates/",
@@ -23707,11 +23989,53 @@
         "assets": false
       }
     },
-    "/job_search/outreach/cover_letter/": {
-      "text": "Cover Letter — Review Draft",
-      "link": "/job_search/outreach/cover_letter/",
+    "/job_search/outreach/ready_to_send/senior_alumni/": {
+      "text": "Senior or NIT Bhopal Alumni Referral",
+      "link": "/job_search/outreach/ready_to_send/senior_alumni/",
       "pageType": "theory",
-      "parentLink": "/job_search/outreach/cover_letter/",
+      "parentLink": "/job_search/outreach/ready_to_send/senior_alumni/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/ready_to_send/hiring_manager/": {
+      "text": "Hiring Manager or Unknown Contact",
+      "link": "/job_search/outreach/ready_to_send/hiring_manager/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/ready_to_send/hiring_manager/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/ready_to_send/no_opening/": {
+      "text": "No Opening Visible",
+      "link": "/job_search/outreach/ready_to_send/no_opening/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/ready_to_send/no_opening/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/ready_to_send/referral_email/": {
+      "text": "Referral Email",
+      "link": "/job_search/outreach/ready_to_send/referral_email/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/ready_to_send/referral_email/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -23754,6 +24078,62 @@
       "link": "/job_search/applications/tracking_system/",
       "pageType": "theory",
       "parentLink": "/job_search/applications/tracking_system/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/cover_letters/": {
+      "text": "Cover Letters",
+      "link": "/job_search/cover_letters/",
+      "pageType": "theory",
+      "parentLink": "/job_search/cover_letters/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/cover_letters/formats/": {
+      "text": "Formats",
+      "link": "/job_search/cover_letters/formats/",
+      "pageType": "theory",
+      "parentLink": "/job_search/cover_letters/formats/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/cover_letters/formats/full_cover_letter/": {
+      "text": "Cover Letter — Review Draft",
+      "link": "/job_search/cover_letters/formats/full_cover_letter/",
+      "pageType": "theory",
+      "parentLink": "/job_search/cover_letters/formats/full_cover_letter/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/cover_letters/samples/": {
+      "text": "Samples",
+      "link": "/job_search/cover_letters/samples/",
+      "pageType": "theory",
+      "parentLink": "/job_search/cover_letters/samples/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
