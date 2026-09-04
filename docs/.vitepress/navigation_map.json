@@ -1539,6 +1539,10 @@
               {
                 "text": "Ready-to-Send Outreach",
                 "link": "/job_search/outreach/ready_to_send/"
+              },
+              {
+                "text": "Cover Letter — Review Draft",
+                "link": "/job_search/outreach/cover_letter/"
               }
             ],
             "collapsed": true
@@ -8977,6 +8981,20 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "Cover Letter — Review Draft",
+                "link": "/job_search/outreach/cover_letter/",
+                "order": 40,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
               }
             ]
           },
@@ -10492,6 +10510,10 @@
     {
       "text": "Ready-to-Send Outreach",
       "link": "/job_search/outreach/ready_to_send/"
+    },
+    {
+      "text": "Cover Letter — Review Draft",
+      "link": "/job_search/outreach/cover_letter/"
     },
     {
       "text": "Applications",
@@ -23676,6 +23698,20 @@
       "link": "/job_search/outreach/ready_to_send/",
       "pageType": "theory",
       "parentLink": "/job_search/outreach/ready_to_send/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/cover_letter/": {
+      "text": "Cover Letter — Review Draft",
+      "link": "/job_search/outreach/cover_letter/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/cover_letter/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
