@@ -1506,28 +1506,57 @@
             "link": "/job_search/candidate_profile/"
           },
           {
-            "text": "Swapnil Agarwal — Résumé",
-            "link": "/job_search/my_resume/"
+            "text": "Resume",
+            "link": "/job_search/resume/",
+            "items": [
+              {
+                "text": "Swapnil Agarwal — Resume",
+                "link": "/job_search/resume/current_resume/"
+              },
+              {
+                "text": "Sample Resumes",
+                "link": "/job_search/resume/sample_resumes/"
+              },
+              {
+                "text": "ATS Keyword Reference",
+                "link": "/job_search/resume/ats_reference/"
+              }
+            ],
+            "collapsed": true
           },
           {
-            "text": "Outreach Templates",
-            "link": "/job_search/templates/"
+            "text": "Outreach",
+            "link": "/job_search/outreach/",
+            "items": [
+              {
+                "text": "Message Templates",
+                "link": "/job_search/outreach/message_templates/"
+              },
+              {
+                "text": "Email Templates",
+                "link": "/job_search/outreach/email_templates/"
+              },
+              {
+                "text": "Ready-to-Send Outreach",
+                "link": "/job_search/outreach/ready_to_send/"
+              }
+            ],
+            "collapsed": true
           },
           {
-            "text": "Sample Résumés",
-            "link": "/job_search/sample_resumes/"
-          },
-          {
-            "text": "ATS Keyword Reference",
-            "link": "/job_search/ats_keywords/"
-          },
-          {
-            "text": "Application System",
-            "link": "/job_search/application_system/"
-          },
-          {
-            "text": "Application Plan",
-            "link": "/job_search/application_plan/"
+            "text": "Applications",
+            "link": "/job_search/applications/",
+            "items": [
+              {
+                "text": "Application Plan",
+                "link": "/job_search/applications/plan/"
+              },
+              {
+                "text": "Application System",
+                "link": "/job_search/applications/tracking_system/"
+              }
+            ],
+            "collapsed": true
           }
         ]
       }
@@ -8836,8 +8865,8 @@
             }
           },
           {
-            "text": "Swapnil Agarwal — Résumé",
-            "link": "/job_search/my_resume/",
+            "text": "Resume",
+            "link": "/job_search/resume/",
             "order": 20,
             "schema": "theory",
             "practiceSet": null,
@@ -8847,11 +8876,55 @@
               "design": false,
               "playground": false,
               "assets": false
-            }
+            },
+            "items": [
+              {
+                "text": "Swapnil Agarwal — Resume",
+                "link": "/job_search/resume/current_resume/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Sample Resumes",
+                "link": "/job_search/resume/sample_resumes/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "ATS Keyword Reference",
+                "link": "/job_search/resume/ats_reference/",
+                "order": 30,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
           },
           {
-            "text": "Outreach Templates",
-            "link": "/job_search/templates/",
+            "text": "Outreach",
+            "link": "/job_search/outreach/",
             "order": 30,
             "schema": "theory",
             "practiceSet": null,
@@ -8861,11 +8934,55 @@
               "design": false,
               "playground": false,
               "assets": false
-            }
+            },
+            "items": [
+              {
+                "text": "Message Templates",
+                "link": "/job_search/outreach/message_templates/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Email Templates",
+                "link": "/job_search/outreach/email_templates/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Ready-to-Send Outreach",
+                "link": "/job_search/outreach/ready_to_send/",
+                "order": 30,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
           },
           {
-            "text": "Sample Résumés",
-            "link": "/job_search/sample_resumes/",
+            "text": "Applications",
+            "link": "/job_search/applications/",
             "order": 40,
             "schema": "theory",
             "practiceSet": null,
@@ -8875,49 +8992,37 @@
               "design": false,
               "playground": false,
               "assets": false
-            }
-          },
-          {
-            "text": "ATS Keyword Reference",
-            "link": "/job_search/ats_keywords/",
-            "order": 50,
-            "schema": "theory",
-            "practiceSet": null,
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            }
-          },
-          {
-            "text": "Application System",
-            "link": "/job_search/application_system/",
-            "order": 60,
-            "schema": "theory",
-            "practiceSet": null,
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            }
-          },
-          {
-            "text": "Application Plan",
-            "link": "/job_search/application_plan/",
-            "order": 70,
-            "schema": "theory",
-            "practiceSet": null,
-            "capabilities": {
-              "exercise": false,
-              "solution": false,
-              "design": false,
-              "playground": false,
-              "assets": false
-            }
+            },
+            "items": [
+              {
+                "text": "Application Plan",
+                "link": "/job_search/applications/plan/",
+                "order": 10,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Application System",
+                "link": "/job_search/applications/tracking_system/",
+                "order": 20,
+                "schema": "theory",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": false,
+                  "solution": false,
+                  "design": false,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
           }
         ]
       },
@@ -10357,28 +10462,48 @@
       "link": "/job_search/candidate_profile/"
     },
     {
-      "text": "Swapnil Agarwal — Résumé",
-      "link": "/job_search/my_resume/"
+      "text": "Resume",
+      "link": "/job_search/resume/"
     },
     {
-      "text": "Outreach Templates",
-      "link": "/job_search/templates/"
+      "text": "Swapnil Agarwal — Resume",
+      "link": "/job_search/resume/current_resume/"
     },
     {
-      "text": "Sample Résumés",
-      "link": "/job_search/sample_resumes/"
+      "text": "Sample Resumes",
+      "link": "/job_search/resume/sample_resumes/"
     },
     {
       "text": "ATS Keyword Reference",
-      "link": "/job_search/ats_keywords/"
+      "link": "/job_search/resume/ats_reference/"
     },
     {
-      "text": "Application System",
-      "link": "/job_search/application_system/"
+      "text": "Outreach",
+      "link": "/job_search/outreach/"
+    },
+    {
+      "text": "Message Templates",
+      "link": "/job_search/outreach/message_templates/"
+    },
+    {
+      "text": "Email Templates",
+      "link": "/job_search/outreach/email_templates/"
+    },
+    {
+      "text": "Ready-to-Send Outreach",
+      "link": "/job_search/outreach/ready_to_send/"
+    },
+    {
+      "text": "Applications",
+      "link": "/job_search/applications/"
     },
     {
       "text": "Application Plan",
-      "link": "/job_search/application_plan/"
+      "link": "/job_search/applications/plan/"
+    },
+    {
+      "text": "Application System",
+      "link": "/job_search/applications/tracking_system/"
     },
     {
       "text": "GenAI",
@@ -23448,11 +23573,11 @@
         "assets": false
       }
     },
-    "/job_search/my_resume/": {
-      "text": "Swapnil Agarwal — Résumé",
-      "link": "/job_search/my_resume/",
+    "/job_search/resume/": {
+      "text": "Resume",
+      "link": "/job_search/resume/",
       "pageType": "theory",
-      "parentLink": "/job_search/my_resume/",
+      "parentLink": "/job_search/resume/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -23462,11 +23587,11 @@
         "assets": false
       }
     },
-    "/job_search/templates/": {
-      "text": "Outreach Templates",
-      "link": "/job_search/templates/",
+    "/job_search/resume/current_resume/": {
+      "text": "Swapnil Agarwal — Resume",
+      "link": "/job_search/resume/current_resume/",
       "pageType": "theory",
-      "parentLink": "/job_search/templates/",
+      "parentLink": "/job_search/resume/current_resume/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -23476,11 +23601,11 @@
         "assets": false
       }
     },
-    "/job_search/sample_resumes/": {
-      "text": "Sample Résumés",
-      "link": "/job_search/sample_resumes/",
+    "/job_search/resume/sample_resumes/": {
+      "text": "Sample Resumes",
+      "link": "/job_search/resume/sample_resumes/",
       "pageType": "theory",
-      "parentLink": "/job_search/sample_resumes/",
+      "parentLink": "/job_search/resume/sample_resumes/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -23490,11 +23615,11 @@
         "assets": false
       }
     },
-    "/job_search/ats_keywords/": {
+    "/job_search/resume/ats_reference/": {
       "text": "ATS Keyword Reference",
-      "link": "/job_search/ats_keywords/",
+      "link": "/job_search/resume/ats_reference/",
       "pageType": "theory",
-      "parentLink": "/job_search/ats_keywords/",
+      "parentLink": "/job_search/resume/ats_reference/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -23504,11 +23629,11 @@
         "assets": false
       }
     },
-    "/job_search/application_system/": {
-      "text": "Application System",
-      "link": "/job_search/application_system/",
+    "/job_search/outreach/": {
+      "text": "Outreach",
+      "link": "/job_search/outreach/",
       "pageType": "theory",
-      "parentLink": "/job_search/application_system/",
+      "parentLink": "/job_search/outreach/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
@@ -23518,11 +23643,81 @@
         "assets": false
       }
     },
-    "/job_search/application_plan/": {
+    "/job_search/outreach/message_templates/": {
+      "text": "Message Templates",
+      "link": "/job_search/outreach/message_templates/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/message_templates/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/email_templates/": {
+      "text": "Email Templates",
+      "link": "/job_search/outreach/email_templates/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/email_templates/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/outreach/ready_to_send/": {
+      "text": "Ready-to-Send Outreach",
+      "link": "/job_search/outreach/ready_to_send/",
+      "pageType": "theory",
+      "parentLink": "/job_search/outreach/ready_to_send/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/applications/": {
+      "text": "Applications",
+      "link": "/job_search/applications/",
+      "pageType": "theory",
+      "parentLink": "/job_search/applications/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/applications/plan/": {
       "text": "Application Plan",
-      "link": "/job_search/application_plan/",
+      "link": "/job_search/applications/plan/",
       "pageType": "theory",
-      "parentLink": "/job_search/application_plan/",
+      "parentLink": "/job_search/applications/plan/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/job_search/applications/tracking_system/": {
+      "text": "Application System",
+      "link": "/job_search/applications/tracking_system/",
+      "pageType": "theory",
+      "parentLink": "/job_search/applications/tracking_system/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,

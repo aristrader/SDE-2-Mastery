@@ -1,8 +1,8 @@
 # VIDA work context — evidence inventory
 
-Purpose: retain enough technical and business context to build a truthful master résumé later without repeatedly rediscovering the same details.
+Purpose: retain enough technical and business context to build a truthful master resume later without repeatedly rediscovering the same details.
 
-This is not a final résumé and not a claim that every listed change shipped to production. The task list establishes Swapnil's involvement; the local `my-verify` repository is technical evidence of the design/code present there. Confirm release state, individual ownership, scale, and business outcome before converting an item into a résumé bullet.
+This is not a final resume and not a claim that every listed change shipped to production. The task list establishes Swapnil's involvement; the local `my-verify` repository is technical evidence of the design/code present there. Confirm release state, individual ownership, scale, and business outcome before converting an item into a resume bullet.
 
 ## User-confirmed delivery and ownership
 
@@ -223,7 +223,7 @@ Primary source: `docs/codebase-context.md`.
 
 - `docs/confluence/gxs-sg-kyc/_conventions.md`
 
-### Résumé treatment
+### Resume treatment
 
 - Do not present this as implementation ownership.
 - Consider it only if the work can be described precisely as cross-functional technical discovery/design that informed a delivered GXS KYC capability. It is likely lower priority than shipped backend integrations unless it demonstrates substantial ownership, stakeholder influence, or a distinctive system-design contribution.
@@ -237,7 +237,7 @@ Primary source: `docs/codebase-context.md`.
 
 - Java/Spring backend work with Feign-based external APIs, asynchronous stages, resilience/retry, configuration-driven behavior, audit/status persistence, response contracts, tests, observability, and PII-aware security design.
 - Work spans verification/compliance-sensitive flows: document authenticity, OCR, KYC, liveness/face matching, fraud risk, document storage, and ePassport NFC.
-- Strongest likely résumé themes: external-provider integration, backend ownership across request-to-result paths, extensible architecture, security/privacy considerations, and market/client enablement. These remain themes, not final bullets.
+- Strongest likely resume themes: external-provider integration, backend ownership across request-to-result paths, extensible architecture, security/privacy considerations, and market/client enablement. These remain themes, not final bullets.
 
 ## Detailed audit addendum
 
@@ -279,7 +279,7 @@ Primary source: `docs/codebase-context.md`.
 
 ## Line-by-line audit coverage
 
-Two read-only audits were completed before any résumé trimming:
+Two read-only audits were completed before any resume trimming:
 
 - **Regula/NFC audit:** read the full 3,720-line NFC/Regula document corpus, including the ePassport technical review, NFC API/KYC/event/design documents, all Regula package design documents, and concrete provider/request/response-mapper code.
 - **Verification-feature audit:** read the critical-fields, generic KYC, liveness/face-match, FraudShield, Tijori/presigned-URL, 1:N, blacklist/watchlist, GXS, configuration, DDL, test, and relevant pipeline sources.
@@ -298,7 +298,7 @@ The detailed import in `resume_master.md` preserves the strongest line-by-line f
 
 ## Git-history corroboration
 
-The following history confirms that the inspected features were developed as distinct workstreams. Commit history is evidence of repository evolution, not proof of Swapnil's individual authorship; combine it with the supplied task list and review material before using it in the résumé.
+The following history confirms that the inspected features were developed as distinct workstreams. Commit history is evidence of repository evolution, not proof of Swapnil's individual authorship; combine it with the supplied task list and review material before using it in the resume.
 
 - **Critical fields:** history records KTP critical/minimum OCR and landmark configuration, strict KTP portrait enforcement, Malaysian-card OCR/landmark extensions, centralized card-type selection, and critical-field error-code handling (`VENGG-15001`, `VENGG-15008`).
 - **KYC:** history records the initial KYC flow, `groupId` status API, operation-level status updates, final outcome/billing/event behavior, requested-operation validation, safe concurrent status writes, duplicate-liveness handling, stale-case cleanup/deadlock prevention, and history-only status summaries (`VENGG-14672`, `VENGG-14735`, `VENGG-14755`, `VENGG-14766`).
@@ -312,7 +312,7 @@ The following history confirms that the inspected features were developed as dis
 
 ## Next facts to collect
 
-For each task that may reach the final résumé, capture:
+For each task that may reach the final resume, capture:
 
 1. Time period and exact role.
 2. What Swapnil personally owned versus designed/reviewed/supported.
@@ -323,7 +323,7 @@ For each task that may reach the final résumé, capture:
 
 ## Confirmed outcomes and scope from the impact questionnaire
 
-Source: `job_search/vida_impact_questions.md`, fully read through line 797. The business outcomes below are Swapnil-provided facts unless a `my-verify` source is named. They are suitable for internal résumé selection; client names and service names must not appear in the public résumé.
+Source: `job_search/vida_impact_questions.md`, fully read through line 797. The business outcomes below are Swapnil-provided facts unless a `my-verify` source is named. They are suitable for internal resume selection; client names and service names must not appear in the public resume.
 
 ### Service ownership, scale, and turnaround
 
@@ -332,7 +332,7 @@ Source: `job_search/vida_impact_questions.md`, fully read through line 797. The 
 - The performance turnaround brought a reported 8–10-second average latency to the customer commitment of under two seconds, alongside the already recorded sub-one-second OCR/IDV and sub-two-second liveness/face-match results.
 - Clarification (2026-09-04): the earlier 5-TPS figure is from an older performance test. Swapnil confirms a
   later OCR/IDV validation at **20 TPS** with approximately **1.4 s p99**; use the later figure in the active
-  résumé while preserving the older raw questionnaire answer as historical context.
+  resume while preserving the older raw questionnaire answer as historical context.
 - Root causes addressed across the turnaround included incorrect AWS/version/server configuration, high-latency flows, fragmented S3/database image storage, memory leaks, and response/flow issues. Tijori became the common storage path for storing and maintaining verification data.
 
 ### Client controls, KYC orchestration, and market enablement
@@ -346,7 +346,7 @@ Source: `job_search/vida_impact_questions.md`, fully read through line 797. The 
 
 - FraudShield was Swapnil's backend integration with a third-party fraud service. The SDK/data/model layers collected 1,000+ signals; do **not** attribute that signal collection or model performance to Swapnil's backend work.
 - The delivered product purpose was stronger fraud/compliance coverage, including fraud-transaction detection, duplicate-account prevention, fraudulent-document prevention, and client-controlled face/user blacklisting.
-- No measured fraud-catch rate, FAR reduction, conversion change, or duplicate-case volume has been provided. Never create a 30–40% (or other approximate) metric for the résumé; keep the final claim qualitative unless a defensible measurement is later available.
+- No measured fraud-catch rate, FAR reduction, conversion change, or duplicate-case volume has been provided. Never create a 30–40% (or other approximate) metric for the resume; keep the final claim qualitative unless a defensible measurement is later available.
 
 ### Storage, presigned URLs, BYOK, and PII
 
@@ -404,7 +404,7 @@ Source: `job_search/vida_impact_questions.md`, fully read through line 797. The 
 - Keep unmeasured claims qualitative: fraud prevention, conversion/stickiness, market expansion, customer support visibility, Web SDK enablement, duplicate/watchlist effect, research outcomes, and documentation/PR-review impact.
 - Before asking follow-up questions, inspect this section, the earlier technical inventory, and the raw questionnaire. The only remaining material follow-ups should be questions that cannot be derived from those sources, such as final public wording preferences or a direct measurement needed for a specific chosen bullet.
 
-## Detailed questionnaire appendix — preserve for interview and résumé work
+## Detailed questionnaire appendix — preserve for interview and resume work
 
 This appendix retains the material detail behind the impact answers. It supplements, rather than replaces, `vida_impact_questions.md`; the latter remains the verbatim source, including the complete NFC design review. It deliberately distinguishes a supported implementation from an intended target architecture.
 
@@ -431,7 +431,7 @@ This appendix retains the material detail behind the impact answers. It suppleme
 ### 4. Fraud and biometric-risk work — careful ownership framing
 
 - Backend work: integrate the third-party fraud evaluation into the platform request/KYC lifecycle, propagate request context through asynchronous work, apply product-configured threshold policy, persist evaluations, retry only valid in-progress outcomes, and escalate KYC operations when policy requires.
-- Product/data work outside this backend claim: the SDK/data/model side collected 1,000+ fraud signals and produced fraud-model outcomes. In a final résumé, say Swapnil integrated the fraud service and its decisioning into the backend—never that he built the SDK signal collection or fraud model.
+- Product/data work outside this backend claim: the SDK/data/model side collected 1,000+ fraud signals and produced fraud-model outcomes. In a final resume, say Swapnil integrated the fraud service and its decisioning into the backend—never that he built the SDK signal collection or fraud model.
 - Biometric-risk portfolio also includes multi-frame liveness decisioning, color-print detection, image-manipulation checks, face duplicate search, and blacklist enrollment/search. The unifying business story is a more complete fraud/compliance package that protects clients while retaining configurable warning/error behavior.
 - There is no supported numeric fraud/FAR improvement. Never use an estimated fraud percentage merely because the direction is clear.
 
@@ -486,13 +486,13 @@ This appendix retains the material detail behind the impact answers. It suppleme
 ### Remaining evidence state — no immediate follow-up required
 
 - Technical behavior is now fully covered by the local source audit, the raw questionnaire, and this context file.
-- The only absent evidence is numerical business measurement for fraud outcomes, duplicate/watchlist outcomes, Web SDK adoption, documentation/PR-review productivity, and individual market launches. These are optional; the final résumé can be strong without them.
+- The only absent evidence is numerical business measurement for fraud outcomes, duplicate/watchlist outcomes, Web SDK adoption, documentation/PR-review productivity, and individual market launches. These are optional; the final resume can be strong without them.
 - The next correct action is not another broad questionnaire. Build a candidate long-form VIDA experience section from this dossier, then ask only if a specific final bullet would materially improve with one missing number or scope clarification.
 
 ### Service-ownership map and latest user corrections — September 1, 2026
 
-This section captures the service labels and scope added as inline notes during long-form résumé review.
-Internal service names remain interview context only; public résumé wording stays capability-based.
+This section captures the service labels and scope added as inline notes during long-form resume review.
+Internal service names remain interview context only; public resume wording stays capability-based.
 
 - **MyVerify:** central verification/KYC orchestration service. It owns KYC transaction details and
   coordinates the liveness, object-storage, model/provider, and fraud services; it also publishes the
@@ -550,10 +550,10 @@ Internal service names remain interview context only; public résumé wording st
   and status-history design. **Latest status correction:** it is currently under implementation as part
   of a new orchestration platform/service; do not say it was delivered by another engineer.
 
-- **Commercial context to validate before résumé use:** the user reported that the GXS/manual-review work
+- **Commercial context to validate before resume use:** the user reported that the GXS/manual-review work
   supports entry into a new region and has approximately USD 400K in annual revenue potential. This
   figure is not corroborated by the local source set, so retain it for later validation rather than
-  presenting it as a résumé metric.
+  presenting it as a resume metric.
 
 - **User-provided provider and NFC context:** the provider boundary is intended to make third-party and
   eventual in-house integrations easier, with broader card/passport coverage and less vendor dependence.
@@ -561,7 +561,7 @@ Internal service names remain interview context only; public résumé wording st
   this as a user-provided estimate unless a before/after implementation baseline becomes available.
   The user also described NFC passports as a new product line that helped two critical client pursuits.
   The reusable package, provider mapping, coverage expansion, and server-authoritative result flow are
-  evidenced above; the deal outcome requires validation before résumé use.
+  evidenced above; the deal outcome requires validation before resume use.
 
 - **User-provided orchestration aspiration:** manual review is intended to contribute to a centralized,
   backend-driven orchestration layer with a single KYC entry/exit flow and a thinner SDK. Retries,
@@ -618,10 +618,10 @@ Internal service names remain interview context only; public résumé wording st
   in `my-verify/nfc/01-epassport-nfc-verification-technical-review-regula.md` (transaction flow and
   security-controls sections), with a parallel technical-review copy under `docs/confluence/`.
 
-### Résumé-consolidation trace — September 1, 2026
+### Resume-consolidation trace — September 1, 2026
 
 This records the cleanup decisions made in `resume_long_form_draft.md`. It is a preservation aid, not a
-separate résumé. A consolidation is valid only when its factual detail remains in an active bullet and/or
+separate resume. A consolidation is valid only when its factual detail remains in an active bullet and/or
 the raw master/context sources listed below.
 
 - **SDK upgrade / 70% / FAR-FRR:** the active SDK-upgrade bullet retains v2.7→v3.4, 15s→3–4s, at least
@@ -650,7 +650,7 @@ the raw master/context sources listed below.
   observability, and license/trust-material/deployment operations. The fuller technical detail remains
   in the NFC dossier above.
 
-- **POM/YAML and AI-assisted PR-review work:** retained under `Rejected from résumé selection` in the
+- **POM/YAML and AI-assisted PR-review work:** retained under `Rejected from resume selection` in the
   long-form draft because infrastructure/operations owned the broader setup. It remains available for a
   genuine JD-specific merge, but must never be included simply for ATS keywords.
 

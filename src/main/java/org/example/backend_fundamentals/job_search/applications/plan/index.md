@@ -1,5 +1,5 @@
 ---
-order: 70
+order: 10
 ---
 
 # Application Plan
@@ -9,7 +9,7 @@ with ₹40L+ total compensation.
 
 ## Foundation
 
-- [x] Create a clean, one-page master résumé.
+- [x] Create a clean, one-page master resume.
 - [x] Preserve a long-form bullet bank and supporting work evidence for JD-specific tailoring.
 - [x] Update LinkedIn.
 
@@ -37,6 +37,6 @@ with ₹40L+ total compensation.
 
 - [ ] Finish outreach-message variants.
 - [ ] Create a cover-letter or application-note template.
-- [ ] Create a JD-to-résumé tailoring prompt.
+- [ ] Create a JD-to-resume tailoring prompt.
 - [ ] Set up Simplify Copilot.
 - [ ] Choose an ATS/JD match checker.

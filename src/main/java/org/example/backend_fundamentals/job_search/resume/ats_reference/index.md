@@ -1,10 +1,10 @@
 ---
-order: 50
+order: 30
 ---
 
 # ATS Keyword Reference
 
-Use this as a tailoring reference, not a keyword-stuffing checklist. Include a term only when the résumé or
+Use this as a tailoring reference, not a keyword-stuffing checklist. Include a term only when the resume or
 skills section can support it truthfully. Prefer the language used in the target job description.
 
 ## Core backend engineering

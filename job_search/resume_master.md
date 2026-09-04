@@ -1,6 +1,6 @@
 # Resume master — working draft
 
-Use this local file as the source of truth while we build the full career inventory. The Google Doc copy remains untouched until the final résumé is ready.
+Use this local file as the source of truth while we build the full career inventory. The Google Doc copy remains untouched until the final resume is ready.
 
 ## Contact
 
@@ -11,7 +11,7 @@ Use this local file as the source of truth while we build the full career invent
 - GitHub: swapnil78945
 - Other: aristrader
 
-## Current résumé baseline
+## Current resume baseline
 
 ### Education
 
@@ -178,7 +178,7 @@ Improved Development Workflow Efficiency: Enabled ChatGPT-based automated PR rev
 
 ### Imported technical context from `my-verify` — pending validation
 
-This is an append-only inventory from the local technical documents and code. It is deliberately broader than a final résumé. It preserves technical scope and source paths; confirm ownership, release state, market/client, and measurable outcomes before converting any item into final résumé bullets.
+This is an append-only inventory from the local technical documents and code. It is deliberately broader than a final resume. It preserves technical scope and source paths; confirm ownership, release state, market/client, and measurable outcomes before converting any item into final resume bullets.
 
 #### Critical fields
 
@@ -261,7 +261,7 @@ This is an append-only inventory from the local technical documents and code. It
 - Do not claim implementation ownership unless later evidence supports it. This can be retained as a cross-functional discovery/design contribution only if it materially informed the delivered capability.
 - Evidence: `my-verify/docs/confluence/gxs-sg-kyc/_conventions.md`.
 
-#### Evidence still needed before résumé selection
+#### Evidence still needed before resume selection
 
 - Exact personal ownership for broad task labels, especially KYC, liveness, and 1:N enrollment.
 - Whether each item shipped, is in pilot, is in progress, or is design/research only.
@@ -344,7 +344,7 @@ This is an append-only inventory from the local technical documents and code. It
 
 ## VIDA — synthesized achievement inventory (long master)
 
-Use this as the working inventory for the eventual VIDA experience section. It is intentionally longer than any final résumé. Review text remains above as the verbatim source; this section combines that source with the audited technical context. All items below are user-confirmed end-to-end shipped work unless explicitly marked as research/design.
+Use this as the working inventory for the eventual VIDA experience section. It is intentionally longer than any final resume. Review text remains above as the verbatim source; this section combines that source with the audited technical context. All items below are user-confirmed end-to-end shipped work unless explicitly marked as research/design.
 
 **Vida — Software Development Engineer I → Software Development Engineer II**
 January 2024 – Present · Java, Spring Boot, Redis, Kafka, MySQL, AWS, Feign
@@ -388,7 +388,7 @@ January 2024 – Present · Java, Spring Boot, Redis, Kafka, MySQL, AWS, Feign
 - Mapped provider-specific document, authenticity, image-quality, OCR, confidence, and portrait data into the platform response model; handled OCR-source selection, unsupported-card behavior, independent OCR/IDV requests, and PII-safe image-stripped provider audit data.
 - Created a provider-agnostic document-verification boundary with capability-specific image/NFC contracts, common processing results, provider-neutral pipeline mapping, and isolated provider mappers—making later provider addition possible without changing core verification stages.
 - Delivered Regula ePassport/NFC verification as a dedicated V2/KYC path: processed mobile-originated provider transactions server-side, mapped PACE/BAC and PA/CA/AA chip-authentication outcomes, normalized RFID OCR/DG2 portrait data, persisted KYC operations, and emitted NFC-specific MAS events.
-- Designed the security and operational model around server-authoritative NFC verdicts, PII-safe observability, private provider-result handling, transaction correlation, trust-material management, and deployment/secret/license controls. Use as interview design depth; select final résumé wording only after choosing the targeted role.
+- Designed the security and operational model around server-authoritative NFC verdicts, PII-safe observability, private provider-result handling, transaction correlation, trust-material management, and deployment/secret/license controls. Use as interview design depth; select final resume wording only after choosing the targeted role.
 
 ### Product enablement, research, documentation, and operations
 

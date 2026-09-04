@@ -1,6 +1,6 @@
 # VIDA impact questions
 
-Purpose: capture the outcomes needed to choose final résumé bullets. Answer briefly in this file or in chat. “Don’t know” is a valid answer.
+Purpose: capture the outcomes needed to choose final resume bullets. Answer briefly in this file or in chat. “Don’t know” is a valid answer.
 
 Already confirmed: Swapnil owned and shipped every listed VIDA workstream end-to-end except GXS Bank manual review, which was research/design only. Do not repeat ownership or release state.
 
@@ -16,7 +16,7 @@ Known: database image-storage use fell 90%; OCR/IDV averaged under 1s; liveness/
 
 Known: MyKad/MyTentera/MyKas/MyPR and KTP work; Microblink v2.7 → v3.4; at least 70% accuracy improvement; about 15s → 3–4s latency; FAR/FRR analysis on 3,000+ and 500+ cards.
 
-- Did full Malaysian-card coverage or KTP support onboard/retain a specific client or enable a new market? Name it if résumé-safe. - yes we tapped newer markets of malaysia using this and also gave us a entry point or discusssion points in phil and thai
+- Did full Malaysian-card coverage or KTP support onboard/retain a specific client or enable a new market? Name it if resume-safe. - yes we tapped newer markets of malaysia using this and also gave us a entry point or discusssion points in phil and thai
 - What exactly does the 70% accuracy improvement represent: success rate, a particular model metric, or an internal benchmark? - improved successs rates, accurancy numbers on the model runs, and the latency improvements, up times and SLA's
 - Which customer/business problem did the FAR/FRR analysis change—model selection, thresholds, release approval, or something else?
 
@@ -49,7 +49,7 @@ Known: V2 face-duplicate and watchlist checks; high-risk matches error and lower
 Known: presigned S3 URLs replaced Base64 transaction payloads; summary response shrank about 70%; BYOK and configurable PII-storage controls were delivered.
 
 - Which API/client pain did presigned URLs solve: large response payloads, mobile reliability, service load, download latency, or cost? - reduced payloads, provided ttl, , reduced load at our servers since all load directed to the s3 directly, cost minimisation in terms of servers, etc.
-- Was the 70% response-size reduction from the summary endpoint, presigned URLs, or both? Keep the final résumé claim precise. - 70% response reduction and each of usage in summary, presigned url removed the base 64 and hence reduced response sizes from the 1-2 mb to a few kbs of upto 45 to 90kb only
+- Was the 70% response-size reduction from the summary endpoint, presigned URLs, or both? Keep the final resume claim precise. - 70% response reduction and each of usage in summary, presigned url removed the base 64 and hence reduced response sizes from the 1-2 mb to a few kbs of upto 45 to 90kb only
 - Did BYOK/PII controls unlock a regulated customer, a security requirement, or a contractual/compliance approval? - i will provide you the summary here let me know if more details are required -BYOK (Bring Your Own Key) is a KMS encryption solution that unlocks Vida's ability to serve regulated customers like Ryt Bank (Malaysian bank) by enabling them to use their own AWS KMS keys for S3 data storage in Tijori, addressing a core regulatory audit requirement where auditors demand client control of cryptographic keys for hosted data; the architecture uses a single shared bucket with data isolation via productExternalId and folder structure (/<region>/<productId>/<documentSource>/<year>/<month>/<day>/<fileIdentifier>), implementing envelope encryption where data is encrypted with a generated key, which is then encrypted by KMS; configuration maps each client's productExternalId to their specific KMS key ARN in OSS, with default Vida-managed keys for non-configured clients; extensive testing validated multi-key encryption in single buckets and successful Encord annotation platform integration via Tijori presigned URL APIs that handle decryption without copying data; the solution maintains backward compatibility with existing encrypted data and was deployed across dev (test-byok), QA (vida-qa-tijori-sse), and sandbox (vida-sandbox-tijori-3) environments; Ryt Bank completed sandbox testing with their client KMS key (mrk-3559bb3d8340440f8251fc9aadc89ac0), and production deployment is pending their production key and compliance auditor approval following the agreement reached at an in-person meeting in Kuala Lumpur with a ~1-week timeline from key receipt.
 
 
@@ -787,11 +787,11 @@ Known: Web SDK wrapper with HMAC/encrypted config/RBAC/CORS; OSS + Redis feature
 
 Known: Philippines/Indonesia verification POCs; GXS manual-review research/design, not implementation.
 
-- Did either Philippines or Indonesia POC result in a product decision, pilot, client conversation, or launch path? If not, we may exclude it from the final one-page résumé. - all these enabled improved, productm far frr, newer markets, clients, etx
+- Did either Philippines or Indonesia POC result in a product decision, pilot, client conversation, or launch path? If not, we may exclude it from the final one-page resume. - all these enabled improved, productm far frr, newer markets, clients, etx
 - For GXS, what concrete artifact did you own—architecture/decision document, API contract, stakeholder workshops, or handoff—and did it unblock a launch/design decision? - i was given an unclear prd resolving that creating all the peices how it will all look what all considerations etc, it is all covered in the docs in the my-verify please check, except coding all parts covered.
 
 ## Final selection preferences
 
 - Which three VIDA projects would you most enjoy explaining in a 45-minute backend/system-design interview? - i can explain all and i think i have worked on a lot of interesting projects as you can see from my reviews.
 - Are there company/client names, revenue figures, security details, or internal technology names that should not appear publicly? - client name shouldn't. revenue and all like we have give in percentage can occur, security and internal technology no specific restriction we can i believe just dont use service names.
-- Do you want the final résumé to lean more toward platform/backend scale, fintech/compliance, external integrations, or global-product engineering? - i didn't understnad this.
+- Do you want the final resume to lean more toward platform/backend scale, fintech/compliance, external integrations, or global-product engineering? - i didn't understnad this.

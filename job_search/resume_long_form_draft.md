@@ -1,15 +1,15 @@
-# Swapnil Agarwal — long-form résumé / bullet bank
+# Swapnil Agarwal — long-form resume / bullet bank
 
-This is the one active long-form résumé. It is not the final one-page résumé. It holds the strongest,
+This is the one active long-form resume. It is not the final one-page resume. It holds the strongest,
 generalized candidate bullets and a separate review list for valid work that is weaker, duplicative, or
 needs a decision before it earns a place.
 
 Source preservation:
 
-- `resume_master.md` keeps the original résumé and raw review material.
+- `resume_master.md` keeps the original resume and raw review material.
 - `vida_impact_questions.md` keeps Swapnil’s verbatim impact answers and the full NFC design.
 - `vida_work_context.md` keeps technical, business, implementation/design-boundary, and interview context.
-- Nothing should be deleted from those three files during résumé curation.
+- Nothing should be deleted from those three files during resume curation.
 - Before removing a duplicate from this draft, fold its factual detail into a surviving bullet or verify it
   already exists in one of those source files. Use `Rejected` only for a factually incorrect/non-resume
   claim; never discard raw work context.
@@ -21,7 +21,7 @@ Source preservation:
 2. **Review phase:** mark each candidate `Keep`, `Maybe`, `Park`, or `Incorrect`; we will strengthen,
    combine, or move it without losing its source context.
 3. **Final-resume phase:** create one separate one-page file using the highest-signal bullets only. The
-   final résumé will be tailored per job description, but this long-form file remains the reusable source.
+   final resume will be tailored per job description, but this long-form file remains the reusable source.
 
 ## Contact
 
@@ -239,7 +239,7 @@ Java, Spring Boot, Redis, Kafka, MySQL, AWS
 
 #### Current one-page exclusions — targeted-version bullet bank
 
-These bullets were intentionally excluded from the current one-page résumé. Preserve their wording for
+These bullets were intentionally excluded from the current one-page resume. Preserve their wording for
 JD-specific variants or later consolidation; related active bullets may already cover part of their scope.
 
 - Built V2 REST APIs with expanded verification features, richer response structures, and multi error
@@ -272,11 +272,11 @@ JD-specific variants or later consolidation; related active bullets may already 
   enriched Kafka records to give customers complete visibility into KYC journey steps through a self service
   portal.
 
-#### Rejected from résumé selection — preserve context only
+#### Rejected from resume selection — preserve context only
 
 - Made limited POM and Bitbucket YAML configuration updates, including AI-assisted PR-review workflow
   work, while the infrastructure/operations team owned the broader setup. **Decision:** not an
-  independent résumé bullet, but preserve these terms and scope for a future JD-specific merge if they
+  independent resume bullet, but preserve these terms and scope for a future JD-specific merge if they
   genuinely strengthen a larger ownership-backed point; never add them only for ATS keywords.
   this was done by infra ops only changes were in the bitbucket yamls.
 
@@ -336,7 +336,7 @@ skills, and education. With 4+ years of backend experience, it is not a priority
 - Use generic, recruiter-readable terms: **object storage** rather than an internal storage-service name;
   **configuration-driven / tenant-configurable** rather than an internal configuration-platform name;
   **customer portal** rather than an internal portal name.
-- Keep provider, client, and internal service names out of the public résumé. Keep exact internal
+- Keep provider, client, and internal service names out of the public resume. Keep exact internal
   terminology in the context files for interviews.
 - Each final bullet must earn its space through at least one of: scale, measurable result, difficult
   architecture, product/market enablement, or unusually strong ownership.

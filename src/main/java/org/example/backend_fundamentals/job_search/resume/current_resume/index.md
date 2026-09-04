@@ -1,8 +1,8 @@
 ---
-order: 20
+order: 10
 ---
 
-# Swapnil Agarwal — Résumé
+# Swapnil Agarwal — Resume
 
 +91 7773054360 | swapnilagarwal2000@gmail.com | [LinkedIn](https://www.linkedin.com/in/agarwal-swapnil/) |
 [LeetCode](https://leetcode.com/aristrader/)

@@ -1,6 +1,6 @@
 # ATS keyword reference
 
-Use this as a tailoring reference, not a keyword-stuffing checklist. Include a term only when the résumé
+Use this as a tailoring reference, not a keyword-stuffing checklist. Include a term only when the resume
 bullet or skills section can support it truthfully. Prefer the language used in the target job description.
 
 ## Core backend engineering
@@ -183,7 +183,7 @@ Use only for roles where this domain is relevant.
 
 ## Terms to use only when directly supported
 
-These are common in backend job descriptions, but should appear in the résumé only if your work can prove
+These are common in backend job descriptions, but should appear in the resume only if your work can prove
 them.
 
 - Spring Data / JPA

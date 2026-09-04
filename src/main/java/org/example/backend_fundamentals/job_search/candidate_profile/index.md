@@ -25,6 +25,8 @@ roles in India or remote from India.
 
 ## Application links
 
-- [Current résumé](../my_resume/)
-- [Reusable outreach templates](../templates/)
-- [Sample résumé references](../sample_resumes/)
+- [Current resume](../resume/current_resume/)
+- [Ready-to-send outreach](../outreach/ready_to_send/)
+- [Reusable message templates](../outreach/message_templates/)
+- [Reusable email templates](../outreach/email_templates/)
+- [Sample resume references](../resume/sample_resumes/)

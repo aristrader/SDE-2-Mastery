@@ -6,7 +6,7 @@ Use Simplify for saved jobs, applications, salary range, applied date, stage, an
 
 For each worthwhile application, record:
 
-- Résumé version used
+- Resume version used
 - Referral or recruiter contact
 - Next action and date
 - For foreign remote roles: whether India/EOR or contractor hiring is supported
@@ -20,7 +20,7 @@ Use Google Calendar for interviews and reminders. Add a follow-up reminder only 
 
 - Prefer high-fit roles posted in the last few days.
 - Use a referral or direct outreach for high-conviction roles.
-- Tailor the résumé only by clarifying and reordering genuine experience; never add claims the master résumé cannot support.
+- Tailor the resume only by clarifying and reordering genuine experience; never add claims the master resume cannot support.
 - Review autofilled application answers before submitting.
 
 ## Weekly review

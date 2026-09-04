@@ -1,6 +1,11 @@
-# Sample resumes
+---
+order: 20
+---
 
-Reference resumes for structuring strong software-engineering experience bullets. Use these to study clarity, ownership, scope, and quantified impact—not to copy wording or claims.
+# Sample Resumes
+
+Reference these resumes for structure, clarity, ownership, scope, and quantified impact. Do not copy their
+wording or claims.
 
 - [Srijan Singh — SDE-2 resume](https://srijansingh53.github.io/resume.pdf)
 - [Jatin Rohilla — SDE-2 resume](https://jatin69.github.io/uploads/jatin-rohilla-resume.pdf)
@@ -9,6 +14,6 @@ Reference resumes for structuring strong software-engineering experience bullets
 ## What to borrow
 
 - Start bullets with ownership and the system or problem solved.
-- Show the technical mechanism only where it makes the impact credible.
+- Use technical detail only where it makes the impact credible.
 - Prefer measurable outcomes and concrete scope over a list of technologies.
 - Keep the final resume compact and easy to scan.
