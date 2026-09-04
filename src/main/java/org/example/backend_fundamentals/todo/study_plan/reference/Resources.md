@@ -31,6 +31,8 @@ Use this as a lookup. Don't try to read everything. Pick one book per Part-clust
 - ByteByteGo — Alex Xu
 - Gaurav Sen — system design (Hindi/English options)
 - HelloInterview.com — mock system design walkthroughs
+- [Low-Level Design playlist](https://www.youtube.com/playlist?list=PLYPO3T7Sl63u7uLLpiKCMXnRjeFIhUAvk) —
+  interview-oriented LLD walkthroughs (YouTube)
 - AWS re:Invent recorded talks — search by topic
 - Jepsen analyses — Kyle Kingsbury (consistency in real DBs)
 
