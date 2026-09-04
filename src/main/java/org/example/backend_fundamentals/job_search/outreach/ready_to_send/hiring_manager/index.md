@@ -16,7 +16,7 @@ I am interested in the [ROLE NAME] role at [COMPANY NAME]. Would you be comforta
 me to the right recruiter?
 
 Job link - [JOB LINK]
-Resume - [ADD SHAREABLE RESUME LINK]
+Resume - https://drive.google.com/file/d/10Av9-qZSWpN5dZ1YuMGwS_2VbZ2-SyZi/view?usp=sharing
 LeetCode Profile - https://leetcode.com/aristrader/
 
 Thank you,

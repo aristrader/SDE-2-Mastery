@@ -37,6 +37,50 @@ delivery, documentation, cross-functional collaboration, and stakeholder communi
 Identity verification, KYC, OCR, document verification, document authentication, liveness detection, face
 matching, fraud prevention, risk decisioning, biometric verification, audit trail, compliance, and manual review.
 
+## Pending terms from JD checks
+
+Review these during the final general-resume pass. Add each only where it is supported by a concrete work example.
+
+- Design patterns
+- Agile methodologies
+- Collaboration
+- Creativity
+- Thought leadership
+- Knowledge sharing
+- Passion for innovation
+
+### Raw terms from another checker
+
+These are preserved for comparison, not automatically recommended for the resume: leadership, agile, machine
+learning, travel, innovation, you'll, high, create, mindset, teams, transforming, people, encourages,
+solutions, shape, future, and forward-thinking.
+
+### Raw terms from another checker
+
+GitLab, communication, Fortune, compliance, Express, Kubernetes, finance, strategie, Excel, complex, you'll,
+please, veterans, operational, and security. Potentially role-relevant: GitLab, Kubernetes, compliance,
+operational, and security; the rest are likely company boilerplate or role-specific terms.
+
+### Raw terms from another checker
+
+Agentic AI systems, containerized production operations, adaptability, technical judgment, clear written
+communication, leadership through influence, and mentoring. These require deliberate placement: only include
+agentic AI systems or containerized operations if they are backed by direct experience; the remaining terms may
+be supported by concrete delivery, design, collaboration, and knowledge-sharing examples.
+
+### Raw terms from another checker
+
+Roku, communication, Azure, Docker, Kubernetes, DevOps, GCP, CI/CD, Excel, Drive, practices, preferred,
+benefits, world, and streaming. Potentially reusable technical terms: Docker, Kubernetes, DevOps, and CI/CD;
+Azure and GCP require direct experience, while Roku, streaming, and the remaining terms are job/company context.
+
+### Raw terms from another checker
+
+Compliance, Wells, risk, Fargo, agile, Azure, certification, management, Scrum, strategie, moderately,
+complex, projects, technologies, procedures, escalation, and years. Potentially reusable terms: compliance,
+risk, agile, Scrum, projects, and escalation; Azure requires direct experience. Wells Fargo and the remaining
+terms are employer boilerplate or too generic to add on their own.
+
 ## Rule
 
 Pair a keyword with scope, engineering mechanism, or result. Do not add tools, metrics, or ownership claims

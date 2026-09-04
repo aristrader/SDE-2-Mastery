@@ -10,6 +10,7 @@ order: 10
 - Phone: +91 7773054360
 - [LinkedIn](https://www.linkedin.com/in/agarwal-swapnil/)
 - [LeetCode](https://leetcode.com/aristrader/)
+- [Resume PDF](https://drive.google.com/file/d/10Av9-qZSWpN5dZ1YuMGwS_2VbZ2-SyZi/view?usp=sharing)
 
 ## Current positioning
 

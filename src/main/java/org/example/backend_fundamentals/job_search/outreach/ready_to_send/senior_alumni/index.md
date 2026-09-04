@@ -19,7 +19,7 @@ Position 1 - [JOB LINK]
 Position 2 - [JOB LINK]
 
 I am attaching my resume and LeetCode profile for your reference.
-Resume - [ADD SHAREABLE RESUME LINK]
+Resume - https://drive.google.com/file/d/10Av9-qZSWpN5dZ1YuMGwS_2VbZ2-SyZi/view?usp=sharing
 LeetCode Profile - https://leetcode.com/aristrader/
 
 Thank You

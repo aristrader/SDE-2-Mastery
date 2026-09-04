@@ -14,7 +14,7 @@ I found the [POSITION TITLE] role at [COMPANY NAME], which aligns closely with m
 
 I have attached my resume and LeetCode profile for reference.
 Job link - [JOB LINK]
-Resume - [ADD SHAREABLE RESUME LINK]
+Resume - https://drive.google.com/file/d/10Av9-qZSWpN5dZ1YuMGwS_2VbZ2-SyZi/view?usp=sharing
 LeetCode Profile - https://leetcode.com/aristrader/
 
 If possible, I would appreciate a referral or a short discussion about the role. You can reach me at
