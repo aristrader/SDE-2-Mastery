@@ -12,6 +12,12 @@ This is the authoritative agent instruction file for the repo.
 - Do not add `package-info.java` placeholders.
 - Preserve unrelated user changes.
 
+## Local Project Workspace
+
+- Keep reusable external projects outside this repository at `/Users/swapnilagarwal/workspace/projects/`.
+- Use `empty-project/` for the reusable starter and `working-repos/` for active or completed project clones.
+- Keep these names neutral for clean screen sharing; do not create interview-named top-level folders.
+
 ## Default Working Style
 
 - Use ponytail by default for all repo work: smallest correct change, reuse existing code/patterns first, avoid speculative abstractions, and keep explanations short unless the user asks for depth.

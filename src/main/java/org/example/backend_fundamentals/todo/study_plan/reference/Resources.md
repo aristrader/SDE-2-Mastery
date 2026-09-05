@@ -51,6 +51,9 @@ Use this as a lookup. Don't try to read everything. Pick one book per Part-clust
 ## Tools to be fluent in
 
 - IntelliJ IDEA (or your IDE), with profilers
+- [Spring Boot interview template](https://github.com/aristrader/spring-boot-interview-template) — clone a clean,
+  run-ready project before an interview:
+  `git clone https://github.com/aristrader/spring-boot-interview-template.git /Users/swapnilagarwal/workspace/projects/working-repos/<interview-name>`
 - jq, yq, curl, httpie
 - openssl daily commands
 - kubectl
