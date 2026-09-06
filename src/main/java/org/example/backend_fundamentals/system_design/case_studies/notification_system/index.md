@@ -182,7 +182,7 @@ Queue depth is the fast signal that workers are not keeping up. Open/click metri
 
 ## HLD vs LLD link
 
-This page is the HLD architecture. The low-level class design for multi-channel dispatch lives at `system_design/case_studies/notification_lld/`.
+This page is the HLD architecture. The low-level class design for multi-channel dispatch lives at `low_level_design/case_studies/notification_lld/`.
 
 ## Questions interviewers like
 

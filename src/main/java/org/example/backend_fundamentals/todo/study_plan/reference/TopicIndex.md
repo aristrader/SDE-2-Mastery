@@ -242,7 +242,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Lombok (@Builder, @Value, @Data, @Slf4j, @RequiredArgsConstructor)** → Part 04, Part 1b
 - **Long polling** → Part 11
 - **LRU / LFU cache** → PracticeProblems § 1 #7-8
-- **LLD Parking Lot** → Part 04, Part 30, `system_design/case_studies/parking_lot/`
+- **LLD Parking Lot** → Part 04, Part 30, `low_level_design/case_studies/parking_lot/`
 
 ## M
 
@@ -272,7 +272,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Noisy neighbor isolation** → Part 29
 - **Non-linear step ordering (KYC)** → Part 29
 - **Notification system HLD (push, SMS, email, queues, retries, dedupe)** → Part 07, `system_design/case_studies/notification_system/`
-- **Notification dispatch LLD (type vs channel vs provider)** → Part 04, `system_design/case_studies/notification_lld/`
+- **Notification dispatch LLD (type vs channel vs provider)** → Part 04, `low_level_design/case_studies/notification_lld/`
 
 ## O
 

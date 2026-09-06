@@ -1051,17 +1051,6 @@
                 "link": "/system_design/case_studies/location_and_uber_architecture/"
               },
               {
-                "text": "Parking Lot Design",
-                "link": "/system_design/case_studies/parking_lot/",
-                "items": [
-                  {
-                    "text": "Parking Lot Database and Concurrency",
-                    "link": "/system_design/case_studies/parking_lot/database_concurrency/"
-                  }
-                ],
-                "collapsed": true
-              },
-              {
                 "text": "URL Shortener",
                 "link": "/system_design/case_studies/url_shortener/"
               },
@@ -1072,10 +1061,6 @@
               {
                 "text": "Notification System",
                 "link": "/system_design/case_studies/notification_system/"
-              },
-              {
-                "text": "Notification LLD",
-                "link": "/system_design/case_studies/notification_lld/"
               },
               {
                 "text": "News Feed System",
@@ -1651,6 +1636,39 @@
         ]
       }
     ],
+    "/low_level_design/": [
+      {
+        "text": "Low-Level Design",
+        "items": [
+          {
+            "text": "LLD Case Studies",
+            "link": "/low_level_design/case_studies/",
+            "items": [
+              {
+                "text": "Parking Lot Design",
+                "link": "/low_level_design/case_studies/parking_lot/",
+                "items": [
+                  {
+                    "text": "Parking Lot Database and Concurrency",
+                    "link": "/low_level_design/case_studies/parking_lot/database_concurrency/"
+                  }
+                ],
+                "collapsed": true
+              },
+              {
+                "text": "Notification LLD",
+                "link": "/low_level_design/case_studies/notification_lld/"
+              },
+              {
+                "text": "Splitwise LLD",
+                "link": "/low_level_design/case_studies/splitwise/"
+              }
+            ],
+            "collapsed": true
+          }
+        ]
+      }
+    ],
     "/practice/": [
       {
         "text": "Practice Scratchpad",
@@ -1753,6 +1771,11 @@
       "text": "DSA",
       "link": "/dsa/",
       "activeMatch": "/dsa/"
+    },
+    {
+      "text": "Low-Level Design",
+      "link": "/low_level_design/",
+      "activeMatch": "/low_level_design/"
     },
     {
       "text": "Practice Scratchpad",
@@ -7487,36 +7510,6 @@
                 }
               },
               {
-                "text": "Parking Lot Design",
-                "link": "/system_design/case_studies/parking_lot/",
-                "order": 20,
-                "schema": "system-design",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": true,
-                  "solution": false,
-                  "design": true,
-                  "playground": true,
-                  "assets": true
-                },
-                "items": [
-                  {
-                    "text": "Parking Lot Database and Concurrency",
-                    "link": "/system_design/case_studies/parking_lot/database_concurrency/",
-                    "order": 30,
-                    "schema": "theory",
-                    "practiceSet": null,
-                    "capabilities": {
-                      "exercise": false,
-                      "solution": false,
-                      "design": false,
-                      "playground": false,
-                      "assets": false
-                    }
-                  }
-                ]
-              },
-              {
                 "text": "URL Shortener",
                 "link": "/system_design/case_studies/url_shortener/",
                 "order": 30,
@@ -7556,20 +7549,6 @@
                   "design": true,
                   "playground": false,
                   "assets": true
-                }
-              },
-              {
-                "text": "Notification LLD",
-                "link": "/system_design/case_studies/notification_lld/",
-                "order": 60,
-                "schema": "system-design",
-                "practiceSet": null,
-                "capabilities": {
-                  "exercise": true,
-                  "solution": false,
-                  "design": true,
-                  "playground": true,
-                  "assets": false
                 }
               },
               {
@@ -9347,6 +9326,96 @@
         ]
       },
       {
+        "text": "Low-Level Design",
+        "link": "/low_level_design/",
+        "order": 200,
+        "schema": "theory",
+        "practiceSet": null,
+        "capabilities": {
+          "exercise": false,
+          "solution": false,
+          "design": false,
+          "playground": false,
+          "assets": false
+        },
+        "items": [
+          {
+            "text": "LLD Case Studies",
+            "link": "/low_level_design/case_studies/",
+            "order": 10,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            },
+            "items": [
+              {
+                "text": "Parking Lot Design",
+                "link": "/low_level_design/case_studies/parking_lot/",
+                "order": 20,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": true,
+                  "assets": true
+                },
+                "items": [
+                  {
+                    "text": "Parking Lot Database and Concurrency",
+                    "link": "/low_level_design/case_studies/parking_lot/database_concurrency/",
+                    "order": 30,
+                    "schema": "theory",
+                    "practiceSet": null,
+                    "capabilities": {
+                      "exercise": false,
+                      "solution": false,
+                      "design": false,
+                      "playground": false,
+                      "assets": false
+                    }
+                  }
+                ]
+              },
+              {
+                "text": "Notification LLD",
+                "link": "/low_level_design/case_studies/notification_lld/",
+                "order": 60,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": true,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Splitwise LLD",
+                "link": "/low_level_design/case_studies/splitwise/",
+                "order": 130,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": false,
+                  "assets": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
         "text": "Practice Scratchpad",
         "link": "/practice/",
         "order": 1000,
@@ -10292,14 +10361,6 @@
       "link": "/system_design/case_studies/location_and_uber_architecture/"
     },
     {
-      "text": "Parking Lot Design",
-      "link": "/system_design/case_studies/parking_lot/"
-    },
-    {
-      "text": "Parking Lot Database and Concurrency",
-      "link": "/system_design/case_studies/parking_lot/database_concurrency/"
-    },
-    {
       "text": "URL Shortener",
       "link": "/system_design/case_studies/url_shortener/"
     },
@@ -10310,10 +10371,6 @@
     {
       "text": "Notification System",
       "link": "/system_design/case_studies/notification_system/"
-    },
-    {
-      "text": "Notification LLD",
-      "link": "/system_design/case_studies/notification_lld/"
     },
     {
       "text": "News Feed System",
@@ -10794,6 +10851,30 @@
     {
       "text": "Java Collections Cheat Sheet",
       "link": "/dsa/java_cheatsheet/"
+    },
+    {
+      "text": "Low-Level Design",
+      "link": "/low_level_design/"
+    },
+    {
+      "text": "LLD Case Studies",
+      "link": "/low_level_design/case_studies/"
+    },
+    {
+      "text": "Parking Lot Design",
+      "link": "/low_level_design/case_studies/parking_lot/"
+    },
+    {
+      "text": "Parking Lot Database and Concurrency",
+      "link": "/low_level_design/case_studies/parking_lot/database_concurrency/"
+    },
+    {
+      "text": "Notification LLD",
+      "link": "/low_level_design/case_studies/notification_lld/"
+    },
+    {
+      "text": "Splitwise LLD",
+      "link": "/low_level_design/case_studies/splitwise/"
     },
     {
       "text": "Practice Scratchpad",
@@ -21003,64 +21084,6 @@
       },
       "referenceHtml": "<h1>Design</h1>\n<h2>Design Uber / Ride-Sharing</h2>\n<p>This is the interview blueprint for a ride-sharing backend. Keep the first version focused on ride request, nearby driver discovery, matching, trip lifecycle, and tracking. Payments, fraud, promotions, and support can be follow-ups.</p>\n<h2>Clarifying questions</h2>\n<ul>\n<li>Are we designing rider booking only, or driver onboarding, payments, pricing, and support too?</li>\n<li>Is this one city, one country, or global multi-region?</li>\n<li>Do riders need real-time driver tracking?</li>\n<li>How often do drivers send location updates?</li>\n<li>Do we optimize by nearest distance, ETA, driver rating, vehicle type, or price?</li>\n<li>Can a driver reject a ride?</li>\n<li>Do we need scheduled rides, pooled rides, surge pricing, or cancellations?</li>\n</ul>\n<p>Reasonable scope:</p>\n<pre><code>Riders request rides.\nDrivers publish live location.\nSystem finds nearby available drivers.\nSystem assigns one driver and tracks trip state.\nRider sees ETA and driver movement.</code></pre>\n<h2>Functional requirements</h2>\n<ul>\n<li>Driver can go online/offline.</li>\n<li>Driver app sends location updates every few seconds.</li>\n<li>Rider can receive a fare/ETA estimate before confirming a ride.</li>\n<li>Rider requests a ride from pickup to drop-off.</li>\n<li>System finds candidate available drivers near pickup.</li>\n<li>System assigns/reserves a driver.</li>\n<li>Rider and driver can see trip status.</li>\n<li>Trip moves through states: requested, assigned, arrived, started, completed/cancelled.</li>\n</ul>\n<h2>Non-functional requirements</h2>\n<ul>\n<li>Low-latency matching: rider should get candidates/assignment quickly.</li>\n<li>Fresh driver locations: stale drivers must not be matched.</li>\n<li>High write throughput: driver location updates are frequent.</li>\n<li>High availability: matching should degrade by region, not globally fail.</li>\n<li>Consistency where it matters: one driver should not be assigned to two rides at the same time.</li>\n<li>Regional locality: a Bangalore ride should not depend on a US region hot path.</li>\n</ul>\n<h2>Back-of-envelope estimation</h2>\n<p>Use simple round numbers in an interview:</p>\n<pre><code>1M active drivers\nlocation update every 5 seconds\nlocation updates = 1M / 5 = 200K writes/sec\n\n100K ride requests/min at peak\nride requests = ~1.7K/sec</code></pre>\n<p>Design implication:</p>\n<p>| Estimate | Implication |</p>\n<p>|----------|-------------|</p>\n<p>| Location writes dominate | Store latest active locations in Redis / in-memory spatial index |</p>\n<p>| Matching reads need low latency | Query nearby cells, not the full driver table |</p>\n<p>| Trip state changes are fewer but critical | Persist trip state in durable DB |</p>\n<p>| Region traffic is local | Partition by city/region/geospatial cell |</p>\n<p>Do not store every GPS update in the primary relational DB hot path. Keep latest state in a fast store, and stream history asynchronously for analytics/audit if needed.</p>\n<h2>APIs</h2>\n<pre><code>PATCH /drivers/me/status\nbody: { status: &quot;AVAILABLE&quot; | &quot;OFFLINE&quot; }\n\nPOST /drivers/me/location\nbody: { lat, lon, clientObservedAt }\n\nPOST /fare-estimates\nbody: { pickupLat, pickupLon, dropoffLat, dropoffLon, vehicleType }\n\nPOST /rides\nbody: { fareQuoteId, pickupLat, pickupLon, dropoffLat, dropoffLon, vehicleType }\n\nPOST /rides/{rideId}/accept\nbody: { offerId }\n\nPOST /rides/{rideId}/events\nbody: { event: &quot;ARRIVED&quot; | &quot;STARTED&quot; | &quot;COMPLETED&quot; | &quot;CANCELLED&quot; }\n\nGET /rides/{rideId}</code></pre>\n<p>The authenticated session determines the rider or driver identity. The server records receipt time, verifies that a fare quote is valid, and calculates authoritative fare data; a client-supplied <code>riderId</code>, <code>driverId</code>, price, or server timestamp is not trusted.</p>\n<h2>Data model</h2>\n<p>Durable tables:</p>\n<pre><code>Driver(driver_id, status, vehicle_type, rating)\nRider(rider_id, ...)\nFareQuote(fare_quote_id, rider_id, pickup, dropoff, vehicle_type, estimated_fare, expires_at)\nRide(ride_id, rider_id, driver_id, pickup, dropoff, status, offer_expires_at, created_at)\nRideEvent(ride_id, event_type, timestamp, actor_id)</code></pre>\n<p>Hot location store:</p>\n<pre><code>driver:{driverId} -&gt; {lat, lon, geohash/h3_cell, status, lastSeen}\ncell:{h3_cell} -&gt; set(driverIds)</code></pre>\n<p>The cell index can be Geohash, H3, or S2. The key idea is the same: turn nearby search into &quot;look in this cell and neighboring cells&quot;, then rank candidates by exact distance/ETA.</p>\n<h2>High-level architecture</h2>\n<pre><code>Driver App -&gt; Location Ingest -&gt; Active Driver Store / Spatial Index\n                                      |\nRider App  -&gt; Ride Service -&gt; Fare / Route provider\n                  |                   |\n                  +-&gt; Matching Service -&gt; Candidate drivers\n                                      |\n                              Trip Service / DB\n                                      |\n                              Notification / Push</code></pre>\n<p>Core components:</p>\n<ul>\n<li><strong>Location ingest:</strong> accepts frequent driver updates.</li>\n<li><strong>Active driver store:</strong> keeps only latest searchable driver state.</li>\n<li><strong>Spatial index:</strong> maps cells to available drivers.</li>\n<li><strong>Fare/route provider:</strong> supplies an expiring estimate and route ETA; cache short-lived, non-authoritative results where appropriate.</li>\n<li><strong>Matching service:</strong> fetches candidates, computes ETA/rank, reserves one driver.</li>\n<li><strong>Trip service:</strong> owns ride state machine.</li>\n<li><strong>Notification service:</strong> sends assignment/status updates.</li>\n</ul>\n<h2>Main flows</h2>\n<h3>Driver location update</h3>\n<p>1. Driver sends <code>lat/lon/timestamp</code>.</p>\n<p>2. Server validates driver is online or on-trip.</p>\n<p>3. Compute geospatial cell.</p>\n<p>4. Update <code>driver:{driverId}</code> latest location.</p>\n<p>5. If cell changed, remove driver from old cell set and add to new cell set.</p>\n<p>6. Emit async event for analytics/history if required.</p>\n<h3>Ride request and matching</h3>\n<p>1. Rider requests a fare estimate. Ride Service calls a routing/pricing dependency and stores a short-lived <code>FareQuote</code>.</p>\n<p>2. Rider confirms the quote; Ride Service validates it and creates one idempotent <code>REQUESTED</code> ride.</p>\n<p>3. Matching service computes pickup cell and neighboring cells.</p>\n<p>4. Fetch available drivers from those cells.</p>\n<p>5. Filter stale drivers using <code>lastSeen</code>.</p>\n<p>6. Compute distance/ETA for candidates.</p>\n<p>7. Rank by ETA, vehicle type, driver status, and business rules.</p>\n<p>8. Reserve one driver atomically, create a time-bounded offer, and notify driver and rider.</p>\n<h3>Trip lifecycle</h3>\n<pre><code>REQUESTED -&gt; RESERVED -&gt; ASSIGNED -&gt; ARRIVED -&gt; ON_TRIP -&gt; COMPLETED\n                      \\-&gt; CANCELLED</code></pre>\n<p>Use explicit state transitions. Avoid &quot;status string changed anywhere&quot; because ride systems become messy quickly.</p>\n<h2>Deep dives</h2>\n<h3>Nearby search</h3>\n<p>Do not scan all drivers. Use a geospatial index:</p>\n<pre><code>pickup lat/lon -&gt; cell -&gt; current + neighbor cells -&gt; candidate drivers</code></pre>\n<p>Then filter/rank:</p>\n<pre><code>candidates -&gt; exact distance -&gt; route ETA -&gt; assignment score</code></pre>\n<p>Geohash is easy to store and query by prefix. H3/S2 are often better for production grids. Quadtree is useful conceptually, but a huge distributed quadtree is hard to update when drivers move every few seconds.</p>\n<p>With Redis specifically, <code>GEOADD</code> replaces a driver's previous position and <code>GEOSEARCH</code> returns drivers near a pickup. Keep a companion <code>lastSeen</code> timestamp index: a cleanup worker removes old driver IDs from both the timestamp and geo indexes. The active index is rebuildable from new phone updates, so Redis replication/persistence improves availability but durable trip state never depends on it.</p>\n<h3>Driver reservation</h3>\n<p>Two ride requests can race for the same driver. The reservation must be atomic:</p>\n<pre><code>reserve driver if status == AVAILABLE\nset status = RESERVED for rideId</code></pre>\n<p>This can be done with a DB conditional update, Redis Lua script, or a per-driver ownership service. The key is compare-and-set semantics.</p>\n<h3>Stale drivers</h3>\n<p>Do not match a driver who stopped sending GPS updates. Store <code>lastSeen</code> and remove drivers whose update age exceeds the threshold.</p>\n<pre><code>if now - lastSeen &gt; 15s:\n  remove from available pool</code></pre>\n<p>TTL can help, but an explicit cleanup/state transition is easier to reason about in interviews.</p>\n<h3>Location ingestion and adaptive update rate</h3>\n<p>Location updates are the highest-write path. Keep the <strong>latest matching state</strong> in a Redis cluster or another in-memory geospatial store, not in the primary relational database. A relational store can retain driver profiles and durable trip state, while an asynchronous event stream stores location history for analytics, fraud, and replay.</p>\n<p>Do not add a batching queue between the driver and the live matching index merely to reduce writes: the saved database load comes at the cost of stale locations and worse matching. Instead, reduce unnecessary writes at the source:</p>\n<ul>\n<li>Send more frequently while a driver is available, moving quickly, or near a high-demand area.</li>\n<li>Send more frequently when direction changes often, because a stale heading makes the ETA worse.</li>\n<li>Send less frequently while parked, offline, or far from demand.</li>\n<li>Reject late/out-of-order updates using the client timestamp.</li>\n<li>Expire an unavailable location using <code>lastSeen</code> plus a TTL safety net.</li>\n</ul>\n<p>This decision belongs partly in the driver app: it can use GPS/speed/direction signals before transmitting. The backend still enforces the freshness rule; client-side adaptation lowers traffic but is not the source of truth.</p>\n<pre><code>flowchart LR\n    Driver[Driver app] --&gt;|adaptive GPS update| Ingest[Location ingest]\n    Ingest --&gt;|latest location + cell + lastSeen| Geo[Redis geospatial index]\n    Ingest --&gt;|durable async event| Stream[Location event stream]\n    Stream --&gt; Analytics[Analytics / fraud / history]\n    Matcher[Matching service] --&gt;|nearby cell query| Geo</code></pre>\n<h3>Matching lease versus final assignment</h3>\n<p>Candidate discovery is eventually consistent: two matching workers can see the same available driver. Coordinate the short-lived offer with a lease, then make the accepted assignment durable.</p>\n<pre><code>1. Worker selects the next ranked driver.\n2. Acquire lease atomically: SET driver-lock:{driverId} {rideId} NX PX 5s.\n3. Only the lease holder sends that driver an offer.\n4. On acceptance, conditionally persist:\n   driver AVAILABLE/RESERVED -&gt; ASSIGNED for this ride\n   ride MATCHING -&gt; ASSIGNED with this driver\n5. Release the lease; the durable assignment, not the lease, now prevents reuse.</code></pre>\n<p>The acceptance endpoint must be idempotent and verify that the offer still belongs to that ride. A lease timeout is not proof that no assignment succeeded: a late accept must read the durable ride and driver state before changing anything.</p>\n<p>For an interview, choose one offer strategy and state it clearly:</p>\n<p>| Strategy | Benefit | Cost |</p>\n<p>|---|---|---|</p>\n<p>| Sequential offers | Simple and avoids spamming drivers | Longer match time |</p>\n<p>| Small bounded fan-out | Faster match under low acceptance | Must atomically select one winner and cancel the rest |</p>\n<p>A cron job that resets <code>OFFERED</code> drivers is only reconciliation. It can leave a driver unnecessarily unavailable until the next run. A short lease/TTL handles normal expiry promptly; periodic reconciliation repairs crashes, missed expiry events, and inconsistent durable state.</p>\n<h3>Offer timeout and durable progress</h3>\n<p>An offer is a human-in-the-loop step: a driver may accept, decline, lose connectivity, or never see the push notification. Store <code>offerExpiresAt</code> with the ride. On sending an offer, schedule a delayed retry event for that expiry; when it runs, conditionally check <code>ride.status == OFFERED</code> and <code>offerExpiresAt &lt;= now</code> before trying the next ranked driver. If the driver accepts first, the same conditional state transition makes the delayed event a harmless no-op.</p>\n<p>For an SDE2 answer, a durable queue plus conditional transitions and reconciliation is enough. A workflow engine such as Temporal can own repeated offer, timeout, and retry steps when this workflow grows across many states, but it is an optional operational trade-off, not a required first component.</p>\n<h3>Surge handling and service partitioning</h3>\n<p>Place ride requests on a durable, region-partitioned queue when matching workers cannot absorb a burst. Workers consume by city or groups of adjacent geospatial cells, so a hard-to-match rural request does not block a dense-city request behind a global FIFO queue. Autoscale workers from queue lag and active-match count.</p>\n<p>The queue gives retry and crash recovery, but it is not permission to make riders wait indefinitely. Carry a request deadline, stop processing expired requests, and return a clear no-driver outcome within the matching SLO. Make <code>request ride</code> idempotent so a client retry or queue redelivery does not create multiple matching jobs.</p>\n<h3>Keep the primary database off the hot path</h3>\n<p>Use the correct store for each access pattern:</p>\n<p>| Need | Primary path | Why |</p>\n<p>|---|---|---|</p>\n<p>| Latest nearby available drivers | Redis geospatial/cell index | High-rate writes and low-latency radius lookup |</p>\n<p>| Driver profile, rider profile, completed ride | Durable database | Transactional source of truth |</p>\n<p>| Driver availability while matching | Lease plus conditional state transition | Prevents double offers and assignments |</p>\n<p>| Location history and business analytics | Event stream plus async consumers | Does not slow live matching |</p>\n<p>| Repeated route/ETA lookup | Short-lived cache or routing-provider cache | Reduces expensive external routing calls; do not cache stale surge prices too long |</p>\n<h3>Region, cell, and data partitioning are different</h3>\n<ul>\n<li><strong>Geospatial cells</strong> answer &quot;which drivers are near this pickup?&quot; They are a data index and may have hot cells.</li>\n<li><strong>City/region partitions</strong> answer &quot;which matching workers own this local workload?&quot; They limit coordination and reduce latency.</li>\n<li><strong>Storage shards</strong> distribute durable records such as rides. Choose a stable high-cardinality key such as <code>rideId</code> or a regional prefix plus <code>rideId</code>; do not shard by a low-cardinality field such as country alone.</li>\n</ul>\n<p>Handle a hot downtown cell by splitting to a finer cell resolution, expanding workers for that cell partition, and bounding the candidate list before route-ETA calls. Do not use cross-region matching by default: it increases latency and creates coordination pressure without helping a local ride.</p>\n<h2>Interview delivery</h2>\n<p>Start with the functional path, then select two deep dives that prove the non-functional requirements. For Uber, the strongest pair is usually:</p>\n<p>1. <strong>Low-latency, fresh nearby-driver discovery:</strong> adaptive location updates, cell index, candidate funnel, ETA ranking.</p>\n<p>2. <strong>Correct matching under concurrency:</strong> offer lease, conditional assignment, timeout recovery, idempotent accept.</p>\n<p>Add region-partitioned queueing only when the interviewer asks about peak-event surges or failure recovery. Do not spend time on exact field types, a full routing-engine implementation, or ML pricing internals unless they change a design decision.</p>\n<h2>Failure modes</h2>\n<p>| Failure | Handling |</p>\n<p>|---------|----------|</p>\n<p>| Location updates delayed | Mark stale after threshold; do not match stale drivers |</p>\n<p>| Driver reservation race | Atomic compare-and-set on driver status |</p>\n<p>| Matching service down | Retry in same region; return graceful failure to rider |</p>\n<p>| Matching worker crashes after dequeue | Queue redelivery plus idempotent ride request; resume only while request deadline is valid |</p>\n<p>| Notification lost | Trip state remains source of truth; clients poll/refresh ride state |</p>\n<p>| Driver accepts after offer expiry | Validate lease/offer and durable ride state; reject stale acceptance safely |</p>\n<p>| Region outage | Route users to nearby healthy region only if data/driver pool can serve them |</p>\n<h2>Monitoring</h2>\n<ul>\n<li>location update QPS and lag</li>\n<li>active drivers per cell/city</li>\n<li>stale driver count</li>\n<li>ride request rate</li>\n<li>match success rate</li>\n<li>assignment latency p50/p95/p99</li>\n<li>driver acceptance/rejection rate</li>\n<li>cancelled rides by reason</li>\n<li>hot cells / overloaded regions</li>\n</ul>\n<h2>Tradeoffs</h2>\n<p>| Choice | Benefit | Cost |</p>\n<p>|--------|---------|------|</p>\n<p>| Redis active-driver store | Very low latency | Volatile; needs recovery/refresh path |</p>\n<p>| Geohash/H3/S2 cells | Fast candidate retrieval | Boundary and hot-cell issues |</p>\n<p>| Route by ETA | Better user experience | Needs routing service and traffic data |</p>\n<p>| Strong reservation consistency | Avoids double assignment | Adds coordination in hot path |</p>\n<p>| Regional matching | Low latency and simpler failure domains | Cross-region rides/data become harder |</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the hot path?</strong>  </p>\n<p>A. Driver location updates and nearby-driver matching.</p>\n<p><strong>Q. Why not store every location update in the DB?</strong>  </p>\n<p>A. Location writes are too frequent; keep latest active state in memory and stream history async.</p>\n<p><strong>Q. Why does a rider confirm a short-lived fare quote instead of sending a price?</strong></p>\n<p>A. Pricing is server-authoritative. An expiring quote prevents stale or client-tampered prices from becoming a ride.</p>\n<p><strong>Q. How do you find nearby drivers?</strong>  </p>\n<p>A. Use Geohash/H3/S2 cells to fetch candidates, then compute exact distance/ETA.</p>\n<p><strong>Q. What consistency problem matters most?</strong>  </p>\n<p>A. Atomic driver reservation so one driver is not assigned to two rides.</p>\n<p><strong>Q. What makes a driver stale?</strong>  </p>\n<p>A. <code>lastSeen</code> exceeds a freshness threshold, so remove from available matching pool.</p>\n<p><strong>Q. Why not queue GPS writes and batch them into the main database?</strong></p>\n<p>A. Matching needs fresh state. Keep latest location in the hot geospatial store; stream history asynchronously instead.</p>\n<p><strong>Q. Why is a Redis lock alone not enough for assignment?</strong></p>\n<p>A. It coordinates a short offer. A durable conditional ride/driver transition decides the final winner after the lock expires.</p>\n<p><strong>Q. What happens when a driver ignores an offer?</strong></p>\n<p>A. A durable delayed retry checks the persisted expiry and offer state, then safely tries the next candidate; reconciliation repairs exceptional failures.</p>"
     },
-    "/system_design/case_studies/parking_lot/": {
-      "text": "Parking Lot Design",
-      "link": "/system_design/case_studies/parking_lot/",
-      "pageType": "theory",
-      "parentLink": "/system_design/case_studies/parking_lot/",
-      "schema": "system-design",
-      "capabilities": {
-        "exercise": true,
-        "solution": false,
-        "design": true,
-        "playground": true,
-        "assets": true
-      }
-    },
-    "/system_design/case_studies/parking_lot/exercise/": {
-      "text": "Parking Lot Design",
-      "link": "/system_design/case_studies/parking_lot/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/system_design/case_studies/parking_lot/",
-      "schema": "system-design",
-      "capabilities": {
-        "exercise": true,
-        "solution": false,
-        "design": true,
-        "playground": true,
-        "assets": true
-      },
-      "practiceSet": null
-    },
-    "/system_design/case_studies/parking_lot/design/": {
-      "text": "Parking Lot Design",
-      "link": "/system_design/case_studies/parking_lot/design/",
-      "pageType": "design",
-      "parentLink": "/system_design/case_studies/parking_lot/",
-      "schema": "system-design",
-      "capabilities": {
-        "exercise": true,
-        "solution": false,
-        "design": true,
-        "playground": true,
-        "assets": true
-      },
-      "referenceHtml": "<h1>Parking Lot Design</h1>\n<h2>Requirements</h2>\n<ul>\n<li>Allocate a spot for a vehicle if a compatible spot is free.</li>\n<li>Reject allocation when all compatible spots are occupied.</li>\n<li>Release a spot when the vehicle exits.</li>\n<li>Report available spot count by vehicle type.</li>\n<li>Keep payment, pricing, and gate orchestration outside the MVP implementation.</li>\n</ul>\n<h2>Core entities</h2>\n<ul>\n<li><code>Vehicle</code>: registration number plus <code>VehicleType</code>.</li>\n<li><code>VehicleType</code>: supported categories such as <code>CAR</code>, <code>BIKE</code>, and <code>TRUCK</code>.</li>\n<li><code>ParkingSpot</code>: owns compatibility and current occupancy.</li>\n<li><code>ParkingFloor</code>: owns a group of spots and local spot search.</li>\n<li><code>ParkingLot</code>: owns cross-floor allocation, release, and availability.</li>\n<li><code>Ticket</code>: useful extension point for entry/exit history.</li>\n<li><code>Payment</code>: useful extension point once pricing is in scope.</li>\n</ul>\n<h2>Main flows</h2>\n<h3>Park</h3>\n<p>1. <code>ParkingLot.allocateSpot(vehicle)</code> scans floors in order.</p>\n<p>2. Each floor asks for the first available spot matching <code>vehicle.getVehicleType()</code>.</p>\n<p>3. <code>ParkingSpot.reserve(vehicle)</code> marks the spot occupied.</p>\n<p>4. If no floor can reserve a spot, the lot throws a clear full-capacity exception.</p>\n<h3>Exit</h3>\n<p>1. <code>ParkingLot.releaseSpot(spotId)</code> asks each floor to release that spot.</p>\n<p>2. <code>ParkingSpot.release()</code> clears the current vehicle.</p>\n<p>3. If the spot id does not exist, the lot throws a clear unknown-spot exception.</p>\n<h3>Availability</h3>\n<p>1. Each floor counts available spots for the requested vehicle type.</p>\n<p>2. The lot sums those counts across floors.</p>\n<h2>Tradeoffs</h2>\n<ul>\n<li>The playground uses first-fit allocation because it is simple and interview-friendly.</li>\n<li>A production design would likely add entry gates, exit gates, pricing, payment status, ticket lifecycle, and concurrency control.</li>\n<li>Spot type matching is exact in the MVP. If truck spots can accept cars, replace <code>canFit</code> with a capacity/rank rule.</li>\n<li>In-memory repositories are enough for the exercise. Persistence is a separate system-design concern.</li>\n</ul>\n<h2>Production extension</h2>\n<p>For database tables, multi-instance concurrency, payment idempotency, and race-condition handling, read [Parking Lot Database and Concurrency](../database_concurrency/).</p>\n<h2>Quick recall</h2>\n<ul>\n<li>Put local invariants on the object that owns the state: <code>ParkingSpot.reserve</code> and <code>release</code>.</li>\n<li>Put search at the aggregate level: <code>ParkingFloor</code> searches spots; <code>ParkingLot</code> searches floors.</li>\n<li>Make full-capacity and unknown-spot cases explicit.</li>\n<li>Add payment only after ticket lifecycle and release flow are clear.</li>\n</ul>"
-    },
-    "/system_design/case_studies/parking_lot/database_concurrency/": {
-      "text": "Parking Lot Database and Concurrency",
-      "link": "/system_design/case_studies/parking_lot/database_concurrency/",
-      "pageType": "theory",
-      "parentLink": "/system_design/case_studies/parking_lot/database_concurrency/",
-      "schema": "theory",
-      "capabilities": {
-        "exercise": false,
-        "solution": false,
-        "design": false,
-        "playground": false,
-        "assets": false
-      }
-    },
     "/system_design/case_studies/url_shortener/": {
       "text": "URL Shortener",
       "link": "/system_design/case_studies/url_shortener/",
@@ -21192,50 +21215,6 @@
         "assets": true
       },
       "referenceHtml": "<h1>Design a Notification System</h1>\n<h2>Problem</h2>\n<p>Design a scalable notification system that supports push notifications, SMS, and email.</p>\n<h2>Clarify scope</h2>\n<p>Ask:</p>\n<ul>\n<li>Which channels are required: push, SMS, email, WhatsApp, in-app?</li>\n<li>Is delivery hard real-time or soft real-time?</li>\n<li>What triggers notifications: services, user actions, scheduled jobs, campaigns?</li>\n<li>Can users opt out by channel and notification type?</li>\n<li>What daily volume and burst traffic should we handle?</li>\n<li>Do we need delivery analytics such as sent, delivered, opened, clicked?</li>\n<li>Are notifications transactional, marketing, or both?</li>\n</ul>\n<p>Reasonable interview assumptions:</p>\n<pre><code>10M push/day, 1M SMS/day, 5M email/day\nSoft real-time delivery\nInternal services and schedulers trigger sends\nUsers can opt out\nProvider failures are expected</code></pre>\n<h2>Functional requirements</h2>\n<ul>\n<li>Send push, SMS, and email notifications.</li>\n<li>Store contact info and device tokens.</li>\n<li>Respect user notification settings.</li>\n<li>Support templates.</li>\n<li>Retry transient provider failures.</li>\n<li>Track delivery status and analytics events.</li>\n</ul>\n<h2>Non-functional requirements</h2>\n<ul>\n<li>Durable notification jobs.</li>\n<li>Horizontally scalable API servers and workers.</li>\n<li>Channel isolation.</li>\n<li>Low latency for transactional notifications.</li>\n<li>Rate limiting to protect users and provider quotas.</li>\n<li>Observability for queues, workers, providers, and delivery status.</li>\n</ul>\n<h2>API sketch</h2>\n<p>Internal send API:</p>\n<pre><code>POST /v1/notifications\nContent-Type: application/json\n\n{\n  &quot;eventId&quot;: &quot;payment-123-receipt&quot;,\n  &quot;userId&quot;: &quot;u123&quot;,\n  &quot;type&quot;: &quot;PAYMENT_RECEIPT&quot;,\n  &quot;channels&quot;: [&quot;PUSH&quot;, &quot;EMAIL&quot;],\n  &quot;templateId&quot;: &quot;payment_receipt_v3&quot;,\n  &quot;params&quot;: {\n    &quot;amount&quot;: &quot;499.00&quot;,\n    &quot;merchant&quot;: &quot;Acme&quot;\n  },\n  &quot;priority&quot;: &quot;HIGH&quot;\n}</code></pre>\n<p>Response:</p>\n<pre><code>202 Accepted\n{\n  &quot;notificationId&quot;: &quot;n789&quot;,\n  &quot;status&quot;: &quot;QUEUED&quot;\n}</code></pre>\n<p>Return <code>202</code> because provider delivery happens asynchronously.</p>\n<h2>Data model</h2>\n<pre><code>user_contact(\n  user_id bigint primary key,\n  email varchar,\n  phone varchar,\n  updated_at timestamp\n)\n\ndevice_token(\n  device_id varchar primary key,\n  user_id bigint,\n  platform varchar,\n  token varchar,\n  status varchar,\n  updated_at timestamp\n)\n\nnotification_setting(\n  user_id bigint,\n  notification_type varchar,\n  channel varchar,\n  opt_in boolean,\n  primary key(user_id, notification_type, channel)\n)\n\nnotification_log(\n  notification_id varchar primary key,\n  event_id varchar unique,\n  user_id bigint,\n  notification_type varchar,\n  channel varchar,\n  status varchar,\n  attempt_count int,\n  next_retry_at timestamp,\n  created_at timestamp,\n  updated_at timestamp\n)</code></pre>\n<p>Keep <code>event_id</code> unique for producer-level dedupe. Keep per-channel log rows if one logical event fans out to push + email + SMS.</p>\n<h2>Architecture</h2>\n<p>![Notification system architecture](../assets/notification-system-architecture.svg)</p>\n<p>Component responsibilities:</p>\n<p>| Component | Responsibility |</p>\n<p>| --- | --- |</p>\n<p>| Producer services | Trigger notification requests |</p>\n<p>| Notification API | Auth, validation, preference checks, metadata lookup, enqueue |</p>\n<p>| Cache | Hot user/device/settings/template reads |</p>\n<p>| DB | Source of truth for contacts, settings, templates, logs |</p>\n<p>| Channel queues | Buffer ready delivery jobs independently |</p>\n<p>| Workers | Consume jobs and call provider adapters |</p>\n<p>| Providers | APNS, FCM, SMS vendors, email vendors |</p>\n<p>| Analytics/monitoring | Delivery status, queue health, opens, clicks |</p>\n<h2>Flow</h2>\n<p>1. Producer service calls <code>POST /v1/notifications</code>.</p>\n<p>2. API authenticates producer and validates payload.</p>\n<p>3. API checks dedupe by <code>eventId</code>.</p>\n<p>4. API loads user contact info, devices, settings, and template metadata.</p>\n<p>5. API skips opted-out channel/type pairs.</p>\n<p>6. API writes notification log rows.</p>\n<p>7. API publishes one delivery job per target channel.</p>\n<p>8. Worker consumes job and calls provider adapter.</p>\n<p>9. Worker updates status to <code>SENT</code>, <code>FAILED_RETRYABLE</code>, <code>FAILED_FINAL</code>, or <code>DELIVERED</code> when callbacks exist.</p>\n<p>10. Events flow into analytics and monitoring.</p>\n<h2>Deep dive decisions</h2>\n<h3>Queue placement</h3>\n<p>Put queues after the notification API for the standard design. The API turns a raw business request into validated, authorized, preference-checked delivery jobs.</p>\n<p>At very high scale, you can add an ingestion queue before the notification API too:</p>\n<pre><code>producer -&gt; ingestion queue -&gt; orchestrator -&gt; channel queues -&gt; workers</code></pre>\n<p>Mention this only if the interviewer pushes on producer burst absorption.</p>\n<h3>Per-channel queues</h3>\n<p>Use per-channel queues because channels have different limits, costs, providers, and failure modes. A SendGrid slowdown should not stop OTP push notifications.</p>\n<h3>Cache usage</h3>\n<p>Cache metadata needed to build/send notifications:</p>\n<ul>\n<li>user contact info</li>\n<li>device tokens</li>\n<li>notification settings</li>\n<li>templates</li>\n</ul>\n<p>Do not treat cache as the durable notification queue. The queue stores jobs; DB/log stores delivery truth.</p>\n<h3>Retry and DLQ</h3>\n<p>Use exponential backoff with max attempts:</p>\n<pre><code>attempt 1 -&gt; immediate\nattempt 2 -&gt; +30 seconds\nattempt 3 -&gt; +2 minutes\nattempt 4 -&gt; +10 minutes\nthen DLQ + alert</code></pre>\n<p>Tune by channel. OTP retries after 10 minutes may be useless; email receipt retries may still be valuable.</p>\n<h3>Priority</h3>\n<p>Prioritize transactional over marketing:</p>\n<pre><code>OTP / security alert &gt; payment receipt &gt; delivery update &gt; marketing</code></pre>\n<p>Implement with separate priority queues or a priority field consumed by the scheduler. Keep strict rate limits even for high-priority traffic so one bug cannot spam a user.</p>\n<h3>Provider failover</h3>\n<p>Use adapters and routing rules:</p>\n<pre><code>SMS India -&gt; Provider A\nSMS US -&gt; Provider B\nProvider timeout -&gt; retry same provider or fail over based on message type</code></pre>\n<p>For OTP/payment, avoid aggressive failover that may duplicate sends unless idempotency is strong.</p>\n<h2>Failure modes</h2>\n<p>| Failure | Handling |</p>\n<p>| --- | --- |</p>\n<p>| Notification API down | Producers retry with idempotency key |</p>\n<p>| Cache down | Read from DB; slower but correct |</p>\n<p>| DB down | Do not accept jobs that cannot be logged durably |</p>\n<p>| Queue lag | Autoscale workers, shed low-priority campaigns |</p>\n<p>| Worker crash | Message not acked; retry after visibility timeout/lease expiry |</p>\n<p>| Provider outage | Retry, fail over if safe, DLQ after max attempts |</p>\n<p>| Duplicate producer request | Dedupe by <code>event_id</code> |</p>\n<p>| User disabled channel | Skip before enqueue and record skipped status if audit matters |</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why return <code>202 Accepted</code> from send API?</strong>  </p>\n<p>A. The API accepts and queues work; actual provider delivery is async.</p>\n<p><strong>Q. Why not call providers directly from product services?</strong>  </p>\n<p>A. It duplicates vendor logic, bypasses preferences/rate limits, and makes failures harder to control.</p>\n<p><strong>Q. Why separate notification type from channel?</strong>  </p>\n<p>A. Type is business intent; channel is delivery method. A payment receipt can go through email and push.</p>\n<p><strong>Q. When should DB failure reject a notification request?</strong>  </p>\n<p>A. When the system cannot persist the notification log/outbox durably.</p>\n<p><strong>Q. What is the clean worker mental model?</strong>  </p>\n<p>A. Stateless consumers pull channel jobs, call provider adapters, update status, and retry/DLQ failures.</p>"
-    },
-    "/system_design/case_studies/notification_lld/": {
-      "text": "Notification LLD",
-      "link": "/system_design/case_studies/notification_lld/",
-      "pageType": "theory",
-      "parentLink": "/system_design/case_studies/notification_lld/",
-      "schema": "system-design",
-      "capabilities": {
-        "exercise": true,
-        "solution": false,
-        "design": true,
-        "playground": true,
-        "assets": false
-      }
-    },
-    "/system_design/case_studies/notification_lld/exercise/": {
-      "text": "Notification LLD",
-      "link": "/system_design/case_studies/notification_lld/exercise/",
-      "pageType": "exercise",
-      "parentLink": "/system_design/case_studies/notification_lld/",
-      "schema": "system-design",
-      "capabilities": {
-        "exercise": true,
-        "solution": false,
-        "design": true,
-        "playground": true,
-        "assets": false
-      },
-      "practiceSet": null
-    },
-    "/system_design/case_studies/notification_lld/design/": {
-      "text": "Notification LLD",
-      "link": "/system_design/case_studies/notification_lld/design/",
-      "pageType": "design",
-      "parentLink": "/system_design/case_studies/notification_lld/",
-      "schema": "system-design",
-      "capabilities": {
-        "exercise": true,
-        "solution": false,
-        "design": true,
-        "playground": true,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Notification LLD Design</h1>\n<h2>Responsibilities</h2>\n<p>| Class | Role |</p>\n<p>| --- | --- |</p>\n<p>| <code>NotificationService</code> | Orchestrates validation, rendering, routing, sending |</p>\n<p>| <code>TemplateRenderer</code> | Converts request + channel into a message |</p>\n<p>| <code>ChannelRouter</code> | Finds the right sender for a channel |</p>\n<p>| <code>NotificationSender</code> | Strategy interface for channel senders |</p>\n<p>| <code>EmailProviderClient</code> / <code>SmsProviderClient</code> / <code>PushProviderClient</code> | Vendor adapters |</p>\n<h2>Flow</h2>\n<pre><code>request\n  -&gt; validate recipient/channel data\n  -&gt; render channel-specific message\n  -&gt; find sender by channel\n  -&gt; sender calls provider client\n  -&gt; collect per-channel SendResult</code></pre>\n<h2>Boundaries</h2>\n<ul>\n<li><code>NotificationService</code> does not know SendGrid/Twilio/Firebase APIs.</li>\n<li>Channel senders do not decide templates.</li>\n<li>Provider clients do not know notification type.</li>\n<li>Each channel returns its own <code>SendResult</code>.</li>\n</ul>\n<h2>Quick recall</h2>\n<p><strong>Q. Why not put email/SMS/push if-else inside the service?</strong></p>\n<p>A. It couples orchestration to every channel and vendor. Strategy + router keeps it replaceable.</p>\n<p><strong>Q. What changes when adding WhatsApp?</strong></p>\n<p>A. Add <code>WHATSAPP</code>, a sender, a provider client, and template support. Existing senders stay unchanged.</p>"
     },
     "/system_design/case_studies/news_feed/": {
       "text": "News Feed System",
@@ -24240,6 +24219,180 @@
         "playground": false,
         "assets": false
       }
+    },
+    "/low_level_design/": {
+      "text": "Low-Level Design",
+      "link": "/low_level_design/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/low_level_design/case_studies/": {
+      "text": "LLD Case Studies",
+      "link": "/low_level_design/case_studies/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/case_studies/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/low_level_design/case_studies/parking_lot/": {
+      "text": "Parking Lot Design",
+      "link": "/low_level_design/case_studies/parking_lot/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/case_studies/parking_lot/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": true
+      }
+    },
+    "/low_level_design/case_studies/parking_lot/exercise/": {
+      "text": "Parking Lot Design",
+      "link": "/low_level_design/case_studies/parking_lot/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/low_level_design/case_studies/parking_lot/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": true
+      },
+      "practiceSet": null
+    },
+    "/low_level_design/case_studies/parking_lot/design/": {
+      "text": "Parking Lot Design",
+      "link": "/low_level_design/case_studies/parking_lot/design/",
+      "pageType": "design",
+      "parentLink": "/low_level_design/case_studies/parking_lot/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": true
+      },
+      "referenceHtml": "<h1>Parking Lot Design</h1>\n<h2>Requirements</h2>\n<ul>\n<li>Allocate a spot for a vehicle if a compatible spot is free.</li>\n<li>Reject allocation when all compatible spots are occupied.</li>\n<li>Release a spot when the vehicle exits.</li>\n<li>Report available spot count by vehicle type.</li>\n<li>Keep payment, pricing, and gate orchestration outside the MVP implementation.</li>\n</ul>\n<h2>Core entities</h2>\n<ul>\n<li><code>Vehicle</code>: registration number plus <code>VehicleType</code>.</li>\n<li><code>VehicleType</code>: supported categories such as <code>CAR</code>, <code>BIKE</code>, and <code>TRUCK</code>.</li>\n<li><code>ParkingSpot</code>: owns compatibility and current occupancy.</li>\n<li><code>ParkingFloor</code>: owns a group of spots and local spot search.</li>\n<li><code>ParkingLot</code>: owns cross-floor allocation, release, and availability.</li>\n<li><code>Ticket</code>: useful extension point for entry/exit history.</li>\n<li><code>Payment</code>: useful extension point once pricing is in scope.</li>\n</ul>\n<h2>Main flows</h2>\n<h3>Park</h3>\n<p>1. <code>ParkingLot.allocateSpot(vehicle)</code> scans floors in order.</p>\n<p>2. Each floor asks for the first available spot matching <code>vehicle.getVehicleType()</code>.</p>\n<p>3. <code>ParkingSpot.reserve(vehicle)</code> marks the spot occupied.</p>\n<p>4. If no floor can reserve a spot, the lot throws a clear full-capacity exception.</p>\n<h3>Exit</h3>\n<p>1. <code>ParkingLot.releaseSpot(spotId)</code> asks each floor to release that spot.</p>\n<p>2. <code>ParkingSpot.release()</code> clears the current vehicle.</p>\n<p>3. If the spot id does not exist, the lot throws a clear unknown-spot exception.</p>\n<h3>Availability</h3>\n<p>1. Each floor counts available spots for the requested vehicle type.</p>\n<p>2. The lot sums those counts across floors.</p>\n<h2>Tradeoffs</h2>\n<ul>\n<li>The playground uses first-fit allocation because it is simple and interview-friendly.</li>\n<li>A production design would likely add entry gates, exit gates, pricing, payment status, ticket lifecycle, and concurrency control.</li>\n<li>Spot type matching is exact in the MVP. If truck spots can accept cars, replace <code>canFit</code> with a capacity/rank rule.</li>\n<li>In-memory repositories are enough for the exercise. Persistence is a separate system-design concern.</li>\n</ul>\n<h2>Production extension</h2>\n<p>For database tables, multi-instance concurrency, payment idempotency, and race-condition handling, read [Parking Lot Database and Concurrency](../database_concurrency/).</p>\n<h2>Quick recall</h2>\n<ul>\n<li>Put local invariants on the object that owns the state: <code>ParkingSpot.reserve</code> and <code>release</code>.</li>\n<li>Put search at the aggregate level: <code>ParkingFloor</code> searches spots; <code>ParkingLot</code> searches floors.</li>\n<li>Make full-capacity and unknown-spot cases explicit.</li>\n<li>Add payment only after ticket lifecycle and release flow are clear.</li>\n</ul>"
+    },
+    "/low_level_design/case_studies/parking_lot/database_concurrency/": {
+      "text": "Parking Lot Database and Concurrency",
+      "link": "/low_level_design/case_studies/parking_lot/database_concurrency/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/case_studies/parking_lot/database_concurrency/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/low_level_design/case_studies/notification_lld/": {
+      "text": "Notification LLD",
+      "link": "/low_level_design/case_studies/notification_lld/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/case_studies/notification_lld/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/low_level_design/case_studies/notification_lld/exercise/": {
+      "text": "Notification LLD",
+      "link": "/low_level_design/case_studies/notification_lld/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/low_level_design/case_studies/notification_lld/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/low_level_design/case_studies/notification_lld/design/": {
+      "text": "Notification LLD",
+      "link": "/low_level_design/case_studies/notification_lld/design/",
+      "pageType": "design",
+      "parentLink": "/low_level_design/case_studies/notification_lld/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Notification LLD Design</h1>\n<h2>Responsibilities</h2>\n<p>| Class | Role |</p>\n<p>| --- | --- |</p>\n<p>| <code>NotificationService</code> | Orchestrates validation, rendering, routing, sending |</p>\n<p>| <code>TemplateRenderer</code> | Converts request + channel into a message |</p>\n<p>| <code>ChannelRouter</code> | Finds the right sender for a channel |</p>\n<p>| <code>NotificationSender</code> | Strategy interface for channel senders |</p>\n<p>| <code>EmailProviderClient</code> / <code>SmsProviderClient</code> / <code>PushProviderClient</code> | Vendor adapters |</p>\n<h2>Flow</h2>\n<pre><code>request\n  -&gt; validate recipient/channel data\n  -&gt; render channel-specific message\n  -&gt; find sender by channel\n  -&gt; sender calls provider client\n  -&gt; collect per-channel SendResult</code></pre>\n<h2>Boundaries</h2>\n<ul>\n<li><code>NotificationService</code> does not know SendGrid/Twilio/Firebase APIs.</li>\n<li>Channel senders do not decide templates.</li>\n<li>Provider clients do not know notification type.</li>\n<li>Each channel returns its own <code>SendResult</code>.</li>\n</ul>\n<h2>Quick recall</h2>\n<p><strong>Q. Why not put email/SMS/push if-else inside the service?</strong></p>\n<p>A. It couples orchestration to every channel and vendor. Strategy + router keeps it replaceable.</p>\n<p><strong>Q. What changes when adding WhatsApp?</strong></p>\n<p>A. Add <code>WHATSAPP</code>, a sender, a provider client, and template support. Existing senders stay unchanged.</p>"
+    },
+    "/low_level_design/case_studies/splitwise/": {
+      "text": "Splitwise LLD",
+      "link": "/low_level_design/case_studies/splitwise/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/case_studies/splitwise/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/low_level_design/case_studies/splitwise/exercise/": {
+      "text": "Splitwise LLD",
+      "link": "/low_level_design/case_studies/splitwise/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/low_level_design/case_studies/splitwise/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/low_level_design/case_studies/splitwise/design/": {
+      "text": "Splitwise LLD",
+      "link": "/low_level_design/case_studies/splitwise/design/",
+      "pageType": "design",
+      "parentLink": "/low_level_design/case_studies/splitwise/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Splitwise Design Notes</h1>\n<p>Use this page to record the decisions made while implementing the exercise.</p>\n<h2>Invariants to protect</h2>\n<ul>\n<li>Every expense has one payer, a positive amount, and at least one participant.</li>\n<li>Shares total exactly to the expense amount after any rounding rule is applied.</li>\n<li>A balance is directional: an amount one user owes another is not the same entry in reverse.</li>\n<li>Settling a balance cannot create a negative settlement amount.</li>\n</ul>\n<h2>Decisions to make</h2>\n<ul>\n<li>Which class owns split validation: expense, split strategy, or a dedicated validator?</li>\n<li>Should <code>Group</code> own balances, or should a ledger service own them?</li>\n<li>How will exact and percentage splits represent and validate money?</li>\n<li>Is a settlement a separate transaction record or only a direct balance adjustment in the MVP?</li>\n</ul>\n<h2>Extensions after the MVP</h2>\n<ul>\n<li>Debt simplification across a group.</li>\n<li>Persistent expense and settlement history.</li>\n<li>Concurrent updates and idempotency.</li>\n<li>Multi-currency support and rounding policy.</li>\n</ul>\n<h2>Quick recall</h2>\n<ul>\n<li>Use integer minor units or <code>BigDecimal</code> for money; never <code>double</code>.</li>\n<li>Model balances as an explicit ledger concern instead of recalculating every screen from scratch.</li>\n<li>Keep split calculation separate from balance mutation when different split types are required.</li>\n</ul>"
     },
     "/practice/": {
       "text": "Practice Scratchpad",
