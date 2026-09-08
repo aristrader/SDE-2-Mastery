@@ -6,7 +6,7 @@
 
 | # | Topic | Tags | Tier | Time | Done | Partial | Grilling | Visit Again | Notes | Resources |
 |---|-------|------|------|------|------|---|---|-------------|-------|-----------|
-| 1 | RESTful resource modeling | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes HTTP verbs, status codes, over-fetching | 📖 `api_design/api_technologies_summary/index.md` |
+| 1 | RESTful resource modeling | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes HTTP verbs, status codes, over-fetching | 📖 `api_design/api_technologies_summary/index.md` · 📖 `api_design/rest_endpoint_design/index.md` |
 | 2 | REST vs GraphQL vs gRPC comparison & architecture | 🔴 💼 🎯 | MP | 1 hr | [x] | [ ] | [ ] | [ ] | ~1 hr (ChatGPT) — includes streaming types, trade-offs | 📖 `api_design/api_technologies_comparison/index.md` |
 | 3 | Versioning — URI, header, content negotiation | 🔴 💼 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 4 | Pagination — offset, cursor, keyset | 🔴 💼 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Covered offset vs cursor vs keyset, concurrent-write bugs, stable sort keys, opaque cursor design, snapshot pagination, and interview traps | 📖 `databases/pagination/index.md` · 💻 Warm-up: implement keyset pagination — `WHERE id > :lastSeenId ORDER BY id LIMIT 20` + response includes `nextCursor` (30 min) |

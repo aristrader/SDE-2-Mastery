@@ -330,6 +330,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Regional ID schemes (SEA)** → Part 29, Part 31
 - **Registry / Service Locator pattern** → design_patterns/pattern_selection/index.md, Part 04
 - **Replay protection (webhook)** → Part 29
+- **REST endpoint design (resource naming, path vs query, shallow nesting, response expansion)** → Part 12, `api_design/rest_endpoint_design/index.md`
 - **REST vs GraphQL vs gRPC (comparison & architecture)** → Part 12
 - **RFC 1918 private IP ranges (10/8, 172.16-31/12, 192.168/16)** → Part 11
 - **Read repair / anti-entropy** → Part 06

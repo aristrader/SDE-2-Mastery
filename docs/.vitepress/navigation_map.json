@@ -1478,6 +1478,10 @@
           {
             "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
             "link": "/api_design/api_technologies_comparison/"
+          },
+          {
+            "text": "Designing REST API Endpoints",
+            "link": "/api_design/rest_endpoint_design/"
           }
         ]
       }
@@ -8868,6 +8872,20 @@
               "playground": false,
               "assets": false
             }
+          },
+          {
+            "text": "Designing REST API Endpoints",
+            "link": "/api_design/rest_endpoint_design/",
+            "order": 50,
+            "schema": "theory",
+            "practiceSet": null,
+            "capabilities": {
+              "exercise": false,
+              "solution": false,
+              "design": false,
+              "playground": false,
+              "assets": false
+            }
           }
         ]
       },
@@ -10727,6 +10745,10 @@
     {
       "text": "API Technologies — REST vs GraphQL vs gRPC Comparison",
       "link": "/api_design/api_technologies_comparison/"
+    },
+    {
+      "text": "Designing REST API Endpoints",
+      "link": "/api_design/rest_endpoint_design/"
     },
     {
       "text": "Job Search",
@@ -23777,6 +23799,20 @@
       "link": "/api_design/api_technologies_comparison/",
       "pageType": "theory",
       "parentLink": "/api_design/api_technologies_comparison/",
+      "schema": "theory",
+      "capabilities": {
+        "exercise": false,
+        "solution": false,
+        "design": false,
+        "playground": false,
+        "assets": false
+      }
+    },
+    "/api_design/rest_endpoint_design/": {
+      "text": "Designing REST API Endpoints",
+      "link": "/api_design/rest_endpoint_design/",
+      "pageType": "theory",
+      "parentLink": "/api_design/rest_endpoint_design/",
       "schema": "theory",
       "capabilities": {
         "exercise": false,
