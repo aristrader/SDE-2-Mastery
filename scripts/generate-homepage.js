@@ -125,8 +125,9 @@ function assertPlaygroundFiles(dirPath) {
             assertPlaygroundFiles(entryPath);
             continue;
         }
-        if (!entry.isFile() || path.extname(entry.name) !== '.java') {
-            throw new Error(`playground/ may contain only .java files: ${entryPath}`);
+        const extension = path.extname(entry.name);
+        if (!entry.isFile() || !['.java', '.md'].includes(extension)) {
+            throw new Error(`playground/ may contain only .java or problem-solving .md files: ${entryPath}`);
         }
     }
 }

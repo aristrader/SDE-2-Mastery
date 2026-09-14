@@ -76,6 +76,7 @@ Use schema families under `backend_fundamentals`; choose the lightest schema tha
 - Never create empty folders; they can break navigation generation.
 - Do not manually edit generated navigation data. `scripts/generate-homepage.js` writes `docs/.vitepress/navigation_map.json`, and `docs/.vitepress/config.mjs` consumes it.
 - Java playground code belongs in `playground/`; do not place `Main.java` beside module `index.md`.
+  Problem-solving Markdown notes are also allowed there when they belong to that exercise.
 - Validation must be project-wide: new, moved, or renamed curriculum content should fail `node scripts/generate-homepage.js`, docs dev, docs build, and pre-commit if it violates its schema family.
 - UX changes should be judged by navigation clarity: domain discovery, readable sidebars, clear topic-level tabs/actions, and predictable theory/practice/answer/code flows.
 - Do not reintroduce local Java run/save endpoints without the documented sidecar hardening: loopback-only, Host/Origin checks, strict FQCN/path validation, process-tree kill on timeout/disconnect, output caps, and tests.
