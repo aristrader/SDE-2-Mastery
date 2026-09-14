@@ -41,7 +41,7 @@
 | 31 | LLD — Elevator system | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 32 | LLD — LRU / LFU cache | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 33 | LLD — Rate limiter (token bucket) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 34 | LLD — Logger with levels | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 34 | LLD — Logger with levels | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 📖 `low_level_design/case_studies/logger/index.md` · 💻 `low_level_design/case_studies/logger/exercise/index.md` |
 | 35 | LLD — In-memory key-value store with TTL | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 36 | LLD — ATM / Vending machine (pure state machine) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 37 | LLD — Library management | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
