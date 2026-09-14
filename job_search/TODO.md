@@ -4,8 +4,8 @@ Target: Backend Engineer II / Senior Backend Engineer / Platform Engineer roles,
 
 ## 1. Foundation
 
-- [x] Share the current résumé as PDF/DOCX or pasted text.
-- [x] Create a clean, one-page master résumé with a finalized general backend/platform version.
+- [x] Share the current resume as PDF/DOCX or pasted text.
+- [x] Create a clean, one-page master resume with a finalized general backend/platform version.
 - [x] Preserve a long-form bullet bank and supporting VIDA evidence for later JD-specific tailoring.
 - [x] Update LinkedIn.
 
@@ -36,7 +36,7 @@ Target: Backend Engineer II / Senior Backend Engineer / Platform Engineer roles,
 - [ ] Write a recruiter outreach message.
 - [ ] Write a concise follow-up message.
 - [ ] Create a cover-letter / application-note template.
-- [ ] Create a JD → résumé tailoring prompt.
+- [ ] Create a JD → resume tailoring prompt.
 
 ## 5. Tools
 
