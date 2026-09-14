@@ -1666,6 +1666,10 @@
               {
                 "text": "Splitwise LLD",
                 "link": "/low_level_design/case_studies/splitwise/"
+              },
+              {
+                "text": "Logger LLD",
+                "link": "/low_level_design/case_studies/logger/"
               }
             ],
             "collapsed": true
@@ -9428,6 +9432,20 @@
                   "playground": false,
                   "assets": false
                 }
+              },
+              {
+                "text": "Logger LLD",
+                "link": "/low_level_design/case_studies/logger/",
+                "order": 140,
+                "schema": "system-design",
+                "practiceSet": null,
+                "capabilities": {
+                  "exercise": true,
+                  "solution": false,
+                  "design": true,
+                  "playground": true,
+                  "assets": false
+                }
               }
             ]
           }
@@ -10901,6 +10919,10 @@
     {
       "text": "Practice Scratchpad",
       "link": "/practice/"
+    },
+    {
+      "text": "Logger LLD",
+      "link": "/low_level_design/case_studies/logger/"
     }
   ],
   "pageMeta": {
@@ -24473,6 +24495,50 @@
         "assets": false
       },
       "referenceHtml": "<h1>Practice Solutions</h1>\n<p>This section is reserved for ad-hoc practice solutions.</p>"
+    },
+    "/low_level_design/case_studies/logger/": {
+      "text": "Logger LLD",
+      "link": "/low_level_design/case_studies/logger/",
+      "pageType": "theory",
+      "parentLink": "/low_level_design/case_studies/logger/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      }
+    },
+    "/low_level_design/case_studies/logger/exercise/": {
+      "text": "Logger LLD",
+      "link": "/low_level_design/case_studies/logger/exercise/",
+      "pageType": "exercise",
+      "parentLink": "/low_level_design/case_studies/logger/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      },
+      "practiceSet": null
+    },
+    "/low_level_design/case_studies/logger/design/": {
+      "text": "Logger LLD",
+      "link": "/low_level_design/case_studies/logger/design/",
+      "pageType": "design",
+      "parentLink": "/low_level_design/case_studies/logger/",
+      "schema": "system-design",
+      "capabilities": {
+        "exercise": true,
+        "solution": false,
+        "design": true,
+        "playground": true,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Logger Design Notes</h1>\n<p>Use the playground design draft for entity identification and class diagrams. This page records the</p>\n<p>decisions that matter when explaining the implementation in an interview.</p>\n<h2>Core responsibilities</h2>\n<p>| Type | Responsibility |</p>\n<p>|---|---|</p>\n<p>| <code>Logger</code> | Creates a <code>LogEntry</code> and delegates delivery. Callers never choose a sink. |</p>\n<p>| <code>SyncLogger</code> | Dispatches on the caller thread. |</p>\n<p>| <code>AsyncLogger</code> | Admits entries to a bounded queue and lets one worker dispatch them. |</p>\n<p>| <code>Sink</code> | Applies its minimum-level filter, formatter, and target-specific write. |</p>\n<p>| <code>Formatter</code> | Converts a structured entry to text, JSON, or another representation. |</p>\n<p>The key variation point is <code>Logger.submit(entry)</code>: synchronous and asynchronous delivery share the same</p>\n<p>entry, filtering, formatting, and sink logic.</p>\n<h2>Current implementation scope</h2>\n<p>The console sink and text formatter demonstrate the completed flow. <code>FileSink</code> and <code>JsonFormatter</code> currently</p>\n<p>prove the extension seam rather than perform real file I/O or JSON serialization. <code>LogEntry</code> captures a</p>\n<p>timestamp, but configurable timestamp formatting remains a small follow-up to add in the formatter/config</p>\n<p>layer without changing logger delivery.</p>\n<h2>Async buffer policy</h2>\n<p>The async logger uses a bounded <code>ArrayBlockingQueue&lt;LogEntry&gt;</code>. When the queue is full, it blocks the</p>\n<p>caller until the worker creates space. This is intentional backpressure: it bounds memory use and does not</p>\n<p>silently lose a log that the caller expected to enqueue.</p>\n<p>| Method | Queue-full behavior | Fit for this logger |</p>\n<p>|---|---|---|</p>\n<p>| <code>add(entry)</code> | Immediately throws <code>IllegalStateException</code>. | No: rejects the log. |</p>\n<p>| <code>offer(entry)</code> | Immediately returns <code>false</code>. | No: caller must choose a drop/reject policy. |</p>\n<p>| <code>put(entry)</code> | Waits until capacity is available. | Yes: required blocking policy. |</p>\n<p>| <code>offer(entry, timeout, unit)</code> | Waits only until the timeout. | Possible future policy. |</p>\n<p><code>put()</code> can throw <code>InterruptedException</code> if the waiting caller is cancelled or the application is shutting</p>\n<p>down. The entry was never accepted by the queue, so restore the interrupt signal and fail the log call:</p>\n<pre><code>catch (InterruptedException exception) {\n  Thread.currentThread().interrupt();\n  throw new RuntimeException(&quot;Interrupted while queuing log entry&quot;, exception);\n}</code></pre>\n<h2>Producer-consumer flow</h2>\n<pre><code>Caller threads\n    │ log(level, message)\n    ▼\nAsyncLogger.submit(entry)\n    │ queue.put(entry) — blocks only when full\n    ▼\nArrayBlockingQueue&lt;LogEntry&gt;\n    │ queue.take() — worker waits when empty\n    ▼\nSingle worker → dispatch(entry) → each configured sink</code></pre>\n<p><code>new Thread(this::consume)</code> only creates the worker object. <code>worker.start()</code> runs <code>consume()</code> on a new</p>\n<p>thread; directly calling <code>consume()</code> would run it on the caller thread and would not be asynchronous.</p>\n<p>For the concurrent demonstration, the main thread starts two producer threads, then calls</p>\n<p><code>firstProducer.join()</code> and <code>secondProducer.join()</code>. Those joins wait until both producers finish submitting</p>\n<p>logs before shutdown begins. <code>worker.join()</code> inside <code>close()</code> instead waits until output is drained.</p>\n<h2>Shutdown without losing accepted logs</h2>\n<p>The worker cannot simply be interrupted to stop it: an interrupt can make it exit while accepted entries</p>\n<p>remain in the queue. The implementation puts one identity-only shutdown marker at the tail instead:</p>\n<pre><code>[entry 1, entry 2] → close() → [entry 1, entry 2, shutdown marker]</code></pre>\n<p>The worker dispatches entries before the marker, sees the marker, and returns. The lifecycle lock makes</p>\n<p>queue admission and marker placement one decision:</p>\n<p>1. <code>submit()</code> checks that the logger accepts logs and enqueues the entry while holding the lock.</p>\n<p>2. <code>close()</code> obtains the same lock, marks the logger closed, and enqueues the marker.</p>\n<p>3. Later callers see the closed state and receive <code>IllegalStateException</code>; none can enqueue after the marker.</p>\n<p>4. <code>close()</code> calls <code>worker.join()</code>, so its caller knows accepted logs have been processed when it returns.</p>\n<h2>Ordering and concurrent callers</h2>\n<p>One worker dispatches entries in FIFO <strong>queue-acceptance order</strong>. Concurrent callers have no guaranteed</p>\n<p>relative ordering before they reach <code>queue.put()</code>.</p>\n<p>An <code>AtomicLong</code> guarantees unique IDs, but an ID allocated before queue admission can appear after a higher</p>\n<p>ID in output: another caller may reach <code>put()</code> first. If sequence IDs must exactly represent acceptance</p>\n<p>order, allocate the ID in the same critical section as queue admission, or serialize ID allocation and</p>\n<p>submission together.</p>\n<p>Adding more workers improves throughput but allows different entries to finish writing out of order. Keep</p>\n<p>one worker when global output order matters.</p>\n<h2>Sink write boundary</h2>\n<p><code>Sink.append()</code> owns level filtering and formatting; a concrete sink owns the actual target write. The</p>\n<p>current console/file classes are demonstration sinks. Their two <code>println</code> calls can interleave for</p>\n<p>concurrent synchronous callers, so a production sink should write one complete entry atomically.</p>\n<p>For a non-thread-safe file writer, lock the whole entry write:</p>\n<pre><code>private final Object writeLock = new Object();\n\nprotected void write(String formatted) {\n  synchronized (writeLock) {\n    writer.write(formatted);\n    writer.newLine();\n  }\n}</code></pre>\n<p>The lock must match the real shared resource. A per-instance lock is sufficient for one sink instance and</p>\n<p>one file. If multiple sink instances share one file, they need one shared file-target lock.</p>\n<h2>Interview follow-ups</h2>\n<ul>\n<li>A full buffer can reject (<code>add</code>), return failure (<code>offer</code>), block (<code>put</code>), or time out (<code>offer</code> with a</li>\n</ul>\n<p>  timeout). The requirement chooses blocking.</p>\n<ul>\n<li>Multiple named loggers can each own a <code>LoggerConfig</code> and delivery strategy.</li>\n<li>Runtime level changes require safely replacing or synchronizing the mutable configuration.</li>\n<li>File rotation, retries, remote sinks, and parameterized messages are extensions; none require changing</li>\n</ul>\n<p>  <code>Logger</code>'s caller-facing API.</p>\n<h2>Quick recall</h2>\n<ul>\n<li><strong>Why <code>put()</code> instead of <code>offer()</code>?</strong> The stated policy blocks on a full bounded buffer rather than drops.</li>\n<li><strong>Why one worker?</strong> A FIFO queue plus one consumer preserves accepted-entry output order.</li>\n<li><strong>What does <code>join()</code> do?</strong> It makes the current thread wait until the target thread has ended.</li>\n<li><strong>Why a shutdown marker?</strong> It drains entries already accepted before ending the worker.</li>\n<li><strong>Why use the same lifecycle lock in <code>submit()</code> and <code>close()</code>?</strong> It prevents a log from entering after the</li>\n</ul>\n<p>  shutdown marker.</p>\n<ul>\n<li><strong>Where should a sink lock live?</strong> At the actual shared output target, around one complete entry write.</li>\n</ul>"
     }
   }
 }
