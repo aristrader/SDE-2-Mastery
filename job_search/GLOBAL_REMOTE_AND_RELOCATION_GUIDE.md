@@ -17,6 +17,18 @@ Use four search lanes:
 | Foreign remote from India | 25% | Currency upside while retaining Indian cost base |
 | Germany / Netherlands | 15% | Long-term quality of life and EU residency path |
 
+## Where to apply
+
+Use the portal according to the lane rather than searching every site every day. The application routine
+and portal-setup checklist live in [TODO.md](TODO.md).
+
+| Lane | Primary portals |
+|---|---|
+| India / India-remote | [LinkedIn Jobs](https://www.linkedin.com/jobs/), [Instahyre](https://www.instahyre.com/), [Cutshort](https://cutshort.io/), [Naukri](https://www.naukri.com/) |
+| Worldwide remote | [Wellfound](https://wellfound.com/jobs/), [Himalayas](https://himalayas.app/), [We Work Remotely](https://weworkremotely.com/), [Work at a Startup](https://www.workatastartup.com/), [Arc](https://arc.dev/en-in/remote-jobs), [Remote OK](https://remoteok.com/), [Turing](https://www.turing.com/jobs), [Toptal](https://www.toptal.com/talent/apply) |
+| UAE relocation | [GulfTalent](https://www.gulftalent.com/UAE/jobs/), [Naukrigulf](https://www.naukrigulf.com/), LinkedIn, and direct company career pages |
+| Germany / Netherlands | [Relocate.me](https://relocate.me/), LinkedIn visa-sponsorship searches, and direct company career pages |
+
 ## Offer filters
 
 These are personal search filters, not market guarantees.

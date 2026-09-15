@@ -44,22 +44,6 @@ Target: Backend Engineer II / Senior Backend Engineer / Platform Engineer roles,
 - [ ] [Relocate.me](https://relocate.me/): create backend-engineering and relocation saved searches.
 - [ ] Create LinkedIn searches for visa sponsorship, EU Blue Card, relocation, and highly skilled migrant roles.
 
-### Offer, tax, and visa references: check only when relevant
-
-- India contractor: [ITR-4 FAQ](https://www.incometax.gov.in/iec/foportal/help/e-filing-itr4-form-sugam-faq),
-  [Section 44ADA](https://www.incometaxindia.gov.in/w/section-44ada-9), and
-  [GST export-of-services FAQ](https://goagst.gov.in/PDF/FAQ/IT_English.pdf).
-- UAE offer: [tax guidance](https://u.ae/en/information-and-services/finance-and-investment/taxation),
-  [work permits](https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/job-offers-and-work-permits-and-contracts/work-permits),
-  [annual leave](https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/types-of-leaves-and-entitlements-in-the-private-sector/annual-leave),
-  and [Dubai rental data](https://datadubai.ae/rents/).
-- Germany / Netherlands offer: [Germany EU Blue Card](https://www.make-it-in-germany.com/en/visa-residence/types/eu-blue-card),
-  [Dutch highly skilled migrant route](https://ind.nl/en/residence-permits/work/highly-skilled-migrant), and
-  [Dutch income requirements](https://ind.nl/en/required-amounts-income-requirements).
-
-Use the [global remote and relocation guide](GLOBAL_REMOTE_AND_RELOCATION_GUIDE.md) for the decision
-criteria behind these references.
-
 ## Application routine
 
 - [ ] Reserve 60–90 minutes on five weekdays: 20–30 minutes discovery, 30–45 minutes for two to four
