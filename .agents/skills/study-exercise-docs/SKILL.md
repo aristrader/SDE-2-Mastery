@@ -25,10 +25,10 @@ component, or advanced extension just because it would exist in production.
 
 ## Source grounding and quality comparison
 
-Treat the supplied exercise and its constraints as authoritative. Verify any language, framework, or
-protocol facts needed for the solution using primary documentation, then use an independent reputable
-reference only to check ambiguity, expected depth, and common traps. Do not import a reference solution
-or broaden the exercise to match it.
+Treat the supplied exercise, relevant existing repository content, and available local books or PDFs as
+authoritative for intent and scope. Verify language, framework, or protocol facts using primary online
+documentation, then use an independent reputable reference to check ambiguity, expected depth, coverage,
+and common traps. Do not import a reference solution or broaden the exercise to match it.
 
 Write original scenarios, traces, diagrams, and explanations. Never copy prose, diagrams, exercises, or
 solution structure from books, courses, PDFs, or websites. A quality solution makes its own key decision

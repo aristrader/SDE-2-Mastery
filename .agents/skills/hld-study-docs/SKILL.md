@@ -39,15 +39,16 @@ cut the component.
 
 ## Source grounding and quality comparison
 
-For a substantial rewrite, prepare a small source packet before drafting. Start with user-supplied notes
-and any locally supplied Alex Xu material. Use it to check scope, estimates, and plausible design choices;
-do not claim that a book is available if it cannot be located. Then use an authoritative source for factual
-technology claims and one independent high-quality HLD reference, such as Hello Interview, to audit
-coverage, flow, and interview depth.
+For a substantial rewrite, prepare a small source packet before drafting: user-supplied notes, relevant
+existing repository content, and any available local book or PDF material such as Alex Xu. Use those to
+preserve context and check scope, estimates, and plausible design choices; do not claim a book is available
+if it cannot be located. Then use authoritative online sources for factual technology claims and a reputable
+HLD reference such as Hello Interview to audit coverage, flow, and interview depth.
 
-Use the references as evidence and a quality bar, not as a template. Write an original explanation for
-this repository's learner and preserve the page's own scope. Never copy prose, heading order, diagrams,
-figures, examples, or proprietary exercises. Match causal clarity, not page length.
+Use the internet and books as evidence and a quality bar, not as a template. Write an original explanation
+for this repository's learner and preserve the page's own scope. Never copy prose, heading order, diagrams,
+figures, examples, or proprietary exercises. Match causal clarity, coverage, and interview usefulness—not
+page length.
 
 Before finalizing, check that the rewritten page can answer the same useful questions as the source packet:
 what is being designed, the normal path, pressure points, chosen trade-offs, and failure recovery. Add a

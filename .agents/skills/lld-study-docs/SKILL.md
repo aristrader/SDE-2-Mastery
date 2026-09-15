@@ -40,15 +40,16 @@ file to change. Improve surrounding learning documentation without rewriting the
 
 ## Source grounding and quality comparison
 
-For a substantial rewrite, use the supplied exercise, existing runnable code, and learner notes as the
-primary source of truth. Verify Java language or library contracts against official Java documentation;
-use one independent high-quality LLD reference only to compare explanation quality and common interview
-follow-ups. Do not retrofit its solution into this exercise.
+For a substantial rewrite, start with the supplied exercise, existing repository documentation, runnable
+code, learner notes, and any available local books or PDFs. They are the source of truth for the current
+exercise. Verify Java language or library contracts against official online documentation, then use a
+reputable LLD reference such as Hello Interview to compare coverage, explanation quality, and common
+interview follow-ups. Do not retrofit its solution into this exercise.
 
-Paraphrase every external idea in a new flow derived from the repository's requirements. Never copy
-prose, class diagrams, sequence diagrams, examples, or heading structure. The quality check is whether a
-reader can derive the model and its invariants from the stated problem, not whether the page resembles a
-reference answer. Link a consulted source only when it is genuinely useful further reading.
+Paraphrase every external idea in a new flow derived from the repository's requirements. Never copy prose,
+class diagrams, sequence diagrams, examples, or heading structure. The quality check is whether a reader
+can derive the model and its invariants from the stated problem, not whether the page resembles a reference
+answer. Link a consulted source only when it is genuinely useful further reading.
 
 ## Required LLD depth
 

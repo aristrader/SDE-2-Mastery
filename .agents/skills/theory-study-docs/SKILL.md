@@ -27,15 +27,16 @@ only when the distinction changes a correct answer; otherwise teach the stable b
 
 ## Source grounding and quality comparison
 
-For a substantial rewrite, start with the user-supplied material and verify technical claims using the
-closest primary source: Java/JDK documentation for language and library behavior, framework documentation
-for Spring, or the owning vendor/specification for protocols and infrastructure. Use one independent,
-reputable learning reference to check that the explanation has a coherent first-time-reader flow.
+For a substantial rewrite, start with user-supplied material, relevant existing repository pages, and any
+available local books or PDFs. Verify technical claims using the closest primary online source: Java/JDK
+documentation for language and library behavior, framework documentation for Spring, or the owning
+vendor/specification for protocols and infrastructure. Use one independent reputable learning reference to
+check coverage and a coherent first-time-reader flow.
 
 Do not copy reference prose, illustrations, heading order, examples, or exercises. Build the explanation
 around this repository's backend use case, learner questions, and interview scope. Quality means a clear
-problem-to-mechanism-to-consequence narrative, not a longer page. Add further-reading links only for
-sources actually consulted and useful after the page is understood.
+problem-to-mechanism-to-consequence narrative with appropriate coverage, not a longer page. Add
+further-reading links only for sources actually consulted and useful after the page is understood.
 
 ## Writing standard
 
