@@ -25,6 +25,18 @@ only when the distinction changes a correct answer; otherwise teach the stable b
 3. Find the closest existing topic document and related Part row. Merge into it when the concepts belong together; create a new theory module only for a genuinely distinct topic.
 4. Preserve substantive learner questions, misconceptions, analogies, and flow reasoning. Remove only source filler, repeated statements, and details outside interview scope.
 
+## Source grounding and quality comparison
+
+For a substantial rewrite, start with the user-supplied material and verify technical claims using the
+closest primary source: Java/JDK documentation for language and library behavior, framework documentation
+for Spring, or the owning vendor/specification for protocols and infrastructure. Use one independent,
+reputable learning reference to check that the explanation has a coherent first-time-reader flow.
+
+Do not copy reference prose, illustrations, heading order, examples, or exercises. Build the explanation
+around this repository's backend use case, learner questions, and interview scope. Quality means a clear
+problem-to-mechanism-to-consequence narrative, not a longer page. Add further-reading links only for
+sources actually consulted and useful after the page is understood.
+
 ## Writing standard
 
 - Start from the problem the concept solves, then establish the mental model before mechanisms, APIs, or edge cases.

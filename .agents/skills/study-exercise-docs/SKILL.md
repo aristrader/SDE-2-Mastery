@@ -21,7 +21,18 @@ component, or advanced extension just because it would exist in production.
 3. Keep each supplied exercise's intent, order, constraints, and concepts tested. Do not broaden it into a new curriculum.
 4. Place the exercise in the closest valid module. Create exactly one matching solution using the required shared kebab-case ID.
    For an existing interactive LLD module that already uses `design/`, put the explanatory answer in
-   that design page and link the exercise to it instead; never create both `design/` and `solution/`.
+  that design page and link the exercise to it instead; never create both `design/` and `solution/`.
+
+## Source grounding and quality comparison
+
+Treat the supplied exercise and its constraints as authoritative. Verify any language, framework, or
+protocol facts needed for the solution using primary documentation, then use an independent reputable
+reference only to check ambiguity, expected depth, and common traps. Do not import a reference solution
+or broaden the exercise to match it.
+
+Write original scenarios, traces, diagrams, and explanations. Never copy prose, diagrams, exercises, or
+solution structure from books, courses, PDFs, or websites. A quality solution makes its own key decision
+traceable to the stated requirements; it need not match a reference's length or outline.
 
 ## Learning quality
 

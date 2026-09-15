@@ -37,6 +37,22 @@ cut the component.
    request flow, and two or three deep dives selected from actual non-functional constraints.
 5. Use original SVG, Draw.io, or Mermaid diagrams only when they clarify a request path, state transition, or distributed coordination.
 
+## Source grounding and quality comparison
+
+For a substantial rewrite, prepare a small source packet before drafting. Start with user-supplied notes
+and any locally supplied Alex Xu material. Use it to check scope, estimates, and plausible design choices;
+do not claim that a book is available if it cannot be located. Then use an authoritative source for factual
+technology claims and one independent high-quality HLD reference, such as Hello Interview, to audit
+coverage, flow, and interview depth.
+
+Use the references as evidence and a quality bar, not as a template. Write an original explanation for
+this repository's learner and preserve the page's own scope. Never copy prose, heading order, diagrams,
+figures, examples, or proprietary exercises. Match causal clarity, not page length.
+
+Before finalizing, check that the rewritten page can answer the same useful questions as the source packet:
+what is being designed, the normal path, pressure points, chosen trade-offs, and failure recovery. Add a
+compact further-reading link only when it is useful to the learner and was actually consulted.
+
 ## Required HLD depth
 
 - Tie every deep dive to a concrete pressure: hot read/write path, correctness conflict, queue backlog, locality query, dependency failure, or cost.
