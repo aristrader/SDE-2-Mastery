@@ -1,0 +1,21 @@
+# Trusted local-development defaults for this repository.
+# Codex must still obtain explicit user authorization before deleting files.
+approval_policy = "on-request"
+approvals_reviewer = "auto_review"
+default_permissions = "testingtesting"
+
+[features]
+network_proxy = true
+
+[permissions.testingtesting]
+description = "Edit this trusted repository, use Git, and access public development resources."
+extends = ":workspace"
+
+[permissions.testingtesting.filesystem.":workspace_roots"]
+".git" = "write"
+
+[permissions.testingtesting.network]
+enabled = true
+
+[permissions.testingtesting.network.domains]
+"*" = "allow"

@@ -26,7 +26,10 @@ This is the authoritative agent instruction file for the repo.
 - When asked "is this right?", answer directly: yes/no, exact issue, exact fix.
 - Keep explanations focused on the current topic or pattern. If adjacent patterns apply, name that explicitly instead of mixing concepts.
 - Confirm before large deletions.
+- Never delete files or folders unless the user explicitly authorizes the exact target in the current conversation.
 - Do not ask before running `git add`; stage requested files directly when committing.
+- `job_search/applications/plan/index.md` is user-controlled pending work. Never stage, commit, or push it
+  unless the user explicitly requests that exact file.
 
 ## Large Context Offload
 
