@@ -18,9 +18,6 @@ Design an in-memory two-player Tic-Tac-Toe game for a fixed 3×3 board.
 ### Constraints
 
 - Keep the first implementation in memory and single-threaded.
-- Do not add a UI, REST API, database, AI opponent, undo history, or online multiplayer.
-- Keep runnable Java under `playground/` when implementation begins. Start from
-  `playground/TicTacToeRun.java`.
 - Design the fixed 3×3 version first. Do not generalize to N×N until the basic rules are correct.
 
 ### Test scenarios
