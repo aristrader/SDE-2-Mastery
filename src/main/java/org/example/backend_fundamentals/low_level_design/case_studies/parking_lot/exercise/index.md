@@ -3,13 +3,16 @@ order: 10
 search: false
 ---
 
-# Parking Lot Design Exercise
+# Final exercise — Parking Lot Design
 
 ## Exercise: parking-lot-mvp - Spot Allocation And Release
 
 ### Goal
 
 Build the smallest useful Parking Lot LLD model.
+
+This is the agreed scope after discussing the initial [interviewer prompt](problem_statement/) and
+[candidate clarifications](candidate_discussion/).
 
 ### Scope
 

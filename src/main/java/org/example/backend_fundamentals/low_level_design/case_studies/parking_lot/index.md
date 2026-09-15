@@ -6,6 +6,9 @@ order: 20
 
 Design a small parking lot service that can allocate a compatible spot, reject a vehicle when no spot is available, release a spot on exit, and report availability by vehicle type.
 
+Start with the vague [interviewer prompt](exercise/problem_statement/), lead the
+[candidate discussion](exercise/candidate_discussion/), then solve the agreed [final exercise](exercise/).
+
 Scope for this MVP:
 
 - One parking lot has one or more floors.

@@ -3,7 +3,7 @@ order: 10
 search: false
 ---
 
-# Logger LLD Exercise
+# Final exercise — Logger LLD
 
 ## Exercise: logger-lld - Configurable Sync/Async Logger
 
@@ -11,6 +11,9 @@ search: false
 
 Design a small extensible logging library that can be called concurrently and writes to configurable
 output sinks.
+
+This is the agreed scope after discussing the initial [interviewer prompt](problem_statement/) and
+[candidate clarifications](candidate_discussion/).
 
 ### Requirements
 

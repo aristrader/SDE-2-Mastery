@@ -8,6 +8,9 @@ Low-level design for a notification system that can send Email, SMS, and Push/Ap
 
 For the high-level architecture, queues, workers, retries, settings, and monitoring, see `system_design/case_studies/notification_system/`.
 
+Start with the [interviewer prompt](exercise/problem_statement/), lead the
+[candidate discussion](exercise/candidate_discussion/), then solve the agreed [final exercise](exercise/).
+
 ## Core idea
 
 Keep these concepts separate:

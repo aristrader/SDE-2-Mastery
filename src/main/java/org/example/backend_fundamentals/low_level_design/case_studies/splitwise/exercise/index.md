@@ -3,13 +3,16 @@ order: 10
 search: false
 ---
 
-# Splitwise LLD Exercise
+# Final exercise — Splitwise LLD
 
 ## Exercise: splitwise-lld - Expense Sharing
 
 ### Goal
 
 Model the smallest useful in-memory Splitwise application.
+
+This is the agreed scope after discussing the initial [interviewer prompt](problem_statement/) and
+[candidate clarifications](candidate_discussion/).
 
 ### First-pass requirements
 

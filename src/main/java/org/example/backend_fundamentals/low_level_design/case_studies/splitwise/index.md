@@ -6,6 +6,9 @@ order: 130
 
 Workspace for designing an in-memory expense-sharing application.
 
+Start with the vague [interviewer prompt](exercise/problem_statement/), lead the
+[candidate discussion](exercise/candidate_discussion/), then solve the agreed [final exercise](exercise/).
+
 Start with users, groups, equal/exact/percentage splits, balances, and settlement. Keep persistence,
 notifications, debt simplification, multi-currency, and payment collection out of the first pass unless
 they are explicitly requested.

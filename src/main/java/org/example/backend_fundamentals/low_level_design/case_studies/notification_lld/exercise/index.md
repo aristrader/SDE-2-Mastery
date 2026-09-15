@@ -3,13 +3,16 @@ order: 10
 search: false
 ---
 
-# Notification LLD Exercise
+# Final exercise — Notification LLD
 
 ## Exercise: notification-lld - Add A Channel
 
 ### Goal
 
 Extend the Notification LLD without changing existing channel senders.
+
+This is the agreed scope after discussing the initial [interviewer prompt](problem_statement/) and
+[candidate clarifications](candidate_discussion/).
 
 ### Scenario
 
