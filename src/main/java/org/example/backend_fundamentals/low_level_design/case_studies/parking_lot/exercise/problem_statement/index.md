@@ -6,7 +6,5 @@ search: false
 
 > Design a parking lot.
 
-Do not begin with payment, gate hardware, reservations, or a database. First establish what vehicle and
-spot rules the interviewer wants in the initial version.
-
-Next: [candidate discussion](../candidate_discussion/).
+This problem statement is intentionally vague. Review the [sample candidate discussion](../candidate_discussion/)
+for reference, then continue to the [final problem statement](../).

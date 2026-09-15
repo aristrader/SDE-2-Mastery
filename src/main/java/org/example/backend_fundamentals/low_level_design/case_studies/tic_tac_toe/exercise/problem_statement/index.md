@@ -6,7 +6,5 @@ search: false
 
 > Design a Tic-Tac-Toe game.
 
-This is intentionally all the interviewer gives at first. Do not immediately assume an N×N board,
-online multiplayer, persistence, a UI, or an AI opponent. First lead a short requirement discussion.
-
-Next: [candidate discussion](../candidate_discussion/).
+This problem statement is intentionally vague. Review the [sample candidate discussion](../candidate_discussion/)
+for reference, then continue to the [final problem statement](../).

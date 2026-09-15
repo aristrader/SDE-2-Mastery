@@ -6,7 +6,5 @@ search: false
 
 > Design a logging library.
 
-Do not immediately design file rotation, distributed collection, or every possible sink. First clarify
-what a caller supplies, where logs go, and whether concurrency or asynchronous delivery matters.
-
-Next: [candidate discussion](../candidate_discussion/).
+This problem statement is intentionally vague. Review the [sample candidate discussion](../candidate_discussion/)
+for reference, then continue to the [final problem statement](../).
