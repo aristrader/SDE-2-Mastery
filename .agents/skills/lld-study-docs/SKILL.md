@@ -40,6 +40,10 @@ an interview follow-up as implemented; label it as an extension and state what b
 - Give each class one clear responsibility. Add an interface or pattern only when behavior actually varies.
 - Place concurrency and transaction decisions at the shared-resource boundary.
 - Include clarifying questions, a concise delivery order, and likely follow-up extensions.
+- Structure LLD exercises as a vague interviewer prompt, a sample candidate clarification discussion, and
+  a final agreed exercise. The final exercise owns the complete concrete requirements.
+- When creating or copying an entity-identification/class-diagram worksheet under `playground/`, begin it
+  with the complete final problem statement before any candidate notes or diagrams.
 - Add runnable Java only when it gives real practice value; otherwise keep the module theory/design focused.
 - Keep to SDE2 Java-backend interview depth. Do not turn a case study into a framework or a full product.
 
