@@ -38,6 +38,7 @@ output sinks.
 
 # Class Diagrams
 
+```text
 LogEntry
 - id: Long
 - level: Level
@@ -98,3 +99,4 @@ caller threads -> queue.put(entry) -> one worker queue.take() -> dispatch(entry)
 
 Shutdown flow
 close() -> reject future entries -> queue shutdown marker -> worker drains -> worker.join()
+```

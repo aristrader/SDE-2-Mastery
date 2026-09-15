@@ -29,6 +29,7 @@
 
 # Class diagram
 
+```text
 User
 - id
 - name
@@ -101,3 +102,4 @@ interface SplitStrategy
 EqualSplitStrategy implements SplitStrategy
 ExactSplitStrategy implements SplitStrategy
 PercentageSplitStrategy implements SplitStrategy
+```
