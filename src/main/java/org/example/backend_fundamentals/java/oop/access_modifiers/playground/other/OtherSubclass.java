@@ -1,6 +1,5 @@
 package org.example.backend_fundamentals.java.oop.access_modifiers.playground.other;
 
-import org.example.backend_fundamentals.java.oop.access_modifiers.playground.BankAccount;
 import org.example.backend_fundamentals.java.oop.access_modifiers.playground.ProcessTemplate;
 import org.example.backend_fundamentals.java.oop.access_modifiers.playground.ReportProcess;
 

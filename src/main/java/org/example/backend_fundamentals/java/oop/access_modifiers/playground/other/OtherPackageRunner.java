@@ -1,6 +1,5 @@
 package org.example.backend_fundamentals.java.oop.access_modifiers.playground.other;
 
-import org.example.backend_fundamentals.java.oop.access_modifiers.playground.Container;
 import org.example.backend_fundamentals.java.oop.access_modifiers.playground.ProcessTemplate;
 import org.example.backend_fundamentals.java.oop.access_modifiers.playground.ReportProcess;
 

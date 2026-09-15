@@ -8,7 +8,6 @@ import org.example.backend_fundamentals.low_level_design.case_studies.logger.pla
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.ConsoleSink;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.FileSink;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.JsonFormatter;
-import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.Logger;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.Sink;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.SyncLogger;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.service.TextFormatter;

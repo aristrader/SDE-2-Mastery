@@ -3,7 +3,6 @@ package org.example.backend_fundamentals.low_level_design.case_studies.logger.pl
 import java.time.LocalDateTime;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.atomic.AtomicLong;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.config.LoggerConfig;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.enums.Level;
 import org.example.backend_fundamentals.low_level_design.case_studies.logger.playground.model.LogEntry;
