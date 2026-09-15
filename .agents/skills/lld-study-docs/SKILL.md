@@ -5,12 +5,33 @@ description: Process low-level object-design material into the TestingTesting re
 
 # LLD Study Docs
 
+## Reader-first quality bar
+
+Anchor a substantial case study in one representative use case. Lead the reader from the requirement
+and its invariant to the interaction that preserves it; do not start with a class list or pattern.
+
+Use this order unless the source genuinely requires another one:
+
+1. Scope the problem and name the important rules that must remain true.
+2. Walk through one ordinary interaction.
+3. Derive state, responsibilities, and collaborations from that interaction.
+4. Explain the boundary where correctness, concurrency, or persistence must be protected.
+5. Add extensions only after the core model works, including their trade-off.
+
+Every non-obvious class needs a purpose in the flow. Every pattern needs a varying behavior or
+concrete change it isolates. A first-time reader should be able to explain why each class exists and
+where the invariant is enforced.
+
+When runnable code already exists, treat it as the source of truth for current behavior. Do not describe
+an interview follow-up as implemented; label it as an extension and state what boundary would change.
+
 ## Workflow
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
 2. Read every supplied source to EOF. Handle long single-line transcripts correctly.
 3. Inspect existing pattern, foundation, and case-study modules before editing. Improve or link existing material instead of creating a parallel solution.
-4. Convert the source into: scoped requirements, invariants, domain model, ownership/responsibilities, key interactions, state changes, extensions, and interview traps.
+4. Convert the source into: scoped requirements, invariants, one key interaction, the derived domain
+   model and responsibilities, state changes, extensions, and interview traps.
 5. Use a class, sequence, or state diagram only when it clarifies ownership, interaction, or lifecycle.
 
 ## Required LLD depth
@@ -25,6 +46,8 @@ description: Process low-level object-design material into the TestingTesting re
 ## Writing and visuals
 
 - Build a readable learning path: problem and invariants first, then model, interactions, extensions, and interview traps.
+- Use prose to connect the requirement to the model. Tables and diagrams support that reasoning; they
+  must not replace it.
 - Preserve useful learner questions, misconceptions, and analogies. Explain the correction in place rather than deleting valuable context.
 - Use complete sentences and concrete examples. Avoid thin class lists with no responsibility reasoning and avoid source-transcript filler.
 - Prefer an original class, sequence, or state diagram when it materially clarifies ownership or a lifecycle. Never copy book, course, PDF, or web screenshots. Put repo-owned image assets in the module `assets/` directory only when its schema permits them; otherwise use Mermaid.

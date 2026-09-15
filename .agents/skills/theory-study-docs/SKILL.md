@@ -5,6 +5,19 @@ description: Process non-HLD and non-LLD interview-study notes into the TestingT
 
 # Theory Study Docs
 
+## Reader-first quality bar
+
+Open a substantial topic with the engineering question it answers and one small backend example.
+Then explain the mechanism, the observable consequence, and the boundary where the rule stops
+applying. Do not turn the page into a glossary of APIs, definitions, or disconnected best practices.
+
+A first-time reader should be able to state what problem the concept solves, trace one relevant path,
+and identify the most likely interview trap. Keep claims precise: replace broad praise such as
+"efficient" or "safe" with the cost, guarantee, or failure being discussed.
+
+Separate an API contract from a common implementation detail. Name the Java version or implementation
+only when the distinction changes a correct answer; otherwise teach the stable behavior first.
+
 ## Workflow
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
@@ -16,6 +29,8 @@ description: Process non-HLD and non-LLD interview-study notes into the TestingT
 
 - Start from the problem the concept solves, then establish the mental model before mechanisms, APIs, or edge cases.
 - Use complete sentences, short sections, concrete backend examples, and precise comparisons. Do not produce a dense glossary or an over-compressed cheat sheet.
+- Give each paragraph a job: claim, reason, and concrete consequence. Use bullets or tables only when
+  comparison is clearer than prose.
 - Keep SDE2 interview depth: explain what it is, why it exists, how the relevant path works, important trade-offs, and the most likely traps.
 - Add original visuals only when a flow, state transition, data layout, or comparison is difficult to understand in text. Never copy screenshots from books, courses, PDFs, or web pages. Respect the module schema before adding an `assets/` directory.
 - End study pages with `## Quick recall` containing short interview-focused Q&A.

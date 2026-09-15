@@ -5,17 +5,30 @@ description: Process already-defined interview-study exercises and solutions int
 
 # Study Exercise Docs
 
+## Reader-first quality bar
+
+An exercise should be attemptable without guessing hidden rules. State the scenario, input/output or
+observable behavior, constraints, and acceptance criteria. Its solution should first name the key
+decision, then explain why it satisfies the constraints before presenting code or a final design.
+
+Keep the solution traceable to the stated requirements. Do not smuggle in a new framework, infrastructure
+component, or advanced extension just because it would exist in production.
+
 ## Workflow
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
 2. Read every supplied theory and exercise source to EOF before editing.
 3. Keep each supplied exercise's intent, order, constraints, and concepts tested. Do not broaden it into a new curriculum.
 4. Place the exercise in the closest valid module. Create exactly one matching solution using the required shared kebab-case ID.
+   For an existing interactive LLD module that already uses `design/`, put the explanatory answer in
+   that design page and link the exercise to it instead; never create both `design/` and `solution/`.
 
 ## Learning quality
 
 - Ensure the topic doc introduces the mental model and traps before the exercise. Do not make readers discover missing theory while attempting the task.
 - Make exercise statements concrete: inputs, required behavior, constraints, and acceptance criteria. Keep the solution readable enough to teach the decision, not merely reveal an answer.
+- Use one short example or trace when it removes ambiguity. Do not add a diagram, abstraction, or
+  extra exercise merely to make the module look more complete.
 - Preserve useful learner misconceptions or hints from the source when they help a future reader avoid a common wrong turn.
 - Add runnable Java playground code only when execution materially helps practice. Keep Java focused on the exercise, with no tutorial prose embedded in JavaDoc.
 - Use original diagrams only when they clarify an interaction or state change. Never copy screenshots from books, courses, PDFs, or web pages.

@@ -5,12 +5,36 @@ description: Process high-level system-design material into the TestingTesting r
 
 # HLD Study Docs
 
+## Reader-first quality bar
+
+For a substantial page or rewrite, choose one representative user action before writing. Use it to
+carry the reader from the simple design through the pressure that breaks it and the mechanism that
+solves it. A component list is not an explanation.
+
+Use this order unless the supplied material genuinely requires another one:
+
+1. State the problem, the useful scope, and what is deliberately out of scope.
+2. Walk through the smallest viable request path.
+3. Name the concrete pressure that breaks that path.
+4. Introduce only the component or protocol that addresses that pressure, including ownership and
+   a request/data-flow consequence.
+5. For each deep dive, explain the trade-off, failure mode, and recovery policy.
+
+Delete generic claims such as "scalable" or "reliable" unless the page names the workload, failure,
+or correctness property that earns the claim. A first-time reader should be able to answer: what
+happens on the normal path, why the simpler option fails, and why the chosen design is worth its cost.
+
+Before finalizing, give the design as a one-minute spoken explanation in heading order. If that
+explanation needs a component whose reason or flow was never introduced, add the missing reasoning or
+cut the component.
+
 ## Workflow
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
 2. Read every supplied source to EOF. Handle long single-line transcripts correctly.
 3. Inspect the destination case study plus related concept and case-study docs. Improve existing material rather than duplicating it.
-4. Convert the source into: narrow requirements, core entities/APIs, a simple functional architecture, and two or three deep dives selected from the actual non-functional constraints.
+4. Convert the source into: narrow requirements, a simple functional architecture, one concrete
+   request flow, and two or three deep dives selected from actual non-functional constraints.
 5. Use original SVG, Draw.io, or Mermaid diagrams only when they clarify a request path, state transition, or distributed coordination.
 
 ## Required HLD depth
@@ -26,6 +50,8 @@ description: Process high-level system-design material into the TestingTesting r
 ## Writing and visuals
 
 - Make the page readable as a learning artifact: introduce the problem and mental model before the component detail, use complete sentences, and keep closely related decisions together.
+- A paragraph should make one claim, explain why it matters, and show its concrete effect. Do not
+  substitute tables or bullet lists for causal prose.
 - Preserve useful learner questions, misconceptions, and analogies. Resolve them directly instead of deleting the struggle that made the explanation useful.
 - Avoid both extremes: do not reduce a design to unexplained bullets, and do not retain source-video filler or implementation detail that does not affect an interview answer.
 - Prefer one original architecture, state, or flow diagram for a complex design. Never copy book, course, PDF, or web screenshots. Put repo-owned image assets in the module `assets/` directory only when its schema permits them; otherwise use a concise Mermaid diagram.
