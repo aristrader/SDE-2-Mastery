@@ -21,7 +21,7 @@ component, or advanced extension just because it would exist in production.
 3. Keep each supplied exercise's intent, order, constraints, and concepts tested. Do not broaden it into a new curriculum.
 4. Place the exercise in the closest valid module. Create exactly one matching solution using the required shared kebab-case ID.
    For an existing interactive LLD module that already uses `design/`, put the explanatory answer in
-  that design page and link the exercise to it instead; never create both `design/` and `solution/`.
+   that design page and link the exercise to it instead; never create both `design/` and `solution/`.
 
 ## Source grounding and quality comparison
 
