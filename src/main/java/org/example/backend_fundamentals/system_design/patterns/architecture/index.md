@@ -4,7 +4,31 @@ order: 10
 
 # Monoliths vs Microservices
 
-The senior-interview framing is **not** "which is better" — it's the trade-off and *when* each fits. The single most important sentence: **microservices trade simplicity for scalability and organizational independence.**
+The senior-interview framing is not "which is better?" It is: what pressure makes a distributed boundary
+worth its cost? Microservices trade local simplicity for independent scaling, deployment, and team
+ownership. That trade is valuable only when those needs are real and the team can operate the distributed
+system it creates.
+
+## Start from one change and one request path
+
+Assume a team changes checkout behavior. In a monolith, the request and change remain in one deployable
+unit and can use one local transaction. After extraction, that same request becomes a network path with
+timeouts, contracts, data ownership, and partial-failure states. This is the first comparison to make:
+
+```mermaid
+flowchart TB
+    C[Client] --> M[Modular monolith\ncheckout, inventory, payment modules]
+    M --> DB[(One owned data boundary)]
+
+    C2[Client] --> O[Checkout service]
+    O --> I[Inventory service]
+    O --> P[Payment service]
+    I --> IDB[(Inventory data)]
+    P --> PDB[(Payment data)]
+```
+
+Neither drawing is automatically more scalable or reliable. The second earns its extra calls only when a
+boundary has independent load, deployment, ownership, or failure-isolation needs.
 
 ## Monolith
 
@@ -28,6 +52,33 @@ One deployable application where all business functionality lives together — o
 One codebase / one deployment / usually one DB, but **internally divided into modules** that talk only through each other's **public APIs/interfaces** — never reaching into another module's internal classes. Think *"monolith + good boundaries"* rather than *"monolith + spaghetti."*
 
 **Recommended evolution:** `Monolith → Modular Monolith → Microservices`, *not* `Monolith → 100 microservices`. The reason is decisive: **if your modules are messy inside one process, they won't magically become clean microservices** — you'll just distribute the mess.
+
+## When an extraction earns the distributed cost
+
+Do not split a module because it is large or because the architecture style is fashionable. Look for a
+repeatable pressure and a boundary that can own its data and contract:
+
+| Trigger | Extraction may help | First check |
+| --- | --- | --- |
+| One module has materially different traffic or compute needs | Scale that workload without scaling the whole application | Is the bottleneck actually the shared database? |
+| A team needs an independent release cadence | Deploy its change without coordinating unrelated releases | Is its API and data ownership stable enough? |
+| A failure should not affect another path | Bound timeouts and fallback around that dependency | Does the request still need its result synchronously? |
+| A domain has clear rules and owned data | Enforce a stable public contract at that boundary | Can other modules stop reading its tables directly? |
+
+If these answers are not clear, a modular monolith is usually the smaller correct design. It provides real
+module boundaries while preserving local calls, local transactions, and simpler debugging.
+
+## Extract a boundary, not a database table
+
+An extraction should begin by routing one narrow responsibility through a stable module API. Stop new code
+from reaching into that module's internal data. Then choose whether to keep it in-process, deploy it
+separately, and eventually transfer data ownership. Running two services that still update the same tables
+does not create independence; it creates a shared-database distributed monolith.
+
+For an asynchronous boundary, publish a durable domain event after the local state change and make the
+consumer idempotent. For a synchronous boundary, define a timeout, an error contract, and a fallback or
+explicit failure result. Do not replace every method call with an event; a caller that needs an immediate
+payment or authorization result still needs a synchronous decision.
 
 ## Microservices
 
@@ -80,6 +131,25 @@ A system that *looks* like microservices but *behaves* like a monolith. If creat
 **Misconception:** *microservices = modern, monolith = old.*
 **Correction:** microservices solve **organizational** scaling problems more than technical ones. For 5 developers on a single product they usually hurt — you take on networking, service discovery, tracing, monitoring, retries, circuit breakers, containers, Kubernetes for little benefit. Match architecture to org size: small startup → monolith; growing team → modular monolith; large org → microservices.
 
+## Failure behavior is the boundary test
+
+For every proposed service call, say what happens when it is slow, unavailable, or succeeds after the caller
+timed out. A checkout service may require a synchronous payment decision, so it needs a short timeout,
+idempotent retry rules, and an explicit pending or failed result. Email or analytics do not need to block
+checkout; publish a durable event after the local order state commits and retry consumers independently.
+
+This is where a distributed monolith reveals itself. If every service is in one synchronous chain, one weak
+dependency exhausts request threads and turns an unrelated outage into a full outage. Independent deployment
+only helps when data ownership, timeout policy, observability, and fallback behavior are also independent.
+
+Further reading:
+
+- [Martin Fowler: Monolith First][monolith-first]
+- [Martin Fowler: Microservice Trade-Offs][microservice-trade-offs]
+
+[monolith-first]: https://martinfowler.com/bliki/MonolithFirst.html
+[microservice-trade-offs]: https://martinfowler.com/articles/microservice-trade-offs.html
+
 ## Quick recall
 
 **Q. The one-sentence trade-off?**
@@ -99,5 +169,3 @@ A. SOA is enterprise-wide with a central ESB and reuse focus; microservices are 
 
 **Q. When should you NOT use microservices?**
 A. Small teams/products — the distributed-systems overhead (discovery, tracing, retries, orchestration) outweighs the benefit; microservices mainly solve organizational scaling.
-
-
