@@ -5,76 +5,143 @@ search: false
 
 # Feign / OpenFeign Practice
 
+## Scenario
+
+The verification service calls an internal identity service. Keep the HTTP boundary in one typed client;
+callers should not build URLs, headers, or status-code branches themselves. Assume Feign clients are enabled
+in the application and that `CreateUserRequest`, `UserResponse`, and the domain exceptions already exist.
+
+Complete the exercises in order. Each one adds one responsibility at the outbound boundary; do not add
+retries, a circuit breaker, or a real downstream service unless the exercise asks for it.
+
 ## Exercise: declare-feign-client - Declare the Feign client interface
 
 ### Goal
+
 Turn the identity-service HTTP contract into a type-safe Java interface.
 
 ### Task
-Create a `@FeignClient` interface named `IdentityServiceClient` pointing at `${identity.service.url}`. Add three methods:
-- `getUserById(String id)` for GET `/users/{id}`
-- `createUser(CreateUserRequest request)` for POST `/users`
-- `getUserByEmail(String email)` for GET `/users`
 
-`@PathVariable`, `@RequestParam`, and `@RequestBody` work the same as in Spring MVC. `name` is used for service discovery and as the client bean id; even with a hard-coded `url`, `name` is still required.
+Create `IdentityServiceClient` with `@FeignClient(name = "identity-service", url =
+"${identity.service.url}")` and these methods:
 
-### Gotcha
-Use `@GetMapping` / `@PostMapping` on methods — not `@RequestMapping` on the interface itself. `@RequestMapping` on the interface alongside `@FeignClient` causes Spring MVC to also register it as a controller in some Spring Boot versions.
+- `getUserById(String id)` for `GET /users/{id}`
+- `createUser(CreateUserRequest request)` for `POST /users`
+- `getUserByEmail(String email)` for `GET /users?email=...`
 
-## Exercise: request-interceptor-auth - Request interceptor for auth propagation
+Use `@GetMapping` or `@PostMapping` with explicit `@PathVariable`, `@RequestParam`, and `@RequestBody`
+annotations. The method names are Java names; the mappings are the HTTP contract.
 
-### Goal
-Forward the calling request's `Authorization` header to every outbound Feign call.
+### Acceptance criteria
 
-### Task
-Define a `@Bean` that returns a `RequestInterceptor`. Inside it, read the current request's `Authorization` header via `RequestContextHolder` / `HttpServletRequest`, and apply it to the Feign `RequestTemplate`. Guard against no active request.
+- The client is named `identity-service` and reads its base URL from the supplied property.
+- Each method has the required HTTP method, path, and parameter location.
+- The email lookup is a collection query, not a second path such as `/users/email/{email}`.
 
-### Gotcha
-`RequestContextHolder` returns `null` outside a servlet request scope. Null-check before forwarding.
-
-## Exercise: custom-errordecoder - Custom ErrorDecoder
+## Exercise: request-interceptor-auth - Propagate inbound authorization
 
 ### Goal
-Replace the generic `FeignException` with domain exceptions your service can catch and handle cleanly.
+
+Forward the current request's `Authorization` header to every identity-service call made on its behalf.
 
 ### Task
-Implement `feign.codec.ErrorDecoder`. Map:
-- HTTP 404 → throw `UserNotFoundException`
-- HTTP 400 → throw `ValidationException`
-- HTTP 503 → throw `ServiceUnavailableException`
-- Everything else → delegate to `ErrorDecoder.Default`
-Register it as a `@Bean`.
 
-### Gotcha
-`response.status()` gives you the HTTP status code as an int. Include useful context where possible: user id from `methodKey` for 404s, and the upstream response body for 400 validation failures. `Response.body()` is a stream that Spring/Feign closes after `decode()` returns; read the bytes inside the method before returning or throwing.
+Define a `RequestInterceptor` bean in a configuration supplied only to `IdentityServiceClient`. Read the
+current servlet request through `RequestContextHolder`. If a non-blank `Authorization` header exists, add
+it to the outbound `RequestTemplate`; if there is no servlet request, do nothing.
 
-## Exercise: timeout-configuration - Timeout configuration
+### Acceptance criteria
+
+- The interceptor does not throw when the client is called from a scheduled job or message consumer.
+- It forwards the original header value without logging it.
+- It is scoped to this trusted internal client, not accidentally applied to unrelated external clients.
+
+## Exercise: custom-errordecoder - Map upstream failures to domain failures
 
 ### Goal
-Prevent the identity-service calls from blocking a thread indefinitely.
+
+Replace generic Feign exceptions with failures the calling service can handle deliberately.
 
 ### Task
-Add the following to `application.yml` under `spring.cloud.openfeign.client.config.identity-service`:
-- `connectTimeout: 2000`
-- `readTimeout: 5000`
 
-Then write a one-paragraph comment explaining: what happens to the calling thread while a Feign call is in-flight, why a missing readTimeout is dangerous under load, and which value you would tighten first for a user-facing endpoint vs. a batch job.
+Implement `feign.codec.ErrorDecoder` with these mappings:
 
-### Gotcha
-Feign is synchronous — each in-flight call holds a thread from the web server's pool. A slow or hung upstream with no readTimeout exhausts the pool.
+- `404` to `UserNotFoundException`
+- `400` to `ValidationException`
+- `503` to `ServiceUnavailableException`
+- every other non-2xx response to `ErrorDecoder.Default`
 
-## Exercise: wiremock-test-outline - WireMock test outline
+Register the decoder in the client-specific configuration. Read an upstream response body, if needed for a
+safe validation message, inside `decode`; it is not a reusable response object after the method returns.
+
+### Acceptance criteria
+
+- The decoder returns an exception; Feign throws that returned exception for the caller.
+- It handles a missing response body safely.
+- It does not invent a user ID from `methodKey`; use structured request context or safe observability if
+  that information is required.
+
+## Exercise: timeout-configuration - Bound a blocking downstream call
 
 ### Goal
-Sketch a test that verifies your Feign client and ErrorDecoder work together without hitting a real server.
+
+Make the latency budget for identity-service calls explicit.
 
 ### Task
-Write the outline (class shell + method stubs, no implementation needed) of a `@SpringBootTest` using `@AutoConfigureWireMock` or a manual `WireMockServer` that:
-1. Starts a WireMock server on a random port
-2. Stubs `GET /users/123` to return 200 with a JSON body
-3. Stubs `GET /users/999` to return 404
-4. Calls `IdentityServiceClient` for both ids
-5. Asserts the 200 case returns a populated `UserResponse` and the 404 case throws `UserNotFoundException`
 
-### Gotcha
-The WireMock port must be injected into `identity.service.url` before the Feign client initializes.
+Add this per-client configuration to `application.yml`:
+
+```yaml
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          identity-service:
+            connectTimeout: 2000
+            readTimeout: 5000
+```
+
+Then write a short explanation of what waits during a blocking Feign call, why an unbounded downstream
+wait harms the caller under load, and which timeout you would revisit for an interactive request versus a
+longer batch workflow.
+
+### Acceptance criteria
+
+- The property path is `spring.cloud.openfeign.client.config`.
+- The explanation distinguishes connection establishment from waiting for the response.
+- It treats `2s` and `5s` as a starting policy, not universal values.
+
+## Exercise: wiremock-test-outline - Verify the client boundary without a real service
+
+### Goal
+
+Outline an integration test that proves HTTP mapping and error mapping work together.
+
+### Task
+
+Write the class shell and test method outlines for a Spring test that:
+
+1. starts a `WireMockServer` on a dynamic port before the application context is built;
+2. supplies its base URL to `identity.service.url` through `@DynamicPropertySource`;
+3. stubs `GET /users/123` with a `200` JSON response;
+4. stubs `GET /users/999` with `404`;
+5. asserts a populated `UserResponse` for `123` and `UserNotFoundException` for `999`.
+
+Do not implement a real identity service or add retry testing here.
+
+### Acceptance criteria
+
+- The dynamic URL is available before Feign resolves the client property.
+- The test exercises `IdentityServiceClient`, not the decoder class in isolation.
+- The 404 assertion proves the custom decoder is registered for this client.
+
+## Quick recall
+
+**Q. Why scope a Feign configuration to one client?**
+
+It prevents an identity-specific interceptor or error policy from silently changing calls to other services.
+
+**Q. What does a blocking client timeout protect?**
+
+It bounds how long the caller's thread waits for a failing or slow downstream dependency.

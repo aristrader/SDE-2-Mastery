@@ -24,6 +24,9 @@ only when the distinction changes a correct answer; otherwise teach the stable b
 2. Read every supplied source to EOF. Handle long single-line transcripts correctly.
 3. Find the closest existing topic document and related Part row. Merge into it when the concepts belong together; create a new theory module only for a genuinely distinct topic.
 4. Preserve substantive learner questions, misconceptions, analogies, and flow reasoning. Remove only source filler, repeated statements, and details outside interview scope.
+5. Before calling a rewrite complete, trace the central engineering question through the mechanism, its
+   observable consequence, and its boundary or exception. A rule without one of those steps is either a
+   glossary entry or an unsupported claim.
 
 ## Source grounding and quality comparison
 
@@ -38,6 +41,18 @@ around this repository's backend use case, learner questions, and interview scop
 problem-to-mechanism-to-consequence narrative with appropriate coverage, not a longer page. Add
 further-reading links only for sources actually consulted and useful after the page is understood.
 
+For API design, prefer the relevant HTTP specification, Google AIPs, or Microsoft API guidance; for Spring,
+prefer Spring's own reference; for Java behavior, prefer the JDK documentation. A learning site may set the
+interview-quality bar, but it must not be the source of a technical claim.
+
+Before external research, turn the question into a generic technical query. Never send company or client
+names, internal project or service names, unpublished metrics, architecture, schemas, source code,
+credentials, screenshots, or repository content to an external site or tool. Use neutral examples in study
+content unless the user explicitly authorizes identifiable context.
+
+Keep the result interview-specific. Cut operational runbook steps, framework option catalogs, and general
+background unless they change an answer a senior Java-backend interviewer would evaluate.
+
 ## Writing standard
 
 - Start from the problem the concept solves, then establish the mental model before mechanisms, APIs, or edge cases.
@@ -45,7 +60,15 @@ further-reading links only for sources actually consulted and useful after the p
 - Give each paragraph a job: claim, reason, and concrete consequence. Use bullets or tables only when
   comparison is clearer than prose.
 - Keep SDE2 interview depth: explain what it is, why it exists, how the relevant path works, important trade-offs, and the most likely traps.
-- Add original visuals only when a flow, state transition, data layout, or comparison is difficult to understand in text. Never copy screenshots from books, courses, PDFs, or web pages. Respect the module schema before adding an `assets/` directory.
+- Add an original visual only when a flow, state transition, data layout, or decision is genuinely harder
+  to understand in text. Give it one job and introduce it with the question it answers; never copy
+  screenshots from books, courses, PDFs, or web pages. Respect the module schema before adding an
+  `assets/` directory.
+- Audit a diagram's arrows, labels, and branches against the explained mechanism. When diagrams change,
+  run the docs build; with a local preview, verify Mermaid renders to SVG without console errors or
+  horizontal overflow at a normal desktop viewport.
+- Do not make compatible choices look mutually exclusive in a decision visual. When a request or design can
+  combine decisions, use converging branches or state the composition explicitly.
 - End study pages with `## Quick recall` containing short interview-focused Q&A.
 
 ## Study-plan handling

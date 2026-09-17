@@ -28,6 +28,10 @@ Before finalizing, give the design as a one-minute spoken explanation in heading
 explanation needs a component whose reason or flow was never introduced, add the missing reasoning or
 cut the component.
 
+For an interview-oriented page, make the assumption that unlocks the design explicit, state the simpler
+baseline first, and name the measurable or correctness trigger that justifies a more complex component.
+Do not turn a case study into an operational runbook or a catalog of cloud services.
+
 ## Workflow
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
@@ -36,6 +40,9 @@ cut the component.
 4. Convert the source into: narrow requirements, a simple functional architecture, one concrete
    request flow, and two or three deep dives selected from actual non-functional constraints.
 5. Use original SVG, Draw.io, or Mermaid diagrams only when they clarify a request path, state transition, or distributed coordination.
+6. Before calling a rewrite complete, trace the main request, the pressure that breaks it, the chosen
+   trade-off, and the failure-recovery path. Each must be either shown by the current design or labeled as
+   a deliberate follow-up; never imply a resilience property that the design does not provide.
 
 ## Source grounding and quality comparison
 
@@ -49,6 +56,11 @@ Use the internet and books as evidence and a quality bar, not as a template. Wri
 for this repository's learner and preserve the page's own scope. Never copy prose, heading order, diagrams,
 figures, examples, or proprietary exercises. Match causal clarity, coverage, and interview usefulness—not
 page length.
+
+Before any external research, reduce the question to a generic technical pattern. Never send company names,
+client names, internal service or project names, unpublished metrics, architecture details, schemas, source
+code, credentials, screenshots, or repository content to an external site or tool. Use neutral examples in
+the resulting documentation unless the user explicitly authorizes identifiable context.
 
 Before finalizing, check that the rewritten page can answer the same useful questions as the source packet:
 what is being designed, the normal path, pressure points, chosen trade-offs, and failure recovery. Add a
@@ -71,7 +83,18 @@ compact further-reading link only when it is useful to the learner and was actua
   substitute tables or bullet lists for causal prose.
 - Preserve useful learner questions, misconceptions, and analogies. Resolve them directly instead of deleting the struggle that made the explanation useful.
 - Avoid both extremes: do not reduce a design to unexplained bullets, and do not retain source-video filler or implementation detail that does not affect an interview answer.
-- Prefer one original architecture, state, or flow diagram for a complex design. Never copy book, course, PDF, or web screenshots. Put repo-owned image assets in the module `assets/` directory only when its schema permits them; otherwise use a concise Mermaid diagram.
+- Prefer one original architecture, state, or flow diagram for a complex design. Never copy book, course,
+  PDF, or web screenshots. Put repo-owned image assets in the module `assets/` directory only when its
+  schema permits them; otherwise use a concise Mermaid diagram.
+- Give every diagram one job: an architecture diagram shows ownership and request/data paths, a sequence
+  diagram shows an ordinary or failure interaction, and a state diagram shows a lifecycle. Do not add a
+  visual that merely restates adjacent prose.
+- Audit diagrams against the stated design: arrows must have the correct caller, receiver, direction, and
+  outcome; normal and failure paths must be visibly distinct; and an unimplemented component or recovery
+  policy must be labeled as a follow-up. Split a crowded diagram instead of relying on crossing arrows or
+  vague labels.
+- When diagrams change, run the docs build. If a local preview is available, verify every Mermaid block
+  becomes one SVG without browser-console errors or horizontal overflow at a normal desktop viewport.
 - End study pages with short `## Quick recall` prompts that test decisions, not vocabulary.
 
 ## Study-plan handling

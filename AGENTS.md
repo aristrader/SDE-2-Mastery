@@ -31,6 +31,14 @@ This is the authoritative agent instruction file for the repo.
 - `job_search/applications/plan/index.md` is user-controlled pending work. Never stage, commit, or push it
   unless the user explicitly requests that exact file.
 
+## Confidentiality
+
+- Before using external research or tools, abstract repository material into a generic technical question.
+  Never send company/client names, internal projects or services, unpublished metrics, architecture,
+  schemas, source code, credentials, screenshots, or repository content outside the local workspace unless
+  the user explicitly authorizes that exact information.
+- Use neutral examples in study material unless the user explicitly authorizes identifiable company context.
+
 ## Large Context Offload
 
 - For broad repo scans or many-file context gathering, use Antigravity CLI as a read-only summarizer instead of loading huge file sets directly:

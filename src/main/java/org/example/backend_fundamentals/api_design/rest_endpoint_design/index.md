@@ -4,354 +4,247 @@ order: 50
 
 # Designing REST API Endpoints
 
-Endpoint design is the public vocabulary of a backend. A good endpoint lets a new API consumer predict
-how the rest of the API behaves. A poor endpoint leaks controller methods, database tables, or one-off
-implementation decisions and forces every consumer to memorize exceptions.
+An endpoint is a contract, not a controller method. A client should be able to look at one route,
+understand the business thing it addresses, and make a good guess at related routes without knowing the
+database or Spring implementation.
 
-The goal is not to make every route look academically RESTful. The goal is a stable contract that models
-business concepts clearly, uses HTTP consistently, and stays easy to extend.
+Consider a client that needs a transaction, sometimes needs its images, and can open a review case. The
+endpoint design should make those three intentions obvious while leaving the service free to change tables,
+queues, or downstream dependencies.
 
-This chapter builds an endpoint design from first principles using a transaction-verification API. The
-same reasoning applies to users, orders, bookings, tasks, payments, or any other domain.
+## Start from the business resource
 
-## 1. Start with the resource, not the controller method
-
-An API should expose the business things a client works with. These are **resources**. In a verification
-system, the useful resources might be transactions, documents, images, review cases, and verification
-attempts. They are not methods such as `getTransaction`, `createTransaction`, or database tables such as
-`transaction_records`.
-
-Before naming a route, ask:
-
-> What business thing is the client trying to create, read, change, or delete?
-
-If the answer is "a transaction", start with `/transactions`. The HTTP method carries the normal action:
+Name the thing a client works with, then give its collection and an individual item stable addresses.
+The HTTP method expresses the usual operation; the URI expresses what receives it.
 
 ```http
-GET    /v1/transactions                  # Read a collection
-POST   /v1/transactions                  # Create a transaction
-GET    /v1/transactions/{transactionId}  # Read one transaction
-PATCH  /v1/transactions/{transactionId}  # Change part of it
-DELETE /v1/transactions/{transactionId}  # Delete it, if deletion is allowed
+GET    /v1/transactions
+POST   /v1/transactions
+GET    /v1/transactions/{transactionId}
+PATCH  /v1/transactions/{transactionId}
+DELETE /v1/transactions/{transactionId}
 ```
 
-This is why verb-heavy paths are redundant:
+`/transactions` is a collection resource. `/transactions/{transactionId}` is one transaction. This is
+why `GET /get-transaction/{transactionId}` and `POST /create-transaction` are weaker: they duplicate the
+verb already carried by HTTP and couple the public API to a handler name.
+
+Use plural, lowercase nouns consistently. Kebab case is a readable convention for multiword resources:
+`/review-cases`, `/managed-devices`, and `/verification-attempts`. The exact casing convention matters
+less than applying one convention across the API.
+
+The resource model is deliberately not the database schema. A public `/transactions` resource may join
+data from a relational store, an object store, and a vendor response. Exposing `/transaction_table_rows`
+would make internal storage a client contract.
+
+## Address the resource, then shape its representation
+
+The most useful decision rule is this:
+
+> Put required identity or required parent scope in the path. Put optional result shaping in the query
+> string.
+
+The two are not alternatives for a single request. A route commonly combines them: the path identifies the
+transaction and a query parameter asks for an optional representation detail.
+
+```mermaid
+flowchart TD
+    A[Client request] --> B{Does a required value identify\nan item or parent collection?}
+    B -- Yes --> C[Put it in the path]
+    B -- No --> D{Does an optional value filter, sort, page,\nor expand the same result?}
+    C --> D
+    D -- Yes --> E[Put it in the query string]
+    D -- No --> F{Does the intent fit a standard\nresource operation?}
+    E --> F
+    F -- Yes --> G[Use an HTTP method\nwith a resource URI]
+    F -- No --> H[Model a durable resource first;\notherwise use a deliberate custom action]
+```
+
+| Client question | Route form | Example |
+| --- | --- | --- |
+| Which exact thing? | Path parameter | `GET /transactions/{transactionId}` |
+| Which parent-scoped collection? | Path parameter | `GET /projects/{projectId}/tasks` |
+| Which subset of a collection? | Query parameter | `GET /transactions?status=REVIEW` |
+| How should a collection be ordered or paged? | Query parameter | `GET /transactions?limit=50&cursor=...` |
+| Which optional related data is useful now? | Query parameter | `GET /transactions/{id}?include=images` |
+
+For example, a transaction screen always needs the transaction but only sometimes needs image metadata:
 
 ```http
-POST /create-transaction                 # Avoid
-GET  /get-transaction/{transactionId}    # Avoid
-POST /transactions                        # Prefer
-GET  /transactions/{transactionId}        # Prefer
+GET /v1/transactions/txn_98234
+GET /v1/transactions/txn_98234?include=images
 ```
 
-The method says **what happens**. The path says **what it happens to**.
+`include=images` does not identify a second transaction; it asks for a richer representation of the same
+one. A documented `include` list scales better than a growing set of special booleans such as
+`includeImages=true` and `includeMerchant=true`.
 
-### Collections and items
-
-A collection and an item are different resources. `/transactions` means the transaction collection;
-`/transactions/{transactionId}` means one transaction in it. This pattern makes the API predictable:
-
-| Client intent | Resource-oriented endpoint |
-|---|---|
-| List transactions | `GET /v1/transactions` |
-| Read transaction `txn_98234` | `GET /v1/transactions/txn_98234` |
-| Create a transaction | `POST /v1/transactions` |
-| Replace a transaction | `PUT /v1/transactions/txn_98234` |
-| Change its status | `PATCH /v1/transactions/txn_98234` |
-| Delete it | `DELETE /v1/transactions/txn_98234` |
-
-`PUT` usually means the client sends a complete replacement representation. `PATCH` means the client
-sends only the fields to change. `PUT` must be idempotent: sending the same request again leaves the
-resource in the same state. A `PATCH` can be idempotent, but only if its patch semantics make it so.
-
-## 2. Give resources stable names
-
-Once the resource is clear, name it so that the route is easy to read and stays stable over time.
-
-### Use plural collection nouns
-
-Plural nouns remove an unnecessary special case:
+If images are large, independently addressable, or need their own pagination and authorization rules,
+make them resources instead:
 
 ```http
-GET /users
-GET /users/{userId}
-GET /orders
-GET /orders/{orderId}
+GET /v1/transactions/txn_98234/images
+GET /v1/images/img_7f2
 ```
 
-Use a singular segment only for a true singleton in an already-known context. A user has one profile, so
-`GET /users/{userId}/profile` is natural. `/me` is also reasonable when it always means the authenticated
-caller.
+Do not put access tokens, passwords, or sensitive PII in paths or query strings. They commonly appear in
+access logs, proxies, browser history, telemetry, and support screenshots.
 
-### Use lowercase, readable, consistent paths
+## Keep relationships shallow, but not fake
 
-Use lowercase URI segments. For multiword names, kebab case is a common choice:
-
-```http
-/managed-devices
-/review-cases
-/verification-attempts
-```
-
-Do not mix `system-logs`, `system_logs`, and `systemLogs` without a deliberate API-wide convention. The
-important rule is consistency. URI paths should represent business language, not Java class names or
-database names:
-
-```http
-/transactions           # Business term
-/transaction_table_rows # Database-shaped API: avoid
-```
-
-Renaming a public path is a contract change even if the underlying implementation did not change.
-
-## 3. Decide between a path variable and a query parameter
-
-This is one of the most common API-design decisions. The rule is simple:
-
-> Use the path to identify the resource or required parent scope. Use the query string to shape an
-> otherwise valid request.
-
-### Path variables identify where to operate
-
-The value is part of the resource's address. Without it, the request cannot identify the target.
-
-```http
-GET /v1/transactions/{transactionId}
-PATCH /v1/users/{userId}
-GET /v1/projects/{projectId}/tasks
-```
-
-`transactionId` identifies one transaction. `projectId` identifies the project whose task collection is
-being requested. These values are required by the meaning of the route.
-
-### Query parameters modify the request
-
-The base route remains valid if the parameter is absent. Parameters commonly filter, sort, paginate,
-project fields, or ask for related data:
-
-```http
-GET /v1/transactions?status=COMPLETED
-GET /v1/transactions?sort=-createdAt&limit=50&cursor=eyJpZCI6MTIzfQ
-GET /v1/transactions?fields=id,status,createdAt
-GET /v1/transactions?include=images,merchant
-```
-
-| Question | Put it in | Example |
-|---|---|---|
-| Which exact resource is this? | Path | `/transactions/{transactionId}` |
-| Which parent collection is this under? | Path | `/projects/{projectId}/tasks` |
-| Which subset should I return? | Query | `/transactions?status=COMPLETED` |
-| In what order and page size? | Query | `/transactions?sort=-createdAt&limit=50` |
-| What optional fields or relations should be expanded? | Query | `/transactions/{id}?include=images` |
-
-`GET /transactions?transactionId=...` is not inherently wrong. It can be valid for an optional filter,
-an external reference, or a multi-value lookup. When the client means "fetch this transaction by its
-canonical ID", `GET /transactions/{transactionId}` communicates that intent better.
-
-### Worked example: transaction details with optional images
-
-Suppose the normal transaction representation is enough for most screens, but one screen needs images.
-The transaction must be known; the images are optional output detail:
-
-```http
-GET /v1/transactions/{transactionId}
-GET /v1/transactions/{transactionId}?include=images
-```
-
-The second request does not identify a different transaction. It requests a richer representation of the
-same one. A single extensible `include` parameter is usually better than many booleans:
-
-```http
-GET /v1/transactions/{transactionId}?include=images,merchant,disputes
-```
-
-Avoid an expanding collection of flags such as `includeImages=true`, `includeMerchant=true`, and
-`includeDisputes=true`. If images are large, independently addressable, or paginated, make them a
-resource too:
-
-```http
-GET /v1/transactions/{transactionId}/images
-GET /v1/images/{imageId}
-```
-
-### Do not put sensitive input in a URL
-
-Paths and query strings are frequently recorded by access logs, proxies, browser history, traces, and
-analytics tools. Do not place credentials, tokens, passwords, or sensitive personal data there.
-
-For a complicated search with a large, structured filter, a query string can become unreadable or exceed
-practical URL limits. A documented search operation with a request body can be the better exception:
-
-```http
-POST /v1/transactions:search
-```
-
-This does not mean every read should use `POST`; it is a deliberate choice for complex search criteria.
-
-## 4. Model relationships without creating URL spaghetti
-
-Nested routes are useful when the parent provides useful context for a child **collection**:
+Nested collection routes express useful context:
 
 ```http
 GET  /v1/projects/{projectId}/tasks
 POST /v1/projects/{projectId}/tasks
-GET  /v1/customers/{customerId}/orders
 ```
 
-The problem begins when every ancestor is repeated for a resource that already has its own globally unique
-ID:
+The project tells the server which task collection is meant. Once a task has a globally unique ID, repeat
+parent history only when it adds identity:
 
 ```http
-DELETE /v1/users/{userId}/projects/{projectId}/tasks/{taskId}  # Too much path history
-DELETE /v1/tasks/{taskId}                                      # Usually clearer
+PATCH  /v1/tasks/{taskId}
+DELETE /v1/tasks/{taskId}
 ```
 
-This is called **shallow routing**. Keep nesting to show collection context; flatten operations on a
-specific child when its ID is enough to identify it.
+This avoids routes such as `/users/{userId}/projects/{projectId}/tasks/{taskId}` for every task action.
+It also prevents a client from needing parent IDs it does not otherwise have.
 
-| Need | Good route | Why |
-|---|---|---|
-| List tasks for project `p1` | `GET /projects/p1/tasks` | The project scopes the collection. |
-| Update task `t7` | `PATCH /tasks/t7` | The task ID identifies the item. |
-| Delete task `t7` | `DELETE /tasks/t7` | Parent IDs add no identity value. |
-
-### When deeper nesting is correct
-
-Do not flatten mechanically. Keep the parent if the child identifier is unique only within that parent or
-if the parent is an essential part of the public identity:
+Do not flatten mechanically. If an issue number is unique only inside a repository, the repository belongs
+to its address:
 
 ```http
 GET /v1/repositories/{owner}/{repository}/issues/{issueNumber}
 ```
 
-An issue number may be unique only inside a repository. The repository context is therefore not redundant.
+The path does not authorize access. For `DELETE /tasks/{taskId}`, the backend obtains the caller from its
+credentials and verifies permission against the loaded task. A user ID supplied in a longer path is still
+untrusted client input.
 
-### The route is not an authorization rule
+## Use HTTP methods for normal state changes
 
-`DELETE /tasks/{taskId}` is not less secure than a deeply nested version. The backend reads the caller
-from the authentication token, loads the task, and checks whether that caller is allowed to delete it.
-Parent IDs in a URL are client-provided values; they do not prove ownership.
+For ordinary resource operations, use the standard methods consistently.
 
-## 5. Keep collection operations in the query string
+| Intent | Typical method | Contract to state clearly |
+| --- | --- | --- |
+| Create in a collection | `POST /transactions` | Created resource and `Location`/response shape |
+| Read a resource | `GET /transactions/{id}` | Representation and not-found behavior |
+| Replace an item | `PUT /transactions/{id}` | Full representation and idempotency |
+| Change selected fields | `PATCH /transactions/{id}` | Patch format and field semantics |
+| Remove an item | `DELETE /transactions/{id}` | Delete versus soft-delete behavior |
 
-Filtering, sorting, pagination, and projections describe a view of a collection. They should not become
-new path shapes for every variation:
+Idempotency is an observable contract, not a word to add casually. Repeating the same `PUT` must leave the
+resource in the same state. A `PATCH` can also be idempotent, but that depends on its documented operation:
+setting `status` to `REVIEW` is different from blindly incrementing a retry count.
 
-```http
-GET /v1/products/active        # Avoid: filter hidden in the path
-GET /v1/products/sort-by-price # Avoid: ordering hidden in the path
+## Model a durable result before inventing an action endpoint
 
-GET /v1/products?status=active&sort=price_asc&limit=20 # Prefer
-```
-
-Document allowed filter values, default sort order, maximum page size, cursor format, and invalid
-combinations. A client should know whether the server applies filter, sort, paginate, and projection in a
-defined order. This is part of the API contract, not an implementation detail.
-
-## 6. Handle actions that are not normal CRUD
-
-Most client operations fit `GET`, `POST`, `PUT`, `PATCH`, and `DELETE` against a resource. Some actions do
-not. Capturing a payment or retrying a job is not simply a field update from the client's perspective.
-
-Use a documented custom action sparingly:
+Some operations do not map naturally to CRUD. Capturing a payment or resubmitting a verification is a
+business command. A custom action is reasonable when it cannot be expressed as a normal resource update:
 
 ```http
 POST /v1/payments/{paymentId}:capture
-POST /v1/jobs/{jobId}:retry
+POST /v1/transactions/{transactionId}:resubmit
 ```
 
-First ask whether the action creates a durable business object. A retry might create an attempt that has
-its own status, audit history, and timestamps. In that case, a resource model may be more expressive:
+First ask whether the operation creates a durable thing with a status, timestamps, and audit history. A
+retry that creates a verification attempt is usually clearer as a resource:
 
 ```http
-POST /v1/jobs/{jobId}/attempts
+POST /v1/transactions/{transactionId}/attempts
+GET  /v1/transactions/{transactionId}/attempts/{attemptId}
 ```
 
-Neither option is universally right. A command route emphasizes the operation; a subresource emphasizes
-the object created by it. Pick the contract that best represents the domain and apply the convention
-consistently.
+The interview answer is not “verbs are forbidden.” It is “prefer resource operations; use a custom action
+only when the business intent would be distorted by pretending it is CRUD.”
 
-## 7. Version a contract deliberately
+## Design collection behavior as part of the contract
 
-Public APIs need a compatibility strategy. URI versioning is a common and practical default:
+Filters, ordering, pagination, and field projection are collection concerns. Keep them out of a new route
+for every variation:
 
 ```http
-GET /v1/transactions/{transactionId}
+GET /v1/transactions?status=REVIEW&sort=-createdAt&limit=50&cursor=...
+GET /v1/transactions?fields=id,status,createdAt
 ```
 
-It is visible in traffic and easy to route, which is useful for partner integrations and SDKs. Header or
-media-type versioning can also work, but one API should not mix strategies without a strong reason.
+Document default ordering, maximum page size, cursor encoding/expiry, allowed filter values, and invalid
+combinations. Cursor pagination is usually safer than offsets for a changing, ordered transaction feed,
+but it needs a stable sort key and a tie-breaker such as `(createdAt, transactionId)`.
 
-A new version is for a breaking contract change, not every release. Adding an optional response field is
-normally compatible. Removing or renaming a field, changing its meaning, or changing required request
-data may require a new version and a deprecation plan for the old one.
+Also consider the payload boundary. One endpoint that returns every document image may be convenient for a
+single screen but expensive for list traffic. Use field selection, `include`, or a separate subresource
+based on how often the related data is needed and whether it has a different lifecycle.
 
-## 8. Design the endpoint set, then test its predictability
+## Make slow work visible instead of holding the request open
 
-A small verification API might read as follows:
+If document processing takes long enough that a normal response would time out, accept work and expose its
+state:
+
+```http
+POST /v1/transactions
+
+HTTP/1.1 202 Accepted
+Location: /v1/operations/op_123
+
+GET /v1/operations/op_123
+```
+
+The operation resource should say whether work is pending, succeeded, or failed and where the resulting
+transaction can be read. A `202` only means accepted for processing; it does not mean verification
+succeeded.
+
+## Evolve the contract deliberately
+
+Adding an optional response field is normally compatible. Removing a field, changing its meaning, or
+making previously optional input required is a breaking change. Pick one versioning policy for public
+consumers—URI versions such as `/v1/...` are a practical default—and pair a breaking release with a
+deprecation and migration plan.
+
+Before publishing a route set, read it as a client would:
 
 ```http
 POST  /v1/transactions
 GET   /v1/transactions?status=REVIEW&limit=50
 GET   /v1/transactions/{transactionId}
 GET   /v1/transactions/{transactionId}?include=images
-GET   /v1/transactions/{transactionId}/images
 POST  /v1/transactions/{transactionId}:resubmit
 GET   /v1/review-cases?assigneeId={userId}&status=OPEN
 PATCH /v1/review-cases/{reviewCaseId}
 ```
 
-Each route answers the same questions consistently:
-
-1. What resource is being addressed?
-2. Is this a collection, one item, a related collection, or a deliberate command?
-3. Is every path value required to identify that target?
-4. Are optional result-shaping choices in the query string?
-5. Can a new client infer related routes without learning a special rule?
-
-If the answer to the last question is repeatedly "no", the API probably needs a clearer resource model,
-not another special-case endpoint.
-
-## Common mistakes
-
-| Mistake | Better design | Reason |
-|---|---|---|
-| `GET /get-all-users` | `GET /users` | The HTTP method already says read. |
-| `POST /users/{id}/delete` | `DELETE /users/{id}` | Deletion is a standard resource operation. |
-| `GET /orders/active` | `GET /orders?status=active` | Active is a collection filter. |
-| `/users/{u}/projects/{p}/tasks/{t}` for every task action | `/tasks/{t}` | Flatten globally identifiable items. |
-| `?includeImages=true&includeMerchant=true` | `?include=images,merchant` | One extensible expansion convention. |
-| `/transaction_table_rows` | `/transactions` | Public APIs model domain concepts, not schema. |
+If a new engineer cannot infer whether each route represents a collection, item, related collection, or
+deliberate command, refine the resource model before adding another special case.
 
 ## References
 
 - [Microsoft: REST web API design](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design)
-- [Google AIP-121: Resource-oriented design](https://google.aip.dev/121)
-- [Google AIP-136: Custom methods](https://google.aip.dev/136)
+- [Google AIP-121: resource-oriented design](https://google.aip.dev/121)
+- [Google AIP-136: custom methods](https://google.aip.dev/136)
 
 ## Quick recall
 
-**Q. How should I fetch transaction details and optionally include images?**
+**Q. How should an API fetch one transaction with optional images?**
 
-Use `GET /v1/transactions/{transactionId}?include=images`. The ID identifies the transaction; `include`
-changes the representation returned.
+Use `GET /v1/transactions/{transactionId}?include=images`. The path identifies the transaction; the
+query changes the requested representation.
 
-**Q. When does a value belong in the path?**
+**Q. When does a value belong in a path instead of the query string?**
 
-When it identifies the exact resource or a required parent collection scope. Use a query parameter when it
-filters, sorts, paginates, projects, or expands an otherwise valid request.
+Use the path when it is required to identify the item or parent-scoped collection. Use the query string
+for optional filters, sorting, pagination, projection, and expansions.
 
-**Q. Why avoid deep nesting?**
+**Q. Why are deeply nested item routes usually a problem?**
 
-If `taskId` is globally unique, `/tasks/{taskId}` is enough. Keep nesting for parent-scoped collections
-or when the parent is required to identify the child.
+They repeat parent IDs that add no identity and make clients carry unnecessary context. Keep nesting for
+parent-scoped collections or children whose identity is only local to the parent.
 
-**Q. When is a verb acceptable in an endpoint?**
+**Q. When is a verb endpoint acceptable?**
 
-For an actual non-resource command, such as `POST /payments/{paymentId}:capture`. First check whether the
-operation should instead create a resource such as `/jobs/{jobId}/attempts`.
+When the operation is a real command that does not fit a standard resource method. First check whether it
+creates a durable subresource with its own state and audit trail.
 
-**Q. Does every API release need a new version?**
+**Q. What does `202 Accepted` promise?**
 
-No. Add a new version for breaking contract changes. Additive backward-compatible fields normally do not
-need one.
+Only that the server accepted work for later processing. Return an operation/status resource so the client
+can learn the eventual result.

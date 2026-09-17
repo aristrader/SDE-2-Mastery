@@ -1,6 +1,10 @@
 ---
 name: lld-study-docs
-description: Process low-level object-design material into the TestingTesting repository. Use when importing LLD transcripts or notes, creating or improving LLD case studies, adding Java playgrounds or class/sequence diagrams, or updating LLD study-plan rows. Preserve substantive learner reasoning, model responsibilities and invariants, use patterns only when requirements demand them, and validate navigation and syllabus links.
+description: >-
+  Process low-level object-design material into the TestingTesting repository. Use when importing LLD
+  transcripts or notes, creating or improving LLD case studies, adding Java playgrounds or class/sequence
+  diagrams, or updating LLD study-plan rows. Preserve substantive learner reasoning, model responsibilities
+  and invariants, use patterns only when requirements demand them, and validate navigation and syllabus links.
 ---
 
 # LLD Study Docs
@@ -33,10 +37,14 @@ file to change. Improve surrounding learning documentation without rewriting the
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
 2. Read every supplied source to EOF. Handle long single-line transcripts correctly.
-3. Inspect existing pattern, foundation, and case-study modules before editing. Improve or link existing material instead of creating a parallel solution.
+3. Inspect existing pattern, foundation, and case-study modules before editing. Improve or link existing
+   material instead of creating a parallel solution.
 4. Convert the source into: scoped requirements, invariants, one key interaction, the derived domain
    model and responsibilities, state changes, extensions, and interview traps.
 5. Use a class, sequence, or state diagram only when it clarifies ownership, interaction, or lifecycle.
+6. Before calling a case-study rewrite complete, trace every agreed requirement and test scenario to one of:
+   implemented behavior, an explicitly documented current gap, or a labeled follow-up. Do not let the
+   design prose imply that an extension already exists in the playground.
 
 ## Source grounding and quality comparison
 
@@ -51,12 +59,22 @@ class diagrams, sequence diagrams, examples, or heading structure. The quality c
 can derive the model and its invariants from the stated problem, not whether the page resembles a reference
 answer. Link a consulted source only when it is genuinely useful further reading.
 
+Before external research, replace any company context with a generic design pattern. Never send company or
+client names, internal projects or services, unpublished metrics, architecture, schemas, source code,
+credentials, screenshots, or repository content outside the local workspace. Keep examples neutral unless
+the user explicitly authorizes identifiable context.
+
 ## Required LLD depth
 
-- Establish invariants before classes: uniqueness, lifecycle, allowed transitions, and concurrent-resource rules.
+- Establish invariants before classes: uniqueness, lifecycle, allowed transitions, and concurrent-resource
+  rules.
+- Clarify scope before drawing classes. When two requirements vary independently, model their composition
+  instead of multiplying subclasses; do not introduce a pattern merely because its name sounds relevant.
 - Give each class one clear responsibility. Add an interface or pattern only when behavior actually varies.
 - Place concurrency and transaction decisions at the shared-resource boundary.
 - Include clarifying questions, a concise delivery order, and likely follow-up extensions.
+- Make sample clarification discussions read as an interview conversation: question, agreed answer, and the
+  design decision that answer changes. A checklist is useful only after the conversational flow is clear.
 - Structure LLD exercises as a vague interviewer prompt, a sample candidate clarification discussion, and
   a final agreed exercise. The final exercise owns the complete concrete requirements.
 - When creating or copying an entity-identification/class-diagram worksheet under `playground/`, begin it
@@ -66,18 +84,36 @@ answer. Link a consulted source only when it is genuinely useful further reading
 
 ## Writing and visuals
 
-- Build a readable learning path: problem and invariants first, then model, interactions, extensions, and interview traps.
+- Build a readable learning path: problem and invariants first, then model, interactions, extensions, and
+  interview traps.
 - Use prose to connect the requirement to the model. Tables and diagrams support that reasoning; they
   must not replace it.
-- Preserve useful learner questions, misconceptions, and analogies. Explain the correction in place rather than deleting valuable context.
-- Use complete sentences and concrete examples. Avoid thin class lists with no responsibility reasoning and avoid source-transcript filler.
-- Prefer an original class, sequence, or state diagram when it materially clarifies ownership or a lifecycle. Never copy book, course, PDF, or web screenshots. Put repo-owned image assets in the module `assets/` directory only when its schema permits them; otherwise use Mermaid.
+- Preserve useful learner questions, misconceptions, and analogies. Explain the correction in place rather
+  than deleting valuable context.
+- Use complete sentences and concrete examples. Avoid thin class lists with no responsibility reasoning and
+  avoid source-transcript filler.
+- Prefer an original class, sequence, or state diagram when it materially clarifies ownership or a
+  lifecycle. Never copy book, course, PDF, or web screenshots. Put repo-owned image assets in the module
+  `assets/` directory only when its schema permits them; otherwise use Mermaid.
+- Give each diagram one job: use a sequence diagram for who invokes whom in one path, a class diagram for
+  static ownership/variation, and a state diagram for a lifecycle with meaningful transitions. Do not add a
+  diagram that merely repeats prose or another diagram.
+- Audit every diagram against the implementation or agreed model: each arrow must have the correct caller,
+  receiver, direction, and outcome; each class relationship must exist; and every alternate/failure path
+  must be either implemented or visibly labeled as a follow-up. Avoid placeholder participants such as
+  “delivery” when the actual actor boundary matters to the reasoning.
+- Keep normal and failure outcomes visually distinct. Prefer short labels and split a crowded lifecycle
+  diagram before relying on crossing arrows or one ambiguous terminal state.
+- When diagrams change, validate the built page as well as Markdown. Run the docs build; when a local
+  preview is available, verify each Mermaid block becomes one SVG without browser console errors and remains
+  readable at a normal desktop viewport.
 - End study pages with short `## Quick recall` prompts that test design choices.
 
 ## Study-plan handling
 
 - Preserve source discussion, misconceptions, and learner questions when reorganizing.
-- Link covered Part rows to the destination docs. Use `Partial` only when a specific gap remains; mark `Done` only after substantial coverage.
+- Link covered Part rows to the destination docs. Use `Partial` only when a specific gap remains; mark
+  `Done` only after substantial coverage.
 - Update `TopicIndex.md` when Part topics are added, renamed, moved, split, or substantially reworded.
 - Clear processed temp files to their placeholder comments using absolute paths; do not delete them.
 

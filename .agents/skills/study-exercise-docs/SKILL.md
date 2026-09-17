@@ -14,6 +14,10 @@ decision, then explain why it satisfies the constraints before presenting code o
 Keep the solution traceable to the stated requirements. Do not smuggle in a new framework, infrastructure
 component, or advanced extension just because it would exist in production.
 
+Before calling an exercise complete, trace each acceptance criterion to a code path, a concrete explanation,
+or a clearly labeled follow-up. An illustrative outline must say what it intentionally omits so the reader
+does not mistake it for a runnable production sample.
+
 ## Workflow
 
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
@@ -34,6 +38,15 @@ Write original scenarios, traces, diagrams, and explanations. Never copy prose, 
 solution structure from books, courses, PDFs, or websites. A quality solution makes its own key decision
 traceable to the stated requirements; it need not match a reference's length or outline.
 
+Keep exercises interview-specific. A framework detail belongs only when it explains the contract, failure
+mode, or test boundary the candidate would need to reason about; omit setup guides and production options
+that do not change the solution.
+
+Before external research, abstract the exercise into a generic technical question. Never send company or
+client names, internal project or service names, unpublished metrics, architecture, schemas, source code,
+credentials, screenshots, or repository content to an external site or tool. Use neutral examples unless
+the user explicitly authorizes identifiable context.
+
 ## Learning quality
 
 - Ensure the topic doc introduces the mental model and traps before the exercise. Do not make readers discover missing theory while attempting the task.
@@ -42,7 +55,10 @@ traceable to the stated requirements; it need not match a reference's length or 
   extra exercise merely to make the module look more complete.
 - Preserve useful learner misconceptions or hints from the source when they help a future reader avoid a common wrong turn.
 - Add runnable Java playground code only when execution materially helps practice. Keep Java focused on the exercise, with no tutorial prose embedded in JavaDoc.
-- Use original diagrams only when they clarify an interaction or state change. Never copy screenshots from books, courses, PDFs, or web pages.
+- Use an original diagram only when it clarifies an interaction or state change that the code alone hides.
+  Give it one job, verify arrow direction and alternate outcomes against the exercise, and never copy
+  screenshots from books, courses, PDFs, or web pages. When diagrams change, validate the built page;
+  with a local preview, check Mermaid SVG rendering, browser errors, and horizontal overflow.
 
 ## Module and study-plan handling
 

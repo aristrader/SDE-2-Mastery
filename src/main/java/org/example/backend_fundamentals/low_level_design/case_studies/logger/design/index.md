@@ -8,6 +8,47 @@ search: false
 Use the playground design draft for entity identification and class diagrams. This page records the
 decisions that matter when explaining the implementation in an interview.
 
+## Derive the model from one log call
+
+Start with `logger.info("payment completed")`. The caller supplies only a level and message, so `Logger`
+creates the timestamped immutable `LogEntry`. It then delegates delivery without exposing individual sinks
+to the caller. This yields one shared path for synchronous and asynchronous logging rather than separate
+formatting or filtering implementations.
+
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant Logger
+    participant Queue as Bounded queue
+    participant Worker
+    participant Sink
+    participant Formatter
+
+    Caller->>Logger: log(level, message)
+    Logger->>Logger: Create LogEntry
+    alt SyncLogger.submit(entry)
+        Logger->>Sink: append(entry)
+    else AsyncLogger.submit(entry)
+        Logger->>Queue: put(entry)
+        Worker->>Queue: take()
+        Queue-->>Worker: entry
+        Worker->>Sink: append(entry)
+    end
+    Sink->>Sink: Check minimum level
+    alt Entry meets sink level
+        Sink->>Formatter: format(entry)
+        Formatter-->>Sink: formatted value
+        Sink->>Sink: write(value)
+    else Entry is below sink level
+        Sink-->>Logger: return without write
+    end
+```
+
+The two genuine axes of variation are delivery timing and output representation. `SyncLogger` and
+`AsyncLogger` vary delivery; `Formatter` varies representation. A `Sink` composes its minimum level,
+formatter, and target-specific write behavior, so adding a formatter does not require one sink subclass
+per target-format pair.
+
 ## Core responsibilities
 
 | Type | Responsibility |
@@ -21,12 +62,84 @@ decisions that matter when explaining the implementation in an interview.
 The key variation point is `Logger.submit(entry)`: synchronous and asynchronous delivery share the same
 entry, filtering, formatting, and sink logic.
 
+## Static model: independent variation without class multiplication
+
+The class relationships make the two independent axes visible. Delivery changes through the logger
+subclass; representation changes through a formatter composed into each sink. Neither change requires a
+new cross-product class such as `JsonConsoleSink`.
+
+```mermaid
+classDiagram
+    direction TB
+
+    class Logger {
+        -LoggerConfig loggerConfig
+        +log(level, message)
+        #submit(entry)
+        #dispatch(entry)
+    }
+    class SyncLogger {
+        #submit(entry)
+    }
+    class AsyncLogger {
+        -BlockingQueue queue
+        -Thread worker
+        -boolean acceptingLogs
+        #submit(entry)
+        +close()
+    }
+    class LoggerConfig {
+        -List sinks
+        -int asyncBufferSize
+    }
+    class LogEntry {
+        +id
+        +level
+        +message
+        +timestamp
+    }
+    class Sink {
+        -Level minimumLevel
+        -Formatter formatter
+        +append(entry)
+        #write(formatted)
+    }
+    class Formatter {
+        <<interface>>
+        +format(entry)
+    }
+
+    Logger <|-- SyncLogger
+    Logger <|-- AsyncLogger
+    Logger --> LoggerConfig : reads
+    Logger ..> LogEntry : creates
+    AsyncLogger --> LogEntry : queues
+    LoggerConfig o-- Sink : configures
+    Sink --> Formatter : delegates to
+    Sink <|-- ConsoleSink
+    Sink <|-- FileSink
+    Formatter <|.. TextFormatter
+    Formatter <|.. JsonFormatter
+```
+
 ## Current implementation scope
 
 The console sink and text formatter demonstrate the completed flow. `FileSink` and `JsonFormatter` currently
 prove the extension seam rather than perform real file I/O or JSON serialization. `LogEntry` captures a
 timestamp, but configurable timestamp formatting remains a small follow-up to add in the formatter/config
-layer without changing logger delivery.
+layer without changing logger delivery. Logger mode is currently selected by constructing `SyncLogger` or
+`AsyncLogger`, rather than a logger-type field in `LoggerConfig`; this and timestamp configuration remain
+known gaps against the agreed exercise requirements.
+
+The current code also lets an exception from one sink escape `dispatch`. In synchronous mode that reaches the
+caller and prevents later sinks from seeing that entry; in asynchronous mode it terminates the worker. That
+is a useful boundary to name in an interview, not an implicit production failure policy. Isolating a failing
+sink, recording the error somewhere safe, and deciding whether to retry would be a deliberate extension.
+
+`LoggerConfig` makes a defensive copy of the supplied sink list, but it does not validate a positive async
+buffer size or null elements itself. `ArrayBlockingQueue` rejects a capacity below one when an async logger
+is constructed. A production configuration boundary should fail early with clear messages for every invalid
+option.
 
 ## Async buffer policy
 
@@ -50,6 +163,11 @@ catch (InterruptedException exception) {
   throw new RuntimeException("Interrupted while queuing log entry", exception);
 }
 ```
+
+The lifecycle lock intentionally covers `put()`. That means a full queue blocks later submissions and a
+concurrent `close()` until this admission attempt completes, but it gives `close()` a clean marker boundary:
+no caller can be admitted after the marker. This is an interview-quality correctness-over-throughput trade-
+off, not a claim that every production logger should use one global admission lock.
 
 ## Producer-consumer flow
 
@@ -89,6 +207,30 @@ queue admission and marker placement one decision:
 2. `close()` obtains the same lock, marks the logger closed, and enqueues the marker.
 3. Later callers see the closed state and receive `IllegalStateException`; none can enqueue after the marker.
 4. `close()` calls `worker.join()`, so its caller knows accepted logs have been processed when it returns.
+
+This describes the normal close path. The current `consume()` method returns if its worker is externally
+interrupted, so an arbitrary external interrupt can still stop it before the marker is reached. A production
+shutdown policy would coordinate interrupts with draining or retrying; that is a follow-up, not a property
+claimed by the current implementation.
+
+One caller that invokes `close()` waits for `worker.join()`. A second concurrent caller currently observes
+that the logger is already closed and returns without waiting for the first caller's drain to complete. Make
+all close callers wait on the same completion signal only if that stronger contract is required.
+
+The lifecycle diagram deliberately shows normal draining separately from abrupt worker termination. It keeps
+the exercise honest: a shutdown marker protects the normal close path, not every possible process failure.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Accepting
+    Accepting --> Accepting: submit / queue.put(entry)
+    Accepting --> Draining: close / reject later logs, enqueue marker
+    Draining --> ClosedNormally: worker consumes marker
+    Accepting --> StoppedEarly: worker interrupted or sink throws
+    Draining --> StoppedEarly: worker interrupted or sink throws
+    ClosedNormally --> [*]
+    StoppedEarly --> [*]
+```
 
 ## Ordering and concurrent callers
 

@@ -27,6 +27,8 @@ This is the agreed scope after discussing the initial [interviewer prompt](probl
 - The asynchronous logger uses a configurable bounded buffer, preserves enqueue order, and does not drop
   messages that it has accepted.
 - Logging is safe when called concurrently from multiple threads.
+- A real sink that writes to a shared target must write one complete formatted record atomically; the
+  console-only demonstration does not implement physical file output.
 - Configuration supports logger type, sinks, sink levels, async buffer size, and timestamp format.
 
 ### Clarification for the first implementation
@@ -41,6 +43,14 @@ This is the agreed scope after discussing the initial [interviewer prompt](probl
 - Multiple threads logging concurrently.
 - Enqueue-order preservation for asynchronous messages.
 - Backpressure when the asynchronous buffer reaches capacity.
+
+### Current implementation boundary
+
+The playground demonstrates the object model, filtering, bounded queue, worker, and normal drain-on-close
+path. Its `FileSink` and `JsonFormatter` are extension seams, not real file I/O or JSON serialization.
+`LoggerConfig` currently holds sinks and async buffer size; explicit logger-type and timestamp-format
+configuration remain documented follow-ups. Treat sink-failure isolation, external worker interruption,
+and concurrent `close()` callers as follow-up behavior unless implemented deliberately.
 
 ### Interview follow-ups
 
