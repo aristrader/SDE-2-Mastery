@@ -7,7 +7,8 @@ search: false
 
 ## Problem
 
-Design a scalable notification system that supports push notifications, SMS, and email.
+Design a scalable notification system that supports push, SMS, and email. Separate our durable acceptance of work,
+provider acceptance, and confirmed device delivery; they are not the same guarantee.
 
 ## Clarify scope
 
@@ -48,6 +49,17 @@ Provider failures are expected
 - Low latency for transactional notifications.
 - Rate limiting to protect users and provider quotas.
 - Observability for queues, workers, providers, and delivery status.
+- Type-specific expiry, collapse, retry, and duplicate-send policy.
+
+## Chosen boundaries
+
+| Boundary | Decision |
+| --- | --- |
+| API success | `202` only after intent, eligible deliveries, and outbox event commit together. |
+| Queue delivery | At least once; workers make delivery state transitions idempotent by `delivery_id`. |
+| Provider response | `SENT_TO_PROVIDER` means provider acceptance, not device display. |
+| Device delivery | Advance to `DELIVERED` only when a trustworthy provider callback exists. |
+| Expiry/collapse | Chosen by notification type; an obsolete state refresh may collapse, an OTP must not. |
 
 ## API sketch
 
@@ -56,6 +68,7 @@ Internal send API:
 ```text
 POST /v1/notifications
 Content-Type: application/json
+Idempotency-Key: payment-123-receipt
 
 {
   "eventId": "payment-123-receipt",
@@ -77,11 +90,19 @@ Response:
 202 Accepted
 {
   "notificationId": "n789",
-  "status": "QUEUED"
+  "status": "ACCEPTED"
 }
 ```
 
-Return `202` because provider delivery happens asynchronously.
+Return `202` after durable intent, eligible delivery rows, and outbox event commit. Provider delivery happens
+asynchronously, so `ACCEPTED` is not a claim that a provider or device received the notification.
+
+```text
+GET /v1/notifications/{notificationId}
+```
+
+The producer can inspect `ACCEPTED`, `SENT_TO_PROVIDER`, `DELIVERED` when a callback exists, `SKIPPED`, `EXPIRED`, or
+final failure without confusing that status read with an end-user inbox.
 
 ## Data model
 
@@ -124,11 +145,26 @@ notification_log(
 )
 ```
 
-Keep `event_id` unique for producer-level dedupe. Keep per-channel log rows if one logical event fans out to push + email + SMS.
+Keep `event_id` unique for producer-level dedupe. Treat a log row as a per-channel delivery: one logical intent can
+fan out to push + email + SMS and each target can succeed, expire, or fail independently. Store template version and
+expiry with the intent so a later retry does not render a different message.
 
 ## Architecture
 
-![Notification system architecture](../assets/notification-system-architecture.svg)
+```mermaid
+flowchart LR
+    P[Producer or scheduler] --> A[Notification API]
+    A --> D[(Intent, deliveries, outbox)]
+    D --> R[Outbox relay]
+    R --> Q1[Push queues]
+    R --> Q2[SMS queues]
+    R --> Q3[Email queues]
+    Q1 --> W1[Push workers] --> X1[APNs or FCM]
+    Q2 --> W2[SMS workers] --> X2[SMS provider]
+    Q3 --> W3[Email workers] --> X3[Email provider]
+    A -. cache then source of truth .-> M[(Preferences, targets, templates)]
+    W1 & W2 & W3 --> D
+```
 
 Component responsibilities:
 
@@ -150,10 +186,10 @@ Component responsibilities:
 3. API checks dedupe by `eventId`.
 4. API loads user contact info, devices, settings, and template metadata.
 5. API skips opted-out channel/type pairs.
-6. API writes notification log rows.
-7. API publishes one delivery job per target channel.
+6. API writes notification log rows and an outbox event in one transaction.
+7. An outbox relay publishes one delivery job per target channel; duplicate delivery is expected after a retry.
 8. Worker consumes job and calls provider adapter.
-9. Worker updates status to `SENT`, `FAILED_RETRYABLE`, `FAILED_FINAL`, or `DELIVERED` when callbacks exist.
+9. Worker updates status to `SENT_TO_PROVIDER`, `FAILED_RETRYABLE`, `FAILED_FINAL`, or `DELIVERED` when callbacks exist.
 10. Events flow into analytics and monitoring.
 
 ## Deep dive decisions
@@ -187,7 +223,7 @@ Do not treat cache as the durable notification queue. The queue stores jobs; DB/
 
 ### Retry and DLQ
 
-Use exponential backoff with max attempts:
+Use bounded exponential backoff with jitter, maximum attempts, and an expiry:
 
 ```text
 attempt 1 -> immediate
@@ -197,7 +233,9 @@ attempt 4 -> +10 minutes
 then DLQ + alert
 ```
 
-Tune by channel. OTP retries after 10 minutes may be useless; email receipt retries may still be valuable.
+Tune by type and channel. OTP retries after 10 minutes may be useless; email receipt retries may still be valuable.
+Do not retry invalid/unregistered device tokens. For provider `429`, obey provider retry guidance; for an unknown timeout,
+use a provider idempotency key where available or accept a type-specific duplicate-send trade-off.
 
 ### Priority
 

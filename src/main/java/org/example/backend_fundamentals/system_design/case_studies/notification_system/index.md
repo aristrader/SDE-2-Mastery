@@ -4,210 +4,321 @@ order: 50
 
 # Notification System
 
-## What the system does
+## The interview prompt
 
-A notification system accepts events from product services and delivers messages to users through push, SMS, and email.
+Design a notification platform that product services and schedulers use to send push, SMS, and email. A useful design
+does more than call a provider API: it decides whether a user should receive a message, makes the request durable,
+absorbs provider failures, and tells product teams what actually happened.
 
-Core use cases:
+This exercise supports iOS, Android, web/desktop push, SMS, and email: 10M mobile pushes, 1M SMS, and 5M emails per
+day. Delivery is soft real-time: a short delay during a burst is acceptable, but important transactional notifications
+must not disappear silently. It includes opt-out by channel and notification type, templates, scheduled sends, and
+delivery status. It excludes a full campaign authoring UI, rich in-app inbox, and provider-specific billing
+implementation.
 
-- send transactional notifications such as OTPs, receipts, payment reminders, and delivery updates
-- support multiple channels: iOS push, Android push, SMS, email
-- respect user opt-out/settings before sending
-- tolerate third-party provider failures without losing notification jobs
-- track delivery, opens, clicks, and queue health
+The base answer handles one user and all of that user's eligible targets. Group/campaign audience expansion,
+in-app-inbox history, quiet hours, notification digests, A/B content tests, and campaign authoring are deliberate
+follow-ups. They are product-important, but including them before the delivery contract would hide the core interview
+reasoning.
 
-Assume the interview scope from Alex Xu pages 151-165:
+## Clarify the guarantee before designing queues
 
-```text
-10M mobile push notifications/day
-1M SMS/day
-5M emails/day
-Soft real-time: send as soon as possible, slight delay allowed under load
-iOS, Android, desktop/laptop clients
-Notifications can be triggered by services or scheduled server-side
-Users can opt out
-```
+“Delivered” is not one state. A provider accepting a request does not prove that an offline phone displayed it or that
+a user opened it. This distinction determines the status model and prevents an interview answer from claiming an
+impossible end-to-end exactly-once guarantee.
 
-## Back-of-envelope numbers
-
-| Question | Estimate | Design impact |
+| Question | Assumption | Design consequence |
 | --- | --- | --- |
-| Push/day | 10M | Push is the largest channel; scale workers independently |
-| SMS/day | 1M | Expensive channel; needs stricter rate limits and provider failover |
-| Email/day | 5M | Template rendering and provider throughput matter |
-| Total/day | 16M | Average throughput is modest, but bursts need queues |
-| Average/sec | `16M / 86,400 ~= 185/sec` | Average QPS is not the hard part |
-| Burst factor | assume `10x-50x` | Queue buffering and worker autoscaling matter more than average QPS |
+| What does `202 Accepted` mean? | Our system durably accepted a notification intent | It is not a provider or device-delivery promise. |
+| Which messages may be collapsed? | State-refresh messages may be; OTP/security messages may not | Collapse and TTL are part of notification type policy. |
+| Can users opt out? | Yes, by type and channel | Preferences are evaluated before delivery and checked again when needed. |
+| How are provider failures handled? | Transient failures retry; permanent failures stop | Workers classify responses rather than retrying every error. |
+| What is the priority policy? | Transactional work wins over bulk marketing | Separate priority/channel capacity prevents campaigns from starving OTPs. |
 
-The common interview trap is designing for average QPS only. Notifications are bursty: campaigns, incident alerts, billing runs, flash-sale reminders, and retry storms can overload providers even when daily volume looks small.
+## Begin with the smallest reliable path
 
-## Mental model
+The naive design is for every product service to call APNs, FCM, an SMS vendor, or an email provider directly. It
+works for one service and one channel, but each producer must then own device tokens, user preferences, templates,
+provider quotas, retry policy, audits, and vendor failover. A provider outage becomes a synchronous failure in every
+product workflow.
 
-Separate the system into four paths:
+Centralize that policy in a notification service. The service turns a business request such as “payment receipt for
+user U” into one or more **delivery intents**: push to two devices, email to one address, or SMS to a verified phone.
+It records the intent durably, then workers deliver each channel asynchronously. Queues absorb a temporary burst and
+isolate one channel's outage, but they are not themselves the acceptance boundary.
+
+The final mental model has four layers:
 
 ```text
-Ingestion path: service event -> validate -> preferences -> enqueue delivery job
-Delivery path: queue -> worker -> provider -> user device/inbox
-Reliability path: notification log -> retry -> DLQ/alert -> idempotency/dedupe
-Learning path: delivery/open/click events -> analytics/monitoring
+Intent:     producer event -> policy, preferences, targets, template version -> durable intent + outbox
+Dispatch:   outbox -> priority and channel queues -> worker -> provider adapter
+Observation: provider response / provider callback -> delivery attempt and status
+Learning:   queue/provider health -> alerts; opens/clicks -> product analytics
 ```
 
-The notification server should decide **what should be sent**. Workers should handle **how to send it through providers**.
+## Requirements and estimates that change the design
 
-## Interview blueprint
+| Input | Exercise value | Decision it changes |
+| --- | --- | --- |
+| Push / SMS / email volume | 10M / 1M / 5M per day | Workers and quotas are independent per channel. |
+| Average throughput | `16M / 86,400 ≈ 185` delivery attempts/second | Average is modest; burst handling matters more. |
+| Burst factor | campaigns, billing runs, incidents, retries | Queue buffering, backpressure, and priority isolation are required. |
+| Provider limits | channel and region specific | Workers need per-provider rate limits and response-aware retry. |
+| Offline devices | common for push | TTL and collapse policy must be explicit; provider acceptance is not device delivery. |
 
-Use this order in an HLD round:
+At a 20× burst, the system can receive thousands of intents per second even when the daily average looks harmless.
+Do not solve that with bigger API servers alone: the downstream provider is the constrained resource. The platform must
+admit, delay, collapse, or reject lower-priority work deliberately instead of creating an unbounded retry storm.
 
-1. Clarify scope: channels, real-time expectations, opt-out, triggers, platforms, daily volume, transactional vs marketing.
-2. Estimate: per-channel daily volume, average send rate, burst factor, storage/audit retention.
-3. APIs: internal send API and optional scheduled-notification API.
-4. Data model: user contact info, device tokens, notification settings, templates, notification log.
-5. HLD: notification servers, cache, DB, per-channel queues, workers, third-party providers.
-6. Deep dive: reliability, duplicate prevention, retries, rate limiting, provider failover, monitoring.
-7. Tradeoffs: exactly-once is unrealistic; aim for durable enqueue + idempotent/deduped delivery.
+If a provider permits `L` sends per second, a campaign of `N` recipient deliveries needs at least `N / L` seconds even
+with perfect workers. That simple calculation tells the interviewer why campaign expansion belongs behind paced queues
+and why a 2FA code must not wait behind it. It also makes a “bulk notification” follow-up concrete without pretending
+that the base individual-delivery path already solves audience fanout.
+
+## Data model: intent is not attempt
+
+A logical event may create several channel deliveries. A failed push to one stale device must not turn an already sent
+email into a failure, so model the layers separately.
+
+| Record | Key fields | Purpose |
+| --- | --- | --- |
+| `NotificationIntent` | `intentId`, idempotency key, user, type, payload/template version, priority | One accepted business request and its dedupe boundary. |
+| `Delivery` | `deliveryId`, intent, channel, target, status, expiry | One channel-target operation, such as one device token or email address. |
+| `DeliveryAttempt` | delivery, provider, attempt number, response class, timestamps | Audit, retry decisions, latency, and provider debugging. |
+| `NotificationPreference` | user, type, channel, opt-in | Decides whether a channel is eligible. |
+| Device/contact record | user, platform/address, verification/status | Maintains live send targets. |
+| Outbox event | intent/delivery identifiers, event type | Reliably starts asynchronous dispatch after durable acceptance. |
+
+Useful states are `ACCEPTED`, `SKIPPED`, `QUEUED`, `SENT_TO_PROVIDER`, `DELIVERED` when a trustworthy callback
+exists, `FAILED_RETRYABLE`, `FAILED_FINAL`, and `EXPIRED`. `SENT_TO_PROVIDER` means only that the provider accepted
+the request. Firebase explicitly distinguishes provider acceptance from device delivery; an offline message can wait,
+expire, or be replaced by a newer message with the same collapse key. [FCM delivery guidance](https://firebase.google.com/docs/cloud-messaging/understand-delivery)
+and [message lifetime guidance](https://firebase.google.com/docs/cloud-messaging/customize-messages/setting-message-lifespan)
+make this boundary concrete.
 
 ## High-level architecture
 
-![Notification system architecture](./assets/notification-system-architecture.svg)
+This diagram answers ownership: where the durable intent lives, where channel isolation begins, and which systems are
+only external delivery providers.
 
-```text
-Product services / scheduler
-  -> Notification API servers
-  -> cache + DB lookups for users, devices, settings, templates
-  -> per-channel queues
-  -> worker pools
-  -> APNS / FCM / SMS provider / Email provider
-  -> user devices and inboxes
+```mermaid
+flowchart LR
+    P[Producer or scheduler] --> A[Notification API]
+    A --> D[(Intent, deliveries, outbox)]
+    D --> R[Outbox relay]
+    R --> Q1[Push queues]
+    R --> Q2[SMS queues]
+    R --> Q3[Email queues]
+    Q1 --> W1[Push workers] --> X1[APNs or FCM]
+    Q2 --> W2[SMS workers] --> X2[SMS provider]
+    Q3 --> W3[Email workers] --> X3[Email provider]
+    A -. metadata .-> M[(Preferences, targets, templates)]
+    W1 & W2 & W3 --> D
 ```
 
-Keep API servers stateless and horizontally scalable. Put slow provider calls behind queues. Use separate queues per channel so an SMS provider outage does not block email or push.
+The API and scheduler create intents. Metadata cache accelerates target, preference, and template lookup, but the
+database holds the durable decision and audit history. The outbox relay and queues separate acceptance from slow
+provider calls. Each channel worker pool has its own quota, retry policy, and provider adapter.
 
-## Core data
+## API and acceptance boundary
 
-| Data | Example fields | Why it matters |
+```text
+POST /v1/notifications
+Idempotency-Key: payment-123-receipt
+
+{
+  "userId": "u123",
+  "type": "PAYMENT_RECEIPT",
+  "channels": ["PUSH", "EMAIL"],
+  "templateId": "payment_receipt_v3",
+  "params": { "amount": "499.00" },
+  "priority": "HIGH",
+  "expiresAt": "..."
+}
+
+202 Accepted
+{ "intentId": "n789", "status": "ACCEPTED" }
+```
+
+```text
+GET /v1/notifications/n789
+
+{ "intentId": "n789", "status": "SENT_TO_PROVIDER", "deliveries": [...] }
+```
+
+The API authenticates the producer and uses the idempotency key to return the same intent for a producer retry. It
+loads contact/device data, preferences, and the selected template version. It records a `SKIPPED` delivery when a
+user opted out and an audit is required; it does not quietly call a provider and hope the provider enforces policy.
+
+In one transaction, the service persists the intent and eligible delivery rows with an outbox event. Returning `202`
+after that transaction means the system can recover dispatch later. It does **not** promise that a provider was called
+or that a device received the message.
+
+## Main path: durable acceptance, asynchronous dispatch
+
+```mermaid
+sequenceDiagram
+    participant P as Producer or scheduler
+    participant N as Notification API
+    participant D as Intent store + outbox
+    participant R as Outbox relay
+    participant Q as Channel queue
+    participant W as Channel worker
+    participant V as Provider
+
+    P->>N: request + idempotency key
+    N->>D: commit intent, deliveries, outbox event
+    N-->>P: 202 ACCEPTED
+    R->>D: read committed event
+    R->>Q: publish channel delivery job
+    Q->>W: deliver job
+    W->>V: send through adapter
+    V-->>W: accepted, retryable, or final response
+    W->>D: record attempt and next state
+```
+
+1. A product service calls the API, while a scheduler emits the same type of request at its due time. Scheduled work
+   should be persisted before its due time; a timer alone is not a durable business record.
+2. The API validates payload size, notification type, producer permission, target eligibility, preference, template,
+   expiry, and idempotency.
+3. It commits the intent, per-channel delivery rows, and outbox record together. A crash after commit leaves a
+   recoverable outbox record rather than a lost notification.
+4. The relay publishes channel jobs. Duplicate relay delivery is expected after a timeout, so workers identify a
+   delivery by `deliveryId` and avoid creating a second logical delivery.
+5. A channel worker renders the versioned template, applies the channel/type policy, acquires rate-limit capacity,
+   and calls one provider adapter.
+6. The worker records the provider response before acknowledging the job. A callback can later advance
+   `SENT_TO_PROVIDER` to `DELIVERED`, but an open/click is product analytics, not proof of provider delivery.
+
+The transactional outbox closes the database/queue dual-write gap. Its duplicate-delivery consequence is normal:
+[AWS recommends idempotent consumers for this pattern](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html).
+
+## Deep dive: retries, expiry, and duplicate sends
+
+The hard failure is an unknown provider outcome. A worker might time out after the provider accepted the request but
+before the response reached the worker. Retrying can create a duplicate; never retrying can lose an important message.
+The design makes that trade-off explicit by notification type.
+
+| Response or condition | Worker action | Why |
 | --- | --- | --- |
-| User contact info | `user_id`, `email`, `phone` | Needed for email/SMS |
-| Device tokens | `user_id`, `device_id`, `platform`, `token`, `status` | One user can have many devices |
-| Notification settings | `user_id`, `channel`, `notification_type`, `opt_in` | Enforces opt-out before delivery |
-| Templates | `template_id`, `channel`, `subject`, `body`, `version` | Consistent rendering and safer changes |
-| Notification log | `event_id`, `user_id`, `channel`, `status`, `attempt_count` | Prevents data loss and supports audit/retry |
+| Validation error, bad payload, expired target | Mark `FAILED_FINAL`; repair target/template data | A retry cannot change the provider's answer. |
+| Invalid/unregistered device token | Mark target inactive; do not retry until a new token is registered | Repeated sends waste quota and create noise. |
+| Provider `429` or temporary `5xx` | Retry with bounded exponential backoff, jitter, and provider guidance | Immediate synchronized retries amplify an outage. |
+| Timeout / unknown provider outcome | Use provider idempotency key when supported; otherwise retry only under type-specific duplicate tolerance | The result is ambiguous, not automatically a safe retry. |
+| Delivery expires | Mark `EXPIRED`, stop retries, and let the app fetch current state | A week-old OTP or price alert is worse than no alert. |
 
-Cache user info, device info, settings, and templates because every send needs these lookups. The database remains the source of truth.
+FCM recommends respecting `429` retry guidance and using backoff with jitter to avoid retry amplification. It also
+supports TTL and collapse semantics for messages where only the newest state matters. [FCM's scale guidance](https://firebase.google.com/docs/cloud-messaging/scale-fcm)
+and [collapse-key guidance](https://firebase.google.com/docs/cloud-messaging/customize-messages/collapsible-message-types)
+support this policy. For APNs, a `410` identifies an inactive token and a `429` requires delayed retry; a provider
+adapter should translate such provider-specific responses into these neutral outcome classes. [APNs response handling](https://developer.apple.com/documentation/usernotifications/handling-notification-responses-from-apns?language=_4)
+documents those examples.
 
-## Sending flow
+## Deep dive: channel, priority, and provider isolation
 
-1. Billing, order, auth, marketing, or scheduler service calls the notification API.
-2. Notification server authenticates the caller and validates request shape.
-3. Server fetches user contact info, device tokens, settings, and template data from cache/DB.
-4. Server drops or records skipped notifications when the user opted out.
-5. Server persists a notification log row before or atomically with enqueue.
-6. Server publishes a delivery job to the right channel queue.
-7. Worker consumes the job, renders final channel payload if not pre-rendered, and calls the provider.
-8. Worker records success/failure; transient failures retry with backoff.
-9. Provider/device events feed monitoring and analytics.
-
-## Reliability and duplicates
-
-![Notification reliability flow](./assets/notification-reliability-flow.svg)
-
-Notifications can be delayed or reordered, but important transactional notifications should not be lost. The usual design is at-least-once delivery with dedupe, not true exactly-once delivery.
-
-| Problem | Interview answer |
-| --- | --- |
-| Job lost before queue | Persist notification log and use transactional outbox or careful enqueue-after-persist handling |
-| Worker crashes mid-send | Lease/ack only after provider result; expired jobs retry |
-| Provider timeout | Retry with exponential backoff and max attempts |
-| Persistent failure | Move to DLQ and alert |
-| Duplicate event from producer | Deduplicate by `event_id` or idempotency key |
-| Duplicate provider call | Use provider idempotency key where available; otherwise accept rare duplicates and suppress obvious repeats |
-
-Do not claim exactly-once delivery across service, queue, worker, provider, and device. Say: "I design for durable at-least-once with idempotency and dedupe."
-
-## Deep dives
-
-### Queues
-
-Use separate queues/topics for channels:
+One global queue makes the first blocked provider everyone else's outage. Use separate queues or partitions at least
+by channel and priority:
 
 ```text
-notification.push
-notification.sms
-notification.email
+push.high      push.bulk
+sms.high       sms.bulk
+email.high     email.bulk
 ```
 
-This lets each channel scale and fail independently. SMS workers can be throttled heavily without slowing email. Push can have separate iOS/Android sub-queues if APNS and FCM limits differ.
+This does not mean high priority is unlimited. A per-user/type limit prevents OTP abuse, a per-producer limit stops
+one broken service, and provider/channel limits protect quotas and cost. When backlog reaches a defined age or depth,
+the platform can pause bulk campaigns, collapse state-refresh notifications, or reject new low-priority work while
+preserving capacity for transactional messages.
 
-### Workers
+Provider adapters hide protocol and credentials, not delivery semantics. Routing can choose a provider by region or
+health. Failover is safest for messages with strong provider idempotency or low duplicate harm; an aggressive SMS
+failover after an unknown timeout can send two OTPs. State that risk rather than promising automatic failover for all
+types.
 
-Workers are stateless service instances running queue consumers. All instances in the same channel worker group share the load. If the design uses Kafka, a topic is partitioned and one consumer group processes each message once within that group.
+## Deep dive: preferences, templates, and the source of truth
 
-### Templates
+The notification platform owns delivery policy, not business truth. A push should normally point the app to current
+server state rather than contain the only copy of a changing order, balance, or message. If a device was offline or a
+collapsible notification was replaced, opening the app still fetches the authoritative data.
 
-Templates avoid building every message from scratch. They also let product teams keep a consistent format per channel. Version templates so an old queued job can still render against the intended version.
+Evaluate preferences before creating a delivery. For legal or security exceptions, the product must explicitly define
+which types bypass a marketing opt-out; “critical” is a policy decision, not an engineering shortcut. Keep template
+version and locale with the intent so a queued retry does not silently render against a later, incompatible template.
 
-### Notification settings
+## Failure, recovery, and what callers observe
 
-Check preferences before enqueue for most notifications. For critical transactional messages, clarify product/legal rules: some alerts may bypass marketing opt-out but should still respect channel availability and abuse controls.
+```mermaid
+flowchart LR
+    A[Accepted delivery] --> Q[Queued]
+    Q --> W[Worker calls provider]
+    W -->|accepted response| S[Sent to provider]
+    W -->|retryable response| B[Backoff with jitter]
+    B --> Q
+    W -->|final response or expiry| F[Final failure or expired]
+    F --> D[DLQ and alert]
+    S -. provider callback, if available .-> V[Delivered]
+```
 
-### Rate limiting
+| Failure | What remains true | Recovery and visible result |
+| --- | --- | --- |
+| API transaction fails | No accepted intent exists | Return an error; do not queue anything. |
+| API crashes after commit | Intent and outbox are durable | Relay dispatches after restart; producer need not create a duplicate. |
+| Cache is unavailable | Durable metadata remains in the database | The API is slower but can still make the correct policy decision. |
+| Queue backlog grows | Accepted intents remain durable | Scale workers, throttle providers, and shed/collapse bulk work; callers still see `202`. |
+| Worker crashes before acknowledgement | Queue can redeliver | Reprocess the same `deliveryId`; idempotent state transition prevents a second logical delivery. |
+| Provider outage | Delivery is not yet final | Backoff/jitter, safe failover where allowed, then DLQ and alert when attempts or expiry are exhausted. |
+| Device token becomes stale | The target is no longer valid | Mark it inactive from provider feedback; next app registration refreshes it. |
+| User changes preference | Old work may be queued | Recheck policy before send for sensitive/long-lived work; suppress it and record `SKIPPED`. |
 
-Rate-limit at several levels:
+## Operational signals versus product analytics
 
-| Level | Example |
-| --- | --- |
-| Per user | max OTP/SMS per user per hour |
-| Per notification type | OTP stricter than payment receipt |
-| Per channel | SMS provider quota |
-| Per provider | Twilio/SendGrid/APNS/FCM limits |
-| Per producer service | stop one bad service from flooding the system |
+Queue depth, oldest-message age, retry rate, provider latency, provider error class, DLQ count, and expired delivery
+count are control-plane signals: they tell on-call engineers whether work is accumulating or a provider is unhealthy.
+Sent, provider-accepted, delivered, opened, clicked, and unsubscribed are product or delivery observations. Do not
+use open/click events as the retry trigger; they are optional, delayed, and often unavailable.
 
-Rate limiting protects users, provider quotas, cost, and system health.
+## How to present this in an interview
 
-### Provider abstraction and failover
+Begin by defining the status boundary. Then derive the durable intent/outbox from the post-commit crash problem,
+derive queues from slow and bursty providers, and derive channel/priority isolation from the fact that SMS, email, and
+push have different limits and failure modes. Close with the ambiguity of a provider timeout: at-least-once delivery,
+idempotent state transitions, type-specific duplicate tolerance, expiry, and observability are a stronger answer than
+claiming exactly once.
 
-Hide vendor APIs behind provider adapters. If SMS provider A fails or is unavailable in a region, route to provider B. Keep failover rules explicit because duplicate sends are worse for OTP/payment messages than for low-priority marketing.
-
-### Monitoring and analytics
-
-Monitor operational health separately from product analytics:
-
-| Area | Metrics |
-| --- | --- |
-| Queue health | queue depth, oldest message age, consumer lag |
-| Delivery | success rate, failure rate, retries, DLQ count |
-| Provider | latency, timeout rate, quota errors |
-| Product analytics | sent, delivered, opened, clicked, unsubscribed |
-
-Queue depth is the fast signal that workers are not keeping up. Open/click metrics are useful, but they are not the delivery control plane.
-
-## HLD vs LLD link
-
-This page is the HLD architecture. The low-level class design for multi-channel dispatch lives at `low_level_design/case_studies/notification_lld/`.
-
-## Questions interviewers like
-
-| Question | Strong answer shape |
-| --- | --- |
-| Why queues after notification servers? | Servers validate, check preferences, fetch metadata, choose channel, then enqueue clean delivery jobs |
-| Why separate queues per channel? | Channel isolation: SMS outage or throttling should not block email/push |
-| What is cached? | User/contact info, device tokens, settings, templates; not the queue itself |
-| Can you guarantee exactly once? | No; use at-least-once with durable log, idempotency key, dedupe, and provider idempotency when available |
-| How do you avoid spamming users? | Preferences, per-user/type/channel rate limits, priority rules |
-| What do workers do? | Consume delivery jobs, call provider adapters, record result, retry or DLQ failures |
+For the object model behind multi-channel dispatch, see the
+[Notification System LLD](/low_level_design/case_studies/notification_lld/).
 
 ## Quick recall
 
-**Q. What are the three main channels in the book scope?**  
-A. Push, SMS, and email.
+**What does `202 Accepted` guarantee?**
 
-**Q. Why is the queue placed after the notification service?**  
-A. The service first validates, checks settings, fetches metadata, and chooses the channel; the queue stores ready delivery jobs.
+Only that the notification intent and its dispatch trigger were durably accepted by this system. It does not mean a
+provider or device has accepted the message.
 
-**Q. What should be cached?**  
-A. User/contact data, device tokens, notification settings, and templates.
+**Why separate intent, delivery, and attempt?**
 
-**Q. What is the correct delivery guarantee answer?**  
-A. At-least-once with idempotency/dedupe; exactly-once across providers/devices is not realistic.
+One business event can target several channels and devices. Each target can fail, retry, or succeed independently
+without changing the status of the other channels.
 
-**Q. What metric shows workers are falling behind?**  
-A. Queue depth, oldest message age, and consumer lag.
+**Why is the outbox needed if a queue is durable?**
+
+The service can commit its database rows and crash before publishing to the separate queue. The outbox makes the
+accepted business state and pending dispatch durable together.
+
+**When is a notification safely collapsible?**
+
+When only the newest state matters, such as “refresh the latest score.” Do not collapse an OTP, security alert, or
+other message where every event matters.
+
+**What is the correct end-to-end delivery guarantee?**
+
+Durable at-least-once dispatch with idempotency and dedupe. Provider acceptance, device display, and user open are
+separate observable states.
+
+**Why are channel queues separate?**
+
+They isolate provider quotas, cost, latency, and outages. A slow SMS provider should not block email or push.
+
+**What prevents a retry storm?**
+
+Response-aware bounded backoff with jitter, provider quotas, expiry, and priority-aware admission control.

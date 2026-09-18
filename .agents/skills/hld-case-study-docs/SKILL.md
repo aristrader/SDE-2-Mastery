@@ -11,6 +11,9 @@ Help an SDE2 give a coherent 35–40 minute interview answer to one product/syst
 show problem navigation, a complete viable design, and only the deep dives that prove the important choices.
 Do not turn a case study into a catalogue of components or a production implementation plan.
 
+For a substantial rewrite, read [the QG-4 acceptance contract](references/quality_contract.md) before inspecting the
+page. Its evidence record, writer pass, critic pass, and rendered audit are mandatory completion gates.
+
 ## Source packet and boundaries
 
 Read the existing case-study page, paired `design/` and `exercise/` pages, local source material, and the
@@ -131,3 +134,5 @@ preventive rule changed in the handoff.
 2. Run `node scripts/generate-homepage.js` and `git diff --check`.
 3. Run the docs build after page or visual changes.
 4. In a local preview, inspect diagrams for rendering, readable labels, console errors, and overflow.
+5. Record `Validated (QG-4)` only after every contract gate passes; otherwise leave the module in `Draft` or
+   `Needs quality review` in the quality backlog.
