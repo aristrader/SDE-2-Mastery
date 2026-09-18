@@ -22,11 +22,16 @@ Design upload, download, remote sync, and conflict handling. Include:
 - version preconditions and conflicted-copy behavior
 - replication, backup/PITR, and multi-region bounded staleness
 
+Clarify whether the system must support arbitrary file synchronization or simultaneous document editing, whether
+shared folders can be very large, and whether a missed notification must be recoverable. Use arbitrary-file sync,
+small-to-normal sharing fanout, and a durable per-namespace change feed as the base answer.
+
 ### Acceptance criteria
 
 - Keep multi-GB bytes off API servers and the metadata database.
 - State why a client callback alone cannot finalize upload state.
 - Distinguish transfer chunks from video-streaming segments.
 - Explain why notification is a change hint, not the synchronization itself.
+- Define the scope of a sync cursor and when it may advance.
 - Include bandwidth/storage estimation as well as request QPS.
 - Keep CRDT/OT and real-time collaboration outside the base answer.

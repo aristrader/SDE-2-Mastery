@@ -49,6 +49,13 @@ source-controlled renderer is already available or a larger case-study batch jus
    visuals do not duplicate or distract from the nearby explanation. If labels are too small, reduce concepts or
    split the visual; do not call it done merely because it has no overflow.
 
+## Visual-preservation gate
+
+Before replacing or removing an existing visual, record the reader question it answered and the source concepts it
+carried. Replace it only when the new visual or nearby prose covers that same useful material more clearly. If a visual
+is unreadable or redundant, remove it without losing its explanatory content; a successful build is not proof that the
+learning value survived.
+
 ## Quality gates
 
 - A flowchart explains a normal path, a branch, or recovery—not a component inventory.

@@ -55,6 +55,13 @@ content unless the user explicitly authorizes identifiable context.
 Keep the result interview-specific. Cut operational runbook steps, framework option catalogs, and general
 background unless they change an answer a senior Java-backend interviewer would evaluate.
 
+## Source-preservation gate
+
+Before a structural rewrite, inventory each distinct source claim, example, learner question, misconception,
+analogy, diagram, boundary, and follow-up. Map each item to the revised page, a clearly linked destination module,
+or an explicitly named interview-scope cut with a reason. Recheck the map after drafting. A shorter page, clearer
+flow, or Git history does not prove that reusable study material survived.
+
 ## Writing standard
 
 - Start from the problem the concept solves, then establish the mental model before mechanisms, APIs, or edge cases.

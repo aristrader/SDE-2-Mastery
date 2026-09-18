@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="430" viewBox="0 0 780 430" role="img" aria-labelledby="title desc">
+  <title id="title">Ride offer and durable assignment flow</title>
+  <desc id="desc">A matcher finds candidates and sends a time-bound offer. Driver acceptance conditionally creates one active assignment; timeout or a losing acceptance leaves the durable state unchanged.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 18px; }
+    .title { font-size: 24px; font-weight: 700; }.box { stroke: #475569; stroke-width: 2; rx: 8; }
+    .step { fill: #dbeafe; }.decision { fill: #fef3c7; }.durable { fill: #fce7f3; }.arrow { stroke: #334155; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }.dash { stroke-dasharray: 7 5; }.label { font-size: 15px; fill: #475569; }
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
+  <text x="24" y="36" class="title">Offer: lease is temporary; assignment is durable</text>
+  <rect x="25" y="82" width="140" height="82" class="box step"/><text x="47" y="115">Candidate funnel</text><text x="47" y="140" class="label">cells -> ETA rank</text>
+  <rect x="215" y="82" width="140" height="82" class="box decision"/><text x="244" y="115">Reserve / offer</text><text x="240" y="140" class="label">expires at T</text>
+  <rect x="405" y="82" width="140" height="82" class="box step"/><text x="435" y="115">Driver accepts</text><text x="430" y="140" class="label">offerId proof</text>
+  <rect x="595" y="82" width="140" height="82" class="box durable"/><text x="618" y="115">Conditional write</text><text x="618" y="140" class="label">one active driver</text>
+  <path d="M165 123 H215 M355 123 H405 M545 123 H595" class="arrow"/>
+  <rect x="595" y="270" width="140" height="82" class="box durable"/><text x="626" y="303">ASSIGNED</text><text x="617" y="328" class="label">outbox -> notify</text>
+  <rect x="215" y="270" width="140" height="82" class="box decision"/><text x="239" y="303">Timeout / decline</text><text x="239" y="328" class="label">conditional release</text>
+  <path d="M665 164 V270 M285 164 V270 M215 311 C124 244, 125 191, 165 148" class="arrow"/>
+  <path d="M355 311 C473 390, 630 390, 665 352" class="arrow dash"/>
+  <text x="409" y="406" class="label">Late acceptance or timeout re-reads durable state; only one transition can win.</text>
+</svg>

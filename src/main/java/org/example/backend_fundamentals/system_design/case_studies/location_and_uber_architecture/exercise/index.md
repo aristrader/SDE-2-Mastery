@@ -3,7 +3,7 @@ order: 10
 search: false
 ---
 
-# Exercise
+# Uber / Ride-Sharing Exercise
 
 ## Exercise: uber-hld - Design a ride-sharing service
 

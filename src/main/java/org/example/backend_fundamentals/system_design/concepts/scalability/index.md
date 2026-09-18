@@ -117,6 +117,14 @@ a freshness-sensitive decision merely to reduce write QPS. Persist the work reco
 give the caller a status resource or callback, and acknowledge queue delivery only after the worker's
 durable/idempotent effect succeeds.
 
+### SQL versus NoSQL follows the access path
+
+Do not switch database families merely because the problem says “scale.” Start with relational storage when
+transactions, constraints, and joins are central. Consider a key-value, document, wide-column, or graph store when
+the dominant access pattern matches it: high-volume key lookup, flexible documents, ordered event data, or graph
+traversal. The useful interview answer is the read/write shape and its correctness requirement, not a blanket
+“SQL cannot scale” claim.
+
 ## Capacity is not availability
 
 **Scalability** asks whether the system handles more work. **Redundancy** asks whether another component
@@ -182,6 +190,13 @@ to avoid unnecessary disk-backed random I/O: use an index to reduce pages touche
 to retain hot pages, and an application cache only when its consistency cost is justified. Kafka's
 append-oriented log and batched transfer are a useful example of turning many small writes into efficient
 sequential work; they do not make every workload append-only.
+
+An HDD makes unrelated reads especially expensive because its head must seek and wait for platter rotation. An SSD
+removes that mechanical delay, but many separate I/O operations still cost more than a contiguous/batched transfer.
+For a database, a full scan can read many pages efficiently in order, while an indexed point lookup uses an index to
+touch a small number of pages. Indexes add write and storage cost; buffer pools and Redis-like caches can avoid a
+storage read altogether for hot data. This is why a cache can help a random-read workload, but it does not replace
+choosing the right index or defining a stale-read policy.
 
 ## A concise interview delivery
 

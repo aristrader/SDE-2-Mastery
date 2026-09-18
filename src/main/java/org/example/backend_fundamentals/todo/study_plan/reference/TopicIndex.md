@@ -374,6 +374,7 @@ Format: **Topic** → Part NN — secondary cross-references.
 - **Spring AOP / Proxies** → Part 03
 - **Spring Boot actuator** → Part 03, Part 21
 - **Spring Security architecture (filter chain, SecurityContext, @PreAuthorize)** → Part 19
+- **Spatial indexing (bounding boxes, geohash, H3/S2, quadtree, nearby-candidate funnel)** → Part 07, `system_design/concepts/spatial_indexing/`
 - **Skills (reusable agent instructions/workflows)** → Part 23
 - **SQL vs NoSQL (schemaless myth, transactions myth, relational-modeling argument)** → Part 06
 - **SQS — queue types, DLQ, visibility timeout, redrive** → Part 13, Part 10

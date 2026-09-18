@@ -7,7 +7,11 @@ search: false
 
 ## Requirements
 
-Support arbitrary files up to 10 GB across desktop, mobile, and web clients. Users upload/download, share files, retain revisions, and see changes made on another device. Files are encrypted in transit and at rest. Metadata operations such as folder listing or starting an upload should normally complete within about 500 ms; transfer time is handled separately by the data plane. The base answer excludes collaborative text editing; arbitrary-file conflicts are preserved rather than automatically merged.
+Support arbitrary files up to 10 GB across desktop, mobile, and web clients. Users upload/download, share files with
+ordinary ACLs, retain revisions, and see changes made on another device. Files are encrypted in transit and at rest.
+Metadata operations such as folder listing or starting an upload should normally complete within about 500 ms; transfer
+time is handled separately by the data plane. The base answer excludes collaborative text editing and massive
+shared-folder fanout; arbitrary-file conflicts are preserved rather than automatically merged.
 
 ## Derive the design
 
@@ -20,9 +24,9 @@ Upload/download bytes    -> direct client-to-storage transfer
 Remote change awareness  -> event plus notification
 ```
 
-## Architecture visual
+## Upload and sync flow
 
-![Google Drive-style high-level architecture](../assets/google-drive-hld-reference.png)
+![Direct upload and durable device synchronization](../assets/upload-and-sync-flow.svg)
 
 ## APIs and state
 
@@ -36,6 +40,7 @@ POST /v1/files
 POST /v1/files/f_123/uploads/u_456/complete
 GET  /v1/files/f_123/download
 GET  /v1/files/f_123/revisions?limit=20
+GET  /v1/changes?namespaceId=n_123&after=481
 ```
 
 ```text
@@ -46,23 +51,33 @@ UPLOADING -> READY -> DELETED
 
 The API creates state with `POST`. Object-storage completion, not a client request, is authoritative for transition to `READY`.
 
+```text
+Change(namespace_id, sequence, file_id, version, kind, created_at)
+DeviceCursor(device_id, namespace_id, last_applied_sequence)
+```
+
+The cursor advances only after a device has durably applied the ordered changes for one namespace. A notification is a
+hint to read this feed; it is not an acknowledgement that the device already has the bytes.
+
 ## Upload path
 
 1. A sync client watches a local file save and submits metadata plus `baseVersion`.
 2. API service validates ownership/permission and creates a multipart upload session in `UPLOADING`.
 3. Client uploads parts directly to object storage using short-lived scoped authorization and resumes only failed parts.
 4. Storage emits a completion event to a durable queue.
-5. Worker conditionally writes the immutable `FileVersion`, updates `File.currentVersion`, and emits `FileChanged`.
-6. Notification service alerts online devices; offline devices reconcile from retained event/change state.
+5. Worker conditionally writes the immutable `FileVersion`, updates `File.currentVersion`, and appends a
+   namespace-ordered `Change` through the same transaction/outbox boundary.
+6. Notification service alerts online devices; every device reads the retained change feed after its cursor and only
+   advances the cursor after applying the required metadata and bytes.
 
-Use conditional version writes and idempotency so a duplicate completion event cannot create two versions or send an incorrect state transition.
+Use conditional version writes and idempotency so a duplicate completion event cannot create two versions or send an incorrect state transition. Object completion events make the normal path independent of a client callback, while a periodic reconciler repairs abandoned sessions and missed/delayed events.
 
 ## Sync and conflict path
 
 ```text
-Remote FileChanged -> sync client fetches metadata -> compare local version/hashes
+Remote FileChanged -> sync client reads change feed after cursor -> compare local version/hashes
   -> current: do nothing
-  -> stale: direct-download missing blocks -> reconstruct/apply new version
+  -> stale: direct-download missing blocks -> reconstruct/apply new version -> advance cursor
 ```
 
 For an update, require `baseVersion`. If the server current version differs, preserve the submitted update as a conflicted copy rather than silently overwriting data. This is sufficient for arbitrary binary files. OT/CRDT design belongs to a collaborative-document follow-up.

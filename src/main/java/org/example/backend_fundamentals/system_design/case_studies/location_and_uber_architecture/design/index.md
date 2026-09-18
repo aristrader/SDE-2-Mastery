@@ -3,9 +3,7 @@ order: 20
 search: false
 ---
 
-# Design
-
-## Design Uber / Ride-Sharing
+# Design Uber / Ride-Sharing
 
 This is the interview blueprint for a ride-sharing backend. Keep the first version focused on ride request, nearby driver discovery, matching, trip lifecycle, and tracking. Payments, fraud, promotions, and support can be follow-ups.
 
@@ -109,6 +107,7 @@ Rider(rider_id, ...)
 FareQuote(fare_quote_id, rider_id, pickup, dropoff, vehicle_type, estimated_fare, expires_at)
 Ride(ride_id, rider_id, driver_id, pickup, dropoff, status, offer_expires_at, created_at)
 RideEvent(ride_id, event_type, timestamp, actor_id)
+ActiveAssignment(driver_id unique, ride_id, offer_id, state, expires_at)
 ```
 
 Hot location store:
@@ -204,7 +203,7 @@ reserve driver if status == AVAILABLE
 set status = RESERVED for rideId
 ```
 
-This can be done with a DB conditional update, Redis Lua script, or a per-driver ownership service. The key is compare-and-set semantics.
+This can be done with a DB conditional update, Redis Lua script, or a per-driver ownership service. The key is compare-and-set semantics. The short-lived reservation prevents duplicate offers; it is not the final assignment authority.
 
 ### Stale drivers
 
@@ -248,13 +247,11 @@ Candidate discovery is eventually consistent: two matching workers can see the s
 1. Worker selects the next ranked driver.
 2. Acquire lease atomically: SET driver-lock:{driverId} {rideId} NX PX 5s.
 3. Only the lease holder sends that driver an offer.
-4. On acceptance, conditionally persist:
-   driver AVAILABLE/RESERVED -> ASSIGNED for this ride
-   ride MATCHING -> ASSIGNED with this driver
+4. On acceptance, conditionally persist an `ActiveAssignment` row for the driver and update the matching ride only if its `offerId` still matches. A uniqueness rule for nonterminal assignments makes one durable winner.
 5. Release the lease; the durable assignment, not the lease, now prevents reuse.
 ```
 
-The acceptance endpoint must be idempotent and verify that the offer still belongs to that ride. A lease timeout is not proof that no assignment succeeded: a late accept must read the durable ride and driver state before changing anything.
+The acceptance endpoint must be idempotent and verify that the offer still belongs to that ride. A lease timeout is not proof that no assignment succeeded: a late accept must read the durable ride and assignment state before changing anything.
 
 For an interview, choose one offer strategy and state it clearly:
 

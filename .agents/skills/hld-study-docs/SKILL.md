@@ -72,6 +72,13 @@ Before finalizing, check that the rewritten page can answer the same useful ques
 what is being designed, the normal path, pressure points, chosen trade-offs, and failure recovery. Add a
 compact further-reading link only when it is useful to the learner and was actually consulted.
 
+## Source-preservation gate
+
+Before a structural rewrite, inventory each distinct source claim, example, estimate, misconception, diagram,
+failure mode, and follow-up. Map each item to the revised page, a clearly linked destination module, or an explicitly
+named interview-scope cut with a reason. Recheck the map after drafting. A shorter page, clearer flow, or Git history
+does not prove that reusable study material survived.
+
 ## Required HLD depth
 
 - Tie every deep dive to a concrete pressure: hot read/write path, correctness conflict, queue backlog, locality query, dependency failure, or cost.

@@ -14,6 +14,10 @@ Clarify the following before drawing components:
 - What file-size limit, client platforms, encryption, version-history, sharing, and regional requirements apply?
 - Can we use managed object storage and its multipart upload API? The default interview answer is yes.
 
+The base answer supports a user's files and ordinary ACL-based sharing. Very large shared folders, organization-wide
+membership changes, and real-time collaborative editing are separate fanout/consistency problems; do not imply they
+are solved merely because `FilePermission` exists.
+
 For the book's estimate, assume 50M registered users, 10M DAU, two 500 KB uploads per daily user, and a 1:1 read/write ratio. That gives about 240 average upload requests per second and 480 peak. The useful observation is not the exact number: file systems must estimate upload/download bandwidth and storage growth as well as metadata QPS. A workload can have modest request QPS but enormous byte throughput.
 
 For a different interview assumption, 10M DAU with 10% of users uploading 1 GB per day produces roughly 1 PB of new bytes per day. That is intentionally an aggressive assumption, not a universal Dropbox number. State the assumption, calculate its consequence, and call out that byte throughput and storage growth, rather than only API QPS, drive the design. A reasonable control-plane target is that metadata operations such as listing a folder or obtaining an upload session complete within about 500 ms; large-file transfer time is governed by the data plane instead.
@@ -28,7 +32,7 @@ Data plane:    client <-> object storage -> direct multipart upload and direct d
 Sync plane:    durable file-change event -> notification -> device sync client pulls metadata and bytes
 ```
 
-![Original file-sync flow](./assets/file-sync-flow.svg)
+![File-sync architecture](./assets/file-sync-architecture.svg)
 
 The API tier must never relay a 10 GB upload. It authenticates the caller, creates metadata and a short-lived scoped upload authorization, then the client transfers bytes directly to object storage. A notification means only "something changed"; synchronization is the later metadata comparison and download of the required data.
 
@@ -53,18 +57,29 @@ FileVersion(file_id, version, base_version, object_key, size_bytes, checksum, cr
 FileBlock(version_id, ordinal, block_hash, object_key, size_bytes)
 FilePermission(file_id, principal_id, role)
 Device(device_id, user_id, push_id, last_seen_change)
+Change(namespace_id, sequence, file_id, version, kind, created_at)
+DeviceCursor(device_id, namespace_id, last_applied_sequence)
 ```
 
 `FilePermission` represents sharing and roles such as owner, read, and write. `FileVersion` is append-only, which preserves revision history and makes a completed version immutable. A system without version history can keep only `current_version`, but the separate table is valuable for restore, audit, and conflicts.
 
+`Change` is the durable sync feed, ordered within one namespace rather than globally. `DeviceCursor` records the
+last sequence a particular device applied for that namespace. A push notification does not advance this cursor: only
+the sync client's successful metadata reconciliation does. This avoids treating a best-effort notification as proof
+that a device is current.
+
+For ordinary sharing, the metadata service authorizes reads and writes from `FilePermission`, and permission changes
+also create a recipient-visible change. A revocation stops future server-authorized downloads; it cannot erase bytes a
+device was already allowed to keep locally. Large shared-folder fanout needs its own delivery/ACL-indexing design.
+
 ## Upload and update flow
 
 1. The client detects a local save through its filesystem watcher and calls `POST /files` or `POST /files/{id}/uploads` with the version it edited from.
-2. The API authenticates and authorizes the request, creates an `UPLOADING` record and multipart upload session, then returns an upload ID and scoped pre-signed URLs or credentials.
+2. The API authenticates and authorizes the request, creates an `UPLOADING` record and multipart upload session, then returns an upload ID and scoped pre-signed URLs or credentials. The grant is limited to one server-generated object key, short expiry, expected size, and allowed content type.
 3. The client splits a large file into upload parts and sends them directly to object storage. Completed parts survive a network failure; only failed or missing parts are retried.
 4. Object storage emits a durable completion event after multipart finalization. A worker validates object size/checksum, writes the new version and block mapping, and changes state to `READY`.
 5. The worker publishes `FileChanged(fileId, version)`. It must be idempotent because object-storage events and queues can be delivered more than once.
-6. The notification service tells relevant online devices to sync. Offline devices discover retained changes when they reconnect.
+6. The worker appends a `Change(namespaceId, sequence, fileId, version)` record in the same durable metadata transaction or outbox flow, then publishes a notification. Online devices are prompted to sync; offline devices read the retained change feed when they reconnect.
 
 ```text
 POST /files/{fileId}/upload-sessions  -> uploadId + direct multipart authorization
@@ -73,7 +88,7 @@ GET  /files/{fileId}/download          -> authorized short-lived direct download
 GET  /files/{fileId}/revisions?limit=20
 ```
 
-A client completion callback is useful for responsiveness but cannot be the sole source of truth: the client can crash after object storage accepted the file. The storage completion event closes that gap. Expire abandoned sessions, clean incomplete parts, and mark the metadata `FAILED` or deleted after a timeout.
+A client completion callback is useful for responsiveness but cannot be the sole source of truth: the client can crash after object storage accepted the file. An object-created/completed multipart event can drive the normal path, but events may be duplicated or delayed, so reconciliation closes the remaining gap. Expire abandoned sessions, clean incomplete parts, and mark the metadata `FAILED` or deleted after a timeout. [Amazon S3 multipart uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html) and [object-created events](https://docs.aws.amazon.com/AmazonS3/latest/userguide/notification-how-to-event-types-and-destinations.html) illustrate these two separate storage capabilities.
 
 ### Chunking is a transfer concern
 
@@ -100,6 +115,15 @@ Device B receives notification -> fetches metadata -> local V5 is stale -> downl
 Local caching is more important than a server-side Redis cache for the basic problem. If the local copy is already current, opening it needs no network round trip. Periodic metadata reconciliation is still useful as recovery when a device was offline or missed a notification; it should not be the primary steady-state sync mechanism.
 
 Long polling is a reasonable default for infrequent server-to-client change hints. WebSocket also works, but its bidirectional capability is not required for the basic sync notification path.
+
+### Notification is not synchronization
+
+The notification contains no file bytes and need not contain full metadata. It means “read your changes after cursor
+`N`.” The sync client calls `GET /changes?namespaceId=...&after=N`, applies each change in namespace-sequence order,
+downloads only the required versions or blocks, and advances its cursor only after the local state is durable. If a
+push is lost, reconnect and periodic reconciliation use the same change feed. This mirrors the public Google Drive
+API model: notifications say changes are available; a client retrieves the actual changes from a paged feed. [Google
+Drive change notifications](https://developers.google.com/workspace/drive/api/guides/manage-changes)
 
 ## Consistency, conflicts, and regions
 
@@ -128,6 +152,10 @@ For multi-region availability, route users to a nearby region, replicate metadat
 | Storage growth | Deduplicate identical blocks within an account, retain a bounded/value-weighted revision history, and tier cold revisions to cheaper storage. |
 
 The book routes uploads through block servers so chunking, compression, and encryption are centralized. A direct-to-object-storage design is usually the simpler modern default because it keeps bytes off application servers. Defend either approach: centralized block servers simplify client logic and enforcement; direct upload reduces a network hop and API bandwidth. In both cases, use HTTPS, encrypted storage, scoped short-lived credentials, and authorization checks before exposing a download.
+
+Keep logical file versions separate from object-store retention. Object-store versioning can retain noncurrent bytes, but
+it has no default retention limit and incurs storage cost; lifecycle policy decides what old revisions remain. [Cloud
+Storage object versioning](https://docs.cloud.google.com/storage/docs/object-versioning)
 
 ## Interview blueprint
 

@@ -66,6 +66,13 @@ client names, internal projects or services, unpublished metrics, architecture, 
 credentials, screenshots, or repository content outside the local workspace. Keep examples neutral unless
 the user explicitly authorizes identifiable context.
 
+## Source-preservation gate
+
+Before a structural rewrite, inventory each distinct source invariant, example, learner question, misconception,
+diagram, test scenario, failure mode, and follow-up. Map each item to the revised page, a clearly linked destination
+module, or an explicitly named interview-scope cut with a reason. Recheck the map after drafting. A shorter page,
+clearer flow, or Git history does not prove that reusable study material survived.
+
 ## Required LLD depth
 
 - Establish invariants before classes: uniqueness, lifecycle, allowed transitions, and concurrent-resource

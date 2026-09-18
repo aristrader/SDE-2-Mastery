@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="470" viewBox="0 0 780 470" role="img" aria-labelledby="title desc">
+  <title id="title">Direct upload and device synchronization flow</title>
+  <desc id="desc">A device creates an upload intent, transfers multipart bytes directly to storage, and a completion worker commits a version and change. A second device reads its change feed and downloads only required data.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 18px; }
+    .title { font-size: 24px; font-weight: 700; }
+    .box { stroke: #475569; stroke-width: 2; rx: 8; }
+    .upload { fill: #fef3c7; } .data { fill: #dcfce7; } .event { fill: #e0e7ff; }
+    .arrow { stroke: #334155; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    .label { font-size: 15px; fill: #475569; }
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
+  <text x="24" y="36" class="title">Upload: bytes direct; completion is durable</text>
+  <rect x="25" y="70" width="128" height="86" class="box upload"/><text x="53" y="105">Device A</text><text x="45" y="131" class="label">save + intent</text>
+  <rect x="195" y="70" width="142" height="86" class="box upload"/><text x="225" y="105">API service</text><text x="205" y="131" class="label">session + grant</text>
+  <rect x="379" y="70" width="152" height="86" class="box data"/><text x="406" y="105">Object storage</text><text x="405" y="131" class="label">multipart bytes</text>
+  <rect x="573" y="70" width="162" height="86" class="box event"/><text x="595" y="105">Completion worker</text><text x="596" y="131" class="label">version + change</text>
+  <path d="M153 113 H195 M337 113 H379 M531 113 H573" class="arrow"/>
+
+  <text x="24" y="245" class="title">Sync: notification prompts a feed read</text>
+  <rect x="25" y="280" width="128" height="86" class="box event"/><text x="43" y="315">Notification</text><text x="50" y="341" class="label">change hint</text>
+  <rect x="195" y="280" width="142" height="86" class="box event"/><text x="215" y="315">Device B</text><text x="211" y="341" class="label">cursor + cache</text>
+  <rect x="379" y="280" width="152" height="86" class="box event"/><text x="404" y="315">Change feed</text><text x="401" y="341" class="label">after cursor N</text>
+  <rect x="573" y="280" width="162" height="86" class="box data"/><text x="598" y="315">Object storage</text><text x="590" y="341" class="label">missing blocks only</text>
+  <path d="M153 323 H195 M337 323 H379 M531 323 H573" class="arrow"/>
+  <text x="25" y="422" class="label">Advance Device B's cursor only after the required metadata and bytes are applied locally.</text>
+</svg>

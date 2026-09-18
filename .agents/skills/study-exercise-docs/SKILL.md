@@ -50,6 +50,13 @@ client names, internal project or service names, unpublished metrics, architectu
 credentials, screenshots, or repository content to an external site or tool. Use neutral examples unless
 the user explicitly authorizes identifiable context.
 
+## Source-preservation gate
+
+Before rewriting an existing exercise or solution, inventory each distinct requirement, constraint, acceptance
+criterion, hint, example, learner misconception, diagram, and follow-up. Map each item to the revised exercise,
+solution, or a clearly linked destination page; name and justify every interview-scope cut. Recheck the map after
+drafting. A shorter page, clearer wording, or Git history does not prove that the exercise remains complete.
+
 ## Learning quality
 
 - Ensure the topic doc introduces the mental model and traps before the exercise. Do not make readers discover missing theory while attempting the task.

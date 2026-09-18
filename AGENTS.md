@@ -14,6 +14,9 @@ This is the authoritative agent instruction file for the repo.
 - For substantive study Markdown, prefer targeted patches over delete-and-recreate edits. Preserve distinct
   reasoning, examples, exercises, estimates, and follow-ups in the active docs; Git history is not a substitute
   for preserving useful learner context.
+- Before a structural rewrite, inventory distinct source ideas and map each to the revised page, a linked
+  destination page, or an explicitly named interview-scope cut. Recheck that map after drafting; shorter,
+  cleaner prose never justifies silently losing reusable study material.
 
 ## Local Project Workspace
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="470" viewBox="0 0 780 470" role="img" aria-labelledby="title desc">
+  <title id="title">Ride matching architecture</title>
+  <desc id="desc">Driver location updates populate a live spatial index. A ride request selects candidates, obtains ETA ranking, and transitions a durable ride record before sending a notification.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 18px; }
+    .title { font-size: 24px; font-weight: 700; }.box { stroke: #475569; stroke-width: 2; rx: 8; }
+    .client { fill: #dbeafe; }.live { fill: #dcfce7; }.durable { fill: #fce7f3; }.work { fill: #fef3c7; }
+    .arrow { stroke: #334155; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }.label { font-size: 15px; fill: #475569; }
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
+  <text x="24" y="36" class="title">Ride matching: live locations, durable assignment</text>
+  <rect x="25" y="84" width="125" height="78" class="box client"/><text x="54" y="116">Driver app</text><text x="47" y="140" class="label">GPS updates</text>
+  <rect x="200" y="84" width="145" height="78" class="box work"/><text x="221" y="116">Location ingest</text><text x="218" y="140" class="label">cell + lastSeen</text>
+  <rect x="395" y="84" width="150" height="78" class="box live"/><text x="421" y="116">Spatial index</text><text x="418" y="140" class="label">available drivers</text>
+  <rect x="595" y="84" width="145" height="78" class="box work"/><text x="617" y="116">Matching</text><text x="615" y="140" class="label">candidates + ETA</text>
+  <rect x="25" y="274" width="125" height="78" class="box client"/><text x="56" y="306">Rider app</text><text x="45" y="330" class="label">request ride</text>
+  <rect x="200" y="274" width="145" height="78" class="box work"/><text x="219" y="306">Ride service</text><text x="215" y="330" class="label">quote + request</text>
+  <rect x="395" y="274" width="150" height="78" class="box durable"/><text x="426" y="306">Ride store</text><text x="410" y="330" class="label">offer / assignment</text>
+  <rect x="595" y="274" width="145" height="78" class="box durable"/><text x="621" y="306">Outbox / push</text><text x="618" y="330" class="label">state updates</text>
+  <path d="M150 123 H200 M345 123 H395 M545 123 H595 M150 313 H200 M345 313 H395 M545 313 H595 M345 299 C440 215, 535 205, 625 162 M595 313 C505 402, 266 404, 150 342" class="arrow"/>
+  <text x="357" y="69" class="label">high-write, rebuildable path</text><text x="360" y="261" class="label">correctness path</text>
+  <text x="25" y="426" class="label">The spatial index proposes candidates; the durable ride store decides who is actually assigned.</text>
+</svg>

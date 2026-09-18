@@ -44,6 +44,18 @@ The paired `exercise/` page is attemptable and concise. The paired `design/` pag
 requirements, key API/data shapes, chosen path, and deep-dive decisions; neither tab should duplicate a
 second long-form lesson.
 
+If an inherited case-study page also contains substantial reusable theory—for example spatial indexing, routing, or
+storage mechanics—do not silently compress that theory away to make the case study shorter. Keep the HLD walkthrough
+focused and move the complete interview-relevant explanation, misconceptions, examples, and trade-offs into a linked
+theory module. The case page should point to it explicitly.
+
+## Source-preservation gate
+
+Before a substantial rewrite, inventory each distinct source claim, example, estimate, misconception, diagram, failure
+mode, and follow-up. Map every item to the revised case-study section, a clearly linked theory/design/exercise page, or
+an explicitly named interview-scope cut with a reason. After drafting, recheck the map against the source. Do not use a
+smaller word count, cleaner narrative, or Git history as evidence that material was preserved.
+
 ## Depth and decision rules
 
 - Requirements should reveal the hard part. Mark extras out of scope instead of solving every product feature.
