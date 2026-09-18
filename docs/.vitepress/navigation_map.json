@@ -926,7 +926,7 @@
             "link": "/system_design/concepts/",
             "items": [
               {
-                "text": "Scalability, Redundancy, and Sequential vs Random Access",
+                "text": "Scalability, Redundancy, and Storage Access Patterns",
                 "link": "/system_design/concepts/scalability/"
               },
               {
@@ -973,7 +973,7 @@
             "link": "/system_design/components/",
             "items": [
               {
-                "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+                "text": "Load Balancing — Routing, Health, and the Load-Balancer Boundary",
                 "link": "/system_design/components/load_balancing/"
               },
               {
@@ -1039,7 +1039,7 @@
             "collapsed": true
           },
           {
-            "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+            "text": "Clustering: Cooperating Nodes, Failure Detection, and Failover",
             "link": "/system_design/clustering/"
           },
           {
@@ -7110,7 +7110,7 @@
             },
             "items": [
               {
-                "text": "Scalability, Redundancy, and Sequential vs Random Access",
+                "text": "Scalability, Redundancy, and Storage Access Patterns",
                 "link": "/system_design/concepts/scalability/",
                 "order": 10,
                 "schema": "system-design",
@@ -7266,7 +7266,7 @@
             },
             "items": [
               {
-                "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+                "text": "Load Balancing — Routing, Health, and the Load-Balancer Boundary",
                 "link": "/system_design/components/load_balancing/",
                 "order": 10,
                 "schema": "system-design",
@@ -7480,7 +7480,7 @@
             ]
           },
           {
-            "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+            "text": "Clustering: Cooperating Nodes, Failure Detection, and Failover",
             "link": "/system_design/clustering/",
             "order": 40,
             "schema": "system-design",
@@ -10299,7 +10299,7 @@
       "link": "/system_design/concepts/"
     },
     {
-      "text": "Scalability, Redundancy, and Sequential vs Random Access",
+      "text": "Scalability, Redundancy, and Storage Access Patterns",
       "link": "/system_design/concepts/scalability/"
     },
     {
@@ -10343,7 +10343,7 @@
       "link": "/system_design/components/"
     },
     {
-      "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+      "text": "Load Balancing — Routing, Health, and the Load-Balancer Boundary",
       "link": "/system_design/components/load_balancing/"
     },
     {
@@ -10403,7 +10403,7 @@
       "link": "/system_design/patterns/proximity_services/"
     },
     {
-      "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+      "text": "Clustering: Cooperating Nodes, Failure Detection, and Failover",
       "link": "/system_design/clustering/"
     },
     {
@@ -20355,7 +20355,7 @@
       }
     },
     "/system_design/concepts/scalability/": {
-      "text": "Scalability, Redundancy, and Sequential vs Random Access",
+      "text": "Scalability, Redundancy, and Storage Access Patterns",
       "link": "/system_design/concepts/scalability/",
       "pageType": "theory",
       "parentLink": "/system_design/concepts/scalability/",
@@ -20369,7 +20369,7 @@
       }
     },
     "/system_design/concepts/scalability/exercise/": {
-      "text": "Scalability, Redundancy, and Sequential vs Random Access",
+      "text": "Scalability, Redundancy, and Storage Access Patterns",
       "link": "/system_design/concepts/scalability/exercise/",
       "pageType": "exercise",
       "parentLink": "/system_design/concepts/scalability/",
@@ -20384,7 +20384,7 @@
       "practiceSet": null
     },
     "/system_design/concepts/scalability/design/": {
-      "text": "Scalability, Redundancy, and Sequential vs Random Access",
+      "text": "Scalability, Redundancy, and Storage Access Patterns",
       "link": "/system_design/concepts/scalability/design/",
       "pageType": "design",
       "parentLink": "/system_design/concepts/scalability/",
@@ -20396,7 +20396,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Design</h1>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>Design drill: scale an account API without skipping the trigger</h2>\n<p>An account API currently uses one application process and one primary database. Reads are ten times more</p>\n<p>common than updates; callers tolerate up to one minute of staleness for profile reads but not immediately</p>\n<p>after changing a profile. Request latency rises because repeated reads saturate the primary.</p>\n<pre><code>flowchart LR\n    C[Client] --&gt; A[Stateless API]\n    A --&gt;|cache hit| K[(Cache)]\n    A --&gt;|cache miss or recent write| P[(Primary database)]\n    P --&gt;|commit| A\n    A --&gt;|invalidate or version cache key| K</code></pre>\n<p>Use cache-aside for the stale-tolerant read. Route the read-after-write path to the primary, or return the</p>\n<p>fresh value from the completed write. The cache lowers primary read load; it is not the source of truth.</p>\n<h2>Next design question</h2>\n<p>If primary writes, storage, or a hot partition becomes the limiter, state the shard key before adding</p>\n<p>databases. Explain how a request reaches the right shard and how each shard remains recoverable through</p>\n<p>replication and promotion.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why is the cache lookup not enough after a profile update?</strong></p>\n<p><strong>A.</strong> The cache may still contain the old value; the design needs invalidation/versioning and a</p>\n<p>read-after-write policy.</p>"
     },
     "/system_design/concepts/availability/": {
       "text": "System Availability, Reliability & Fault Tolerance",
@@ -20440,7 +20440,7 @@
         "playground": false,
         "assets": true
       },
-      "referenceHtml": "<h1>Design</h1>\n<p>This page intentionally contains a minimal Draw.io fixture so the system-design diagram viewer can be tested without generating full curriculum content yet.</p>\n<p>&lt;ArchitectureBoard src=&quot;availability-demo.drawio&quot; /&gt;</p>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>Failure boundary</h2>\n<p>The main page explains availability through a single order request. This diagram adds the design question</p>\n<p>that matters: which failures can one healthy replica actually survive?</p>\n<pre><code>flowchart LR\n    C[Client] --&gt; LB[Health-checked load balancer]\n    LB --&gt; A[App A: zone 1]\n    LB --&gt; B[App B: zone 2]\n    A --&gt; DB[(Primary data store)]\n    B --&gt; DB\n    DB -. replicated standby .-&gt; R[(Promotable replica)]</code></pre>\n<p>App A failing should only remove one route. A database failure is different: traffic can recover only after a</p>\n<p>tested promotion path and a correct retry/idempotency policy. The diagram is a baseline, not proof of</p>\n<p>multi-region disaster recovery.</p>\n<h2>Interview prompt</h2>\n<p>&quot;This API has a 99.9% successful-request SLO. Where are its single points of failure, and what would you</p>\n<p>change first?&quot;</p>\n<p>Answer in this order: define the user-facing success SLI, identify the app and database failure domains,</p>\n<p>add independently placed replicas plus health checks, then describe failover and idempotent retries.</p>\n<p>&lt;ArchitectureBoard src=&quot;availability-demo.drawio&quot; /&gt;</p>"
     },
     "/system_design/concepts/resilience/": {
       "text": "Circuit Breaker and Resiliency Patterns",
@@ -20484,7 +20484,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Design</h1>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>Protected downstream call</h2>\n<pre><code>stateDiagram-v2\n    [*] --&gt; Closed\n    Closed --&gt; Open: eligible failures cross threshold\n    Open --&gt; HalfOpen: recovery wait elapses\n    HalfOpen --&gt; Closed: limited probes succeed\n    HalfOpen --&gt; Open: probe fails</code></pre>\n<p>Each allowed call has a bounded timeout. Retrying is only safe when the operation is idempotent or its</p>\n<p>outcome can be reconciled. An open circuit fails fast; a bulkhead separately limits the resources this</p>\n<p>dependency can consume.</p>"
     },
     "/system_design/concepts/cap_pacelc/": {
       "text": "CAP & PACELC",
@@ -20528,7 +20528,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Design</h1>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>Partition-time decision</h2>\n<pre><code>flowchart TD\n    P[Network partition: replica cannot reach quorum] --&gt; I{Would stale or conflicting data break an invariant?}\n    I -- Yes --&gt; CP[Reject or return pending\\nuntil quorum can decide]\n    I -- No --&gt; AP[Serve local value\\nrecord version for reconciliation]\n    CP --&gt; R[Retry with idempotency key after recovery]\n    AP --&gt; M[Converge using explicit merge/conflict rule]</code></pre>\n<p>This is a decision per operation, not a permanent label for an entire application. The reservation write</p>\n<p>may be CP while a catalogue read is AP.</p>\n<h2>Healthy-path decision</h2>\n<p>Even without a partition, synchronous replication can improve read-after-write guarantees at added latency.</p>\n<p>Asynchronous replication lowers the latency but exposes a replication-lag window. That is the PACELC</p>\n<p>&quot;Else&quot; trade-off.</p>"
     },
     "/system_design/concepts/observability/": {
       "text": "SLA, SLO, and SLI: Technical Overview",
@@ -20572,7 +20572,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Design</h1>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>From symptom to cause</h2>\n<pre><code>flowchart LR\n    SLI[Checkout error-rate SLI breaches] --&gt; Alert[Actionable alert]\n    Alert --&gt; Trace[Trace or correlation ID]\n    Trace --&gt; Span[Slow dependency span]\n    Span --&gt; Metrics[Confirm queue age / latency / saturation]\n    Metrics --&gt; Mitigation[Rollback, shed load, or disable optional path]\n    Mitigation --&gt; Verify[Verify SLI recovery]</code></pre>\n<p>Logs carry detailed event context, metrics reveal aggregate change, and traces connect one request across</p>\n<p>boundaries. The flow starts with user impact so a noisy infrastructure signal does not become an incident</p>\n<p>by itself.</p>"
     },
     "/system_design/concepts/observability_operations/": {
       "text": "Observability & Operations (SDE-2 Backend Interview Guide)",
@@ -20659,7 +20659,7 @@
       }
     },
     "/system_design/components/load_balancing/": {
-      "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+      "text": "Load Balancing — Routing, Health, and the Load-Balancer Boundary",
       "link": "/system_design/components/load_balancing/",
       "pageType": "theory",
       "parentLink": "/system_design/components/load_balancing/",
@@ -20673,7 +20673,7 @@
       }
     },
     "/system_design/components/load_balancing/exercise/": {
-      "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+      "text": "Load Balancing — Routing, Health, and the Load-Balancer Boundary",
       "link": "/system_design/components/load_balancing/exercise/",
       "pageType": "exercise",
       "parentLink": "/system_design/components/load_balancing/",
@@ -20688,7 +20688,7 @@
       "practiceSet": null
     },
     "/system_design/components/load_balancing/design/": {
-      "text": "Load Balancer SPOF & The Infinite Recursion Problem",
+      "text": "Load Balancing — Routing, Health, and the Load-Balancer Boundary",
       "link": "/system_design/components/load_balancing/design/",
       "pageType": "design",
       "parentLink": "/system_design/components/load_balancing/",
@@ -20832,7 +20832,7 @@
         "playground": false,
         "assets": true
       },
-      "referenceHtml": "<h1>Design a Distributed Rate Limiter</h1>\n<h2>Problem</h2>\n<p>Design a server-side API rate limiter that protects HTTP APIs from excessive traffic.</p>\n<p>The limiter should:</p>\n<ul>\n<li>enforce limits accurately enough for production APIs</li>\n<li>add very low latency</li>\n<li>work across multiple app servers</li>\n<li>support different rules per user, IP, tenant, API key, endpoint, or global system limit</li>\n<li>return clear throttling responses</li>\n<li>avoid taking the whole service down if limiter storage has trouble</li>\n</ul>\n<h2>Clarify scope</h2>\n<p>Ask these before drawing boxes:</p>\n<ul>\n<li>Are limits per user, IP, API key, tenant, endpoint, or global?</li>\n<li>Is this for one service or many services?</li>\n<li>Are rules static config or dynamically changed by plans/tenants?</li>\n<li>Should rejected requests be dropped, delayed, or queued?</li>\n<li>Is strict accuracy required, or are small approximations acceptable?</li>\n<li>What should happen if Redis or the rate-limit service is unavailable?</li>\n</ul>\n<p>Reasonable assumption for an interview:</p>\n<pre><code>Server-side HTTP API limiter\nDistributed across many app servers\nRedis-backed counters\nReturn 429 for rejected requests\nSupport configurable rules</code></pre>\n<h2>Functional requirements</h2>\n<ul>\n<li>Apply limits by user, IP, API key, tenant, endpoint, or global rule.</li>\n<li>Allow requests under quota.</li>\n<li>Reject or delay requests over quota.</li>\n<li>Return a clear throttling response for HTTP APIs.</li>\n<li>Support different rules for different endpoints/plans.</li>\n<li>Allow rules to change without redeploying every API service.</li>\n</ul>\n<h2>Non-functional requirements</h2>\n<ul>\n<li>Very low added latency because the limiter is on the request path.</li>\n<li>Distributed correctness across many API servers.</li>\n<li>Memory efficient counter storage.</li>\n<li>High availability: limiter failures should not take down the whole API unless the endpoint requires fail-closed behavior.</li>\n<li>Observable: operators must know which rules are rejecting traffic and whether valid users are blocked.</li>\n</ul>\n<h2>Back-of-envelope estimation</h2>\n<p>Use estimates to justify Redis/shared in-memory storage:</p>\n<pre><code>Peak API traffic: 100K requests/sec\nLimiter check per request: 100K checks/sec\nAverage counter key size: ~100 bytes including metadata\nActive identities in a 1-minute window: 10M\nCounter memory: 10M * 100 bytes ~= 1 GB before overhead</code></pre>\n<p>Design implications:</p>\n<p>| Estimate | Implication |</p>\n<p>|----------|-------------|</p>\n<p>| One check per request | Limiter must be in-memory/nearby, not relational DB backed |</p>\n<p>| Many active keys | Use TTL so inactive counters expire automatically |</p>\n<p>| Hot global limits | Watch Redis hot keys and shard high-traffic counters if needed |</p>\n<p>| Multi-region traffic | Decide regional vs global quota accuracy |</p>\n<p>Exact numbers do not matter. The interview point is that the limiter is hot-path infrastructure, so disk-backed writes per request are not acceptable.</p>\n<h2>API sketch</h2>\n<p>External clients mostly see normal API responses plus rate-limit headers:</p>\n<pre><code>HTTP 200 OK\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 42</code></pre>\n<p>When throttled:</p>\n<pre><code>HTTP 429 Too Many Requests\nRetry-After: 30\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 0</code></pre>\n<p>Internal limiter API:</p>\n<pre><code>checkAndConsume(identity, ruleId, cost = 1) -&gt; ALLOW | REJECT</code></pre>\n<p>Rule examples:</p>\n<pre><code>login:user:{email}        -&gt; 5 requests/minute\npost:user:{userId}        -&gt; 2 requests/second\npayments:tenant:{tenant}  -&gt; 100 requests/minute\nglobal:/api/v1/search     -&gt; 10K requests/second</code></pre>\n<h2>Data model</h2>\n<p>Rules:</p>\n<pre><code>Rule(ruleId, dimension, endpoint, algorithm, limit, window, burst, action)</code></pre>\n<p>Runtime counters in Redis:</p>\n<pre><code>rate:{ruleId}:{identity}:{window} -&gt; count/tokens/timestamps\nttl = rule window + small buffer</code></pre>\n<p>For token bucket:</p>\n<pre><code>bucket:{ruleId}:{identity} -&gt; {tokens, lastRefillTimestamp}</code></pre>\n<p>For sliding window log:</p>\n<pre><code>zset:{ruleId}:{identity} -&gt; sorted timestamps</code></pre>\n<h2>High-level architecture</h2>\n<p>![Distributed rate limiter architecture](../assets/rate-limiter-architecture.svg)</p>\n<pre><code>Client\n  ↓\nAPI Gateway / Rate-limit middleware\n  ↓              ↘\nAPI Service       Redis / shared counter store</code></pre>\n<p>Request flow:</p>\n<p>1. Client sends request.</p>\n<p>2. Middleware identifies the rate-limit key: user, IP, API key, tenant, endpoint, or combination.</p>\n<p>3. Middleware loads the applicable rule.</p>\n<p>4. Middleware checks and updates the counter atomically in Redis.</p>\n<p>5. If allowed, request goes to API service.</p>\n<p>6. If rejected, middleware returns <code>429 Too Many Requests</code>.</p>\n<h2>Key design decisions</h2>\n<h3>Gateway vs application service</h3>\n<p>Use a gateway when limits are generic: IP, API key, tenant plan, endpoint quota.</p>\n<p>Use app-service logic when the rule needs domain context: &quot;verified sellers can publish more listings&quot; or &quot;KYC vendor calls are limited by partner contract.&quot;</p>\n<p>Many real systems do both:</p>\n<pre><code>Gateway: broad abuse/cost limits\nService: domain-specific limits</code></pre>\n<h3>Algorithm choice</h3>\n<p>For a general API limiter, token bucket is a strong default:</p>\n<ul>\n<li>allows short bursts</li>\n<li>enforces sustained average rate</li>\n<li>memory efficient</li>\n<li>easy to explain</li>\n</ul>\n<p>For strict &quot;no more than N requests in any rolling minute,&quot; use sliding window log or sliding window counter.</p>\n<p>Practical interview answer:</p>\n<pre><code>Use token bucket for most API traffic.\nUse sliding window counter for stricter per-login/per-account abuse rules.\nKeep a global limit to protect downstream systems from aggregate bursts.</code></pre>\n<h3>Counter storage</h3>\n<p>Redis is a common fit because it is fast, shared, and supports TTL:</p>\n<pre><code>key = rate:{rule}:{identity}:{window}\nvalue = counter/tokens/timestamps\nttl = rule window</code></pre>\n<p>Examples:</p>\n<pre><code>rate:login:user:alice@example.com\nrate:post:user:123\nrate:payments:tenant:acme\nrate:global:/api/v1/search</code></pre>\n<p>Do not use a relational database for every rate-limit check. The limiter is on the hot path; disk-backed writes per request are too expensive.</p>\n<h2>Atomicity</h2>\n<p>This naive sequence is unsafe:</p>\n<pre><code>read counter\nif counter &lt; limit\n  write counter + 1</code></pre>\n<p>Two concurrent requests can read the same value and both pass. The decision must be atomic.</p>\n<p>Use:</p>\n<ul>\n<li>Redis <code>INCR</code> + <code>EXPIRE</code> carefully for simple fixed windows</li>\n<li>Lua script for check-and-update as one operation</li>\n<li>Redis sorted sets for sliding-window log</li>\n</ul>\n<h2>Distributed concerns</h2>\n<h3>Synchronization</h3>\n<p>Local counters do not work when requests can hit different servers:</p>\n<pre><code>Request 1 → App A local count = 1\nRequest 2 → App B local count = 1\nRequest 3 → App C local count = 1</code></pre>\n<p>The user effectively gets more quota than intended. Use shared Redis or a dedicated rate-limit service.</p>\n<h3>Hot keys</h3>\n<p>Global limits and massive tenants can overload one Redis key. Mitigations:</p>\n<ul>\n<li>shard the counter key into multiple subkeys</li>\n<li>aggregate approximate counts</li>\n<li>use local pre-checks for cheap rejection</li>\n<li>separate high-traffic tenants/rules</li>\n</ul>\n<h3>Multi-region</h3>\n<p>Global, perfectly accurate, low-latency rate limiting across regions is hard. Pick the tradeoff:</p>\n<p>| Design | Benefit | Tradeoff |</p>\n<p>|--------|---------|----------|</p>\n<p>| Regional counters | Low latency | A user may consume quota in multiple regions |</p>\n<p>| Central global counter | Stronger global quota | Cross-region latency and availability risk |</p>\n<p>| Hybrid local + async global | Practical at scale | Eventually consistent, approximate |</p>\n<p>For most APIs, regional enforcement plus a higher-level global abuse detector is acceptable. For expensive vendor calls, use stricter centralized quota or route the tenant to one owning region.</p>\n<h2>Throttled response</h2>\n<p>Return:</p>\n<pre><code>HTTP 429 Too Many Requests\nRetry-After: 30\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 0</code></pre>\n<p><code>Retry-After</code> is the most client-useful header because it tells clients when to retry.</p>\n<h2>Failure mode</h2>\n<p>Decide by endpoint:</p>\n<ul>\n<li><strong>Fail-open:</strong> allow request if limiter storage is unavailable. Better availability, weaker protection.</li>\n<li><strong>Fail-closed:</strong> reject request if limiter storage is unavailable. Better protection, worse availability.</li>\n</ul>\n<p>For a normal read API, fail-open is often acceptable. For login, payment, SMS, or KYC vendor calls, fail-closed or degraded strict local limits may be safer.</p>\n<h2>Monitoring</h2>\n<p>Watch:</p>\n<ul>\n<li>allowed/rejected request count</li>\n<li>rejection rate per rule</li>\n<li>top limited users/IPs/tenants</li>\n<li>Redis latency/errors</li>\n<li>limiter-added latency</li>\n<li>hot keys</li>\n<li>queue lag if rejected work is queued</li>\n<li>customer-impacting false positives</li>\n</ul>\n<p>If valid users are blocked, rules are too strict. If downstreams still overload, rules or algorithm choice are too loose.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Where should the limiter live?</strong>  </p>\n<p>A. Gateway/middleware for generic rules, service code for domain-specific rules; many systems use both.</p>\n<p><strong>Q. Why Redis?</strong>  </p>\n<p>A. Shared, fast, TTL-friendly, and supports atomic operations for distributed counters.</p>\n<p><strong>Q. Why is local in-memory counting wrong in distributed systems?</strong>  </p>\n<p>A. Requests hit different servers, so each server sees only part of the user's traffic.</p>\n<p><strong>Q. Why does atomicity matter?</strong>  </p>\n<p>A. Concurrent requests can read the same counter and both pass unless check-and-update is atomic.</p>\n<p><strong>Q. What HTTP status code for throttling?</strong>  </p>\n<p>A. <code>429 Too Many Requests</code>, usually with <code>Retry-After</code>.</p>\n<p><strong>Q. Hardest multi-region tradeoff?</strong>  </p>\n<p>A. Global accuracy vs low latency/availability.</p>"
+      "referenceHtml": "<h1>Design a Distributed Rate Limiter</h1>\n<h2>Problem</h2>\n<p>Design a server-side API rate limiter that protects HTTP APIs from excessive traffic.</p>\n<p>The limiter should:</p>\n<ul>\n<li>enforce limits accurately enough for production APIs</li>\n<li>add very low latency</li>\n<li>work across multiple app servers</li>\n<li>support different rules per user, IP, tenant, API key, endpoint, or global system limit</li>\n<li>return clear throttling responses</li>\n<li>avoid taking the whole service down if limiter storage has trouble</li>\n</ul>\n<h2>Clarify scope</h2>\n<p>Ask these before drawing boxes:</p>\n<ul>\n<li>Are limits per user, IP, API key, tenant, endpoint, or global?</li>\n<li>Is this for one service or many services?</li>\n<li>Are rules static config or dynamically changed by plans/tenants?</li>\n<li>Should rejected requests be dropped, delayed, or queued?</li>\n<li>Is strict accuracy required, or are small approximations acceptable?</li>\n<li>What should happen if Redis or the rate-limit service is unavailable?</li>\n</ul>\n<p>Reasonable assumption for an interview:</p>\n<pre><code>Server-side HTTP API limiter\nDistributed across many app servers\nRedis-backed counters\nReturn 429 for rejected requests\nSupport configurable rules</code></pre>\n<h2>Functional requirements</h2>\n<ul>\n<li>Apply limits by user, IP, API key, tenant, endpoint, or global rule.</li>\n<li>Allow requests under quota.</li>\n<li>Reject or delay requests over quota.</li>\n<li>Return a clear throttling response for HTTP APIs.</li>\n<li>Support different rules for different endpoints/plans.</li>\n<li>Allow rules to change without redeploying every API service.</li>\n</ul>\n<h2>Non-functional requirements</h2>\n<ul>\n<li>Very low added latency because the limiter is on the request path.</li>\n<li>Distributed correctness across many API servers.</li>\n<li>Memory efficient counter storage.</li>\n<li>High availability: limiter failures should not take down the whole API unless the endpoint requires fail-closed behavior.</li>\n<li>Observable: operators must know which rules are rejecting traffic and whether valid users are blocked.</li>\n</ul>\n<h2>Back-of-envelope estimation</h2>\n<p>Use estimates to justify Redis/shared in-memory storage:</p>\n<pre><code>Peak API traffic: 100K requests/sec\nLimiter check per request: 100K checks/sec\nAverage counter key size: ~100 bytes including metadata\nActive identities in a 1-minute window: 10M\nCounter memory: 10M * 100 bytes ~= 1 GB before overhead</code></pre>\n<p>Design implications:</p>\n<p>| Estimate | Implication |</p>\n<p>|----------|-------------|</p>\n<p>| One check per request | Limiter must be in-memory/nearby, not relational DB backed |</p>\n<p>| Many active keys | Use TTL so inactive counters expire automatically |</p>\n<p>| Hot global limits | Watch Redis hot keys and shard high-traffic counters if needed |</p>\n<p>| Multi-region traffic | Decide regional vs global quota accuracy |</p>\n<p>Exact numbers do not matter. The interview point is that the limiter is hot-path infrastructure, so disk-backed writes per request are not acceptable.</p>\n<h2>API sketch</h2>\n<p>External clients mostly see normal API responses plus rate-limit headers:</p>\n<pre><code>HTTP 200 OK\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 42</code></pre>\n<p>When throttled:</p>\n<pre><code>HTTP 429 Too Many Requests\nRetry-After: 30\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 0</code></pre>\n<p>Internal limiter API:</p>\n<pre><code>checkAndConsume(identity, ruleId, cost = 1) -&gt; ALLOW | REJECT</code></pre>\n<p>Rule examples:</p>\n<pre><code>login:user:{email}        -&gt; 5 requests/minute\npost:user:{userId}        -&gt; 2 requests/second\npayments:tenant:{tenant}  -&gt; 100 requests/minute\nglobal:/api/v1/search     -&gt; 10K requests/second</code></pre>\n<h2>Data model</h2>\n<p>Rules:</p>\n<pre><code>Rule(ruleId, dimension, endpoint, algorithm, limit, window, burst, action)</code></pre>\n<p>Runtime counters in Redis:</p>\n<pre><code>rate:{ruleId}:{identity}:{window} -&gt; count/tokens/timestamps\nttl = rule window + small buffer</code></pre>\n<p>For token bucket:</p>\n<pre><code>bucket:{ruleId}:{identity} -&gt; {tokens, lastRefillTimestamp}</code></pre>\n<p>For sliding window log:</p>\n<pre><code>zset:{ruleId}:{identity} -&gt; sorted timestamps</code></pre>\n<h2>High-level architecture</h2>\n<p>![Distributed rate limiter architecture](../assets/rate-limiter-architecture.svg)</p>\n<pre><code>Client\n  ↓\nAPI Gateway / Rate-limit middleware\n  ↓              ↘\nAPI Service       Redis / shared counter store</code></pre>\n<p>Request flow:</p>\n<p>1. Client sends request.</p>\n<p>2. Middleware identifies the rate-limit key: user, IP, API key, tenant, endpoint, or combination.</p>\n<p>3. Middleware loads the applicable rule.</p>\n<p>4. Middleware checks and updates the counter atomically in Redis.</p>\n<p>5. If allowed, request goes to API service.</p>\n<p>6. If rejected, middleware returns <code>429 Too Many Requests</code>.</p>\n<pre><code>sequenceDiagram\n    participant Client\n    participant Gate as Rate-limit middleware\n    participant Redis\n    participant API as API service\n\n    Client-&gt;&gt;Gate: Request with identity and endpoint\n    Gate-&gt;&gt;Redis: Atomically check and consume rule key\n    alt token/counter permits request\n        Redis--&gt;&gt;Gate: Allow + remaining / reset\n        Gate-&gt;&gt;API: Forward request\n        API--&gt;&gt;Gate: Normal response\n        Gate--&gt;&gt;Client: Response + rate-limit headers\n    else quota exhausted\n        Redis--&gt;&gt;Gate: Reject + retry time\n        Gate--&gt;&gt;Client: 429 Too Many Requests\n    else Redis unavailable\n        Gate-&gt;&gt;Gate: Endpoint policy: open or closed\n        Gate--&gt;&gt;Client: Forward or controlled rejection\n    end</code></pre>\n<p>The middleware does not retry a rejected request on behalf of the client. It reports the result; a client may</p>\n<p>retry after the advertised interval. If a request times out after being forwarded, normal API idempotency—not</p>\n<p>the limiter—decides whether retrying the business operation is safe.</p>\n<h2>Key design decisions</h2>\n<h3>Gateway vs application service</h3>\n<p>Use a gateway when limits are generic: IP, API key, tenant plan, endpoint quota.</p>\n<p>Use app-service logic when the rule needs domain context: &quot;verified sellers can publish more listings&quot; or</p>\n<p>&quot;a paid provider call has a contractual quota.&quot;</p>\n<p>Many real systems do both:</p>\n<pre><code>Gateway: broad abuse/cost limits\nService: domain-specific limits</code></pre>\n<h3>Algorithm choice</h3>\n<p>For a general API limiter, token bucket is a strong default:</p>\n<ul>\n<li>allows short bursts</li>\n<li>enforces sustained average rate</li>\n<li>memory efficient</li>\n<li>easy to explain</li>\n</ul>\n<p>For strict &quot;no more than N requests in any rolling minute,&quot; use sliding window log or sliding window counter.</p>\n<p>Practical interview answer:</p>\n<pre><code>Use token bucket for most API traffic.\nUse sliding window counter for stricter per-login/per-account abuse rules.\nKeep a global limit to protect downstream systems from aggregate bursts.</code></pre>\n<h3>Counter storage</h3>\n<p>Redis is a common fit because it is fast, shared, and supports TTL:</p>\n<pre><code>key = rate:{rule}:{identity}:{window}\nvalue = counter/tokens/timestamps\nttl = rule window</code></pre>\n<p>Examples:</p>\n<pre><code>rate:login:user:stable-account-key\nrate:post:user:123\nrate:payments:tenant:acme\nrate:global:/api/v1/search</code></pre>\n<p>Do not use a relational database for every rate-limit check. The limiter is on the hot path; disk-backed writes per request are too expensive.</p>\n<h2>Atomicity</h2>\n<p>This naive sequence is unsafe:</p>\n<pre><code>read counter\nif counter &lt; limit\n  write counter + 1</code></pre>\n<p>Two concurrent requests can read the same value and both pass. The decision must be atomic.</p>\n<p>Use:</p>\n<ul>\n<li>Redis <code>INCR</code> + <code>EXPIRE</code> carefully for simple fixed windows</li>\n<li>Lua script for check-and-update as one operation</li>\n<li>Redis sorted sets for sliding-window log</li>\n</ul>\n<h2>Distributed concerns</h2>\n<h3>Synchronization</h3>\n<p>Local counters do not work when requests can hit different servers:</p>\n<pre><code>Request 1 → App A local count = 1\nRequest 2 → App B local count = 1\nRequest 3 → App C local count = 1</code></pre>\n<p>The user effectively gets more quota than intended. Use shared Redis or a dedicated rate-limit service.</p>\n<h3>Hot keys</h3>\n<p>Global limits and massive tenants can overload one Redis key. Mitigations:</p>\n<ul>\n<li>shard the counter key into multiple subkeys</li>\n<li>aggregate approximate counts</li>\n<li>use local pre-checks for cheap rejection</li>\n<li>separate high-traffic tenants/rules</li>\n</ul>\n<h3>Multi-region</h3>\n<p>Global, perfectly accurate, low-latency rate limiting across regions is hard. Pick the tradeoff:</p>\n<p>| Design | Benefit | Tradeoff |</p>\n<p>|--------|---------|----------|</p>\n<p>| Regional counters | Low latency | A user may consume quota in multiple regions |</p>\n<p>| Central global counter | Stronger global quota | Cross-region latency and availability risk |</p>\n<p>| Hybrid local + async global | Practical at scale | Eventually consistent, approximate |</p>\n<p>For most APIs, regional enforcement plus a higher-level global abuse detector is acceptable. For expensive vendor calls, use stricter centralized quota or route the tenant to one owning region.</p>\n<h2>Throttled response</h2>\n<p>Return:</p>\n<pre><code>HTTP 429 Too Many Requests\nRetry-After: 30\nX-RateLimit-Limit: 100\nX-RateLimit-Remaining: 0</code></pre>\n<p><code>Retry-After</code> is the most client-useful header because it tells clients when to retry.</p>\n<h2>Failure mode</h2>\n<p>Decide by endpoint:</p>\n<ul>\n<li><strong>Fail-open:</strong> allow request if limiter storage is unavailable. Better availability, weaker protection.</li>\n<li><strong>Fail-closed:</strong> reject request if limiter storage is unavailable. Better protection, worse availability.</li>\n</ul>\n<p>For a normal read API, fail-open is often acceptable. For login, payment, SMS, or paid external calls,</p>\n<p>fail-closed or degraded strict local limits may be safer.</p>\n<h2>Monitoring</h2>\n<p>Watch:</p>\n<ul>\n<li>allowed/rejected request count</li>\n<li>rejection rate per rule</li>\n<li>top limited users/IPs/tenants</li>\n<li>Redis latency/errors</li>\n<li>limiter-added latency</li>\n<li>hot keys</li>\n<li>queue lag if rejected work is queued</li>\n<li>customer-impacting false positives</li>\n</ul>\n<p>If valid users are blocked, rules are too strict. If downstreams still overload, rules or algorithm choice are too loose.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Where should the limiter live?</strong>  </p>\n<p>A. Gateway/middleware for generic rules, service code for domain-specific rules; many systems use both.</p>\n<p><strong>Q. Why Redis?</strong>  </p>\n<p>A. Shared, fast, TTL-friendly, and supports atomic operations for distributed counters.</p>\n<p><strong>Q. Why is local in-memory counting wrong in distributed systems?</strong>  </p>\n<p>A. Requests hit different servers, so each server sees only part of the user's traffic.</p>\n<p><strong>Q. Why does atomicity matter?</strong>  </p>\n<p>A. Concurrent requests can read the same counter and both pass unless check-and-update is atomic.</p>\n<p><strong>Q. What HTTP status code for throttling?</strong>  </p>\n<p>A. <code>429 Too Many Requests</code>, usually with <code>Retry-After</code>.</p>\n<p><strong>Q. Hardest multi-region tradeoff?</strong>  </p>\n<p>A. Global accuracy vs low latency/availability.</p>"
     },
     "/system_design/patterns/": {
       "text": "Patterns",
@@ -21049,7 +21049,7 @@
       }
     },
     "/system_design/clustering/": {
-      "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+      "text": "Clustering: Cooperating Nodes, Failure Detection, and Failover",
       "link": "/system_design/clustering/",
       "pageType": "theory",
       "parentLink": "/system_design/clustering/",
@@ -21063,7 +21063,7 @@
       }
     },
     "/system_design/clustering/exercise/": {
-      "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+      "text": "Clustering: Cooperating Nodes, Failure Detection, and Failover",
       "link": "/system_design/clustering/exercise/",
       "pageType": "exercise",
       "parentLink": "/system_design/clustering/",
@@ -21078,7 +21078,7 @@
       "practiceSet": null
     },
     "/system_design/clustering/design/": {
-      "text": "Clustering — Cooperating Nodes, Heartbeats, Leader Election",
+      "text": "Clustering: Cooperating Nodes, Failure Detection, and Failover",
       "link": "/system_design/clustering/design/",
       "pageType": "design",
       "parentLink": "/system_design/clustering/",
@@ -21090,7 +21090,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Design</h1>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>Design drill: recover ownership of one partition</h2>\n<p>Design a three-member replicated partition group. One leader accepts writes, two followers replicate, and a</p>\n<p>router sends each key to the current leader. A leader may fail or become unreachable from part of the group.</p>\n<pre><code>flowchart TD\n    H[Members stop hearing from leader] --&gt; S[Record suspected failure]\n    S --&gt; Q{Majority available?}\n    Q --&gt;|yes| E[Elect follower with newer term]\n    E --&gt; F[Fence old term and publish routing update]\n    F --&gt; W[New leader accepts writes]\n    Q --&gt;|no| R[Reject or hold writes safely]</code></pre>\n<p>The key design decision is not the heartbeat itself. It is the promotion authority: only a quorum may move</p>\n<p>ownership. The leader's acknowledgement rule separately decides whether a recently accepted write can be</p>\n<p>lost if it had not reached enough replicas.</p>\n<h2>Interview prompt</h2>\n<p>&quot;A partition leader is unreachable. How do you avoid both a long outage and two leaders accepting writes?&quot;</p>\n<p>Answer with failure suspicion, quorum-based election, a newer term/epoch, routing refresh, and a clear</p>\n<p>acknowledgement/durability boundary.</p>"
     },
     "/system_design/case_studies/": {
       "text": "Case Studies",

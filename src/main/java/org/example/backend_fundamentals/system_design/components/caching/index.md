@@ -4,6 +4,10 @@ order: 20
 
 # Caching, Distributed Cache, Redis Cluster, and Consistent Hashing
 
+Caching is a read-latency and origin-load optimization, not a second source of truth by default. Before
+adding it, state what data may be stale, for how long, and which durable store decides a write. A cache is
+worth its invalidation and failure behavior only when repeated reads or an expensive computation justify it.
+
 ## How it works
 
 ### Why caching exists
@@ -14,6 +18,30 @@ Repeatedly fetching the same data from a database is expensive. With a cache bet
 User → Application → Cache → Database
 ```
 
+For a cache-aside read, the normal ownership is explicit: the application checks the cache, the database
+remains authoritative on a miss, and the application repopulates the cache. A cache restart therefore
+causes extra origin reads, not loss of durable business data.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as Application
+    participant Cache
+    participant DB as Primary database
+
+    Client->>API: Read profile
+    API->>Cache: GET profile key
+    alt cache hit
+        Cache-->>API: Cached value
+    else cache miss
+        Cache-->>API: Missing
+        API->>DB: Read authoritative value
+        DB-->>API: Value
+        API->>Cache: SET value with TTL
+    end
+    API-->>Client: Response
+```
+
 ### Cache hit vs cache miss
 
 - **Hit:** requested data exists in cache — the database is never touched.
@@ -21,10 +49,37 @@ User → Application → Cache → Database
 
 ### Cache invalidation
 
-The hardest problem in caching is keeping cache and database synchronized. If the DB says `name = John` but the cache still says `name = Swapnil`, users see stale data. Common approaches after a DB write:
+The hardest problem in caching is keeping cache and database synchronized. If the DB says `name = John` but the cache still says `name = Swapnil`, users see stale data. Common approaches after a committed DB write:
 
 - **Delete the cache entry** (`UPDATE DB` + `DEL cache_key`) — next read repopulates the cache.
-- **Update the cache entry** (`UPDATE DB` + `UPDATE CACHE`) — both stay synchronized.
+- **Update the cache entry** (`UPDATE DB` + `UPDATE CACHE`) — useful only when its retry behavior is explicit.
+
+Neither sequence is atomic across the database and cache. A process can crash after the database commit and
+before invalidation. The recovery is bounded staleness through TTL plus a retryable invalidation event or
+outbox for changes whose freshness matters. The database still resolves a disagreement.
+
+The normal update path and its failure boundary are different from a read miss:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as Application
+    participant DB as Primary database
+    participant Cache
+
+    Client->>API: Update profile
+    API->>DB: Commit new value
+    DB-->>API: Committed
+    API->>Cache: Delete cached key
+    alt invalidation succeeds
+        Cache-->>API: Deleted
+        API-->>Client: Success
+    else invalidation fails after DB commit
+        API->>API: Retry via outbox/event
+        Note over Cache: Old value can remain until TTL/retry
+        API-->>Client: Success from durable DB commit
+    end
+```
 
 ### Expiration policy
 
@@ -66,9 +121,23 @@ Naming caveat: some system-design material loosely calls the generic "check cach
 
 ## Cache write patterns
 
+Choose the acknowledgement boundary before choosing a name. Cache-aside and write-around leave the database
+as the immediate durable owner. Write-through tries to update both synchronously. Write-back accepts a
+temporary cache-owned state and needs durable protection before it can safely acknowledge important data.
+
+| Pattern | Caller receives success after | Update path | Main recovery concern |
+|---|---|---|---|
+| Cache-aside invalidation | Database commit | DB, then delete cache key | Retry missed invalidation; TTL bounds staleness. |
+| Write-through | Required synchronous writes finish | Cache and DB in defined order | Compensate/retry the partial write; no implicit transaction. |
+| Write-around | Database commit | DB only; later read populates cache | First read after write is a cache miss. |
+| Write-back | Cache accepts the write | Cache, then asynchronous durable write | Do not lose pending writes on cache/worker failure. |
+
 ### Write-through
 
-Writes go to cache and database **synchronously**: write → cache → DB → success. Strong consistency, slower writes, cache always fresh. Good when consistency matters.
+Writes go to cache and database **synchronously**: write → cache → DB → success. It can reduce stale
+cache reads, but two independent writes do not automatically provide a distributed transaction or strong
+consistency. Define write ordering, retry behavior, and which store is authoritative after a partial
+failure. It is slower than bypassing the cache.
 
 Use this when stale reads are more damaging than write latency. Example: a user's entitlement/subscription status should not lag behind payment state for long.
 
@@ -86,11 +155,41 @@ Important detail: **Redis does not magically update the database** — a backgro
 
 Use this only when the application can tolerate delayed persistence or has a durable queue/write-ahead mechanism protecting the pending write.
 
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as Application
+    participant Cache
+    participant Queue as Durable work record
+    participant Worker
+    participant DB as Primary database
+
+    Client->>API: Write value
+    API->>Cache: Store new value
+    API->>Queue: Persist pending database write
+    Queue-->>API: Accepted
+    API-->>Client: Accepted write
+    Worker->>Queue: Receive pending write
+    Worker->>DB: Commit idempotently
+    DB-->>Worker: Committed or already applied
+    Worker->>Queue: Acknowledge work
+```
+
+If the design returns success before a durable queue or equivalent record exists, a cache failure can lose an
+accepted write. That may be acceptable for a rebuildable derived value, but not for a business record.
+
 ## Cache eviction
 
 When the cache is full, entries must be removed. **LRU (Least Recently Used)** — removes entries not accessed recently — is the most important policy for interviews. FIFO and others exist but are far less commonly discussed; understanding LRU well is usually sufficient.
 
 Do not run caches at the memory cliff. Keep headroom so traffic spikes, hot-key growth, or failover from another cache node do not immediately trigger mass eviction.
+
+### Stampede, hot key, and cold-start recovery
+
+When a popular key expires, many concurrent misses can hit the database together. Add expiry jitter, let one
+request refresh the key while others wait briefly or receive a stale-allowed value, and limit origin
+concurrency. A cache restart or topology change can create the same cold-cache burst, so protect the origin
+with admission control and warm only the genuinely hot working set.
 
 ## Cache layers
 
@@ -155,6 +254,9 @@ user:2 → slot 7000     Node B → slots 5001–10000
 user:3 → slot 12000    Node C → slots 10001–16383
 ```
 
+Hash slots are Redis Cluster's fixed partitioning scheme. They are not the same mechanism as the generic
+consistent-hash ring below; both distribute keys, but they rebalance and expose routing differently.
+
 ## Consistent hashing
 
 ### The problem with modulo hashing
@@ -202,15 +304,21 @@ Real systems don't place one position per server — each physical node appears 
 
 | Approach | Read speed | Write speed | Consistency | Risk |
 |----------|-----------|-------------|-------------|------|
-| Cache-aside | Fast after warm-up | Fast | Medium | Stale cache |
-| Read-through | Fast | Fast | Medium | Stale cache |
-| Write-through | Very fast reads | Slower writes | High | Low |
-| Write-around | Slower reads after writes | Fast writes | High | Cache misses |
+| Cache-aside | Fast after warm-up | Fast | Depends on invalidation/TTL | Stale cache |
+| Read-through | Fast | Fast | Depends on cache policy | Stale cache |
+| Write-through | Very fast reads | Slower writes | Depends on partial-failure policy | Split cache/DB writes |
+| Write-around | Slower reads after writes | Fast writes | Source of truth stays DB | Cache misses |
 | Write-back | Fast reads | Fastest writes | Eventual | Data loss if cache fails |
 
 ## Good to know
 
 Multiple cache layers (local cache → Redis → database) exist because each solves a different latency/capacity problem — mirroring the CPU's L1 → L2 → L3 hierarchy where closer layers are faster but smaller.
+
+Further reading:
+
+- [Redis: cache-aside][redis-cache-aside]
+
+[redis-cache-aside]: https://redis.io/docs/latest/develop/use-cases/cache-aside/
 
 ## Quick recall
 

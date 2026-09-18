@@ -10,16 +10,20 @@ For focused interview playbooks, see [scaling reads](/system_design/patterns/sca
 
 ## The decision path
 
-```text
-What is saturated or slow?
-  -> stateless request service: load balance and scale horizontally
-  -> repeated reads: cache, replica, precompute, or a search index
-  -> durable writes: partition, batch only non-live work, or use a write-optimized store
-  -> bursty or slow work: queue, worker pool, deadline, retry policy
-  -> conflicting commands: conditional state transition, unique constraint, or short lease
-  -> locality query: partition/index by locality, then refine candidates
-  -> one region is overloaded or far away: regional ownership and replication
+```mermaid
+flowchart TD
+    S[Name the slow or saturated path] --> Q{What is the pressure?}
+    Q -->|stateless request capacity| A[Load balance and scale API instances]
+    Q -->|repeated reads| R[Cache, replica, precompute, or search index]
+    Q -->|write or storage ceiling| W[Partition or shard by a stable key]
+    Q -->|bursty or slow work| J[Durable queue, workers, deadline, and retry policy]
+    Q -->|conflicting command| C[Conditional transition, constraint, or short lease]
+    Q -->|nearby-candidate query| G[Spatial index then exact filter]
+    Q -->|region latency or outage| M[Regional ownership and replication]
 ```
+
+For each branch, say why the simple path fails, what new state or coordination is introduced, and what
+happens when that new component is unavailable. Do not use the diagram as a component shopping list.
 
 ## Service scaling
 
@@ -72,7 +76,8 @@ recovery after crash/timeout -> idempotency + reconciliation
 ## Geographic and locality scaling
 
 ```text
-location -> cell/index partition -> nearby candidates -> exact filter -> expensive ranking
+location -> cell/index partition -> nearby candidates
+         -> exact filter -> expensive ranking
 ```
 
 - Use a Geohash, H3, S2, or another spatial index to avoid scanning every point.

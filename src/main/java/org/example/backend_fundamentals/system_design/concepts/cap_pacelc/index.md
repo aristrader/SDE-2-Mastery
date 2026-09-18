@@ -17,9 +17,14 @@ Two theorems about the consistency/availability/latency trade-offs distributed s
 
 ### The partition scenario
 
-```text
-Healthy:    Node A <----> Node B
-Partition:  Node A   X    Node B     (both alive, can't communicate)
+```mermaid
+flowchart LR
+    Client[Client] --> A[Replica A]
+    Client --> B[Replica B]
+    A -.- B
+    Note[Partition: both replicas are alive but cannot coordinate]
+    Note -. blocks replication .-> A
+    Note -. blocks replication .-> B
 ```
 
 Write `Balance = 500` lands on A; B never receives it. A read hits B:
@@ -34,6 +39,22 @@ Write `Balance = 500` lands on A; B never receives it. A read hits B:
 
 **Why "CA" doesn't really exist:** you can't drop P in a system that spans a network, so real systems are CP or AP. "CA" only describes a single-node database where partitions aren't a thing.
 
+## Make the choice per operation, and define recovery
+
+Do not label an entire product "CP" or "AP" and stop there. A system may require a consistent conditional
+write for inventory, while serving an eventually consistent product description during the same incident.
+For each operation, state the invariant and the partition-time response:
+
+| Operation | Invariant | Partition-time policy | Recovery |
+| --- | --- | --- | --- |
+| Reserve the last item | Never reserve it twice | Reject or return pending when quorum is unavailable | Retry with the same idempotency key after quorum returns |
+| Read a catalogue description | A brief stale value is acceptable | Serve a local replica | Replicas converge; invalidate stale cache if needed |
+
+An AP policy is not permission to lose conflicts silently. It needs a merge rule, a version or conflict
+record, and a way to reconcile after communication resumes. A CP policy is not automatically safe either:
+the caller must see a retryable/pending response rather than treating an unavailable quorum as a completed
+business action.
+
 ### Eventual consistency
 
 The typical AP convergence model: replicas are briefly out of sync, then converge once messages flow again.
@@ -42,6 +63,10 @@ The typical AP convergence model: replicas are briefly out of sync, then converg
 just after write:  Node1 = new,  Node2 = old
 later:             Node1 = new,  Node2 = new   (converged)
 ```
+
+The convergence step needs an explicit rule. Last-write-wins is sometimes acceptable for a preference;
+it is not automatically safe for a counter, reservation, or transfer. If the business invariant cannot
+survive concurrent updates, choose a coordination mechanism for that operation instead of calling it AP.
 
 ## PACELC — the practical extension
 
@@ -63,6 +88,19 @@ Else:          choose Latency       or Consistency      (the new part)
 - **PC/EC** — on partition favor Consistency; else favor Consistency over latency (traditional RDBMS, strongly-consistent stores).
 
 **Memory hook:** CAP = the failure-time trade-off only; PACELC = failure-time trade-off **plus** the normal-time latency-vs-consistency trade-off.
+
+## Interview delivery
+
+Start with the data invariant, not the acronym: "During a partition, this reservation cannot safely be
+accepted without its quorum, so I choose a CP write and return pending. Reads of the catalogue can use a
+local replica because a short stale window is acceptable." Then name the healthy-path choice: synchronous
+replication buys a stronger read-after-write guarantee at added latency; asynchronous replication lowers
+latency but exposes a replication lag window.
+
+## Further reading
+
+- [AWS: CAP theorem](https://docs.aws.amazon.com/whitepapers/latest/availability-and-beyond-improving-resilience/cap-theorem.html)
+- [Google SRE: critical state and CAP](https://sre.google/sre-book/managing-critical-state/)
 
 ## Gotchas / Trick questions
 
@@ -90,4 +128,3 @@ A. PA/EL favors availability on partition and latency otherwise (Cassandra/Dynam
 
 **Q. Is CAP Consistency the same as ACID Consistency?**
 A. No — CAP-C = nodes agree on the latest write; ACID-C = a transaction keeps constraints valid.
-

@@ -4,6 +4,11 @@ order: 40
 
 # Rate Limiting
 
+Rate limiting is an admission-control decision: before accepting work, decide whether this caller and this
+request class may consume scarce capacity now. Start from the downstream that must be protected and state
+whether rejected work should receive `429`, wait in a bounded queue, or be handled by a separate asynchronous
+workflow. Do not treat every overload problem as a token-bucket problem.
+
 ## How it works
 
 A rate limiter controls how many requests a client, user, tenant, IP, API key, or whole system can send in a time period.
@@ -21,7 +26,7 @@ The point is not only abuse prevention. Rate limiting also protects cost, downst
 
 - **Prevent abuse:** bots, scraping, credential stuffing, accidental loops.
 - **Protect availability:** reject excess work before it overloads API servers or databases.
-- **Control cost:** paid vendor calls, payment checks, OCR/face-match APIs, SMS/email providers.
+- **Control cost:** paid verification calls, payment checks, SMS/email providers, and compute-heavy actions.
 - **Preserve fairness:** one tenant or user should not consume all shared capacity.
 
 ## Multi-Dimensional Rate Limits
@@ -39,14 +44,11 @@ Login endpoints are prime targets for attacks (credential stuffing, brute forcin
 2. **Per-Account limit:** Stops attackers rotating through 1,000 IPs to attack a single target account (since email/username is provided before auth succeeds).
 3. **Global limit:** Stops massive distributed botnets from overwhelming the service even if neither IP nor Account limits are breached individually.
 
-## CAPTCHA as Rate Limiting
-The primary goal of CAPTCHA is not simply to "prove you are human", but to **make automated abuse expensive**. It slows down request rates drastically by forcing 3-10 seconds of human/ML work per action. 
-Modern CAPTCHA (like reCAPTCHA v3) uses a **Risk Scoring Model** (0.0 to 1.0) instead of direct puzzles, evaluating:
-- Mouse movement (smoothness, acceleration)
-- Click behavior and timing
-- Browser fingerprint (fonts, plugins, language)
-- IP Reputation (residential vs datacenter/Tor)
-- Cookie history
+## Adaptive challenges
+
+CAPTCHA or another risk challenge is not a replacement for a server-side limiter. It is an additional,
+selective control after suspicious behavior or repeated limit failures. It raises the cost of automated abuse
+but has accessibility, UX, and false-positive costs, so apply it to a narrow risky flow rather than every API.
 
 ## Backpressure vs Rate Limiting
 Controlling Kafka consumer counts or enforcing queues is conceptually similar to rate limiting (protecting downstream systems from load), but is classified differently.
@@ -76,6 +78,37 @@ Before designing, ask:
 - What happens if Redis/rate-limit storage is unavailable?
 - Do rules change dynamically by plan, tenant, or endpoint?
 
+## One request: allow, reject, or degrade
+
+The limiter has to make a single atomic admission decision before the protected service receives work. A
+per-user rule does not by itself protect the service from the sum of many users, so apply any relevant global
+or downstream budget too.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gate as Gateway or middleware
+    participant Rules
+    participant Store as Shared limiter store
+    participant API as Protected API
+
+    Client->>Gate: Request
+    Gate->>Rules: Resolve applicable limits
+    Gate->>Store: Atomic refill/check/consume
+    alt every rule allows
+        Store-->>Gate: Allow + remaining quota
+        Gate->>API: Forward request
+        API-->>Gate: Response
+        Gate-->>Client: Response + limit headers
+    else a rule rejects
+        Store-->>Gate: Reject + retry time
+        Gate-->>Client: 429 + Retry-After
+    else store unavailable
+        Gate->>Gate: Apply endpoint failure policy
+        Gate-->>Client: Forward (fail-open) or reject (fail-closed)
+    end
+```
+
 ## Common Rate Limiting Algorithms
 
 ![Rate limiting algorithm comparison](./assets/rate-limiting-algorithms.svg)
@@ -99,7 +132,7 @@ Divides the window into discrete buckets (e.g., 0-10 sec, 10-20 sec) and stores 
 
 ### Token Bucket
 Buckets have a fixed **Capacity** and a constant **Refill Rate** (e.g., 10 tokens/sec, max 100).
-- **Gotcha:** Allows burst traffic. If a system is idle overnight, the bucket fills to its max capacity. When traffic spikes, the initial burst is allowed up to the full capacity. Millions of users bursting simultaneously can still overwhelm the backend, which is why a **Global Limit** is strictly necessary alongside user token buckets.
+- **Gotcha:** Allows burst traffic. If a system is idle overnight, the bucket fills to its max capacity. When traffic spikes, the initial burst is allowed up to the full capacity. Aggregate bursts can still overwhelm a downstream. Add a global or downstream-specific budget when that shared capacity needs protection; a per-user bucket alone does not provide it.
 
 Token bucket has two knobs:
 
@@ -107,6 +140,11 @@ Token bucket has two knobs:
 - **Refill rate:** sustained average rate.
 
 Use token bucket when short bursts are acceptable but sustained abuse is not.
+
+The token-bucket decision is small enough to state precisely: calculate tokens earned since the stored
+timestamp, cap at capacity, consume the request cost only if enough remain, then persist the new token count
+and timestamp atomically. With several app instances, the entire refill-check-consume operation must be one
+shared-store operation; splitting it lets simultaneous requests overspend the bucket.
 
 ### Leaky Bucket
 Incoming requests enter a queue. The system processes them at a strict, constant outgoing rate (the "leak").
@@ -125,9 +163,13 @@ Use leaky bucket when the downstream needs a steady outflow. It smooths bursts, 
 | Leaky bucket | Stable downstream processing rate | Queue delay and stale work |
 
 ## Redis Hot Keys in Rate Limiting
-Redis is frequently used for distributed rate limiting (via `INCR` and `EXPIRE`) because it is fast, in-memory, and atomic. 
+Redis is frequently used for distributed rate limiting because it is fast, shared, and supports atomic
+operations. The whole check-and-update must be atomic; separate `INCR` and `EXPIRE` calls need a safe
+pattern or a script.
 - **Hot Key Problem:** Occurs when a single key (e.g., a global limit counter or a massive tenant's key) receives disproportionate traffic, melting a single Redis node while the rest of the cluster is idle.
-- **Solution:** Key Sharding. Split the hot key into multiple keys (e.g., `limit:1`, `limit:2`, `limit:3`). Traffic distributes across nodes, and the application aggregates the counts when reading.
+- **Mitigation:** shard the key only when an approximate aggregate is acceptable, because aggregation changes
+  the enforcement decision. For a hard global budget, keep one atomic owner or allocate bounded local quotas
+  from a central authority.
 
 ## Distributed design
 
@@ -200,7 +242,8 @@ Decide fail-open vs fail-closed:
 | Fail-open | If limiter storage is down, allow requests | Availability matters more than strict quota |
 | Fail-closed | If limiter storage is down, reject requests | Abuse/cost/security risk matters more |
 
-Many product APIs fail-open for ordinary traffic but fail-closed for expensive or risky endpoints like payment, login abuse, SMS, or vendor KYC calls.
+Many product APIs fail-open for ordinary traffic but fail-closed for expensive or risky endpoints such as
+payment, login, SMS, or external verification calls.
 
 ## Monitoring
 
@@ -221,7 +264,7 @@ If too many valid requests are rejected, rules are too strict. If flash-sale tra
 A. Attackers can easily bypass it by rotating through proxy IPs. A per-account limit based on the submitted email/username is required alongside it.
 
 **Q. What is the fundamental purpose of a CAPTCHA?**
-A. To make automated abuse (credential stuffing, scraping) economically unviable by forcing 3-10 seconds of human effort per request, effectively dropping the request rate.
+A. To add selective friction to suspicious traffic. It complements server-side limits; it does not enforce a quota by itself.
 
 **Q. Token Bucket vs Leaky Bucket — what happens to a sudden traffic burst?**
 A. Token Bucket allows the burst to pass immediately (up to bucket capacity). Leaky Bucket queues the burst and processes it at a strict, constant rate.
@@ -239,8 +282,9 @@ A. `429 Too Many Requests`, ideally with limit/remaining/retry headers.
 A. Fail-open allows traffic if the limiter fails; fail-closed rejects traffic if the limiter fails.
 
 **Q. What is the Redis "Hot Key" problem and how is it mitigated?**
-A. A single key receives massive traffic, overloading one node in the cluster. Mitigated by key sharding (e.g., appending `:1`, `:2` to the key) to distribute load, then aggregating on read.
+A. A single key receives massive traffic, overloading one node. Sharding can distribute it when approximate enforcement is acceptable; a hard global limit needs one atomic owner or bounded quota allocation.
 
 ## Resources / References
-- [HelloInterview: Distributed Rate Limiter System Design](https://www.hellointerview.com/learn/system-design/problem-breakdowns/distributed-rate-limiter) - Excellent end-to-end breakdown of the HLD interview for a distributed rate limiter.
-- [YouTube: Distributed Rate Limiter](https://www.youtube.com/watch?v=MIJFyUPG4Z4&t=752s) - Video walkthrough of the distributed rate limiter architecture.
+
+- [Hello Interview: distributed rate limiter](https://www.hellointerview.com/learn/system-design/problem-breakdowns/distributed-rate-limiter)
+- [Redis: rate limiter](https://redis.io/docs/latest/develop/use-cases/rate-limiter/)

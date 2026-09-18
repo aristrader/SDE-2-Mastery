@@ -4,7 +4,10 @@ order: 50
 
 # SLA, SLO, and SLI: Technical Overview
 
-These concepts are critical for defining, tracking, and maintaining service quality and reliability. They are widely used in Business, Site Reliability Engineering (SRE), and Operations.
+Start with one user operation, not an infrastructure graph. For a checkout API, a useful question is:
+"Did a valid request receive a durable result within the promised time?" The answer can become an SLI.
+CPU, heap, and database connection counts help diagnose that outcome, but they are not automatically the
+user-facing measure of service quality.
 
 ## Core Definitions
 
@@ -34,6 +37,42 @@ An SLI is the actual quantitative measurement of the service's performance. It i
   * **Error Rate:** (e.g., 0.02%)
   * **Throughput:** (e.g., 5000 requests/sec)
   * **Incident Response Time:** (e.g., 3 minutes)
+
+## Define an SLI before choosing a target
+
+An SLI needs an explicit numerator, denominator, window, and treatment of ambiguous outcomes. For example:
+
+```text
+availability SLI = successful eligible checkout requests
+                   / all eligible checkout requests
+window           = rolling 28 days
+success          = durable accepted result in under 1 second
+excluded         = malformed requests rejected before normal processing
+```
+
+The exact rule is product-specific. Counting every HTTP 200 as success can hide accepted-but-never-finished
+work; counting caller cancellations as server failure can incorrectly burn the budget. Pick the definition
+that matches what the user experiences, then keep it stable enough to compare periods.
+
+## Error budget closes the loop
+
+For a 99.9% availability SLO, the allowed failure fraction is 0.1%. That allowance is the **error budget**.
+It is not a target to waste; it is a decision input. If the service is spending budget too quickly, pause
+risky releases and prioritise reliability work. If it has budget remaining, controlled changes are
+reasonable. This turns "be reliable" into a repeatable engineering decision.
+
+```mermaid
+flowchart LR
+    U[User-visible requests] --> Measure[Measure the defined SLI]
+    Measure --> Compare{SLO and error-budget burn acceptable?}
+    Compare -- Yes --> Change[Continue controlled delivery]
+    Compare -- No --> Protect[Pause risky change and mitigate]
+    Protect --> Verify[Verify recovery with the same SLI]
+    Verify --> Measure
+```
+
+The loop starts with a pre-defined SLI. An alert on high CPU can help diagnose a breach, but it cannot by
+itself decide whether to halt a release because it does not say whether users received the promised outcome.
 
 ---
 
@@ -66,3 +105,20 @@ For an SLO of 99.9% uptime over a standard 30-day month:
 2. **Misconception:** SLA, SLO, and SLI are independent, unrelated concepts.
    * **Correction:** They depend on one another. The SLA dictates the business promise, which defines the target SLO, which is monitored using measured SLIs.
 
+## Further reading
+
+- [Google SRE: service level objectives](https://sre.google/sre-book/service-level-objectives/)
+
+## Quick recall
+
+**Q. SLI, SLO, and SLA in one line each?**
+A. SLI is the measured indicator, SLO its target, and SLA the external agreement with consequences.
+
+**Q. Why is CPU not a good availability SLI?**
+A. It measures a component condition, not whether users received the promised outcome.
+
+**Q. What is an error budget?**
+A. The fraction of SLO-allowed failure remaining in its measurement window.
+
+**Q. Why define an SLI before an SLO?**
+A. A target is meaningless until success, denominator, window, and exclusions are unambiguous.

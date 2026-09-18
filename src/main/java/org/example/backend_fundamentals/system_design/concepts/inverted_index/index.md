@@ -109,6 +109,38 @@ The basic index answers: "Which documents contain these terms?" It does not prov
 - A phrase query such as `"distributed messaging"` additionally needs the position of each term in a document. The engine checks that `distributed` is immediately followed by `messaging`.
 - Ranking uses a separate scorer such as BM25, TF-IDF, or an ML model. In an SDE-2 interview, say: **the inverted index produces candidate documents; a ranking algorithm orders them.**
 
+## Freshness is a separate contract
+
+Indexing is usually asynchronous: the source document is accepted first, then an indexer analyzes it and
+writes its terms. That makes the write path fast and isolates search work, but a search immediately after a
+write can miss the document until indexing finishes. State that freshness window explicitly instead of
+claiming read-after-write search consistency.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as Document API
+    participant Store as Source store
+    participant Queue as Index events
+    participant Indexer
+    participant Search as Search index
+
+    Client->>API: create document
+    API->>Store: durable write
+    API->>Queue: publish document version
+    API-->>Client: accepted
+    Indexer->>Queue: consume versioned event
+    Indexer->>Search: upsert terms for that version
+```
+
+Use a document version or idempotency key so an older delayed event cannot overwrite newer indexed content.
+Monitor queue age and indexing failures; retrying an idempotent upsert is safe, while silently dropping an
+event leaves the source store and search results permanently inconsistent.
+
+## Further reading
+
+- [Elasticsearch: match phrase query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query-phrase)
+
 ## Interview boundary
 
 You should be able to explain:
@@ -146,5 +178,8 @@ A. No. It retrieves candidates; a separate ranking layer orders them.
 **Q. What extra data enables phrase search?**  
 A. The positions of each term within each document.
 
-**Q. How do Elasticsearch, Lucene, and the inverted index relate?**  
+**Q. How do Elasticsearch, Lucene, and the inverted index relate?**
 A. Elasticsearch distributes search across shards; Lucene on each shard builds and queries the inverted index.
+
+**Q. Why can a newly created document be absent from search?**
+A. An asynchronous indexing pipeline may not have processed its version yet; that is a freshness contract, not a retrieval failure.

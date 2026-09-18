@@ -24,24 +24,25 @@ Scale assumptions:
 - 200K peak RPS during traffic spikes.
 - 20M registered users.
 - 100K partner API keys.
-- Some endpoints call paid third-party vendors.
+- Some endpoints call paid third-party providers.
 
 Tasks:
 
 1. Clarify which limits you would enforce first and why.
 2. Draw the high-level architecture.
-3. Choose an algorithm for normal traffic and explain why.
-4. Choose an algorithm for login/abuse-heavy endpoints and explain why.
-5. Define Redis keys and TTLs for at least three rules.
-6. Explain how you avoid race conditions.
-7. Explain how you handle hot keys.
-8. Decide fail-open vs fail-closed for:
+3. Trace one allowed request, one rejected request, and one limiter-store failure.
+4. Choose an algorithm for normal traffic and explain why.
+5. Choose an algorithm for login/abuse-heavy endpoints and explain why.
+6. Define Redis keys and TTLs for at least three rules.
+7. Explain how you avoid race conditions.
+8. Explain how you handle hot keys.
+9. Decide fail-open vs fail-closed for:
    - public product search
    - login
    - payment creation
-   - KYC vendor verification
-9. Specify the HTTP response and headers for throttled requests.
-10. List the metrics and alerts you would add.
+   - paid external verification
+10. Specify the HTTP response and headers for throttled requests.
+11. List the metrics and alerts you would add.
 
 ## Acceptance criteria
 
@@ -51,6 +52,7 @@ A good answer includes:
 - Redis or equivalent shared fast store
 - atomic check-and-update
 - token bucket or sliding-window tradeoff
+- visible allow, reject, and limiter-failure paths
 - clear `429` behavior
 - fail-open/fail-closed reasoning
 - monitoring of rejection rates, hot keys, and limiter latency

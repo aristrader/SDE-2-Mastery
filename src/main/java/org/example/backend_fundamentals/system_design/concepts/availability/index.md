@@ -4,6 +4,14 @@ order: 20
 
 # System Availability, Reliability & Fault Tolerance
 
+Start with one user-visible operation: a client sends `POST /orders` and expects either one accepted
+order or a clear failure. Availability is not "number of healthy machines"; it is the fraction of
+well-formed operations for which the service can give that promised outcome over a stated window.
+
+The first design is one application instance and one database. It is easy to reason about, but either
+machine is a single point of failure. Add replicas only when the allowed interruption, measured by an
+SLI/SLO, justifies the coordination and failover cost.
+
 ## Measuring availability
 
 **Formula:** `Availability = Uptime / (Uptime + Downtime)`
@@ -142,6 +150,49 @@ When asked "How can we improve availability?", SDE-2s are expected to identify s
 
 Key insight: modern distributed systems **assume hardware failures will happen**. The goal is not preventing all failures — it's *surviving* them. CDNs, Caching, Clustering, and DNS Routing are all fundamentally techniques to improve Latency and **Availability**.
 
+## Redundancy has a failure boundary
+
+Two instances improve availability only when their failures are sufficiently independent and traffic can
+actually move. Two processes on one host still share the host; replicas in one availability zone can share
+a zone outage; and a healthy standby is useless if promotion, credentials, or DNS routing has never been
+tested.
+
+For the order request, a practical failure path is:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant LB as Load balancer
+    participant A as App instance A
+    participant B as App instance B
+    participant DB as Primary database
+
+    Client->>LB: POST /orders (idempotency key)
+    LB->>A: route request
+    A->>DB: commit order
+    DB-->>A: committed
+    A-->>Client: accepted order
+    Note over A: A becomes unhealthy later
+    Client->>LB: retry with same key
+    LB->>B: health check excludes A
+    B->>DB: read/create by idempotency key
+    B-->>Client: existing accepted order
+```
+
+Health checks should test the capability that matters. A process-level check is enough to remove a dead
+process; it does not prove that a request can reach a required datastore. Keep dependency checks bounded:
+failing every instance merely because one optional dependency is slow can turn a partial outage into a
+full outage. Use the same idempotency key across a client retry and failover so recovery does not create a
+second order.
+
+## Measure the user outcome, then spend an error budget
+
+An SLI should classify an operation from the user's perspective, such as the proportion of order requests
+that complete within the promised latency and return the correct durable outcome. CPU utilisation is useful
+for diagnosis, but it is not an availability SLI by itself. The allowed failures within an SLO window are
+the **error budget**; teams can use the remaining budget to decide whether to keep shipping changes or
+first restore reliability.
+
 ## Good to know
 
 ### Hospital analogy
@@ -151,9 +202,10 @@ Key insight: modern distributed systems **assume hardware failures will happen**
 
 That's exactly how distributed systems use redundancy.
 
-### Netflix-style thinking
+## Further reading
 
-Large distributed systems expect servers, disks, and networks to fail. Design philosophy: **failures are inevitable; downtime is optional.** The system stays available because failures are isolated and traffic is redirected.
+- [Google SRE: defining service level objectives](https://sre.google/sre-book/service-level-objectives/)
+- [Google SRE: availability table](https://sre.google/sre-book/availability-table/)
 
 ## Quick recall
 

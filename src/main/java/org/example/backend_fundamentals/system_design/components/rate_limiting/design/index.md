@@ -161,13 +161,41 @@ Request flow:
 5. If allowed, request goes to API service.
 6. If rejected, middleware returns `429 Too Many Requests`.
 
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gate as Rate-limit middleware
+    participant Redis
+    participant API as API service
+
+    Client->>Gate: Request with identity and endpoint
+    Gate->>Redis: Atomically check and consume rule key
+    alt token/counter permits request
+        Redis-->>Gate: Allow + remaining / reset
+        Gate->>API: Forward request
+        API-->>Gate: Normal response
+        Gate-->>Client: Response + rate-limit headers
+    else quota exhausted
+        Redis-->>Gate: Reject + retry time
+        Gate-->>Client: 429 Too Many Requests
+    else Redis unavailable
+        Gate->>Gate: Endpoint policy: open or closed
+        Gate-->>Client: Forward or controlled rejection
+    end
+```
+
+The middleware does not retry a rejected request on behalf of the client. It reports the result; a client may
+retry after the advertised interval. If a request times out after being forwarded, normal API idempotency—not
+the limiter—decides whether retrying the business operation is safe.
+
 ## Key design decisions
 
 ### Gateway vs application service
 
 Use a gateway when limits are generic: IP, API key, tenant plan, endpoint quota.
 
-Use app-service logic when the rule needs domain context: "verified sellers can publish more listings" or "KYC vendor calls are limited by partner contract."
+Use app-service logic when the rule needs domain context: "verified sellers can publish more listings" or
+"a paid provider call has a contractual quota."
 
 Many real systems do both:
 
@@ -208,7 +236,7 @@ ttl = rule window
 Examples:
 
 ```text
-rate:login:user:alice@example.com
+rate:login:user:stable-account-key
 rate:post:user:123
 rate:payments:tenant:acme
 rate:global:/api/v1/search
@@ -289,7 +317,8 @@ Decide by endpoint:
 - **Fail-open:** allow request if limiter storage is unavailable. Better availability, weaker protection.
 - **Fail-closed:** reject request if limiter storage is unavailable. Better protection, worse availability.
 
-For a normal read API, fail-open is often acceptable. For login, payment, SMS, or KYC vendor calls, fail-closed or degraded strict local limits may be safer.
+For a normal read API, fail-open is often acceptable. For login, payment, SMS, or paid external calls,
+fail-closed or degraded strict local limits may be safer.
 
 ## Monitoring
 

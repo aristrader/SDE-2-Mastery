@@ -86,6 +86,17 @@ compact further-reading link only when it is useful to the learner and was actua
 - Prefer one original architecture, state, or flow diagram for a complex design. Never copy book, course,
   PDF, or web screenshots. Put repo-owned image assets in the module `assets/` directory only when its
   schema permits them; otherwise use a concise Mermaid diagram.
+- For component and concept pages, audit the core mechanism separately from the page as a whole. If a
+  first-time reader must mentally simulate a cache write policy, edge-cache miss/invalidation, load-balancer
+  health transition, limiter decision, replication/quorum transition, or similar multi-step mechanism, show
+  that mechanism in an original diagram or a compact state/decision table. A page-level architecture diagram
+  does not substitute for the mechanism diagram. Do not add diagrams for simple definitions that prose or a
+  comparison table explains more clearly.
+- An ASCII arrow sketch may orient the reader, but it is not a substitute when the core mechanism has
+  branches, state changes, or a failure/recovery path that a rendered diagram needs to make unambiguous.
+- When one page presents several alternatives, give the reader a selection rule and make the normal path,
+  write/update path, and failure boundary visible for the alternatives that have materially different
+  correctness or latency behavior. Do not leave an important option as an isolated definition.
 - Give every diagram one job: an architecture diagram shows ownership and request/data paths, a sequence
   diagram shows an ordinary or failure interaction, and a state diagram shows a lifecycle. Do not add a
   visual that merely restates adjacent prose.

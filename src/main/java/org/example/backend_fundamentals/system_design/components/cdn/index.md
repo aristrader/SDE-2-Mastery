@@ -4,6 +4,10 @@ order: 30
 
 # CDN — Edge Caching, DNS Routing, Push vs Pull
 
+A CDN is an edge cache for content whose freshness contract permits copies near users. Start by deciding
+which response can be cached, its TTL, and what happens when the edge or origin is unavailable. A CDN is not
+a substitute for application authorization or a generic solution for per-user dynamic data.
+
 ## How it works
 
 ### Core idea
@@ -23,13 +27,15 @@ The origin is the **source of truth** — an application server, object storage 
 
 ### DNS-based routing
 
-One of the most important CDN concepts. When a user requests `example.com`, DNS does not return the same IP globally — the CDN provider's DNS infrastructure estimates the user's location and returns a **nearby CDN node's IP**:
+One of the most important CDN concepts. When a user requests `example.com`, the CDN's routing layer selects
+an edge from signals such as resolver location, network health, and capacity; DNS is often one part of that
+selection. It aims for a good edge, not a guaranteed geographically nearest server:
 
 | User location | DNS returns |
 |---------------|-------------|
-| India | Mumbai CDN node |
-| UK | London CDN node |
-| USA | New York CDN node |
+| India | Often a nearby India or regional edge |
+| UK | Often a nearby UK or regional edge |
+| USA | Often a nearby US or regional edge |
 
 (Resolution mechanics in `networking/dns/DnsResolution.md`.)
 
@@ -57,6 +63,22 @@ Next user near that PoP gets a cache hit
 
 This is why popular assets naturally become fast worldwide, while rarely requested assets may still miss and hit origin.
 
+```mermaid
+sequenceDiagram
+    participant User
+    participant Edge as Nearby CDN edge
+    participant Origin
+
+    User->>Edge: GET versioned asset
+    alt edge hit
+        Edge-->>User: Cached response
+    else edge miss
+        Edge->>Origin: Fetch asset
+        Origin-->>Edge: Asset + cache policy
+        Edge-->>User: Store and return asset
+    end
+```
+
 ### Push CDN
 
 Content is **proactively distributed** to CDN nodes before users request it — e.g. large software updates, game patches, OS releases. The content is already at CDN locations when users begin downloading.
@@ -82,18 +104,78 @@ Content is **proactively distributed** to CDN nodes before users request it — 
 ### Cache invalidation
 
 When origin content changes (e.g. a new `profile.jpg` replaces an old one), the CDN will still serve the old cached copy. Solutions:
-- **Versioning (most common):** Changing the filename or query string (e.g., `profile_v2.jpg` or `profile.jpg?v=2`) so the CDN treats it as a completely new file.
+- **Versioning (most common):** Changing the filename or content hash (for example, `profile.abc123.jpg`) so the CDN treats it as a completely new object.
 - **Purge / Invalidate:** Explicitly telling the CDN to delete the old copy, forcing it to fetch the fresh version on the next request.
 
 Versioning is usually simpler for static assets because you avoid racing every cache location in the world. New deploy references `app.abc123.js`; old cached `app.old.js` can expire naturally.
+
+For versioned static assets, a long `Cache-Control` lifetime with `immutable` is safe because the URL itself
+changes on content change. For an unversioned object, use a freshness window the product can tolerate or
+purge it deliberately. Never put user-specific private data behind a shared cache key without a correct
+authorization and cache-control policy.
+
+```mermaid
+sequenceDiagram
+    participant Publisher
+    participant Origin
+    participant CDN as CDN control plane
+    participant Edge
+    participant User
+
+    alt versioned static asset
+        Publisher->>Origin: Publish app.abc123.js
+        Publisher->>Origin: Publish HTML referencing new URL
+        User->>Edge: GET app.abc123.js
+        Edge->>Origin: Miss: fetch new object
+        Origin-->>Edge: New object + long TTL
+        Edge-->>User: New object
+    else unversioned object requiring immediate update
+        Publisher->>Origin: Replace profile.jpg
+        Publisher->>CDN: Purge profile.jpg or tag
+        CDN->>Edge: Remove cached object
+        User->>Edge: Next GET profile.jpg
+        Edge->>Origin: Miss: fetch current object
+    end
+```
 
 ### CDN failure and fallback
 
 A CDN reduces origin load, but it also becomes part of the request path for static assets. For important clients, know the fallback behavior:
 
-- Can the client retry the origin URL if the CDN is unavailable?
+- Can the client retry the origin URL if the CDN is unavailable, without bypassing the same authorization and
+  abuse controls?
 - Can the page still render if non-critical assets fail?
 - Are cache-control TTLs short enough for time-sensitive assets and long enough to avoid origin reload storms?
+
+If a response is safe to serve briefly stale, an edge may use a controlled stale-on-error policy while the
+origin recovers. Do not use that for content whose freshness is a correctness or authorization requirement.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Edge
+    participant Primary as Primary origin
+    participant Secondary as Secondary origin
+
+    User->>Edge: GET cacheable asset
+    Edge->>Edge: Cache miss or expired entry
+    Edge->>Primary: Fetch object
+    alt primary succeeds
+        Primary-->>Edge: Current object
+        Edge-->>User: Cache and return
+    else configured origin failure
+        Edge->>Secondary: Fetch fallback object
+        alt secondary succeeds
+            Secondary-->>Edge: Object
+            Edge-->>User: Return fallback
+        else both origins unavailable
+            Edge-->>User: Controlled error or explicitly stale-safe response
+        end
+    end
+```
+
+Origin failover is normally a read-path feature. Do not assume a CDN can safely replay a client write to a
+second origin: failover rules, idempotency, and the authoritative write location must be designed separately.
 
 For interviews, this is the practical nuance: CDN is not only a latency optimization; it changes cache freshness, failure handling, and cost.
 
@@ -110,10 +192,9 @@ For interviews, this is the practical nuance: CDN is not only a latency optimiza
 2. **"Do Redis and CDN both have hits and misses?"** Yes — the caching concept is identical (hit → serve; miss → fetch from source and cache). The difference is *where* the cache sits and *what* it stores.
 3. **"CDN drawbacks mention cost and complexity — isn't it actually reducing complexity vs building global infra ourselves?"** Good observation: the stated drawbacks are relative to *not using a CDN at all*. Cost = paying providers for bandwidth/distribution; complexity = cache invalidation, asset versioning, cache-control policies. Compared to building worldwide infrastructure yourself, a CDN reduces complexity dramatically.
 4. **"Do I need to modify application logic to use a CDN?"** Not usually — core business logic is unchanged. Typical additions: asset versioning, cache-control headers, CDN configuration. The CDN is an optimization layer around the application.
-5. **"Does Netflix use pull CDN?"** Generally yes — content is fetched and cached on demand; popular content naturally becomes cached near users without preloading everything everywhere.
-6. **"Is live streaming push CDN?"** Not exactly — live streams are delivered as small video segments continuously distributed through CDN infrastructure in near real-time. Think of it as a specialized streaming architecture rather than pure push or pull.
-7. **"Do governments restrict CDN distribution?"** Sometimes — data sovereignty requirements, regional regulations, content restrictions, licensing. CDN providers may need regional controls or local infrastructure to comply.
-8. **"How does the CDN know which node is nearest to me?"** DNS-based geolocation — the CDN's DNS estimates location from the DNS request and returns a nearby node's IP. For SDE2 interviews you generally don't need to go deeper.
+5. **"Is live streaming push CDN?"** Not exactly — live streams are delivered as small segments continuously distributed through CDN infrastructure in near real-time. Think of it as a specialized streaming architecture rather than pure push or pull.
+6. **"Do governments restrict CDN distribution?"** Sometimes — data sovereignty requirements, regional regulations, content restrictions, licensing. CDN providers may need regional controls or local infrastructure to comply.
+7. **"How does the CDN know which node is nearest to me?"** It uses routing signals such as DNS resolver location, network health, and capacity. It selects a suitable edge; it cannot always infer the user's exact location.
 
 ## Performance characteristics
 
@@ -132,6 +213,18 @@ Major OS updates and large game patches are distributed to CDN locations *before
 ### Interview depth guidance
 
 For most SDE2 interviews this is sufficient: why CDN exists · origin server · hit vs miss · CDN vs Redis · DNS routing to the nearest node. Deep CDN internals are only expected for infrastructure-heavy roles.
+
+Further reading:
+
+- [MDN: Cache-Control][cache-control]
+- [MDN: HTTP caching][http-caching]
+- [AWS: content delivery, cache misses, and invalidation][cloudfront-delivery]
+- [AWS: origin failover][cloudfront-failover]
+
+[cache-control]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+[http-caching]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching
+[cloudfront-delivery]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowCloudFrontWorks.html
+[cloudfront-failover]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html
 
 ## Quick recall
 

@@ -29,6 +29,10 @@ In a microservices architecture, a single request may traverse multiple services
 - **What to log:** Request start/end, important business events, external API failures, exceptions, and retry attempts.
 - **What NOT to log:** Passwords, tokens, sensitive customer data, and huge payloads (unless debugging).
 
+One useful structured event answers: what operation happened, which request/trace it belongs to, which
+dependency was involved, what outcome occurred, and how long it took. Do not use a correlation ID as an
+authorization credential or put personal data inside it.
+
 ### MDC vs. Trace Context
 - **MDC (Mapped Diagnostic Context):** Used for *logging*. Automatically attaches contextual values (like Request ID, User ID) to every log statement in the current thread.
 - **Trace Context:** Used for *distributed tracing*. Tracks request flow across services.
@@ -69,9 +73,29 @@ Distributed tracing answers the question: *"Which service caused the delay for t
 ### Context Propagation
 The most important tracing concept. When a service makes an outgoing call to another service, the tracing framework automatically attaches standard HTTP headers (like W3C's `traceparent`). The receiving service reads these headers and continues the same trace instead of starting a new one.
 
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API service
+    participant Worker as Worker service
+    participant DB as Database
+
+    Client->>API: request (trace context)
+    API->>API: create server span, add trace ID to logs
+    API->>Worker: call with propagated trace context
+    Worker->>Worker: create child span, add same trace ID to logs
+    Worker->>DB: query span
+    DB-->>Worker: result
+    Worker-->>API: response
+    API-->>Client: response
+```
+
+If a service drops the outgoing context, its work starts a disconnected trace. The request may still
+succeed, but the slow dependency is much harder to locate during an incident.
+
 ### Automatic vs. Manual Spans
 - **Automatic Instrumentation:** Frameworks automatically create spans for infrastructure operations like HTTP calls, SQL queries, Redis commands, and Kafka message publishing.
-- **Manual Spans:** Used to measure specific business operations (e.g., "Verify OTP", "Calculate Discount"). Developers manually wrap these operations in a span (e.g., using `tracer.withSpanInScope(span)`) to group sub-operations logically and measure the duration of business logic.
+- **Manual Spans:** Used to measure specific business operations (e.g., "validate order", "calculate quote"). Developers manually wrap these operations in a span (e.g., using `tracer.withSpanInScope(span)`) to group sub-operations logically and measure the duration of business logic.
 
 *Note: Not every function automatically becomes a span; a span should represent a meaningful unit of work.*
 
@@ -105,6 +129,20 @@ APM uses distributed tracing underneath to provide insights into application hea
 3. **Recover & RCA:** Verify system health and perform Root Cause Analysis.
 4. **Postmortem:** A document outlining the timeline, root cause, and action items. Must be **blameless**—focusing on process failures, not individual blame. Use the "Five Whys" technique to find the underlying process issue.
 
+## One investigation flow
+
+When an alert says user-visible errors are rising, start with the SLI and the time window, then use a trace
+or correlation ID to find the slow/failing dependency. Confirm the suspected cause with its metrics: queue
+age, connection-pool saturation, dependency error rate, or database latency. Mitigate first—rollback,
+disable a nonessential path, or shed load—then investigate the root cause. A dashboard is useful only when
+it leads to this decision; a pile of unconnected charts is not observability.
+
+| Signal | Use it to decide | Do not use it to claim |
+| --- | --- | --- |
+| SLI and alert | Whether users are affected and the incident is actionable | The root cause |
+| Trace and correlated logs | Which request path and dependency to inspect | Aggregate fleet impact |
+| Metrics | Whether latency, error rate, queue age, or saturation supports that hypothesis | The exact history of one request |
+
 ---
 
 ## 6. Service Level Terminology
@@ -114,3 +152,22 @@ APM uses distributed tracing underneath to provide insights into application hea
 - **SLA (Service Level Agreement):** The business promise to customers (e.g., 99.9% uptime, with financial compensation if violated).
 
 *Memory trick:* SLI = What we measure. SLO = What we aim for. SLA = What we promise.
+
+## Further reading
+
+- [OpenTelemetry: log correlation](https://opentelemetry.io/docs/specs/otel/logs/)
+- [OpenTelemetry: context propagation](https://opentelemetry.io/docs/specs/otel/context/api-propagators/)
+
+## Quick recall
+
+**Q. Logs vs metrics vs traces?**
+A. Logs explain individual events, metrics show aggregate trends, and traces show one request across boundaries.
+
+**Q. Why propagate trace context?**
+A. It joins client, service, database, and asynchronous work into one causal request view.
+
+**Q. What makes an alert actionable?**
+A. It signals meaningful impact, has an owner and runbook, and tells the responder what to investigate or mitigate.
+
+**Q. What should a responder check first?**
+A. User impact through the SLI, then a correlated trace and dependency metrics to localise the failure.
