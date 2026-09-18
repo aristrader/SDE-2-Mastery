@@ -1,85 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="590" viewBox="0 0 1120 590" role="img" aria-labelledby="title desc">
-  <title id="title">News feed architecture</title>
-  <desc id="desc">News feed publish path stores posts and fans out post IDs into feed cache. Read path fetches feed IDs and hydrates them from post, user, action, counter caches and CDN media.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="660" viewBox="0 0 720 660" role="img" aria-labelledby="title desc">
+  <title id="title">News feed publish and read architecture</title>
+  <desc id="desc">A post and outbox event are committed together, then normal-author fanout materializes durable feed entries. Reads combine cached or durable feed IDs with high-fanout author posts before hydration.</desc>
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
-    </marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
     <style>
-      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
-      .web { fill: #e0f2fe; }
-      .service { fill: #fef9c3; }
-      .data { fill: #ecfdf5; }
-      .queue { fill: #fff7ed; }
-      .cdn { fill: #f1f5f9; }
-      .label { font-family: Arial, sans-serif; font-size: 16px; fill: #0f172a; font-weight: 700; }
-      .small { font-family: Arial, sans-serif; font-size: 13px; fill: #334155; }
-      .line { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
-      .dash { stroke: #64748b; stroke-width: 1.8; fill: none; stroke-dasharray: 6 5; marker-end: url(#arrow); }
+      .panel { fill:#f8fafc; stroke:#94a3b8; stroke-width:2; rx:10; }
+      .box { fill:#fff; stroke:#334155; stroke-width:2; rx:8; }
+      .write { fill:#ecfdf5; } .read { fill:#e0f2fe; } .queue { fill:#fff7ed; } .data { fill:#f5f3ff; }
+      .title { font:700 18px Arial,sans-serif; fill:#0f172a; } .label { font:700 15px Arial,sans-serif; fill:#0f172a; }
+      .small { font:13px Arial,sans-serif; fill:#334155; } .line { stroke:#334155; stroke-width:2; fill:none; marker-end:url(#arrow); }
+      .dash { stroke:#64748b; stroke-width:2; stroke-dasharray:6 5; fill:none; marker-end:url(#arrow); }
     </style>
   </defs>
 
-  <rect x="35" y="90" width="140" height="75" class="box"/>
-  <text x="105" y="121" text-anchor="middle" class="label">Client</text>
-  <text x="105" y="143" text-anchor="middle" class="small">web / mobile</text>
+  <rect x="20" y="18" width="680" height="276" class="panel write"/>
+  <text x="42" y="48" class="title">Publish: accept once, materialize later</text>
 
-  <rect x="220" y="90" width="150" height="75" class="box web"/>
-  <text x="295" y="121" text-anchor="middle" class="label">Web servers</text>
-  <text x="295" y="143" text-anchor="middle" class="small">auth + rate limit</text>
+  <rect x="42" y="84" width="126" height="70" class="box"/>
+  <text x="105" y="113" text-anchor="middle" class="label">Client</text><text x="105" y="135" text-anchor="middle" class="small">post + idempotency key</text>
+  <rect x="221" y="84" width="145" height="70" class="box write"/>
+  <text x="294" y="113" text-anchor="middle" class="label">Post service</text><text x="294" y="135" text-anchor="middle" class="small">auth + validation</text>
+  <rect x="419" y="84" width="145" height="70" class="box data"/>
+  <text x="492" y="113" text-anchor="middle" class="label">Post + outbox</text><text x="492" y="135" text-anchor="middle" class="small">one durable transaction</text>
+  <path d="M168 119 H221" class="line"/><path d="M366 119 H419" class="line"/>
 
-  <rect x="420" y="35" width="150" height="75" class="box service"/>
-  <text x="495" y="66" text-anchor="middle" class="label">Post service</text>
-  <text x="495" y="88" text-anchor="middle" class="small">persist post</text>
+  <rect x="70" y="203" width="142" height="64" class="box queue"/>
+  <text x="141" y="230" text-anchor="middle" class="label">Fanout event</text><text x="141" y="250" text-anchor="middle" class="small">outbox relay</text>
+  <rect x="289" y="203" width="142" height="64" class="box"/>
+  <text x="360" y="230" text-anchor="middle" class="label">Graph + policy</text><text x="360" y="250" text-anchor="middle" class="small">followers + visibility</text>
+  <rect x="508" y="203" width="142" height="64" class="box data"/>
+  <text x="579" y="230" text-anchor="middle" class="label">Feed entries</text><text x="579" y="250" text-anchor="middle" class="small">viewer, post, sort key</text>
+  <path d="M492 154 V183 Q492 203 431 203" class="line"/>
+  <path d="M212 235 H289" class="line"/><path d="M431 235 H508" class="line"/>
+  <text x="520" y="183" class="small">normal authors only</text>
 
-  <rect x="420" y="155" width="150" height="75" class="box service"/>
-  <text x="495" y="186" text-anchor="middle" class="label">Feed service</text>
-  <text x="495" y="208" text-anchor="middle" class="small">hydrate feed</text>
+  <rect x="20" y="326" width="680" height="312" class="panel read"/>
+  <text x="42" y="356" class="title">Read: select IDs, then hydrate the visible page</text>
+  <rect x="42" y="392" width="126" height="70" class="box"/>
+  <text x="105" y="421" text-anchor="middle" class="label">Client</text><text x="105" y="443" text-anchor="middle" class="small">cursor + page size</text>
+  <rect x="221" y="392" width="145" height="70" class="box read"/>
+  <text x="294" y="421" text-anchor="middle" class="label">Feed service</text><text x="294" y="443" text-anchor="middle" class="small">merge and filter</text>
+  <rect x="419" y="392" width="145" height="70" class="box data"/>
+  <text x="492" y="421" text-anchor="middle" class="label">Feed IDs</text><text x="492" y="443" text-anchor="middle" class="small">cache or durable index</text>
+  <path d="M168 427 H221" class="line"/><path d="M366 427 H419" class="line"/>
 
-  <rect x="625" y="35" width="150" height="75" class="box data"/>
-  <text x="700" y="66" text-anchor="middle" class="label">Post DB/cache</text>
-  <text x="700" y="88" text-anchor="middle" class="small">postId -> post</text>
-
-  <rect x="625" y="155" width="150" height="75" class="box data"/>
-  <text x="700" y="186" text-anchor="middle" class="label">Feed cache</text>
-  <text x="700" y="208" text-anchor="middle" class="small">userId -> postIds</text>
-
-  <rect x="420" y="300" width="150" height="75" class="box service"/>
-  <text x="495" y="331" text-anchor="middle" class="label">Fanout service</text>
-  <text x="495" y="353" text-anchor="middle" class="small">recipient filters</text>
-
-  <rect x="625" y="300" width="150" height="75" class="box data"/>
-  <text x="700" y="331" text-anchor="middle" class="label">Graph store</text>
-  <text x="700" y="353" text-anchor="middle" class="small">friends/followers</text>
-
-  <rect x="820" y="300" width="130" height="75" class="box queue"/>
-  <text x="885" y="331" text-anchor="middle" class="label">Fanout queue</text>
-  <text x="885" y="353" text-anchor="middle" class="small">target + postId</text>
-
-  <rect x="990" y="300" width="110" height="75" class="box service"/>
-  <text x="1045" y="331" text-anchor="middle" class="label">Workers</text>
-  <text x="1045" y="353" text-anchor="middle" class="small">append IDs</text>
-
-  <rect x="625" y="450" width="150" height="75" class="box data"/>
-  <text x="700" y="480" text-anchor="middle" class="label">Hydration caches</text>
-  <text x="700" y="502" text-anchor="middle" class="small">user/action/counter</text>
-
-  <rect x="820" y="450" width="130" height="75" class="box cdn"/>
-  <text x="885" y="480" text-anchor="middle" class="label">CDN</text>
-  <text x="885" y="502" text-anchor="middle" class="small">images/videos</text>
-
-  <path d="M175 128 H220" class="line"/>
-  <path d="M370 112 H395 Q410 112 420 88" class="line"/>
-  <path d="M370 145 H395 Q410 145 420 180" class="line"/>
-  <path d="M570 72 H625" class="line"/>
-  <path d="M570 192 H625" class="line"/>
-  <path d="M570 82 Q620 135 570 315" class="dash"/>
-  <path d="M570 338 H625" class="line"/>
-  <path d="M775 338 H820" class="line"/>
-  <path d="M950 338 H990" class="line"/>
-  <path d="M1045 300 V250 Q1045 205 775 205" class="line"/>
-  <path d="M570 205 Q610 315 625 462" class="dash"/>
-  <path d="M570 205 Q700 390 820 462" class="dash"/>
-
-  <text x="300" y="35" class="small">Publish: create post, then fan out post IDs asynchronously</text>
-  <text x="300" y="265" class="small">Read: fetch feed IDs, then hydrate full feed items</text>
+  <rect x="70" y="520" width="150" height="72" class="box queue"/>
+  <text x="145" y="549" text-anchor="middle" class="label">High-fanout posts</text><text x="145" y="571" text-anchor="middle" class="small">merge at read time</text>
+  <rect x="285" y="520" width="150" height="72" class="box data"/>
+  <text x="360" y="549" text-anchor="middle" class="label">Hydration stores</text><text x="360" y="571" text-anchor="middle" class="small">post, user, action, count</text>
+  <rect x="500" y="520" width="150" height="72" class="box"/>
+  <text x="575" y="549" text-anchor="middle" class="label">Response + CDN</text><text x="575" y="571" text-anchor="middle" class="small">metadata and media URLs</text>
+  <path d="M294 462 V490 Q294 520 220 520" class="dash"/>
+  <path d="M492 462 V490 Q492 520 435 520" class="line"/>
+  <path d="M435 556 H500" class="line"/><path d="M220 556 Q250 556 285 556" class="line"/>
 </svg>

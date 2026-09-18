@@ -5,9 +5,13 @@ search: false
 
 # Design a News Feed System
 
-## Problem
+## Agreed problem
 
-Design a news feed system like Facebook feed, Twitter timeline, or Instagram home feed.
+Design a reverse-chronological home feed like Facebook, Twitter, or Instagram. The answer must explain how a post
+becomes visible to followers without making either common feed reads or hot-author publishes unboundedly expensive.
+
+This tab is the compact design reference. Read the parent page first for the baseline, the pressure that motivates each
+component, and the user-visible failure behavior.
 
 ## Clarify scope
 
@@ -44,9 +48,19 @@ No ranking ML in the base design
 - Low-latency feed reads.
 - Durable posts.
 - Scalable fanout.
-- High availability.
-- Cache-heavy design.
-- Eventual consistency is acceptable for feed propagation.
+- High availability for reads; cache loss must have a durable fallback.
+- A post is durable when accepted; eventual consistency is acceptable only for feed propagation.
+- A later delete, block, mute, or privacy change must be hidden before asynchronous cleanup completes.
+
+## Design decisions
+
+| Decision | Why |
+| --- | --- |
+| A post is accepted after `post` and `post_outbox` commit together | A process crash cannot leave a durable post with no recoverable fanout event. |
+| Normal authors use asynchronous fanout-on-write | A reader gets a prepared, viewer-partitioned candidate list. |
+| High-follower authors use bounded fanout-on-read | One publish does not create a follower-count-sized write storm. |
+| `feed_entry` is durable and cache holds only recent IDs | Cache speeds up reads but does not become the sole source of a feed. |
+| The read path filters current visibility | Fanout uses an earlier relationship snapshot; delete and privacy cannot wait for repair. |
 
 ## API sketch
 
@@ -67,7 +81,8 @@ Read:
 GET /v1/me/feed?cursor=2026-08-04T10:00:00Z_987&limit=20
 ```
 
-Use cursor pagination because new posts can arrive while a user scrolls.
+Use an opaque cursor containing the last returned `(sort_key, post_id)`. New posts arriving at the front shift page
+offsets, so page-number pagination can duplicate or skip an item while a user scrolls.
 
 ## Data model
 
@@ -94,9 +109,19 @@ feed_entry(
   created_at timestamp,
   primary key(user_id, created_at, post_id)
 )
+
+post_outbox(
+  event_id uuid primary key,
+  post_id bigint,
+  event_type varchar(32),
+  created_at timestamp
+)
 ```
 
-The DB is the source of truth. Cache stores hot feed IDs and hot post/user/action/counter data.
+`post` is authoritative content. `feed_entry` is a lightweight, per-viewer candidate pointer; it is not a copied post
+body. Cache stores hot feed IDs and hot post/user/action/counter data. `post_outbox` is written with `post` so a post
+that commits cannot be silently missed by fanout; replayed events require an idempotent `(user_id, post_id)` entry
+write.
 
 ## Architecture
 
@@ -111,31 +136,32 @@ Component responsibilities:
 | Fanout service | Find recipients and create fanout jobs |
 | Graph service/store | Friend/follower relationships |
 | Fanout queue | Buffer feed-entry writes |
-| Fanout workers | Append post IDs to user feed caches |
-| News feed service | Fetch feed IDs and hydrate feed items |
+| Fanout workers | Idempotently materialize durable feed entries, then update recent-ID cache |
+| Feed-entry store | Durable materialized IDs for normal-author posts |
+| News feed service | Fetch/merge feed IDs, filter visibility, and hydrate feed items |
 | Caches | Feed IDs, post objects, users, actions, counters |
 | CDN | Serve image/video bytes |
 
 ## Publish flow
 
-1. User posts content.
-2. Web server authenticates and rate-limits.
-3. Post service stores post in DB.
-4. Post service writes post object to content cache.
-5. Fanout service reads friends/followers from graph store.
-6. Fanout service filters recipients by privacy/mute/share settings.
-7. Fanout service sends fanout jobs to queue.
-8. Fanout workers append `postId` to each recipient's news feed cache.
-9. Notification service may send push notifications.
+1. The client sends `POST /v1/me/posts` with an idempotency key; the edge authenticates and rate-limits it.
+2. The post service commits `post` and `post_outbox(event_id)` in one transaction, then returns success.
+3. An outbox relay publishes committed events. Duplicate delivery is expected after a retry.
+4. Fanout evaluates graph edges and the current visibility policy.
+5. Normal authors produce viewer-partitioned jobs. Each worker upserts `(viewer_id, post_id, sort_key)` and updates
+   the recent-ID cache.
+6. A high-follower author remains in the author's recent-post source; no entry is written for every follower.
+7. Notifications can be sent after acceptance, but they are only a hint and never proof of feed visibility.
 
 ## Retrieval flow
 
-1. User requests feed.
-2. News feed service reads post IDs from news feed cache.
-3. Service fetches post objects from post cache.
-4. Service fetches author/profile data from user cache.
-5. Service fetches action/counter data.
-6. Service returns hydrated JSON.
+1. The feed service reads recent post IDs from the viewer's cache or, on a miss/deep scroll, the durable feed-entry
+   range.
+2. It pulls a bounded recent window for followed high-follower authors, merges it with materialized IDs, deduplicates,
+   and orders candidates by `(sort_key, post_id)`.
+3. It filters delete, block, mute, and privacy changes against authoritative state before returning an item.
+4. It hydrates the visible page with batched post, author/profile, action/counter, and media-metadata reads.
+5. It returns media URLs rather than bytes and produces the next cursor from the last visible item.
 
 Hydration means converting:
 
@@ -193,7 +219,9 @@ normal author post -> push postId into recipients' feed caches
 celebrity author post -> store post normally, merge into followers' feeds when they read
 ```
 
-This is the default interview answer because it protects read latency for most users and prevents hot accounts from flooding the system.
+This is the default interview answer because it protects read latency for most users and prevents hot accounts from
+flooding the system. The threshold is a capacity policy, not a magic number: it exists to cap per-post write work and
+queue lag.
 
 ## Cache layers
 
@@ -207,6 +235,7 @@ This is the default interview answer because it protects read latency for most u
 | Counter | `counter:{postId}` | like/reply/share counts |
 
 Keep feed cache as IDs so updates to post/user/action/counter data do not require rewriting every cached feed entry.
+The cache is not the only feed copy: its fallback is durable `feed_entry` plus read-time merge for high-follower posts.
 
 ## Deep dives interviewers may ask
 
@@ -218,25 +247,32 @@ Post cache answers: "What is the content of this post ID?"
 
 This avoids duplicating full post objects into thousands of user feeds.
 
-### What if fanout is delayed?
+### What if fanout is delayed or replayed?
 
-Return the feed currently in cache and let it be slightly stale. For important posts, the client can refresh later or the system can show a "new posts available" indicator.
+Return the currently available feed and let it be briefly stale. The author already has a durable post and outbox
+event. Workers later drain the backlog; a replay is safe because feed-entry materialization is idempotent.
 
 ### What if a user mutes someone?
 
-Apply mute/privacy filters before fanout. If the setting changes after fanout, either filter on read or asynchronously remove stale feed entries. For interviews, filtering on read is the simpler correctness safety net.
+Apply mute/privacy filters before fanout. If the setting changes after fanout, filter on read against authoritative
+visibility state and asynchronously remove stale feed entries. The read-time filter is the correctness safety net.
 
 ### What if cache misses?
 
 Read from the feed-entry store or rebuild with read-time merge. Do not make cache the only source of truth.
+
+### What if a post is deleted after fanout?
+
+Mark it unavailable in authoritative post state. The read path suppresses it immediately, while asynchronous repair
+removes old feed entries and cache IDs. Cleanup improves cost; the read-time check provides correctness.
 
 ## Failure modes
 
 | Failure | Handling |
 | --- | --- |
 | DB write fails | Do not publish/fanout the post |
-| Post written but fanout event lost | Use outbox or durable event log |
-| Fanout worker crash | Queue retry; idempotent append |
+| Post written but fanout event not yet published | Relay the committed outbox event |
+| Fanout worker crash | Queue retry; idempotent durable feed-entry write, then cache repair |
 | Duplicate feed entries | Unique key or set semantics on `(userId, postId)` |
 | Celebrity post overload | Pull celebrity posts at read time |
 | Feed cache evicted | Rebuild from durable feed-entry store |

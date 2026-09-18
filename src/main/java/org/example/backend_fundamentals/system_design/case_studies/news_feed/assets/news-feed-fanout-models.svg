@@ -1,61 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="420" viewBox="0 0 1040 420" role="img" aria-labelledby="title desc">
-  <title id="title">News feed fanout models</title>
-  <desc id="desc">Fanout-on-write pushes a new post ID to follower feed caches during publish. Fanout-on-read pulls followed users' posts when a reader opens the feed. Hybrid uses both.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500" role="img" aria-labelledby="title desc">
+  <title id="title">News feed fanout choices</title>
+  <desc id="desc">Fanout-on-write materializes normal-author posts at publish time. Fanout-on-read merges high-follower author posts when a feed is requested. A hybrid uses both paths.</desc>
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
-    </marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
     <style>
-      .panel { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
-      .write { fill: #ecfdf5; }
-      .read { fill: #e0f2fe; }
-      .hybrid { fill: #fff7ed; }
-      .box { fill: white; stroke: #475569; stroke-width: 1.5; rx: 6; }
-      .label { font-family: Arial, sans-serif; font-size: 16px; fill: #0f172a; font-weight: 700; }
-      .small { font-family: Arial, sans-serif; font-size: 13px; fill: #334155; }
-      .line { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .panel { stroke:#334155; stroke-width:2; rx:10; } .push { fill:#ecfdf5; } .pull { fill:#e0f2fe; } .hybrid { fill:#fff7ed; }
+      .box { fill:#fff; stroke:#475569; stroke-width:1.8; rx:7; } .title { font:700 17px Arial,sans-serif; fill:#0f172a; }
+      .label { font:700 15px Arial,sans-serif; fill:#0f172a; } .small { font:13px Arial,sans-serif; fill:#334155; }
+      .line { stroke:#334155; stroke-width:2; fill:none; marker-end:url(#arrow); }
     </style>
   </defs>
+  <rect x="20" y="22" width="326" height="212" class="panel push"/>
+  <text x="183" y="54" text-anchor="middle" class="title">Fanout on write</text>
+  <rect x="50" y="85" width="100" height="60" class="box"/><text x="100" y="111" text-anchor="middle" class="label">Publish</text><text x="100" y="130" text-anchor="middle" class="small">normal author</text>
+  <rect x="208" y="85" width="108" height="60" class="box"/><text x="262" y="111" text-anchor="middle" class="label">Feed IDs</text><text x="262" y="130" text-anchor="middle" class="small">each follower</text>
+  <path d="M150 115 H208" class="line"/><text x="183" y="180" text-anchor="middle" class="small">Fast read; costly for a hot author</text>
 
-  <rect x="25" y="35" width="310" height="330" class="panel write"/>
-  <text x="180" y="70" text-anchor="middle" class="label">Fanout on write</text>
-  <rect x="70" y="105" width="110" height="55" class="box"/>
-  <text x="125" y="137" text-anchor="middle" class="small">Alice posts</text>
-  <rect x="205" y="105" width="90" height="55" class="box"/>
-  <text x="250" y="137" text-anchor="middle" class="small">Queue</text>
-  <rect x="70" y="210" width="225" height="75" class="box"/>
-  <text x="182" y="240" text-anchor="middle" class="small">append postId to each</text>
-  <text x="182" y="260" text-anchor="middle" class="small">friend feed cache</text>
-  <path d="M180 133 H205" class="line"/>
-  <path d="M250 160 V210" class="line"/>
-  <text x="180" y="315" text-anchor="middle" class="small">Fast reads, expensive hot authors</text>
+  <rect x="374" y="22" width="326" height="212" class="panel pull"/>
+  <text x="537" y="54" text-anchor="middle" class="title">Fanout on read</text>
+  <rect x="404" y="85" width="100" height="60" class="box"/><text x="454" y="111" text-anchor="middle" class="label">Feed read</text><text x="454" y="130" text-anchor="middle" class="small">viewer opens app</text>
+  <rect x="562" y="85" width="108" height="60" class="box"/><text x="616" y="111" text-anchor="middle" class="label">Recent posts</text><text x="616" y="130" text-anchor="middle" class="small">followed author</text>
+  <path d="M504 115 H562" class="line"/><text x="537" y="180" text-anchor="middle" class="small">No write storm; more read-time work</text>
 
-  <rect x="365" y="35" width="310" height="330" class="panel read"/>
-  <text x="520" y="70" text-anchor="middle" class="label">Fanout on read</text>
-  <rect x="410" y="105" width="110" height="55" class="box"/>
-  <text x="465" y="137" text-anchor="middle" class="small">Bob opens feed</text>
-  <rect x="545" y="105" width="90" height="55" class="box"/>
-  <text x="590" y="129" text-anchor="middle" class="small">Pull friends'</text>
-  <text x="590" y="146" text-anchor="middle" class="small">posts</text>
-  <rect x="410" y="210" width="225" height="75" class="box"/>
-  <text x="522" y="240" text-anchor="middle" class="small">merge recent posts</text>
-  <text x="522" y="260" text-anchor="middle" class="small">at request time</text>
-  <path d="M520 133 H545" class="line"/>
-  <path d="M590 160 V210" class="line"/>
-  <text x="520" y="315" text-anchor="middle" class="small">Less wasted work, slower reads</text>
-
-  <rect x="705" y="35" width="310" height="330" class="panel hybrid"/>
-  <text x="860" y="70" text-anchor="middle" class="label">Hybrid</text>
-  <rect x="750" y="105" width="110" height="55" class="box"/>
-  <text x="805" y="129" text-anchor="middle" class="small">Normal user</text>
-  <text x="805" y="146" text-anchor="middle" class="small">push</text>
-  <rect x="875" y="105" width="100" height="55" class="box"/>
-  <text x="925" y="129" text-anchor="middle" class="small">Celebrity</text>
-  <text x="925" y="146" text-anchor="middle" class="small">pull</text>
-  <rect x="750" y="210" width="225" height="75" class="box"/>
-  <text x="862" y="240" text-anchor="middle" class="small">fast for most users</text>
-  <text x="862" y="260" text-anchor="middle" class="small">safe for hot accounts</text>
-  <path d="M805 160 V210" class="line"/>
-  <path d="M925 160 V210" class="line"/>
-  <text x="860" y="315" text-anchor="middle" class="small">Default interview answer</text>
+  <rect x="20" y="266" width="680" height="206" class="panel hybrid"/>
+  <text x="360" y="300" text-anchor="middle" class="title">Hybrid: a bounded read merge avoids a celebrity write storm</text>
+  <rect x="58" y="338" width="170" height="70" class="box"/><text x="143" y="366" text-anchor="middle" class="label">Normal author post</text><text x="143" y="388" text-anchor="middle" class="small">push to follower feed IDs</text>
+  <rect x="275" y="338" width="170" height="70" class="box"/><text x="360" y="366" text-anchor="middle" class="label">Feed reader</text><text x="360" y="388" text-anchor="middle" class="small">combines both candidate sets</text>
+  <rect x="492" y="338" width="170" height="70" class="box"/><text x="577" y="366" text-anchor="middle" class="label">High-fanout post</text><text x="577" y="388" text-anchor="middle" class="small">pull recent posts on read</text>
+  <path d="M228 373 H275" class="line"/><path d="M492 373 H445" class="line"/>
+  <text x="360" y="442" text-anchor="middle" class="small">The feed service deduplicates, filters visibility, sorts, then hydrates the page.</text>
 </svg>

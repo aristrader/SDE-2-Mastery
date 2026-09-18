@@ -72,6 +72,10 @@ Before finalizing, check that the rewritten page can answer the same useful ques
 what is being designed, the normal path, pressure points, chosen trade-offs, and failure recovery. Add a
 compact further-reading link only when it is useful to the learner and was actually consulted.
 
+For a case study, use the `hld-case-study-docs` reference-evidence gate rather than treating the presence of a
+diagram, headings, tables, or citations as quality evidence. The review must establish that a first-time reader can
+state the baseline, the pressure that breaks it, the selected mechanism, its cost, and its failure boundary.
+
 ## Source-preservation gate
 
 Before a structural rewrite, inventory each distinct source claim, example, estimate, misconception, diagram,
@@ -133,8 +137,9 @@ does not prove that reusable study material survived.
 After a substantial rewrite and rendered review, score scope/mental model, causal mechanism, trade-offs and
 failure recovery, and communication/visual clarity out of 20. A page is complete only when every applicable
 dimension is 20/20. For every lower score, name the precise missing evidence, improve the page, and add the
-narrow preventive rule to this skill or `study-visuals` before continuing to another page. Report the final
-scorecard and changed rule in the handoff.
+narrow preventive rule to this skill or `study-visuals` before continuing to another page. A successful build,
+complete-looking table, or visible diagram is never sufficient evidence for 20/20. Report the final scorecard,
+reader-verifiable evidence, and changed rule in the handoff.
 
 ## Study-plan handling
 

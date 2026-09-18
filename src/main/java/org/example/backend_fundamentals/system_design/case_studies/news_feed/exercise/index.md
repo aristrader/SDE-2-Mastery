@@ -28,6 +28,10 @@ Set a 45-minute timer. Do not read the reference design until you have drawn the
 
 Design a reverse-chronological news feed for 10M DAU where users can publish text/media posts and read friends' posts.
 
+Begin by describing the smallest design that merges recent posts from followed authors on every read. Then identify
+the reader-latency pressure that moves normal authors to fanout-on-write and the hot-author pressure that requires a
+hybrid read-time merge. Do not start with a list of infrastructure products.
+
 Cover:
 
 - publish API
@@ -47,9 +51,11 @@ Cover:
 - Explain why post cache and news feed cache are separate.
 - Include a hybrid fanout strategy for high-follower users.
 - Include rate limiting on posting.
-- Include idempotent fanout writes.
+- Commit the post and a fanout outbox event together; make replayed fanout writes idempotent.
 - Include stale-feed behavior when fanout lags.
-- Mention cache miss fallback to durable feed-entry storage or read-time merge.
+- Mention cache-miss fallback to durable feed-entry storage plus read-time merge for high-follower authors.
+- Explain why delete, block, mute, and privacy changes still need a read-time visibility check.
+- State what the author sees after acceptance and what a follower sees while fanout is delayed.
 
 ## Interviewer follow-ups
 
@@ -57,6 +63,10 @@ Cover:
 2. Why does a feed cache store ordered post IDs rather than full post bodies?
 3. What happens when fanout workers lag for ten minutes?
 4. How do delete/privacy changes reach already materialized feeds?
+5. How does the system avoid losing a committed post if the process dies before publishing to the fanout queue?
+6. Why is a queue not itself the durable acceptance boundary for a post?
+7. A cache entry says a post is visible but the author has now blocked the viewer. Which source wins and why?
+8. How do you avoid duplicated or skipped results when new posts arrive during pagination?
 
 ## Self-review
 

@@ -49,6 +49,11 @@ source-controlled renderer is already available or a larger case-study batch jus
    visuals do not duplicate or distract from the nearby explanation. If labels are too small, reduce concepts or
    split the visual; do not call it done merely because it has no overflow.
 
+For a public study page, write down the exact reader question before creating the visual and verify that the rendered
+asset answers it in under ten seconds. Use a visual only for one of these jobs: ownership/context, normal path,
+failure/recovery path, lifecycle, or strategy comparison. If it cannot answer its declared question independently,
+remove it or rebuild it; a labeled component inventory is not an architecture explanation.
+
 ## Visual-preservation gate
 
 Before replacing or removing an existing visual, record the reader question it answered and the source concepts it
@@ -68,13 +73,19 @@ learning value survived.
   different questions, such as normal request flow and failure recovery.
 - A diagram must fit the rendered reading column, not only its source canvas. Use short labels and one visual
   job; move supporting detail into prose rather than shrinking text to preserve every component.
+- At the rendered reading width, labels must be comfortably readable at normal browser zoom (target at least
+  12 px). Inspect hierarchy, arrow direction, branch distinction, and scanability in addition to overflow.
+- A complex HLD case normally needs different visuals for different reader questions: an ownership/context view
+  plus either a normal/failure sequence or a strategy comparison. Do not claim that one dense picture covers all
+  of those jobs.
 
 ## Scored completion
 
 After rendered review, score visual purpose, technical accuracy, reading-column readability, and relationship
-to nearby prose out of 20. A visual is complete only when every applicable dimension is 20/20. For every lower
-score, state the exact deficiency, revise the visual, and add the narrow preventive rule to this skill before
-the next page is reviewed. Report the final scorecard and changed rule in the handoff.
+to nearby prose out of 20. A visual is complete only when every applicable dimension is 20/20. Rendering without
+overflow is not a high score: the visual needs a stated reader question and reader-verifiable answer. For every lower
+score, state the exact deficiency, revise the visual, and add the narrow preventive rule to this skill before the next
+page is reviewed. Report the final scorecard and changed rule in the handoff.
 
 ## Batch review
 

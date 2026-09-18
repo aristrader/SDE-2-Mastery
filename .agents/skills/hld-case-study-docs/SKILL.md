@@ -56,6 +56,32 @@ mode, and follow-up. Map every item to the revised case-study section, a clearly
 an explicitly named interview-scope cut with a reason. After drafting, recheck the map against the source. Do not use a
 smaller word count, cleaner narrative, or Git history as evidence that material was preserved.
 
+## Reference-evidence gate
+
+For a public, first-time-reader case study, perform a real quality comparison before drafting and again after the
+rendered review. A reputable interview resource such as Hello Interview is a benchmark for learning flow; an
+authoritative engineering source is evidence for a factual mechanism. Neither is a prose, heading, diagram, or
+solution template.
+
+Make a private working map with these reader milestones. For each one, record the existing-source concept, the
+benchmark expectation, and the exact final heading, visual, or linked destination that proves it survived:
+
+1. the prompt, assumptions, and explicit scope;
+2. a plain-language mental model and a simple baseline;
+3. the pressure that breaks the baseline;
+4. requirements and one estimate that change a decision;
+5. API/data contracts and ownership;
+6. a complete normal write or event path;
+7. a complete normal read path;
+8. the chosen scaling strategy and rejected alternative;
+9. a concrete correctness/failure/recovery boundary; and
+10. an interview delivery order and decision-focused recall.
+
+Do not score a milestone as covered because a heading, table, citation, or rendered diagram exists. It is covered
+only when a reader can explain the causal chain without relying on unstated background knowledge. Define a term on
+first use when it carries the design: for example, distinguish a post, a feed entry, fanout, candidate selection,
+and hydration instead of treating them as interchangeable labels.
+
 ## Depth and decision rules
 
 - Requirements should reveal the hard part. Mark extras out of scope instead of solving every product feature.
@@ -93,9 +119,11 @@ the actual rendered reading-column width: a diagram that is technically correct 
 | Communication | Heading order supports a short spoken walkthrough; diagrams have one job. |
 
 Score every applicable dimension out of 20 after the rendered review. Do not mark the case study complete
-until each dimension is 20/20. When a score is lower, identify the exact missing evidence, improve the page,
-and update this skill or `study-visuals` with the narrow rule that would have prevented that gap before moving
-to the next case study. Report the final scorecard and the preventive rule changed in the handoff.
+until each dimension is 20/20. A 20 requires reader-verifiable evidence from the reference-evidence map, not a
+successful build, a plausible component list, or a diagram that merely renders. When a score is lower, identify the
+exact missing explanation or visual, improve the page, and update this skill or `study-visuals` with the narrow rule
+that would have prevented that gap before moving to the next case study. Report the final scorecard, evidence, and
+preventive rule changed in the handoff.
 
 ## Validation
 
