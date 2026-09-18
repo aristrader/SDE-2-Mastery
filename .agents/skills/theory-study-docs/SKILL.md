@@ -73,6 +73,14 @@ background unless they change an answer a senior Java-backend interviewer would 
   combine decisions, use converging branches or state the composition explicitly.
 - End study pages with `## Quick recall` containing short interview-focused Q&A.
 
+## Scored completion
+
+After a substantial rewrite and rendered review, score problem and mental model, mechanism and concrete
+consequence, traps/trade-offs/boundaries, and communication/visual clarity out of 20. A page is complete
+only when every applicable dimension is 20/20. For every lower score, name the precise missing evidence,
+improve the page, and add the narrow preventive rule to this skill or `study-visuals` before continuing.
+Report the final scorecard and changed rule in the handoff.
+
 ## Study-plan handling
 
 - Link covered Part rows to the destination docs. Use `Partial` only when a concrete gap remains; mark `Done` only after substantial coverage.

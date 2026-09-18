@@ -44,8 +44,10 @@ source-controlled renderer is already available or a larger case-study batch jus
    navigation validation.
 6. Add meaningful Markdown alt text. For a complex technical visual, preserve the equivalent explanation in
    nearby prose.
-7. Build the site. With a local preview, verify Mermaid blocks render to SVG, visuals have no console errors,
-   no horizontal overflow at normal desktop width, readable labels, and no duplicated/distracting visuals.
+7. Build the site. With a local preview at the actual documentation-column width, verify Mermaid blocks render
+   to SVG, visuals have no console errors, no horizontal overflow, labels can be read without browser zoom, and
+   visuals do not duplicate or distract from the nearby explanation. If labels are too small, reduce concepts or
+   split the visual; do not call it done merely because it has no overflow.
 
 ## Quality gates
 
@@ -57,6 +59,15 @@ source-controlled renderer is already available or a larger case-study batch jus
 - An AI image is supplementary and contains no unverified text or technical claim.
 - Prefer one strong visual over several overlapping ones. Split only when a reader must understand two
   different questions, such as normal request flow and failure recovery.
+- A diagram must fit the rendered reading column, not only its source canvas. Use short labels and one visual
+  job; move supporting detail into prose rather than shrinking text to preserve every component.
+
+## Scored completion
+
+After rendered review, score visual purpose, technical accuracy, reading-column readability, and relationship
+to nearby prose out of 20. A visual is complete only when every applicable dimension is 20/20. For every lower
+score, state the exact deficiency, revise the visual, and add the narrow preventive rule to this skill before
+the next page is reviewed. Report the final scorecard and changed rule in the handoff.
 
 ## Batch review
 

@@ -5,70 +5,60 @@ search: false
 
 # URL Shortener Exercise
 
-## Exercise: url-shortener-hld - Design The System
+## Exercise: url-shortener-hld - Design a Read-Heavy Redirect Service
 
 ### Goal
 
-Walk through the URL shortener HLD in 30-45 minutes.
+Give a 35–40 minute HLD answer for a TinyURL-style system that creates generated aliases and redirects them at
+scale.
 
-## Timed mock
+### Timed mock
 
-Set a 40-minute timer. Attempt the prompt before opening the design tab.
-
-| Time | What to produce |
-|---|---|
-| 0-5 min | Requirements, scope, redirect/analytics consistency choice |
-| 5-8 min | Create versus redirect QPS, storage, and short-code capacity |
-| 8-13 min | APIs, data model, and code-generation decision |
-| 13-25 min | Create path, redirect path, cache, database, and async analytics |
-| 25-35 min | Deep dive: ID generation/collision safety and redirect-read scale |
-| 35-40 min | Failure modes, abuse control, and trade-offs |
+| Time | Focus |
+| --- | --- |
+| 0–5 min | Scope, traffic, expiry/custom-alias, and click-visibility questions |
+| 5–10 min | Capacity and base62 length |
+| 10–25 min | Create/redirect paths, storage, cache, and async analytics |
+| 25–35 min | ID allocation, cache failures, hot keys, and partitioning |
+| 35–40 min | Abuse controls, trade-offs, and extensions |
 
 ### Prompt
 
-Design a URL shortening service that creates compact aliases and redirects short URLs to original URLs at scale.
+Design a service that converts long URLs into compact aliases. A visitor opening an alias should be redirected
+to its saved destination with low latency.
 
-### Required sections
+### Clarify before designing
 
-- Clarifying questions
-- Functional and non-functional requirements
-- Back-of-envelope estimation
-- APIs
-- Data model
-- High-level architecture
-- Short-code generation strategy
-- Redirect flow
-- Scaling and failure modes
+- Are aliases generated only, or can users reserve custom names?
+- Are mappings immutable, expiring, or editable?
+- What traffic and retention assumptions apply?
+- Must every click remain observable, or can clients cache stable redirects?
+- Are analytics, moderation, and malware scanning synchronous requirements?
 
-### Self-grilling questions
+### Your answer must cover
 
-- What breaks if you use the first 7 characters of MD5 without collision handling?
-- Why does base62 not solve uniqueness by itself?
-- What happens to click analytics if you return `301`?
-- Which parts of the design are read-path critical and which are create-path critical?
-- What keeps the service working if analytics workers are down?
-- What exact component depends on the distributed ID generator?
-- How would you stop one user from creating millions of spam links?
+- Capacity estimate and base62 code-length reasoning.
+- Create path: validation, unique ID, base62 encoding, durable unique mapping.
+- Redirect path: cache hit, cache miss, expiry/status check, and redirect response.
+- Why analytics is asynchronous and why the mapping store remains authoritative.
+- Hash partitioning, cache failure, ID-generator failure, hot-key behavior, and create abuse.
+- The separate choices of redirect semantics and response cache policy.
 
 ### Acceptance criteria
 
-- You justify 7-character base62 capacity from the estimate.
-- You explain why base62 needs a distributed ID generator.
-- You compare hash+collision vs base62 ID generation.
-- You choose `301` or `302` based on analytics needs.
-- You keep analytics off the redirect critical path.
-- You mention caching, DB sharding/replication, and create-endpoint rate limiting.
+- Define a source of uniqueness before base62 conversion and retain a database uniqueness guard.
+- Give the redirect response only after resolving an active mapping from cache or the durable store.
+- Keep analytics out of the redirect success path.
+- State the cache-miss, cache-down, and mapping-partition failure outcomes.
+- Explain why `301`/`302` do not by themselves decide click visibility.
+- Keep custom aliases and destination updates as explicit follow-ups unless required.
 
-## Self-review
+### Interview follow-ups
 
-Score each item `0`, `1`, or `2`: missing, named but vague, or explained with flow/trade-off/recovery.
-
-| Signal | Score |
-|---|---|
-| Requirements distinguish redirect latency from analytics | |
-| Code generation has a uniqueness/collision answer | |
-| Redirect is cache-first and analytics stays off its critical path | |
-| Read scale and create scale use different mechanisms | |
-| Abuse, expiry, and dependency failures have a response | |
-
-**Target:** at least `7/10`. Then compare with [Design](/system_design/case_studies/url_shortener/design/).
+- How would random aliases change collision handling?
+- How would custom aliases change the create path?
+- What should happen to an expired mapping already in cache?
+- How would a viral link avoid stampeding the mapping partition?
+- When would a permanent redirect be acceptable?
+- What breaks if a hash prefix is used without collision handling?
+- Which component is affected when the ID generator is unavailable?

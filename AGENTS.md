@@ -11,6 +11,9 @@ This is the authoritative agent instruction file for the repo.
 - Do not put files directly under `src/main/java/org/example/`.
 - Do not add `package-info.java` placeholders.
 - Preserve unrelated user changes.
+- For substantive study Markdown, prefer targeted patches over delete-and-recreate edits. Preserve distinct
+  reasoning, examples, exercises, estimates, and follow-ups in the active docs; Git history is not a substitute
+  for preserving useful learner context.
 
 ## Local Project Workspace
 
@@ -22,6 +25,7 @@ This is the authoritative agent instruction file for the repo.
 
 - Use ponytail by default for all repo work: smallest correct change, reuse existing code/patterns first, avoid speculative abstractions, and keep explanations short unless the user asks for depth.
 - Versioned reusable agent workflows live in `.agents/skills/`. Keep each skill narrowly scoped; use the matching HLD, LLD, theory, or exercise skill rather than combining workflows.
+- Use `.agents/skills/hld-case-study-docs/` for `system_design/case_studies/`; use the general HLD workflow for patterns, components, and concepts.
 - For substantial study-content drafting or rewrites, run the `.agents/skills/study-visuals/` review before final validation. Add only a visual that improves a concrete reader question; choose Mermaid/C4/SVG for exact technical claims and AI raster illustration only for supplementary intuition.
 - The user often wants to write code themselves. If they say to guide/review only, do not edit active `.java` or `.md` files until asked.
 - When asked "is this right?", answer directly: yes/no, exact issue, exact fix.

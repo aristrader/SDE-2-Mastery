@@ -1,32 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540" role="img" aria-labelledby="title desc">
-  <title id="title">Chat system architecture</title>
-  <desc id="desc">Clients connect through service discovery to stateful chat servers, which persist messages, route live events, coordinate presence, and notify offline users.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="560" viewBox="0 0 780 560" role="img" aria-labelledby="title desc">
+  <title id="title">Chat architecture: durable messages and connection-owned delivery</title>
+  <desc id="desc">A client is routed to a chat server that owns its persistent WebSocket. The sender server persists an ordered message and outbox entry. A delivery worker looks up the recipient's connection owner and sends a live push or an offline notification.</desc>
   <style>
-    text { font-family: Arial, sans-serif; fill: #172033; font-size: 16px; }
-    .title { font-size: 22px; font-weight: 700; }
-    .box { stroke: #475569; stroke-width: 2; rx: 6; }
+    text { font-family: Arial, sans-serif; fill: #172033; font-size: 18px; }
+    .title { font-size: 24px; font-weight: 700; }
+    .box { stroke: #475569; stroke-width: 2; rx: 8; }
     .client { fill: #dbeafe; } .api { fill: #dcfce7; } .chat { fill: #fef3c7; }
     .data { fill: #fce7f3; } .event { fill: #e0e7ff; } .external { fill: #ffedd5; }
-    .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .arrow { stroke: #334155; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    .bi { stroke: #334155; stroke-width: 2.5; fill: none; marker-start: url(#arrow-start); marker-end: url(#arrow); }
     .dash { stroke-dasharray: 7 5; }
-    .label { font-size: 14px; fill: #475569; }
+    .label { font-size: 15px; fill: #475569; }
+    .small { font-size: 14px; fill: #475569; }
   </style>
-  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker></defs>
-  <text x="40" y="40" class="title">Chat System: connection ownership and durable message routing</text>
-  <rect x="45" y="100" width="150" height="68" class="box client"/><text x="83" y="140">Web / mobile</text>
-  <rect x="245" y="100" width="165" height="68" class="box api"/><text x="270" y="132">API servers</text><text x="263" y="154" class="label">login, profile, settings</text>
-  <rect x="460" y="100" width="170" height="68" class="box event"/><text x="482" y="132">Service discovery</text><text x="491" y="154" class="label">region + capacity</text>
-  <rect x="700" y="82" width="170" height="104" class="box chat"/><text x="739" y="125">Chat servers</text><text x="721" y="149" class="label">WebSocket owners</text><text x="726" y="169" class="label">route live messages</text>
-  <rect x="925" y="100" width="150" height="68" class="box client"/><text x="962" y="140">Recipient devices</text>
-  <path d="M195 134 H245 M410 134 H460 M630 134 H700 M870 134 H925" class="arrow"/>
-  <text x="650" y="72" class="label">persistent WebSocket</text>
-  <rect x="215" y="318" width="190" height="75" class="box data"/><text x="240" y="351">Message store</text><text x="231" y="375" class="label">ordered chat history</text>
-  <rect x="470" y="318" width="190" height="75" class="box event"/><text x="492" y="351">Sync stream / inbox</text><text x="498" y="375" class="label">recipient catch-up</text>
-  <rect x="725" y="318" width="155" height="75" class="box data"/><text x="756" y="351">Presence store</text><text x="745" y="375" class="label">heartbeat expiry</text>
-  <rect x="930" y="318" width="145" height="75" class="box external"/><text x="953" y="351">Notification</text><text x="968" y="375">system</text>
-  <path d="M785 186 V270 H310 V318 M785 186 V270 H565 V318 M785 186 V318 M785 186 V270 H1002 V318" class="arrow"/>
-  <path d="M1002 318 V245 H870" class="arrow dash"/>
-  <text x="904" y="235" class="label">offline only</text>
-  <text x="45" y="470" class="label">HTTP remains appropriate for regular account APIs. WebSocket is used only where server-to-client real-time delivery is required.</text>
-</svg>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker>
+    <marker id="arrow-start" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M8,0 L0,4 L8,8 Z" fill="#334155"/></marker>
+  </defs>
 
+  <text x="24" y="36" class="title">Chat system: persist first, then route to the connection owner</text>
+
+  <rect x="20" y="92" width="115" height="76" class="box client"/>
+  <text x="39" y="124">Sender</text><text x="39" y="147">device</text>
+  <rect x="155" y="92" width="120" height="76" class="box event"/>
+  <text x="171" y="124">Connection</text><text x="182" y="147">router</text>
+  <rect x="295" y="82" width="125" height="96" class="box chat"/>
+  <text x="320" y="118">Chat server A</text><text x="311" y="143" class="label">sender WebSocket</text><text x="326" y="163" class="small">owner</text>
+  <rect x="455" y="82" width="125" height="96" class="box chat"/>
+  <text x="480" y="118">Chat server B</text><text x="467" y="143" class="label">recipient WebSocket</text><text x="486" y="163" class="small">owner</text>
+  <rect x="615" y="92" width="125" height="76" class="box client"/>
+  <text x="633" y="124">Recipient</text><text x="645" y="147">device</text>
+
+  <path d="M135 130 H155 M275 130 H295" class="arrow"/>
+  <text x="166" y="78" class="label">bootstrap</text>
+  <path d="M135 161 C195 222, 239 222, 295 169" class="bi"/>
+  <text x="164" y="229" class="label">persistent WebSocket</text>
+  <path d="M580 130 H615" class="bi"/>
+  <text x="586" y="78" class="label">WebSocket</text>
+
+  <rect x="20" y="320" width="145" height="74" class="box api"/>
+  <text x="44" y="351">Stateless APIs</text><text x="39" y="376" class="label">login, profile</text>
+  <rect x="245" y="288" width="165" height="104" class="box data"/>
+  <text x="270" y="326">Message log</text><text x="275" y="350">+ outbox</text><text x="264" y="374" class="label">durable acceptance</text>
+  <rect x="450" y="288" width="135" height="104" class="box event"/>
+  <text x="466" y="326">Delivery</text><text x="466" y="350">worker</text><text x="462" y="374" class="label">replay safe</text>
+  <rect x="625" y="288" width="115" height="104" class="box data"/>
+  <text x="642" y="326">Connection</text><text x="652" y="350">registry</text><text x="642" y="374" class="label">device owner</text>
+  <rect x="450" y="440" width="145" height="74" class="box external"/>
+  <text x="468" y="471">Notification</text><text x="484" y="496" class="label">offline only</text>
+
+  <path d="M77 168 V320" class="arrow"/>
+  <path d="M357 178 V288 M410 340 H450 M585 340 H625" class="arrow"/>
+  <path d="M682 288 V228 H517 V178" class="arrow"/>
+  <path d="M517 392 V440" class="arrow dash"/>
+  <path d="M595 477 H677 V168" class="arrow dash"/>
+  <text x="606" y="227" class="label">lookup then push</text>
+  <text x="600" y="462" class="label">offline</text>
+
+  <text x="20" y="545" class="label">History plus a device-conversation cursor repairs missed or repeated live delivery after reconnect.</text>
+</svg>

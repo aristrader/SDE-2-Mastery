@@ -34,6 +34,9 @@ Do not turn a case study into an operational runbook or a catalog of cloud servi
 
 ## Workflow
 
+For pages under `system_design/case_studies/`, use the repository `hld-case-study-docs` skill as the active
+workflow; this skill remains the shared workflow for HLD patterns, components, and concepts.
+
 1. Read the repository `AGENTS.md`, the study-plan `README.md`, and `reference/DocCreationStandard.md`.
 2. Read every supplied source to EOF. Handle long single-line transcripts correctly.
 3. Inspect the destination case study plus related concept and case-study docs. Improve existing material rather than duplicating it.
@@ -117,6 +120,14 @@ compact further-reading link only when it is useful to the learner and was actua
 - When diagrams change, run the docs build. If a local preview is available, verify every Mermaid block
   becomes one SVG without browser-console errors or horizontal overflow at a normal desktop viewport.
 - End study pages with short `## Quick recall` prompts that test decisions, not vocabulary.
+
+## Scored completion
+
+After a substantial rewrite and rendered review, score scope/mental model, causal mechanism, trade-offs and
+failure recovery, and communication/visual clarity out of 20. A page is complete only when every applicable
+dimension is 20/20. For every lower score, name the precise missing evidence, improve the page, and add the
+narrow preventive rule to this skill or `study-visuals` before continuing to another page. Report the final
+scorecard and changed rule in the handoff.
 
 ## Study-plan handling
 

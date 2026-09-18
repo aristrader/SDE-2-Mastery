@@ -63,6 +63,14 @@ the user explicitly authorizes identifiable context.
   screenshots from books, courses, PDFs, or web pages. When diagrams change, validate the built page;
   with a local preview, check Mermaid SVG rendering, browser errors, and horizontal overflow.
 
+## Scored completion
+
+After a substantial exercise or solution rewrite and rendered review, score attemptability, solution-to-
+requirement traceability, interview-relevant reasoning, and communication/visual clarity out of 20. A module
+is complete only when every applicable dimension is 20/20. For every lower score, name the precise missing
+evidence, improve the exercise or solution, and add the narrow preventive rule to this skill or
+`study-visuals` before continuing. Report the final scorecard and changed rule in the handoff.
+
 ## Module and study-plan handling
 
 - Follow the repository's module schema, ordering, `search: false` requirements, and `## Exercise: id - Title` / `## Solution: id - Title` headings exactly.

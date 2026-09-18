@@ -111,6 +111,14 @@ the user explicitly authorizes identifiable context.
   readable at a normal desktop viewport.
 - End study pages with short `## Quick recall` prompts that test design choices.
 
+## Scored completion
+
+After a substantial rewrite and rendered review, score problem navigation/invariants, model and interactions,
+correctness and extension trade-offs, and communication/visual clarity out of 20. A page is complete only
+when every applicable dimension is 20/20. For every lower score, name the precise missing evidence, improve
+the page, and add the narrow preventive rule to this skill or `study-visuals` before continuing. Report the
+final scorecard and changed rule in the handoff.
+
 ## Study-plan handling
 
 - Preserve source discussion, misconceptions, and learner questions when reorganizing.

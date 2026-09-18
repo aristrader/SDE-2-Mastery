@@ -4,53 +4,50 @@ order: 80
 
 # Chat System
 
-## What the system does
+## Interview scope
 
-Design a Messenger-style text chat system for mobile and web. The scope from Alex Xu pages 178-199 is one-to-one chat, small groups, presence, multiple devices, durable history, and push notifications.
+Design a Messenger-style text-chat system for mobile and web. This deliberately covers one-to-one chat,
+groups of at most 100 members, multiple devices, presence, durable history, and offline notification. It
+does not cover media processing, end-to-end encryption, search, or large public channels.
 
-```text
-50M DAU
-1:1 chat plus groups of at most 100 members
-Text messages only, up to 100,000 characters
-Low delivery latency; history retained indefinitely
-No end-to-end encryption in the base design
-```
+| Clarification | Agreed answer | Design consequence |
+| --- | --- | --- |
+| What can users send? | Text only | No object storage, upload pipeline, or CDN in the base answer. |
+| Which ordering matters? | Per conversation/channel | Each conversation needs one durable append order; global total order is unnecessary. |
+| What delivery promise is useful? | At-least-once, durable after acceptance | Sender retries need idempotency and devices deduplicate a durable message ID. |
+| How large are groups? | At most 100 members | Fan out lightweight inbox references per member; this is not a public-channel design. |
+| What happens on a second device or reconnect? | It must catch up fully | Keep durable history and a cursor per device-conversation, not one cursor per account. |
 
-## Mental model
+The scale assumption is **50M DAU**, but the useful estimate is concurrent WebSocket connections rather than
+raw DAU. That number determines chat-server connection capacity and regional fleet size; exact message QPS
+is only worth calculating if it changes a storage partition or fanout decision.
 
-There are two very different server roles:
+## Start with one durable message
 
-```text
-HTTP API servers: stateless login, profile, and settings requests
-Chat servers: stateful owners of persistent WebSocket connections
-```
+The smallest correct path is not “send a WebSocket frame to the other user.” A frame can be lost and either
+chat server can fail. Instead, the sender's chat server authenticates and authorises the conversation,
+deduplicates `clientMessageId`, appends the message in the conversation's durable order, and records the
+recipient-delivery work with that write. Only then does it acknowledge the sender.
 
-A message is durable before it is treated as delivered. The sender's chat server assigns an ordered message ID, persists the message, then routes it to every currently connected recipient device. Offline devices catch up from stored history; push notifications only wake them up.
+Live WebSocket push makes the message timely. Durable history plus a per-device, per-conversation cursor
+makes it correct when the recipient is offline, the connection owner changes, or delivery is replayed.
 
-## Interview blueprint
+## Interview delivery
 
-1. Clarify one-to-one vs group chat, group-size limit, text/media, DAU/concurrent users, ordering, history retention, multi-device support, presence, and E2EE.
-2. Estimate concurrent WebSocket connections, messages/sec, storage growth, and group fanout. Do not confuse DAU with concurrent connections.
-3. State the split: HTTP for normal APIs, WebSocket for low-latency bidirectional messaging.
-4. Draw API servers, service discovery, chat servers, message store, presence store, notification system, and message routing/sync queue.
-5. Deep dive on message ordering, multi-device synchronization, group fanout, and presence heartbeats.
-6. Close with reconnect, retries, duplicate suppression, and the extensions deliberately left out.
+1. Agree the narrow scope above and name ordering, durability, and multi-device sync as the cruxes.
+2. Establish HTTP for account APIs and persistent WebSockets for active chat.
+3. Trace one accepted message through durable append, recipient routing, live delivery, and offline catch-up.
+4. Deep dive on conversation ordering/idempotency, connection ownership/reconnect, and bounded small-group fanout.
+5. Close with heartbeat-based presence, retries, deduplication, and explicit extensions.
 
-## High-level architecture
+## Architecture follows the path
 
 ![Chat system architecture](./assets/chat-system-architecture.svg)
 
-```text
-login/profile -> load balancer -> stateless API servers
-                                      -> service discovery -> selected chat server
-
-client <== persistent WebSocket ==> chat server
-chat server -> durable message store + recipient sync stream
-            -> recipient chat server when online
-            -> notification system when offline
-```
-
-Service discovery returns a healthy, nearby chat-server endpoint with connection capacity. The client keeps that WebSocket until it disconnects; normal HTTP load balancing alone cannot route a server-originated message to the connection's owner.
+Connection routing returns a healthy, nearby chat-server endpoint with connection capacity. The client keeps
+that WebSocket until it disconnects; normal HTTP load balancing alone cannot route a server-originated
+message to the connection's owner. The connection registry maps a user/device to that owner so delivery
+workers know which chat server can perform the final live push.
 
 ## Transport choice
 
@@ -64,37 +61,54 @@ Use WebSocket for message send and receive to simplify the client and server pro
 
 ## Data and storage
 
-Use relational storage for account/profile/settings/friend data. Use a horizontally scalable wide-column or key-value message store for message history: writes are huge, recent history is hot, reads also need random access for search or jump-to-message.
+Use relational storage for account/profile/settings/friend data. Use a horizontally scalable wide-column or
+key-value message store for message history: writes are heavy, recent history is hot, and the main read shape is
+a conversation range for history or cursor catch-up.
 
 | Data | Key / access shape |
 | --- | --- |
 | User/profile/settings | `userId` |
 | Connection registry | `userId -> connected chat-server/device IDs` |
-| 1:1 message | conversation key plus ordered `messageId` |
-| Group message | `(channelId, messageId)`; partition by `channelId` |
-| Per-device cursor | `(userId, deviceId) -> lastSeenMessageId` |
+| 1:1 message | `(conversationId, sequence)` plus globally unique `messageId` |
+| Group message | `(channelId, sequence)`; partition by `channelId` |
+| Per-device cursor | `(userId, deviceId, conversationId) -> lastAppliedSequence` |
 | Presence | `userId -> online, lastActiveAt, heartbeat expiry` |
 
-For a conversation, message IDs must be unique and sortable in the required order. A global Snowflake-like ID is acceptable; a per-conversation sequence is simpler when only order within that conversation matters. Do not order solely by `created_at`: simultaneous writes can share timestamps or arrive out of order.
+For a conversation, the write owner must assign the durable append order. Route a conversation to one
+partition/leader and allocate a per-conversation `sequence`, or use a store with a conditional append
+position. `messageId` is globally unique for identity and deduplication, but is not by itself a strict canonical
+order when two chat servers append concurrently. Do not order solely by `created_at`: simultaneous writes
+can share a timestamp or arrive out of order.
 
 ## One-to-one message flow
 
 ![Message state and sync flow](./assets/chat-message-flow.svg)
 
-1. Sender sends a WebSocket message to its connected chat server.
-2. Server authenticates, authorizes the conversation, assigns `messageId`, and writes the message durably.
-3. Server writes/routs a recipient sync event after the durable write.
-4. If a recipient device is online, its owning chat server pushes the message through its WebSocket.
-5. If no recipient device is online, invoke the notification system; history remains in the message store.
-6. Recipient acknowledges receipt/read separately. A timeout or reconnect can cause retry, so receiver-side dedupe uses `messageId`.
+1. Sender sends `SEND_MESSAGE(clientMessageId, conversationId, body)` to its connection-owning chat server.
+2. Server authenticates membership, returns the existing result for a retried `clientMessageId`, and routes a
+   new command to the conversation's append owner if necessary.
+3. The append owner writes the ordered message and recipient-delivery record in one durable transaction or
+   records an outbox event with the message.
+4. Only after that write does the sender receive `ACK(clientMessageId, messageId)`.
+5. A delivery worker finds each recipient device's current chat-server owner and pushes to active WebSockets.
+6. Offline devices receive a notification wake-up; all devices use durable history to catch up after cursor.
+7. Receipt/read state is separate from message acceptance. Delivery can replay after failure, so devices
+   deduplicate by `messageId`.
 
-The book shows a message sync queue. Treat it as a durable per-recipient delivery stream/inbox, not necessarily a physical Kafka topic for every user. Its job is to decouple persistence and live delivery, and to give devices a catch-up source.
+Treat the recipient sync queue as a durable per-recipient delivery stream/inbox, not necessarily a physical
+Kafka topic for every user. Its job is to decouple persistence from live delivery and to give devices a
+catch-up source. The durable message record/outbox is still the acceptance authority; the stream can replay.
 
 ## Multiple devices and synchronization
 
-Each device tracks its own cursor, such as `lastSyncedMessageId`. On connection or reconnect, it asks for messages after that cursor for conversations it belongs to. A message is new to a device when it is for that user and its message ID is greater than the device cursor.
+Each device tracks a cursor for each conversation, such as `lastAppliedSequence`. On connection or reconnect,
+it asks for messages after that sequence for the conversations it belongs to. A message is new when its
+conversation sequence is greater than that device's stored cursor for the conversation.
 
-Never use one cursor for the whole account: a phone and laptop can be at different points. The server can fan out live events to all connected devices, while a reconnecting device pulls missed durable history. This gives at-least-once delivery; `messageId` makes replay safe.
+Never use one cursor for the whole account: a phone and laptop can be at different points, and each
+conversation has its own order. The server can fan out live events to all connected devices, while a
+reconnecting device pulls missed durable history. This gives at-least-once delivery; `messageId` makes replay
+safe.
 
 ## Small group chat
 
@@ -122,15 +136,16 @@ For small friend lists, publish status changes to subscribers. For very large gr
 
 | Failure | Handling |
 | --- | --- |
-| Chat server dies | Service discovery stops assigning it; clients reconnect to a new server and sync from durable history |
-| Sender retries after uncertain response | Sender reuses client message ID/idempotency key; server returns existing message |
-| Live push fails | Recipient pulls missed messages after its cursor on reconnect |
-| Duplicate sync event | Client or receiver deduplicates by `messageId` |
+| Chat server dies | Service discovery stops assigning it; clients reconnect to a new server and sync durable history after each cursor |
+| Append succeeds but ACK is lost | Sender retries the same client message ID and receives the already-created message result |
+| Delivery worker, push, or stream fails | Outbox/stream can replay; recipient deduplicates `messageId` or catches up after its cursor |
+| Connection registry is stale | Final push fails, worker re-reads the current owner; reconnect/history sync closes the gap |
 | Presence disconnect flaps | Heartbeat grace window instead of immediate offline state |
 | Notification provider fails | Notification retries/DLQ; message history is still available when app opens |
 | Group grows beyond bound | Move from per-recipient inbox copies to a channel log/read-time strategy |
 
-Use **at-least-once delivery with per-conversation ordering** as the base answer. Global total ordering across all chats is unnecessary and expensive.
+Use **at-least-once delivery with per-conversation ordering** as the base answer. Global total ordering across
+all chats is unnecessary and expensive.
 
 ## What to leave as extensions
 
@@ -141,6 +156,12 @@ Use **at-least-once delivery with per-conversation ordering** as the base answer
 - Client-side cache and geo-edge acceleration.
 
 Mention them only if time remains. The core interview design is WebSocket connection ownership, durable ordered messages, reconnect sync, small-group fanout, and presence.
+
+## Further reading
+
+- [Hello Interview: requirements gathering](https://www.hellointerview.com/blog/system-design-requirements)
+- [Hello Interview: real-time updates](https://www.hellointerview.com/learn/system-design/patterns/realtime-updates)
+- [RFC 6455: the WebSocket protocol](https://www.rfc-editor.org/rfc/rfc6455)
 
 ## Quick recall
 
@@ -154,11 +175,10 @@ A. Each active WebSocket connection is owned by a specific server until disconne
 A. A healthy chat-server endpoint selected using location and connection capacity.
 
 **Q. How is message order defined?**  
-A. By a unique, sortable message ID within a conversation/channel, not by wall-clock timestamp alone.
+A. By the per-conversation sequence assigned by its append owner; `messageId` identifies and deduplicates it.
 
 **Q. How does a second device catch up?**  
-A. It reads durable messages after its own last synced message ID.
+A. It reads durable messages after its own stored sequence for each conversation.
 
 **Q. Why is per-member group fanout acceptable here?**  
 A. The group is capped at 100; it would not be acceptable for a huge public channel.
-

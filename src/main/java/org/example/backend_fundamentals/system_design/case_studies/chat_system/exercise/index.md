@@ -20,16 +20,15 @@ Design the request and message flows. Cover:
 - durable message storage and per-conversation ordering
 - sender idempotency and recipient dedupe
 - online and offline routing
-- per-device catch-up cursor
+- per-device, per-conversation catch-up cursor
 - small-group inbox fanout
 - heartbeat-based presence
 
 ### Acceptance criteria
 
 - Explain why a chat server is stateful while API servers are stateless.
-- State the message guarantee as at-least-once with `messageId` dedupe.
-- Do not use timestamps alone for ordering.
+- State the message guarantee as at-least-once with `messageId` dedupe and a per-conversation sequence.
+- Define a per-conversation append owner/partition; do not use timestamps or a global ID alone for ordering.
 - Make durable history, not push notification, the offline correctness path.
 - Bound the group fanout solution to small groups and name the large-group alternative.
 - Explain how a client reconnects after its chat server fails.
-

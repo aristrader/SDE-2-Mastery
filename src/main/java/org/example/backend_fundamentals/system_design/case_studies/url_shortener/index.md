@@ -4,174 +4,154 @@ order: 30
 
 # URL Shortener
 
-## What the system does
+## Interview scope
 
-A URL shortener creates a compact alias for a long URL and redirects users from the alias back to the original URL.
+Design a TinyURL-style service that creates a short alias for a long URL and redirects a visitor to the saved
+destination. The base answer covers generated aliases, durable mappings, cache-first redirects, async click
+analytics, and expiry/status checks. Custom aliases, changing a destination, malware scanning, and dashboards
+are follow-ups rather than assumed requirements.
 
-Core use cases:
+| Clarification | Agreed answer | Design consequence |
+| --- | --- | --- |
+| What must be fast? | Redirects | Keep lookup cache-first; analytics never blocks a redirect. |
+| What must be unique? | Every generated code | Allocate a unique ID before base62 encoding; DB uniqueness remains the final guard. |
+| How much traffic? | 100M new links/day, 10:1 reads:writes | Scale cache and point lookups independently from creation. |
+| Can a link change? | No in the base design | A mapping is immutable, making cached entries safe until expiry/eviction. |
+| Is every click observable? | Only if cache policy allows it | Redirect status and cache policy are separate decisions. |
 
-- shorten a long URL and return a short URL
-- redirect a short URL to its long URL
-- stay highly available under read-heavy traffic
-- scale writes, reads, cache, and storage independently
+## Numbers that change the design
 
-Assume the interview scope from Alex Xu pages 119-131:
+| Estimate | Result | Decision it changes |
+| --- | ---: | --- |
+| Creates | ~1,160/sec | A single database node or counter is not the durable plan. |
+| Redirects | ~11,600/sec | Cache the hot `code -> destination` point lookup. |
+| Ten-year mappings | 365B | Partition durable storage by a hash of the code. |
+| Base62 capacity at seven characters | ~3.5T | Seven generated characters cover the retained mappings. |
 
-```text
-100 million new URLs/day
-10:1 read-to-write ratio
-10-year retention
-Short code uses [0-9, a-z, A-Z]
-No delete/update in the basic version
-```
+The raw long-URL bytes at 100 bytes each are roughly 36.5 TB before metadata, indexes, replication, and
+analytics. The useful interview conclusion is not a precise disk number: it is that mappings require
+partitioned, replicated storage while redirect traffic must mostly avoid it.
 
-## Back-of-envelope numbers
+Use the capacity rule `62^n >= retained mappings` for any requested code length. Fixed-length random codes,
+hash prefixes, and base62 IDs all need this capacity check; only their collision and predictability properties
+are different.
 
-| Question | Estimate | Design impact |
-|----------|----------|---------------|
-| New URLs/day | 100M | Write path is not tiny; avoid single-node bottlenecks |
-| Writes/sec | `100M / 86,400 ~= 1,160` | Manageable, but must be distributed/HA |
-| Reads/sec | `1,160 * 10 ~= 11,600` | Read path needs cache |
-| Records over 10 years | `100M * 365 * 10 = 365B` | Need sharding/partitioning plan |
-| Average long URL size | ~100 bytes | Raw URL storage is about `365B * 100 ~= 36.5 TB`; indexes/metadata/replicas increase this |
-| Short-code alphabet | 62 chars | `62^7 ~= 3.5T`, so 7 chars can cover 365B URLs |
+## Start with the two paths
 
-The common book arithmetic writes 365 TB, but with 365B records and 100 bytes per URL the raw long-URL bytes are about 36.5 TB. In an interview, call out assumptions: metadata, indexes, replication, and analytics can push total storage much higher than raw URL bytes.
+**Create is the correctness path.** Validate the submitted URL, allocate a globally unique numeric ID, encode
+it as base62, persist the mapping behind a unique database constraint, then return the alias. Base62 makes an
+ID compact; it does not create uniqueness itself.
 
-## Mental model
+**Redirect is the latency path.** Resolve the code from cache, fall back to the mapping store on a miss,
+validate status/expiry, return the redirect, and publish analytics asynchronously. The mapping store decides
+whether a link exists; cache and analytics only optimize the experience.
 
-Think of the system as two separate paths:
+## Interview delivery
 
-```text
-Create path: correctness path
-longUrl -> validate -> unique ID -> base62 shortCode -> durable mapping
+1. Agree generated aliases, immutable mappings, expiry behavior, and whether click visibility is required.
+2. Estimate create rate, redirect rate, retained mappings, and code capacity.
+3. Draw the create path before introducing cache or analytics.
+4. Trace cache hit, cache miss, and missing/expired link on the redirect path.
+5. Deep dive into ID allocation, cache/partition behavior, and redirect/cache-policy trade-offs.
+6. Close with cache/database/ID-generator failure behavior and abuse controls.
 
-Redirect path: latency path
-shortCode -> cache -> DB fallback -> redirect -> async analytics
-```
-
-The create path must never create duplicate short codes. The redirect path must be fast, highly available, and should not wait for analytics.
-
-## Interview blueprint
-
-Use this order in an HLD round:
-
-1. Clarify scope: traffic, retention, alphabet, expiration, update/delete, custom aliases, analytics.
-2. Estimate: writes/sec, reads/sec, record count, storage, short-code length.
-3. APIs: create endpoint and redirect endpoint.
-4. Data model: `id`, `short_code`, `long_url`, timestamps/status.
-5. HLD: stateless URL service, cache, database, ID generator, async analytics.
-6. Deep dive: short-code generation, redirect cache, sharding, 301 vs 302.
-7. Failure modes: cache down, DB down, ID generator down, analytics down, abuse spike.
-
-## Short-code generation options
-
-| Approach | How it works | Pros | Cons |
-|----------|--------------|------|------|
-| Hash + collision resolution | Hash the long URL, take a short prefix, resolve collisions by retrying/salting | Fixed short-code length; no ID generator required; harder to guess sequence | Needs collision checks; DB/Bloom-filter lookup on creation path |
-| Base62 of unique ID | Generate a globally unique numeric ID, encode it as base62 | No collision if ID is unique; simple redirect lookup; fast creation | Requires distributed ID generation; sequential IDs can be guessable unless mitigated |
-
-Use base62 over a generated ID as the clean interview default. It keeps the write path easy to reason about and moves uniqueness to a reusable ID generator. For that generator, link to the reusable concept doc: `system_design/concepts/distributed_id_generation/`.
-
-## 301 vs 302 redirect
-
-| Redirect | Meaning | Use when |
-|----------|---------|----------|
-| `301 Moved Permanently` | Browser/CDN may cache the redirect and skip the shortener on later clicks | Server-load reduction matters more than click analytics |
-| `302 Found` / temporary redirect | Browser keeps calling the shortener first | Analytics, abuse detection, experiments, or per-click decisions matter |
-
-For most interview answers, pick `302` first because URL shorteners usually care about click counts, referrers, device, geography, and abuse monitoring. Mention `301` as an optimization when analytics is not required.
-
-## High-level architecture
+## Architecture follows the paths
 
 ![URL shortener architecture](./assets/url-shortener-architecture.svg)
 
-```text
-Client
-  -> Load balancer
-  -> Stateless web/API service
-  -> Cache for hot shortCode -> longUrl mappings
-  -> URL mapping database
-  -> Distributed ID generator for new mappings
-```
+The URL service is stateless. The mapping store is the source of truth; the cache holds immutable hot
+mappings; the ID generator is used only for creation; and the analytics pipeline is deliberately outside the
+redirect response path.
 
-The web tier should be stateless. Scale it horizontally behind a load balancer. Cache helps the read-heavy redirect path; the database remains the source of truth.
+## Create and redirect flow
 
-## Core flows
+![URL shortener create and redirect flow](./assets/url-shortener-flows.svg)
 
-![URL shortener flows](./assets/url-shortener-flows.svg)
+### Create
 
-### Create short URL
+1. Validate an allowed URL scheme, length, and caller quota.
+2. If dedupe is a product requirement, look up a normalized URL hash; otherwise every request creates a link.
+3. Obtain a unique numeric ID, encode it in base62, and insert the mapping.
+4. The unique `short_code` constraint is the final collision guard; return the alias only after the durable write.
 
-1. Validate and normalize `longUrl`.
-2. Check whether the same long URL already exists if idempotent create is desired.
-3. Ask the distributed ID generator for a new numeric ID.
-4. Convert that ID to base62.
-5. Insert `(id, shortCode, longUrl, createdAt)` into the database.
-6. Return `https://short.domain/{shortCode}`.
+### Redirect
 
-### Redirect short URL
+1. Resolve `GET /{code}` from cache.
+2. On a miss, read the partitioned mapping store by code, then backfill cache if active and unexpired.
+3. Return `404` for unknown codes and `410` for intentionally expired/disabled mappings when that distinction
+   is a product requirement.
+4. Return the redirect before publishing the click event to an asynchronous queue.
 
-1. Parse `{shortCode}` from the request path.
-2. Look up `shortCode` in cache.
-3. On cache hit, return redirect.
-4. On cache miss, read from database.
-5. If found, populate cache and return redirect.
-6. If not found, return `404`.
+## Deep dive: code allocation
 
-## Data model
+| Option | Use when | Trade-off |
+| --- | --- | --- |
+| Unique ID + base62 | Default interview answer | Simple collision-free write path; sequential IDs can be enumerable. |
+| Random base62 + unique insert/retry | Codes should be less predictable | Collision retry is part of the create path. |
+| Permuted ID or hash prefix + retry | Opaque or deterministic-looking codes are requested | Retain a collision check; permutation hides sequence but is not authorization. |
 
-Minimal table:
+Use a distributed ID generator or leased ID ranges so creation does not depend on one process. If the generator
+is unavailable, new links fail or retry; existing redirects continue because they never need a new ID.
 
-| Column | Purpose |
-|--------|---------|
-| `id` | globally unique numeric ID, primary key |
-| `short_code` | base62 code, unique index |
-| `long_url` | original URL |
-| `created_at` | creation time |
+## Deep dive: cache, partitions, and hot links
 
-Useful production additions:
+Cache `shortCode -> destination/status/expiry` with a bounded TTL. On cache miss, the service performs one
+indexed point lookup and backfills the cache. A short negative-cache TTL can protect the store from repeated
+unknown-code probes, but a long one can incorrectly preserve a temporary miss. Hash-partition by code so both
+reads and stored mappings spread evenly; avoid range-sharding on a sequential ID, which can concentrate new
+writes.
 
-| Column | Why it helps |
-|--------|--------------|
-| `user_id` | ownership, quotas, dashboard |
-| `expires_at` | TTL links / cleanup |
-| `status` | active, disabled, abuse-blocked |
-| `long_url_hash` | dedupe lookup without indexing full long URL |
+Popularity is skewed. A hot link can overload one cache shard or one destination, so use cache replication or
+request coalescing when measured hot-key traffic demands it. Do not introduce a CDN in the base answer if the
+system requires per-click abuse decisions or analytics.
 
-## Scaling and failure points
+## Deep dive: redirect semantics
 
-- **Cache:** store hot `shortCode -> longUrl` mappings. Use TTL and size limits; avoid caching invalid codes forever.
-- **Database sharding:** shard by `short_code` or `id`. Reads are point lookups, so this is straightforward compared with range/search-heavy systems.
-- **Replication:** read replicas help redirect traffic, but cache hit rate should carry the hottest reads.
-- **Rate limiting:** protect the create endpoint from abuse. Link to `system_design/components/rate_limiting/`.
-- **Analytics:** do not block redirects on analytics writes. Emit click events asynchronously to a queue/stream.
-- **Availability:** redirects are the critical path. If analytics is down, redirect should still work.
+`301` means the target is permanent and `302` means it is temporary. Neither status alone defines whether a
+browser or intermediary retains the result; response cache policy matters too. For a stable, non-analytic link,
+a permanent redirect can reduce repeat service traffic. For a link needing per-click decisions, use a temporary
+redirect with an explicit cache policy that preserves the shortener lookup. [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html)
 
-## Questions interviewers like
+## Failure and recovery
 
-| Question | Strong answer shape |
-|----------|---------------------|
-| How long should the short code be? | Derive from alphabet size and expected total records: smallest `n` where `62^n >= record_count` |
-| Why not just hash the long URL? | Hash prefixes collide; collision checks add write-path complexity |
-| Why base62? | It encodes numeric IDs compactly using URL-friendly characters |
-| What happens if ID generator is down? | New short links fail/degrade, but existing redirects still work |
-| How do you keep redirects fast? | Cache hot mappings, use point lookups, keep analytics async |
-| Which redirect status do you choose? | `302` for analytics; `301` when reducing repeat traffic matters more |
+| Failure | Observable result and recovery |
+| --- | --- |
+| Cache unavailable | Redirect service falls back to the mapping store; latency/load rise but mappings remain correct. |
+| Mapping partition unavailable | Serve cached hot mappings; otherwise return a retryable failure or fail over to a replica. |
+| ID generator unavailable | Creation fails/retries; existing redirects remain unaffected. |
+| Analytics queue unavailable | Redirect still succeeds; buffer, retry, or intentionally drop analytics by stated policy. |
+| Cache fill stampede | Coalesce concurrent misses or cap retries; do not let one viral link overwhelm the store. |
+| Create abuse | Enforce IP/user/API-key quotas before allocation and store a disable status for moderation. |
+
+## Follow-ups that change the design
+
+| Follow-up | What changes |
+| --- | --- |
+| Custom alias | Atomically reserve the requested code, enforce ownership/quota, and moderate abusive names. |
+| Destination update/delete | Version/status the mapping and invalidate or bypass stale cache entries. |
+| Expiry | Store `expiresAt`, prevent cache backfill after expiry, and clean up asynchronously. |
+| Dedupe | Normalize carefully and index a long-URL hash; this is product behavior, not a default assumption. |
+| Security | Block unsafe schemes, rate-limit creation, and asynchronously scan destinations if the product requires it. |
+| Analytics dashboard | Aggregate queued clicks in a separate analytical store; never query it on the redirect path. |
 
 ## Quick recall
 
-**Q. What are the two core APIs?**  
-A. `POST /api/v1/urls` to shorten and `GET /{shortCode}` to redirect.
+**Q. What makes base62 safe?**
 
-**Q. Why is URL shortener read-heavy?**  
-A. A link is created once but can be clicked many times.
+A. Nothing by itself; the input numeric ID must already be unique and the database still enforces uniqueness.
 
-**Q. Why does 7-character base62 work for the book estimate?**  
-A. `62^7 ~= 3.5T`, above the 365B required 10-year record count.
+**Q. What decides redirect correctness during a cache miss?**
 
-**Q. Why link to distributed ID generation here?**  
-A. Base62 conversion needs a unique numeric ID; uniqueness is solved by the ID generator, not by base62 itself.
+A. The durable mapping store, including active/expiry state.
 
-**Q. Why use `302` instead of `301` when analytics matters?**  
-A. `302` keeps future clicks flowing through the shortener, so the service can count and inspect them.
+**Q. Why is analytics asynchronous?**
+
+A. A queue failure must not delay or fail the redirect response.
+
+**Q. Why hash-partition by code?**
+
+A. Redirects are point lookups, and a hash spreads both mappings and read traffic.
+
+**Q. What changes if custom aliases are in scope?**
+
+A. Alias reservation and uniqueness become a user-visible, contention-prone create operation.
