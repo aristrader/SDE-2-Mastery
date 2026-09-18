@@ -102,6 +102,19 @@ system      -> [Doc1]
 
 For a search such as `Kafka`, Elasticsearch queries Lucene's inverted index on the relevant shards, combines the matching candidates, and ranks them. It does not scan every document. Elasticsearch adds distribution, shard routing, replication, APIs, and cluster operations. Lucene provides the local indexing and search mechanics on each shard.
 
+The fundamental lookup is a term-to-posting-list map; the search engine then intersects or unions those
+lists before ranking the smaller candidate set.
+
+```mermaid
+flowchart LR
+    Q[Query: distributed messaging] --> T[Analyze into terms]
+    T --> P1[distributed to posting list]
+    T --> P2[messaging to posting list]
+    P1 --> I[Intersect candidates]
+    P2 --> I
+    I --> R[Rank matching documents]
+```
+
 ## Phrase queries and ranking
 
 The basic index answers: "Which documents contain these terms?" It does not prove that terms were adjacent, and it does not say which result is best.
@@ -140,6 +153,7 @@ event leaves the source store and search results permanently inconsistent.
 ## Further reading
 
 - [Elasticsearch: match phrase query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query-phrase)
+- [Apache Lucene: core documentation](https://lucene.apache.org/core/)
 
 ## Interview boundary
 

@@ -39,7 +39,10 @@ Do not turn a case study into an operational runbook or a catalog of cloud servi
 3. Inspect the destination case study plus related concept and case-study docs. Improve existing material rather than duplicating it.
 4. Convert the source into: narrow requirements, a simple functional architecture, one concrete
    request flow, and two or three deep dives selected from actual non-functional constraints.
-5. Use original SVG, Draw.io, or Mermaid diagrams only when they clarify a request path, state transition, or distributed coordination.
+5. After drafting a substantial page, use the repository `study-visuals` skill to decide whether an existing
+   visual is sufficient or whether a new Mermaid, source-controlled architecture view, or supplementary
+   illustration is warranted. Use original SVG, Draw.io, or Mermaid diagrams only when they clarify a
+   request path, state transition, or distributed coordination.
 6. Before calling a rewrite complete, trace the main request, the pressure that breaks it, the chosen
    trade-off, and the failure-recovery path. Each must be either shown by the current design or labeled as
    a deliberate follow-up; never imply a resilience property that the design does not provide.
@@ -97,6 +100,13 @@ compact further-reading link only when it is useful to the learner and was actua
 - When one page presents several alternatives, give the reader a selection rule and make the normal path,
   write/update path, and failure boundary visible for the alternatives that have materially different
   correctness or latency behavior. Do not leave an important option as an isolated definition.
+- When an audit finds a narrowly missing quality dimension, close that gap with the smallest useful
+  artifact: a state/sequence diagram for an obscured lifecycle, a decision table for a dense survey, or a
+  concrete incident/recovery path for an otherwise catalog-like page. Do not inflate a page merely to raise
+  an aggregate score; the result must improve what a first-time reader can decide or explain.
+- Treat a high rubric score as evidence of coverage, not a reason to hide a weak dimension. A page is not
+  publish-ready if its normal path, failure/recovery boundary, selection rule, or diagram purpose is absent,
+  even when its average score is high.
 - Give every diagram one job: an architecture diagram shows ownership and request/data paths, a sequence
   diagram shows an ordinary or failure interaction, and a state diagram shows a lifecycle. Do not add a
   visual that merely restates adjacent prose.

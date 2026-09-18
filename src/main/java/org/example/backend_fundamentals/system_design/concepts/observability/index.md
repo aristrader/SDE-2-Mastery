@@ -74,6 +74,17 @@ flowchart LR
 The loop starts with a pre-defined SLI. An alert on high CPU can help diagnose a breach, but it cannot by
 itself decide whether to halt a release because it does not say whether users received the promised outcome.
 
+## Choose the SLO from the user promise
+
+| User promise | Useful SLI | Action when budget burns too fast |
+| --- | --- | --- |
+| A command creates one durable outcome | Eligible successful commands / eligible commands | Pause risky releases; mitigate errors and verify the durable outcome. |
+| A page is responsive | Requests below the chosen latency threshold / eligible requests | Protect the slow dependency, shed non-critical work, or add capacity. |
+| Background work finishes on time | Jobs completed before deadline / eligible jobs | Scale workers, reduce intake, or surface a delayed status. |
+
+One service can need more than one SLO, but each should protect a distinct user promise. Do not combine a
+fast but incorrect response with a correct result into one vague "health" metric.
+
 ---
 
 ## Real-World Scenarios

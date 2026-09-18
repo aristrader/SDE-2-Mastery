@@ -64,6 +64,25 @@ Request succeeds if **A OR B** works. Both need to fail simultaneously for the s
 Two 99.9% servers in parallel jump to approximately 99.9999% availability.
 **Adding components in parallel increases total availability.** (Analogy: Owning two cars — if one breaks, you can still drive).
 
+```mermaid
+flowchart TB
+    subgraph Series[Required components in series]
+        U1[User request] --> L1[Load balancer] --> A1[App] --> D1[(Database)]
+    end
+    subgraph Parallel[Independent app instances]
+        U2[User request] --> L2[Load balancer]
+        L2 --> A2[App A]
+        L2 --> B2[App B]
+        A2 --> D2[(Shared database)]
+        B2 --> D2
+        A2 -. fails .-> L2
+        L2 -. routes next request .-> B2
+    end
+```
+
+Parallel application instances help only when the path after them can still serve the request. If both
+instances depend on one unavailable database, the database remains the series failure in the user path.
+
 ## How it works
 
 ### The three definitions

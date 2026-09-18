@@ -82,6 +82,17 @@ if Partition:  choose Availability  or Consistency      (the CAP part)
 Else:          choose Latency       or Consistency      (the new part)
 ```
 
+```mermaid
+flowchart TD
+    W[One operation and its invariant] --> P{Can replicas communicate?}
+    P -- No --> C{Would a stale or conflicting result violate it?}
+    C -- Yes --> CP[Wait for quorum or return pending]
+    C -- No --> AP[Serve local result and record convergence]
+    P -- Yes --> H{Is lower latency worth a replication-lag window?}
+    H -- No --> Sync[Wait for synchronous confirmation]
+    H -- Yes --> Async[Respond, then replicate asynchronously]
+```
+
 ### Categories
 
 - **PA/EL** — on partition favor Availability; else favor Latency over consistency (Cassandra, Dynamo-style).

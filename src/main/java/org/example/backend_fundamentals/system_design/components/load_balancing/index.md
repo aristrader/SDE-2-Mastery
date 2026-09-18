@@ -67,6 +67,14 @@ If you add a second load balancer to fix this (`LB-A` and `LB-B`), how do client
 > 
 > **Correction:** This creates infinite recursion (`LB for LB for LB...`). In reality, the recursion stops at the infrastructure level. Traffic is distributed across your load balancers using **DNS**, **Virtual IPs (VIPs)**, or **Anycast routing**. 
 
+Choose the front-door mechanism from the failure domain rather than presenting all three as one stack:
+
+| Need | First choice | Recovery boundary |
+| --- | --- | --- |
+| Spread traffic across independently reachable endpoints | DNS answers with several addresses | Cached answers can outlive a failed address until TTL expiry. |
+| Fail over within one controlled network | Virtual IP with active/standby nodes | Heartbeat detection and network convergence determine recovery time. |
+| Route globally to a healthy advertised location | Anycast | Route withdrawal and BGP convergence determine recovery time. |
+
 ## 1. DNS-Based Load Balancing
 DNS can return multiple IP addresses for a single domain name (e.g., `myapp.com` returns the IPs for `LB-A` and `LB-B`). Different clients can receive different answers, distributing traffic. A platform can withdraw a failed address from new answers, but clients and recursive resolvers may retain the old answer until its TTL expires.
 

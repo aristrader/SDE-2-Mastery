@@ -121,6 +121,7 @@ generators.
 ## Further reading
 
 - [RFC 9562: UUID version 7](https://www.rfc-editor.org/rfc/rfc9562.html)
+- [Twitter Snowflake reference implementation](https://github.com/twitter-archive/snowflake)
 
 ## Quick recall
 

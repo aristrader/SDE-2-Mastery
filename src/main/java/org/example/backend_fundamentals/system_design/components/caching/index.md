@@ -175,6 +175,18 @@ sequenceDiagram
     Worker->>Queue: Acknowledge work
 ```
 
+## Choose the smallest cache contract
+
+| Workload or promise | Start with | State explicitly |
+| --- | --- | --- |
+| Repeated reads; a short stale window is acceptable | Cache-aside plus TTL | Source of truth, invalidation step, and stampede policy. |
+| Read-your-writes matters and each write can wait | Write-through | How a partial cache/database failure is repaired. |
+| High-rate, loss-tolerant writes | Write-back | Durable work record or replay policy before acknowledging a write. |
+| Large write-once data rarely reread | Write-around | The first read after a write will miss the cache. |
+
+Do not choose a pattern from the cache product. Choose it from the freshness and durability promise the
+caller needs; the cache is never allowed to silently strengthen that promise.
+
 If the design returns success before a durable queue or equivalent record exists, a cache failure can lose an
 accepted write. That may be acceptable for a rebuildable derived value, but not for a business record.
 
@@ -317,8 +329,10 @@ Multiple cache layers (local cache → Redis → database) exist because each so
 Further reading:
 
 - [Redis: cache-aside][redis-cache-aside]
+- [Redis: cache consistency strategies][redis-cache-consistency]
 
 [redis-cache-aside]: https://redis.io/docs/latest/develop/use-cases/cache-aside/
+[redis-cache-consistency]: https://redis.io/blog/cache-consistency-strategies/
 
 ## Quick recall
 

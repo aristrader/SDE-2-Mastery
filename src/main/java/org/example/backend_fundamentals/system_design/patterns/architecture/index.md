@@ -32,20 +32,16 @@ boundary has independent load, deployment, ownership, or failure-isolation needs
 
 ## Monolith
 
-One deployable application where all business functionality lives together — one codebase, one runtime, one deployment, usually one database. `User → Monolith → DB`.
+One deployable application keeps checkout, inventory, and payment modules in one runtime and usually one
+data boundary. It wins when local calls, one transaction, one deployment, and one debugging surface are
+more valuable than independent release or scaling. Its cost appears when one module's traffic, release, or
+failure forces unrelated modules to scale, deploy, or fail with it.
 
-**Why monoliths win early:**
-- **Easy development** — one repo, clone-and-run, no service-to-service plumbing.
-- **Easy debugging** — a single stack trace `Controller → Service → DAO → DB`.
-- **Fast communication** — in-process method calls (`orderService.placeOrder()`), no HTTP / serialization / network.
-- **Easy ACID** — `createOrder() + deductInventory() + makePayment()` in one local DB transaction.
-
-**Where it hurts at scale:**
-- **Huge codebase** — 500 devs on 5M lines is hard to reason about.
-- **Deployment coupling** — changing one module redeploys the whole app.
-- **Coarse scaling** — if Search needs 100× capacity, you scale *every* module ×10, not just Search.
-- **Technology lock-in** — hard to add a Python service to a Java monolith.
-- **Single failure domain** — a Notification memory leak can crash Orders, Payments, everything.
+| Pressure | Monolith response | Why an extraction may eventually win |
+| --- | --- | --- |
+| One local business change | One code path and transaction | No network contract or partial-result state to operate. |
+| One module becomes hot | Scale the whole deployment | A separately scalable boundary can stop wasting capacity. |
+| One risky release or failure affects unrelated work | Coordinate one deployment | A stable boundary can isolate release and failure policy. |
 
 ## Modular monolith — the underrated middle
 
@@ -80,23 +76,36 @@ consumer idempotent. For a synchronous boundary, define a timeout, an error cont
 explicit failure result. Do not replace every method call with an event; a caller that needs an immediate
 payment or authorization result still needs a synchronous decision.
 
+The split must also preserve a useful client contract when the new dependency is uncertain. The following
+path keeps the durable order outcome separate from non-critical follow-up work:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant O as Checkout service
+    participant P as Payment service
+    participant D as Order database
+    participant E as Durable event relay
+
+    C->>O: Place order with idempotency key
+    O->>P: Authorize payment
+    P-->>O: Timeout: outcome unknown
+    O->>D: Persist PENDING payment state
+    O-->>C: Pending; retry status with same key
+    D->>E: Commit order event only after final state
+    E-->>E: Deliver email and analytics independently
+```
+
+The timeout cannot be treated as a declined payment: it may have succeeded remotely. Query or reconcile
+the payment result by the idempotency key before finalising the order. This is the operational cost that a
+local method call did not have.
+
 ## Microservices
 
-Independent services, each with its own deployment, runtime, often its own database and team. `Client → Order Svc → Payment Svc → Inventory Svc → …` with network calls between.
-
-**What you gain:**
-- **Independent deployment** — Payment team ships v12 without touching Order/Inventory.
-- **Independent scaling** — scale only the Search service when Search spikes.
-- **Fault isolation** — Notification can die while Orders/Payments/Inventory keep serving.
-- **Team autonomy** — Team A owns User, Team B owns Payment, etc.
-- **Technology flexibility** — Payment in Java, Recommendation in Python, chat in Go.
-
-**What you pay (distributed-systems problems you didn't have before):**
-- **Network failures** — an in-process call becomes an HTTP call that can time out, drop, or partition.
-- **Distributed transactions** — one local ACID transaction becomes a cross-DB problem → 2PC / 3PC / **Saga** (`databases/distributed_transactions/DistributedTransactions.md`).
-- **Service discovery** — how does Order find Payment?
-- **Observability** — logs spread across services → need distributed tracing, correlation IDs, centralized logging.
-- **Data consistency** — multiple databases make consistency harder.
+Independent services own their deployment, runtime, contract, and preferably their data. They can isolate a
+hot or independently evolving domain, but every former in-process call gains a network failure mode, a
+timeout/unknown-outcome policy, tracing, and a cross-data consistency strategy. Team autonomy and technology
+choice are useful side effects, not enough reason to create a distributed boundary by themselves.
 
 ## High cohesion, loose coupling
 

@@ -27,6 +27,8 @@ only when the distinction changes a correct answer; otherwise teach the stable b
 5. Before calling a rewrite complete, trace the central engineering question through the mechanism, its
    observable consequence, and its boundary or exception. A rule without one of those steps is either a
    glossary entry or an unsupported claim.
+6. After drafting a substantial page, use the repository `study-visuals` skill to decide whether an existing
+   visual is sufficient or whether a new mechanism, decision, or conceptual visual is warranted.
 
 ## Source grounding and quality comparison
 

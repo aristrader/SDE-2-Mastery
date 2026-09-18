@@ -41,7 +41,9 @@ file to change. Improve surrounding learning documentation without rewriting the
    material instead of creating a parallel solution.
 4. Convert the source into: scoped requirements, invariants, one key interaction, the derived domain
    model and responsibilities, state changes, extensions, and interview traps.
-5. Use a class, sequence, or state diagram only when it clarifies ownership, interaction, or lifecycle.
+5. After drafting a substantial page, use the repository `study-visuals` skill to decide whether an existing
+   visual is sufficient or whether a new class, sequence, or state diagram is warranted. Use a diagram only
+   when it clarifies ownership, interaction, or lifecycle.
 6. Before calling a case-study rewrite complete, trace every agreed requirement and test scenario to one of:
    implemented behavior, an explicitly documented current gap, or a labeled follow-up. Do not let the
    design prose imply that an extension already exists in the playground.

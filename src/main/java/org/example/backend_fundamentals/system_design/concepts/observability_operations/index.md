@@ -143,6 +143,15 @@ it leads to this decision; a pile of unconnected charts is not observability.
 | Trace and correlated logs | Which request path and dependency to inspect | Aggregate fleet impact |
 | Metrics | Whether latency, error rate, queue age, or saturation supports that hypothesis | The exact history of one request |
 
+### One compact incident walkthrough
+
+An alert reports that the order-success SLI has fallen below its threshold. The responder acknowledges it,
+checks the affected window and release/change timeline, then opens a slow trace and its correlated logs.
+The trace shows a downstream timeout; dependency error rate and connection-pool saturation confirm the
+hypothesis. Roll back the change or disable the non-critical call, then verify that the same SLI and latency
+histogram recover before starting the root-cause analysis. The trace finds the path, metrics validate fleet
+impact, and logs supply event detail; none replaces the other.
+
 ---
 
 ## 6. Service Level Terminology

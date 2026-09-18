@@ -50,6 +50,18 @@ The idempotency key handles a different problem: a caller that retries after los
 its original result rather than create another hold. Keep it with the command record or result so retries
 are durable too.
 
+The seat lifecycle makes the ownership boundary explicit: `HELD` is a short, durable claim, not a completed
+sale. Only the holder can make the final guarded transition before its expiry.
+
+```mermaid
+stateDiagram-v2
+    [*] --> AVAILABLE
+    AVAILABLE --> HELD: conditional reserve succeeds
+    HELD --> SOLD: holder pays before expiry
+    HELD --> AVAILABLE: expiry job releases matching hold
+    SOLD --> [*]
+```
+
 ## Choose the smallest coordination mechanism
 
 | Pressure | First mechanism | Boundary and cost |

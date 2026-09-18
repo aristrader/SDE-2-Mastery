@@ -26,6 +26,9 @@ does not mistake it for a runnable production sample.
 4. Place the exercise in the closest valid module. Create exactly one matching solution using the required shared kebab-case ID.
    For an existing interactive LLD module that already uses `design/`, put the explanatory answer in
    that design page and link the exercise to it instead; never create both `design/` and `solution/`.
+5. Before finalising a substantial exercise or solution, use the repository `study-visuals` skill to decide
+   whether one trace, state, or interaction visual would remove a real ambiguity. Do not add decorative
+   visuals to an otherwise attemptable exercise.
 
 ## Source grounding and quality comparison
 

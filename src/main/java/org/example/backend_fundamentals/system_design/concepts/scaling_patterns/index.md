@@ -112,6 +112,10 @@ Examples:
 - Web crawler: per-host politeness and frontier scheduling.
 - Notification service: provider throughput, retries, and deduplication.
 
+## Further reading
+
+- [Microsoft: performance efficiency checklist](https://learn.microsoft.com/en-us/azure/well-architected/performance-efficiency/checklist)
+
 ## Quick recall
 
 **Q. When should I introduce a queue?**  

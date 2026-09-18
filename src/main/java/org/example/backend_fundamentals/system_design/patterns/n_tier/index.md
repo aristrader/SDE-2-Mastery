@@ -39,6 +39,21 @@ controls database access. The database should not be exposed to arbitrary client
 tier stateless lets a load balancer send the next request to another instance; durable state belongs in the
 data tier or a deliberately selected state store.
 
+An application-tier failure need not become a user-visible outage when another healthy instance can read
+the same durable state. A data-tier failure is different: more API instances cannot repair the unavailable
+authority, so the response must follow that dependency's failover or pending-result policy.
+
+```mermaid
+flowchart LR
+    E[Public edge] --> A1[App instance A]
+    E --> A2[App instance B]
+    A1 --> D[(Durable data tier)]
+    A2 --> D
+    A1 -. unhealthy .-> E
+    E -. next request .-> A2
+    D -. unavailable .-> P[Bounded error or pending result]
+```
+
 ## Split only for a concrete reason
 
 | Boundary | Add it when | What it costs |
@@ -111,4 +126,3 @@ A. Closed layers call only the next lower layer; open layers may bypass one at t
 
 **Q. Is every component a required tier?**
 A. No. Add cache, queue, gateway, or replica only for a stated workload, trust, or failure requirement.
-
