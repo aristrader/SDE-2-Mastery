@@ -4,185 +4,216 @@ order: 90
 
 # Search Autocomplete System
 
-Autocomplete, typeahead, and search-as-you-type return a small ranked set of queries while the user is typing. The base problem is a **prefix** search problem: for `dinn`, return the most popular stored queries that start with `dinn`.
+When a person types `kaf`, the product should make the dropdown useful before they type the next character. In this case study, that means returning five popular queries that **start** with `kaf`, not running the full search product and not correcting a typo.
 
-## Scope and mental model
+This is a read-heavy ranking problem disguised as a small UI feature. The important move is to compute the ranking before the keystroke arrives.
 
-The scope from Alex Xu pages 200-219 is deliberately narrow:
+## Prompt, scope, and the first interview decision
 
-```text
-10M DAU
-English, lowercase alphabetic query strings
-Prefix matches only; no spell correction
-Return the top 5 suggestions, ranked by historical frequency
-Target response time: under 100 ms
-```
+Ask whether the interviewer means a global, prefix-only suggestion box or a search product with personalization, typo correction, and infix matching. They lead to different indexes and consistency promises.
 
-Separate the design into two paths:
+For the base answer, agree to this deliberately small contract:
 
-```text
-Write path: search events -> append-only logs -> aggregate -> build immutable trie snapshot
-Read path: typed prefix -> filter -> trie cache -> top 5 suggestions
-```
+- 10 million daily active users; English, lowercase query strings.
+- Return the top five **global** historical queries for a prefix in under 100 ms.
+- A completed submitted search, rather than an abandoned keystroke, contributes to popularity.
+- Suggestions may be hours old while a new ranking build is in progress; submitted search itself must still work.
 
-The read path must not compute popularity from raw events. It serves a precomputed top-K result from memory. The write path can be asynchronous because broad query popularity usually changes much more slowly than a user's keystrokes.
+`how to lose weight` is one complete query, including spaces. It contributes candidates beneath `h`, `ho`, `how`, and so on. This is prefix matching: `how` can match it, while `lose` cannot. Substring search needs a token or n-gram index; spell correction needs a separate, tightly bounded candidate-generation policy. They are useful follow-ups, not free additions to this latency budget.
 
-Autocomplete stores **complete historical queries character by character**, including spaces. `how to lose weight` is one path, not a word-level lookup. When a client types `how`, it reaches that prefix node and reads the best complete queries below it.
+## Start with the baseline that fails
 
-### Matching boundary
+The smallest working version stores completed queries and runs a query such as `WHERE query LIKE 'kaf%' ORDER BY frequency DESC LIMIT 5` for each typed prefix. It is acceptable for a small admin tool. At public-search scale, it repeatedly scans and ranks a large candidate set during the interaction that is most sensitive to delay.
 
-The base design is prefix-only. If `how to lose weight` is stored, `how` matches it but `lose` does not. That boundary matters: a trie is natural for a prefix, while middle/substring search needs a different index such as a token inverted index or character n-grams. Fuzzy matching also belongs to a separate search-infrastructure discussion; do not casually add edit-distance scans to this latency-critical path.
+The pressure comes from keystrokes, not submissions:
 
-## Back-of-the-envelope estimation
-
-| Assumption | Result | Design implication |
+| Assumption | Result | Decision it changes |
 | --- | --- | --- |
-| 10M DAU, 10 searches/user/day | 100M completed searches/day | Query logging needs an append-only pipeline. |
-| 20 autocomplete requests/search | about 24K average QPS | Every keystroke is a backend request unless browser cache satisfies it. |
-| Peak factor of 2 | about 48K peak QPS | The serving tier must be cache-first and horizontally scalable. |
-| 20-byte query, 20% new daily queries | about 0.4 GB/day of new raw query text | Raw logs are inexpensive to retain compared with serving them synchronously. |
+| 10M users × 10 completed searches/day | 100M completed searches/day | Append events; do not mutate a serving index on every search. |
+| About 20 prefix requests per completed search | about 24K average requests/s | Make the online answer an in-memory lookup. |
+| 2× peak | about 48K peak requests/s | Replicate and shard the serving index. |
+| 20-byte query, 20% newly seen daily | about 0.4 GB/day raw query text | Retaining input for asynchronous aggregation is cheap relative to synchronous ranking work. |
 
-The exact request multiplier should be clarified. Clients should debounce input and cancel stale requests so a slow response for `ka` does not overwrite a newer result for `kaf`.
+The client debounces input and cancels an older request when the prefix changes. Without that last rule, a late response for `ka` can overwrite the correct results for `kaf` even when the backend is perfect.
 
-## Interview blueprint
+## Chosen design: one durable ranking artifact, two workloads
 
-1. Clarify prefix-only versus infix matching, number of suggestions, ranking signal, latency target, language, personalization, and freshness/trending needs.
-2. Estimate request QPS from keystrokes, not only completed searches.
-3. Start with a trie containing the top K suggestions at each prefix node.
-4. Split the architecture into the asynchronous analytics/build path and the cache-first query path.
-5. Deep dive on immutable snapshot replacement, filtering, locale/trending variants, and balanced prefix-range sharding.
+The request path reads a published prefix index; the build path creates the next version of that index. A **trie** is a prefix tree: each path spells a prefix, and a terminal path represents a complete query. The active trie is memory-resident on serving replicas. It is not the durable source of truth.
 
-## High-level architecture
+The reader question for this visual is: *which state is durable, which state is only a fast serving copy, and why do reads not wait for ranking work?*
 
-![Search autocomplete architecture](./assets/search-autocomplete-architecture.svg)
+![Ownership and workload separation for search autocomplete](./assets/search-autocomplete-architecture.svg)
 
-```text
-Client -> load balancer -> API servers -> filter -> trie cache -> top K suggestions
+| State or component | Why it exists | Owner and contract |
+| --- | --- | --- |
+| `QuerySearched` log | Captures real submitted searches away from keystrokes. | Search Service appends a durable, identified event after executing a search. |
+| Aggregated counts | Gives builders a recoverable input such as `(normalizedQuery, window, frequency)`. | Aggregation pipeline; it may reprocess events and deduplicate by event ID within its retention window. |
+| Versioned prefix-index artifact | Is the durable, validated output that decides what a version should serve. | Builder writes it to replicated durable storage with a version, watermark, policy version, and checksum. |
+| In-memory trie replicas | Meet the keystroke latency target. | Serving tier loads an already validated version; it never updates nodes for an individual request. |
+| Policy blocklist | Lets unsafe suggestions disappear before a rebuild finishes. | Policy service is authoritative for an immediate deny decision; snapshot cleanup follows. |
 
-Search events -> analytics log -> aggregator -> workers -> trie DB -> trie-cache snapshot
-```
+This separation gives a useful acceptance boundary. A submitted search is accepted by the Search Service and its durable event is the input to later popularity ranking. An autocomplete response is only a best-effort read of the currently published version; it does not promise that the latest search is already represented.
 
-The trie DB is persistent source storage for a built snapshot. The distributed trie cache holds that snapshot in memory for request latency. API servers are stateless and read the cache only; they do not mutate trie nodes per request.
+### Normal build path: turn completed searches into the next version
 
-## Trie and top-K cache
+1. After it executes a submitted search, Search Service appends `QuerySearched(eventId, query, locale, occurredAt)`. A client cannot call a public “increase this suggestion” endpoint.
+2. The aggregator normalizes case and whitespace, applies the selected time window, and counts queries. Its bounded event-ID record prevents an at-least-once log retry from counting the same submitted search twice within that window.
+3. A builder filters candidates by policy and minimum frequency, then constructs each prefix's ranked candidates and a new immutable artifact, for example `autocomplete/en/v43`.
+4. It validates the artifact with a fixed query set, checksum, source watermark, and policy version before durable publication.
+5. Replicas load and warm `v43` beside `v42`; only healthy replicas atomically change their active pointer. `v42` remains available until the promotion is complete.
 
-A trie is a prefix tree. The root represents the empty prefix; every path represents a prefix; a terminal node represents a complete stored query.
+This is an asynchronous path because global popularity rarely needs to change between two keystrokes. The next sections explain why its precomputation and promotion rules matter.
 
-```text
-queries: tree (10), try (29), true (35)
+### Normal read path and the caller's outcome
 
-prefix "tr" -> top 2 [true (35), try (29)]
-```
-
-A basic trie must find the prefix node, traverse its subtree for all matching completed queries, and rank them. That is too slow when the subtree is large. Store the top `K` query strings and scores on **every prefix node** instead.
-
-```text
-node for "be" -> [best (35), bet (29), bee (20), be (15), beer (10)]
-```
-
-The request then traverses only the prefix and returns the node's stored top 5. The book calls this `O(1)` after bounding the maximum prefix length. More precisely it is `O(prefix length + K)`, which is effectively constant when prefix length and K are bounded.
-
-This is a deliberate space-for-latency trade-off. Duplicating a small top-K list at each node makes the serving path fast enough for every keystroke.
-
-## Data gathering and snapshot build
-
-1. The Search Service, not the autocomplete client, emits `QuerySearched` after it executes a real submitted search. Keystrokes and abandoned prefixes must not inflate popularity.
-2. An aggregator groups queries by a time window and emits `(query, frequency, windowStart)` records.
-3. Workers build a new trie snapshot from the aggregated data, including top-K lists at every node.
-4. Workers persist the snapshot in a document store or a key-value representation where `prefix -> node data`.
-5. The cache loads the completed snapshot, then traffic switches from the old snapshot to the new one.
-
-Weekly rebuilds are reasonable for slowly changing, general search suggestions. Updating a single query in place is possible, but it must update that terminal node and every ancestor whose top-K list might change. That write amplification is why immutable rebuild-and-swap is the better default at scale.
-
-The durable aggregated dataset or a versioned trie snapshot is the recoverable source for serving data. It can live in ordinary replicated durable storage; there is no required product called a "trie database." The live trie belongs in RAM on serving replicas, not on a disk lookup for every keystroke.
-
-### Safe snapshot publication
-
-Do not expire the active trie and let a burst of requests fall through to durable storage. That creates a cache stampede. Instead, build and validate version `v43`, persist it, have replicas load it in the background while they continue serving `v42`, then atomically switch traffic to `v43`. Retire `v42` only after the new version is healthy. A failed serving node is replaced by a replica that loads the active snapshot; it does not rebuild the entire trie from raw events.
-
-## Query serving flow
-
-1. The client debounces a prefix request and sends `GET /v1/autocomplete?q=kaf&limit=5`.
-2. The load balancer routes the request to a stateless API server.
-3. The server checks a policy/filter layer before returning suggestions.
-4. The server reads the prefix node from the trie cache and returns its top 5 suggestions.
-5. On a cache miss, the server reads the corresponding node from trie DB and replenishes the cache.
-6. The client renders the response without reloading the full page; browser caching can avoid repeated requests for stable prefixes.
-
-Use AJAX/fetch for web clients. Cache suggestions in the browser only when they are not personalized or sensitive to rapid ranking changes. A shared cache is inappropriate for user-specific suggestions.
-
-## Filtering and deletion
-
-Autocomplete can expose abusive, hateful, explicit, or unsafe suggestions. Put a fast filter layer in front of the trie cache so a policy change takes effect immediately, even before the next snapshot rebuild.
-
-Remove blocked suggestions from persistent data asynchronously so they do not return in the next snapshot. The filter is the immediate safety mechanism; physical deletion is the eventual data cleanup.
-
-## Scaling trie storage
-
-Partition the trie by prefix ranges. A simple initial split is `a-m` and `n-z`, then a router sends a prefix to its owning shard. That becomes imbalanced because popular first letters are not evenly distributed.
-
-Use historical query volume to make ranges uneven on purpose. For example, `s` can occupy its own shard while `u-z` share another. A shard-map manager maintains the mapping from prefix range to shard, so ranges can split again at the second or third character as load grows.
+The API is small because the rank has already been computed:
 
 ```text
-"s..." -> shard 7
-"u..." through "z..." -> shard 8
-"a..." -> route by second-character range when needed
+GET /v1/autocomplete?q=kaf&limit=5&locale=en
+
+200 OK
+{ "version": "v43", "suggestions": ["kafka", "kafka consumer group"] }
 ```
 
-Do not use a hash of the full query for the base design: a prefix query must visit the shard that owns that prefix's subtree.
+The server normalizes the prefix exactly as the builder did, uses the locale and active policy version in its cache key, and routes to the owning prefix range. The value is a compact ordered list, not an arbitrary database query result.
 
-## Freshness, locales, and trending
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as Autocomplete API
+    participant P as Policy
+    participant T as Active trie replica
+    participant S as Snapshot store
 
-| Requirement | Extension |
-| --- | --- |
-| Different language | Use Unicode-aware trie nodes and language-specific analyzers/ranking. |
-| Different country popularity | Build and route to a trie per locale; CDN/edge replicas reduce read latency. |
-| Trending events | Add a stream aggregation layer and a small recent/trending overlay, then merge it with the base trie results. |
-| Personalized suggestions | Add a user-specific recent-search layer ahead of the global trie. |
+    C->>A: GET prefix=kaf (latest input)
+    A->>T: Read top 5 for kaf
+    alt Active replica has v43
+        T-->>A: Ordered candidates
+        A->>P: Filter returned candidates
+        A-->>C: 200 suggestions for kaf
+    else Replica is cold or unavailable
+        A->>S: Load node from active v43
+        S-->>A: Prefix node
+        A->>T: Refill when healthy
+        A->>P: Filter returned candidates
+        A-->>C: 200 suggestions, possibly slower
+    end
+    Note over C: Discard this response if input is no longer kaf
+```
 
-Trending search is not solved by rebuilding a weekly trie more often. It needs windowed stream aggregation, recency-weighted ranking, bounded hot data, and a safe way to merge an overlay with the stable snapshot.
+For normal global results, a short browser cache may eliminate repeated prefixes. Do not share-cache a response whose ranking depends on a user. If a trie replica is down, route to a healthy replica; a protected read from the active durable artifact is a fallback, not permission to let every request stampede storage. If all eligible replicas are unhealthy, return an empty suggestion list quickly and keep the submitted-search flow available.
 
-Keep data lifecycle separate from rebuild frequency. For example, build every hour from a rolling 30-day window, exclude queries below a frequency threshold, and apply time decay so old event-specific queries naturally lose rank. Rebuilding a fresh snapshot is simpler than deleting old trie nodes in place. This also limits RAM growth and suppresses one-off garbage queries without trying to decide whether every submitted string is a "real word."
+## Deep dive 1: precompute top K instead of ranking a subtree
 
-## Failure modes and trade-offs
+**Problem.** A prefix such as `tr` can have a huge subtree. A basic trie can find its `tr` node, but then must walk all complete queries below it and sort them before returning five.
 
-| Failure or pressure | Handling |
-| --- | --- |
-| Trie-cache node unavailable | Route to another replica or read trie DB and replenish cache. |
-| New snapshot is incomplete | Keep serving the old immutable snapshot until the new one is fully built and validated. |
-| Hot prefix such as `s` | Split by deeper prefix and update shard map using observed volume. |
-| Log volume is too high | Sample analytics events when exact counts are unnecessary; do not sample security/audit events. |
-| Ranking changes too slowly | Add a streaming trending overlay rather than mutating every trie node for each event. |
-| Blocked query is cached | Enforce the filter before the cache result reaches the client. |
+**Naive failure.** That makes the cost depend on how many strings happen to share a prefix. A popular one-character prefix becomes the slowest request precisely when it gets the most traffic. A lexicographic range lookup in a general store has the same missing step: it can find matching strings, but does not itself provide the pre-ranked five.
 
-## Good to know
+**Mechanism.** Store the top five completed queries and their scores at every prefix node while building the artifact:
 
-- A graph database is not a natural trie store. Its value is flexible multi-hop relationships; a trie is a deterministic prefix structure. A time-series store can retain windowed popularity counts, but it does not serve the trie by itself.
-- A priority queue may help a worker maintain a node's top K, but it is an implementation choice. At HLD depth, state the architectural result: precomputed top K at each prefix node.
-- Sticky sessions do not fix multiple service instances independently mutating their own tries. They merely make each user consistently see one stale copy. Serving instances should be stateless with respect to the authoritative autocomplete dataset.
+```text
+tree (10), try (29), true (35)
+
+node "tr" -> [true (35), try (29), tree (10)]
+```
+
+The reader follows `t` then `r` and returns that small list. Lookup is `O(prefix length + K)`, effectively constant only because the maximum prefix length and `K = 5` are bounded. The price is duplicated top-K lists and build work; the benefit is predictable read latency.
+
+**Trade-off and recovery.** A pointer-heavy trie can consume substantial memory, especially with many locales. A flattened `normalizedPrefix -> topK` map is often operationally simpler and has the same serving contract; a compressed finite-state structure is a later memory optimization. Keep a checked, durable artifact so a replacement replica reloads it instead of reconstructing a trie from raw logs.
+
+## Deep dive 2: publish snapshots without a cache stampede
+
+**Problem.** A query's score affects every prefix on its path. Changing it live means updating the terminal query and every ancestor's top five while thousands of requests read those nodes.
+
+**Naive failure.** Expiring the old cache first makes all replicas miss at once; updating node-by-node lets one request observe a partially ranked index. Sticky sessions only make a user consistently see one stale, independently mutated copy.
+
+**Mechanism.** Treat an immutable snapshot as the serving unit. Build and validate `v43` while all reads use `v42`; load and warm `v43` on replicas; then atomically move a replica's active pointer only after its local load is healthy.
+
+```mermaid
+sequenceDiagram
+    participant B as Builder
+    participant D as Snapshot store
+    participant R as Replica
+    participant C as Client
+
+    B->>D: Write v43
+    B->>R: Load v43 in background
+    C->>R: Lookup during load
+    R-->>C: Serve v42
+    R->>R: Check v43 and warm hot prefixes
+    alt v43 is healthy
+        R->>R: Promote v43 atomically
+        C->>R: Next lookup
+        R-->>C: Serve v43
+    else v43 fails validation or load
+        R->>R: Keep v42 and alert
+    end
+```
+
+**Trade-off and recovery.** Snapshotting delays freshness and temporarily uses space for two versions. It buys an all-or-nothing reader view and a known rollback target. A failed build or failed load is visible as an older `index_age` metric, not as broken suggestions. If the freshness SLO is missed, serve the last validated version and alert; never promote an unvalidated partial artifact.
+
+## Deep dive 3: make safety and hot-prefix policy explicit
+
+**Problem.** Historical frequency can promote unsafe text, and distribution is skewed: `s` may receive far more traffic than `u` through `z`.
+
+**Naive failure.** Waiting for the next rebuild leaves a blocked value visible. Splitting shards as `a-m` and `n-z` spreads letters, not load. Hashing the full query is worse: a prefix request no longer knows which shard owns the required subtree.
+
+**Mechanism.** Run a fast policy check over candidates before returning them and publish an urgent blocklist update independently of snapshot rebuild. Partition by observed prefix volume; a shard map can send `s...` to one shard, `u-z` to another, and split a hot range at a second or third character when measurements justify it.
+
+**Trade-off and recovery.** The filter adds a small request-path dependency and data-balanced ranges require map changes. Keep a replicated, versioned policy copy beside the serving index; if it cannot decide that a candidate is safe, omit that candidate. The user may see fewer than five suggestions during a policy outage or a blocked-result removal; that is preferable to surfacing a forbidden term. A hot shard is relieved by publishing a new range map and warming the new replicas before routing traffic, not by blindly adding identical first-letter partitions.
+
+## Failure policy, observability, and deferred scope
+
+| Event | Recovery rule | What the user sees |
+| --- | --- | --- |
+| Event-log retry duplicates a search | Aggregator deduplicates `eventId` for the window; exact global counts are not a request-time guarantee. | No intentional double promotion from a retry. |
+| Builder or validation fails | Keep the previous validated version; measure index age and alert. | Slightly stale but coherent suggestions. |
+| Replica or cache failure | Route to another active replica; use bounded durable fallback and protect it. | Usually normal results; otherwise a fast empty dropdown, never a hung search box. |
+| Block arrives after a snapshot was built | Enforce it immediately and exclude it from the next artifact. | The blocked candidate disappears immediately. |
+| Popularity changes too slowly | Add a small, bounded recency-weighted overlay and merge before the policy check. | Fresh trends without mutating every base-trie node. |
+
+Monitor p95/p99 latency, requests per typed character, cancellation rate, empty-result rate, cache hit rate by prefix length, per-shard load, index age, snapshot promotion failures, and policy-removal latency. These measurements tell us whether latency, relevance, safety, or skew is the actual constraint.
+
+Locale-specific indexes, Unicode-aware normalization, trending overlays, personalization from recent user searches, fuzzy matching, and substring matching are intentionally deferred. A rolling 30-day window, a frequency threshold, and time decay are enough to bound this base index; rebuilding hourly does not require retaining only one hour of history. Personalization must use a separate bounded layer because putting a user ID in every global cache key destroys shared-cache efficiency and changes the privacy contract.
+
+Further reading:
+
+- [System Design Sandbox: Search Autocomplete](https://www.systemdesignsandbox.com/learn/design-autocomplete) — compared for baseline pressure, versioned build, and operational signals.
+- [LeetSys: Design Search Autocomplete](https://www.leetsys.dev/system-design/search-autocomplete) — compared for interview sequence, ownership, and alternatives.
+- [Elasticsearch completion suggester](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/search-suggesters) — verifies that a fast completion structure is in-memory and costly to build, and that fuzzy correction is a separate choice.
+- [Redis sorted sets](https://redis.io/docs/latest/develop/data-types/sorted-sets/) — verifies that lexicographic range retrieval and ranked range retrieval are distinct primitives.
+
+## How to deliver this in an interview
+
+1. State the prefix-only, global, top-five scope and defer fuzzy/personalized search.
+2. Show why a direct database query per keystroke fails at roughly 48K peak requests/s.
+3. Draw the split: durable completed-search events and build artifact on one side; memory-resident top-K prefix reads on the other.
+4. Trace the build path, then one lookup, naming the immutable version as the reader's correctness boundary.
+5. Go deep on precomputed top K, snapshot promotion, and safety-plus-prefix-range sharding.
+6. Close with stale-but-coherent degradation, then add trends or personalization only if asked.
 
 ## Quick recall
 
-**Q. Why is a trie useful for autocomplete?**
-A. A prefix maps directly to a trie node, so the server avoids scanning all query strings.
+**Q. What does the base product promise?**
 
-**Q. Why cache top suggestions at every trie node?**
-A. It avoids traversing and sorting the whole prefix subtree for every keystroke.
+A. Five global historical suggestions that begin with a normalized prefix; it does not promise typo correction, substring search, personalization, or instant trend updates.
 
-**Q. Why build the trie asynchronously?**
-A. Updating it for every search event creates write contention, while popularity often changes slowly enough for snapshot rebuilds.
+**Q. Why is a trie useful here?**
 
-**Q. What is the accurate complexity of a cached trie lookup?**
-A. `O(prefix length + K)`; it is treated as constant only when both the prefix length and K are bounded.
+A. A prefix reaches one node directly. Precomputing that node's top five avoids scanning and sorting its whole subtree at request time.
 
-**Q. Why not shard by hash of the full query?**
-A. A prefix query needs one prefix subtree, so prefix-range routing preserves locality.
+**Q. What is durable and what is a cache?**
 
-**Q. How do you suppress unsafe suggestions immediately?**
-A. Use a filter layer before the trie cache, then remove the suggestion from persistent data asynchronously.
+A. The event log, aggregate inputs, and validated versioned artifact are recoverable. Memory-resident trie replicas are replaceable serving copies.
 
-**Q. Why should a completed-search event come from Search Service?**
-A. Search Service knows a search was actually submitted and executed, so abandoned keystrokes do not become popularity writes.
+**Q. Why use snapshots rather than live node updates?**
 
-**Q. How do you refresh a large trie without a cache stampede?**
-A. Load and validate a versioned snapshot in the background, then atomically switch from the old active version.
+A. A query can affect every ancestor prefix. Side-by-side validation and atomic promotion avoid partial rankings and cache-miss storms.
+
+**Q. Why not hash the full query to shard?**
+
+A. A prefix lookup needs its prefix subtree together; full-query hashing scatters that locality.
+
+**Q. What happens if autocomplete is unhealthy?**
+
+A. Serve the last validated version or a fast empty dropdown. Never let a ranking outage prevent a submitted search.
