@@ -23,3 +23,4 @@ Assume an existing Kafka topic emits `VideoViewed(eventId, videoId, eventTime)` 
 - Produce a global top 100 from local candidates and serve a precomputed snapshot from cache.
 - State why a database scan on cache miss is dangerous.
 - Keep Count-Min Sketch and sliding windows as explicit follow-ups, not the starting design.
+- State the accepted event boundary, event-ID deduplication retention, and what a caller sees when only a stale snapshot is available.

@@ -11,6 +11,15 @@ Return the top 100 most-viewed videos globally for fixed hourly, daily, monthly,
 
 The key design choice is to calculate rankings continuously, not when a client calls the API.
 
+## Public read contract
+
+```text
+GET /v1/rankings?metric=views&window=hour&limit=100
+-> { "generatedAt": "...", "items": [{ "itemId": "video_42", "count": 183421 }] }
+```
+
+The base answer is global only; regional/category variants are follow-ups because they multiply aggregate state and snapshots.
+
 ## Derivation
 
 The simple starting point is one consumer updating a relational counter per video and a `count` index serving all-time top K. It proves the API but cannot sustain high-rate indexed writes. Adding hourly buckets supports time windows, but a monthly request now scans, groups, and sorts a large range. Cache alone only hides that query until an expiry creates a slow miss.
@@ -26,7 +35,7 @@ The final design fixes each bottleneck in order: partition by video ID, aggregat
 | Aggregate store | Holds durable materialized counts and immutable ranking snapshots. It is recoverable derived state, not the raw-event authority. |
 | Candidate merger | Merges local top candidates into one exact global top-K list for each window. |
 | Snapshot publisher | Writes the new ranked list to the aggregate store and Redis/cache on the freshness schedule. |
-| Ranking API | Stateless read service that validates `window`, `limit`, and dimensions, then reads the snapshot/cache. |
+| Ranking API | Stateless read service that validates `window` and bounded `limit`, then reads the snapshot/cache. |
 
 ## Event path
 
@@ -42,13 +51,13 @@ Video service -> VideoViewed topic (key = videoId)
 The stream processor retains state like:
 
 ```text
-(metric=views, windowStart=10:00, region=global, videoId=42) -> 183421
+(metric=views, windowStart=10:00, videoId=42) -> 183421
 ```
 
 Maintain counts for each supported fixed query shape rather than deriving a month by scanning hourly data at read time. For every event, update the current hour, day, month, and all-time aggregate for that video. For each fixed window, the merger produces:
 
 ```text
-(metric=views, windowStart=10:00, region=global) ->
+(metric=views, windowStart=10:00) ->
   [(1, video_42, 183421), (2, video_99, 175820), ...]
 ```
 

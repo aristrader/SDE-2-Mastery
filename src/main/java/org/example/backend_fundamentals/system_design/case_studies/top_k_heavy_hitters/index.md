@@ -42,7 +42,7 @@ The reader question for this visual is: *which state is replayable, which is der
 The ranking service usually does not expose `POST /views`: the video, search, or ad service already publishes the event. Its public interface is mainly a read API.
 
 ```text
-GET /v1/rankings?metric=views&window=hour&limit=100&region=IN
+GET /v1/rankings?metric=views&window=hour&limit=100
 
 200 OK
 {
@@ -58,12 +58,12 @@ GET /v1/rankings?metric=views&window=hour&limit=100&region=IN
 An event needs an event ID for deduplication, an item ID, event time, metric, and any supported dimensions:
 
 ```text
-ItemEvent(eventId, itemId, metric, eventTime, region, category)
-WindowCount(metric, windowStart, dimensions, itemId, count)
-TopKSnapshot(metric, windowStart, dimensions, rank, itemId, count, generatedAt)
+ItemEvent(eventId, itemId, metric, eventTime)
+WindowCount(metric, windowStart, itemId, count)
+TopKSnapshot(metric, windowStart, rank, itemId, count, generatedAt)
 ```
 
-The count key includes the window and dimensions. Otherwise, an India-only ranking could accidentally use global counts, or yesterday's count could leak into today's ranking. `limit` is bounded, so the whole ranked response is small and does not need pagination in the base design.
+The count key includes the window, so yesterday's count cannot leak into today's ranking. `limit` is bounded, so the whole ranked response is small and does not need pagination in the base design. Regional and category rankings are explicit follow-ups because each dimension multiplies counts and snapshots.
 
 ## Derive the design in the interview
 
@@ -100,6 +100,8 @@ VideoViewed at 10:17 -> increment this hour, this day, this month, and all-time 
 
 This increases write work, but it makes reads predictable: the corresponding aggregate is already indexed or has already produced its top-K snapshot. If the interviewer instead requires arbitrary historical ranges, state that it becomes an analytics problem and needs a different read model.
 
+The reader question for this visual is: *why can the merger inspect only candidates?* The answer is that each shard exclusively owns complete counts for its item-ID range; if counts are split, combine them before this reduction.
+
 ![Exact distributed top-K reduction](./assets/top-k-reduction.svg)
 
 ### Why local top K is enough
@@ -120,7 +122,11 @@ Use a larger local `M` when dimensions, partial aggregation, or implementation u
 
 ## Deep dive 2: windows, freshness, and late events
 
-**Tumbling window:** fixed boundaries, such as 10:00-11:00 UTC. It is the base answer because it is straightforward to aggregate and cache.
+**Problem.** "Top this hour" must use the event's time, not the worker's clock.
+
+**Naive failure.** Immediate close drops delayed valid events; never closing a window prevents a stable snapshot.
+
+**Mechanism. Tumbling window:** fixed boundaries, such as 10:00-11:00 UTC. It is the base answer because it is straightforward to aggregate and cache.
 
 **Sliding window:** for example, "the last 60 minutes, refreshed each minute." Store minute buckets. On each minute tick, add the incoming minute and subtract the minute that just fell out. This adds state and writes; do it only when the product genuinely needs a moving ranking.
 
@@ -144,6 +150,8 @@ sequenceDiagram
 ```
 
 Freshness controls cache behavior. With a one-minute freshness SLO, publish or invalidate a snapshot at least once per minute. A long cache TTL is safe only if the publisher replaces the entry within the freshness budget. On a publisher failure, serving the last known snapshot with an explicit age is usually safer than stampeding the aggregate store with read-through recomputation.
+
+**Trade-off and recovery.** Allowed lateness retains state and can republish a newer version; the caller sees that version's `generatedAt`. Beyond the declared policy, the event is explicitly corrected, monitored, or discarded rather than silently changing history.
 
 ## Deep dive 3: recover without inflating counts
 

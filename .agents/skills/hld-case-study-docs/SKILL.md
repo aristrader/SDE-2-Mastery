@@ -14,6 +14,16 @@ Do not turn a case study into a catalogue of components or a production implemen
 For a substantial rewrite, read [the QG-4 acceptance contract](references/quality_contract.md) before inspecting the
 page. Its evidence record, writer pass, critic pass, and rendered audit are mandatory completion gates.
 
+## Completion discipline
+
+Treat an instruction to process the next case study as authorization to complete its entire workflow, not merely to
+start intake or drafting. Keep a visible private checklist for source preservation, reference comparison, drafting,
+writer pass, unfamiliar-reader critic pass, rendered audit, generation, build, backlog record, and requested commit/
+push. Do not describe the module as complete, update it to `Validated`, commit it, or stop for a status handoff while
+any applicable gate remains unfinished. A status question is a request for an update, not a request to pause. If a
+command fails, report its exact result and continue with safe independent work; stop only for a real authority or
+external-state blocker.
+
 ## Source packet and boundaries
 
 Read the existing case-study page, paired `design/` and `exercise/` pages, local source material, and the
