@@ -4,7 +4,7 @@ order: 120
 
 # Top-K Heavy Hitters System Design
 
-Design a service that returns the most frequently occurring items in a recent window: trending YouTube videos, most-played songs, top searched products, or top ad clicks. A **heavy hitter** is simply an item with a very high event count relative to other items.
+Imagine a home page that needs the 100 most-viewed videos this hour. A **heavy hitter** is an item whose count is high enough to belong to that small ranked list. The hard part is not sorting 100 rows; it is keeping the list current while hundreds of thousands of events arrive each second.
 
 For an SDE-2 interview, start with an **exact, fixed-window** design. Do not begin with Count-Min Sketch, Flink internals, or a specialised analytics database. Those are follow-ups only if the interviewer asks for more scale or accepts approximate answers.
 
@@ -21,13 +21,19 @@ The problem is under-specified. Ask enough questions to choose the right design:
 
 Default assumptions: a ranking service consumes an existing `ItemEvent` stream, returns the global top 100 for fixed hourly, daily, monthly, and all-time windows, needs updates visible within one minute, and returns reads in tens of milliseconds. Cap `K` at 1,000: a request for millions of rows is a different analytics/export product, not a top-K API. Historical arbitrary-range analytics and per-user recommendations are out of scope.
 
+The first design decision is exactness. This base answer is exact; an approximate trending widget may accept bounded ranking error, but exact billing or contractual reporting may not.
+
 ## Mental model
 
-Do not calculate a ranking while the user waits. The write path continuously turns many events into small materialized ranking records; the read path returns the already computed list.
+The smallest version stores events and runs `GROUP BY itemId ORDER BY COUNT(*) DESC LIMIT 100` when a user asks. It is a valid report, but at public traffic it scans, groups, and sorts the largest data set on the latency-sensitive path. A cache only postpones that failure until expiry or cache loss.
+
+The write path must continuously turn many events into small materialized ranking records; the read path returns the already computed list.
 
 ```text
 events -> partitioned stream -> windowed counts -> top-K materialization -> cache -> API response
 ```
+
+The reader question for this visual is: *which state is replayable, which is derived, and why does a ranking read never aggregate raw events?*
 
 ![Top-K heavy-hitters event and read flow](./assets/top-k-event-flow.svg)
 
@@ -73,12 +79,14 @@ You normally describe this in one or two minutes, then spend the rest of the int
 
 ## Baseline exact design
 
+The accepted product action belongs to the source product. The ranking system receives its durable event asynchronously, so a ranking response never promises that a just-created view is already visible.
+
 1. The source product publishes durable events to Kafka or another append-only stream. The event log is retained long enough to replay and rebuild derived data.
 2. Partition the topic by `itemId`. All increments for one item reach one stream task, avoiding distributed increments to the same count.
 3. Stream workers deduplicate events according to the source's delivery contract, group them by event-time window, and maintain `WindowCount` state. They materialize each supported fixed window separately: current hour, current day, current month, and all time.
 4. At a predictable interval or window close, each partition emits its local top `M` candidates, where `M >= K` gives a safety margin.
 5. A merger combines those candidates with a min-heap of size `K` and writes an immutable `TopKSnapshot` to a durable store and Redis/cache.
-6. The Ranking API reads the snapshot/cache. It never scans raw events or all item counts on a user request.
+6. The publisher writes and warms a versioned snapshot before advancing the active cache version. The Ranking API reads that snapshot/cache; it never scans raw events or all item counts on a user request.
 
 For a fully global exact ranking, an item must have one global count before it participates in a global top-K. Keying the stream by `itemId` provides that. If counts are already split across shards for another reason, first aggregate each item's partial counts, then select top K.
 
@@ -100,19 +108,52 @@ If every item belongs to exactly one shard and each shard reports its local top 
 
 Use a larger local `M` when dimensions, partial aggregation, or implementation uncertainty mean that the simple proof no longer applies. The coordinator handles only `shardCount * M` candidates, not every item in the system.
 
-## Windows, freshness, and late events
+## Deep dive 1: exact distributed top K
+
+**Problem.** The global top 100 must be computed from partitioned event processing.
+
+**Naive failure.** A single counter/merger bottlenecks at event rate. Taking local winners is also wrong when one item's count is split between shards.
+
+**Mechanism.** Partition by `itemId`, so one worker owns an item's count. Each shard emits local top `M` candidates; with single-owner counts, global top K is in the union of local top K because an item below local rank K already has K items ahead of it. The merger applies a size-K min-heap only to that union.
+
+**Trade-off and recovery.** Local K is exact only with single-owner counts; use `M >= K` when dimensions or partial merges add uncertainty. If a hot item is salted across workers, sum its partial counts before candidate selection. On merger failure, keep the prior snapshot active and recompute candidates.
+
+## Deep dive 2: windows, freshness, and late events
 
 **Tumbling window:** fixed boundaries, such as 10:00-11:00 UTC. It is the base answer because it is straightforward to aggregate and cache.
 
 **Sliding window:** for example, "the last 60 minutes, refreshed each minute." Store minute buckets. On each minute tick, add the incoming minute and subtract the minute that just fell out. This adds state and writes; do it only when the product genuinely needs a moving ranking.
 
-Use **event time**, not only the worker's clock. Define an allowed lateness policy, such as one minute: keep the window open until its watermark passes `windowEnd + 1 minute`. Events within that bound amend the count and the next snapshot. Events beyond it go to a late-event path for monitoring, correction, or explicit discard according to product policy. Do not silently claim every late event can be ignored.
+Use **event time**, not only the worker's clock. A watermark is the stream's progress signal. Define an allowed lateness policy, such as one minute: keep the window open until its watermark passes `windowEnd + 1 minute`. Events within that bound amend the count and publish a newer snapshot; events beyond it go to a late-event path for monitoring, correction, or explicit discard according to product policy. Do not silently claim every late event can be ignored.
+
+```mermaid
+sequenceDiagram
+    participant E as Event
+    participant W as Window worker
+    participant P as Snapshot publisher
+    participant C as Client
+    E->>W: Event time 10:59:58
+    alt Within allowed lateness
+        W->>W: Amend 10:00 window count
+        W->>P: Publish newer snapshot
+        C->>P: Read ranking
+        P-->>C: New version and generatedAt
+    else Too late
+        W->>W: Route to late-event policy
+    end
+```
 
 Freshness controls cache behavior. With a one-minute freshness SLO, publish or invalidate a snapshot at least once per minute. A long cache TTL is safe only if the publisher replaces the entry within the freshness budget. On a publisher failure, serving the last known snapshot with an explicit age is usually safer than stampeding the aggregate store with read-through recomputation.
 
-## Scaling and recovery
+## Deep dive 3: recover without inflating counts
 
-At high event rates, writing one database row per event is the wrong shape. Windowed stream aggregation batches many events for the same `(item, window)` into one state update and periodic durable write. A stream framework can manage state and checkpoints, but describe the behavior rather than hiding the answer behind a large "Flink" box.
+**Problem.** A worker can fail after updating a count but before recording its input position, or replay an event after a timeout.
+
+**Naive failure.** "Retry" alone inflates the ranking; RAM-only state loses all progress on crash.
+
+**Mechanism.** Use an event ID for bounded deduplication and checkpoint count state with consumed offsets, or use a transactional stream processor that commits derived output and input position together. A replacement restores its checkpoint and replays the retained tail; snapshot publication is idempotent by version. At high event rates, windowed aggregation batches many events for the same `(item, window)` into one state update and periodic durable write.
+
+**Trade-off and recovery.** Exactness needs deduplication/checkpoint state and a declared retention horizon. The raw event log is the rebuild source; counts, snapshots, and cache are derived. A bad release replays raw events into a corrected state version, while cache loss rehydrates from the durable snapshot instead of triggering a request-time aggregate.
 
 The durable event log is the replay source; a checkpoint/state store is the fast recovery point. If a worker dies, another worker restores its latest checkpoint and replays only the remaining events. Couple state checkpoints with consumed offsets so retries do not double-count. The derived counts, top-K snapshots, and cache are rebuildable from the event log.
 
@@ -160,6 +201,13 @@ A stream processor such as Flink can own window state and checkpoints. A streami
 - Do not assume Kafka alone provides exactly-once counting; state, offsets, and idempotency still matter.
 - Do not use a Count-Min Sketch alone for top K; it estimates a count only after you supply an item ID.
 - Do not lead with staff-level variants before presenting a clear fixed-window exact path.
+
+Further reading:
+
+- [Top-K time-window walkthrough](https://chiraghasija.cc/posts/design-top-k-most-shared-articles-in-time-system-design/) — comparison source for exact versus approximate scope and candidate reduction.
+- [Top-K system-design guide](https://systemdesignschool.io/problems/topk/solution) — comparison source for bounded API scope and operational policy.
+- [Apache Flink windows](https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/windows/) — verifies tumbling windows and allowed-lateness behavior.
+- [Apache Kafka design](https://kafka.apache.org/design/) — verifies coordinated output and offset commits for exactly-once processing.
 
 ## Quick recall
 
