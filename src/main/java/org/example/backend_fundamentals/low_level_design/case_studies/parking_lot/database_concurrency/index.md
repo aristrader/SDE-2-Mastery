@@ -7,6 +7,8 @@ search: false
 
 This page is the production-style discussion for the parking lot case study: tables, state transitions, race conditions, transactions, and the interview questions around them.
 
+None of the tables, SQL, status transitions, or idempotency behavior on this page exist in the runnable playground. Its ticket store and payment service are in memory; its synchronization only helps the in-process allocation path. This page describes the boundary to cross when that model must become durable or run on more than one instance.
+
 The key shift:
 
 ```text
@@ -110,6 +112,7 @@ payment
 - payment_method
 - status              INITIATED / SUCCESS / FAILED
 - idempotency_key     unique
+- provider_payment_id nullable
 - created_at
 - completed_at        nullable
 ```
@@ -185,15 +188,17 @@ Then check affected rows:
 - `1`: this request reserved the spot.
 - `0`: another request already took it.
 
-Entry flow:
+Entry flow, in one short transaction:
 
 ```text
-1. create ticket id
-2. find candidate available spot
-3. reserve that spot with an atomic conditional update
-4. create ACTIVE ticket
-5. return ticket
+1. generate a ticket id
+2. find a candidate available spot
+3. atomically reserve that spot with the ticket id
+4. insert the ACTIVE ticket
+5. commit, then return the ticket
 ```
+
+If the ticket and spot reference each other with foreign keys, choose a schema that permits the insert order or create both records in one transaction with the reference populated consistently. Do not commit the spot claim without the ticket.
 
 Service shape:
 
@@ -297,7 +302,11 @@ The payment table should enforce:
 UNIQUE(idempotency_key)
 ```
 
-This protects against duplicate gateway calls caused by retries, double-clicks, duplicate requests, or app restarts.
+This only deduplicates the local payment attempt. Pass that same key to a payment provider that honors idempotency; the provider then makes retries of the same ambiguous attempt safe from duplicate charges. A definitive failed attempt is a new business attempt and needs a new attempt identity/key rather than reusing the old failed operation.
+
+### Recovery after an uncertain payment result
+
+The remaining failure is not solved by a database transaction: a gateway can accept the charge and the process can fail before Transaction 2 marks the ticket `CLOSED`. Keep the provider payment reference and idempotency key durably. A retry or recovery worker queries the provider by that key/reference, then completes the same conditional close-and-release transition. Until that outcome is known, keep the ticket in `EXIT_IN_PROGRESS`; never release the spot merely because the caller timed out.
 
 ## Duplicate exit request
 
@@ -422,3 +431,9 @@ Interview wording:
 - Do not keep DB locks open while waiting for payment.
 - Use idempotency keys for payment retries.
 - Duplicate exit during payment should usually return `409 Conflict` or current status, not wait.
+
+## Further reading
+
+- [PostgreSQL: explicit locking](https://www.postgresql.org/docs/current/explicit-locking.html) — row locks protect competing changes until the transaction ends.
+- [Stripe: idempotent requests](https://docs.stripe.com/api/idempotent_requests) — one operation key makes retrying a request safe.
+- [SystemDesign Academy: Parking Lot LLD](https://www.systemdesign.academy/lld/parking-lot) and [SkillVeris: Parking Lot LLD](https://www.skillveris.com/interview-questions/system-design/how-to-design-a-parking-lot) — independent interview-oriented coverage of tickets, pricing variation, and atomic allocation.

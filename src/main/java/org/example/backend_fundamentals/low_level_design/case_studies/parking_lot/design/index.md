@@ -5,58 +5,52 @@ search: false
 
 # Parking Lot Design
 
-## Requirements
+## The invariant and one working flow
 
-- Allocate a spot for a vehicle if a compatible spot is free.
-- Reject allocation when all compatible spots are occupied.
-- Release a spot when the vehicle exits.
-- Report available spot count by vehicle type.
-- Keep payment, pricing, and gate orchestration outside the MVP implementation.
+At most one vehicle occupies a spot. A vehicle may use only an available spot of its exact type. In the runnable example, an entry claims a spot before a ticket is saved; an exit charges before the ticket is closed and the spot is released.
 
-## Core entities
+1. `ParkingService.enterVehicle` asks `ParkingLot.allocateSpot` for a `ParkingAssignment`.
+2. The lot scans floors in order; a floor reserves its first available compatible `ParkingSpot`.
+3. The service creates and stores a ticket with the spot, floor, entry gate, and entry time.
+4. On exit, the service calculates the hourly fee, invokes the in-memory payment stub, closes the ticket, then releases the ticket's spot.
 
-- `Vehicle`: registration number plus `VehicleType`.
-- `VehicleType`: supported categories such as `CAR`, `BIKE`, and `TRUCK`.
-- `ParkingSpot`: owns compatibility and current occupancy.
-- `ParkingFloor`: owns a group of spots and local spot search.
-- `ParkingLot`: owns cross-floor allocation, release, and availability.
-- `Ticket`: useful extension point for entry/exit history.
-- `Payment`: useful extension point once pricing is in scope.
+If no matching spot can be reserved, allocation throws `NoValidSpotFoundException`. The run class demonstrates a rejected second car and the released capacity after exit.
 
-## Main flows
+## Why each object exists
 
-### Park
+| Object | Responsibility in the flow |
+| --- | --- |
+| `Vehicle` / `VehicleType` | Identify the incoming vehicle and its required spot type. |
+| `ParkingSpot` | Own its occupancy and reject an incompatible or already occupied reservation. |
+| `ParkingFloor` | Search its own fixed spot collection. |
+| `ParkingLot` | Coordinate the cross-floor first-fit search, release, and availability total. |
+| `ParkingAssignment` | Return both selected spot and floor without leaking the search loop to the service. |
+| `Ticket` / `TicketRepository` | Connect entry to a later quote and exit in the in-memory exercise. |
+| `HourlyFeeCalculator` | Vary the price calculation independently from allocation; the resolver currently selects the one hourly policy. |
+| `PaymentService` | Isolate the payment boundary; it currently logs a successful collection rather than calling a gateway. |
 
-1. `ParkingLot.allocateSpot(vehicle)` scans floors in order.
-2. Each floor asks for the first available spot matching `vehicle.getVehicleType()`.
-3. `ParkingSpot.reserve(vehicle)` marks the spot occupied.
-4. If no floor can reserve a spot, the lot throws a clear full-capacity exception.
+## Correctness boundary
 
-### Exit
+`ParkingLot.allocateSpot` and `ParkingFloor.reserveSpot` are synchronized, so the practice model prevents two threads using those same in-memory objects from taking its final spot. That is not distributed coordination: the ticket repository is a `HashMap`, and separate service instances have separate locks and state.
 
-1. `ParkingLot.releaseSpot(spotId)` asks each floor to release that spot.
-2. `ParkingSpot.release()` clears the current vehicle.
-3. If the spot id does not exist, the lot throws a clear unknown-spot exception.
+For multiple app instances, do not add more Java locks. Persist the spot and ticket state, claim the spot atomically, and make the payment operation idempotent. See [Parking Lot Database and Concurrency](../database_concurrency/).
 
-### Availability
+## Deliberate choices and extensions
 
-1. Each floor counts available spots for the requested vehicle type.
-2. The lot sums those counts across floors.
-
-## Tradeoffs
-
-- The playground uses first-fit allocation because it is simple and interview-friendly.
-- A production design would likely add entry gates, exit gates, pricing, payment status, ticket lifecycle, and concurrency control.
-- Spot type matching is exact in the MVP. If truck spots can accept cars, replace `canFit` with a capacity/rank rule.
-- In-memory repositories are enough for the exercise. Persistence is a separate system-design concern.
+- **First fit:** the current order is deterministic and simple. A nearest-spot policy is a separate allocation strategy only when distance or priority is required.
+- **Exact matching:** `CAR`, `BIKE`, and `TRUCK` match only their own spot type. If a larger spot may accept a smaller vehicle, replace that rule with one explicit capacity policy.
+- **In-memory payment:** the demo charges before release but has no external-failure recovery. A real gateway needs durable payment state and an idempotency key.
+- **Availability scan:** counting spots is correct for the small model. Add maintained counters only when the read load justifies their transactional consistency cost.
 
 ## Production extension
 
 For database tables, multi-instance concurrency, payment idempotency, and race-condition handling, read [Parking Lot Database and Concurrency](../database_concurrency/).
 
+The unreferenced `assets/ParkingLot.drawio` is a preserved learner worksheet, not a diagram of this runnable model. Do not use it as design evidence: the Mermaid diagrams on the database page are the maintained visuals for the proposed durable design.
+
 ## Quick recall
 
-- Put local invariants on the object that owns the state: `ParkingSpot.reserve` and `release`.
-- Put search at the aggregate level: `ParkingFloor` searches spots; `ParkingLot` searches floors.
-- Make full-capacity and unknown-spot cases explicit.
-- Add payment only after ticket lifecycle and release flow are clear.
+- `ParkingSpot` owns occupancy; floors and lots own progressively wider searches.
+- Ticket, pricing, and payment vary independently from allocation, so they stay outside `ParkingLot`.
+- A synchronized object graph is sufficient only for this one-JVM exercise.
+- Production allocation is an atomic shared-state claim, not a read followed by a write.
