@@ -56,3 +56,33 @@ public class DefaultTest {
 }
 ```
 Primitives store values and have non-null defaults (like `0` or `false`). Wrapper variables store reference values and, like all object references, their default value is `null`. Assigning `test.objectInt` to an `int` would unbox `null` and throw `NullPointerException`.
+
+## Solution: numeric-conversion-boundary - Predict the Loss
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        byte retries = 10;
+        // retries = retries + 1; // does not compile: byte + int becomes int
+        retries += 1;             // compound assignment narrows back to byte
+
+        int exact = 16_777_217;
+        float approximate = exact;
+        System.out.println((int) approximate); // 16_777_216
+
+        long externalId = 3_000_000_000L;
+        System.out.println((int) externalId); // truncated, not validated
+
+        try {
+            System.out.println(Math.toIntExact(externalId));
+        } catch (ArithmeticException exception) {
+            System.out.println("externalId does not fit in int");
+        }
+    }
+}
+```
+
+Ordinary arithmetic promotes `byte`, `short`, and `char` operands to `int`. `+=` is convenient but can hide a
+narrowing conversion, so it is not a range check. `float` cannot represent every `int` once values exceed its precise
+integer range. `Math.toIntExact` is the correct boundary when an out-of-range external value must fail rather than
+silently change.

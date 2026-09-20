@@ -49,3 +49,25 @@ In a `main` method, instantiate `DefaultTest` and print both fields.
 - What is the output for each?
 - Why can an `Integer` be `null` but an `int` cannot?
 - What happens if you assign `objectInt` directly to an `int`?
+
+## Exercise: numeric-conversion-boundary - Predict the Loss
+
+### Goal
+
+Distinguish promotion, implicit compound-assignment narrowing, floating-point precision loss, and checked narrowing.
+
+### Task
+
+Write a small `main` that demonstrates all four cases:
+
+1. Explain why `byte retries = 10; retries = retries + 1;` does not compile, then use `retries += 1`.
+2. Assign `16_777_217` to both `int` and `float`, then compare the values after converting the `float` back to `int`.
+3. Cast `3_000_000_000L` to `int` and print the result.
+4. Call `Math.toIntExact(3_000_000_000L)` and handle the failure deliberately.
+
+### Checks
+
+- Which operation promotes `byte` to `int`?
+- Why does the `float` round even though the original `int` is valid?
+- Why is the cast not a safe validation step?
+- When is failing fast preferable to wrapping or truncating a value?
