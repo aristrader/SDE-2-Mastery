@@ -53,11 +53,13 @@ System.out.println(a == b); // true! Both point to the exact same cached object.
 
 Integer x = 1000;
 Integer y = 1000;
-System.out.println(x == y); // false! 1000 is outside the cache. Two separate objects are created.
+System.out.println(x == y); // Do not rely on this result outside the guaranteed cache range.
 System.out.println(x.equals(y)); // true. Content is identical.
 ```
 
 **Rule:** Never use `==` to compare Wrapper objects. Always use `.equals()`.
+
+Try the cache and null-unboxing traps in `playground/WrapperSemanticsExercise.java`.
 
 ---
 
@@ -69,5 +71,5 @@ A. The automatic conversion the Java compiler makes between the primitive types 
 **Q. When does unboxing throw a NullPointerException?**
 A. When the wrapper reference is `null` and the compiler attempts to extract the primitive value (e.g., assigning a `null` `Integer` to an `int` variable).
 
-**Q. Why does `Integer a = 100; Integer b = 100; a == b;` return true, but fails for 1000?**
-A. Java caches wrapper objects for values between -128 and 127. Values in this range return the exact same cached reference, so `==` (reference comparison) succeeds. 1000 is outside the cache, so two distinct objects are created.
+**Q. Why can `Integer a = 100; Integer b = 100; a == b;` return true?**
+A. Java guarantees identity for boxing qualifying constant-expression `int` values from -128 to 127. Outside that boundary, identity is not a portable value-comparison rule; use `.equals()`.

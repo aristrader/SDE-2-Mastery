@@ -14,11 +14,11 @@ System.out.println(a == b); // Prints true (Cached)
 
 Integer x = 500;
 Integer y = 500;
-System.out.println(x == y); // Prints false (Not Cached)
+System.out.println(x == y); // Implementation detail outside the guaranteed cache range
 
 System.out.println(x.equals(y)); // Prints true (Safe content comparison)
 ```
-Java optimizes memory by keeping a cache of `Integer` objects from -128 to 127. When you autobox `50`, it grabs the pre-existing object from the cache for both `a` and `b`. For `500`, it creates a `new Integer(500)` every time. `==` checks identity, not content. Always use `.equals()`.
+Java guarantees identity when boxing qualifying constant-expression `int` values from -128 to 127. Outside that range, identity is not specified for value comparison, even if one JDK happens to reuse an object. `==` checks identity, not content; always use `.equals()` for wrapper values.
 
 ## Solution: unboxing-npe - Hidden NullPointerException
 
@@ -28,5 +28,5 @@ Map<String, Integer> map = new HashMap<>();
 // int count = map.get("missing_key"); // Throws NullPointerException
 ```
 Because the key is missing, `map.get()` returns `null` (an absent `Integer` object). 
-The compiler sees you assigning an `Integer` to an `int`, so it autoboxes by quietly inserting a call to `.intValue()`.
+The compiler sees you assigning an `Integer` to an `int`, so it unboxes by quietly inserting a call to `.intValue()`.
 At runtime, this becomes `null.intValue()`, causing an immediate `NullPointerException`. Never assign a potentially null wrapper directly to a primitive without checking!

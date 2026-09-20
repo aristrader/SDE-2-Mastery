@@ -19,7 +19,7 @@ Finally, compare `x` and `y` using `.equals()`.
 
 ### Checks
 - Why does `a == b` return `true`?
-- Why does `x == y` return `false`?
+- Why must you not rely on the result of `x == y`?
 - What is the only safe way to compare object values?
 
 ## Exercise: unboxing-npe - Hidden NullPointerException

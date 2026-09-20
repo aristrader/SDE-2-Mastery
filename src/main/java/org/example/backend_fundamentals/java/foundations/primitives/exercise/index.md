@@ -18,6 +18,21 @@ Call `changeValue(x)` from `main`, then print `x`.
 ### Checks
 - Does `x` print `10` or `20`? Why?
 
+## Exercise: copied-reference-value - Mutation Is Not Reassignment
+
+### Goal
+
+Distinguish a copied object reference from pass-by-reference.
+
+### Task
+
+Pass a `StringBuilder` containing `"draft"` to a helper. Append `"!"`, then reassign the parameter to a new `StringBuilder("replacement")`. Print the caller's builder after the method returns.
+
+### Checks
+
+- Why is the append visible?
+- Why is the replacement not visible?
+
 ## Exercise: primitive-vs-object-defaults - Default Values
 
 ### Goal
@@ -33,3 +48,4 @@ In a `main` method, instantiate `DefaultTest` and print both fields.
 ### Checks
 - What is the output for each?
 - Why can an `Integer` be `null` but an `int` cannot?
+- What happens if you assign `objectInt` directly to an `int`?

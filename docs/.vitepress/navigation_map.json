@@ -1849,7 +1849,7 @@
                 "text": "Primitive Types",
                 "link": "/java/foundations/primitives/",
                 "order": 10,
-                "schema": "interactive-code",
+                "schema": "practice",
                 "practiceSet": {
                   "questions": [
                     {
@@ -1860,42 +1860,18 @@
                       "solutionHtml": "<h2>Solution: pass-by-value-primitives - Primitives are Pass-by-Value</h2>\n<pre><code>public class Main {\n    static void changeValue(int x) {\n        x = 20; // Only modifies the local copy\n    }\n\n    public static void main(String[] args) {\n        int x = 10;\n        changeValue(x);\n        System.out.println(x); // Prints 10\n    }\n}</code></pre>\n<p>Java is always pass-by-value. For primitives, the literal value (<code>10</code>) is copied into the method parameter. Changing the parameter only changes the local copy.</p>"
                     },
                     {
-                      "id": "primitive-vs-object-defaults",
-                      "title": "Default Values",
-                      "exerciseHtml": "<h2>Exercise: primitive-vs-object-defaults - Default Values</h2>\n<h3>Goal</h3>\n<p>Understand the difference in default values between primitives and their object wrappers.</p>\n<h3>Task</h3>\n<p>Create a class <code>DefaultTest</code> with two instance variables:</p>\n<ul>\n<li><code>int primitiveInt;</code></li>\n<li><code>Integer objectInt;</code></li>\n</ul>\n<p>In a <code>main</code> method, instantiate <code>DefaultTest</code> and print both fields.</p>\n<h3>Checks</h3>\n<ul>\n<li>What is the output for each?</li>\n<li>Why can an <code>Integer</code> be <code>null</code> but an <code>int</code> cannot?</li>\n</ul>",
+                      "id": "copied-reference-value",
+                      "title": "Mutation Is Not Reassignment",
+                      "exerciseHtml": "<h2>Exercise: copied-reference-value - Mutation Is Not Reassignment</h2>\n<h3>Goal</h3>\n<p>Distinguish a copied object reference from pass-by-reference.</p>\n<h3>Task</h3>\n<p>Pass a <code>StringBuilder</code> containing <code>&quot;draft&quot;</code> to a helper. Append <code>&quot;!&quot;</code>, then reassign the parameter to a new <code>StringBuilder(&quot;replacement&quot;)</code>. Print the caller's builder after the method returns.</p>\n<h3>Checks</h3>\n<ul>\n<li>Why is the append visible?</li>\n<li>Why is the replacement not visible?</li>\n</ul>",
                       "starterCode": "",
-                      "solutionHtml": "<h2>Solution: primitive-vs-object-defaults - Default Values</h2>\n<pre><code>public class DefaultTest {\n    int primitiveInt;\n    Integer objectInt;\n\n    public static void main(String[] args) {\n        DefaultTest test = new DefaultTest();\n        System.out.println(test.primitiveInt); // Prints 0\n        System.out.println(test.objectInt);    // Prints null\n    }\n}</code></pre>\n<p>Primitives store actual values and have non-null defaults (like <code>0</code> or <code>false</code>). Wrapper objects (like <code>Integer</code>) store references (pointers) to heap objects, and like all object references, their default value is <code>null</code>.</p>"
-                    }
-                  ]
-                },
-                "capabilities": {
-                  "exercise": true,
-                  "solution": true,
-                  "design": false,
-                  "playground": true,
-                  "assets": false
-                }
-              },
-              {
-                "text": "Wrapper Object Semantics",
-                "link": "/java/foundations/wrapper_semantics/",
-                "order": 20,
-                "schema": "practice",
-                "practiceSet": {
-                  "questions": [
-                    {
-                      "id": "integer-cache-trap",
-                      "title": "The Cache Trap",
-                      "exerciseHtml": "<h2>Exercise: integer-cache-trap - The Cache Trap</h2>\n<h3>Goal</h3>\n<p>Experience the inconsistency of using <code>==</code> to compare wrapper objects.</p>\n<h3>Task</h3>\n<p>Create two <code>Integer</code> variables, <code>a</code> and <code>b</code>, both set to <code>50</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Create two <code>Integer</code> variables, <code>x</code> and <code>y</code>, both set to <code>500</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Finally, compare <code>x</code> and <code>y</code> using <code>.equals()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Why does <code>a == b</code> return <code>true</code>?</li>\n<li>Why does <code>x == y</code> return <code>false</code>?</li>\n<li>What is the only safe way to compare object values?</li>\n</ul>",
-                      "starterCode": "",
-                      "solutionHtml": "<h2>Solution: integer-cache-trap - The Cache Trap</h2>\n<pre><code>Integer a = 50;\nInteger b = 50;\nSystem.out.println(a == b); // Prints true (Cached)\n\nInteger x = 500;\nInteger y = 500;\nSystem.out.println(x == y); // Prints false (Not Cached)\n\nSystem.out.println(x.equals(y)); // Prints true (Safe content comparison)</code></pre>\n<p>Java optimizes memory by keeping a cache of <code>Integer</code> objects from -128 to 127. When you autobox <code>50</code>, it grabs the pre-existing object from the cache for both <code>a</code> and <code>b</code>. For <code>500</code>, it creates a <code>new Integer(500)</code> every time. <code>==</code> checks identity, not content. Always use <code>.equals()</code>.</p>"
+                      "solutionHtml": "<h2>Solution: copied-reference-value - Mutation Is Not Reassignment</h2>\n<pre><code>public class Main {\n    static void change(StringBuilder value) {\n        value.append(&quot;!&quot;);\n        value = new StringBuilder(&quot;replacement&quot;);\n    }\n\n    public static void main(String[] args) {\n        StringBuilder value = new StringBuilder(&quot;draft&quot;);\n        change(value);\n        System.out.println(value); // draft!\n    }\n}</code></pre>\n<p>The parameter receives a copied reference value. Both references identify the original builder, so <code>append</code> is visible. Reassigning the parameter changes only that local reference.</p>"
                     },
                     {
-                      "id": "unboxing-npe",
-                      "title": "Hidden NullPointerException",
-                      "exerciseHtml": "<h2>Exercise: unboxing-npe - Hidden NullPointerException</h2>\n<h3>Goal</h3>\n<p>Observe how autoboxing hides method calls that can throw exceptions.</p>\n<h3>Task</h3>\n<p>Create a <code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</code>.</p>\n<p>Attempt to retrieve a missing key and assign it directly to a primitive <code>int</code>:</p>\n<p><code>int count = map.get(&quot;missing_key&quot;);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>What exception is thrown?</li>\n<li>Why did the compiler allow the assignment, but the JVM crashed?</li>\n</ul>",
+                      "id": "primitive-vs-object-defaults",
+                      "title": "Default Values",
+                      "exerciseHtml": "<h2>Exercise: primitive-vs-object-defaults - Default Values</h2>\n<h3>Goal</h3>\n<p>Understand the difference in default values between primitives and their object wrappers.</p>\n<h3>Task</h3>\n<p>Create a class <code>DefaultTest</code> with two instance variables:</p>\n<ul>\n<li><code>int primitiveInt;</code></li>\n<li><code>Integer objectInt;</code></li>\n</ul>\n<p>In a <code>main</code> method, instantiate <code>DefaultTest</code> and print both fields.</p>\n<h3>Checks</h3>\n<ul>\n<li>What is the output for each?</li>\n<li>Why can an <code>Integer</code> be <code>null</code> but an <code>int</code> cannot?</li>\n<li>What happens if you assign <code>objectInt</code> directly to an <code>int</code>?</li>\n</ul>",
                       "starterCode": "",
-                      "solutionHtml": "<h2>Solution: unboxing-npe - Hidden NullPointerException</h2>\n<pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();\n\n// int count = map.get(&quot;missing_key&quot;); // Throws NullPointerException</code></pre>\n<p>Because the key is missing, <code>map.get()</code> returns <code>null</code> (an absent <code>Integer</code> object). </p>\n<p>The compiler sees you assigning an <code>Integer</code> to an <code>int</code>, so it autoboxes by quietly inserting a call to <code>.intValue()</code>.</p>\n<p>At runtime, this becomes <code>null.intValue()</code>, causing an immediate <code>NullPointerException</code>. Never assign a potentially null wrapper directly to a primitive without checking!</p>"
+                      "solutionHtml": "<h2>Solution: primitive-vs-object-defaults - Default Values</h2>\n<pre><code>public class DefaultTest {\n    int primitiveInt;\n    Integer objectInt;\n\n    public static void main(String[] args) {\n        DefaultTest test = new DefaultTest();\n        System.out.println(test.primitiveInt); // Prints 0\n        System.out.println(test.objectInt);    // Prints null\n    }\n}</code></pre>\n<p>Primitives store values and have non-null defaults (like <code>0</code> or <code>false</code>). Wrapper variables store reference values and, like all object references, their default value is <code>null</code>. Assigning <code>test.objectInt</code> to an <code>int</code> would unbox <code>null</code> and throw <code>NullPointerException</code>.</p>"
                     }
                   ]
                 },
@@ -1904,6 +1880,37 @@
                   "solution": true,
                   "design": false,
                   "playground": false,
+                  "assets": false
+                }
+              },
+              {
+                "text": "Wrapper Object Semantics",
+                "link": "/java/foundations/wrapper_semantics/",
+                "order": 20,
+                "schema": "interactive-code",
+                "practiceSet": {
+                  "questions": [
+                    {
+                      "id": "integer-cache-trap",
+                      "title": "The Cache Trap",
+                      "exerciseHtml": "<h2>Exercise: integer-cache-trap - The Cache Trap</h2>\n<h3>Goal</h3>\n<p>Experience the inconsistency of using <code>==</code> to compare wrapper objects.</p>\n<h3>Task</h3>\n<p>Create two <code>Integer</code> variables, <code>a</code> and <code>b</code>, both set to <code>50</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Create two <code>Integer</code> variables, <code>x</code> and <code>y</code>, both set to <code>500</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Finally, compare <code>x</code> and <code>y</code> using <code>.equals()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Why does <code>a == b</code> return <code>true</code>?</li>\n<li>Why must you not rely on the result of <code>x == y</code>?</li>\n<li>What is the only safe way to compare object values?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: integer-cache-trap - The Cache Trap</h2>\n<pre><code>Integer a = 50;\nInteger b = 50;\nSystem.out.println(a == b); // Prints true (Cached)\n\nInteger x = 500;\nInteger y = 500;\nSystem.out.println(x == y); // Implementation detail outside the guaranteed cache range\n\nSystem.out.println(x.equals(y)); // Prints true (Safe content comparison)</code></pre>\n<p>Java guarantees identity when boxing qualifying constant-expression <code>int</code> values from -128 to 127. Outside that range, identity is not specified for value comparison, even if one JDK happens to reuse an object. <code>==</code> checks identity, not content; always use <code>.equals()</code> for wrapper values.</p>"
+                    },
+                    {
+                      "id": "unboxing-npe",
+                      "title": "Hidden NullPointerException",
+                      "exerciseHtml": "<h2>Exercise: unboxing-npe - Hidden NullPointerException</h2>\n<h3>Goal</h3>\n<p>Observe how autoboxing hides method calls that can throw exceptions.</p>\n<h3>Task</h3>\n<p>Create a <code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</code>.</p>\n<p>Attempt to retrieve a missing key and assign it directly to a primitive <code>int</code>:</p>\n<p><code>int count = map.get(&quot;missing_key&quot;);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>What exception is thrown?</li>\n<li>Why did the compiler allow the assignment, but the JVM crashed?</li>\n</ul>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: unboxing-npe - Hidden NullPointerException</h2>\n<pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();\n\n// int count = map.get(&quot;missing_key&quot;); // Throws NullPointerException</code></pre>\n<p>Because the key is missing, <code>map.get()</code> returns <code>null</code> (an absent <code>Integer</code> object). </p>\n<p>The compiler sees you assigning an <code>Integer</code> to an <code>int</code>, so it unboxes by quietly inserting a call to <code>.intValue()</code>.</p>\n<p>At runtime, this becomes <code>null.intValue()</code>, causing an immediate <code>NullPointerException</code>. Never assign a potentially null wrapper directly to a primitive without checking!</p>"
+                    }
+                  ]
+                },
+                "capabilities": {
+                  "exercise": true,
+                  "solution": true,
+                  "design": false,
+                  "playground": true,
                   "assets": false
                 }
               },
@@ -11039,12 +11046,12 @@
       "link": "/java/foundations/primitives/",
       "pageType": "theory",
       "parentLink": "/java/foundations/primitives/",
-      "schema": "interactive-code",
+      "schema": "practice",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
-        "playground": true,
+        "playground": false,
         "assets": false
       }
     },
@@ -11053,12 +11060,12 @@
       "link": "/java/foundations/primitives/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/foundations/primitives/",
-      "schema": "interactive-code",
+      "schema": "practice",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
-        "playground": true,
+        "playground": false,
         "assets": false
       },
       "practiceSet": {
@@ -11071,11 +11078,18 @@
             "solutionHtml": "<h2>Solution: pass-by-value-primitives - Primitives are Pass-by-Value</h2>\n<pre><code>public class Main {\n    static void changeValue(int x) {\n        x = 20; // Only modifies the local copy\n    }\n\n    public static void main(String[] args) {\n        int x = 10;\n        changeValue(x);\n        System.out.println(x); // Prints 10\n    }\n}</code></pre>\n<p>Java is always pass-by-value. For primitives, the literal value (<code>10</code>) is copied into the method parameter. Changing the parameter only changes the local copy.</p>"
           },
           {
+            "id": "copied-reference-value",
+            "title": "Mutation Is Not Reassignment",
+            "exerciseHtml": "<h2>Exercise: copied-reference-value - Mutation Is Not Reassignment</h2>\n<h3>Goal</h3>\n<p>Distinguish a copied object reference from pass-by-reference.</p>\n<h3>Task</h3>\n<p>Pass a <code>StringBuilder</code> containing <code>&quot;draft&quot;</code> to a helper. Append <code>&quot;!&quot;</code>, then reassign the parameter to a new <code>StringBuilder(&quot;replacement&quot;)</code>. Print the caller's builder after the method returns.</p>\n<h3>Checks</h3>\n<ul>\n<li>Why is the append visible?</li>\n<li>Why is the replacement not visible?</li>\n</ul>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: copied-reference-value - Mutation Is Not Reassignment</h2>\n<pre><code>public class Main {\n    static void change(StringBuilder value) {\n        value.append(&quot;!&quot;);\n        value = new StringBuilder(&quot;replacement&quot;);\n    }\n\n    public static void main(String[] args) {\n        StringBuilder value = new StringBuilder(&quot;draft&quot;);\n        change(value);\n        System.out.println(value); // draft!\n    }\n}</code></pre>\n<p>The parameter receives a copied reference value. Both references identify the original builder, so <code>append</code> is visible. Reassigning the parameter changes only that local reference.</p>"
+          },
+          {
             "id": "primitive-vs-object-defaults",
             "title": "Default Values",
-            "exerciseHtml": "<h2>Exercise: primitive-vs-object-defaults - Default Values</h2>\n<h3>Goal</h3>\n<p>Understand the difference in default values between primitives and their object wrappers.</p>\n<h3>Task</h3>\n<p>Create a class <code>DefaultTest</code> with two instance variables:</p>\n<ul>\n<li><code>int primitiveInt;</code></li>\n<li><code>Integer objectInt;</code></li>\n</ul>\n<p>In a <code>main</code> method, instantiate <code>DefaultTest</code> and print both fields.</p>\n<h3>Checks</h3>\n<ul>\n<li>What is the output for each?</li>\n<li>Why can an <code>Integer</code> be <code>null</code> but an <code>int</code> cannot?</li>\n</ul>",
+            "exerciseHtml": "<h2>Exercise: primitive-vs-object-defaults - Default Values</h2>\n<h3>Goal</h3>\n<p>Understand the difference in default values between primitives and their object wrappers.</p>\n<h3>Task</h3>\n<p>Create a class <code>DefaultTest</code> with two instance variables:</p>\n<ul>\n<li><code>int primitiveInt;</code></li>\n<li><code>Integer objectInt;</code></li>\n</ul>\n<p>In a <code>main</code> method, instantiate <code>DefaultTest</code> and print both fields.</p>\n<h3>Checks</h3>\n<ul>\n<li>What is the output for each?</li>\n<li>Why can an <code>Integer</code> be <code>null</code> but an <code>int</code> cannot?</li>\n<li>What happens if you assign <code>objectInt</code> directly to an <code>int</code>?</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: primitive-vs-object-defaults - Default Values</h2>\n<pre><code>public class DefaultTest {\n    int primitiveInt;\n    Integer objectInt;\n\n    public static void main(String[] args) {\n        DefaultTest test = new DefaultTest();\n        System.out.println(test.primitiveInt); // Prints 0\n        System.out.println(test.objectInt);    // Prints null\n    }\n}</code></pre>\n<p>Primitives store actual values and have non-null defaults (like <code>0</code> or <code>false</code>). Wrapper objects (like <code>Integer</code>) store references (pointers) to heap objects, and like all object references, their default value is <code>null</code>.</p>"
+            "solutionHtml": "<h2>Solution: primitive-vs-object-defaults - Default Values</h2>\n<pre><code>public class DefaultTest {\n    int primitiveInt;\n    Integer objectInt;\n\n    public static void main(String[] args) {\n        DefaultTest test = new DefaultTest();\n        System.out.println(test.primitiveInt); // Prints 0\n        System.out.println(test.objectInt);    // Prints null\n    }\n}</code></pre>\n<p>Primitives store values and have non-null defaults (like <code>0</code> or <code>false</code>). Wrapper variables store reference values and, like all object references, their default value is <code>null</code>. Assigning <code>test.objectInt</code> to an <code>int</code> would unbox <code>null</code> and throw <code>NullPointerException</code>.</p>"
           }
         ]
       }
@@ -11085,27 +11099,27 @@
       "link": "/java/foundations/primitives/solution/",
       "pageType": "solution",
       "parentLink": "/java/foundations/primitives/",
-      "schema": "interactive-code",
-      "capabilities": {
-        "exercise": true,
-        "solution": true,
-        "design": false,
-        "playground": true,
-        "assets": false
-      },
-      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: pass-by-value-primitives - Primitives are Pass-by-Value</h2>\n<pre><code>public class Main {\n    static void changeValue(int x) {\n        x = 20; // Only modifies the local copy\n    }\n\n    public static void main(String[] args) {\n        int x = 10;\n        changeValue(x);\n        System.out.println(x); // Prints 10\n    }\n}</code></pre>\n<p>Java is always pass-by-value. For primitives, the literal value (<code>10</code>) is copied into the method parameter. Changing the parameter only changes the local copy.</p>\n<h2>Solution: primitive-vs-object-defaults - Default Values</h2>\n<pre><code>public class DefaultTest {\n    int primitiveInt;\n    Integer objectInt;\n\n    public static void main(String[] args) {\n        DefaultTest test = new DefaultTest();\n        System.out.println(test.primitiveInt); // Prints 0\n        System.out.println(test.objectInt);    // Prints null\n    }\n}</code></pre>\n<p>Primitives store actual values and have non-null defaults (like <code>0</code> or <code>false</code>). Wrapper objects (like <code>Integer</code>) store references (pointers) to heap objects, and like all object references, their default value is <code>null</code>.</p>"
-    },
-    "/java/foundations/wrapper_semantics/": {
-      "text": "Wrapper Object Semantics",
-      "link": "/java/foundations/wrapper_semantics/",
-      "pageType": "theory",
-      "parentLink": "/java/foundations/wrapper_semantics/",
       "schema": "practice",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
         "playground": false,
+        "assets": false
+      },
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: pass-by-value-primitives - Primitives are Pass-by-Value</h2>\n<pre><code>public class Main {\n    static void changeValue(int x) {\n        x = 20; // Only modifies the local copy\n    }\n\n    public static void main(String[] args) {\n        int x = 10;\n        changeValue(x);\n        System.out.println(x); // Prints 10\n    }\n}</code></pre>\n<p>Java is always pass-by-value. For primitives, the literal value (<code>10</code>) is copied into the method parameter. Changing the parameter only changes the local copy.</p>\n<h2>Solution: copied-reference-value - Mutation Is Not Reassignment</h2>\n<pre><code>public class Main {\n    static void change(StringBuilder value) {\n        value.append(&quot;!&quot;);\n        value = new StringBuilder(&quot;replacement&quot;);\n    }\n\n    public static void main(String[] args) {\n        StringBuilder value = new StringBuilder(&quot;draft&quot;);\n        change(value);\n        System.out.println(value); // draft!\n    }\n}</code></pre>\n<p>The parameter receives a copied reference value. Both references identify the original builder, so <code>append</code> is visible. Reassigning the parameter changes only that local reference.</p>\n<h2>Solution: primitive-vs-object-defaults - Default Values</h2>\n<pre><code>public class DefaultTest {\n    int primitiveInt;\n    Integer objectInt;\n\n    public static void main(String[] args) {\n        DefaultTest test = new DefaultTest();\n        System.out.println(test.primitiveInt); // Prints 0\n        System.out.println(test.objectInt);    // Prints null\n    }\n}</code></pre>\n<p>Primitives store values and have non-null defaults (like <code>0</code> or <code>false</code>). Wrapper variables store reference values and, like all object references, their default value is <code>null</code>. Assigning <code>test.objectInt</code> to an <code>int</code> would unbox <code>null</code> and throw <code>NullPointerException</code>.</p>"
+    },
+    "/java/foundations/wrapper_semantics/": {
+      "text": "Wrapper Object Semantics",
+      "link": "/java/foundations/wrapper_semantics/",
+      "pageType": "theory",
+      "parentLink": "/java/foundations/wrapper_semantics/",
+      "schema": "interactive-code",
+      "capabilities": {
+        "exercise": true,
+        "solution": true,
+        "design": false,
+        "playground": true,
         "assets": false
       }
     },
@@ -11114,12 +11128,12 @@
       "link": "/java/foundations/wrapper_semantics/exercise/",
       "pageType": "exercise",
       "parentLink": "/java/foundations/wrapper_semantics/",
-      "schema": "practice",
+      "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
-        "playground": false,
+        "playground": true,
         "assets": false
       },
       "practiceSet": {
@@ -11127,16 +11141,16 @@
           {
             "id": "integer-cache-trap",
             "title": "The Cache Trap",
-            "exerciseHtml": "<h2>Exercise: integer-cache-trap - The Cache Trap</h2>\n<h3>Goal</h3>\n<p>Experience the inconsistency of using <code>==</code> to compare wrapper objects.</p>\n<h3>Task</h3>\n<p>Create two <code>Integer</code> variables, <code>a</code> and <code>b</code>, both set to <code>50</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Create two <code>Integer</code> variables, <code>x</code> and <code>y</code>, both set to <code>500</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Finally, compare <code>x</code> and <code>y</code> using <code>.equals()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Why does <code>a == b</code> return <code>true</code>?</li>\n<li>Why does <code>x == y</code> return <code>false</code>?</li>\n<li>What is the only safe way to compare object values?</li>\n</ul>",
+            "exerciseHtml": "<h2>Exercise: integer-cache-trap - The Cache Trap</h2>\n<h3>Goal</h3>\n<p>Experience the inconsistency of using <code>==</code> to compare wrapper objects.</p>\n<h3>Task</h3>\n<p>Create two <code>Integer</code> variables, <code>a</code> and <code>b</code>, both set to <code>50</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Create two <code>Integer</code> variables, <code>x</code> and <code>y</code>, both set to <code>500</code>.</p>\n<p>Compare them using <code>==</code> and print the result.</p>\n<p>Finally, compare <code>x</code> and <code>y</code> using <code>.equals()</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>Why does <code>a == b</code> return <code>true</code>?</li>\n<li>Why must you not rely on the result of <code>x == y</code>?</li>\n<li>What is the only safe way to compare object values?</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: integer-cache-trap - The Cache Trap</h2>\n<pre><code>Integer a = 50;\nInteger b = 50;\nSystem.out.println(a == b); // Prints true (Cached)\n\nInteger x = 500;\nInteger y = 500;\nSystem.out.println(x == y); // Prints false (Not Cached)\n\nSystem.out.println(x.equals(y)); // Prints true (Safe content comparison)</code></pre>\n<p>Java optimizes memory by keeping a cache of <code>Integer</code> objects from -128 to 127. When you autobox <code>50</code>, it grabs the pre-existing object from the cache for both <code>a</code> and <code>b</code>. For <code>500</code>, it creates a <code>new Integer(500)</code> every time. <code>==</code> checks identity, not content. Always use <code>.equals()</code>.</p>"
+            "solutionHtml": "<h2>Solution: integer-cache-trap - The Cache Trap</h2>\n<pre><code>Integer a = 50;\nInteger b = 50;\nSystem.out.println(a == b); // Prints true (Cached)\n\nInteger x = 500;\nInteger y = 500;\nSystem.out.println(x == y); // Implementation detail outside the guaranteed cache range\n\nSystem.out.println(x.equals(y)); // Prints true (Safe content comparison)</code></pre>\n<p>Java guarantees identity when boxing qualifying constant-expression <code>int</code> values from -128 to 127. Outside that range, identity is not specified for value comparison, even if one JDK happens to reuse an object. <code>==</code> checks identity, not content; always use <code>.equals()</code> for wrapper values.</p>"
           },
           {
             "id": "unboxing-npe",
             "title": "Hidden NullPointerException",
             "exerciseHtml": "<h2>Exercise: unboxing-npe - Hidden NullPointerException</h2>\n<h3>Goal</h3>\n<p>Observe how autoboxing hides method calls that can throw exceptions.</p>\n<h3>Task</h3>\n<p>Create a <code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</code>.</p>\n<p>Attempt to retrieve a missing key and assign it directly to a primitive <code>int</code>:</p>\n<p><code>int count = map.get(&quot;missing_key&quot;);</code>.</p>\n<h3>Checks</h3>\n<ul>\n<li>What exception is thrown?</li>\n<li>Why did the compiler allow the assignment, but the JVM crashed?</li>\n</ul>",
             "starterCode": "",
-            "solutionHtml": "<h2>Solution: unboxing-npe - Hidden NullPointerException</h2>\n<pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();\n\n// int count = map.get(&quot;missing_key&quot;); // Throws NullPointerException</code></pre>\n<p>Because the key is missing, <code>map.get()</code> returns <code>null</code> (an absent <code>Integer</code> object). </p>\n<p>The compiler sees you assigning an <code>Integer</code> to an <code>int</code>, so it autoboxes by quietly inserting a call to <code>.intValue()</code>.</p>\n<p>At runtime, this becomes <code>null.intValue()</code>, causing an immediate <code>NullPointerException</code>. Never assign a potentially null wrapper directly to a primitive without checking!</p>"
+            "solutionHtml": "<h2>Solution: unboxing-npe - Hidden NullPointerException</h2>\n<pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();\n\n// int count = map.get(&quot;missing_key&quot;); // Throws NullPointerException</code></pre>\n<p>Because the key is missing, <code>map.get()</code> returns <code>null</code> (an absent <code>Integer</code> object). </p>\n<p>The compiler sees you assigning an <code>Integer</code> to an <code>int</code>, so it unboxes by quietly inserting a call to <code>.intValue()</code>.</p>\n<p>At runtime, this becomes <code>null.intValue()</code>, causing an immediate <code>NullPointerException</code>. Never assign a potentially null wrapper directly to a primitive without checking!</p>"
           }
         ]
       }
@@ -11146,15 +11160,15 @@
       "link": "/java/foundations/wrapper_semantics/solution/",
       "pageType": "solution",
       "parentLink": "/java/foundations/wrapper_semantics/",
-      "schema": "practice",
+      "schema": "interactive-code",
       "capabilities": {
         "exercise": true,
         "solution": true,
         "design": false,
-        "playground": false,
+        "playground": true,
         "assets": false
       },
-      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: integer-cache-trap - The Cache Trap</h2>\n<pre><code>Integer a = 50;\nInteger b = 50;\nSystem.out.println(a == b); // Prints true (Cached)\n\nInteger x = 500;\nInteger y = 500;\nSystem.out.println(x == y); // Prints false (Not Cached)\n\nSystem.out.println(x.equals(y)); // Prints true (Safe content comparison)</code></pre>\n<p>Java optimizes memory by keeping a cache of <code>Integer</code> objects from -128 to 127. When you autobox <code>50</code>, it grabs the pre-existing object from the cache for both <code>a</code> and <code>b</code>. For <code>500</code>, it creates a <code>new Integer(500)</code> every time. <code>==</code> checks identity, not content. Always use <code>.equals()</code>.</p>\n<h2>Solution: unboxing-npe - Hidden NullPointerException</h2>\n<pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();\n\n// int count = map.get(&quot;missing_key&quot;); // Throws NullPointerException</code></pre>\n<p>Because the key is missing, <code>map.get()</code> returns <code>null</code> (an absent <code>Integer</code> object). </p>\n<p>The compiler sees you assigning an <code>Integer</code> to an <code>int</code>, so it autoboxes by quietly inserting a call to <code>.intValue()</code>.</p>\n<p>At runtime, this becomes <code>null.intValue()</code>, causing an immediate <code>NullPointerException</code>. Never assign a potentially null wrapper directly to a primitive without checking!</p>"
+      "referenceHtml": "<h1>Solutions</h1>\n<h2>Solution: integer-cache-trap - The Cache Trap</h2>\n<pre><code>Integer a = 50;\nInteger b = 50;\nSystem.out.println(a == b); // Prints true (Cached)\n\nInteger x = 500;\nInteger y = 500;\nSystem.out.println(x == y); // Implementation detail outside the guaranteed cache range\n\nSystem.out.println(x.equals(y)); // Prints true (Safe content comparison)</code></pre>\n<p>Java guarantees identity when boxing qualifying constant-expression <code>int</code> values from -128 to 127. Outside that range, identity is not specified for value comparison, even if one JDK happens to reuse an object. <code>==</code> checks identity, not content; always use <code>.equals()</code> for wrapper values.</p>\n<h2>Solution: unboxing-npe - Hidden NullPointerException</h2>\n<pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();\n\n// int count = map.get(&quot;missing_key&quot;); // Throws NullPointerException</code></pre>\n<p>Because the key is missing, <code>map.get()</code> returns <code>null</code> (an absent <code>Integer</code> object). </p>\n<p>The compiler sees you assigning an <code>Integer</code> to an <code>int</code>, so it unboxes by quietly inserting a call to <code>.intValue()</code>.</p>\n<p>At runtime, this becomes <code>null.intValue()</code>, causing an immediate <code>NullPointerException</code>. Never assign a potentially null wrapper directly to a primitive without checking!</p>"
     },
     "/java/foundations/arrays/": {
       "text": "Arrays",

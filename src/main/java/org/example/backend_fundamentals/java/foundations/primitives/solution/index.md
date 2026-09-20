@@ -22,6 +22,25 @@ public class Main {
 ```
 Java is always pass-by-value. For primitives, the literal value (`10`) is copied into the method parameter. Changing the parameter only changes the local copy.
 
+## Solution: copied-reference-value - Mutation Is Not Reassignment
+
+```java
+public class Main {
+    static void change(StringBuilder value) {
+        value.append("!");
+        value = new StringBuilder("replacement");
+    }
+
+    public static void main(String[] args) {
+        StringBuilder value = new StringBuilder("draft");
+        change(value);
+        System.out.println(value); // draft!
+    }
+}
+```
+
+The parameter receives a copied reference value. Both references identify the original builder, so `append` is visible. Reassigning the parameter changes only that local reference.
+
 ## Solution: primitive-vs-object-defaults - Default Values
 
 ```java
@@ -36,4 +55,4 @@ public class DefaultTest {
     }
 }
 ```
-Primitives store actual values and have non-null defaults (like `0` or `false`). Wrapper objects (like `Integer`) store references (pointers) to heap objects, and like all object references, their default value is `null`.
+Primitives store values and have non-null defaults (like `0` or `false`). Wrapper variables store reference values and, like all object references, their default value is `null`. Assigning `test.objectInt` to an `int` would unbox `null` and throw `NullPointerException`.
