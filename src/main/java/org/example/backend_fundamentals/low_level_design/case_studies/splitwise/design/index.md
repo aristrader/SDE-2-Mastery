@@ -5,21 +5,51 @@ search: false
 
 # Splitwise Design Notes
 
-Use this page to record the decisions made while implementing the exercise.
+The runnable playground is the MVP source of truth. These notes explain why its boundaries preserve the expense and
+balance invariants, then isolate changes that would require a different design.
 
-## Invariants to protect
+## Current model and boundary
 
-- Every expense has one payer, a positive amount, and at least one participant.
-- Shares total exactly to the expense amount after any rounding rule is applied.
-- A balance is directional: an amount one user owes another is not the same entry in reverse.
-- Settling a balance cannot create a negative settlement amount.
+An `Expense` is the historical input: payer, total, participants, split type, and optional group. A `Split` begins
+with an input value when needed (exact amount or percentage) and receives its calculated `amountOwed` from a strategy.
+`ExpenseService` owns the derived in-memory balance projection and stores a `Settlement` separately; `GroupService`
+owns users, groups, and both membership indexes.
 
-## Decisions to make
+The projection is intentionally pairwise, not a single user total. For every non-payer share, `addDebt` writes both
+directions together. This makes “Bob owes Alice 50” directly queryable and lets `removeExpense` apply the inverse of
+the original debt. It also means a settlement can validate the exact pair it is reducing.
 
-- Which class owns split validation: expense, split strategy, or a dedicated validator?
-- Should `Group` own balances, or should a ledger service own them?
-- How will exact and percentage splits represent and validate money?
-- Is a settlement a separate transaction record or only a direct balance adjustment in the MVP?
+## Invariants and current enforcement
+
+| Invariant | Current enforcement boundary |
+| --- | --- |
+| Positive expense and at least one participant | `Expense` constructor and split strategies |
+| No participant appears twice | `ExpenseService` before calculation |
+| Every referenced user exists; group users belong to the group | `GroupService` checks called by `ExpenseService` |
+| Shares account for the total | Equal/exact/percentage `SplitStrategy` implementation |
+| Pairwise entries remain reciprocal | `ExpenseService.addDebt(...)` is the single balance-mutation helper |
+| Settlement reduces, never exceeds, an existing debt | `ExpenseService.settleBalance(...)` |
+
+`BigDecimal` avoids binary floating-point error, but it is not a universal rounding policy. The present implementation
+uses two decimal places only for equal splits and assigns their remainder to the final participant. A persisted money
+model should instead fix currency minor units and a documented allocation rule before accepting commands.
+
+## Chosen design versus tempting alternatives
+
+Putting split branches inside `ExpenseService` is smaller for one rule but forces edits there for every new split
+calculation. The current strategies isolate only the varying calculation; they do not own balance mutation, group
+membership, or persistence. Conversely, calculating a user’s total balance from every historical expense is simple
+to reason about but makes common balance reads scan history. The MVP keeps a derived pairwise projection and retains
+the `Expense` record so removal can reverse the same entries. In a persisted system, treat history as authoritative
+and the projection as rebuildable.
+
+## Delivery order
+
+1. Establish the scope and reciprocal-balance/share-total invariants.
+2. Walk one equal expense and a partial settlement.
+3. Explain why split calculation varies while ledger mutation stays centralized.
+4. Show membership validation and reversal on expense removal.
+5. Offer simplification and persisted concurrency as follow-ups, with their changed boundaries.
 
 ## Debt simplification — interview follow-up
 
@@ -173,6 +203,12 @@ ambiguous timeout. Never hold the database lock while calling a payment provider
 - Persistent expense and settlement history.
 - Concurrent updates and idempotency.
 - Multi-currency support and rounding policy.
+
+## References
+
+- [Splitwise: simplify debts](https://kb.splitwise.com/balances-and-expenses/what-is-simplify-debts) — product behavior for balance-preserving simplification.
+- [Spring declarative transaction implementation](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html) — transaction-proxy boundary for the persisted extension.
+- [Codefarm Splitwise LLD guide](https://codefarm.in/guides/lld/06-lld-interview-problems/splitwise) and [SpaceComplexity interview walkthrough](https://spacecomplexity.ai/blog/splitwise-system-design-interview) — independent checks on interview scope and follow-ups.
 
 ## Quick recall
 

@@ -23,6 +23,14 @@ This is the agreed scope after discussing the initial [interviewer prompt](probl
 - Track the directional balances between users.
 - Settle an outstanding balance between two users.
 
+### Acceptance scenarios
+
+1. Alice pays 100.00 for Alice and Bob equally; Bob owes Alice 50.00.
+2. An exact split whose inputs do not total the expense, or percentages that do not total 100, is rejected.
+3. A group expense is rejected when its payer or a participant is not a member; a direct expense has no group check.
+4. Bob settles 20.00 of the first debt; the remaining Bob → Alice balance is 30.00. A larger settlement is rejected.
+5. Removing a recorded expense reverses the debts it originally added.
+
 ### Constraints
 
 - Keep runnable Java under `playground/` when you begin implementation.

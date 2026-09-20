@@ -36,14 +36,14 @@
 | 26 | Saga pattern (orchestration vs choreography) — relevant for multi-service KYC | 🔴 💼 | D | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Expanded with local transactions, compensation, choreography vs orchestration, orchestrator recovery. | 📖 microservices.io — "Pattern: Saga" (~30 min) · 📖 `databases/distributed_transactions/saga/index.md` · 📖 `databases/distributed_transactions/index.md` |
 | 27 | Outbox pattern — reliable event publishing | 🔴 💼 | D | 1.5 hrs | [ ] | [x] | [ ] | [ ] | Partial: dual-write problem + outbox table + async publisher/CDC concept covered; implementation pending. | 📖 microservices.io — "Pattern: Transactional outbox" · 📖 `databases/distributed_transactions/index.md` |
 | 28 | LLD — Parking Lot | 🔴 🎯 | MP | 1.5 hrs | [x] | [ ] | [ ] | [ ] | Design, exercise, runnable playground, and DB-concurrency extension covered | 📖 `low_level_design/case_studies/parking_lot/index.md` · 📖 `low_level_design/case_studies/parking_lot/design/index.md` · 💻 `low_level_design/case_studies/parking_lot/exercise/index.md` · 📖 `low_level_design/case_studies/parking_lot/database_concurrency/index.md` |
-| 29 | LLD — Splitwise | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 📖 `low_level_design/case_studies/splitwise/index.md` · 💻 `low_level_design/case_studies/splitwise/exercise/index.md` · 📖 `low_level_design/case_studies/splitwise/design/index.md` |
+| 29 | LLD — Splitwise | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] | In-memory expense, reciprocal-balance, and settlement flow; persisted concurrency remains an explicit follow-up. | 📖 `low_level_design/case_studies/splitwise/index.md` · 💻 `low_level_design/case_studies/splitwise/exercise/index.md` · 📖 `low_level_design/case_studies/splitwise/design/index.md` |
 | 30 | LLD — Snake & Ladder / Chess / Tic-Tac-Toe (state + rules) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 31 | LLD — Elevator system | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 32 | LLD — LRU / LFU cache | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 33 | LLD — Rate limiter (token bucket) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 34 | LLD — Logger with levels | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 📖 `low_level_design/case_studies/logger/index.md` · 💻 `low_level_design/case_studies/logger/exercise/index.md` |
 | 35 | LLD — In-memory key-value store with TTL | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
-| 36 | LLD — ATM / Vending machine (pure state machine) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
+| 36 | LLD — ATM / Vending machine (pure state machine) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  | 📖 `low_level_design/case_studies/vending_machine/index.md` · 💻 `low_level_design/case_studies/vending_machine/exercise/index.md` |
 | 37 | LLD — Library management | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 38 | LLD — BookMyShow / movie ticket booking (concurrency on seat lock) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
 | 39 | LLD — Notification dispatch system (multi-channel) | 🔴 🎯 | MP | 1.5 hrs | [ ] | [ ] | [ ] | [ ] |  |  |
