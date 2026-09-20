@@ -31,30 +31,11 @@ source-controlled renderer is already available or a larger case-study batch jus
 
 ## Workflow
 
-1. Read the page and identify the one question a visual would answer. Check the normal path, update/failure
-   path, lifecycle, ownership boundary, and selection decision separately.
-2. Reuse a current visual if it already answers that question. Otherwise choose one medium from the table.
-3. For Mermaid/SVG/C4, give the visual one job, introduce it in prose, and keep normal and failure outcomes
-   visibly distinct. Every arrow needs a real caller, receiver, direction, and outcome.
-4. For an AI raster visual, use the built-in image-generation workflow. Keep the prompt generic and never
-   send repository, company, client, or unpublished content outside the workspace. Specify: educational
-   purpose, composition, visual style, no text, no logos, no watermark, and the exact concepts it may imply.
-   Inspect the result before saving it; reject inaccurate, generic-looking, branded, or AI-artifact-heavy
-   output and make one targeted revision at a time.
-5. Save project-bound assets inside the page module's `assets/` directory only when the module schema permits
-   it. Otherwise keep the visual inline as Mermaid; do not create an `assets/` directory that breaks
-   navigation validation.
-6. Add meaningful Markdown alt text. For a complex technical visual, preserve the equivalent explanation in
-   nearby prose.
-7. Build the site. With a local preview at the actual documentation-column width, verify Mermaid blocks render
-   to SVG, visuals have no console errors, no horizontal overflow, labels can be read without browser zoom, and
-   visuals do not duplicate or distract from the nearby explanation. If labels are too small, reduce concepts or
-   split the visual; do not call it done merely because it has no overflow.
-
-For a public study page, write down the exact reader question before creating the visual and verify that the rendered
-asset answers it in under ten seconds. Use a visual only for one of these jobs: ownership/context, normal path,
-failure/recovery path, lifecycle, or strategy comparison. If it cannot answer its declared question independently,
-remove it or rebuild it; a labeled component inventory is not an architecture explanation.
+State the reader question first. Reuse a current visual if it answers it; otherwise choose one medium above. Every
+arrow needs a real caller, receiver, direction, and outcome; make normal and failure paths distinct. Use AI raster
+only for non-technical intuition, with a generic no-text/no-logo/no-watermark prompt. Keep assets in a valid module
+only, preserve nearby prose/alt text, and accept the rendered visual only when it answers its question in under ten
+seconds at normal reading width.
 
 ## Visual-preservation gate
 
@@ -63,41 +44,9 @@ carried. Replace it only when the new visual or nearby prose covers that same us
 is unreadable or redundant, remove it without losing its explanatory content; a successful build is not proof that the
 learning value survived.
 
-## Quality gates
+## Acceptance
 
-- A flowchart explains a normal path, a branch, or recovery—not a component inventory.
-- A state diagram names valid transitions and the authority that changes state when that matters.
-- A sequence diagram distinguishes accepted, failed, and unknown outcomes where retries are possible.
-- A broad architecture diagram separates trust, data, and workload ownership; use C4/SVG when one diagram
-  would otherwise become crowded.
-- An AI image is supplementary and contains no unverified text or technical claim.
-- Prefer one strong visual over several overlapping ones. Split only when a reader must understand two
-  different questions, such as normal request flow and failure recovery.
-- A diagram must fit the rendered reading column, not only its source canvas. Use short labels and one visual
-  job; move supporting detail into prose rather than shrinking text to preserve every component.
-- At the rendered reading width, labels must be comfortably readable at normal browser zoom (target at least
-  12 px). Inspect hierarchy, arrow direction, branch distinction, and scanability in addition to overflow.
-- A complex HLD case normally needs different visuals for different reader questions: an ownership/context view
-  plus either a normal/failure sequence or a strategy comparison. Do not claim that one dense picture covers all
-  of those jobs.
-
-## Scored completion
-
-After rendered review, score visual purpose, technical accuracy, reading-column readability, and relationship
-to nearby prose out of 20. A visual is complete only when every applicable dimension is 20/20. Rendering without
-overflow is not a high score: the visual needs a stated reader question and reader-verifiable answer. For every lower
-score, state the exact deficiency, revise the visual, and add the narrow preventive rule to this skill before the next
-page is reviewed. Report the final scorecard and changed rule in the handoff.
-
-## Batch review
-
-For a completed batch, audit each substantive page. Record no change when its existing visual already meets
-the reader need. Add or revise only a missing flow, lifecycle, selection, or ownership visual; do not
-retrofit decorative imagery across every page.
-
-## Validation
-
-1. Run `node scripts/generate-homepage.js` after asset/module changes.
-2. Run `git diff --check`.
-3. Run the docs build after any visual change.
-4. Run the local browser visual audit when available.
+Use one strong visual rather than overlapping ones. A flowchart explains a path or recovery, a state diagram names
+valid transitions, and an architecture view shows ownership—not inventories. Keep labels at least roughly 12 px at
+desktop reading width; split crowded diagrams. A complex HLD case normally needs an ownership view plus a distinct
+flow/recovery or comparison view. The shared contract owns scoring and validation.

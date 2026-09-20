@@ -51,30 +51,10 @@ file to change. Improve surrounding learning documentation without rewriting the
    implemented behavior, an explicitly documented current gap, or a labeled follow-up. Do not let the
    design prose imply that an extension already exists in the playground.
 
-## Source grounding and quality comparison
+## Shared quality
 
-For a substantial rewrite, start with the supplied exercise, existing repository documentation, runnable
-code, learner notes, and any available local books or PDFs. They are the source of truth for the current
-exercise. Verify Java language or library contracts against official online documentation, then use a
-reputable LLD reference such as Hello Interview to compare coverage, explanation quality, and common
-interview follow-ups. Do not retrofit its solution into this exercise.
-
-Paraphrase every external idea in a new flow derived from the repository's requirements. Never copy prose,
-class diagrams, sequence diagrams, examples, or heading structure. The quality check is whether a reader
-can derive the model and its invariants from the stated problem, not whether the page resembles a reference
-answer. Link a consulted source only when it is genuinely useful further reading.
-
-Before external research, replace any company context with a generic design pattern. Never send company or
-client names, internal projects or services, unpublished metrics, architecture, schemas, source code,
-credentials, screenshots, or repository content outside the local workspace. Keep examples neutral unless
-the user explicitly authorizes identifiable context.
-
-## Source-preservation gate
-
-Before a structural rewrite, inventory each distinct source invariant, example, learner question, misconception,
-diagram, test scenario, failure mode, and follow-up. Map each item to the revised page, a clearly linked destination
-module, or an explicitly named interview-scope cut with a reason. Recheck the map after drafting. A shorter page,
-clearer flow, or Git history does not prove that reusable study material survived.
+The shared contract owns research, preservation, reader verification, scoring, and validation. The runnable model
+and agreed final exercise remain the source of truth; never retrofit a reference solution into them.
 
 ## Required LLD depth
 
@@ -121,14 +101,6 @@ clearer flow, or Git history does not prove that reusable study material survive
   readable at a normal desktop viewport.
 - End study pages with short `## Quick recall` prompts that test design choices.
 
-## Scored completion
-
-After a substantial rewrite and rendered review, score problem navigation/invariants, model and interactions,
-correctness and extension trade-offs, and communication/visual clarity out of 20. A page is complete only
-when every applicable dimension is 20/20. For every lower score, name the precise missing evidence, improve
-the page, and add the narrow preventive rule to this skill or `study-visuals` before continuing. Report the
-final scorecard and changed rule in the handoff.
-
 ## Study-plan handling
 
 - Preserve source discussion, misconceptions, and learner questions when reorganizing.
@@ -136,10 +108,3 @@ final scorecard and changed rule in the handoff.
   `Done` only after substantial coverage.
 - Update `TopicIndex.md` when Part topics are added, renamed, moved, split, or substantially reworded.
 - Clear processed temp files to their placeholder comments using absolute paths; do not delete them.
-
-## Validation
-
-1. Run `node scripts/generate-homepage.js` after site-page changes.
-2. Run relevant Java verification when runnable code changes, then run `git diff --check`.
-3. Preserve unrelated worktree changes and do not commit unless asked.
-4. Report docs updated, Part rows touched, partial gaps, and source position.

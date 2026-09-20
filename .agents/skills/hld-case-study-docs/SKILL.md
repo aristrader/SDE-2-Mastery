@@ -19,13 +19,7 @@ page. Its evidence record, writer pass, critic pass, and rendered audit are mand
 
 ## Completion discipline
 
-Treat an instruction to process the next case study as authorization to complete its entire workflow, not merely to
-start intake or drafting. Keep a visible private checklist for source preservation, reference comparison, drafting,
-writer pass, unfamiliar-reader critic pass, rendered audit, generation, build, backlog record, and requested commit/
-push. Do not describe the module as complete, update it to `Validated`, commit it, or stop for a status handoff while
-any applicable gate remains unfinished. A status question is a request for an update, not a request to pause. If a
-command fails, report its exact result and continue with safe independent work; stop only for a real authority or
-external-state blocker.
+The shared contract requires full-item completion; QG-4 defines the evidence and acceptance gates.
 
 ## Source packet and boundaries
 
@@ -67,36 +61,12 @@ theory module. The case page should point to it explicitly.
 
 ## Source-preservation gate
 
-Before a substantial rewrite, inventory each distinct source claim, example, estimate, misconception, diagram, failure
-mode, and follow-up. Map every item to the revised case-study section, a clearly linked theory/design/exercise page, or
-an explicitly named interview-scope cut with a reason. After drafting, recheck the map against the source. Do not use a
-smaller word count, cleaner narrative, or Git history as evidence that material was preserved.
+Use the QG-4 preservation map; do not compress reusable theory without moving it to a linked destination.
 
 ## Reference-evidence gate
 
-For a public, first-time-reader case study, perform a real quality comparison before drafting and again after the
-rendered review. A reputable interview resource such as Hello Interview is a benchmark for learning flow; an
-authoritative engineering source is evidence for a factual mechanism. Neither is a prose, heading, diagram, or
-solution template.
-
-Make a private working map with these reader milestones. For each one, record the existing-source concept, the
-benchmark expectation, and the exact final heading, visual, or linked destination that proves it survived:
-
-1. the prompt, assumptions, and explicit scope;
-2. a plain-language mental model and a simple baseline;
-3. the pressure that breaks the baseline;
-4. requirements and one estimate that change a decision;
-5. API/data contracts and ownership;
-6. a complete normal write or event path;
-7. a complete normal read path;
-8. the chosen scaling strategy and rejected alternative;
-9. a concrete correctness/failure/recovery boundary; and
-10. an interview delivery order and decision-focused recall.
-
-Do not score a milestone as covered because a heading, table, citation, or rendered diagram exists. It is covered
-only when a reader can explain the causal chain without relying on unstated background knowledge. Define a term on
-first use when it carries the design: for example, distinguish a post, a feed entry, fanout, candidate selection,
-and hydration instead of treating them as interchangeable labels.
+Read the QG-4 contract before drafting. Its source map, reference comparison, reader milestones, writer/critic pass,
+rendered audit, scoring, and backlog record are mandatory and are not duplicated here.
 
 ## Depth and decision rules
 
@@ -119,33 +89,10 @@ and hydration instead of treating them as interchangeable labels.
 
 ## Visuals and quality check
 
-Use the repository `study-visuals` skill after drafting. A case study normally needs one architecture
-ownership diagram and one representative request/sequence or recovery diagram. Reuse existing valid SVGs;
-replace only visuals that no longer match the written design. Use AI raster imagery only for supplementary
-intuition, never for the technical architecture or flow.
-
-Before calling a page complete, assess it against four interview dimensions used by Hello Interview. Inspect
-the actual rendered reading-column width: a diagram that is technically correct but needs zoom is incomplete.
-
-| Dimension | Evidence in the page |
-| --- | --- |
-| Problem navigation | Scoped requirements, explicit assumptions, and chosen cruxes. |
-| Solution design | A complete main path before optional components. |
-| Technical excellence | Concrete ownership, contracts, trade-offs, and failure recovery. |
-| Communication | Heading order supports a short spoken walkthrough; diagrams have one job. |
-
-Score every applicable dimension out of 20 after the rendered review. Do not mark the case study complete
-until each dimension is 20/20. A 20 requires reader-verifiable evidence from the reference-evidence map, not a
-successful build, a plausible component list, or a diagram that merely renders. When a score is lower, identify the
-exact missing explanation or visual, improve the page, and update this skill or `study-visuals` with the narrow rule
-that would have prevented that gap before moving to the next case study. Report the final scorecard, evidence, and
-preventive rule changed in the handoff.
+Use `study-visuals` after drafting. A case normally needs an ownership/context view plus a distinct normal/recovery
+flow or strategy comparison; QG-4 owns the scoring evidence.
 
 ## Validation
 
-1. Confirm `index.md`, `design/index.md`, and `exercise/index.md` remain a valid system-design module.
-2. Run `node scripts/generate-homepage.js` and `git diff --check`.
-3. Run the docs build after page or visual changes.
-4. In a local preview, inspect diagrams for rendering, readable labels, console errors, and overflow.
-5. Record `Validated (QG-4)` only after every contract gate passes; otherwise leave the module in `Draft` or
-   `Needs quality review` in the quality backlog.
+Confirm the system-design schema. Record `Validated (QG-4)` only after every contract gate passes; otherwise use
+`Draft` or `Needs quality review` in the backlog.

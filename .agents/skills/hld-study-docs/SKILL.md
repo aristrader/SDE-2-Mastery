@@ -53,38 +53,10 @@ workflow; this skill remains the shared workflow for HLD patterns, components, a
    trade-off, and the failure-recovery path. Each must be either shown by the current design or labeled as
    a deliberate follow-up; never imply a resilience property that the design does not provide.
 
-## Source grounding and quality comparison
+## Shared quality
 
-For a substantial rewrite, prepare a small source packet before drafting: user-supplied notes, relevant
-existing repository content, and any available local book or PDF material such as Alex Xu. Use those to
-preserve context and check scope, estimates, and plausible design choices; do not claim a book is available
-if it cannot be located. Then use authoritative online sources for factual technology claims and a reputable
-HLD reference such as Hello Interview to audit coverage, flow, and interview depth.
-
-Use the internet and books as evidence and a quality bar, not as a template. Write an original explanation
-for this repository's learner and preserve the page's own scope. Never copy prose, heading order, diagrams,
-figures, examples, or proprietary exercises. Match causal clarity, coverage, and interview usefulness—not
-page length.
-
-Before any external research, reduce the question to a generic technical pattern. Never send company names,
-client names, internal service or project names, unpublished metrics, architecture details, schemas, source
-code, credentials, screenshots, or repository content to an external site or tool. Use neutral examples in
-the resulting documentation unless the user explicitly authorizes identifiable context.
-
-Before finalizing, check that the rewritten page can answer the same useful questions as the source packet:
-what is being designed, the normal path, pressure points, chosen trade-offs, and failure recovery. Add a
-compact further-reading link only when it is useful to the learner and was actually consulted.
-
-For a case study, use the `hld-case-study-docs` reference-evidence gate rather than treating the presence of a
-diagram, headings, tables, or citations as quality evidence. The review must establish that a first-time reader can
-state the baseline, the pressure that breaks it, the selected mechanism, its cost, and its failure boundary.
-
-## Source-preservation gate
-
-Before a structural rewrite, inventory each distinct source claim, example, estimate, misconception, diagram,
-failure mode, and follow-up. Map each item to the revised page, a clearly linked destination module, or an explicitly
-named interview-scope cut with a reason. Recheck the map after drafting. A shorter page, clearer flow, or Git history
-does not prove that reusable study material survived.
+The shared contract owns research, preservation, reader verification, scoring, and validation. For case studies,
+use `hld-case-study-docs` and its QG-4 contract rather than duplicating that evidence here.
 
 ## Required HLD depth
 
@@ -135,25 +107,9 @@ does not prove that reusable study material survived.
   becomes one SVG without browser-console errors or horizontal overflow at a normal desktop viewport.
 - End study pages with short `## Quick recall` prompts that test decisions, not vocabulary.
 
-## Scored completion
-
-After a substantial rewrite and rendered review, score scope/mental model, causal mechanism, trade-offs and
-failure recovery, and communication/visual clarity out of 20. A page is complete only when every applicable
-dimension is 20/20. For every lower score, name the precise missing evidence, improve the page, and add the
-narrow preventive rule to this skill or `study-visuals` before continuing to another page. A successful build,
-complete-looking table, or visible diagram is never sufficient evidence for 20/20. Report the final scorecard,
-reader-verifiable evidence, and changed rule in the handoff.
-
 ## Study-plan handling
 
 - Preserve source discussion, misconceptions, and learner questions when reorganizing.
 - Link covered Part rows to the destination docs. Use `Partial` only when a specific gap remains; mark `Done` only after substantial coverage.
 - Update `TopicIndex.md` when Part topics are added, renamed, moved, split, or substantially reworded.
 - Clear processed temp files to their placeholder comments using absolute paths; do not delete them.
-
-## Validation
-
-1. Run `node scripts/generate-homepage.js` after site-page changes.
-2. Run `git diff --check`.
-3. Preserve unrelated worktree changes and do not commit unless asked.
-4. Report docs updated, Part rows touched, partial gaps, and source position.
