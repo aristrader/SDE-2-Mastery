@@ -18,3 +18,5 @@ Use `StringBuilder` to append the numbers into one final string. Do not use `+` 
 ### Checks
 - Explain why this is better than repeated `s += i`.
 - Call `toString()` once at the end.
+- Keep the builder local; return or print the final `String`, not the builder.
+- If commas are required between numbers, append the delimiter before every item except the first rather than trimming a trailing comma.

@@ -27,3 +27,5 @@ Print:
 - Explain why `a == b` is true.
 - Explain why `a == c` is false.
 - Explain why `a.equals(c)` is true.
+- Add `String d = "he" + "llo";` and predict `a == d` before running it.
+- Add `String prefix = "he"; String e = prefix + "llo";` and explain why `.equals()` is the only comparison to keep.
