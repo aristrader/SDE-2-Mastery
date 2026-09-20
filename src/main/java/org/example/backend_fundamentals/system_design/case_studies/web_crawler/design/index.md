@@ -5,304 +5,107 @@ search: false
 
 # Design a Web Crawler
 
-## Problem
-
-Design a crawler that discovers and downloads web pages for search indexing.
-
-The crawler starts from seed URLs, downloads pages, extracts links, filters/deduplicates them, and schedules future crawl work.
-
-## Clarify scope
-
-Ask:
-
-- What is the crawler for: search indexing, archiving, monitoring, or data mining?
-- How many pages per day/month?
-- Which content types: HTML only, PDFs, images, videos?
-- Do we store raw content? For how long?
-- Do we recrawl changed pages?
-- How fresh does the index need to be?
-- Must we respect robots.txt?
-- Do we need JavaScript rendering?
-- How do we handle duplicate content and spam?
-
-Reasonable assumptions:
-
-```text
-Search indexing
-1B HTML pages/month
-Store HTML for 5 years
-Ignore duplicate content
-Respect robots.txt
-Recrawl important/changed pages
-```
+## Agreed scope
 
-## Requirements
+Build a polite, distributed crawler for search indexing. It accepts seed URLs and links discovered from allowed HTML pages, persists unique URL work, fetches due pages, stores a body or exact content reference, and schedules recrawls. It is not the search index, a browser-rendering system, or a complete media crawler.
 
-Functional:
+| Requirement | Agreed decision |
+| --- | --- |
+| Discovery | Start with seeds; normalize, filter, and durably admit links extracted from successful pages. |
+| Politeness | Respect RFC 9309 robots rules and independently enforce conservative per-host spacing. |
+| Freshness | Persist next crawl time and HTTP validators; revalidate due pages. |
+| Duplicate control | Canonical URL admission before the frontier; exact content hash after fetch. |
+| Durability | Frontier state, leases, history, and bodies survive workers. Fetchers/parsers are stateless. |
 
-- Crawl pages from seed URLs.
-- Extract and normalize links.
-- Deduplicate already-seen URLs.
-- Deduplicate duplicate content.
-- Store downloaded HTML and metadata.
-- Recrawl pages to keep the dataset fresh.
+Clarify whether the interviewer wants archival, monitoring, non-HTML content, rendering, or search ranking. Those answers materially change the system. For this answer, they stay out of scope rather than becoming unstated gaps.
 
-Non-functional:
+## Numbers that change decisions
 
-- Scalable across many crawler workers.
-- Polite to websites.
-- Robust against malformed HTML, timeouts, traps, and spam.
-- Extensible to new content types.
-- Durable crawl state so work can resume after failures.
+At 1 billion HTML pages/month, the average rate is about 400 fetches/s and a peak assumption is about 800 fetches/s. At 500 KB per retained page, new bodies consume about 500 TB/month and five years consumes about 30 PB. The implication is durable, partitioned body storage and distributed scheduling; it is not permission to send 800 requests/s to one host.
 
-## Back-of-envelope estimation
+## Records and ownership
 
-```text
-Pages/month = 1B
-Average QPS = 1B / 30 / 24 / 3600 ~= 400 pages/sec
-Peak QPS ~= 800 pages/sec
-Average page size = 500 KB
-Storage/month = 1B * 500 KB ~= 500 TB
-5-year storage = 500 TB * 12 * 5 = 30 PB
-```
+| Record | Key fields | Owner / correctness role |
+| --- | --- | --- |
+| `UrlRecord` | canonical URL, host key, state, priority, next crawl time, last result | Host-key frontier partition owns scheduling. Here `hostKey` is normalized scheme plus authority, matching robots policy scope. |
+| `CrawlLease` | URL key, owner, expiry, attempt | Makes a fetch claim recoverable; expiry permits requeue. |
+| Host policy | last robots outcome/expiry, `nextAllowedFetchAt`, backoff | Parsed robots rules are derived/rebuildable; same partition serializes host spacing. |
+| Content/history | raw-body hash, body pointer, status, validators, fetch time | Metadata commits each URL-to-observed-body relation; object storage deduplicates only byte-identical bodies. |
+| URL-seen filter | canonical URL hash | Optimization only; durable `UrlRecord` decides admission. |
 
-Design implications:
+## Main paths
 
-| Number | Implication |
-|--------|-------------|
-| 400-800 fetches/sec | Workers are easy to scale, but must be host-politeness aware |
-| 30 PB retention | Store content in partitioned disk/object storage |
-| Billions of URLs | URL seen/frontier cannot be only in memory |
-| Many duplicate pages | Hash/fingerprint content before storing |
+![Crawler ownership and discovery loop.](../assets/web-crawler-architecture.svg)
 
-## High-level architecture
+### Discovery and admission
 
-![Web crawler architecture](../assets/web-crawler-architecture.svg)
+1. Seed service or parser emits a raw link.
+2. Normalize it to a canonical URL, filter unsupported or trap-prone candidates, and derive `hostKey`.
+3. Check the fast seen filter, then atomically create-or-return the durable `UrlRecord` in that host partition.
+4. A new record becomes `PENDING` with a priority and due time. This durable transition accepts the event; duplicate parser delivery returns the existing record.
 
-```text
-Seed URLs
-  -> URL frontier
-  -> Fetcher workers
-  -> HTML parser
-  -> Content seen?
-  -> Content storage
-  -> URL extractor
-  -> URL filter
-  -> URL seen?
-  -> URL frontier
-```
+### Due fetch and recrawl
 
-Component responsibilities:
+1. The active-host heap yields a host whose `nextAllowedFetchAt <= now`; its owner grants one expiring lease.
+2. A stateless fetcher applies cached/refreshed robots policy, sends a clear User-Agent, and uses bounded HTTP behavior. A DNS failure is a host-backoff outcome.
+3. On a cross-host redirect, record it and send the normalized target through filter and admission for the target host; do not bypass its robots policy or spacing. For a recrawl, send available `ETag`/`Last-Modified` validators. A `304` records validation and a later due time; a changed response hashes raw body bytes, stores/reuses that exact body, and records the URL-to-body observation.
+4. Commit history/body metadata and complete the lease through one idempotent `(canonicalUrl, leaseAttempt)` transition. If the worker vanishes, a replay is a no-op after commit or lease expiry returns uncommitted work to pending with backoff.
 
-| Component | Responsibility | Interview caveat |
-|-----------|----------------|------------------|
-| Seed URL service | Provides starting URLs by domain/topic/region | Seed choice affects coverage |
-| URL frontier | Schedules next URLs | Must handle priority, freshness, and politeness |
-| Fetcher workers | Download pages | Respect robots, timeout, retry/backoff, content size |
-| DNS cache | Maps host to IP | DNS can become a bottleneck |
-| Parser | Validates HTML and extracts links | Keep parsing separate from fetching |
-| URL filter | Drops unsupported/bad URLs | Blocks traps, spam, invalid content types |
-| URL seen store | Tracks normalized URL hashes | Avoid duplicate frontier entries |
-| Content seen store | Tracks content fingerprints | Avoid duplicate storage/indexing |
-| Content storage | Stores HTML/metadata | PB-scale durable storage |
+## Deep dive: active-host frontier
 
-## URL frontier design
+![Priority is chosen before logical per-host scheduling; only eligible active hosts reach a fetcher.](../assets/url-frontier-scheduler.svg)
 
-![URL frontier priority and politeness](../assets/url-frontier-scheduler.svg)
+**Problem → naive failure.** Parallel global FIFO gives the same host to many workers and lets low-value URLs outrun important recrawls. A permanent queue for every internet host also wastes memory.
 
-The frontier is the main design deep dive.
+**Mechanism.** Weighted priority/freshness queues choose a candidate, then `hash(hostKey)` sends it to one owner. That owner durably stores each host backlog and keeps active hosts in an in-memory heap ordered by `nextAllowedFetchAt`; only the due heap head can receive a lease. It advances the host time and reinserts the host when work remains.
 
-### Why naive BFS fails
+**Trade-off → recovery.** This abandons exact BFS and adds ownership/rebalance work, but it enforces host-level safety and bounds hot memory. An expired lease returns work to the same owner; repeated 429/503/DNS failures increase delay and pause the host rather than multiplying retries. Consistent hashing reduces moves during a controlled owner transfer.
 
-Treating the web like a plain FIFO queue causes:
+## Deep dive: two independent dedup layers
 
-- **Impoliteness:** many links from one page often point to the same host, so parallel workers can hammer that host.
-- **Bad prioritization:** low-value spam can be crawled before important pages.
-- **Poor freshness:** updated important pages may wait behind millions of unimportant new URLs.
-- **Spider traps:** infinite URL spaces can keep generating new links.
+**Problem → naive failure.** Multiple pages discover one destination; different destinations can return one body. Fetch-time-only dedup wastes the first budget, while URL-only dedup wastes storage on mirrors.
 
-DFS is worse because link depth can be effectively unbounded.
+**Mechanism.** Normalization and atomic canonical-key admission prevent duplicate pending entries. An optional Bloom filter makes likely repeats cheap but may falsely suppress a new URL, deliberately trading a little coverage for memory; it is not authoritative. An exact hash of raw body bytes after fetch lets content history point byte-identical bodies to one stored object while preserving each URL-to-body observation.
 
-### Two-stage frontier
+**Trade-off → recovery.** Conservative normalization misses some variants; aggressive rules can merge distinct resources. Version rules and retain discovery/history data so affected records can be recrawled. Parser replay and lease retry converge through the canonical key and content hash.
 
-Use two layers:
+## Deep dive: policy and failure boundaries
 
-```text
-Front queues: priority and freshness
-Back queues: politeness and host scheduling
-```
+**Problem → naive failure.** Fetch failures, robots failures, and host backpressure are different situations. A blanket fast retry can overload a failing host; treating an outage as missing policy can violate a host's wishes.
 
-Front queues classify URLs by score. The score may use PageRank/link score, domain quality, historical update rate, recrawl deadline, and product-specific topic priority.
+**Mechanism.** Use `/robots.txt` parseable rules for a clear crawler user agent and cache derived parsed policy with expiry. RFC 9309 requires following a successfully fetched policy, allows access after an unavailable policy resource such as 4xx, and requires complete disallow when it is unreachable such as server/network failure. Per-host spacing is a local crawler policy; `Crawl-delay` is not in the RFC standard. [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html)
 
-Back queues enforce host politeness. Each active host has pending URLs and a `nextAllowedFetchAt`. Workers pull only hosts whose delay has expired.
+**Trade-off → recovery.** Fail-closed policy loses temporary coverage but is deliberately polite. Persist policy status/reason and retry refreshes with host backoff. Isolate malformed HTML, cap response size, back off timeout/DNS/transient server errors, and record a final failed crawl rather than losing it.
 
-### Answer to "one queue per site?"
+## Failure matrix
 
-You do not create a permanent in-memory queue for every site.
+| Boundary | Policy and recovery | Observable outcome |
+| --- | --- | --- |
+| Worker dies after claim | Lease expires; same durable record returns to pending. | Crawl is delayed, not silently lost. |
+| Worker dies after response | Commit body/history before ack; otherwise refetch is safe. | At-least-once HTTP work, one converged durable result. |
+| 304 response | Store validation time and reschedule; no duplicate body. | Freshness advances cheaply. |
+| 429/503/timeout | Capped backoff raises host delay; eventually pause and alert. | That host becomes slower; others continue. |
+| Robots unreachable | Assume disallow until refresh/recovery policy permits otherwise. | Coverage pauses for that host. |
+| Trap/spam flood | Pattern, depth/length, and per-host caps; record rejection reason. | One host cannot consume the frontier. |
 
-Use this implementation model:
+## Rejected alternative and follow-ups
 
-```text
-hostKey = normalized host or registered domain
-partition = hash(hostKey) % N
+A global priority queue plus global rate limiter is simpler, but it cannot guarantee per-host spacing or bounded host backlog. We choose host-key ownership instead. Follow-ups: browser rendering, PDFs/media, sitemaps, near-duplicate clustering, focused-crawl scoring, legal deletion, and search indexing/query serving.
 
-Durable store:
-  hostKey -> pending URL list
-  hostKey -> crawl policy
-  hostKey -> nextAllowedFetchAt
+## Interview close
 
-Memory:
-  active host heap ordered by nextAllowedFetchAt
-  small per-host buffers for currently active hosts
-```
-
-Only hosts with pending URLs need active state. Large or inactive host queues live in durable partitioned storage. This gives per-host politeness without millions of hot in-memory queues.
-
-### Worker scheduling
-
-1. Pick a priority queue with weighted selection.
-2. Route the URL to its host partition.
-3. If host is eligible, put it in the active host heap.
-4. Worker pops a host whose `nextAllowedFetchAt <= now`.
-5. Worker fetches one URL from that host.
-6. Scheduler updates `nextAllowedFetchAt`.
-7. If the host still has URLs, reinsert it; otherwise evict active host state.
-
-This keeps global throughput high while limiting pressure on each website.
-
-## URL normalization and dedup
-
-Normalize before URL-seen checks:
-
-- lowercase scheme/host
-- remove fragments
-- normalize default ports
-- resolve relative paths
-- sort/drop known tracking query parameters where safe
-- follow canonical signals/redirects when available
-
-Then store a hash of the normalized URL in a URL-seen store or Bloom filter plus durable URL table.
-
-URL seen prevents fetching the same URL again. Content seen catches same content under different URLs.
-
-## Content dedup
-
-Content dedup path:
-
-```text
-HTML -> parse/clean -> fingerprint/hash -> content seen check -> store or discard
-```
-
-Use exact hashes for exact duplicates. For near duplicates, mention simhash/minhash-style fingerprints only if the interviewer asks about search-quality depth.
-
-## Robots.txt and politeness
-
-Before crawling a host:
-
-1. Fetch `scheme://host/robots.txt`.
-2. Parse the group for your crawler's user-agent; fall back to `*`.
-3. Apply most-specific `Allow`/`Disallow` path match.
-4. Cache robots rules and refresh periodically.
-5. Use a clear crawler User-Agent.
-6. Enforce a default per-host delay even if robots has no explicit delay.
-
-Robots.txt is not security authorization; it is crawl policy that well-behaved crawlers respect.
-
-## Fetcher design
-
-Keep fetcher details short in an interview:
-
-- HTTP GET with max response size
-- DNS cache
-- short timeout
-- retry with backoff for transient failures
-- content-type and status-code handling
-- compression support
-- redirect limit
-- JavaScript/server-side rendering only if dynamic links are in scope
-
-The fetcher should be stateless. Crawl state belongs in the frontier and stores.
-
-## Freshness and recrawling
-
-Not every page should be recrawled equally.
-
-Signals:
-
-- historical update frequency
-- page/domain importance
-- sitemap hints
-- HTTP cache headers like `Last-Modified`/`ETag`
-- previous crawl failures
-
-Schedule recrawls by due time and priority:
-
-```text
-nextCrawlAt = function(importance, update_frequency, last_crawl_result)
-```
-
-Important pages can be recrawled daily/hourly. Low-value stable pages may be recrawled rarely.
-
-## Storage
-
-| Store | Data |
-|-------|------|
-| Frontier store | pending URLs, priority, host, next crawl time |
-| URL seen store | normalized URL hashes |
-| Content seen store | content fingerprints |
-| Content store | raw/cleaned HTML and metadata |
-| Crawl history | status, fetch time, content hash, errors, next crawl time |
-| Robots cache | host crawl rules and expiry |
-
-Use memory buffers for hot frontier operations, but persist state so a crash does not lose the crawl.
-
-## Scaling
-
-- Partition URLs by host/domain hash so the same host's politeness state is owned by one scheduler partition.
-- Scale fetcher workers horizontally.
-- Keep fetchers stateless.
-- Use consistent hashing if adding/removing crawler partitions frequently.
-- Store large queues and seen sets durably; memory is only a cache/buffer.
-
-## Failure modes
-
-| Failure | Handling |
-|---------|----------|
-| Fetch timeout | Retry with backoff, then mark failed and reschedule later |
-| DNS failure | Cache negative result briefly, retry later |
-| Worker crash | Frontier lease/ack model returns URL to queue |
-| Parser crash on bad HTML | Isolate parsing and skip malformed content |
-| Spider trap | URL length/depth caps, per-host URL caps, pattern filters |
-| Host overload/errors | Increase per-host delay, reduce priority, or pause host |
-| Duplicate/spam flood | URL filters, canonicalization, host/domain caps, quality scoring |
-
-## What to skip unless asked
-
-- Full HTML parser implementation.
-- Complete robots.txt parser grammar.
-- Browser rendering architecture.
-- Search ranking/index serving.
-- PageRank math.
-- Exact Bloom filter false-positive math.
-
-Name these only when relevant. The core HLD is frontier scheduling, politeness, dedup, storage, and distributed workers.
+Say the baseline first, then use the estimate to justify durable partitioned state. Trace durable admission and lease-to-history commit before naming the frontier, dedup, and policy deep dives. Finish by explaining the global-queue rejection and the exact user/operations outcome of a failed crawl.
 
 ## Quick recall
 
-**Q. Why is crawler a good HLD interview problem?**  
-A. It tests queues, dedup, distributed scheduling, rate limiting/politeness, storage, and failure handling.
+**Q. What decides whether a discovered URL was accepted?**
 
-**Q. What is the URL frontier?**  
-A. The scheduler/store for URLs waiting to be crawled; it controls priority, freshness, and politeness.
+A. The durable canonical `UrlRecord`/pending-entry transition, not a parser buffer.
 
-**Q. Why not plain FIFO BFS?**  
-A. It can overload one host and wastes crawl budget on low-value or duplicate pages.
+**Q. What does the frontier schedule?**
 
-**Q. How do we avoid one queue per website?**  
-A. Maintain logical per-host state only for active hosts, spill queues to durable storage, and use a heap ordered by `nextAllowedFetchAt`.
+A. Eligible hosts, then one URL under a lease, so priority, freshness, and host spacing coexist.
 
-**Q. What is the difference between URL dedup and content dedup?**  
-A. URL dedup avoids refetching the same normalized URL; content dedup avoids storing the same page content from multiple URLs.
+**Q. What survives a fetcher crash?**
 
-**Q. What is the most important politeness rule?**  
-A. Respect robots.txt and enforce per-host delays before scheduling fetches.
+A. The URL record, host policy, lease expiry, history, and body metadata; the worker itself is replaceable.

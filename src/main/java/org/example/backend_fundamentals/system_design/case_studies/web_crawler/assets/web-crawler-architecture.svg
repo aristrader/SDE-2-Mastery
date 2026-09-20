@@ -1,64 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-labelledby="title desc">
-  <title id="title">Web crawler architecture</title>
-  <desc id="desc">Seed URLs enter the URL frontier, fetchers download pages, parsers and dedup stores process content, extracted URLs return to the frontier.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="540" viewBox="0 0 980 540" role="img" aria-labelledby="title desc">
+  <title id="title">Durable web crawler discovery and fetch loop</title>
+  <desc id="desc">Seeds and parsed links are normalized and atomically admitted to a durable frontier. An eligible-host scheduler leases one URL to a stateless fetcher. The parser stores durable crawl history and bodies, then returns discovered links to admission. Robots policy is a derived refreshable cache.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
-    </marker>
-    <style>
-      text { font-family: Inter, Arial, sans-serif; fill: #111827; }
-      .box { fill: #f8fafc; stroke: #2563eb; stroke-width: 2; rx: 8; }
-      .store { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; rx: 8; }
-      .safe { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
-      .line { stroke: #374151; stroke-width: 2; fill: none; marker-end: url(#arrow); }
-      .label { font-size: 17px; font-weight: 700; }
-      .small { font-size: 13px; fill: #4b5563; }
-    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#334155"/></marker>
+    <style>text{font-family:Inter,Arial,sans-serif;fill:#172033}.work{fill:#eff6ff;stroke:#2563eb;stroke-width:2;rx:8}.durable{fill:#fff7ed;stroke:#c2410c;stroke-width:2;rx:8}.policy{fill:#f0fdf4;stroke:#15803d;stroke-width:2;rx:8}.line{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}.label{font-size:16px;font-weight:700}.small{font-size:13px;fill:#475569}.section{font-size:18px;font-weight:800}</style>
   </defs>
-
-  <rect x="40" y="70" width="130" height="70" class="box"/>
-  <text x="105" y="101" text-anchor="middle" class="label">Seed URLs</text>
-  <text x="105" y="123" text-anchor="middle" class="small">domains/topics</text>
-
-  <rect x="230" y="70" width="150" height="70" class="box"/>
-  <text x="305" y="101" text-anchor="middle" class="label">URL frontier</text>
-  <text x="305" y="123" text-anchor="middle" class="small">priority + politeness</text>
-
-  <rect x="450" y="70" width="145" height="70" class="box"/>
-  <text x="523" y="101" text-anchor="middle" class="label">Fetchers</text>
-  <text x="523" y="123" text-anchor="middle" class="small">HTTP + timeout</text>
-
-  <rect x="665" y="70" width="130" height="70" class="box"/>
-  <text x="730" y="101" text-anchor="middle" class="label">Parser</text>
-  <text x="730" y="123" text-anchor="middle" class="small">HTML + links</text>
-
-  <rect x="850" y="70" width="100" height="70" class="store"/>
-  <text x="900" y="101" text-anchor="middle" class="label">Content</text>
-  <text x="900" y="123" text-anchor="middle" class="small">storage</text>
-
-  <rect x="450" y="205" width="145" height="70" class="safe"/>
-  <text x="523" y="235" text-anchor="middle" class="label">Robots cache</text>
-  <text x="523" y="257" text-anchor="middle" class="small">host rules</text>
-
-  <rect x="665" y="205" width="130" height="70" class="safe"/>
-  <text x="730" y="235" text-anchor="middle" class="label">Content seen</text>
-  <text x="730" y="257" text-anchor="middle" class="small">fingerprints</text>
-
-  <rect x="665" y="340" width="130" height="70" class="safe"/>
-  <text x="730" y="370" text-anchor="middle" class="label">URL filter</text>
-  <text x="730" y="392" text-anchor="middle" class="small">policy/traps</text>
-
-  <rect x="450" y="340" width="145" height="70" class="safe"/>
-  <text x="523" y="370" text-anchor="middle" class="label">URL seen</text>
-  <text x="523" y="392" text-anchor="middle" class="small">normalized hashes</text>
-
-  <path d="M 170 105 L 230 105" class="line"/>
-  <path d="M 380 105 L 450 105" class="line"/>
-  <path d="M 595 105 L 665 105" class="line"/>
-  <path d="M 795 105 L 850 105" class="line"/>
-  <path d="M 523 140 L 523 205" class="line"/>
-  <path d="M 730 140 L 730 205" class="line"/>
-  <path d="M 730 275 L 730 340" class="line"/>
-  <path d="M 665 375 L 595 375" class="line"/>
-  <path d="M 450 375 C 330 375 305 250 305 140" class="line"/>
+  <text x="40" y="38" class="section">Durable crawl state and derived policy</text>
+  <rect x="40" y="60" width="150" height="70" class="work"/><text x="115" y="91" text-anchor="middle" class="label">Seeds / links</text><text x="115" y="113" text-anchor="middle" class="small">raw candidates</text>
+  <rect x="245" y="60" width="165" height="70" class="policy"/><text x="328" y="91" text-anchor="middle" class="label">Normalize + filter</text><text x="328" y="113" text-anchor="middle" class="small">canonical URL, trap policy</text>
+  <rect x="465" y="60" width="170" height="70" class="durable"/><text x="550" y="91" text-anchor="middle" class="label">URL record</text><text x="550" y="113" text-anchor="middle" class="small">atomic admission / seen</text>
+  <rect x="690" y="60" width="205" height="70" class="durable"/><text x="793" y="91" text-anchor="middle" class="label">Durable frontier</text><text x="793" y="113" text-anchor="middle" class="small">host backlog + nextAllowed</text>
+  <path d="M190 95 L245 95" class="line"/><path d="M410 95 L465 95" class="line"/><path d="M635 95 L690 95" class="line"/>
+  <text x="40" y="210" class="section">Stateless fetch work</text>
+  <rect x="120" y="235" width="185" height="72" class="work"/><text x="213" y="265" text-anchor="middle" class="label">Eligible-host scheduler</text><text x="213" y="287" text-anchor="middle" class="small">lease one due URL</text>
+  <rect x="390" y="235" width="150" height="72" class="work"/><text x="465" y="265" text-anchor="middle" class="label">Fetcher</text><text x="465" y="287" text-anchor="middle" class="small">bounded HTTP request</text>
+  <rect x="625" y="235" width="150" height="72" class="work"/><text x="700" y="265" text-anchor="middle" class="label">Parser</text><text x="700" y="287" text-anchor="middle" class="small">body + extracted links</text>
+  <path d="M793 130 C793 180 213 175 213 235" class="line"/><path d="M305 271 L390 271" class="line"/><path d="M540 271 L625 271" class="line"/>
+  <text x="40" y="390" class="section">Stored result and host policy</text>
+  <rect x="120" y="415" width="185" height="75" class="policy"/><text x="213" y="446" text-anchor="middle" class="label">Derived robots cache</text><text x="213" y="468" text-anchor="middle" class="small">rules refresh; expiry/backoff</text>
+  <rect x="405" y="415" width="175" height="75" class="durable"/><text x="493" y="446" text-anchor="middle" class="label">Crawl history</text><text x="493" y="468" text-anchor="middle" class="small">status, validators, hash</text>
+  <rect x="680" y="415" width="175" height="75" class="durable"/><text x="768" y="446" text-anchor="middle" class="label">Body store</text><text x="768" y="468" text-anchor="middle" class="small">new exact content only</text>
+  <path d="M213 307 L213 415" class="line"/><path d="M465 307 C465 360 213 360 213 415" class="line"/><path d="M700 307 C700 365 493 365 493 415" class="line"/><path d="M700 307 C768 345 768 375 768 415" class="line"/>
+  <path d="M625 285 C570 350 328 360 328 130" class="line"/>
 </svg>
