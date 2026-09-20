@@ -5,6 +5,9 @@ description: Process non-HLD and non-LLD interview-study notes into the TestingT
 
 # Theory Study Docs
 
+For substantial public study-content work, follow the shared
+[efficient execution policy](../study-visuals/references/efficient_execution.md).
+
 ## Reader-first quality bar
 
 Open a substantial topic with the engineering question it answers and one small backend example.

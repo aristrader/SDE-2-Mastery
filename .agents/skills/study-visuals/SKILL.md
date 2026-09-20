@@ -5,6 +5,8 @@ description: Select, create, and validate original visuals for TestingTesting in
 
 # Study Visuals
 
+For substantial public study-content work, follow [efficient study execution](references/efficient_execution.md).
+
 ## Outcome
 
 Give a first-time reader the smallest accurate visual that answers a question prose cannot answer quickly.

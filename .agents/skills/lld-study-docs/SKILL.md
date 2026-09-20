@@ -9,6 +9,9 @@ description: >-
 
 # LLD Study Docs
 
+For substantial public study-content work, follow the shared
+[efficient execution policy](../study-visuals/references/efficient_execution.md).
+
 ## Reader-first quality bar
 
 Anchor a substantial case study in one representative use case. Lead the reader from the requirement

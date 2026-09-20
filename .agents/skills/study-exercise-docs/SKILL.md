@@ -5,6 +5,9 @@ description: Process already-defined interview-study exercises and solutions int
 
 # Study Exercise Docs
 
+For substantial public study-content work, follow the shared
+[efficient execution policy](../study-visuals/references/efficient_execution.md).
+
 ## Reader-first quality bar
 
 An exercise should be attemptable without guessing hidden rules. State the scenario, input/output or

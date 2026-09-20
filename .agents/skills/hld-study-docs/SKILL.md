@@ -5,6 +5,9 @@ description: Process high-level system-design material into the TestingTesting r
 
 # HLD Study Docs
 
+For substantial public study-content work, follow the shared
+[efficient execution policy](../study-visuals/references/efficient_execution.md).
+
 ## Reader-first quality bar
 
 For a substantial page or rewrite, choose one representative user action before writing. Use it to

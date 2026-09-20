@@ -5,6 +5,9 @@ description: Create or improve TestingTesting high-level system-design case stud
 
 # HLD Case Study Docs
 
+For substantial public case-study work, follow the shared
+[efficient execution policy](../study-visuals/references/efficient_execution.md) in addition to QG-4.
+
 ## Outcome
 
 Help an SDE2 give a coherent 35–40 minute interview answer to one product/system prompt. The page must
