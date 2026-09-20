@@ -106,6 +106,56 @@ Do not rely on separate repository transactions when the use case must commit/ro
 
 ---
 
+## Transaction boundary versus concurrency control
+
+`@Transactional` makes one request atomic; it does not serialize two requests that read, calculate, and write the
+same record. The transaction boundary must cover the whole business operation, but a concurrent read-modify-write
+path also needs a concurrency strategy. See [database transactions](../../../databases/transactions/) for the
+lost-update interleaving and the atomic-SQL alternative.
+
+For a lock-based path, acquire the lock, read, calculate, and write inside the same service transaction. A repository
+method that obtains a lock is not useful if its transaction ends before the later calculation and save.
+
+## JPA locking: pessimistic or optimistic
+
+Use a **pessimistic** lock when contention on a short coordination path is common or a retry would be expensive. In
+Spring Data JPA, a repository query can request the standard JPA lock mode:
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("select g from GroupEntity g where g.id = :id")
+Optional<GroupEntity> findByIdForUpdate(Long id);
+```
+
+The provider asks the database for the corresponding write lock; the database keeps it until the surrounding
+transaction commits or rolls back. Keep the locked transaction short.
+
+Use **optimistic** locking when conflicts are uncommon. Add a provider-managed version field to the entity:
+
+```java
+@Version
+private Long version;
+```
+
+Conceptually, the update includes the version that was read. If another transaction changed the row first, the update
+matches no current version and JPA reports an optimistic-lock failure at flush or commit. Reload, revalidate, and
+retry only a bounded, idempotent command; otherwise return a conflict to the caller. Optimistic locking detects a
+conflict rather than holding a long-lived database lock.
+
+| Mode | Meaning | Boundary |
+|---|---|---|
+| `PESSIMISTIC_READ` | Ask the database to protect a read from conflicting writes. | Reader compatibility is database/provider specific. |
+| `PESSIMISTIC_WRITE` | Take exclusive coordination before a read-modify-write decision. | Competing work waits, fails on timeout, or can be a deadlock victim. |
+| `PESSIMISTIC_FORCE_INCREMENT` | Take the pessimistic write-style lock and advance a versioned entity's version. | Useful only when that version advance is meaningful to the model. |
+| `OPTIMISTIC_FORCE_INCREMENT` | Validate optimistically and force a version advance. | No long-lived database lock; a stale update still fails. |
+
+| Choose | When it fits | Caller-visible consequence |
+|---|---|---|
+| `PESSIMISTIC_WRITE` | Short, contended coordination such as a group-balance update | A competing request waits, times out, or becomes a deadlock victim. |
+| `@Version` | Conflicts are rare and retrying the whole decision is acceptable | A stale writer fails explicitly; it must reload/retry or report conflict. |
+
+---
+
 ## Propagation
 
 Propagation tells Spring what to do if a transaction already exists. The default is `REQUIRED`.
@@ -181,6 +231,15 @@ Most business exceptions in Spring apps are runtime exceptions partly because of
 | checked exception thrown | no rollback by default |
 | runtime exception thrown and caught inside same transaction | transaction may still be rollback-only |
 | entity lazy field accessed after transaction | possible `LazyInitializationException` |
+| lock acquired outside the service transaction | later reads/writes are not protected by that lock |
+| remote call or user wait while holding a pessimistic lock | unnecessary contention, timeout, or deadlock risk |
+| lock timeout, deadlock, or optimistic conflict | the transaction can abort; retry only at a safe idempotent command boundary |
+
+## Further reading
+
+- [Spring Framework: declarative transaction implementation](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html)
+- [Spring Data JPA: locking](https://docs.spring.io/spring-data/jpa/reference/jpa/locking.html)
+- [Jakarta Persistence: `LockModeType`](https://jakarta.ee/specifications/persistence/4.0/apidocs/jakarta.persistence/jakarta/persistence/lockmodetype)
 
 ---
 
@@ -200,3 +259,6 @@ A. Rollback on unchecked exceptions and `Error`, not checked exceptions.
 
 **Q. `REQUIRED` vs `REQUIRES_NEW`?**  
 A. `REQUIRED` shares the current transaction. `REQUIRES_NEW` starts an independent one.
+
+**Q. Does `@Transactional` prevent a lost update?**
+A. No. It gives atomic commit/rollback; use a pessimistic lock or `@Version` when concurrent requests can change the same state.

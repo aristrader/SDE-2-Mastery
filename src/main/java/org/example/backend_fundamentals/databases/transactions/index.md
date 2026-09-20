@@ -84,6 +84,15 @@ public void applyStatus(long id, Status incoming) {
 `@Lock(PESSIMISTIC_WRITE)`). The first transaction locks the record. A second transaction waits, then reads
 the first transaction's committed result before calculating its own merge.
 
+An **atomic SQL update** is smaller and can avoid this particular stale read when the rule is only an increment:
+
+```sql
+UPDATE balances SET amount = amount + :delta WHERE id = :id;
+```
+
+The database locks and applies that expression as one statement. It is not enough when the decision depends on the
+current state, several rows, or validation rules; then lock or version-check, read the current state, and revalidate.
+
 ### What `@Transactional` does — and does not do
 
 `@Transactional` makes the method's database work all-or-nothing: all writes commit together, or an

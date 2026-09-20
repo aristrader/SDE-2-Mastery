@@ -122,6 +122,51 @@ For an SDE2 interview, explaining this data flow, the heap algorithm, and the bo
 interviewer explicitly asks for implementation. Real Splitwise likewise presents simplification as a way to
 restructure group balances without changing each member's overall balance. [Further reading](https://kb.splitwise.com/balances-and-expenses/what-is-simplify-debts)
 
+## Production follow-up — persisted concurrent writes
+
+This is outside the current in-memory exercise. A persisted design must create the immutable expense and splits,
+then update the derived balance projection as one short transaction. `@Transactional` makes that write atomic; it
+does not stop another request from making a stale balance decision, so every balance-changing command needs one
+consistent coordination resource.
+
+For a group expense or settlement, lock the persisted `Group` row first. Every flow that changes that group's
+balances—create, edit, remove, or settle—uses the same lock, then reads the latest projection, validates, writes the
+expense/splits and balance changes, and commits. A second request for that group waits and calculates from the first
+request's committed state.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Expense service
+    participant DB as Database
+    C->>S: Submit expense and idempotency key
+    S->>DB: Begin and claim key
+    alt Existing matching key
+        DB-->>S: Stored expense ID
+        S-->>C: Replay stored expense ID
+    else New command
+        S->>DB: Lock Group
+        S->>DB: Read latest balances and validate
+        S->>DB: Write expense balances and result
+        S->>DB: Commit and release lock
+        S-->>C: Return expense ID
+    end
+```
+
+For a direct expense, lock the canonical pair-balance row when it already exists. If it does not exist, lock the two
+`User` rows in ascending ID order before creating the pair row. The fixed order prevents one request from holding A
+while waiting for B as another holds B while waiting for A. Re-read the pair after those locks: use the row a prior
+request created, or create it. A unique canonical-pair constraint is the final guard; a duplicate-key loser rolls
+back and retries the whole command in a fresh transaction.
+
+An optimistic `@Version` check is an alternative when conflicts are rare: a stale writer fails, reloads the current
+projection, and retries the complete idempotent command only when that is safe. A pessimistic group lock is easier to
+explain when group edits are expected to contend, but it costs waiting and can time out or deadlock. In either model,
+rollback the failed command; retry deadlock, timeout, or optimistic conflicts only from a caller boundary that can
+reuse the same idempotency key. Make that key real: store a unique caller/key record with a payload fingerprint and
+the completed expense/result, reject a reused key with different input, and replay the stored result after an
+ambiguous timeout. Never hold the database lock while calling a payment provider or waiting for user input.
+
 ## Extensions after the MVP
 
 - Debt simplification across a group.
