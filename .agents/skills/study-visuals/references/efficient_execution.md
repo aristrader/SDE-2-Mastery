@@ -18,6 +18,15 @@ map, consulted references and exact facts verified, reader path, visual plan, va
 findings. Reuse this record throughout the run. Read the complete source packet once; after that, inspect only
 changed files and targeted line ranges unless new evidence makes another source read necessary.
 
+## Output and delegation budget
+
+Do not stream a whole large document, full generated file, full diff, or raw build log into the working context when
+a targeted range or compact result proves the point. Have `gpt-5.6-terra` return a bounded source packet—candidate,
+paths, preserved concepts, and gaps—rather than copied page text. Capture validation as command, pass/fail, and the
+first relevant error location; inspect more only to diagnose that error. Do not poll an agent repeatedly: wait once
+for a useful interval while doing local work, then continue from its compact result. Keep screenshots and evidence
+private and report their outcome, not their raw payload.
+
 ## One-pass quality loop
 
 After the complete draft, request one independent critic pass. If it finds material defects, make one focused patch
