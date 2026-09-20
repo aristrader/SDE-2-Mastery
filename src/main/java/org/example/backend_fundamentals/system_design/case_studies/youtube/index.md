@@ -4,114 +4,156 @@ order: 100
 
 # YouTube / Video Streaming System
 
-Design a global on-demand video platform that accepts uploads up to 1 GB, processes them asynchronously, and streams them with low startup latency across web, mobile, and smart-TV clients. This module covers Alex Xu's YouTube chapter (PDF pages 220-243); live streaming, recommendations, comments, and subscriptions are explicit follow-ups, not the base scope.
+## The prompt, scope, and success condition
 
-## Scope and interview frame
+Design an on-demand video platform: a creator uploads a video up to 1 GB, the system processes it asynchronously, and a viewer starts playback quickly from web, mobile, or TV. Success is not “the upload returned 200.” It is a durable source, then one complete published output version that an authorized viewer can play through a nearby CDN.
 
-Start by narrowing the question:
+This answer covers uploads, processing, and on-demand playback. Live streaming, recommendations, search/feed ranking, comments, subscriptions, DRM implementation, and CDN-provider internals are explicit follow-ups.
 
-- Are uploads, on-demand playback, or live streaming in scope?
-- What clients, maximum upload size, regions, resolutions/formats, encryption, and playback latency are required?
-- Do we need adaptive quality, resumable upload, video takedown, and global availability?
-- Can we use managed object storage and a CDN? In an interview, the default answer should be yes.
+Assume 5M DAU, five views per user daily, 10% of users uploading one 300 MB video daily, and an international audience. Ask whether private video, takedown, adaptive quality, and resumable upload are required; here, all are in scope.
 
-Base answer: 5M DAU, five video views per user per day, 10% of users upload one video per day, average upload size 300 MB, international audience, and eventual consistency while a video is processing.
+## A small baseline, then the pressure
 
-## Back-of-the-envelope estimation
+The baseline is `client → API → file store`, followed by a synchronous transcode. It works for a tiny product, but it makes API servers carry long-lived gigabyte streams, blocks the creator while CPU/GPU work runs, cannot adapt one file to varied networks, and sends global viewers to a distant origin.
 
-| Assumption from the chapter | Result | Architectural consequence |
+The workload makes the change concrete:
+
+| Estimate | Result | Decision it changes |
+| --- | ---: | --- |
+| New source each day | `5M × 10% × 300 MB ≈ 150 TB` | Upload bytes go directly to durable object storage. |
+| Daily delivery, rough 300 MB/view assumption | `5M × 5 × 0.3 GB ≈ 7.5 PB` | CDN delivery, not API proxying, dominates playback. |
+| Historical illustrative egress at `$0.02/GB` | roughly `$150K/day` | Cache popular segments near demand; do not pre-position every rendition everywhere. |
+
+The price is deliberately historical illustrative math, not current vendor pricing. The design lesson is that video bytes dominate control-plane cost.
+
+## The chosen design and ownership
+
+![Original video-platform architecture: control requests create and read durable video metadata; bytes use direct object-storage upload and CDN playback.](./assets/youtube-architecture.svg)
+
+The API owns small, synchronous control-plane state. Object storage owns source and output bytes. The processing system owns a job's transition from uploaded source to a complete output version. The CDN is a cache/delivery path, never the evidence that a video is published.
+
+| Durable record | Why it exists | Correctness boundary |
 | --- | --- | --- |
-| `5M DAU * 10% uploaders * 300 MB` | about 150 TB of new source video per day | Store large video bytes in durable object storage, not the metadata database. |
-| `5M * 5 views * 0.3 GB` | about 7.5 PB of daily video delivery under this rough assumption | CDN egress is a major cost driver. |
-| Historical illustrative CDN price of `$0.02/GB` | about `$150K/day` in delivery cost | Cache and distribute content based on popularity and regional demand. |
+| `Video` | Creator, title, access policy, `UPLOADING`/`PROCESSING`/`READY`/`FAILED`/`TAKEN_DOWN`, active output version. | Metadata transaction decides the visible status. |
+| Upload session | Object key, multipart upload ID, expected size/checksum, expiry. | One creator may resume only its authorized parts. |
+| Processing job | `videoId`, source version, attempt, required outputs, state. | Idempotent job key prevents duplicate completion events publishing twice. |
+| Output version | Manifest, rendition/segment keys, thumbnails, validation result. | Immutable and publishable only after all required outputs are durable. |
+| Playback authorization | Viewer/video policy and short-lived playback token/cookie. | Grants segment access; it does not create new video state. |
 
-The cost number is the book's simplified example, not a current cloud-pricing quote. Its interview value is recognizing that video bytes and CDN egress dominate the cost model.
+## Normal upload and processing path
 
-## Mental model
+1. The creator calls `POST /videos` with title, content type, and expected size. The Video Service authenticates the creator, writes `Video(UPLOADING)` plus an upload session, then returns a short-lived, object-scoped multipart authorization.
+2. The client uploads parts directly to a nearby object-storage endpoint and records confirmed part numbers/checksums. It retries only a failed part. Multipart upload supports independently uploaded parts and a final completion operation, which is why it is a better fit than replaying a 1 GB request. [AWS multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)
+3. The client calls an idempotent `POST /videos/{id}/complete-upload`, and an object-created notification is also consumed as a reconciliation signal. The service verifies the expected object/version and atomically moves the video to `PROCESSING` while creating one processing job. Either signal may be duplicated or arrive late; neither alone means `READY`. Object storage can emit an object-created event after a completed multipart upload. [AWS S3 EventBridge events](https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventBridge.html)
+4. Workers read the source by object key, validate it, then create renditions, short segments, thumbnails, and a manifest in a new immutable output-version prefix. The queue contains `{videoId, sourceVersion, attempt}`, never video bytes.
+5. A publisher verifies the required manifest and segment set, then atomically sets `activeOutputVersion` and `READY`. Only this transaction makes a playback URL valid.
 
-Keep control-plane metadata separate from the data-plane video bytes:
+The creator sees `UPLOADING`, `PROCESSING`, `READY`, `FAILED`, or `TAKEN_DOWN` from `GET /videos/{id}`. “Upload complete but still processing” is a correct, visible outcome—not a vague eventual-consistency excuse.
 
-```text
-Control plane: API service -> metadata DB/cache -> upload/playback authorization and status
-Data plane: client <-> object storage for upload; CDN -> client for video segments
-Async path: original video -> processing DAG -> transcoded segments/thumbnails -> publish readiness
+## Normal playback path
+
+An authorized viewer calls `GET /videos/{id}`. The Video Service reads metadata/cache, rejects `PROCESSING`, `FAILED`, or `TAKEN_DOWN`, and returns a short-lived manifest URL/token for the active output version. The player requests the manifest, then a few short segments from a nearby CDN edge. On an edge miss, the CDN obtains an immutable segment from output storage, caches it under policy, and returns it. API servers never proxy those segments.
+
+A **manifest** lists the available representations and segment locations. A **rendition** is one resolution/bitrate encoding. The player measures throughput/buffer health and selects a rendition segment by segment; this is adaptive bitrate streaming. HLS is one HTTP-based playlist-and-segment family, and its authoring guidance covers multiple bitrate/resolution variants. [Apple HLS documentation](https://developer.apple.com/streaming/)
+
+## Deep dive 1: resumable upload has a durable acceptance boundary
+
+**Problem.** A creator on an unreliable network must upload a large file without tying up API servers or starting over after one lost connection.
+
+**Naive failure.** Proxying the whole file through the API turns stateless request servers into bandwidth and timeout bottlenecks. Treating “last byte arrived” as success can start processing a partial, replaced, or unauthorized object.
+
+**Mechanism.** `POST /videos` creates the durable video/session before byte transfer, and returns a scoped, expiring direct-upload capability. Each part is independently acknowledged. Completion verifies the expected object version, size/checksum, and session owner before the metadata/job transaction changes `UPLOADING → PROCESSING`.
+
+**Trade-off.** Direct object-store upload adds session state and client multipart logic, but removes expensive bytes from the synchronous API path. A short-lived authorization limits exposure but requires refresh/retry behavior.
+
+**Recovery.** The client lists confirmed parts and resumes only missing ones. Completion is idempotent on `(videoId, sourceVersion)`: duplicated client calls or storage events return the existing job. An expired or mismatched session remains `UPLOADING`/`FAILED` with a reason; no worker reads it as a source.
+
+## Deep dive 2: processing publishes a complete version, never partial outputs
+
+**Problem.** One source must serve devices and networks with different codecs, resolutions, and bandwidth, while transcode tasks can crash or retry.
+
+**Naive failure.** A worker writing directly to the public manifest can expose a video whose high-bitrate segments or thumbnails are still missing. Retrying a partially completed job can overwrite another attempt's output or mark `READY` twice.
+
+**Mechanism.** Validate/demux first, then run independent encoding, audio, thumbnail, and watermark tasks in a durable dependency graph. A **GOP** is a short independently decodable group of frames; segmenting on appropriate boundaries makes independently encoded/playable pieces feasible. Every attempt writes to an immutable output-version prefix. The publisher validates the required outputs and performs a conditional metadata update from that job attempt to `READY`.
+
+![Processing pipeline: an uploaded source creates a durable job; parallel tasks write one immutable output version, then a verifier publishes it atomically.](./assets/video-processing-pipeline.svg)
+
+**Trade-off.** Immutable output versions consume temporary storage and require cleanup; they buy simple retry safety and make CDN objects cache-friendly. Pre-encoding many renditions costs compute/storage, while encoding rare long-tail formats on demand trades first-play latency for cost.
+
+**Recovery.** A lease expiry lets another worker retry an unfinished task with the same input and output key or a new attempt prefix. The publisher's conditional state transition makes a repeated completion a no-op. Malformed input, malware/moderation rejection, or an unsupported format stops dependent tasks and records `FAILED` or `TAKEN_DOWN`; the source is retained/quarantined according to policy, never published accidentally.
+
+## Deep dive 3: segmented CDN playback protects startup latency and origin
+
+**Problem.** Global viewers need quick start and smooth playback, but forwarding every byte through a regional API or one origin cannot survive a viral video.
+
+**Naive failure.** A full-file download delays playback and cannot adapt to changing bandwidth. A CDN URL issued before status checks can keep serving a taken-down or incomplete version. A CDN hit metric is not a publication guarantee.
+
+**Mechanism.** The control API authorizes the viewer against the `READY` active version, then the player receives a manifest plus short immutable segments. The CDN serves a nearby edge hit or fetches the segment from origin on a miss. The player changes rendition between segment boundaries; it does not ask the API to pick every video byte.
+
+**Trade-off.** Short segments improve adaptation and seeking but add manifest/request overhead. Warm popular regional content lowers startup latency but wastes cache space for content that never gets watched.
+
+**Recovery.** On a CDN miss, the viewer waits for an origin fetch rather than failing the entire video; if origin is unavailable, the player retries another edge/origin route and shows playback unavailable. A takedown changes metadata eligibility, revokes future manifest authorization, and invalidates/purges CDN paths according to policy. Already issued short-lived tokens may work until expiry; state that bounded window rather than claiming instant global removal.
+
+```mermaid
+sequenceDiagram
+    participant V as Viewer
+    participant A as Video API
+    participant C as CDN edge
+    participant O as Output storage
+    V->>A: request video metadata
+    alt active version is READY and authorized
+        A-->>V: short-lived manifest authorization
+        V->>C: request manifest and segment
+        alt edge hit
+            C-->>V: cached segment
+        else edge miss
+            C->>O: fetch immutable segment
+            O-->>C: segment
+            C-->>V: segment and cache it
+        end
+    else processing failed or taken down
+        A-->>V: no playback URL and visible status
+    end
 ```
 
-The client should not upload a 1 GB file through the API servers. API servers authenticate, create a video record, and issue a short-lived pre-signed object-storage URL. The client uploads directly and the expensive work happens after upload.
+## Failure policy, scaling choice, and follow-ups
 
-### Three flows, not one path
-
-This is the clearest way to place every component during an interview:
-
-```text
-1. Upload control: client -> API gateway -> Video Service -> metadata DB/cache -> signed upload URL
-2. Upload and processing: client -> object storage -> upload-complete event -> queue/DAG workers -> transcoded storage
-3. Playback: client -> Video Service for authorization/manifest -> CDN edge -> origin storage only on a cache miss
-```
-
-The queue carries a small reference such as `{ videoId, sourceObjectKey }`, never the multi-GB video itself. Workers retrieve bytes from object storage. Eventual consistency is acceptable because the product permits a processing and propagation delay before `READY`; it is not safe to assume that a new upload cannot become popular immediately.
-
-## Architecture
-
-![Original YouTube HLD reference diagram](./assets/youtube-hld-reference.png)
-
-![Original video processing pipeline](./assets/video-processing-pipeline.svg)
-
-| Component | Responsibility |
-| --- | --- |
-| API service | Authentication, upload-session creation, metadata writes, and playback information. Stateless and horizontally scaled. |
-| Metadata DB and cache | Video status, ownership, title, formats, manifest location, and authorization-related metadata. Replicate and shard the DB; cache hot reads. |
-| Original object storage | Durable source upload before processing. |
-| Processing pipeline | Validate, split, transcode, create thumbnails/watermarks, and generate adaptive-streaming outputs. |
-| Temporary storage | Durable intermediate chunks and metadata used for retries. |
-| Transcoded object storage | Final renditions, manifests, thumbnails, and segments. |
-| CDN | Edge delivery of popular video segments close to viewers. |
-| Completion events and handlers | Mark a video ready only after outputs are durable and publishable. |
-
-## Interview blueprint
-
-1. Establish the upload/playback-only scope and estimate storage plus delivery cost.
-2. State the control-plane/data-plane split and choose object storage plus CDN rather than building either.
-3. Walk through direct multipart upload and a separate asynchronous processing DAG.
-4. Explain HLS/DASH-style adaptive playback from CDN using a manifest and short segments.
-5. Deep dive on resumability, task retries, metadata readiness, global upload routing, security, and CDN cost.
-
-## Key trade-offs
-
-| Decision | Default | Why |
+| Boundary | Recovery | Visible outcome |
 | --- | --- | --- |
-| Upload route | Pre-signed direct-to-object-storage URL | Keeps large byte streams off API servers and gives scoped authorization. |
-| Video processing | Async queue-backed DAG | CPU-heavy work can retry and fan out into parallel tasks without delaying upload acknowledgement. |
-| Playback | CDN segment delivery | Low latency and reduced origin load for a global audience. |
-| Consistency | Eventual readiness | A newly uploaded video may be `PROCESSING` until all required renditions are available. |
-| Rare content | Origin/high-capacity storage or on-demand encoding | Avoids paying to pre-position every rendition globally. |
+| Upload part/network loss | Resume missing parts; retain confirmed parts. | Creator continues upload. |
+| Duplicate completion event | Idempotent job creation and conditional publish. | One processing job/version becomes active. |
+| Worker crash | Lease expires; retry task from durable source/intermediate state. | `PROCESSING` lasts longer. |
+| Cache/API replica loss | Read replica/metadata store and repopulate cache. | Playback authorization may be slower, not byte-proxied. |
+| Output/origin failure | CDN retries origin route; alert and retain `READY` metadata only for verified output. | Viewer may see temporary unavailable playback. |
+| Takedown | Revoke eligibility, invalidate CDN paths, retain audit state. | New playback requests are denied. |
 
-## Common interview traps
+Operations watch processing-job age and queue age (page the processing owner when videos remain `PROCESSING` beyond the target), upload-completion records without a matching job (reconcile from source storage), output-validation failures (quarantine the version and investigate the worker/input class), and CDN/origin error and startup-failure rates (route to the delivery owner and protect origin). These are product signals: each has an owner and a recovery action, not merely a dashboard.
 
-- Do not choose a metadata database merely because "there are few relationships." Choose based on metadata access patterns, consistency, query needs, scale, partitioning, and operations. The video binary belongs in object storage either way.
-- Do not use `GET /upload-presigned-url` to create upload state. `POST /videos` creates a video/upload resource and returns its upload authorization.
-- Do not route video playback as `client -> gateway -> API service -> CDN`. The gateway/API path ends after returning metadata or a playback manifest; the player fetches segments directly from CDN.
-- Do not describe the player dynamically requesting arbitrary five-minute byte ranges as the base design. The processing pipeline pre-generates short GOP-aligned segments for each rendition, which enables seeking and adaptive switches.
-- Do not dive into codec mathematics, HLS packet layouts, CDN-routing algorithms, or Google's private network unless the interviewer explicitly changes the scope.
+Use managed object storage and a CDN in the interview baseline. Building a private CDN, bespoke codec scheduling, global active-active object replication, recommendations, live ingest, and DRM license service are follow-ups. The rejected alternative is one API-mediated upload-and-download path: it simplifies code but destroys the control-plane/data-plane separation that the workload demands.
+
+## How to deliver this in a 35–40 minute interview
+
+1. Scope on-demand upload, processing, and playback; defer live/recommendations.
+2. Start with the naive API proxy and use the byte estimates to reject it.
+3. Name durable video/session/job/output-version records, then trace direct upload to `PROCESSING` and atomic `READY` publish.
+4. Trace viewer authorization to manifest, CDN edge, and origin miss.
+5. Deep-dive upload acceptance, immutable processing publish, and CDN/takedown recovery.
+6. Close with cost/long-tail trade-offs and the explicit deferred work.
 
 ## Quick recall
 
-**Q. Why should uploads bypass API servers?**
-A. Large, long-lived uploads would consume API capacity; API servers should authorize the upload while object storage receives the bytes directly.
+**Q. What accepts an upload for processing?**
 
-**Q. What does transcoding produce?**
-A. Multiple codecs, resolutions, bitrates, thumbnails, manifests, and short video segments suitable for different devices and networks.
+A. The verified source object plus idempotent metadata/job transaction from `UPLOADING` to `PROCESSING`, not the final part upload alone.
 
-**Q. Why does video playback use a CDN?**
-A. It serves segments from edge locations near viewers, reducing startup latency, origin load, and global network distance.
+**Q. Why is `READY` separate from upload completion?**
 
-**Q. When is a video marked ready?**
-A. After its required outputs are durably stored and the completion handler updates metadata and cache.
+A. `READY` means all required outputs in one immutable version are durable and the publisher has made that version active.
 
-**Q. What belongs in the processing queue?**
-A. A small durable job reference, such as the video ID and source object key, not the video bytes.
+**Q. What does a CDN serve?**
 
-## Quick recall
+A. Immutable manifest/segment bytes near viewers; the API serves authorization and metadata, not video bytes.
 
-**Q. What are the two primary workflows in a video platform?**
-A. Upload and asynchronous processing, then low-latency metadata lookup and CDN-backed playback.
+**Q. How do task retries avoid a partial public video?**
+
+A. Tasks write an isolated output version and an idempotent conditional publisher exposes it only after validation.

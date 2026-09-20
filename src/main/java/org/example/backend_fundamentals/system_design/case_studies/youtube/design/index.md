@@ -65,11 +65,11 @@ READY -> TAKEN_DOWN
 
 1. Client calls the API service with initial metadata.
 2. API service authenticates the creator, creates video `v_123` with `UPLOADING`, and returns a pre-signed multipart-upload URL or session.
-3. Client uploads GOP-aligned chunks directly to a nearby object-storage upload endpoint. The client resumes from confirmed chunks after a network failure.
+3. Client uploads resumable multipart parts directly to a nearby object-storage upload endpoint. The client resumes from confirmed parts after a network failure; source-file upload parts do not need to be GOP-aligned.
 4. In parallel, the client/API service persists title, owner, size, format, and other metadata in the metadata DB and updates cache.
-5. Object storage emits an upload-complete event. The processing pipeline changes status to `PROCESSING`.
+5. The client sends an idempotent completion request and object storage emits an upload-complete event as reconciliation. After verifying the expected source object/version, one metadata/job transaction changes status to `PROCESSING`.
 
-GOP means a small independently playable group of frames, typically a few seconds. Splitting on GOP boundaries allows independent work and clean adaptive-streaming segments. Older clients that cannot split a video can upload the whole file and let the server-side preprocessor split it.
+GOP means a small independently decodable group of frames. The server-side preprocessor uses appropriate boundaries while producing playable segments; it is separate from the client's transport-level multipart upload.
 
 ### End-to-end flow to say out loud
 
@@ -102,8 +102,8 @@ At normal SDE-2 HLD depth, say "queue-backed workers with dependency-aware sched
 
 ## Publish flow and playback
 
-1. Completed tasks write renditions, segments, thumbnails, and a manifest to transcoded object storage.
-2. A completion event is consumed by handlers that verify required outputs, mark metadata `READY`, update cache, and make the content eligible for CDN distribution.
+1. Completed tasks write renditions, segments, thumbnails, and a manifest to a new immutable output-version prefix in transcoded object storage.
+2. A completion handler verifies required outputs, conditionally marks that output version active and metadata `READY`, then updates cache and makes the content eligible for CDN distribution. This publish transition is idempotent; a retry cannot expose a partial version.
 3. Client calls `GET /v1/videos/{id}`. API service checks authorization, reads cache/metadata, and returns a playback or manifest URL.
 4. The player requests the manifest and only a few segments at a time from the nearest CDN edge.
 5. The player selects or switches bitrate/resolution according to measured network conditions. This is adaptive bitrate streaming; HLS and MPEG-DASH are common HTTP-based protocol families.
@@ -120,18 +120,20 @@ The player does not need the full file before starting playback. It fetches only
 | Chunk upload fails | Resume and retry the failed chunk; keep completed chunks. |
 | One transcode task fails transiently | Retry with bounded attempts; retain inputs in temporary storage. |
 | Input is malformed or policy-rejected | Stop dependent tasks, mark `FAILED` or `TAKEN_DOWN`, and return a clear status. |
-| Worker fails | Reschedule its unacknowledged/running task on another worker. |
+| Worker fails | Lease expiry reschedules its unfinished task from durable source/intermediate state; an already-published completion is a no-op. |
 | Queue or scheduler replica fails | Fail over to a replica; keep durable task state and idempotent task outputs. |
 | API instance fails | Load balancer sends the request to another stateless instance. |
 | Cache node fails | Read another replica or metadata DB, then repopulate cache. |
 | Metadata writer fails | Promote a replicated writer; serve reads from healthy replicas as appropriate. |
+
+Operational ownership is explicit: processing owns stuck-job/queue-age and output-validation alarms; ingestion reconciles an object-complete record with no job; delivery owns CDN/origin error and startup-failure alarms. Each signal starts a retry, reconciliation, quarantine, or traffic-protection action rather than an unactionable alert.
 
 Make publish idempotent: task retries may produce the same rendition more than once, but the completion handler must not incorrectly expose a partially processed video. Keep serving the last known metadata state until the new state is complete.
 
 ## Global performance and cost
 
 - Route uploads to geographically close upload endpoints; CDN infrastructure can also provide these ingress locations.
-- Use multipart, resumable, parallel GOP-aligned upload to reduce restart cost for large files.
+- Use multipart, resumable, parallel upload to reduce restart cost for large files; apply GOP-aware segmentation later in server-side processing.
 - Keep popular, regionally popular content warm in CDN; long-tail content can be served from high-capacity origin or encoded on demand when product requirements permit.
 - Do not distribute every rendition to every region. Use observed audience geography and access patterns.
 - Building a private CDN or partnering with ISPs is a late-stage option for a massive platform, not the default interview answer.

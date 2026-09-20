@@ -50,7 +50,7 @@ Design the system for 5M DAU, five views per user per day, 10% daily uploaders, 
 
 1. Why should the queue contain a job/object reference instead of the uploaded video bytes?
 2. A transcoding worker crashes after writing some variants. How can retry be safe?
-3. Why are `UPLOADED` and `READY` different states?
+3. Why are verified upload completion/`PROCESSING` and `READY` different states?
 4. What happens if the closest CDN region has no cached segment?
 
 ## Self-review
