@@ -4,7 +4,7 @@ Use this compact contract for substantial public study-content work. It saves co
 
 ## Intake and research
 
-- Use `gpt-5.6-terra` at low/medium reasoning for discovery, one complete source read, source inventory, drafting, mechanical edits, and routine validation. Use `gpt-5.6-sol` only for factual contradictions, unfamiliar-reader criticism, visual findings, and final scope/commit review. Add parallel agents only when each owns a complete independent module; parallelism reduces elapsed time, not token use.
+- Use `gpt-5.6-terra` at low/medium reasoning for discovery, one complete source read, source inventory, drafting, mechanical edits, and routine validation. Use `gpt-5.6-sol` only for factual contradictions, unfamiliar-reader criticism, visual findings, and final scope/commit review. For a compact, related batch, default to one Terra writer and one Sol critic over the whole batch with one ledger; split only when one bounded packet cannot cover the modules. Parallelism reduces elapsed time, not token use.
 - Before editing, create one private evidence ledger: source-preservation map, exact facts/references, reader path, visual plan, validation results, and unresolved findings. Reuse it; after intake, read only changed files or exact line ranges unless new evidence requires otherwise.
 - Preserve every distinct source claim, example, misconception, diagram, estimate, failure mode, requirement, and follow-up in the edited page, a linked destination, or an explicit scope cut with a reason.
 - Research with generic external queries only. Use primary documentation for factual mechanisms and independent, accessible learning/interview references for coverage. Reuse a verified fact packet for closely related modules only when the current ledger maps each fact to its current claim. Never copy prose, examples, diagrams, code, or page shape.
@@ -13,7 +13,7 @@ Use this compact contract for substantial public study-content work. It saves co
 
 - Start with the engineering problem, then mental model, mechanism, concrete consequence, and boundary. Define a term before relying on it. Explain a deep dive as problem → naive failure → mechanism → trade-off → recovery.
 - Use only an original visual that answers one stated reader question; retain the equivalent explanation in prose. Check its arrows, labels, reading-column fit, browser errors, and overflow after it renders.
-- Run a writer pass against the source map, then one independent unfamiliar-reader critic pass. Score applicable dimensions out of 20; every dimension must be 20/20. Fix material defects in one focused patch and request one re-audit. Do not repeat a critic pass for cosmetic preferences.
+- Run a writer pass against the source map, then one independent unfamiliar-reader critic pass. The critic reuses the ledger's fact packet and reports only scored dimensions plus material deviations. Every applicable dimension must be 20/20; fix material defects in one focused patch and request one re-audit. Do not repeat a critic pass for cosmetic preferences.
 
 ## Efficient execution and closure
 
