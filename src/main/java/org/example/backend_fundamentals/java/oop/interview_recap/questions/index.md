@@ -19,3 +19,11 @@ Answer shape: prefer composition when behavior varies independently, the relatio
 ## Question 3: What is dynamic dispatch?
 
 Answer shape: for overridden instance methods, Java chooses the method implementation from the actual runtime object, not the declared reference type.
+
+## Quick recall
+
+**Q. What two methods must agree for hash-based collections?**
+A. `equals()` and `hashCode()`; equal objects must return the same hash code.
+
+**Q. What decides an overridden instance-method call?**
+A. The object's runtime type.

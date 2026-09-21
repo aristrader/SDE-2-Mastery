@@ -116,7 +116,7 @@ threshold = capacity × loadFactor
 
 When `size > threshold`:
 1. A new `table` is allocated at `2 × oldCapacity`.
-2. Every existing entry is rehashed and placed in the new table — O(n) work.
+2. Every existing entry is redistributed into the new table — O(n) work.
 3. The threshold is recalculated: `newCapacity × loadFactor`.
 
 Because the new capacity is exactly double the old (still a power of 2), Java 8 uses a trick: an entry either stays at the same index or moves to `oldIndex + oldCapacity`. The decision is one bit of the cached hash — no full re-hash needed. This makes Java 8 resize faster than Java 7's full rehash.
@@ -138,10 +138,10 @@ Because the new capacity is exactly double the old (still a power of 2), Java 8 
 
 | Operation | Average case | Worst case |
 |---|---|---|
-| `put` / `get` / `remove` | O(1) amortized | O(log n) — tree bin after treeification |
+| `put` / `get` / `remove` | O(1) amortized | Usually O(log n) in a tree bin; a same-hash, non-comparable key path can require a wider search |
 | Resize (rare) | O(n) | O(n) |
 
-"Amortized O(1)" means most operations touch one bucket; resize spreads its cost across all preceding puts. The tree bin worst case of O(log n) applies only to degenerate keys (e.g., many keys with the same `hashCode()`).
+"Amortized O(1)" means most operations touch one bucket; resize spreads its cost across all preceding puts. Tree bins prevent the usual long linked-list collision path, but their best behavior depends on keys offering a usable ordering; do not promise a hard O(log n) bound for arbitrary same-hash, non-comparable keys.
 
 ---
 
@@ -159,7 +159,7 @@ For concurrent access use `ConcurrentHashMap` — segmented locks (Java 7) or CA
 
 ## Mutable keys
 
-`HashMap` caches the spread hash in each `Node` at insert time (the `int hash` field). That cached value is never updated. If you mutate a key after insertion, `hashCode()` returns a different value — the map looks in the wrong bucket on the next `get`, finds nothing, returns `null`. The entry is still in the original bucket, permanently orphaned.
+`HashMap` caches the spread hash in each `Node` at insert time (the `int hash` field). That cached value is never updated. A mutation is hazardous only when it changes state used by `equals()` or `hashCode()`: lookup can then compute a different hash, inspect a different bucket, and return `null`. The entry still remains in its original bucket.
 
 ```java
 Person p = new Person("Alice", 30);
@@ -171,7 +171,7 @@ map.get(p);              // looks in new bucket → null
                          // entry still in bucket 5 — lost, no exception
 ```
 
-No exception is thrown. The entry isn't removed — just unreachable. The map also leaks memory until the next resize.
+No exception is thrown. The entry isn't removed. Restoring the equality/hash-relevant state can make it reachable again; a resize redistributes entries with their cached insertion hashes, so it does not repair the mismatch.
 
 **Rule:** only use immutable objects as keys (`String`, `Integer`, your own `record` or `@Value` DTO). If you must use a mutable object, hash only on fields that never change after construction (e.g., a database `id`).
 
@@ -192,7 +192,7 @@ A. Treeify at chain length 8 (O(log n) tree instead of O(n) list). Untreeify at 
 A. No. Treeification is skipped when `table.length < 64` (`MIN_TREEIFY_CAPACITY`). Instead, the table is resized — a small table with a long chain usually means a poor hash function affecting all buckets, so spreading entries is the better fix.
 
 **Q. What happens during a resize?**
-A. A new table double the size is allocated; all entries are rehashed (O(n)). In Java 8, an entry either stays at the same index or moves to `oldIndex + oldCapacity`, determined by one bit of the cached hash.
+A. A new table double the size is allocated and entries are redistributed in O(n). In Java 8, an entry either stays at the same index or moves to `oldIndex + oldCapacity`, determined by one bit of its cached hash; Java does not call `key.hashCode()` again for every entry.
 
 **Q. Why is the default load factor 0.75?**
 A. Empirical sweet spot: lower means too many empty buckets (wasted space), higher means more collisions (slower lookups).
@@ -204,4 +204,4 @@ A. No. Concurrent writes cause lost updates and potential corruption. Java 7 cou
 A. Always at `table[0]` — `hash(null)` is defined as 0.
 
 **Q. What happens if you mutate a key after inserting it into a HashMap?**
-A. The map cached the hash at insert time. After mutation, `hashCode()` returns a different value, the map looks in the wrong bucket, and returns null. The entry is orphaned in the original bucket — silent data loss, no exception.
+A. If the mutation changes equality/hash-relevant state, the map can compute a different hash and miss the entry. The entry remains stored with its cached insertion hash; restore that state to recover it, because resize does not fix the mismatch.
