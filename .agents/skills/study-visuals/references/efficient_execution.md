@@ -4,10 +4,10 @@ Use this compact contract for substantial public study-content work. It saves co
 
 ## Intake and research
 
-- Use `gpt-5.6-terra` at low/medium reasoning for discovery, one complete source read, source inventory, drafting, mechanical edits, and routine validation. Use `gpt-5.6-sol` only for factual contradictions, unfamiliar-reader criticism, visual findings, and final scope/commit review.
+- Use `gpt-5.6-terra` at low/medium reasoning for discovery, one complete source read, source inventory, drafting, mechanical edits, and routine validation. Use `gpt-5.6-sol` only for factual contradictions, unfamiliar-reader criticism, visual findings, and final scope/commit review. Add parallel agents only when each owns a complete independent module; parallelism reduces elapsed time, not token use.
 - Before editing, create one private evidence ledger: source-preservation map, exact facts/references, reader path, visual plan, validation results, and unresolved findings. Reuse it; after intake, read only changed files or exact line ranges unless new evidence requires otherwise.
 - Preserve every distinct source claim, example, misconception, diagram, estimate, failure mode, requirement, and follow-up in the edited page, a linked destination, or an explicit scope cut with a reason.
-- Research with generic external queries only. Use primary documentation for factual mechanisms and independent, accessible learning/interview references for coverage. Never copy prose, examples, diagrams, code, or page shape.
+- Research with generic external queries only. Use primary documentation for factual mechanisms and independent, accessible learning/interview references for coverage. Reuse a verified fact packet for closely related modules only when the current ledger maps each fact to its current claim. Never copy prose, examples, diagrams, code, or page shape.
 
 ## Teaching and review
 
