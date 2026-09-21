@@ -4,7 +4,7 @@ order: 40
 
 # Access Modifier Deep Dive
 
-Use modifiers to express ownership and extension rules.
+Use modifiers to make ownership, extension, and call boundaries enforceable by the compiler.
 
 ## Top-level types
 
@@ -15,7 +15,7 @@ Top-level classes can be only:
 
 They cannot be `private`, `protected`, or `static`.
 
-## Member visibility
+## Member visibility and override boundary
 
 | Modifier | Visible from |
 | --- | --- |
@@ -51,7 +51,7 @@ private void provisionLaptop() {}
 
 ## Protected across packages
 
-Across packages, `protected` access requires subclass context. A subclass cannot freely access a protected member through any parent reference from another package.
+Across packages, `protected` access requires subclass context. A subclass cannot freely access a protected member through an arbitrary parent reference from another package. This is why protected fields are a poor extension API: they expose representation and make invariants difficult to maintain. Prefer a protected operation with a precise contract.
 
 ## Quick recall
 
@@ -59,4 +59,4 @@ Across packages, `protected` access requires subclass context. A subclass cannot
 - **Reduce method visibility while overriding?** Not allowed.
 - **Private method polymorphic?** No.
 - **Static method polymorphic?** No, hidden by compile-time reference type.
-- **Detailed walkthrough?** Preserved archive notes live under `todo/study_plan/reference/archive/java_oop/access_modifiers_reference_notes.md`.
+- **Cross-package protected receiver?** `this`, `super`, or a qualifying subclass reference—not an arbitrary parent reference.

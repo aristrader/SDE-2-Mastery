@@ -29,3 +29,30 @@ log(1, "Error", "Disk full");
 ```
 
 Varargs must be the last parameter so the compiler knows where the variable-length argument list ends.
+
+## Solution: reference-copy - Mutation Is Not Reassignment
+
+```java
+class MethodExamples {
+    static class Customer {
+        String name;
+
+        Customer(String name) {
+            this.name = name;
+        }
+    }
+
+    static void rename(Customer customer) {
+        customer.name = "updated";
+        customer = new Customer("replacement");
+    }
+
+    public static void main(String[] args) {
+        Customer original = new Customer("before");
+        rename(original);
+        System.out.println(original.name); // updated
+    }
+}
+```
+
+`rename` receives a copy of `original`'s reference. Both copies initially reach the same `Customer`, so field mutation is visible. Reassigning `customer` changes only the method's local copy; it cannot replace `original` in the caller.

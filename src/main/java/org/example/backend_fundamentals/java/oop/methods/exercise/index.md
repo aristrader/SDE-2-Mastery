@@ -32,3 +32,17 @@ Fix the method signature so it compiles, and call it with `log(1, "Error", "Disk
 
 ### Checks
 - Why must varargs be the last parameter?
+
+## Exercise: reference-copy - Mutation Is Not Reassignment
+
+### Goal
+Trace Java's pass-by-value rule for an object reference.
+
+### Task
+Create a mutable `Customer` with a `name`. Write `rename(Customer customer)` that first changes the name, then assigns `customer = new Customer("replacement")`.
+
+Call it from `main` and print the original variable's name after the call.
+
+### Checks
+- Which line affects the caller's object, and why?
+- Why is “Java passes objects by reference” an inaccurate explanation?

@@ -43,3 +43,17 @@ In `main`, write: `Animal a = new Dog(); System.out.println(a.name);`
 
 ### Checks
 - What gets printed? 
+
+## Exercise: overload-or-override - Signature Near Miss
+
+### Goal
+Separate compile-time overload selection from runtime overriding.
+
+### Task
+Give `Animal` a `feed(Number amount)` method. In `Dog`, first write `feed(Integer amount)` without `@Override`, then call `feed(1)` through an `Animal` reference.
+
+Add `@Override` to the `Dog` method and observe the compiler result. Finally, replace it with `feed(Number amount)` and repeat the call.
+
+### Checks
+- Why is `feed(Integer)` an overload rather than an override?
+- Which implementation runs in each version, and at what stage is it selected?

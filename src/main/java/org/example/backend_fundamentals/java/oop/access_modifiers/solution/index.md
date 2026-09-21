@@ -41,7 +41,7 @@ public class Main {
     }
 }
 ```
-The `final` keyword only locks the **reference** (the pointer). It prevents you from pointing the variable to a new location in memory. It does **not** protect the object's internal state from mutation.
+The `final` keyword locks the **reference variable**. It prevents reassignment to another object; it does **not** protect the current object's internal state from mutation.
 
 ## Solution: file-structure - Top-Level Modifiers
 
@@ -55,3 +55,26 @@ public class App {
 ```
 
 Java prevents top-level classes from being `private` because `private` means visible only to the enclosing scope. A top-level class has no enclosing class. `private` classes are only valid when nested inside another class.
+
+## Solution: protected-cross-package - Extension Is Not Global Access
+
+```java
+// package ledger;
+public class Account {
+    protected long balance;
+}
+
+// package reporting;
+class ReportAccount extends Account {
+    long ownBalance() {
+        return this.balance; // valid
+    }
+
+    long otherBalance(Account other) {
+        // return other.balance; // compile error across packages
+        return 0;
+    }
+}
+```
+
+Outside `ledger`, access occurs from subclass code and only through a qualifying subclass receiver. This prevents a subclass from treating every parent-typed object as an exposed record. A protected method such as `protected long availableBalance()` can preserve invariants better than a mutable field.

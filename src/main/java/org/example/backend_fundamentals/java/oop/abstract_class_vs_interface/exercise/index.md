@@ -11,7 +11,7 @@ search: false
 Understand when an abstract class is better than an interface as a factory base.
 
 ### Task
-In `creational/abstract_factory/`, introduce an `AbstractFurnitureFactory` abstract class that `CheapFurnitureFactory` and `LuxuryFurnitureFactory` extend. Give it a `final` template method `deliverSet()` that calls `createChair()` + `createSofa()` and prints a delivery summary.
+In a scratch file, introduce an `AbstractFurnitureFactory` abstract class that `CheapFurnitureFactory` and `LuxuryFurnitureFactory` extend. Give it a `final` template method `deliverSet()` that calls `createChair()` + `createSofa()` and prints a delivery summary.
 
 ### Checks
 - Compare against the current "static helper on the runner" approach. Which feels more natural for *this* domain? When would you flip the choice?
@@ -33,10 +33,10 @@ Write a tiny Strategy example (e.g., `PaymentStrategy` with `CardPayment` / `Cas
 Explore Java 8 `default` methods in interfaces.
 
 ### Task
-Take any interface in this repo and add a `default` method that depends on the abstract methods. Implement it across two classes.
+In a scratch file, add a `default` method that depends on abstract interface methods. Implement it across two classes, then make two unrelated interfaces supply the same default method and resolve the conflict in a third class.
 
 ### Checks
-- Does the default work? When would you instead promote to an abstract class?
+- Does the default work? When would you instead promote to an abstract class? Which default-conflict rule required your explicit override?
 
 ## Exercise: builder-hierarchy - Builder hierarchy (EJ Item 2)
 

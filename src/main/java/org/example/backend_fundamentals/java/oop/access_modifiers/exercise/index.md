@@ -48,3 +48,15 @@ Note the compiler error.
 ### Checks
 - Why does Java prevent top-level classes from being `private`?
 - Where can you use `private class`?
+
+## Exercise: protected-cross-package - Extension Is Not Global Access
+
+### Goal
+Apply the cross-package `protected` receiver rule.
+
+### Task
+Put `Account` with `protected long balance` in one package and `ReportAccount extends Account` in another. Read `balance` through `this`, then try reading it through an `Account other` parameter.
+
+### Checks
+- Which access compiles and why?
+- Why is a protected behavior method usually safer than a protected mutable field?
