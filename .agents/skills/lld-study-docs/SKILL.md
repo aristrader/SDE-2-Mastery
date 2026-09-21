@@ -69,6 +69,10 @@ and agreed final exercise remain the source of truth; never retrofit a reference
   design decision that answer changes. A checklist is useful only after the conversational flow is clear.
 - Structure LLD exercises as a vague interviewer prompt, a sample candidate clarification discussion, and
   a final agreed exercise. The final exercise owns the complete concrete requirements.
+- Keep the interviewer prompt, candidate discussion, final exercise, and copied worksheet problem statement
+  solution-neutral. State observable behavior, scope, constraints, and acceptance scenarios; never dictate
+  internal classes, data structures, patterns, sentinel nodes, algorithms, or an implementation shortcut.
+  Explain those only in design notes after the reader has the problem contract.
 - When creating or copying an entity-identification/class-diagram worksheet under `playground/`, begin it
   with the complete final problem statement before any candidate notes or diagrams.
 - Add runnable Java only when it gives real practice value; otherwise keep the module theory/design focused.
