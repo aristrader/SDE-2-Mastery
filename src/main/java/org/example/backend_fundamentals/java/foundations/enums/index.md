@@ -4,166 +4,121 @@ order: 60
 
 # Enums
 
-## User understanding
+Use an enum when a domain has a **closed, named set of values**: a transaction type, lifecycle state, role, or internal error category. It replaces a convention such as `"CREDIT"` with a type the compiler can check.
 
-User explained two practical production use cases.
+## Closed domain, state, and behavior
 
----
-
-## Use Case 1
-
-Instead of:
+This accepts any string and leaves invalid states for runtime:
 
 ```java
-public static final String CREDIT = "CREDIT";
+void process(String transactionType) { }
 
-public static final String DEBIT = "DEBIT";
+process("credit"); // compiles; typo or unsupported value is possible
 ```
 
-Use:
+An enum makes the valid values explicit:
 
 ```java
 enum TransactionType {
-
-CREDIT,
-
-DEBIT
-
+    CREDIT,
+    DEBIT
 }
+
+void process(TransactionType transactionType) { }
+
+process(TransactionType.CREDIT); // only a declared constant fits
 ```
 
-Provides:
-
-- grouping
-- readability
-
----
-
-## Use Case 2
-
-Error Codes
-
-Instead of maintaining:
-
-- error code constants
-- message constants
-- mapping between them
-
-Create one enum holding:
-
-- code
-- message
-
-Very convenient.
-
----
-
-## Review
-
-Excellent understanding.
-
-This is exactly how enums are commonly used.
-
----
-
-## Additional Point
-
-Java enums are full classes.
-
-They may contain:
-
-- fields
-- constructors
-- methods
-
-Example:
+An enum constant is an object created by the JVM for that enum class. It can carry immutable state and behavior that belongs to the value, avoiding parallel constants and a separate lookup map.
 
 ```java
 public enum ErrorCode {
+    USER_NOT_FOUND("E001", "User not found"),
+    INVALID_TOKEN("E002", "Invalid token");
 
-USER_NOT_FOUND("E001","User not found"),
+    private final String code;
+    private final String message;
 
-INVALID_TOKEN("E002","Invalid token");
+    ErrorCode(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
-private final String code;
-
-private final String message;
-
-ErrorCode(...)
-
-...
+    public String code() { return code; }
+    public String message() { return message; }
 }
 ```
 
----
+Enum constructors are private implicitly; callers cannot use `new ErrorCode(...)`. Enums cannot extend another class, but they can implement interfaces.
 
-## Another Example
+## Constant-specific behavior
 
-Enums may even contain methods.
-
-Example:
+Use a shared method when all constants follow one rule:
 
 ```java
 public enum Status {
+    ACTIVE,
+    INACTIVE;
 
-ACTIVE,
-
-INACTIVE;
-
-public boolean isActive(){
-
-return this == ACTIVE;
-
-}
-
+    public boolean isActive() {
+        return this == ACTIVE;
+    }
 }
 ```
 
----
-
-## switch with enums
-
-Example:
+Use an abstract method only when each constant owns a genuinely different rule. Every constant must implement it; otherwise the enum does not compile.
 
 ```java
-switch(transactionType){
+public enum TransactionStatus implements Labeled {
+    PENDING { public boolean isFinal() { return false; } },
+    SETTLED { public boolean isFinal() { return true; } },
+    REJECTED { public boolean isFinal() { return true; } };
 
-case CREDIT:
+    public abstract boolean isFinal();
 
-...
+    @Override
+    public String label() {
+        return name().toLowerCase(java.util.Locale.ROOT);
+    }
+}
 
-break;
-
+interface Labeled {
+    String label();
 }
 ```
 
-Cleaner than comparing Strings.
+Do not put service dependencies or orchestration inside an enum. Behavior derived only from the enum value belongs here; database calls and injected collaborators belong in a service.
 
----
+## Switching and collection choices
 
-## Type Safety
-
-Instead of:
+For a switch expression over a known enum, omit `default` when all constants are listed. Adding a new status then produces a compiler error at this decision point instead of silently taking a fallback.
 
 ```java
-process("credit");
+String nextAction(TransactionStatus status) {
+    return switch (status) {
+        case PENDING -> "wait";
+        case SETTLED -> "notify";
+        case REJECTED -> "investigate";
+    };
+}
 ```
 
-Compiler enforces:
+Prefer `EnumMap<TransactionStatus, Handler>` for a map keyed only by this enum, and `EnumSet<TransactionStatus>` for a set of its values. They express the closed key space and use specialized JDK implementations.
 
-```java
-process(TransactionType.CREDIT);
-```
+## Boundaries and gotchas
 
-Typos eliminated.
-
----
+- Never use `ordinal()` as a database value, wire value, or business code. It changes when constants are inserted or reordered. Store an explicit stable code, or use the enum name only when that name is the deliberate contract.
+- `Enum.valueOf(TransactionStatus.class, input)` is case-sensitive and throws for unknown input. Validate external input and map it deliberately; do not let raw user strings become internal states accidentally.
+- With JPA, prefer `@Enumerated(EnumType.STRING)` over ordinal storage unless a migration strategy guarantees ordinal stability.
+- `==` is correct for comparing two enum constants. There is one instance per constant per enum class loader.
 
 ## Quick recall
 
-- **Why enum over string?** Type safety and no typo states.
-- **Can enums have fields and methods?** Yes.
-- **Common backend usage?** Statuses, roles, modes, and error codes.
-- **Enum constructor visibility?** Implicitly private.
+- **Why choose an enum over `String` constants?** It constrains a closed domain at compile time and groups the value's state and behavior.
+- **Can an enum have fields, constructors, and methods?** Yes; its constructor is private implicitly, and constants supply its arguments.
+- **When is an abstract enum method appropriate?** When each constant has distinct value-local behavior; every constant must implement it.
+- **Why omit `default` from an enum switch expression?** An exhaustive switch lets the compiler flag decision points when a new constant is added.
+- **Why avoid `ordinal()` outside the enum?** Its number is declaration position, so reordering or inserting constants corrupts a persisted or external contract.
+- **When use `EnumMap` or `EnumSet`?** When all keys or elements are from one enum type; they make that constraint explicit and use specialized JDK collections.
 
 ---

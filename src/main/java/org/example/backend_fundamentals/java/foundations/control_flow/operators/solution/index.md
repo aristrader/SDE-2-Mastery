@@ -23,4 +23,6 @@ if (str != null && str.length() > 0) {
 
 In **Case 1**, the program runs smoothly and does nothing. `str != null` evaluates to `false`. Because `&&` short-circuits, the JVM immediately skips the right side of the condition. `str.length()` is never called.
 
-In **Case 2**, the program crashes with a `NullPointerException`. The single `&` is a bitwise/logical operator that **does not short-circuit**. It forcefully evaluates both the left side and the right side before combining them. It attempts to call `.length()` on the null reference, causing a crash. Always use `&&` and `||` for control flow!
+In **Case 2**, the program crashes with a `NullPointerException`. The single `&` is a bitwise/logical operator that does **not** short-circuit, so it evaluates both operands before combining them. It calls `.length()` on the null reference.
+
+Use `&&` and `||` for ordinary guards. Boolean `&` or `|` is only appropriate when both checks must run deliberately, for example when collecting validation errors from independent checks.

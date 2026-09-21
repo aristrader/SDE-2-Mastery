@@ -22,3 +22,4 @@ Run it again.
 ### Checks
 - What happens in the first case?
 - What happens in the second case, and why?
+- In what narrow case would evaluating both boolean operands with `&` be intentional?

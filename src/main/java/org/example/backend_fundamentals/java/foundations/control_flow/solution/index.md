@@ -8,15 +8,22 @@ search: false
 ## Solution: enhanced-for-mutation - ConcurrentModificationException
 
 ```java
-List<String> names = new ArrayList<>(List.of("Alice", "Bob", "Charlie"));
-// Throws ConcurrentModificationException
+List<String> names = new ArrayList<>(List.of("Alice", "Bob", "Charlie", "Diana"));
 for (String name : names) {
     if (name.equals("Bob")) {
-        names.remove(name); 
+        names.remove(name); // Throws ConcurrentModificationException on the next iterator access.
     }
 }
 ```
-An enhanced `for` loop compiles down to using an `Iterator`. If you modify the underlying collection directly (like calling `list.remove()`) instead of using the `Iterator`'s own `.remove()` method, the iterator detects the structural change and throws a `ConcurrentModificationException` to fail fast.
+An enhanced `for` uses an `Iterator` for an `Iterable`. Directly changing the collection invalidates the iterator; many JDK iterators detect that structural change and fail fast with `ConcurrentModificationException`. This is best-effort detection, not a concurrency guarantee.
+
+```java
+for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
+    if (iterator.next().equals("Bob")) {
+        iterator.remove();
+    }
+}
+```
 
 ## Solution: modern-switch - Modern Switch Syntax
 
@@ -38,4 +45,11 @@ switch (day) {
     default -> System.out.println("Weekday");
 }
 ```
-The modern syntax is more concise and prevents accidental fall-through because it doesn't require `break` statements.
+The modern syntax prevents accidental fall-through because arrow rules do not need `break`. When a branch computes a value, use an exhaustive switch expression:
+
+```java
+String kind = switch (day) {
+    case SATURDAY, SUNDAY -> "Weekend";
+    default -> "Weekday";
+};
+```

@@ -41,4 +41,44 @@ for (ErrorCode e : ErrorCode.values()) {
 // In main:
 System.out.println(ErrorCode.INVALID_TOKEN.isCritical()); // true
 ```
-Enums in Java are full classes. They can encapsulate both state (fields) and behavior (methods) directly related to the constants, making them much more powerful than simple integer constants.
+
+## Solution: transaction-status-behavior - Constant-Specific Behavior
+
+```java
+interface Labeled {
+    String label();
+}
+
+enum TransactionStatus implements Labeled {
+    PENDING {
+        public boolean isFinal() { return false; }
+    },
+    SETTLED {
+        public boolean isFinal() { return true; }
+    },
+    REJECTED {
+        public boolean isFinal() { return true; }
+    };
+
+    public abstract boolean isFinal();
+
+    @Override
+    public String label() {
+        return name().toLowerCase(java.util.Locale.ROOT);
+    }
+}
+```
+
+## Solution: exhaustive-status-switch - Compiler-Checked Decisions
+
+```java
+String nextAction(TransactionStatus status) {
+    return switch (status) {
+        case PENDING -> "wait";
+        case SETTLED -> "notify";
+        case REJECTED -> "investigate";
+    };
+}
+```
+
+There is no `default`: adding a status forces this decision point to be reconsidered.
