@@ -20,6 +20,11 @@ search: false
 
 ## Quick recall
 
-- **Counter fix?** `AtomicInteger` or one lock.
-- **Stop flag fix?** `volatile boolean`.
-- **Multi-field invariant?** Use a lock.
+**Q. Counter fix?**
+A. `AtomicInteger` for one supported atomic value operation, or one lock for a larger invariant.
+
+**Q. Stop-flag fix?**
+A. `volatile boolean`, provided the protocol is only a visible read/write signal.
+
+**Q. Multi-field invariant?**
+A. Protect all related reads and writes with the same lock or redesign ownership so the state changes together.

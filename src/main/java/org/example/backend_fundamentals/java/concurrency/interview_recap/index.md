@@ -9,6 +9,11 @@ Use this after the concurrency pages for quick interview recall.
 
 ## Quick recall
 
-- **Core distinction?** Visibility, atomicity, ordering, and mutual exclusion are different guarantees.
-- **Most common trap?** `volatile` does not make compound operations atomic.
-- **Main reasoning tool?** happens-before.
+**Q. What guarantees must you keep separate?**
+A. Visibility, atomicity, ordering, and mutual exclusion; one does not automatically provide the others.
+
+**Q. What is the common `volatile` trap?**
+A. It does not make `count++`, check-then-act, or a multi-field invariant atomic.
+
+**Q. What is the main reasoning tool?**
+A. Name the happens-before edge that makes one thread’s write safely observable by another.

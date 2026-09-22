@@ -363,7 +363,7 @@ class Config {
 }
 ```
 
-This object is immutable, but the reference still needs to be published safely unless it is created and handed off through a safe mechanism.
+For this narrow shape, JLS final-field semantics give another thread that obtains the reference visibility of the correctly constructed `final` fields, even if the reference handoff itself is unsynchronized, provided `this` did not escape during construction. That is not a blanket safe-publication rule: non-final state, later mutation, and broader object-graph protocols still need a real publication mechanism. Prefer an explicit safe handoff in production because it makes the ownership and future changes clear.
 
 Safe through class initialization:
 

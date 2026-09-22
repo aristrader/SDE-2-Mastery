@@ -79,13 +79,13 @@ If `userFuture` fails, `thenApply()` is skipped and `dtoFuture` completes with t
 
 ## Where stages run
 
-Non-`Async` methods usually run on the thread that completes the previous stage.
+Non-`Async` methods may run on the thread that completes the previous stage. If the stage was already complete when you attach the action, they may instead run inline on the registering caller; the API also permits another caller that completes the future.
 
 ```java
 userFuture.thenApply(this::toDto);
 ```
 
-If `userFuture` completes on an IO executor worker, `toDto` may run on that same worker.
+If `userFuture` completes on an IO executor worker, `toDto` may run on that same worker. Never make correctness depend on that thread choice.
 
 `Async` methods submit the stage to an executor:
 
@@ -189,4 +189,3 @@ A. To control threads and isolate blocking or expensive work from the common poo
 
 **Q. Why avoid `join()` inside helper methods?**
 A. It turns async code back into blocking code and prevents callers from composing work.
-

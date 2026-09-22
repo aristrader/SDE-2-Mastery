@@ -26,9 +26,17 @@ Concurrency is the Java runtime model for doing more than one thing at a time. R
 
 ## Quick recall
 
-- **Need safe shared mutation?** Use a concurrency primitive, not hope.
-- **Need visibility only?** `volatile` may fit.
-- **Need compound read-modify-write safety?** Use synchronization, locks, atomics, or concurrent collections.
-- **Need many tasks?** Use an executor, not one manual thread per task.
-- **Need a shared map?** Use `ConcurrentHashMap` operations atomically; do not split check and update.
-- **Need async workflow?** Classify dependency vs independence before choosing a CompletableFuture method.
+**Q. What is the first concurrency question?**
+A. Identify the shared state and its invariant; then ask whether you need visibility, atomicity, mutual exclusion, ordering, or several of them.
+
+**Q. When might `volatile` fit?**
+A. A visibility-only protocol such as a stop flag or safely published immutable snapshot—not compound mutation.
+
+**Q. How do you protect read-modify-write state?**
+A. Put the whole invariant behind one monitor/lock, an atomic operation, or a concurrent collection operation that owns it.
+
+**Q. What is the default task-execution boundary?**
+A. An executor with explicit capacity, queue, rejection, timeout, and shutdown behavior—not one new thread per task.
+
+**Q. What decides a CompletableFuture method?**
+A. The dependency graph: transform one result, compose a dependent async result, or combine independent results.
