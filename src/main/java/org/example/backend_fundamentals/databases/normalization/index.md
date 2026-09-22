@@ -31,11 +31,12 @@ Normalized: `Customers(CustomerID, Name, Email)` + `Orders(OrderID, CustomerID, 
 | Form | Rule (one line) |
 |------|-----------------|
 | **1NF** | Atomic values only — no lists/arrays in a cell |
-| **2NF** | 1NF + no partial dependencies (every non-key column depends on the *whole* key) |
+| **2NF** | 1NF + no partial dependencies (every non-prime column depends on the *whole* of every candidate key) |
 | **3NF** | 2NF + no transitive dependencies (non-key columns depend only on the key) |
-| **BCNF** | 3NF + every *determinant* is a candidate key |
+| **BCNF** | 3NF + every non-trivial determinant is a superkey |
 
-2NF only becomes meaningful when the primary key is **composite** — with a single-column key there's no "part of the key" to depend on partially.
+2NF only becomes meaningful when a **candidate key is composite** — with only single-column candidate keys,
+there is no "part of the key" to depend on partially.
 
 ## Worked journey — dirty table to BCNF
 
@@ -67,7 +68,11 @@ Departments(DepartmentID, DepartmentName)
 Instructors(InstructorID, InstructorName)
 ```
 
-**→ BCNF** — classic case: table `(Student, Course, Instructor)` with `Course → Instructor` and candidate key `(Student, Course)`. The determinant `Course` is not a candidate key → BCNF violation. Split:
+**→ BCNF** — use a table `(Student, Course, Instructor)` where each course has one instructor and each
+instructor teaches one course: `Course → Instructor` and `Instructor → Course`. The candidate keys are
+`(Student, Course)` and `(Student, Instructor)`. This can satisfy 3NF because the right-hand attributes are
+prime (they occur in a candidate key), but it violates BCNF because `Course` and `Instructor` are not
+superkeys. Split:
 
 ```text
 CourseInstructor(Course, Instructor)
@@ -103,20 +108,21 @@ Intentional redundancy to avoid joins. Instead of joining Users + Orders + Produ
 ## Quick recall
 
 **Q. 1NF / 2NF / 3NF / BCNF in one line each?**
-A. 1NF = atomic values; 2NF = no partial dependency; 3NF = no transitive dependency; BCNF = every determinant is a candidate key.
+A. 1NF = atomic values; 2NF = no partial dependency; 3NF = no transitive dependency; BCNF = every
+non-trivial determinant is a superkey.
 
 **Q. Partial vs transitive dependency?**
 A. Partial = non-key column depends on part of a composite key (breaks 2NF). Transitive = non-key column depends on another non-key column (breaks 3NF).
 
 **Q. When does 2NF even apply?**
-A. Only with a composite primary key — there's no "part of the key" to depend on otherwise.
+A. When there is a composite candidate key — there is no "part of the key" to depend on otherwise.
 
 **Q. What does BCNF fix that 3NF misses?**
-A. A non-key (or partial-key) column that determines part of a candidate key — BCNF requires every determinant to be a candidate key.
+A. 3NF can allow a non-superkey determinant when the dependent attribute is prime; BCNF does not—every
+non-trivial determinant must be a superkey.
 
 **Q. Why denormalize, and what's the cost?**
 A. Avoid expensive joins on read-heavy paths; cost is redundant storage and multi-place updates that risk inconsistency.
 
 **Q. What's the update anomaly?**
 A. Duplicated data updated in some rows but not all, leaving conflicting values — the core problem normalization removes.
-
