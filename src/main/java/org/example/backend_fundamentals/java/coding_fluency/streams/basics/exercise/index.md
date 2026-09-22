@@ -9,6 +9,7 @@ search: false
 
 <!-- starter-code -->
 ```java
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,27 +17,29 @@ public class StreamBasicsListMutabilityPractice {
     public static void main(String[] args) {
         List<String> orderIds = List.of("O1", "O2", "O3");
 
-        // Collect order IDs using Collectors.toList(), Stream.toList(), and Collectors.toUnmodifiableList().
-        // Try adding "O4" to each result and print what happens.
+        // Compare Collectors.toList(), Collectors.toCollection(ArrayList::new),
+        // Stream.toList(), and Collectors.toUnmodifiableList().
     }
 }
 ```
 
 ### Goal
-Compare mutable and unmodifiable stream results.
+Compare specified and unspecified stream-result contracts.
 
 ### Task
 Collect order IDs using:
 
 - `Collectors.toList()`
+- `Collectors.toCollection(ArrayList::new)`
 - `Stream.toList()`
 - `Collectors.toUnmodifiableList()`
 
-Try adding one more ID to each result.
+Explain the mutability guarantee for each. Attempt a mutation only where the contract makes its result predictable.
 
 ### Checks
-- Identify which result allows mutation.
-- Explain why returning unmodifiable results is often safer.
+- Identify that `Collectors.toList()` does not promise mutability or implementation.
+- Use `toCollection(ArrayList::new)` when a mutable result is required.
+- Explain why unmodifiable results are often safer, and why the two unmodifiable APIs differ for null elements.
 
 ## Exercise: set-deduplication - Set Collector Deduplication
 

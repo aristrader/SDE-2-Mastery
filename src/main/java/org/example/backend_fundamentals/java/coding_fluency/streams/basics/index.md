@@ -8,13 +8,13 @@ The first collector decision is the result type and mutability. Most collection 
 
 | Collector | Produces | Notes |
 | --- | --- | --- |
-| `Collectors.toList()` | mutable list | Usually an `ArrayList`; available since Java 8. |
+| `Collectors.toList()` | list with no mutability/implementation guarantee | Available since Java 8; use an explicit collection factory when callers must mutate. |
 | `Stream.toList()` | unmodifiable list | Java 16+. Prefer when the caller should not mutate. |
-| `Collectors.toUnmodifiableList()` | unmodifiable list | Java 10-15 equivalent style. |
-| `Collectors.toSet()` | mutable set | Deduplicates; no order guarantee. |
+| `Collectors.toUnmodifiableList()` | unmodifiable list | Java 10+; rejects null elements, unlike `Stream.toList()`. |
+| `Collectors.toSet()` | set with no mutability/implementation guarantee | Deduplicates; no order guarantee. |
 | `Collectors.toUnmodifiableSet()` | unmodifiable set | Java 10+. |
 
-Choose mutability intentionally. Returning a mutable list invites callers to change it; returning an unmodifiable list documents that the stream result is final.
+Choose mutability intentionally. `Collectors.toList()` is a convenient unspecified result; use `Collectors.toCollection(ArrayList::new)` when mutability is part of the contract, or an unmodifiable collector/result when callers must not change it.
 
 ## toList
 
@@ -24,7 +24,7 @@ List<String> names = employees.stream()
     .collect(Collectors.toList());
 ```
 
-On Java 16+, prefer `stream.toList()` when the result should not be modified.
+On Java 16+, prefer `stream.toList()` when the result should not be modified. It is not identical to `Collectors.toUnmodifiableList()`: `Stream.toList()` permits null elements, while the unmodifiable collector rejects them.
 
 ```java
 List<String> names = employees.stream()
@@ -52,7 +52,7 @@ Set<String> departments = employees.stream()
 
 ## Quick recall
 
-- **Mutable list collector?** `Collectors.toList()`.
+- **Explicit mutable list collector?** `Collectors.toCollection(ArrayList::new)`.
 - **Unmodifiable list on Java 16+?** `stream.toList()`.
 - **Set collector guarantee order?** No, not unless you collect into an ordered set explicitly.
 - **Does `toSet()` dedupe custom objects correctly by magic?** No, it still depends on `equals()` and `hashCode()`.

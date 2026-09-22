@@ -24,3 +24,11 @@ Related full practice: [wildcards exercise](../../wildcards/exercise/).
 ## Question 3: Why can `List<String>` and `List<Integer>` look the same at runtime?
 
 Answer shape: type erasure removes most generic type arguments after compilation. The compiler inserts checks/casts; runtime cannot reliably distinguish `List<String>` from `List<Integer>`.
+
+## Quick recall
+
+**Q. Why can’t generic code use `new T()`?**
+A. The concrete type argument is normally erased, so the runtime has no constructor type to invoke.
+
+**Q. What can you safely add to `List<? extends Number>`?**
+A. Only `null`; read elements as `Number` instead.

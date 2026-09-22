@@ -36,7 +36,11 @@ String departments = employees.stream()
 
 ## Quick recall
 
-- **Input stream type?** `Stream<String>`.
-- **CSV delimiter?** `joining(",")`.
-- **Wrap with brackets?** `joining(", ", "[", "]")`.
-- **Joining employees directly?** Map them to strings first.
+**Q. What input does `joining` consume?**
+A. `Stream<String>`; map domain objects to their required text first.
+
+**Q. What makes CSV output?**
+A. `joining(",")` (or `", "` when spacing is part of the required format).
+
+**Q. How do you add brackets around the final string?**
+A. Use `joining(delimiter, prefix, suffix)`.

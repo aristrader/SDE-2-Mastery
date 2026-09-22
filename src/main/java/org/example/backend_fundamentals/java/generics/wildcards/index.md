@@ -14,7 +14,7 @@ Use this verbal shortcut:
 
 - `? extends T`: I only need to read `T` values from the structure.
 - `? super T`: I need to put `T` values into the structure.
-- Plain `T`: I need the same exact type across multiple parameters or return values.
+- Plain `T`: I need one named compile-time type relationship across parameters and/or the return value.
 
 ## Unbounded wildcard
 
@@ -69,7 +69,7 @@ If Java allowed it, code could add a `Double` through `numbers` and corrupt the 
 
 ## PECS
 
-Use `extends` when the collection produces values for you. Use `super` when the collection consumes values from you. If you both read and write the same exact type, use a named type parameter instead.
+Use `extends` when the collection produces values for you. Use `super` when the collection consumes values from you. Use a named type parameter when the signature must express one shared compile-time type relationship; inference can still choose a common type that satisfies its constraints.
 
 ## Common API shapes
 
@@ -98,4 +98,4 @@ Do not use `? extends` when the method needs to add values. The compiler rejects
 - **Write into list?** `? super T`.
 - **Read from `? super Integer`?** Only `Object` is guaranteed.
 - **Why invariant?** To prevent type corruption.
-- **When use named `<T>`?** When multiple arguments or the return value must be the same exact type.
+- **When use named `<T>`?** When multiple arguments or the return value share one compile-time type relationship.

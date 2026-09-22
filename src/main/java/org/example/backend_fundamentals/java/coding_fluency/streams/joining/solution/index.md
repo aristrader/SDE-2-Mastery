@@ -13,7 +13,7 @@ String allIds = orders.stream()
     .collect(Collectors.joining(","));
 
 String paidIds = orders.stream()
-    .filter(o -> o.status() == OrderStatus.PAID)
+    .filter(Order::paid)
     .map(Order::id)
     .collect(Collectors.joining(" | ", "[", "]"));
 ```

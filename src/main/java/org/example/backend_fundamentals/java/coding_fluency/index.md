@@ -22,9 +22,17 @@ Coding fluency is the layer after core syntax, OOP, generics, and collections. T
 
 ## Quick recall
 
-- **Need to replace anonymous class boilerplate?** Lambdas.
-- **Need to identify `T -> boolean`?** `Predicate<T>`.
-- **Need to pass `Student::name` instead of `s -> s.name()`?** Method references.
-- **Need a DTO with generated constructor/accessors/equality?** Records.
-- **Need a read-only list/map/set?** Immutable collections, but remember shallow immutability.
-- **Need null absence in return values?** `Optional`, not fields or parameters by default.
+**Q. When does a lambda fit?**
+A. When the target is one functional-interface behavior, not when a named type or stateful object makes the contract clearer.
+
+**Q. What shape is `T -> boolean`?**
+A. `Predicate<T>`.
+
+**Q. When is `Student::name` clearer than `s -> s.name()`?**
+A. When it is the same direct call with no extra mapping, filtering, or captured context.
+
+**Q. When does a record fit?**
+A. A transparent data carrier with generated constructor, accessors, equality, and hash code; it is only shallowly immutable.
+
+**Q. Where should `Optional` normally appear?**
+A. At a return-value absence boundary, not routinely in fields or parameters.

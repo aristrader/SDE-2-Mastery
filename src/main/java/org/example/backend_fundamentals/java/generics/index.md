@@ -17,6 +17,11 @@ Generics make Java APIs reusable without falling back to `Object` and casts. Stu
 
 ## Quick recall
 
-- **Why generics?** Compile-time type safety without casts.
-- **Default raw type rule?** Avoid raw `List`; use `List<T>`.
-- **When to learn this?** After collections basics, before streams and fluent APIs.
+**Q. Why use generics?**
+A. They express the element/type relationship at compile time, preventing unsafe casts from leaking into callers.
+
+**Q. What is the raw-type rule?**
+A. Avoid raw `List`; use a parameterized type and isolate any necessary legacy boundary.
+
+**Q. What is the learning order?**
+A. Collections first, then generics before streams and fluent APIs.
