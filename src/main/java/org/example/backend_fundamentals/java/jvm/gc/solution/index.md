@@ -19,4 +19,4 @@ static void leakingObjects() {
 }
 ```
 
-`data` becomes unreachable after `temporaryObjects()` returns, so it is eligible for GC. Objects added to `cache` remain reachable through the static field, so GC must keep them even if the application no longer needs them.
+`data` becomes unreachable after `temporaryObjects()` returns, so it is eligible for GC when no other live reference exists. Objects added to `cache` remain reachable through the static field, so GC must keep them even if the application no longer needs them. The recovery is ownership: bound the cache, evict entries, or explicitly remove objects when their retention policy ends.

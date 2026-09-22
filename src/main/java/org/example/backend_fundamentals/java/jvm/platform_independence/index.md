@@ -4,7 +4,7 @@ order: 40
 
 # Platform Independence
 
-Java is platform independent because source compiles to JVM bytecode, and each platform provides its own JVM implementation.
+Java is portable at the class-file boundary: source compiles to JVM bytecode, and each target platform supplies a compatible JVM implementation.
 
 ```text
 Java source
@@ -14,20 +14,26 @@ Java source
   -> native machine code
 ```
 
-The same `.class` file can run on Windows, Linux, and macOS if a compatible JVM exists.
+The same `.class` file can run on Windows, Linux, and macOS when the runtime supports its class-file version and required Java APIs.
 
-## Compared with C++ and Python
+## What portability does not promise
 
-| Language | Portability model |
-| --- | --- |
-| C++ | compile separately for each target OS/CPU |
-| Python | source runs through a Python interpreter; CPython also creates Python bytecode |
-| Java | compile once to JVM bytecode; run on platform-specific JVMs |
+Bytecode portability does not erase dependencies outside bytecode:
 
-Java bytecode and Python bytecode are not the same thing. Each targets its own runtime.
+- A Java 21 class file will not run on a Java 17 runtime.
+- JNI/native libraries, shell commands, file paths, fonts, and OS services are platform-specific.
+- Packaging must include the application's dependency graph and compatible configuration.
+- CPU architecture is handled by the JVM's own implementation, not by a promise that arbitrary native libraries are portable.
+
+For an interview, distinguish *portable bytecode* from *portable deployment*. The first is Java's JVM contract; the second is an engineering task.
 
 ## Quick recall
 
-- **Why can Java run cross-platform?** Bytecode plus platform-specific JVM.
-- **Does C++ usually need recompilation?** Yes.
-- **Is Python portability the same as Java?** No; similar idea, different runtime model.
+**Q. Why can Java run cross-platform?**
+A. A compatible JVM on each platform executes the same JVM bytecode.
+
+**Q. What can still break after copying the same JAR to another OS?**
+A. Runtime version/API mismatch, native dependencies, or environment-specific configuration.
+
+**Q. Is source compatibility enough?**
+A. No. The deployed class-file version and runtime libraries must also be compatible.

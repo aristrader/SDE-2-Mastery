@@ -4,50 +4,33 @@ order: 10
 
 # JDK, JRE, and JVM
 
-## Overview
-Modern macOS does NOT generally come with a full JDK pre-installed; it requires manual installation (e.g., Oracle JDK, Temurin/Adoptium).
-* Verify runtime: `java -version`
-* Verify compiler: `javac -version`
+The names describe responsibilities, not a guarantee about how every vendor packages a download.
 
-## Component Breakdown
+| Term | Interview-safe meaning | What it is not |
+| --- | --- | --- |
+| JVM | The virtual machine specification and its implementation that loads and executes class-file bytecode. | A compiler for `.java` source. |
+| Runtime | A JVM plus the Java platform libraries required by an application. | A development toolchain. |
+| JRE | The traditional name for that runtime bundle. | A separate download that every modern vendor must ship. |
+| JDK | A development distribution: runtime plus tools such as `javac`, `javadoc`, `jar`, and diagnostic tools. | Just the compiler. |
 
-### JVM (Java Virtual Machine)
-* **Definition:** The runtime engine that executes Java bytecode.
-* **Flow:** `.class File` → `JVM` → `Machine Instructions` → `CPU`
+Modern deployments commonly use a JDK to build and a deliberately small runtime image or JDK distribution to run. The useful interview distinction remains: compilation needs development tools; execution needs a compatible JVM and the application's required runtime libraries.
 
-### JRE (Java Runtime Environment)
-* **Definition:** The environment required to *run* Java applications. Includes the JVM and Runtime Libraries.
-* **Note:** Modern Java distributions make the separate JRE concept less prominent.
+## Verify the boundary
 
-### JDK (Java Development Kit)
-* **Definition:** Everything required to *develop* and run Java applications. 
-* **Contains:** JVM + Compiler (`javac`) + Standard Java Libraries + Development Tools.
-
-## Standard Java Libraries
-Libraries included in the JDK that do not require external dependencies:
-* **Collections:** ArrayList, LinkedList, HashMap, HashSet, TreeMap, PriorityQueue
-* **Concurrency:** Thread, ExecutorService, CompletableFuture, Semaphore, CountDownLatch
-* **Date/Time:** LocalDate, LocalDateTime, Instant, Duration
-* **I/O:** File, Files, InputStream, OutputStream, BufferedReader
-* **Networking:** Socket, URL, HttpClient
-* **Utilities:** Math, Random, UUID, Optional
-
-## End-to-End Execution Flow
 ```text
-Main.java
-     ↓
-javac (from JDK)
-     ↓
-Main.class
-     ↓
-JVM (from JDK)
-     ↓
-Execution
+java -version   -> runtime launcher and version
+javac -version  -> compiler availability and version
 ```
+
+If `java` works but `javac` does not, the environment has a runtime but not a full development toolchain. If compilation works locally but deployment fails, compare the target runtime version and required libraries rather than assuming “JDK versus JRE” is the cause.
 
 ## Quick recall
 
-- **Need `javac`?** Install/use a JDK.
-- **Need only execution?** Runtime libraries plus JVM are enough conceptually.
-- **Does modern Java always ship a separate JRE?** Not always; distributions often package runtime pieces with the JDK.
-- **What runs `.class` bytecode?** JVM.
+**Q. What is the compact JDK/JRE/JVM answer?**
+A. JDK is the development toolchain; runtime/JRE is the libraries plus JVM needed to run; JVM executes class-file bytecode.
+
+**Q. Can a production container run without `javac`?**
+A. Yes. It needs a compatible runtime and the application’s dependencies, not a compiler.
+
+**Q. Does “JDK contains JRE contains JVM” always describe a modern download?**
+A. It is a useful conceptual nesting, but modular runtime images and vendor packaging mean it is not a deployment-layout guarantee.

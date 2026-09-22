@@ -4,7 +4,7 @@ order: 50
 
 # JVM
 
-The JVM chapter explains what happens after Java source is written: tools, bytecode, class loading, execution, and garbage collection.
+This chapter answers the interview question behind many production symptoms: what happens after Java source is written, and which runtime boundary explains a slow startup, class-loading failure, or memory incident?
 
 ## Study path
 
@@ -18,7 +18,11 @@ The JVM chapter explains what happens after Java source is written: tools, bytec
 
 ## Quick recall
 
-- **Need to compile Java?** JDK.
-- **Need to run bytecode?** JVM plus runtime libraries.
-- **Why platform independent?** Same bytecode can run on JVMs for different platforms.
-- **What cleans unreachable heap objects?** Garbage collector.
+**Q. Does the JVM compile `.java` source?**
+A. No. `javac` creates class files; the JVM loads and executes their bytecode.
+
+**Q. Why is Java portable but not magic?**
+A. A compatible JVM can execute the same class file, but Java version, native-code, OS, and configuration dependencies can still break deployment.
+
+**Q. Does GC free anything the application no longer wants?**
+A. No. It reclaims only objects that are no longer reachable.

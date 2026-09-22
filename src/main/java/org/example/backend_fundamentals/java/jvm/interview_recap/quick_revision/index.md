@@ -17,9 +17,15 @@ search: false
 | Interpreter | Starts executing bytecode quickly. |
 | JIT | Compiles hot paths to native code after profiling. |
 | GC | Reclaims unreachable heap objects, not reachable leaks. |
+| Portability boundary | Class-file/runtime compatibility is portable; native dependencies and configuration are not. |
 
 ## Quick recall
 
-- **Why portable?** Same bytecode, platform-specific JVM.
-- **Why warmup matters?** JIT optimizes after runtime profiling.
-- **Can GC fix leaks?** No, not if references are still reachable.
+**Q. Why portable?**
+A. Same bytecode, compatible platform-specific JVM.
+
+**Q. Why does warmup matter?**
+A. The JVM can profile and JIT-optimize hot paths after execution starts.
+
+**Q. Can GC fix leaks?**
+A. No—not while a static collection, listener, queue, or other GC-root path keeps objects reachable.
