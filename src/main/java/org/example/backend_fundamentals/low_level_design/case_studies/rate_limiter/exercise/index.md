@@ -16,7 +16,8 @@ This is the agreed scope after discussing the initial [interviewer prompt](probl
 
 ### Requirements
 
-- Accept a client key and return an allow-or-reject decision for one request.
+- Accept an opaque client key and return an allow-or-reject decision for one request. The caller may use
+  one attribute or compose multiple attributes into that key.
 - Give each client key independent state; activity for one client must not affect another.
 - Configure a positive burst capacity and a positive refill rate.
 - An allowed request consumes one available unit.
@@ -30,6 +31,8 @@ This is the agreed scope after discussing the initial [interviewer prompt](probl
 
 - Keep the base implementation in memory and local to one process.
 - A token represents one request; variable request cost is a follow-up.
+- Keep the limiter independent of HTTP; mapping rejection to `429`, remaining allowance, and retry-after
+  information are follow-ups.
 
 ### Test scenarios
 
