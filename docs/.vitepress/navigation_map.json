@@ -818,7 +818,7 @@
             "link": "/databases/indexes/"
           },
           {
-            "text": "Transactions, ACID Consistency & Distributed Commit",
+            "text": "Transactions: ACID, Isolation, and Recovery",
             "link": "/databases/transactions/"
           },
           {
@@ -6872,11 +6872,28 @@
             }
           },
           {
-            "text": "Transactions, ACID Consistency & Distributed Commit",
+            "text": "Transactions: ACID, Isolation, and Recovery",
             "link": "/databases/transactions/",
             "order": 40,
             "schema": "practice",
-            "practiceSet": null,
+            "practiceSet": {
+              "questions": [
+                {
+                  "id": "transfer-and-retry",
+                  "title": "Protect a balance transfer",
+                  "exerciseHtml": "<h2>Exercise: transfer-and-retry - Protect a balance transfer</h2>\n<p>An API moves ₹100 from A to B. A must never become negative, and two transfers may arrive at once.</p>\n<p>1. Write the smallest SQL condition that prevents an overdraft without a prior Java read.</p>\n<p>2. Explain why both account updates belong in one transaction.</p>\n<p>3. If a deadlock victim is chosen, say exactly what the service retries and what prevents a client retry from creating a second transfer.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: transfer-and-retry - Protect a balance transfer</h2>\n<pre><code>BEGIN;\nUPDATE accounts\nSET balance = balance - 100\nWHERE id = :fromAccount AND balance &gt;= 100;\n-- Require exactly one affected row; otherwise ROLLBACK.\nUPDATE accounts\nSET balance = balance + 100\nWHERE id = :toAccount;\nCOMMIT;</code></pre>\n<p>Require each update to affect exactly one row; otherwise roll back. The debit predicate makes the no-overdraft rule part of the write, so two callers cannot both spend the same last ₹100 through stale Java calculations. Both updates belong in one transaction because a missing destination or a failure after the debit must undo that debit. In that same transaction, insert or claim a transfer row whose client request ID has a database <code>UNIQUE</code> constraint. A duplicate-key result loads the already-recorded outcome instead of applying a second transfer. If the database aborts the transaction for a deadlock or serialization conflict, retry from <code>BEGIN</code>, not only the credit.</p>"
+                },
+                {
+                  "id": "on-call-invariant",
+                  "title": "Protect a cross-row rule",
+                  "exerciseHtml": "<h2>Exercise: on-call-invariant - Protect a cross-row rule</h2>\n<p>Two clinicians may independently go off call, but at least one must remain on call.</p>\n<p>1. Trace how both can commit under a naïve read-then-update flow even though each updates a different row.</p>\n<p>2. Choose either serializable isolation or one explicit coordination lock. Explain the mechanism, its cost, and the recovery path.</p>\n<p>3. State why an atomic <code>UPDATE clinician SET on_call = false WHERE id = ?</code> alone is not enough.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the first sentence of a transaction design answer?</strong></p>\n<p>A. State the invariant and its database boundary before naming a level or lock.</p>\n<p><strong>Q. What must a retry repeat after a serialization failure?</strong></p>\n<p>A. The entire transaction, including its reads and validation.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: on-call-invariant - Protect a cross-row rule</h2>\n<p>The naïve flow is unsafe because A can read B on call while B reads A on call; each then turns itself off. There is no same-row write collision to force one to wait.</p>\n<p>One valid answer is a serializable transaction: read the relevant on-call rows, validate that another clinician remains, update the caller's row, and commit. The engine either makes the result equivalent to some serial order or aborts one transaction. The cost is lower throughput and possible aborts under contention; on an abort, retry the complete idempotent operation with bounded backoff.</p>\n<p>An equally valid answer is to lock a stable coordination record for the rota, then read the clinicians and recheck the rule while holding that lock. It is more explicit, but all competing flows must acquire the same lock first. A one-row <code>UPDATE</code> on the caller cannot protect a rule that depends on another row.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Atomicity versus isolation?</strong></p>\n<p>A. Atomicity prevents a half-committed operation; isolation controls interference among concurrent operations.</p>\n<p><strong>Q. Is a deadlock a partial business update?</strong></p>\n<p>A. No. The victim transaction rolls back; retry the whole operation if it is safe and transient.</p>"
+                }
+              ]
+            },
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -10365,7 +10382,7 @@
       "link": "/databases/indexes/"
     },
     {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "text": "Transactions: ACID, Isolation, and Recovery",
       "link": "/databases/transactions/"
     },
     {
@@ -19747,7 +19764,7 @@
       "referenceHtml": "<h1>Solution</h1>\n<h2>Solution: design-order-query-index - Index a Real Query</h2>\n<p>Start with one candidate B-tree:</p>\n<pre><code>CREATE INDEX idx_orders_customer_status_created\nON orders (customer_id, status, created_at DESC);</code></pre>\n<p><code>customer_id = ?</code> and <code>status = 'PAID'</code> are leading equality constraints. They narrow the B-tree to one</p>\n<p>customer/status run; <code>created_at</code> then gives the range and requested order, allowing the engine to stop</p>\n<p>after the newest 50 qualifying entries. The descending declaration is engine-specific and should be kept</p>\n<p>only when the target engine/plan benefits from it.</p>\n<p>Three one-column indexes make the write path maintain three structures and may leave the optimizer to</p>\n<p>combine partial results or choose only one. They do not express the ordered three-column access path. A</p>\n<p>covering version can include <code>id</code> and <code>total</code> when the plan shows row fetches dominate, but it makes every</p>\n<p>index entry wider. In InnoDB the primary key is already stored with secondary entries; other projected</p>\n<p>columns still cost space. In PostgreSQL, consider <code>INCLUDE (id, total)</code> after confirming an index-only scan</p>\n<p>is realistic for the table's visibility state.</p>\n<p>Before and after, inspect <code>EXPLAIN</code> for the chosen index, rows scanned/returned, remaining filter, sort,</p>\n<p>and estimated cost. Use <code>EXPLAIN ANALYZE</code> only where executing the query is safe, then compare representative</p>\n<p>production-like parameter values rather than one unusually selective customer.</p>\n<p>For <code>status = 'PAID' AND created_at &gt;= :since</code>, the original index has no useful leading</p>\n<p><code>customer_id</code> condition. A planner might skip-scan it in some engines/data distributions, but do not design</p>\n<p>around that possibility. Measure whether a dedicated <code>(status, created_at)</code> index, a partial index for a</p>\n<p>rare status, or a sequential scan is actually cheaper; a common <code>PAID</code> status may not be selective enough</p>\n<p>to justify another write cost.</p>\n<h2>Solution: investigate-slow-lookup - Diagnose Before Adding an Index</h2>\n<p>The plain <code>email</code> B-tree is not automatically equivalent to <code>LOWER(email)</code>: the query applies an expression</p>\n<p>before comparison. First inspect the plan and the actual column type/collation, then make the comparison and</p>\n<p>index agree. Depending on the engine and product rule, use a case-insensitive column/type, normalize email</p>\n<p>to one canonical form at the write boundary, or create an expression index such as:</p>\n<pre><code>CREATE INDEX idx_users_lower_email ON users (LOWER(email));</code></pre>\n<p>An expression index is maintained whenever <code>email</code> changes, so it consumes storage and adds write work. If</p>\n<p>the product requires case-insensitive identity, pair the chosen model with the appropriate uniqueness rule;</p>\n<p>an index that merely makes lookup fast does not by itself prevent duplicate accounts. Roll it out through</p>\n<p>the database's production-safe index-build procedure, inspect the plan and real latency/error metrics, and</p>\n<p>remove the obsolete index only after confirming no workload still needs it.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why do equality columns normally precede a range column in a composite B-tree?</strong></p>\n<p>A. They narrow the run first; the range then walks a small ordered segment. Verify with the engine plan—this</p>\n<p>is a strong default, not a magic rule.</p>\n<p><strong>Q. Why can <code>LOWER(email)</code> miss an <code>email</code> index?</strong></p>\n<p>A. The indexed value and predicate expression differ. Use a matching expression index or a deliberate</p>\n<p>canonical/case-insensitive data model.</p>"
     },
     "/databases/transactions/": {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "text": "Transactions: ACID, Isolation, and Recovery",
       "link": "/databases/transactions/",
       "pageType": "theory",
       "parentLink": "/databases/transactions/",
@@ -19761,7 +19778,7 @@
       }
     },
     "/databases/transactions/exercise/": {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "text": "Transactions: ACID, Isolation, and Recovery",
       "link": "/databases/transactions/exercise/",
       "pageType": "exercise",
       "parentLink": "/databases/transactions/",
@@ -19773,10 +19790,27 @@
         "playground": false,
         "assets": false
       },
-      "practiceSet": null
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "transfer-and-retry",
+            "title": "Protect a balance transfer",
+            "exerciseHtml": "<h2>Exercise: transfer-and-retry - Protect a balance transfer</h2>\n<p>An API moves ₹100 from A to B. A must never become negative, and two transfers may arrive at once.</p>\n<p>1. Write the smallest SQL condition that prevents an overdraft without a prior Java read.</p>\n<p>2. Explain why both account updates belong in one transaction.</p>\n<p>3. If a deadlock victim is chosen, say exactly what the service retries and what prevents a client retry from creating a second transfer.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: transfer-and-retry - Protect a balance transfer</h2>\n<pre><code>BEGIN;\nUPDATE accounts\nSET balance = balance - 100\nWHERE id = :fromAccount AND balance &gt;= 100;\n-- Require exactly one affected row; otherwise ROLLBACK.\nUPDATE accounts\nSET balance = balance + 100\nWHERE id = :toAccount;\nCOMMIT;</code></pre>\n<p>Require each update to affect exactly one row; otherwise roll back. The debit predicate makes the no-overdraft rule part of the write, so two callers cannot both spend the same last ₹100 through stale Java calculations. Both updates belong in one transaction because a missing destination or a failure after the debit must undo that debit. In that same transaction, insert or claim a transfer row whose client request ID has a database <code>UNIQUE</code> constraint. A duplicate-key result loads the already-recorded outcome instead of applying a second transfer. If the database aborts the transaction for a deadlock or serialization conflict, retry from <code>BEGIN</code>, not only the credit.</p>"
+          },
+          {
+            "id": "on-call-invariant",
+            "title": "Protect a cross-row rule",
+            "exerciseHtml": "<h2>Exercise: on-call-invariant - Protect a cross-row rule</h2>\n<p>Two clinicians may independently go off call, but at least one must remain on call.</p>\n<p>1. Trace how both can commit under a naïve read-then-update flow even though each updates a different row.</p>\n<p>2. Choose either serializable isolation or one explicit coordination lock. Explain the mechanism, its cost, and the recovery path.</p>\n<p>3. State why an atomic <code>UPDATE clinician SET on_call = false WHERE id = ?</code> alone is not enough.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the first sentence of a transaction design answer?</strong></p>\n<p>A. State the invariant and its database boundary before naming a level or lock.</p>\n<p><strong>Q. What must a retry repeat after a serialization failure?</strong></p>\n<p>A. The entire transaction, including its reads and validation.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: on-call-invariant - Protect a cross-row rule</h2>\n<p>The naïve flow is unsafe because A can read B on call while B reads A on call; each then turns itself off. There is no same-row write collision to force one to wait.</p>\n<p>One valid answer is a serializable transaction: read the relevant on-call rows, validate that another clinician remains, update the caller's row, and commit. The engine either makes the result equivalent to some serial order or aborts one transaction. The cost is lower throughput and possible aborts under contention; on an abort, retry the complete idempotent operation with bounded backoff.</p>\n<p>An equally valid answer is to lock a stable coordination record for the rota, then read the clinicians and recheck the rule while holding that lock. It is more explicit, but all competing flows must acquire the same lock first. A one-row <code>UPDATE</code> on the caller cannot protect a rule that depends on another row.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Atomicity versus isolation?</strong></p>\n<p>A. Atomicity prevents a half-committed operation; isolation controls interference among concurrent operations.</p>\n<p><strong>Q. Is a deadlock a partial business update?</strong></p>\n<p>A. No. The victim transaction rolls back; retry the whole operation if it is safe and transient.</p>"
+          }
+        ]
+      }
     },
     "/databases/transactions/solution/": {
-      "text": "Transactions, ACID Consistency & Distributed Commit",
+      "text": "Transactions: ACID, Isolation, and Recovery",
       "link": "/databases/transactions/solution/",
       "pageType": "solution",
       "parentLink": "/databases/transactions/",
@@ -19788,7 +19822,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Answers: Transactions and Isolation</h1>\n<h2>Solution: transfer-and-retry - Protect a balance transfer</h2>\n<pre><code>BEGIN;\nUPDATE accounts\nSET balance = balance - 100\nWHERE id = :fromAccount AND balance &gt;= 100;\n-- Require exactly one affected row; otherwise ROLLBACK.\nUPDATE accounts\nSET balance = balance + 100\nWHERE id = :toAccount;\nCOMMIT;</code></pre>\n<p>Require each update to affect exactly one row; otherwise roll back. The debit predicate makes the no-overdraft rule part of the write, so two callers cannot both spend the same last ₹100 through stale Java calculations. Both updates belong in one transaction because a missing destination or a failure after the debit must undo that debit. In that same transaction, insert or claim a transfer row whose client request ID has a database <code>UNIQUE</code> constraint. A duplicate-key result loads the already-recorded outcome instead of applying a second transfer. If the database aborts the transaction for a deadlock or serialization conflict, retry from <code>BEGIN</code>, not only the credit.</p>\n<h2>Solution: on-call-invariant - Protect a cross-row rule</h2>\n<p>The naïve flow is unsafe because A can read B on call while B reads A on call; each then turns itself off. There is no same-row write collision to force one to wait.</p>\n<p>One valid answer is a serializable transaction: read the relevant on-call rows, validate that another clinician remains, update the caller's row, and commit. The engine either makes the result equivalent to some serial order or aborts one transaction. The cost is lower throughput and possible aborts under contention; on an abort, retry the complete idempotent operation with bounded backoff.</p>\n<p>An equally valid answer is to lock a stable coordination record for the rota, then read the clinicians and recheck the rule while holding that lock. It is more explicit, but all competing flows must acquire the same lock first. A one-row <code>UPDATE</code> on the caller cannot protect a rule that depends on another row.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Atomicity versus isolation?</strong></p>\n<p>A. Atomicity prevents a half-committed operation; isolation controls interference among concurrent operations.</p>\n<p><strong>Q. Is a deadlock a partial business update?</strong></p>\n<p>A. No. The victim transaction rolls back; retry the whole operation if it is safe and transient.</p>"
     },
     "/databases/replication/": {
       "text": "Database Replication",
