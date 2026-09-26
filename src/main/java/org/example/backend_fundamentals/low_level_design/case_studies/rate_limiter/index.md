@@ -9,7 +9,9 @@ Practice protecting a shared API from excessive requests while keeping client-sp
 Start with the vague [interviewer prompt](exercise/problem_statement/), lead the
 [candidate discussion](exercise/candidate_discussion/), then solve the agreed [final exercise](exercise/).
 Record your entities and class diagram in the
-[playground worksheet](playground/entity_identification_and_class_diagrams.md).
+[playground worksheet](playground/entity_identification_and_class_diagrams.md). Keep implementation questions
+and their corrections in [traps and learnings](playground/traps_and_learnings.md). For the step-by-step
+reasoning behind the concurrent follow-up, read [concurrency intuition](playground/concurrency_intuition.md).
 
 ## Working order
 

@@ -4,19 +4,6 @@
 
 Model an in-memory API rate limiter that independently allows or rejects requests for each client key.
 
-## Requirements
-
-- Accept an opaque client key and return an allow-or-reject decision for one request. The caller may use
-  one attribute or compose multiple attributes into that key.
-- Give each client key independent state; activity for one client must not affect another.
-- Configure a positive burst capacity and a positive refill rate.
-- An allowed request consumes one available unit.
-- Replenish availability from elapsed time, without exceeding the configured burst capacity.
-- Reject a request when no unit is available; a rejected request must not consume a unit.
-- Handle concurrent requests for the same client without allowing more requests than its current
-  allowance permits.
-- Reject invalid configuration and an invalid client key with clear exceptions.
-
 ## Constraints
 
 - Keep the base implementation in memory and local to one process.
@@ -42,7 +29,37 @@ Model an in-memory API rate limiter that independently allows or rejects request
 - How would you expire inactive client state without affecting active requests?
 - How would you return retry-after information and expose allow/reject metrics?
 
-## Entity identification
+## Requirements
 
+- Accept an opaque client key and return an allow-or-reject decision for one request. The caller may use
+  one attribute or compose multiple attributes into that key.
+- Give each client key independent state; activity for one client must not affect another.
+- Configure a positive burst capacity and a positive refill rate.
+- An allowed request consumes one available unit.
+- Replenish availability from elapsed time, without exceeding the configured burst capacity.
+- Reject a request when no unit is available; a rejected request must not consume a unit.
+- Handle concurrent requests for the same client without allowing more requests than its current
+  allowance permits.
+- Reject invalid configuration and an invalid client key with clear exceptions.
+
+## Entity identification
+Bucket
+RateLimiter
+RateLimitKey
 
 ## Class diagrams
+RateLimiter
+- bucketsByKey : ConcurrentMap<RateLimitKey, Bucket>
+- refillTokensPerSecond : double
+- maxTokens : int
++ RateLimiter(int maxTokens, double refillTokensPerSecond)
++ tryConsume(RateLimitKey rateLimitKey) : boolean
+- refill(Bucket bucket) : void
+
+Bucket
+- availableTokens : double
+- lastRefillNanos : long
+
+RateLimitKey
+- clientId : int
+- key : String
