@@ -4,7 +4,11 @@ order: 60
 
 # Sharding, Data Partitioning & Consistent Hashing
 
-Partitioning breaks a database into smaller parts spread across machines for manageability, performance, and availability. Sharding is the horizontal-partitioning flavor that scales writes/storage across servers. Consistent hashing is how you partition without remapping everything when the cluster changes size.
+Partitioning breaks a database into smaller parts spread across machines for manageability, performance, and availability. Sharding is the horizontal-partitioning flavor that scales writes/storage across servers. Consistent hashing is one placement strategy that limits remapping when membership changes.
+
+Start with the pressure: a single database is out of write, storage, or connection headroom after indexing, caching,
+read replicas, and vertical scaling have been exhausted. The design question is then not “how do I add shards?” but
+“which request key lets most operations reach one shard while keeping failure and migration manageable?”
 
 ## Data partitioning: horizontal vs vertical
 
@@ -73,7 +77,7 @@ If it doesn't (e.g. login by email when the shard key is `user_id`), the router 
 
 **Use when:** a single DB is the bottleneck — write/storage scaling, more concurrent connections, geographic data separation, fast scaling on existing hardware.
 
-**Costs:** operational complexity; **cross-shard joins** (users on shard A, orders on shard B) need multi-server queries and perform poorly; multi-shard **transactions** become complex (may require two-phase commit); and **rebalancing** when load skews (shard A 80%, B/C 10%) means expensive data migration. Shard last — after indexing, caching, read replicas, and vertical scaling.
+**Costs:** operational complexity; **cross-shard joins** (users on shard A, orders on shard B) need multi-server queries and perform poorly; multi-shard **transactions** become complex (may require two-phase commit or a Saga); and **rebalancing** when load skews (shard A 80%, B/C 10%) means expensive data migration. Shard last — after indexing, caching, read replicas, and vertical scaling.
 
 ### Sharding failure modes interviewers expect
 
@@ -84,13 +88,34 @@ If it doesn't (e.g. login by email when the shard key is `user_id`), the router 
 
 The practical answer is not "shard everything." It is: pick a shard key that matches dominant access patterns, keep data needed together on the same shard when possible, and denormalize intentionally for hot reads.
 
+### Deep dive: reshard without losing writes
+
+**Problem.** One shard reaches its storage or write limit, or the placement rule no longer distributes traffic well.
+
+**Naive failure.** Stop writes, copy rows, change the router, and restart. The copy becomes stale while traffic
+continues, and an abrupt router switch can send a key to a destination that does not yet contain its newest write.
+
+**Mechanism.** Treat migration as an authority transition: provision the destination, bulk-copy a bounded key
+range, and keep it current through an ordered change stream. At cutover, fence or stop source writes for that range,
+record a checkpoint, catch the destination up through that checkpoint, then atomically switch routing/ownership. If
+rollback is required after cutover, establish a deliberate reverse-replication or reconciliation path rather than
+accepting writes on both copies.
+
+**Trade-off.** Change capture, a brief write fence, and rollback replication make migration safer but add temporary
+write-path complexity, idempotency requirements, and operational monitoring. Uncoordinated dual writes add
+partial-failure and ordering races. A logical-shard layer—many stable partitions mapped to fewer physical
+clusters—reduces how often a placement rule itself must change.
+
+**Recovery.** Keep the old shard authoritative until cutover is verified. If validation fails, route back to it and
+replay/catch up the destination; never delete the source merely because the initial bulk copy completed.
+
 ## Consistent hashing
 
 **The modulo problem:** with `hash(key) % N`, going from N=4 to N=5 remaps **most** keys → mass data migration + cache misses. Consistent hashing fixes this.
 
 - **Hash ring:** map the hash space onto a circle. Hash each *server* onto the ring (A=100, B=400, C=700).
 - **Key placement:** hash the key, walk **clockwise**, the first server encountered owns it (key 450 → server C).
-- **Adding a node:** insert D at 500 → only keys in (400, 500] move (from C to D); everything else stays. **Removing a node:** only that node's keys move to the next clockwise node. Cluster-size changes touch ~1/N of keys, not all.
+- **Adding a node:** insert D at 500 → only keys in (400, 500] move (from C to D); everything else stays. **Removing a node:** only that node's keys move to the next clockwise node. With an even ring, adding one node to N existing nodes moves about 1/(N+1) of keys; removing one moves about 1/N—not nearly all keys as modulo placement does.
 - **Virtual nodes:** hashing each physical server to *one* point causes skew (if C lands at 900 it owns a huge arc). Give each server many positions (A1, A2, A3, …) scattered around the ring → far more even load and smoother rebalancing.
 
 ### Affected range on add/remove
@@ -113,7 +138,9 @@ This is the interview explanation behind "only a fraction of keys move."
 | Autocomplete | No | Use trie/FST/prefix index + ranking |
 | Nearby cab/driver search | No by itself | Use geohash/S2/H3/quadtree for spatial partitioning; consistent hashing may distribute geospatial cells across machines afterward |
 
-**Used in:** Redis Cluster-style caches, distributed caches, Dynamo/Cassandra-style stores, load balancers, sticky routing, some CDN/server-routing systems. (Cache-lens treatment: `system_design/components/caching/index.md`.)
+**Used in:** distributed caches, Dynamo/Cassandra-style stores, load balancers, sticky routing, and some
+CDN/server-routing systems. Redis Cluster is a related but different example: it uses fixed hash slots and migrates
+slots during resharding rather than a consistent-hash ring. (Cache-lens treatment: `system_design/components/caching/index.md`.)
 
 ## Quick recall
 

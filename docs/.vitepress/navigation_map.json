@@ -6945,7 +6945,31 @@
             "link": "/databases/sharding/",
             "order": 60,
             "schema": "practice",
-            "practiceSet": null,
+            "practiceSet": {
+              "questions": [
+                {
+                  "id": "choose-a-key",
+                  "title": "Route an order service",
+                  "exerciseHtml": "<h2>Exercise: choose-a-key - Route an order service</h2>\n<p>Most requests are “list one customer’s orders” and “create an order for one customer.” Support agents sometimes</p>\n<p>search by order ID; finance runs a daily global revenue report.</p>\n<p>1. Choose a shard key and justify it against distribution, stability, and the common requests.</p>\n<p>2. Route an order-ID lookup without turning every request into scatter-gather.</p>\n<p>3. Explain which request remains deliberately multi-shard and how its result should be assembled.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: choose-a-key - Route an order service</h2>\n<p>Use customer ID when customer-scoped reads and writes dominate and its distribution is measured as acceptable. It</p>\n<p>is stable, lets the router target one shard for the normal paths, and co-locates that customer’s orders. It is not</p>\n<p>an automatic guarantee of balance: a few high-volume customers still need hotspot monitoring.</p>\n<p>Maintain an order-ID-to-customer-ID (or directly order-ID-to-shard) lookup owned and scaled as a separate access</p>\n<p>path. The lookup resolves the routing key before the normal targeted query. A daily global revenue report is a</p>\n<p>deliberate fan-out aggregation: run shard-local aggregates in parallel, merge their results, and design the report</p>\n<p>for partial failure/retry rather than pretending it is a single-shard request.</p>"
+                },
+                {
+                  "id": "hot-tenant",
+                  "title": "Repair a skewed shard",
+                  "exerciseHtml": "<h2>Exercise: hot-tenant - Repair a skewed shard</h2>\n<p>One enterprise tenant creates 70% of all write traffic. The tenant key is otherwise the natural shard key.</p>\n<p>1. Explain why more ordinary shards do not automatically repair this hotspot.</p>\n<p>2. Give one containment strategy and its read/query cost.</p>\n<p>3. State what data should remain co-located despite the split.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: hot-tenant - Repair a skewed shard</h2>\n<p>Adding ordinary shards leaves the popular tenant on its original shard, so its write load remains concentrated.</p>\n<p>One option is to introduce a deterministic sub-partition suffix for that tenant, such as tenant-42 plus a hash of</p>\n<p>an order ID. Writes spread across the suffixes; reads for all tenant data fan out to those known partitions and</p>\n<p>merge. That read cost is the explicit trade-off.</p>\n<p>Keep data required by the dominant single-order transaction together: the order, its order items, and any local</p>\n<p>write-side state. Do not scatter closely coupled data merely to make a chart look balanced; use a separate read</p>\n<p>model for cross-partition views where necessary.</p>"
+                },
+                {
+                  "id": "live-reshard",
+                  "title": "Move a key range safely",
+                  "exerciseHtml": "<h2>Exercise: live-reshard - Move a key range safely</h2>\n<p>A range shard must be split while writes continue.</p>\n<p>1. Give the migration stages from destination provisioning through source retirement.</p>\n<p>2. Name the race created by a bulk copy alone.</p>\n<p>3. State the rollback point and the evidence required before routing cutover.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What does a shard key answer that an index does not?</strong></p>\n<p>A. Which machine or cluster owns the data; an index then finds the row inside that selected shard.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: live-reshard - Move a key range safely</h2>\n<p>Provision the destination, bulk-copy the range, and feed it ordered changes while the source remains authoritative.</p>\n<p>For cutover, fence or stop source writes for that range, record a checkpoint, catch the destination up through that</p>\n<p>checkpoint, and atomically switch router ownership. Keep the source through a rollback window, with reverse</p>\n<p>replication or an explicit reconciliation path if writes must be accepted after cutover.</p>\n<p>A bulk copy alone misses writes that committed after the copy read a row. Zero observed lag before a live router</p>\n<p>switch is not enough because a late source write can still arrive. If validation fails before authority changes,</p>\n<p>route to the still-authoritative source and catch the destination up. Cut over only when the destination has the</p>\n<p>verified range through the fenced checkpoint and the router can send every affected key consistently to it.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why does consistent hashing not eliminate a migration process?</strong></p>\n<p>A. It limits which keys change ownership; those keys still need durable copy, catch-up, verification, and safe</p>\n<p>routing cutover.</p>"
+                }
+              ]
+            },
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -19943,7 +19967,31 @@
         "playground": false,
         "assets": false
       },
-      "practiceSet": null
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "choose-a-key",
+            "title": "Route an order service",
+            "exerciseHtml": "<h2>Exercise: choose-a-key - Route an order service</h2>\n<p>Most requests are “list one customer’s orders” and “create an order for one customer.” Support agents sometimes</p>\n<p>search by order ID; finance runs a daily global revenue report.</p>\n<p>1. Choose a shard key and justify it against distribution, stability, and the common requests.</p>\n<p>2. Route an order-ID lookup without turning every request into scatter-gather.</p>\n<p>3. Explain which request remains deliberately multi-shard and how its result should be assembled.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: choose-a-key - Route an order service</h2>\n<p>Use customer ID when customer-scoped reads and writes dominate and its distribution is measured as acceptable. It</p>\n<p>is stable, lets the router target one shard for the normal paths, and co-locates that customer’s orders. It is not</p>\n<p>an automatic guarantee of balance: a few high-volume customers still need hotspot monitoring.</p>\n<p>Maintain an order-ID-to-customer-ID (or directly order-ID-to-shard) lookup owned and scaled as a separate access</p>\n<p>path. The lookup resolves the routing key before the normal targeted query. A daily global revenue report is a</p>\n<p>deliberate fan-out aggregation: run shard-local aggregates in parallel, merge their results, and design the report</p>\n<p>for partial failure/retry rather than pretending it is a single-shard request.</p>"
+          },
+          {
+            "id": "hot-tenant",
+            "title": "Repair a skewed shard",
+            "exerciseHtml": "<h2>Exercise: hot-tenant - Repair a skewed shard</h2>\n<p>One enterprise tenant creates 70% of all write traffic. The tenant key is otherwise the natural shard key.</p>\n<p>1. Explain why more ordinary shards do not automatically repair this hotspot.</p>\n<p>2. Give one containment strategy and its read/query cost.</p>\n<p>3. State what data should remain co-located despite the split.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: hot-tenant - Repair a skewed shard</h2>\n<p>Adding ordinary shards leaves the popular tenant on its original shard, so its write load remains concentrated.</p>\n<p>One option is to introduce a deterministic sub-partition suffix for that tenant, such as tenant-42 plus a hash of</p>\n<p>an order ID. Writes spread across the suffixes; reads for all tenant data fan out to those known partitions and</p>\n<p>merge. That read cost is the explicit trade-off.</p>\n<p>Keep data required by the dominant single-order transaction together: the order, its order items, and any local</p>\n<p>write-side state. Do not scatter closely coupled data merely to make a chart look balanced; use a separate read</p>\n<p>model for cross-partition views where necessary.</p>"
+          },
+          {
+            "id": "live-reshard",
+            "title": "Move a key range safely",
+            "exerciseHtml": "<h2>Exercise: live-reshard - Move a key range safely</h2>\n<p>A range shard must be split while writes continue.</p>\n<p>1. Give the migration stages from destination provisioning through source retirement.</p>\n<p>2. Name the race created by a bulk copy alone.</p>\n<p>3. State the rollback point and the evidence required before routing cutover.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What does a shard key answer that an index does not?</strong></p>\n<p>A. Which machine or cluster owns the data; an index then finds the row inside that selected shard.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: live-reshard - Move a key range safely</h2>\n<p>Provision the destination, bulk-copy the range, and feed it ordered changes while the source remains authoritative.</p>\n<p>For cutover, fence or stop source writes for that range, record a checkpoint, catch the destination up through that</p>\n<p>checkpoint, and atomically switch router ownership. Keep the source through a rollback window, with reverse</p>\n<p>replication or an explicit reconciliation path if writes must be accepted after cutover.</p>\n<p>A bulk copy alone misses writes that committed after the copy read a row. Zero observed lag before a live router</p>\n<p>switch is not enough because a late source write can still arrive. If validation fails before authority changes,</p>\n<p>route to the still-authoritative source and catch the destination up. Cut over only when the destination has the</p>\n<p>verified range through the fenced checkpoint and the router can send every affected key consistently to it.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why does consistent hashing not eliminate a migration process?</strong></p>\n<p>A. It limits which keys change ownership; those keys still need durable copy, catch-up, verification, and safe</p>\n<p>routing cutover.</p>"
+          }
+        ]
+      }
     },
     "/databases/sharding/solution/": {
       "text": "Sharding, Data Partitioning & Consistent Hashing",
@@ -19958,7 +20006,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Answers: Sharding and Resharding</h1>\n<h2>Solution: choose-a-key - Route an order service</h2>\n<p>Use customer ID when customer-scoped reads and writes dominate and its distribution is measured as acceptable. It</p>\n<p>is stable, lets the router target one shard for the normal paths, and co-locates that customer’s orders. It is not</p>\n<p>an automatic guarantee of balance: a few high-volume customers still need hotspot monitoring.</p>\n<p>Maintain an order-ID-to-customer-ID (or directly order-ID-to-shard) lookup owned and scaled as a separate access</p>\n<p>path. The lookup resolves the routing key before the normal targeted query. A daily global revenue report is a</p>\n<p>deliberate fan-out aggregation: run shard-local aggregates in parallel, merge their results, and design the report</p>\n<p>for partial failure/retry rather than pretending it is a single-shard request.</p>\n<h2>Solution: hot-tenant - Repair a skewed shard</h2>\n<p>Adding ordinary shards leaves the popular tenant on its original shard, so its write load remains concentrated.</p>\n<p>One option is to introduce a deterministic sub-partition suffix for that tenant, such as tenant-42 plus a hash of</p>\n<p>an order ID. Writes spread across the suffixes; reads for all tenant data fan out to those known partitions and</p>\n<p>merge. That read cost is the explicit trade-off.</p>\n<p>Keep data required by the dominant single-order transaction together: the order, its order items, and any local</p>\n<p>write-side state. Do not scatter closely coupled data merely to make a chart look balanced; use a separate read</p>\n<p>model for cross-partition views where necessary.</p>\n<h2>Solution: live-reshard - Move a key range safely</h2>\n<p>Provision the destination, bulk-copy the range, and feed it ordered changes while the source remains authoritative.</p>\n<p>For cutover, fence or stop source writes for that range, record a checkpoint, catch the destination up through that</p>\n<p>checkpoint, and atomically switch router ownership. Keep the source through a rollback window, with reverse</p>\n<p>replication or an explicit reconciliation path if writes must be accepted after cutover.</p>\n<p>A bulk copy alone misses writes that committed after the copy read a row. Zero observed lag before a live router</p>\n<p>switch is not enough because a late source write can still arrive. If validation fails before authority changes,</p>\n<p>route to the still-authoritative source and catch the destination up. Cut over only when the destination has the</p>\n<p>verified range through the fenced checkpoint and the router can send every affected key consistently to it.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Why does consistent hashing not eliminate a migration process?</strong></p>\n<p>A. It limits which keys change ownership; those keys still need durable copy, catch-up, verification, and safe</p>\n<p>routing cutover.</p>"
     },
     "/databases/distributed_transactions/": {
       "text": "Distributed Transactions — 2PC, 3PC & Saga",
