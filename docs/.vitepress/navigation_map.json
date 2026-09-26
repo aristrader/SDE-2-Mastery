@@ -6907,7 +6907,31 @@
             "link": "/databases/replication/",
             "order": 50,
             "schema": "practice",
-            "practiceSet": null,
+            "practiceSet": {
+              "questions": [
+                {
+                  "id": "read-after-write",
+                  "title": "Route a profile update",
+                  "exerciseHtml": "<h2>Exercise: read-after-write - Route a profile update</h2>\n<p>A user changes a profile photo. The write commits on the primary, but the next request is routed to a replica</p>\n<p>that might lag.</p>\n<p>1. Explain the exact stale-read timeline.</p>\n<p>2. Choose one bounded strategy for the next read: primary pinning, a client-visible version/LSN token, or an</p>\n<p>   explicitly stale-tolerant UI. State the cost.</p>\n<p>3. Explain why a configured synchronous acknowledgement policy does not by itself make arbitrary replica reads fresh.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: read-after-write - Route a profile update</h2>\n<p>The primary can acknowledge the photo change at T1 while the replica still has the old photo until T2. A read</p>\n<p>routed between T1 and T2 is stale even though the write succeeded. A small, explicit strategy is to pin that</p>\n<p>user's next reads to the primary for a short consistency window. The cost is less read offload; a version/LSN</p>\n<p>token can make the window more precise but couples the application to a supported replica-caught-up check.</p>\n<p>Synchronous acknowledgement reduces the chance that an acknowledged write disappears on failover. Its configured</p>\n<p>receipt/flush/apply point does not automatically make every replica current, so a read routed to a non-required or</p>\n<p>not-yet-applied replica can still return the old photo.</p>"
+                },
+                {
+                  "id": "safe-failover",
+                  "title": "Recover a single-leader database",
+                  "exerciseHtml": "<h2>Exercise: safe-failover - Recover a single-leader database</h2>\n<p>The primary has failed while two replicas have different log positions.</p>\n<p>1. State how log position helps select a candidate and what loss it can still leave under asynchronous</p>\n<p>   replication.</p>\n<p>2. Add the missing safety step that prevents the old primary from accepting writes after a network partition.</p>\n<p>3. Describe what happens to a write acknowledged only by the old primary.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: safe-failover - Recover a single-leader database</h2>\n<p>In a shared single-leader history, the replica with the furthest eligible log position contains the longest</p>\n<p>known prefix of writes and is the best promotion candidate. With asynchronous replication, an acknowledged write</p>\n<p>may exist only on the failed primary and therefore be absent from every candidate: that is the RPO loss window.</p>\n<p>Fence the old primary before admitting writes to the new one—for example, remove its lease/quorum authority and</p>\n<p>block it at the proxy/storage layer. If it later returns, rejoin it as a follower and reconcile from the elected</p>\n<p>leader; never let it resume as a second writer. A write known only to the old primary is either recovered from</p>\n<p>that node through an explicit reconciliation process or reported as lost; it cannot silently be assumed present.</p>"
+                },
+                {
+                  "id": "quorum-boundary",
+                  "title": "Explain `R + W > N`",
+                  "exerciseHtml": "<h2>Exercise: quorum-boundary - Explain <code>R + W &gt; N</code></h2>\n<p>For <code>N = 3</code>, compare <code>W = 1, R = 1</code> with <code>W = 2, R = 2</code>.</p>\n<p>1. Show the set overlap in the second case.</p>\n<p>2. State what the overlap gives a coordinator and what it does <strong>not</strong> prove under concurrent conflicting writes.</p>\n<p>3. Name the repair path for a replica that missed a write while offline.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Does synchronous replication automatically give linearizable reads from every replica?</strong></p>\n<p>A. No. The acknowledgement policy and the read-routing/visibility policy are separate decisions.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: quorum-boundary - Explain \\<code>R + W &gt; N\\</code></h2>\n<p>With <code>N = 3</code>, <code>W = 1, R = 1</code> permits a write to A and a later read from C, so no participant overlaps. With</p>\n<p><code>W = 2, R = 2</code>, any two-node write set and any two-node read set share at least one node. That shared replica</p>\n<p>can return the acknowledged version to the coordinator, which reconciles the replies using the system's version</p>\n<p>and conflict rules.</p>\n<p>Overlap is not a proof that every client sees one global order during a partition or that two concurrent writes</p>\n<p>cannot conflict. A replica that was offline converges through hinted handoff/read repair where applicable and,</p>\n<p>reliably across cold data, scheduled anti-entropy repair.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the failover order?</strong></p>\n<p>A. Fence the old writer, promote an eligible advanced replica, redirect traffic, then rejoin/reseed the old node</p>\n<p>as a follower.</p>"
+                }
+              ]
+            },
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -19851,7 +19875,31 @@
         "playground": false,
         "assets": false
       },
-      "practiceSet": null
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "read-after-write",
+            "title": "Route a profile update",
+            "exerciseHtml": "<h2>Exercise: read-after-write - Route a profile update</h2>\n<p>A user changes a profile photo. The write commits on the primary, but the next request is routed to a replica</p>\n<p>that might lag.</p>\n<p>1. Explain the exact stale-read timeline.</p>\n<p>2. Choose one bounded strategy for the next read: primary pinning, a client-visible version/LSN token, or an</p>\n<p>   explicitly stale-tolerant UI. State the cost.</p>\n<p>3. Explain why a configured synchronous acknowledgement policy does not by itself make arbitrary replica reads fresh.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: read-after-write - Route a profile update</h2>\n<p>The primary can acknowledge the photo change at T1 while the replica still has the old photo until T2. A read</p>\n<p>routed between T1 and T2 is stale even though the write succeeded. A small, explicit strategy is to pin that</p>\n<p>user's next reads to the primary for a short consistency window. The cost is less read offload; a version/LSN</p>\n<p>token can make the window more precise but couples the application to a supported replica-caught-up check.</p>\n<p>Synchronous acknowledgement reduces the chance that an acknowledged write disappears on failover. Its configured</p>\n<p>receipt/flush/apply point does not automatically make every replica current, so a read routed to a non-required or</p>\n<p>not-yet-applied replica can still return the old photo.</p>"
+          },
+          {
+            "id": "safe-failover",
+            "title": "Recover a single-leader database",
+            "exerciseHtml": "<h2>Exercise: safe-failover - Recover a single-leader database</h2>\n<p>The primary has failed while two replicas have different log positions.</p>\n<p>1. State how log position helps select a candidate and what loss it can still leave under asynchronous</p>\n<p>   replication.</p>\n<p>2. Add the missing safety step that prevents the old primary from accepting writes after a network partition.</p>\n<p>3. Describe what happens to a write acknowledged only by the old primary.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: safe-failover - Recover a single-leader database</h2>\n<p>In a shared single-leader history, the replica with the furthest eligible log position contains the longest</p>\n<p>known prefix of writes and is the best promotion candidate. With asynchronous replication, an acknowledged write</p>\n<p>may exist only on the failed primary and therefore be absent from every candidate: that is the RPO loss window.</p>\n<p>Fence the old primary before admitting writes to the new one—for example, remove its lease/quorum authority and</p>\n<p>block it at the proxy/storage layer. If it later returns, rejoin it as a follower and reconcile from the elected</p>\n<p>leader; never let it resume as a second writer. A write known only to the old primary is either recovered from</p>\n<p>that node through an explicit reconciliation process or reported as lost; it cannot silently be assumed present.</p>"
+          },
+          {
+            "id": "quorum-boundary",
+            "title": "Explain `R + W > N`",
+            "exerciseHtml": "<h2>Exercise: quorum-boundary - Explain <code>R + W &gt; N</code></h2>\n<p>For <code>N = 3</code>, compare <code>W = 1, R = 1</code> with <code>W = 2, R = 2</code>.</p>\n<p>1. Show the set overlap in the second case.</p>\n<p>2. State what the overlap gives a coordinator and what it does <strong>not</strong> prove under concurrent conflicting writes.</p>\n<p>3. Name the repair path for a replica that missed a write while offline.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. Does synchronous replication automatically give linearizable reads from every replica?</strong></p>\n<p>A. No. The acknowledgement policy and the read-routing/visibility policy are separate decisions.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: quorum-boundary - Explain \\<code>R + W &gt; N\\</code></h2>\n<p>With <code>N = 3</code>, <code>W = 1, R = 1</code> permits a write to A and a later read from C, so no participant overlaps. With</p>\n<p><code>W = 2, R = 2</code>, any two-node write set and any two-node read set share at least one node. That shared replica</p>\n<p>can return the acknowledged version to the coordinator, which reconciles the replies using the system's version</p>\n<p>and conflict rules.</p>\n<p>Overlap is not a proof that every client sees one global order during a partition or that two concurrent writes</p>\n<p>cannot conflict. A replica that was offline converges through hinted handoff/read repair where applicable and,</p>\n<p>reliably across cold data, scheduled anti-entropy repair.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the failover order?</strong></p>\n<p>A. Fence the old writer, promote an eligible advanced replica, redirect traffic, then rejoin/reseed the old node</p>\n<p>as a follower.</p>"
+          }
+        ]
+      }
     },
     "/databases/replication/solution/": {
       "text": "Database Replication",
@@ -19866,7 +19914,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Answers: Replication Guarantees</h1>\n<h2>Solution: read-after-write - Route a profile update</h2>\n<p>The primary can acknowledge the photo change at T1 while the replica still has the old photo until T2. A read</p>\n<p>routed between T1 and T2 is stale even though the write succeeded. A small, explicit strategy is to pin that</p>\n<p>user's next reads to the primary for a short consistency window. The cost is less read offload; a version/LSN</p>\n<p>token can make the window more precise but couples the application to a supported replica-caught-up check.</p>\n<p>Synchronous acknowledgement reduces the chance that an acknowledged write disappears on failover. Its configured</p>\n<p>receipt/flush/apply point does not automatically make every replica current, so a read routed to a non-required or</p>\n<p>not-yet-applied replica can still return the old photo.</p>\n<h2>Solution: safe-failover - Recover a single-leader database</h2>\n<p>In a shared single-leader history, the replica with the furthest eligible log position contains the longest</p>\n<p>known prefix of writes and is the best promotion candidate. With asynchronous replication, an acknowledged write</p>\n<p>may exist only on the failed primary and therefore be absent from every candidate: that is the RPO loss window.</p>\n<p>Fence the old primary before admitting writes to the new one—for example, remove its lease/quorum authority and</p>\n<p>block it at the proxy/storage layer. If it later returns, rejoin it as a follower and reconcile from the elected</p>\n<p>leader; never let it resume as a second writer. A write known only to the old primary is either recovered from</p>\n<p>that node through an explicit reconciliation process or reported as lost; it cannot silently be assumed present.</p>\n<h2>Solution: quorum-boundary - Explain \\<code>R + W &gt; N\\</code></h2>\n<p>With <code>N = 3</code>, <code>W = 1, R = 1</code> permits a write to A and a later read from C, so no participant overlaps. With</p>\n<p><code>W = 2, R = 2</code>, any two-node write set and any two-node read set share at least one node. That shared replica</p>\n<p>can return the acknowledged version to the coordinator, which reconciles the replies using the system's version</p>\n<p>and conflict rules.</p>\n<p>Overlap is not a proof that every client sees one global order during a partition or that two concurrent writes</p>\n<p>cannot conflict. A replica that was offline converges through hinted handoff/read repair where applicable and,</p>\n<p>reliably across cold data, scheduled anti-entropy repair.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the failover order?</strong></p>\n<p>A. Fence the old writer, promote an eligible advanced replica, redirect traffic, then rejoin/reseed the old node</p>\n<p>as a follower.</p>"
     },
     "/databases/sharding/": {
       "text": "Sharding, Data Partitioning & Consistent Hashing",

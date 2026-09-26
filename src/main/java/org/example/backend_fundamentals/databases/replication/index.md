@@ -4,7 +4,7 @@ order: 50
 
 # Database Replication
 
-Keep multiple copies of the same data on different servers. `App → DB` becomes `App → Primary → {Replica A, B, C}`. Buys you higher availability, disaster recovery, read scalability, and reduced load on a single node.
+Keep multiple copies of the same data on different servers. `App → DB` becomes `App → Primary → {Replica A, B, C}`. Replication can improve availability, disaster recovery, and read scalability, but every design must still answer: **when may a read be stale, and what happens if the writer fails?**
 
 ## Leader / follower (primary / replica)
 
@@ -36,12 +36,12 @@ Classic symptom: user updates their profile picture, then a read routed to a lag
 
 ## Synchronous vs asynchronous vs semi-synchronous
 
-**Synchronous** — primary waits for replica acknowledgement before returning success:
+**Synchronous** — primary waits for the configured remote persistence or apply acknowledgement before returning success:
 
 ```text
 write → primary persists → replica persists → replica ACKs → client gets success
 ```
-Strong consistency, minimal data loss, higher write latency. Crucially, "sync" does **not** have to mean *all* replicas — it can be one, a majority, or all, depending on config. The write isn't committed until the *required* number of replicas ACK.
+This reduces acknowledged-write loss on failover, at the cost of remote-network latency and reduced write availability when the required standby is unavailable. Crucially, "sync" does **not** automatically mean linearizable reads: a later read routed to a lagging non-required replica can still be stale. It can be one, a majority, or all replicas depending on configuration; define the acknowledgement point (received, flushed, or applied) for the actual engine.
 
 **Asynchronous** — primary returns success immediately, replicas catch up later:
 
@@ -60,13 +60,13 @@ Balance 100 → 80
 ```
 The user was told "success" but the write is gone — the canonical async risk.
 
-**Semi-synchronous** — the common compromise: primary waits for **at least one** replica (primary + 1) before returning success. Shrinks the data-loss window without paying the full all-replicas latency cost.
+**Semi-synchronous** — a compromise in systems such as MySQL: the source waits for a configurable number of replicas to acknowledge receipt and durable relay-log recording. With MySQL's configurable wait point, it can wait before the source commit (`AFTER_SYNC`) or after that commit (`AFTER_COMMIT`); in both modes, the client response waits for the acknowledgement. This is stronger than asynchronous shipping but is not the same as waiting for the replica to apply and commit the transaction. A timeout can also make a source fall back to asynchronous mode, so monitor that mode change rather than assuming one static guarantee.
 
 > **The PACELC connection:** This trade-off is exactly what the PACELC theorem describes. In the absence of network partitions (the 'E' in PACELC), a replicated system must choose between Latency (async replication) and Consistency (sync replication).
 
 ## Failover and promotion
 
-Primary crashes → a replica is promoted → traffic redirected. **Manual** failover: an engineer promotes. **Automatic** failover: monitoring detects the failure, an election runs, a replica is promoted.
+Primary crashes → a replica is promoted → traffic redirected. **Manual** failover: an engineer promotes. **Automatic** failover: monitoring detects the failure, an election runs, a replica is promoted. The old primary must be fenced—prevented from accepting writes—before it can rejoin; otherwise a network partition can create two writable leaders (**split brain**).
 
 Simple failure path:
 
@@ -80,7 +80,7 @@ Applications send writes to the new primary
 A replacement replica is added and catches up
 ```
 
-**Which replica wins?** Not arbitrary. Replication ships an **ordered log**, and each replica tracks its position via a **Log Sequence Number (LSN) / GTID / binlog position** ("I've applied up to position X"). The **most-advanced replica** (highest position) is promoted, minimizing lost writes.
+**Which replica wins?** Not arbitrary. In a single-leader history, replication ships an **ordered log**, and each replica tracks its position via a **Log Sequence Number (LSN) / GTID / binlog position** ("I've applied up to position X"). A failover controller chooses an eligible, most-advanced candidate to minimize the recovery point objective (RPO), then ensures the old leader cannot continue writing. Position helps choose a candidate; it is not by itself a safe election protocol.
 
 **Misconception:** *replicas can hold arbitrary disjoint sets of writes (A has W1, B has W2, C has W3).*
 **Correction:** the log is ordered, so a replica can't have W3 without W1 and W2. Real divergence looks like a prefix difference:
@@ -104,7 +104,7 @@ Two data-distribution models:
 - **Merge** — non-overlapping changes combine (one edit changed phone, another changed address → both kept).
 - **Human resolution** — git-style conflict surfaced to a person.
 
-**Collaborative editing (Google Docs):** uses **Operational Transformation (OT)** or **CRDTs**, not naive LWW, so concurrent inserts both survive ("Hello Beautiful Big World"). Edits only disappear when the *same* location is edited simultaneously and network lag forces a rebase.
+**Collaborative editing (for example, Google Docs):** commonly uses **Operational Transformation (OT)** or **CRDTs**, not naive LWW, so independent concurrent inserts can both survive—for example, concurrent additions can produce “Hello Beautiful Big World” rather than silently dropping one. Same-location edits still need a deterministic rebase/resolution rule. These are specialised conflict-resolution models; do not claim that ordinary multi-leader database replication automatically gives document-editor semantics.
 
 ## Leaderless replication and quorums
 
@@ -114,15 +114,15 @@ No primary — all nodes are equal (Cassandra, Dynamo-style systems). Benefits: 
 - **Quorum write W** — write succeeds once W nodes ACK (N=3, W=2 → 2 of 3).
 - **Quorum read R** — read contacts R nodes and picks the latest version it sees.
 
-**Why `R + W > N`:** it forces the read set and write set to **overlap on at least one node**, so a read always sees at least one copy of the latest write:
+**Why `R + W > N`:** for an acknowledged write followed by a later read at those consistency levels, it forces the read set and write set to **overlap on at least one node**:
 
 ```text
 N=3, W=2, R=2  →  2+2 > 3
 write touches {A,B};  read touches {B,C}  →  B overlaps → latest visible
 ```
-Stale reads still happen when the quorum is too weak (N=3, W=1, R=1: write reaches only A, read from C is stale). And even `R+W>N` isn't a hard guarantee under network partitions, concurrent writes, or clock skew.
+The coordinator still needs version/conflict metadata to reconcile replies. A weaker quorum can return stale data (N=3, W=1, R=1: write reaches only A, read from C is stale). Even `R+W>N` alone is not a blanket linearizability guarantee under concurrent writes, partitions, or clock-based conflict resolution.
 
-**Anti-entropy / Read Repair:** If a node goes offline and misses updates, the system must synchronize it when it returns. This is often done proactively via background *anti-entropy* processes or reactively via *read repair* (when a read detects a stale replica, it forces an update).
+**Anti-entropy / Read Repair:** If a node goes offline and misses updates, the system must synchronize it when it returns. This is often done proactively via background *anti-entropy* processes or reactively via *read repair* on a read path. Read repair is best-effort and only covers data that is actually read; scheduled anti-entropy repair closes the wider convergence gap.
 
 ## Write-Ahead Log (WAL)
 
@@ -134,7 +134,7 @@ Before modifying the actual data pages, the change is appended to the WAL; the d
 
 ## MySQL replication specifics
 
-Supports primary-replica, asynchronous replication, semi-synchronous replication, and **binlog** (binary log) replication. Classic MySQL does **not** use a leaderless quorum architecture — that's the Cassandra/Dynamo model, not InnoDB's default.
+Supports primary-replica, asynchronous replication, semi-synchronous replication, and **binlog** (binary log) replication. Classic MySQL does **not** use a leaderless quorum architecture — that's the Cassandra/Dynamo model, not InnoDB's default. MySQL semisynchronous acknowledgement normally means the replica has received and durably logged events, not that it has applied them; use fully synchronous group/cluster semantics only when those are actually configured.
 
 ## Quick recall
 
@@ -142,7 +142,7 @@ Supports primary-replica, asynchronous replication, semi-synchronous replication
 A. Lag is replica staleness (primary updated, replica not yet); application latency is the user's request time. Async keeps requests fast but leaves replicas momentarily stale.
 
 **Q. Sync vs async vs semi-sync trade-off?**
-A. Sync = strong consistency, higher latency, minimal data loss. Async = fast writes, possible data-loss window. Semi-sync = wait for at least one replica — a middle ground.
+A. Sync can shrink acknowledged-write loss/RPO at higher latency; read freshness still needs routing. Async is fast but has a data-loss window. Semi-sync waits for configured replica receipt/logging—a middle ground.
 
 **Q. Which replica gets promoted on failover?**
 A. The most-advanced one, by ordered-log position (LSN/GTID/binlog). Logs are ordered, so divergence is a prefix difference, not arbitrary disjoint writes.
