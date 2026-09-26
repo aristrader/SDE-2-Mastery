@@ -10,7 +10,7 @@ A federated database presents **multiple independent databases as one logical da
 Application → Federation Layer → { user_db, order_db, payment_db }
 ```
 
-Instead of one `amazon_db` holding users/orders/products/payments, you split by **domain** into `user_db`, `order_db`, `catalog_db`, … and the federation layer makes them look like one system. "Show Swapnil's profile and last 5 orders" → the layer runs `SELECT … FROM user_db.users WHERE id=123` and `SELECT … FROM order_db.orders WHERE user_id=123`, then merges.
+Instead of one application database holding users/orders/products/payments, you split by **domain** into `user_db`, `order_db`, `catalog_db`, … and the federation layer makes them look like one system. "Show customer 123's profile and last five orders" → the layer queries the user and order stores, then merges the results.
 
 ## Federation vs sharding (the interview favorite)
 
@@ -51,7 +51,7 @@ Order Service → order_db    Payment Service → payment_db    Inventory Servic
 Coordination moves **out of the database** to REST/gRPC, events, Kafka, and **Saga** workflows. Each service owns its DB completely — no cross-database joins, no central distributed-transaction coordinator. Federation faded because it gets complex, slow, and hard to maintain at scale.
 
 **Misconception:** *Saga makes federation entirely unnecessary.*
-**Correction:** mostly true for modern microservices — with database-per-service + Saga, each service handles its own DB and coordination is event-driven, so the centralized federation layer disappears. But *aggregation* doesn't vanish; it moves up a layer.
+**Correction:** Saga addresses a multi-service write workflow; it does not answer a read that needs several domains. Database-per-service avoids raw cross-DB access, while aggregation moves up to an API gateway, BFF, or purpose-built read model.
 
 ## The federation-like read layer survives: BFF
 
@@ -75,8 +75,7 @@ A. Cross-database joins (the layer must join in application space) and distribut
 A. Database-per-service + event/Saga coordination replaced it; federation became complex, slow, and hard to maintain at scale.
 
 **Q. Does Saga remove the need for aggregation entirely?**
-A. It removes the centralized DB-level federation layer, but read-side aggregation reappears at the API layer as a BFF.
+A. No. Database-per-service avoids raw DB-level federation; Saga coordinates multi-service writes. Read-side aggregation still reappears at the API layer as a BFF or read model.
 
 **Q. BFF vs federation?**
 A. Same "combine many sources into one response" idea, but BFF aggregates at the service/API layer (calling service APIs), not at the database layer.
-
