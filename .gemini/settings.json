@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "command(pwd)",
+      "command(ls)",
+      "command(head)",
+      "command(tail)",
+      "command(wc)",
+      "command(git status)",
+      "command(git diff)",
+      "command(git show)",
+      "command(rg)",
+      "command(sed)",
+      "command(cat)"
+    ]
+  }
+}

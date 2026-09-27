@@ -28,6 +28,8 @@ The ACK is what makes delivery reliable: worker processes, then ACKs, then the q
 - **At-least-once** — receive → process → ACK → delete. A missing ACK triggers retry. Delivered 1+ times (duplicates possible). **The common default.**
 - **Exactly-once** — **misconception:** "duplicates never happen." **Correction:** true exactly-once is hard and expensive; in practice you get it via **at-least-once + idempotency + deduplication** (e.g. dedup on payment id 123 → ignore the duplicate). It *appears* exactly-once because duplicates are made harmless.
 
+Acknowledgement mechanics and retry behaviors are broker-specific (e.g., explicit ACK/NACK in RabbitMQ, visibility timeout resets in SQS, or partition offset commits in Kafka), meaning retries can occur across network partitions, rebalances, or timeouts; consumers must always be designed as idempotent processors to safely handle the inevitable duplicate deliveries.
+
 ## FIFO and ordering
 
 A single worker drains a queue in order (1,2,3,4,5). **Multiple workers break ordering** — they may finish 2,1,3,5,4. FIFO queues preserve order but are slower and more expensive (they limit parallelism). Only pay for FIFO when ordering genuinely matters (e.g. per-account event streams).
