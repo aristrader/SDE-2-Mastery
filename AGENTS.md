@@ -49,10 +49,14 @@ This is the authoritative agent instruction file for the repo.
 
 ## Large Context Offload
 
-- For broad repo scans or many-file context gathering, use Antigravity CLI as a read-only summarizer instead of loading huge file sets directly:
-  `"/Users/swapnilagarwal/.local/bin/agy" --add-dir /Users/swapnilagarwal/IdeaProjects/TestingTesting -p "<focused read-only prompt>"`
-- Ask for compact, source-grounded summaries with file paths. Treat the result as advisory; verify specific claims against local files before editing.
-- Do not use Antigravity for small targeted reads where `rg`, `sed`, or direct file inspection is cheaper and clearer.
+- For a broad **public study-content** source packet, use Antigravity CLI as the bounded context and first-draft worker:
+  `"/Users/swapnilagarwal/.local/bin/agy" --add-dir /Users/swapnilagarwal/IdeaProjects/TestingTesting --mode plan --sandbox -p "<focused prompt>"`
+  Ask for a compact “caveman” preservation map, gaps, and patch-ready draft with exact paths—not copied source.
+- The main agent applies selected patches and performs one final QG-4 quality-control pass. Treat Agy output as
+  advisory; use targeted local reads to verify the claims actually changed.
+- Never give Agy user-owned playground code, private/company material, credentials, or broad repository context.
+  Do not use it for small targeted reads, a timeout/empty response, or a factual contradiction; use `rg`/`sed` and
+  authoritative sources instead.
 
 ## Commands
 
