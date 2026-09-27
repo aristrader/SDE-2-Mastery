@@ -67,7 +67,9 @@ For an AP-style design, use eventual consistency with quorums:
 - `N=3, W=3, R=1`: fast reads, slow writes
 - `N=3, W=1, R=3`: fast writes, slow reads
 
-If the product cannot tolerate stale or conflicting values, a Dynamo-style AP store is the wrong default. Pick a CP database or strongly consistent configuration.
+`R + W > N` creates a normal quorum intersection; it does not by itself make concurrent writes or sloppy-quorum
+failures linearizable. If the product cannot tolerate stale or conflicting values, a Dynamo-style AP store is the
+wrong default. Pick a CP database or strongly consistent configuration.
 
 ## Failure handling
 

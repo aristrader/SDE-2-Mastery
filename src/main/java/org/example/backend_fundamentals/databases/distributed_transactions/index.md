@@ -4,7 +4,10 @@ order: 70
 
 # Distributed Transactions — 2PC, 3PC & Saga
 
-A single-DB transaction is easy: one authority owns the WAL, locks, recovery, and commit protocol. The moment a transaction spans multiple databases/services/shards, no single authority exists, and you need a protocol to keep *all-succeed-or-all-fail* across nodes. This is the deep dive; for single-DB ACID and the transaction lifecycle see `databases/transactions/Transactions.md`.
+A single-DB transaction has one authority for its WAL, locks, recovery, and commit protocol. The moment one business
+operation spans databases, services, or shards, that authority ends. Choose either a distributed atomic-commit
+protocol or a business workflow that reaches a recoverable, eventually consistent outcome. This is the deep dive; for
+single-DB ACID and the transaction lifecycle see `databases/transactions/Transactions.md`.
 
 ## Why it's hard
 
@@ -16,6 +19,14 @@ A checkout touching Order DB + Inventory DB + Payment DB can land in `Order ✓ 
 - **No global clock** — no node can perfectly order events across machines.
 
 The bank-transfer failure modes make the stakes concrete: debit-succeeds/credit-fails *destroys* money; credit-succeeds/debit-fails *creates* money. You need both or neither.
+
+## First decision: atomic commit or business recovery?
+
+Use 2PC/XA only when the resources genuinely support it and the operation cannot expose an intermediate business
+state. It preserves atomic commit, but its prepared locks and coordinator availability cost must fit the workload.
+Use a Saga when services own their data independently and the product can represent `PENDING`, `CONFIRMED`, or
+`CANCELLED` while it recovers. That replaces a global lock with explicit workflow state, compensation, retries, and
+reconciliation. Do not present these as interchangeable implementation details.
 
 ## Two-Phase Commit (2PC)
 
@@ -73,11 +84,13 @@ In 2PC, the PREPARED state doesn't tell a participant whether the coordinator *i
 **Why 3PC is rarely used:**
 1. **More round trips** — three phases = more latency, messages, complexity.
 2. **Strong timing assumptions** — it relies on bounded network delay, bounded timeouts, and reliable failure detection. Real networks provide none of these.
-3. **Network partitions defeat it** — if A can reach the coordinator but B can't, B thinks the coordinator died while the coordinator thinks B died. **A slow node is indistinguishable from a dead node (the FLP problem)**, so timeout-based self-decisions can still produce inconsistency. 3PC trades 2PC's blocking for partition-time incorrectness — usually a bad trade. Modern systems bypass 3PC entirely by using consensus protocols like Paxos or Raft to handle leader failure instead of timeouts.
+3. **Network partitions defeat it** — if A can reach the coordinator but B cannot, B can suspect a failure while the coordinator suspects B. In a fully asynchronous network there is no dependable timeout bound or perfect failure detector; FLP is the related result that deterministic agreement cannot guarantee termination with even one crash. A timeout-based unilateral commit can therefore produce inconsistency. 3PC trades 2PC's blocking for assumptions real networks do not provide. Paxos/Raft still use timeouts for liveness and leader election; their quorum, term/ballot, and replicated-log safety rules mean a timeout starts an election rather than authorizing conflicting commit decisions.
 
 ## Saga pattern
 
-Modern systems avoid one giant distributed ACID transaction. A **Saga** is a sequence of **local** transactions, each with a **compensating action** that undoes it. On failure, run the compensations for the completed steps:
+Modern systems often avoid one giant distributed ACID transaction. A **Saga** is a sequence of **local** transactions,
+each with a **compensating action** that semantically counteracts it where possible. On failure, run compensations for
+the completed steps:
 
 ```text
 Charge Card ✓  →  Reserve Inventory ✗
@@ -86,7 +99,16 @@ Compensate:  Refund Payment
 
 Saga does **not** give instant consistency — it gives **eventual consistency**. The system passes through visible intermediate states, then converges.
 
-Compensation is a **business undo**, not a database rollback. A refund is visible to the customer. A cancellation email cannot unsend the previous email. That is the real trade-off: no cross-service locks, but every completed step needs a clear compensation story.
+Compensation is a **business undo**, not a database rollback. A refund is visible to the customer. A cancellation email
+cannot unsend the previous email. That is the real trade-off: no cross-service locks, but every completed step needs a
+clear compensation or forward-correction story.
+
+### Caller contract and recovery state
+
+Do not leave the caller guessing while the saga is in flight. A checkout can create `order-123` as `PENDING` and
+return `202 Accepted` (or a synchronous response only after the bounded workflow completes). The client then reads
+`GET /orders/123`; it sees `CONFIRMED`, `CANCELLED`, or a visible delayed state. The durable workflow record—not a
+best-effort event—answers whether the business operation was accepted and which retry/compensation is pending.
 
 ### Choreography vs orchestration
 
@@ -146,7 +168,9 @@ COMMIT
 publisher/CDC reads outbox_events → publishes to Kafka
 ```
 
-The broker publish is still asynchronous and at-least-once, so consumers must be idempotent. But the local state change and the intent to publish commit atomically in one database.
+The broker publish is still asynchronous and at-least-once, so consumers must be idempotent. But the local state change
+and intent to publish commit atomically in one database. Preserve ordering only for the required scope, commonly events
+for one aggregate/order; a global order across unrelated orders is an unnecessary bottleneck.
 
 ## Kafka delivery semantics & idempotency
 
@@ -157,12 +181,20 @@ The broker publish is still asynchronous and at-least-once, so consumers must be
 offsets: 0 1 2 3 …   consumer stores "current offset"; committing offset=2 means "everything < 2 processed"
 ```
 
-**Consumer crash window:** if a consumer processes a message but crashes *before committing the offset*, Kafka still thinks it's unprocessed and **redelivers** it → duplicate processing (`inventory 10→9`, crash, redeliver, `9→8` — wrong). The fix is **idempotency**: tag each message with a transaction id, store processed ids, and skip duplicates:
+**Consumer crash window:** if a consumer processes a message but crashes *before committing the offset*, Kafka still thinks it's unprocessed and **redelivers** it → duplicate processing (`inventory 10→9`, crash, redeliver, `9→8` — wrong). The fix is **idempotency**: record the event ID and apply the local business transition in the same database transaction:
 
 ```text
-if txn_id already processed: return success
-else: process(); mark_processed()
+BEGIN
+  if event_id already processed: COMMIT; return success
+  apply local state transition
+  insert processed_event(event_id PRIMARY KEY)
+COMMIT
 ```
+
+The `PRIMARY KEY`/`UNIQUE` constraint is part of the mechanism: if concurrent deliveries race, one insert loses and its
+whole transaction rolls back the local transition. For an external side effect such as charging a card, the local
+database cannot atomically record the provider's effect; send the provider a stable idempotency key and reconcile its
+result on retry.
 
 **Payment example:** charge succeeds, service crashes before publishing `PaymentSuccessful`, retry → double charge. Fix with an **idempotency key** (`PAY_123`): the payment provider sees the duplicate key and returns the previous result instead of charging again.
 

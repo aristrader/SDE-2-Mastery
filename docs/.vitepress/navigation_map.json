@@ -6983,7 +6983,17 @@
             "link": "/databases/distributed_transactions/",
             "order": 70,
             "schema": "practice",
-            "practiceSet": null,
+            "practiceSet": {
+              "questions": [
+                {
+                  "id": "checkout-recovery",
+                  "title": "Choose the distributed boundary",
+                  "exerciseHtml": "<h2>Exercise: checkout-recovery - Choose the distributed boundary</h2>\n<p>An order service, inventory service, and payment provider own separate stores. The product can show a pending order</p>\n<p>for up to two minutes, but it must never silently charge a customer twice or leave a failed reservation hidden.</p>\n<p>1. Choose 2PC/XA or a Saga. Explain the naive failure and the trade-off your choice accepts.</p>\n<p>2. Give the normal path from <code>POST /orders</code> through payment and inventory, including the caller-visible status.</p>\n<p>3. Payment succeeds, inventory rejects the reservation, and the first refund request times out. Define the durable</p>\n<p>   retry/recovery rule.</p>\n<p>4. Explain the dual-write problem after <code>PaymentCharged</code> and the transactional-outbox repair.</p>\n<p>5. Name the idempotency key or processed-message record that prevents a retry from charging twice.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What does a Saga replace a global transaction with?</strong></p>\n<p>A. Local transactions plus durable workflow state, compensations/forward corrections, retries, and a visible</p>\n<p>eventual-consistency contract.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: checkout-recovery - Choose the distributed boundary</h2>\n<p>Use a Saga: the product accepts a short <code>PENDING</code> state, and holding 2PC prepared locks across a payment provider and</p>\n<p>independent services is a poor availability fit. <code>POST /orders</code> creates an order plus an outbox row in one local</p>\n<p>transaction, returns the order ID, then the workflow charges with idempotency key <code>order-123:charge</code>, reserves stock,</p>\n<p>and marks the order <code>CONFIRMED</code> only after both local actions succeed.</p>\n<p>If inventory rejects after payment succeeds, record <code>RefundPayment(order-123)</code> as pending before attempting it. A</p>\n<p>timeout is not evidence that the refund failed: retry the same idempotency key, query the provider when needed, and</p>\n<p>leave the order visibly <code>CANCELLATION_PENDING</code> until a durable worker records the outcome. Escalate repeated failure</p>\n<p>to a DLQ/operations workflow rather than hiding it.</p>\n<p>The outbox prevents the local dual write: the payment/order state change and <code>PaymentCharged</code> intent commit in one</p>\n<p>database transaction; a relay or CDC process publishes later. It can publish twice after a crash, so every consumer</p>\n<p>deduplicates by immutable event ID or makes its state transition idempotent.</p>"
+                }
+              ]
+            },
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -6997,7 +7007,17 @@
                 "link": "/databases/distributed_transactions/saga/",
                 "order": 10,
                 "schema": "practice",
-                "practiceSet": null,
+                "practiceSet": {
+                  "questions": [
+                    {
+                      "id": "delivery-workflow",
+                      "title": "Separate Saga from pub/sub",
+                      "exerciseHtml": "<h2>Exercise: delivery-workflow - Separate Saga from pub/sub</h2>\n<p>A food-delivery workflow creates an order, reserves inventory, charges payment, and assigns a courier. Inventory and</p>\n<p>payment publish events on a broker.</p>\n<p>1. Explain why the broker alone does not make this a Saga.</p>\n<p>2. Choose choreography or orchestration and justify it for a flow with retries, courier assignment, and operator</p>\n<p>   visibility.</p>\n<p>3. Define one idempotent compensation for a payment-success/inventory-failure path.</p>\n<p>4. State how the workflow recovers when a compensation call times out.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the difference between a Saga and pub/sub?</strong></p>\n<p>A. Pub/sub transports messages; a Saga owns the business workflow, outcome, and compensation policy.</p>",
+                      "starterCode": "",
+                      "solutionHtml": "<h2>Solution: delivery-workflow - Separate Saga from pub/sub</h2>\n<p>The broker is transport only. It becomes a Saga when the workflow defines the completed local steps, the next action</p>\n<p>for each outcome, and compensations. Choose orchestration here: the workflow branches, has retries, and needs one</p>\n<p>durable place to inspect <code>order-123</code> rather than reconstructing a long event trail.</p>\n<p>After payment succeeds but inventory fails, the orchestrator records <code>RefundPayment(order-123)</code> and invokes the</p>\n<p>provider with the same idempotency key on every retry. A timeout leaves that compensation <code>PENDING</code>, not “failed” or</p>\n<p>“complete”; a worker retries, then moves repeated failure to an alert/DLQ path for reconciliation. A refund is an</p>\n<p>auditable business action, not an invisible database rollback.</p>"
+                    }
+                  ]
+                },
                 "capabilities": {
                   "exercise": true,
                   "solution": true,
@@ -7044,7 +7064,17 @@
             "link": "/databases/views/",
             "order": 90,
             "schema": "practice",
-            "practiceSet": null,
+            "practiceSet": {
+              "questions": [
+                {
+                  "id": "revenue-dashboard",
+                  "title": "Choose a reporting boundary",
+                  "exerciseHtml": "<h2>Exercise: revenue-dashboard - Choose a reporting boundary</h2>\n<p><code>orders</code> and <code>payments</code> receive writes throughout the day. Finance needs a dashboard showing daily paid revenue by</p>\n<p>country. It can be up to 15 minutes old, but checkout must not slow down.</p>\n<p>1. Explain why a normal view is useful but does not remove the repeated aggregation cost.</p>\n<p>2. Choose a materialized view or an application-managed projection. State the refresh/freshness contract.</p>\n<p>3. The refresh job fails twice. What should the dashboard show, and what should operations do?</p>\n<p>4. If reads must continue during PostgreSQL refresh, name the extra requirement for <code>REFRESH ... CONCURRENTLY</code>.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the first clarification?</strong></p>\n<p>A. Whether the dashboard needs current committed data or an explicitly bounded stale snapshot.</p>",
+                  "starterCode": "",
+                  "solutionHtml": "<h2>Solution: revenue-dashboard - Choose a reporting boundary</h2>\n<p>A normal view centralizes the <code>orders</code>/<code>payments</code> join and definition of “paid,” but each dashboard read can still</p>\n<p>execute that aggregation against live tables. Here, use a materialized view refreshed every 15 minutes because the</p>\n<p>product explicitly accepts bounded staleness and checkout should not share the reporting workload.</p>\n<p>Store and display the last successful refresh time. If a refresh fails, keep serving that last good snapshot, alert and</p>\n<p>retry the job, and mark the dashboard delayed once it exceeds the agreed 15-minute freshness budget. This is recovery,</p>\n<p>not silent correctness: a finance user can see that the number is old.</p>\n<p>For PostgreSQL, use <code>REFRESH MATERIALIZED VIEW CONCURRENTLY</code> when readers must continue during the refresh. It needs a</p>\n<p>qualifying unique index on the materialized view. If the calculation must be nearly live or incrementally updated, an</p>\n<p>application-owned projection is a different design with its own replay and reconciliation responsibilities.</p>"
+                }
+              ]
+            },
             "capabilities": {
               "exercise": true,
               "solution": true,
@@ -20052,7 +20082,17 @@
         "playground": false,
         "assets": false
       },
-      "practiceSet": null
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "checkout-recovery",
+            "title": "Choose the distributed boundary",
+            "exerciseHtml": "<h2>Exercise: checkout-recovery - Choose the distributed boundary</h2>\n<p>An order service, inventory service, and payment provider own separate stores. The product can show a pending order</p>\n<p>for up to two minutes, but it must never silently charge a customer twice or leave a failed reservation hidden.</p>\n<p>1. Choose 2PC/XA or a Saga. Explain the naive failure and the trade-off your choice accepts.</p>\n<p>2. Give the normal path from <code>POST /orders</code> through payment and inventory, including the caller-visible status.</p>\n<p>3. Payment succeeds, inventory rejects the reservation, and the first refund request times out. Define the durable</p>\n<p>   retry/recovery rule.</p>\n<p>4. Explain the dual-write problem after <code>PaymentCharged</code> and the transactional-outbox repair.</p>\n<p>5. Name the idempotency key or processed-message record that prevents a retry from charging twice.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What does a Saga replace a global transaction with?</strong></p>\n<p>A. Local transactions plus durable workflow state, compensations/forward corrections, retries, and a visible</p>\n<p>eventual-consistency contract.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: checkout-recovery - Choose the distributed boundary</h2>\n<p>Use a Saga: the product accepts a short <code>PENDING</code> state, and holding 2PC prepared locks across a payment provider and</p>\n<p>independent services is a poor availability fit. <code>POST /orders</code> creates an order plus an outbox row in one local</p>\n<p>transaction, returns the order ID, then the workflow charges with idempotency key <code>order-123:charge</code>, reserves stock,</p>\n<p>and marks the order <code>CONFIRMED</code> only after both local actions succeed.</p>\n<p>If inventory rejects after payment succeeds, record <code>RefundPayment(order-123)</code> as pending before attempting it. A</p>\n<p>timeout is not evidence that the refund failed: retry the same idempotency key, query the provider when needed, and</p>\n<p>leave the order visibly <code>CANCELLATION_PENDING</code> until a durable worker records the outcome. Escalate repeated failure</p>\n<p>to a DLQ/operations workflow rather than hiding it.</p>\n<p>The outbox prevents the local dual write: the payment/order state change and <code>PaymentCharged</code> intent commit in one</p>\n<p>database transaction; a relay or CDC process publishes later. It can publish twice after a crash, so every consumer</p>\n<p>deduplicates by immutable event ID or makes its state transition idempotent.</p>"
+          }
+        ]
+      }
     },
     "/databases/distributed_transactions/solution/": {
       "text": "Distributed Transactions — 2PC, 3PC & Saga",
@@ -20067,7 +20107,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Solution</h1>\n<h2>Solution: checkout-recovery - Choose the distributed boundary</h2>\n<p>Use a Saga: the product accepts a short <code>PENDING</code> state, and holding 2PC prepared locks across a payment provider and</p>\n<p>independent services is a poor availability fit. <code>POST /orders</code> creates an order plus an outbox row in one local</p>\n<p>transaction, returns the order ID, then the workflow charges with idempotency key <code>order-123:charge</code>, reserves stock,</p>\n<p>and marks the order <code>CONFIRMED</code> only after both local actions succeed.</p>\n<p>If inventory rejects after payment succeeds, record <code>RefundPayment(order-123)</code> as pending before attempting it. A</p>\n<p>timeout is not evidence that the refund failed: retry the same idempotency key, query the provider when needed, and</p>\n<p>leave the order visibly <code>CANCELLATION_PENDING</code> until a durable worker records the outcome. Escalate repeated failure</p>\n<p>to a DLQ/operations workflow rather than hiding it.</p>\n<p>The outbox prevents the local dual write: the payment/order state change and <code>PaymentCharged</code> intent commit in one</p>\n<p>database transaction; a relay or CDC process publishes later. It can publish twice after a crash, so every consumer</p>\n<p>deduplicates by immutable event ID or makes its state transition idempotent.</p>"
     },
     "/databases/distributed_transactions/saga/": {
       "text": "Saga vs Publish-Subscribe",
@@ -20096,7 +20136,17 @@
         "playground": false,
         "assets": false
       },
-      "practiceSet": null
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "delivery-workflow",
+            "title": "Separate Saga from pub/sub",
+            "exerciseHtml": "<h2>Exercise: delivery-workflow - Separate Saga from pub/sub</h2>\n<p>A food-delivery workflow creates an order, reserves inventory, charges payment, and assigns a courier. Inventory and</p>\n<p>payment publish events on a broker.</p>\n<p>1. Explain why the broker alone does not make this a Saga.</p>\n<p>2. Choose choreography or orchestration and justify it for a flow with retries, courier assignment, and operator</p>\n<p>   visibility.</p>\n<p>3. Define one idempotent compensation for a payment-success/inventory-failure path.</p>\n<p>4. State how the workflow recovers when a compensation call times out.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the difference between a Saga and pub/sub?</strong></p>\n<p>A. Pub/sub transports messages; a Saga owns the business workflow, outcome, and compensation policy.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: delivery-workflow - Separate Saga from pub/sub</h2>\n<p>The broker is transport only. It becomes a Saga when the workflow defines the completed local steps, the next action</p>\n<p>for each outcome, and compensations. Choose orchestration here: the workflow branches, has retries, and needs one</p>\n<p>durable place to inspect <code>order-123</code> rather than reconstructing a long event trail.</p>\n<p>After payment succeeds but inventory fails, the orchestrator records <code>RefundPayment(order-123)</code> and invokes the</p>\n<p>provider with the same idempotency key on every retry. A timeout leaves that compensation <code>PENDING</code>, not “failed” or</p>\n<p>“complete”; a worker retries, then moves repeated failure to an alert/DLQ path for reconciliation. A refund is an</p>\n<p>auditable business action, not an invisible database rollback.</p>"
+          }
+        ]
+      }
     },
     "/databases/distributed_transactions/saga/solution/": {
       "text": "Saga vs Publish-Subscribe",
@@ -20111,7 +20161,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Solution</h1>\n<h2>Solution: delivery-workflow - Separate Saga from pub/sub</h2>\n<p>The broker is transport only. It becomes a Saga when the workflow defines the completed local steps, the next action</p>\n<p>for each outcome, and compensations. Choose orchestration here: the workflow branches, has retries, and needs one</p>\n<p>durable place to inspect <code>order-123</code> rather than reconstructing a long event trail.</p>\n<p>After payment succeeds but inventory fails, the orchestrator records <code>RefundPayment(order-123)</code> and invokes the</p>\n<p>provider with the same idempotency key on every retry. A timeout leaves that compensation <code>PENDING</code>, not “failed” or</p>\n<p>“complete”; a worker retries, then moves repeated failure to an alert/DLQ path for reconciliation. A refund is an</p>\n<p>auditable business action, not an invisible database rollback.</p>"
     },
     "/databases/federation/": {
       "text": "Database Federation",
@@ -20201,7 +20251,17 @@
         "playground": false,
         "assets": false
       },
-      "practiceSet": null
+      "practiceSet": {
+        "questions": [
+          {
+            "id": "revenue-dashboard",
+            "title": "Choose a reporting boundary",
+            "exerciseHtml": "<h2>Exercise: revenue-dashboard - Choose a reporting boundary</h2>\n<p><code>orders</code> and <code>payments</code> receive writes throughout the day. Finance needs a dashboard showing daily paid revenue by</p>\n<p>country. It can be up to 15 minutes old, but checkout must not slow down.</p>\n<p>1. Explain why a normal view is useful but does not remove the repeated aggregation cost.</p>\n<p>2. Choose a materialized view or an application-managed projection. State the refresh/freshness contract.</p>\n<p>3. The refresh job fails twice. What should the dashboard show, and what should operations do?</p>\n<p>4. If reads must continue during PostgreSQL refresh, name the extra requirement for <code>REFRESH ... CONCURRENTLY</code>.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What is the first clarification?</strong></p>\n<p>A. Whether the dashboard needs current committed data or an explicitly bounded stale snapshot.</p>",
+            "starterCode": "",
+            "solutionHtml": "<h2>Solution: revenue-dashboard - Choose a reporting boundary</h2>\n<p>A normal view centralizes the <code>orders</code>/<code>payments</code> join and definition of “paid,” but each dashboard read can still</p>\n<p>execute that aggregation against live tables. Here, use a materialized view refreshed every 15 minutes because the</p>\n<p>product explicitly accepts bounded staleness and checkout should not share the reporting workload.</p>\n<p>Store and display the last successful refresh time. If a refresh fails, keep serving that last good snapshot, alert and</p>\n<p>retry the job, and mark the dashboard delayed once it exceeds the agreed 15-minute freshness budget. This is recovery,</p>\n<p>not silent correctness: a finance user can see that the number is old.</p>\n<p>For PostgreSQL, use <code>REFRESH MATERIALIZED VIEW CONCURRENTLY</code> when readers must continue during the refresh. It needs a</p>\n<p>qualifying unique index on the materialized view. If the calculation must be nearly live or incrementally updated, an</p>\n<p>application-owned projection is a different design with its own replay and reconciliation responsibilities.</p>"
+          }
+        ]
+      }
     },
     "/databases/views/solution/": {
       "text": "Views and Materialized Views",
@@ -20216,7 +20276,7 @@
         "playground": false,
         "assets": false
       },
-      "referenceHtml": "<h1>Solution</h1>"
+      "referenceHtml": "<h1>Solution</h1>\n<h2>Solution: revenue-dashboard - Choose a reporting boundary</h2>\n<p>A normal view centralizes the <code>orders</code>/<code>payments</code> join and definition of “paid,” but each dashboard read can still</p>\n<p>execute that aggregation against live tables. Here, use a materialized view refreshed every 15 minutes because the</p>\n<p>product explicitly accepts bounded staleness and checkout should not share the reporting workload.</p>\n<p>Store and display the last successful refresh time. If a refresh fails, keep serving that last good snapshot, alert and</p>\n<p>retry the job, and mark the dashboard delayed once it exceeds the agreed 15-minute freshness budget. This is recovery,</p>\n<p>not silent correctness: a finance user can see that the number is old.</p>\n<p>For PostgreSQL, use <code>REFRESH MATERIALIZED VIEW CONCURRENTLY</code> when readers must continue during the refresh. It needs a</p>\n<p>qualifying unique index on the materialized view. If the calculation must be nearly live or incrementally updated, an</p>\n<p>application-owned projection is a different design with its own replay and reconciliation responsibilities.</p>"
     },
     "/databases/graph/": {
       "text": "Graph Databases",
@@ -20274,7 +20334,7 @@
         "playground": false,
         "assets": true
       },
-      "referenceHtml": "<h1>Design</h1>\n<h2>Design a distributed key-value store</h2>\n<p>Assumptions:</p>\n<ul>\n<li>values are small, usually less than 10 KB</li>\n<li>total data is too large for one machine</li>\n<li>low-latency <code>get</code> and <code>put</code></li>\n<li>high availability during node failures</li>\n<li>tunable consistency</li>\n<li>automatic node add/remove</li>\n</ul>\n<h2>High-level design</h2>\n<pre><code>Client\n  -&gt; Coordinator node\n  -&gt; Consistent hash ring\n  -&gt; N replica nodes\n  -&gt; return after R or W quorum</code></pre>\n<p>The coordinator does not need to be a special central server. Any node can act as coordinator for a request. That avoids a single point of failure.</p>\n<h2>Data placement</h2>\n<p>1. Hash the key onto the ring.</p>\n<p>2. Walk clockwise to find the first physical node.</p>\n<p>3. Continue walking to choose <code>N</code> unique physical nodes for replication.</p>\n<p>4. Use virtual nodes so distribution is smooth and weighted by capacity.</p>\n<h2>Write path</h2>\n<pre><code>put(k, v)\n  -&gt; coordinator picks N replicas\n  -&gt; each replica appends to commit log\n  -&gt; each replica writes memtable\n  -&gt; coordinator returns after W ACKs\n  -&gt; memtable eventually flushes to SSTable</code></pre>\n<h2>Read path</h2>\n<pre><code>get(k)\n  -&gt; coordinator asks R replicas\n  -&gt; replicas check memtable/cache\n  -&gt; Bloom filter narrows SSTables\n  -&gt; SSTable read\n  -&gt; coordinator reconciles versions\n  -&gt; return latest/merged value</code></pre>\n<h2>Consistency choice</h2>\n<p>For an AP-style design, use eventual consistency with quorums:</p>\n<ul>\n<li><code>N=3, W=1, R=1</code>: fastest, weakest</li>\n<li><code>N=3, W=2, R=2</code>: stronger common default</li>\n<li><code>N=3, W=3, R=1</code>: fast reads, slow writes</li>\n<li><code>N=3, W=1, R=3</code>: fast writes, slow reads</li>\n</ul>\n<p>If the product cannot tolerate stale or conflicting values, a Dynamo-style AP store is the wrong default. Pick a CP database or strongly consistent configuration.</p>\n<h2>Failure handling</h2>\n<ul>\n<li><strong>Gossip:</strong> nodes share heartbeat/membership updates.</li>\n<li><strong>Sloppy quorum:</strong> use healthy substitute nodes when assigned replicas are down.</li>\n<li><strong>Hinted handoff:</strong> substitutes return missed writes to the owner after recovery.</li>\n<li><strong>Merkle tree repair:</strong> compare replica ranges and sync only differences.</li>\n<li><strong>Cross-DC replication:</strong> survive full data-center outages.</li>\n</ul>\n<h2>Interview wrap-up</h2>\n<p>This design scales writes/storage by partitioning keys with consistent hashing, improves availability by replicating each key to <code>N</code> nodes, tunes latency vs consistency with <code>R/W</code> quorums, handles temporary failures with hinted handoff, and repairs permanent drift with anti-entropy/Merkle trees.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What should you deep dive first?</strong>  </p>\n<p>A. Partitioning, replication/quorums, failure repair, then read/write path.</p>\n<p><strong>Q. What is the main tradeoff?</strong>  </p>\n<p>A. Availability/latency vs consistency/conflict complexity.</p>"
+      "referenceHtml": "<h1>Design</h1>\n<h2>Design a distributed key-value store</h2>\n<p>Assumptions:</p>\n<ul>\n<li>values are small, usually less than 10 KB</li>\n<li>total data is too large for one machine</li>\n<li>low-latency <code>get</code> and <code>put</code></li>\n<li>high availability during node failures</li>\n<li>tunable consistency</li>\n<li>automatic node add/remove</li>\n</ul>\n<h2>High-level design</h2>\n<pre><code>Client\n  -&gt; Coordinator node\n  -&gt; Consistent hash ring\n  -&gt; N replica nodes\n  -&gt; return after R or W quorum</code></pre>\n<p>The coordinator does not need to be a special central server. Any node can act as coordinator for a request. That avoids a single point of failure.</p>\n<h2>Data placement</h2>\n<p>1. Hash the key onto the ring.</p>\n<p>2. Walk clockwise to find the first physical node.</p>\n<p>3. Continue walking to choose <code>N</code> unique physical nodes for replication.</p>\n<p>4. Use virtual nodes so distribution is smooth and weighted by capacity.</p>\n<h2>Write path</h2>\n<pre><code>put(k, v)\n  -&gt; coordinator picks N replicas\n  -&gt; each replica appends to commit log\n  -&gt; each replica writes memtable\n  -&gt; coordinator returns after W ACKs\n  -&gt; memtable eventually flushes to SSTable</code></pre>\n<h2>Read path</h2>\n<pre><code>get(k)\n  -&gt; coordinator asks R replicas\n  -&gt; replicas check memtable/cache\n  -&gt; Bloom filter narrows SSTables\n  -&gt; SSTable read\n  -&gt; coordinator reconciles versions\n  -&gt; return latest/merged value</code></pre>\n<h2>Consistency choice</h2>\n<p>For an AP-style design, use eventual consistency with quorums:</p>\n<ul>\n<li><code>N=3, W=1, R=1</code>: fastest, weakest</li>\n<li><code>N=3, W=2, R=2</code>: stronger common default</li>\n<li><code>N=3, W=3, R=1</code>: fast reads, slow writes</li>\n<li><code>N=3, W=1, R=3</code>: fast writes, slow reads</li>\n</ul>\n<p><code>R + W &gt; N</code> creates a normal quorum intersection; it does not by itself make concurrent writes or sloppy-quorum</p>\n<p>failures linearizable. If the product cannot tolerate stale or conflicting values, a Dynamo-style AP store is the</p>\n<p>wrong default. Pick a CP database or strongly consistent configuration.</p>\n<h2>Failure handling</h2>\n<ul>\n<li><strong>Gossip:</strong> nodes share heartbeat/membership updates.</li>\n<li><strong>Sloppy quorum:</strong> use healthy substitute nodes when assigned replicas are down.</li>\n<li><strong>Hinted handoff:</strong> substitutes return missed writes to the owner after recovery.</li>\n<li><strong>Merkle tree repair:</strong> compare replica ranges and sync only differences.</li>\n<li><strong>Cross-DC replication:</strong> survive full data-center outages.</li>\n</ul>\n<h2>Interview wrap-up</h2>\n<p>This design scales writes/storage by partitioning keys with consistent hashing, improves availability by replicating each key to <code>N</code> nodes, tunes latency vs consistency with <code>R/W</code> quorums, handles temporary failures with hinted handoff, and repairs permanent drift with anti-entropy/Merkle trees.</p>\n<h2>Quick recall</h2>\n<p><strong>Q. What should you deep dive first?</strong>  </p>\n<p>A. Partitioning, replication/quorums, failure repair, then read/write path.</p>\n<p><strong>Q. What is the main tradeoff?</strong>  </p>\n<p>A. Availability/latency vs consistency/conflict complexity.</p>"
     },
     "/databases/pagination/": {
       "text": "Pagination",

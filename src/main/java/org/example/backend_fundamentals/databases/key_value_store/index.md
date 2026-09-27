@@ -99,7 +99,7 @@ Examples with `N = 3`:
 | `W=3, R=1` | fast reads, slow writes | write waits for all replicas |
 | `W=1, R=3` | fast writes, slow reads | read checks all replicas |
 
-Important nuance: `W=1` does not mean "write to one replica only." It means the coordinator can return success after one replica acknowledges; the write may still be sent to other replicas asynchronously.
+Important nuance: `W=1` does not mean "write to one replica only." It means the coordinator can return success after one replica acknowledges; the write may still be sent to other replicas asynchronously. Likewise, `R + W > N` gives a replica-set intersection for a particular write in the normal strict-quorum model. It is not a blanket linearizability promise when writes race, replicas are substituted, or the conflict policy is last-write-wins.
 
 ## Conflict resolution
 
@@ -143,6 +143,9 @@ S2 recovers
 S3 hands the write back to S2
 ```
 
+A hint is a best-effort shortcut, not proof that a long-down replica will converge. If its handoff window expires or the
+temporary holder fails, anti-entropy repair still has to find and repair the divergence.
+
 ### Permanent failure
 
 Anti-entropy compares replicas and repairs missing/different data. Merkle trees make this efficient: compare root hashes first; if they differ, walk down to only the mismatched ranges.
@@ -179,6 +182,11 @@ read request
 ```
 
 Bloom filters prevent many unnecessary disk reads by saying "this SSTable definitely does not contain the key" or "it might contain the key."
+
+If replica responses disagree, the coordinator applies the store's version/conflict rule before returning. A simple
+last-write-wins rule is easy but can discard a concurrent update; a vector-clock-style design can return siblings for
+an application merge. The normal read path is therefore *read replicas → detect version relationship → resolve →
+repair later where supported*, not “pick whichever response arrived first.”
 
 ## Improved design summary table
 
