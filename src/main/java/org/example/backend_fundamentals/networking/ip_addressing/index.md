@@ -38,13 +38,15 @@ Common usage: public load balancers, public APIs, internet-facing services.
 
 ### Private IPs
 
-Private IPs are used inside local networks and are not routable on the public internet. The reserved private ranges:
+Private IPs are used inside local networks and are not globally routed on the public internet. RFC 1918 defines the reserved private address spaces:
 
 ```text
-10.0.0.0/8
-172.16.0.0 – 172.31.255.255
-192.168.0.0/16
+10.0.0.0/8 (10/8)         → 10.0.0.0 – 10.255.255.255
+172.16.0.0/12 (172.16/12)   → 172.16.0.0 – 172.31.255.255
+192.168.0.0/16 (192.168/16) → 192.168.0.0 – 192.168.255.255
 ```
+
+Because private prefixes are not globally routed, public-internet routers should not forward packets to or from these addresses.
 
 A typical home network: laptop `192.168.1.2`, phone `192.168.1.3`, router `192.168.1.1`. These addresses only have meaning inside that network.
 
@@ -58,11 +60,23 @@ Assigned automatically and may change — `192.168.1.10` today, `192.168.1.15` t
 
 ## DHCP
 
-DHCP (Dynamic Host Configuration Protocol) lets a device join a network and automatically receive an IP address. Without it, every phone/laptop/TV would need manual IP configuration.
+DHCP (Dynamic Host Configuration Protocol, RFC 2131) lets a device join a network and automatically receive network configuration. Without it, every phone/laptop/TV would need manual IP configuration.
 
 ```text
 Phone joins WiFi → requests address → router assigns IP
 ```
+
+The standard DHCP lease negotiation uses the four-step **DORA** sequence:
+1. **Discover (DHCPDISCOVER):** The client broadcasts a packet to locate available DHCP servers on the local subnet.
+2. **Offer (DHCPOFFER):** A DHCP server responds with an offered IP address and configuration parameters.
+3. **Request (DHCPREQUEST):** The client broadcasts a request accepting the specific server's offer.
+4. **Acknowledge (DHCPACK):** The server confirms the reservation and finalizes the lease.
+
+A DHCP lease provides more than just an IP address; it typically delivers:
+- **Client IP address**
+- **Subnet mask / prefix length** (defines local network boundary)
+- **Default gateway IP** (the router to reach external networks)
+- **DNS server IPs** (resolvers for domain name lookup)
 
 In home networks the router **is** the DHCP server, and it keeps a lease table mapping devices to assigned addresses.
 
@@ -75,6 +89,8 @@ Important: the IP is **not** permanently tied to the MAC. The DHCP server is sim
 ## Why IPv4 addresses are scarce
 
 IPv4 has 2^32 ≈ 4.3 billion possible addresses. The world has more people than IPv4 addresses, and far more devices. This shortage is one of the primary reasons NAT exists.
+
+In contrast, IPv6 (RFC 8200) uses 128-bit addresses (providing 2^128 ≈ 3.4 × 10^38 unique addresses), vastly expanding the address space so devices can be assigned globally unique routable addresses without relying on NAT for address conservation.
 
 ## NAT (Network Address Translation)
 
@@ -92,9 +108,13 @@ Source 192.168.1.2  →  Source 49.204.10.15  →  google.com
 
 Google sees `49.204.10.15`, not `192.168.1.2`. The router is effectively representing all local devices to the outside world.
 
-### NAT uses ports, not just IP addresses
+### NAT vs NAPT / PAT (NAT uses ports, not just IP addresses)
 
-This is the crucial detail. When the laptop opens a connection from `192.168.1.10:54321`, the router may translate it to `49.204.10.15:60001` and store the mapping in its NAT table:
+Traditional **Basic NAT** (RFC 3022) translates IP addresses on a 1:1 basis (mapping a private IP to a public IP from a pool without changing port numbers).
+
+However, most home and enterprise routers implement **NAPT (Network Address Port Translation)**, also called **PAT (Port Address Translation)**. NAPT translates both the IP address and the transport-layer (TCP/UDP) port numbers:
+
+When the laptop opens a connection from `192.168.1.10:54321`, the router may translate it to `49.204.10.15:60001` and store the mapping in its translation table:
 
 ```text
 49.204.10.15:60001  →  192.168.1.10:54321
@@ -197,17 +217,22 @@ The database is **private** (not internet reachable) and **static** (predictable
 1. **"Public IP means static IP."** Incorrect — a home broadband connection is often public + dynamic.
 2. **"Private IP means dynamic IP."** Incorrect — a database server is often private + static.
 3. **"A website must have a static IP."** Not necessarily — DNS allows the IPs behind a hostname to change.
-4. **"NAT only changes the source IP."** Incomplete — NAT usually translates source IP **and** source port, maintaining a NAT table. Ports are what allow many simultaneous connections through one public IP.
-5. **"My router gets a public IP from the ISP."** Sometimes — under CGNAT your router may receive `100.64.x.x`, which is not actually public; the ISP performs another NAT layer.
-6. **"MAC addresses are permanent and cannot be changed."** Incorrect — MAC spoofing is common and supported by operating systems.
-7. **"A hacker can directly connect to a private database IP."** Normally impossible from the internet. Breaches usually happen because an application server was compromised, a security group was misconfigured, VPN credentials were stolen, or the attacker moved laterally inside the network.
-8. **"A device's IP is permanently tied to its MAC."** Incorrect — DHCP leases associate a MAC with an IP temporarily; the mapping can change later.
+4. **"NAT only changes the source IP."** Incomplete — Basic NAT maps IP addresses (1:1), while NAPT/PAT translates both source IP **and** source TCP/UDP port, maintaining a translation table. Ports are what allow many simultaneous connections through one public IP.
+5. **"NAT is a security boundary / firewall."** Incorrect — NAT is an address-translation routing mechanism, not a security control. While inbound connections to unmapped ports are dropped by default under NAPT, NAT does not inspect traffic or enforce security policies; stateful firewalls and access control lists provide actual network security.
+6. **"My router gets a public IP from the ISP."** Sometimes — under CGNAT your router may receive `100.64.x.x`, which is not actually public; the ISP performs another NAT layer.
+7. **"MAC addresses are permanent and cannot be changed."** Incorrect — MAC spoofing is common and supported by operating systems.
+8. **"A hacker can directly connect to a private database IP."** Normally impossible from the internet. Breaches usually happen because an application server was compromised, a security group was misconfigured, VPN credentials were stolen, or the attacker moved laterally inside the network.
+9. **"A device's IP is permanently tied to its MAC."** Incorrect — DHCP leases associate a MAC with an IP temporarily; the mapping can change later.
 
 ## Good to know
 
 ### Why databases are usually safer behind private IPs
 
 Private IPs are not globally routable. An attacker on the public internet cannot directly send packets to `10.0.1.20` unless they first gain access to a system that already has connectivity to that network.
+
+### NAT is not a firewall
+
+Although NAPT naturally prevents unsolicited inbound connections from reaching arbitrary internal IPs because no NAT table entry exists, NAT is not a substitute for a firewall. Security requires stateful inspection, strict firewall rules, and encryption.
 
 ### Mental model that ties everything together
 
@@ -226,14 +251,17 @@ Modern distributed systems depend on DNS names instead of hardcoded IPs, because
 **Q. Are public/private and static/dynamic the same classification?**
 A. No. Public/private describes reachability; static/dynamic describes whether the address changes.
 
-**Q. What does DHCP do?**
-A. Automatically assigns IP addresses and maintains lease mappings.
+**Q. What does DHCP do and what are its four steps?**
+A. Automatically assigns IP configuration using DORA (Discover, Offer, Request, Acknowledge), supplying IP address, subnet mask, default gateway, and DNS servers.
 
 **Q. Why is NAT needed?**
 A. Because private IPs are not internet-routable and IPv4 addresses are limited.
 
-**Q. What does NAT actually translate?**
-A. Typically both source IP and source port, tracked in a NAT table.
+**Q. What is the difference between basic NAT and NAPT/PAT?**
+A. Basic NAT translates only IP addresses (1:1), whereas NAPT/PAT translates both IP addresses and TCP/UDP ports (many-to-one).
+
+**Q. Is NAT a security firewall?**
+A. No. NAT translates network addresses for reachability; stateful firewalls enforce security policies and access control.
 
 **Q. What is CGNAT?**
 A. An ISP-level NAT layer sitting above your router's NAT — your router may get `100.64.x.x` instead of a real public IP.
@@ -243,3 +271,13 @@ A. IP identifies network location; MAC identifies a local network interface. MAC
 
 **Q. Can websites run on dynamic IPs?**
 A. Yes. DNS allows hostname-to-IP mappings to change over time.
+
+## Sources
+
+- [RFC 1918 - Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918)
+- [RFC 3022 - Traditional IP Network Address Translator (Traditional NAT)](https://datatracker.ietf.org/doc/html/rfc3022)
+- [RFC 2131 - Dynamic Host Configuration Protocol](https://datatracker.ietf.org/doc/html/rfc2131)
+- [RFC 8200 - Internet Protocol, Version 6 (IPv6) Specification](https://datatracker.ietf.org/doc/html/rfc8200)
+- [Cloudflare Learning Center - What is NAT?](https://www.cloudflare.com/learning/network-layer/what-is-nat/)
+- [Cloudflare Learning Center - What is DHCP?](https://www.cloudflare.com/learning/network-layer/what-is-dhcp/)
+- [System Design Primer - Network Protocols](https://github.com/donnemartin/system-design-primer)
