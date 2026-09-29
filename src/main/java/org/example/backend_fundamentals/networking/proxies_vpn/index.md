@@ -49,7 +49,7 @@ User ─► Reverse proxy ─► [Server A | B | C | D]
 - **Security** — backend servers stay private, not directly reachable from the internet.
 - **Load balancing** — distribute requests across servers (req1 → A, req2 → B, ...).
 - **Caching** — frequently requested content served from the proxy, reducing backend load.
-- **SSL/TLS termination** — the proxy handles HTTPS and certificates; backends don't perform TLS processing themselves.
+- **SSL/TLS termination** — the proxy handles HTTPS and certificates; backends don't perform TLS processing themselves. Full payload inspection or request/response rewriting requires TLS termination by a reverse proxy holding the site certificate (or an enterprise forward proxy with trusted root CA on the client).
 
 ### Reverse proxy vs load balancer vs CDN
 
@@ -72,6 +72,8 @@ The browser can't communicate using a domain name — DNS translates `google.com
 ### DNS blocking
 
 For a blocked site, the ISP's resolver responds with **"not found," "blocked," or a fake IP** — the user never gets the correct IP, so the connection never starts.
+
+*Note on direct IP traffic:* DNS blocking operates strictly at the name-resolution stage. It cannot stop direct traffic to an already-known IP address (e.g. hardcoded IP in client or hosts entry) unless accompanied by an explicit IP-layer policy (L3 routing/firewall drop rules).
 
 ### Why changing DNS sometimes works
 
@@ -101,6 +103,8 @@ The ISP sees only `destination IP = VPN server`; the final destination is hidden
 
 - **Bypasses DNS blocking:** DNS queries travel *inside* the tunnel to the VPN's DNS — the ISP cannot inspect or modify them.
 - **Bypasses IP blocking:** the ISP only sees the VPN server's IP; the VPN server connects to the blocked site *outside* the ISP's network.
+- **IPsec architecture (RFC 4301):** Operates at the IP layer (L3). Security Associations (SAs) define unidirectional security parameters and cryptographic keys, negotiated dynamically using the Internet Key Exchange protocol (IKE/IKEv2). Depending on configuration (AH/ESP), it provides confidentiality, packet integrity, data origin authentication, and anti-replay protection.
+- **Scope of VPN protection:** A VPN protects only the **transit tunnel** (data in motion between the client and VPN gateway). It does **not** protect against vulnerable application code, compromised client/server endpoints, phishing, malware, or stolen credentials.
 
 **Obfuscated VPNs:** To bypass Deep Packet Inspection (DPI), VPNs disguise their traffic as normal HTTPS traffic (e.g., "Looks like somebody opening Gmail" instead of "Looks like a VPN"). This creates a constant cat-and-mouse game between firewalls and VPN providers.
 
@@ -125,7 +129,7 @@ Most international traffic passes through centralized filtering — one highly c
 | DNS filtering | Return fake or invalid DNS responses |
 | IP blocking | Drop traffic to specific destinations |
 | Deep packet inspection (DPI) | Inspect packet metadata and protocol characteristics — can detect VPN traffic, certain applications, suspicious patterns |
-| TLS/SNI filtering | Inspect the Server Name Indication (SNI) in the unencrypted TLS handshake to see the requested domain (e.g., `facebook.com`) and terminate the connection |
+| TLS/SNI filtering | Inspect the Server Name Indication (SNI) in the unencrypted TLS `ClientHello` handshake to see the requested domain (e.g., `facebook.com`) and terminate the connection. However, deep payload inspection/rewriting requires full TLS termination by a trusted enterprise forward proxy or a reverse proxy holding the site certificate. |
 | VPN detection | Identify and block common VPN protocols (OpenVPN, WireGuard) |
 | Active probing | The firewall itself connects to a suspected VPN server to test whether it runs VPN software; if confirmed, it's blocked |
 
@@ -174,4 +178,12 @@ A. Yes — VPN IP blacklists, deep packet inspection, and active probing.
 
 **Q. Reverse proxy vs gateway?**
 A. Reverse proxy ⊂ gateway — the gateway adds API management, auth, policy enforcement, protocol translation.
+
+## References
+
+- [RFC 4301: Security Architecture for the Internet Protocol (IPsec)](https://datatracker.ietf.org/doc/html/rfc4301)
+- [Cloudflare: What is a Reverse Proxy?](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/)
+- [Cloudflare: What is a VPN?](https://www.cloudflare.com/learning/access-management/what-is-a-vpn/)
+- [OWASP: Application Gateway](https://owasp.org/projects/application-gateway/)
+- [The System Design Primer: Reverse Proxy & Load Balancer](https://github.com/donnemartin/system-design-primer)
 
