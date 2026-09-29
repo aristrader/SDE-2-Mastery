@@ -40,11 +40,14 @@ The hierarchy exists so that **no single server needs to store information about
 
 ### Complete resolution flow (nothing cached)
 
+Lookup order varies by browser/OS configuration, but local hosts-file mapping can short-circuit normal resolver dispatch before outbound queries.
+
 1. **Browser cache** — "do I already know google.com's IP?" If yes, lookup ends here.
 2. **OS DNS cache** — if found, lookup ends.
 3. **Browser asks the resolver** — resolver doesn't know yet.
 4. **Resolver asks a root server** → "ask the `.com` TLD servers." (No IP yet.)
 5. **Resolver asks the `.com` TLD server** → "ask Google's authoritative server." (Still no IP.)
+*(Referral details: a referral returns NS records for the next zone and may include A/AAAA glue records in the additional section when an in-bailiwick nameserver would otherwise require resolving itself, per RFC 1034.)*
 6. **Resolver asks the authoritative server** → `142.250.x.x` — the actual record.
 7. **Resolver returns the IP to the client** and caches it. Only now does the browser start TCP → TLS → HTTP.
 
@@ -68,6 +71,8 @@ Without caching every lookup would walk resolver → root → TLD → authoritat
 
 Common interview point: **before a migration or failover, teams reduce TTL** so caches expire quickly and traffic moves to the new destination faster.
 
+**Negative caching (RFC 2308):** recursive resolvers cache NXDOMAIN/NODATA for a bounded SOA-derived TTL, so a just-created name may remain invisible briefly.
+
 ### DNS-based traffic steering
 
 DNS is not only name resolution — large systems use it to decide *where* traffic should go. The same domain can return different IPs: a user in Bangalore gets a Bangalore IP for `netflix.com`, a user in London gets a London IP.
@@ -77,6 +82,10 @@ DNS is not only name resolution — large systems use it to decide *where* traff
 **DNS-based load balancing:** the authoritative server can return Server A, B, or C based on geography, latency, traffic conditions, or health checks. DNS is a traffic-control mechanism, not just a phonebook.
 
 **DNS-based failover:** if a server becomes unavailable, DNS can be updated to return a backup server's IP.
+
+### Steering limitation: DNS is not real-time load balancing
+
+Authoritative health checks can change future DNS answers when an endpoint degrades, but recursive resolvers and clients will continue routing traffic to the old IP until cached TTLs expire. In addition, DNS normally cannot observe individual live connections or instantaneous server load. DNS should therefore be used for coarse traffic placement and regional failover, while dedicated load balancers and service discovery systems handle fast, request-level routing decisions.
 
 ### How DNS determines user location — important nuance
 
