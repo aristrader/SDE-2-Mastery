@@ -71,12 +71,20 @@ Opening a Word Document:
 *   **Misconception:** Increasing concurrency automatically increases throughput and reduces latency.
 *   **Correction:** Increasing concurrency only helps until you hit a bottleneck. Beyond that, context switching, lock contention, and memory pressure will *reduce* throughput and *increase* latency.
 
+### Percentiles and queueing: the production boundary
+
+An average can hide the request a customer actually notices. Report **p50** (typical), **p95**, and **p99** latency: p99 of 800 ms means one request in the slowest one percent took at least that long. A database pause, a saturated connection pool, or one cross-region dependency can therefore hurt p99 long before the average looks alarming.
+
+When arrival rate approaches a bottleneck's service rate, requests wait in a queue. More queued work raises latency; the larger latency raises in-flight concurrency under Little's Law; eventually timeouts and retries add still more work. Recovery is to apply a bounded queue or concurrency limit, shed or back-pressure excess work, and remove the actual bottleneck—not to keep adding request threads.
+
 ## Little's Law
 **Formula:** `Concurrency = Throughput × Latency`  (L = λ × W)
 
 *   **Meaning:** Active Requests = Requests/sec × Average request time.
 *   **Restaurant Analogy:** 10 customers arrive per second. Each stays 5 seconds. Total inside = 50.
 *   **Interview Example:** If you have 1000 RPS and 100 ms (0.1s) latency, how many active requests? `1000 × 0.1 = 100 active requests.`
+
+Use the law for a stable, observed system over the same time window: count completed throughput, include waiting time in latency, and measure the matching average number in flight. It predicts required capacity; it does not prove that adding concurrency will improve throughput.
 
 ### Crucial Concurrency Distinction
 *   **Misconception:** Concurrency is the number of requests the CPU is executing.
@@ -98,3 +106,5 @@ A. Threads are expensive (stack memory, JVM overhead) and context-switching 10,0
 **Q. Why avoid cross-region calls in the hot path?**
 A. Cross-region latency is large and variable; it can dominate p99 even if local service code is fast.
 
+**Q. Why can a healthy average latency still be a production problem?**
+A. Tail percentiles expose queued or stalled requests; p99 usually reflects the user-visible failure boundary better than the average.
