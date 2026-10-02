@@ -98,12 +98,37 @@ average write QPS = 300M / 86,400 ≈ 3.5K QPS
 peak write QPS ≈ 7K QPS if using 2x peak factor
 ```
 
-### Storage
+### Bandwidth (Network I/O)
 
 Formula:
 
 ```text
-storage = writes/day × bytes/write × retention × replication factor
+bandwidth = QPS × payload size
+```
+
+Keep units clear: convert Bytes per second (B/s) to bits per second (bps) by multiplying by 8 (e.g., 100 MB/s = 800 Mbps). Calculate ingress (incoming writes/uploads) and egress (outgoing reads/downloads) separately because network interfaces and cloud pricing differ by direction.
+
+### Little's Law (Concurrent Work Sizing)
+
+Formula:
+
+```text
+L = λ × W
+```
+
+- `L` = average number of concurrent requests / in-flight work in the system
+- `λ` (lambda) = arrival rate (throughput / QPS)
+- `W` = average service time / latency per request
+
+Example:
+If an API receives `5,000 QPS` (`λ`) and average backend processing time is `200 ms` (`0.2 s`, `W`), the system must handle `5,000 × 0.2 = 1,000` concurrent in-flight requests (`L`). Use Little's Law to size worker thread pools, async connection queues, and container concurrency limits.
+
+### Storage & Replication Tradeoffs
+
+Formula:
+
+```text
+storage = writes/day × bytes/write × retention × replication multiplier
 ```
 
 Example:
@@ -114,12 +139,16 @@ Example:
 
 raw = 30 TB/day
 5 years = 30 TB × 365 × 5 ≈ 55 PB
-with 3 replicas ≈ 165 PB
+with 3-way replication (3x) ≈ 165 PB
 ```
+
+Replication strategies:
+- **3-way replication**: `3.0x` storage overhead (200% extra). Simple quorum reads, low CPU compute cost, fast recovery, ideal for hot transactional databases and active block stores.
+- **Erasure coding (e.g., Reed-Solomon 8+4 or 10+4)**: `1.33x – 1.5x` storage overhead (33–50% extra). Drastically cuts PB-scale raw disk costs, but incurs CPU encoding overhead and higher network reconstruction traffic during disk degradation. Standard for cold/warm object storage tiers (e.g., AWS S3).
 
 Then add overhead for indexes, metadata, logs, thumbnails, backups, and compression. Do not pretend the raw number is the final infrastructure bill.
 
-### Cache size
+### Cache Size & the 80/20 Assumption
 
 Formula:
 
@@ -127,13 +156,15 @@ Formula:
 cache size = hot objects × object size × overhead factor
 ```
 
+The **80/20 Pareto rule** (e.g., 20% of objects account for 80% of daily reads) is a standard **interview assumption / simplifying heuristic**, not a universal physical law. In practice, long-tail workloads (e.g., e-commerce catalogs or news feeds) may exhibit 95/5 or 60/40 distributions. Always state 80/20 explicitly as an assumption when sizing the hot working set.
+
 Example:
 
 ```text
-10M hot user profiles
+10M hot user profiles (assuming 20% of 50M total profiles generate 80% of traffic)
 2 KB/profile
 raw = 20 GB
-with overhead ≈ 30-50 GB
+with 30-50% memory overhead ≈ 30-50 GB RAM for cache
 ```
 
 The interview point: cache only the hot set, not necessarily the entire dataset.
@@ -152,6 +183,13 @@ If one API server safely handles 1000 QPS and peak traffic is 7000 QPS, you need
 7 required + N+1 or 30-50% buffer → maybe 10-12 servers
 ```
 
+## References & Authoritative Citations
+
+- **AWS Well-Architected Framework (Reliability & Performance Efficiency Pillars)**: Capacity management, horizontal scaling headroom, and storage tiering.
+- **Google SRE Workbook (Chapter 8: Capacity Planning & Chapter 9: Non-Abstract Large System Design)**: Demand forecasting, Little's Law queuing limits, and N+2 redundancy.
+- **Little's Law (John D.C. Little, 1961 - Operations Research)**: Mathematical equivalence of concurrency, arrival rate, and latency ($L = \lambda W$).
+- **System Design Primer (Donne Martin)**: Powers of two memory hierarchy, back-of-the-envelope latency constants, and bandwidth calculations.
+
 ## Estimation workflow
 
 ![Back-of-the-envelope estimation workflow](./assets/estimation-workflow.svg)
@@ -161,10 +199,12 @@ If one API server safely handles 1000 QPS and peak traffic is 7000 QPS, you need
 3. Estimate average QPS.
 4. Estimate peak QPS.
 5. Estimate payload/object size.
-6. Estimate daily storage.
-7. Apply retention and replication.
-8. Add rough overhead and headroom.
-9. Use the result to justify architecture choices.
+6. Estimate network bandwidth (ingress & egress).
+7. Estimate daily storage.
+8. Apply retention and replication / erasure coding.
+9. Size concurrency using Little's Law ($L = \lambda W$).
+10. Add rough overhead and headroom.
+11. Use the result to justify architecture choices.
 
 The last step matters most. If the estimate says `7K write QPS`, explain whether one primary DB can handle it, whether batching helps, whether queues are needed, and where caching actually helps.
 
@@ -174,37 +214,50 @@ Map the number to a design decision:
 |---------------|--------------------|
 | Reads dominate writes | cache, read replicas, denormalized read models |
 | Writes dominate reads | partitioning, batching, async queue, append-only storage |
-| Storage grows to PB scale | object storage, lifecycle policies, partitioning, compression |
+| Storage grows to PB scale | object storage, erasure coding, lifecycle policies, compression |
+| Network egress dominates ingress | CDN offload, edge caching, response compression |
+| High concurrency ($L = \lambda W$) | non-blocking I/O, async thread pools, connection pooling |
 | Peak QPS is much higher than average | autoscaling, queue buffering, rate limiting, overprovisioning |
 | Cross-region latency matters | regional routing, data replication, avoid global sync calls |
 
 ## Gotchas / Trick questions
 
 1. **"Average QPS is enough."** No. Traffic has peaks. Use a peak factor or ask for peak-to-average ratio.
-2. **"Storage = raw data only."** No. Include replication, indexes, metadata, backups, logs, thumbnails, and retention.
+2. **"Storage = raw data only."** No. Include replication/erasure coding, indexes, metadata, backups, logs, thumbnails, and retention.
 3. **"Reads and writes scale the same way."** No. Read replicas and caches help reads; writes still need primary capacity, partitioning, batching, or queues.
 4. **"Every estimate needs exact math."** No. Round numbers so the interview discussion stays on design.
 5. **"Cache the full dataset."** Usually no. Cache the hot set and size memory from access patterns.
+6. **"80/20 is an absolute universal law."** No. It is an interview heuristic; real distributions vary widely.
+7. **"Bandwidth and QPS are interchangeable."** No. High QPS with small payloads strains CPU/connections; low QPS with large video payloads saturates NIC bandwidth.
 
 ## Quick recall
 
-**Q. Average QPS formula?**  
+**Q. Average QPS formula?**
 A. `daily events / 86,400`.
 
-**Q. Storage estimate formula?**  
+**Q. Storage estimate formula?**
 A. `writes/day × bytes/write × retention × replication factor`, then add overhead.
 
-**Q. Why label units?**  
+**Q. Why label units?**
 A. `5` is ambiguous; `5 MB/request` makes the calculation checkable.
 
-**Q. Why is peak QPS more important than average QPS?**  
+**Q. Why is peak QPS more important than average QPS?**
 A. Systems fail during spikes, not during mathematically smooth average traffic.
 
-**Q. What does an interviewer care about more than the final number?**  
+**Q. What does an interviewer care about more than the final number?**
 A. Assumptions, units, rounding, and whether the number changes the architecture.
 
-**Q. When estimating cache, what should you size?**  
+**Q. When estimating cache, what should you size?**
 A. The hot working set, not the entire database.
 
-**Q. How do estimates affect design?**  
+**Q. How do estimates affect design?**
 A. They tell you whether to add cache, replicas, sharding, queues, object storage, autoscaling, or regional routing.
+
+**Q. How do you estimate network bandwidth?**
+A. `bandwidth = QPS × payload size` (calculated separately for ingress and egress).
+
+**Q. What is Little's Law and how is it used in capacity planning?**
+A. `L = λ × W` (concurrency = arrival rate × latency); it sizes thread pools, connection limits, and in-flight request capacity.
+
+**Q. What is the tradeoff between 3-way replication and erasure coding?**
+A. 3-way replication has 200% overhead (3x storage) with minimal CPU overhead; erasure coding offers low storage overhead (1.33x–1.5x) at the cost of higher CPU encoding and network reconstruction overhead.
