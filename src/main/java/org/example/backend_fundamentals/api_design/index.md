@@ -10,6 +10,15 @@ APIs, REST, statelessness, sessions, JWT, HTTP status codes.
 
 This document captures all topics, questions, misconceptions, corrections, examples, and follow-up clarifications discussed in this part of the conversation.
 
+### Module Learning Roadmap & Reader Path
+
+1. **Foundations (This Page)**: Core API contracts, REST constraints, HTTP methods, 1xx–5xx status code semantics, stateful session scaling (sticky sessions, Redis), and stateless JWT verification mechanics.
+2. **[REST Endpoint Design](rest_endpoint_design/index.md)**: Resource naming, sub-resources, pagination, filtering, idempotency keys, and error contract modeling.
+3. **[GraphQL & DataLoaders](graphql/index.md)**: Schema vs resolvers, transport-agnostic AST validation, solving N+1 via request-scoped DataLoaders, and security depth/complexity budgets.
+4. **[Protobuf & gRPC](protobuf_grpc/index.md)**: Binary encoding (varints, wire types), HTTP/2 multiplexing, IDL codegen, and backwards compatibility rules.
+5. **[API Technologies Comparison](api_technologies_comparison/index.md)**: Architectural decision matrix (coupling, latency, payload efficiency, caching, discoverability) across REST, GraphQL, and gRPC.
+6. **[Consolidated Reference Summary](api_technologies_summary/index.md)**: Full comparative cheat sheet and synthesis across all paradigms.
+
 ---
 
 # APIs
