@@ -2,116 +2,142 @@
 order: 20
 ---
 
-# Authentication & Authorization Study Notes
+# Authorization in Spring Security
 
-This document consolidates key technical concepts for Authentication and Authorization, specifically tailored for Java Backend systems using Spring Security and JWT.
+Authentication answers **who is calling?** Authorization answers **may that caller perform this action on this resource now?** A signed JWT establishes a trustworthy identity and claims; it does not, by itself, make a request allowed.
 
-## 1. Access Control Models
+This page uses a multi-tenant document service as its running example. The same reasoning applies to payments, orders, and internal tools.
 
-*   **RBAC (Role-Based Access Control)**
-    *   **Concept:** Users are assigned *Roles*, and Roles are collections of *Permissions*.
-    *   **Hierarchy:** Higher roles can inherit permissions from lower roles (e.g., `ADMIN` inherits from `MANAGER`).
-    *   **Pros:** Easy maintenance and scalability. You update a role's permissions instead of individual users.
-    *   **Example:** `User (Swapnil) -> Role (ADMIN) -> Permissions (READ_USER, DELETE_USER)`.
+## Start with the request flow
 
-*   **ACL (Access Control List)**
-    *   **Concept:** Permissions are attached directly to each *Resource*.
-    *   **Example:** `Salary.xlsx -> Swapnil (Read/Write), Rahul (Read)`.
-    *   **Cons:** Doesn't scale well with millions of resources (e.g., Google Drive, Linux file system permissions).
+1. An authentication filter validates credentials: for a bearer token, it verifies the JWT signature and expiry.
+2. It creates an `Authentication` and stores it in the `SecurityContext` for this request.
+3. Request-level rules decide whether the HTTP route is broadly allowed.
+4. Method or domain rules decide whether this caller may perform this particular business operation.
+5. Data access enforces the same tenant and ownership boundary when reading or writing records.
 
-*   **ABAC (Attribute-Based Access Control)**
-    *   **Concept:** Authorization depends on attributes (User, Resource, Action, Environment) and conditions.
-    *   **Example:** Allow Manager to approve leave ONLY IF `Manager.Department == Employee.Department`.
-    *   **Comparison:** RBAC is role-based; ABAC is context/attribute-based.
+`SecurityContextHolder` is Spring Security's access point for the current `SecurityContext`; in a normal servlet request it is backed by the current execution context. The context contains an `Authentication`: principal (identity), granted authorities, authentication state, and, while relevant, credentials. It is not JWT-specific: form login, sessions, OAuth/OIDC, and JWT resource servers all populate this same abstraction.
 
-## 2. Spring Security Architecture
+## Choose the authorization model before the annotation
 
-The core flow is: **Authenticate -> Authorize**. Everything happens in a filter chain before the controller executes.
+| Model | Good fit | Mechanism and trade-off |
+| --- | --- | --- |
+| **RBAC** (role-based access control) | Stable job responsibilities such as support agent, manager, administrator | Assign permissions to roles and roles to users. A hierarchy can let `ADMIN` inherit `MANAGER` permissions. It is easy to administer, but roles become brittle when every exception creates another role. |
+| **ACL** (access control list) | Per-object sharing, such as “Asha can edit document 42” | Store grants against a resource. It is expressive, but listing/filtering millions of objects can require expensive joins and careful indexes. |
+| **ABAC** (attribute-based access control) | Decisions that depend on subject, resource, action, and environment | Evaluate attributes such as caller tenant, document owner, requested action, time, or assurance level. It handles context well, but policies need tests and clear ownership. |
 
-### The Flow
-1.  **Client Request:** HTTP Request arrives.
-2.  **Spring Security Filter Chain:** Intercepts the request.
-    *   **JWT Filter:** Reads the token, verifies the signature, checks expiry, extracts claims, and creates an `Authentication` object.
-3.  **SecurityContext:** Stores the `Authentication` object for the current request.
-4.  **Authorization:** Checks permissions (e.g., `@PreAuthorize`).
-5.  **Controller:** Executes if authorized; otherwise, returns `403 Forbidden`.
+Use RBAC for broad capability, ACL for exceptional object sharing, and ABAC/domain logic for ownership, tenant, and state checks. Real systems commonly combine them.
 
-### Key Components
-*   **Authentication Object:** Contains the `Principal` (e.g., email), `Authorities` (e.g., `ROLE_ADMIN`, `READ_ORDER`), the `Authenticated` flag, and `Credentials`.
-*   **SecurityContext:** Think of it as the current request's security information.
-*   **SecurityContextHolder:** Provides global access to the `SecurityContext` (e.g., `SecurityContextHolder.getContext().getAuthentication()`).
-*   **AuthenticationManager & UserDetailsService:** Primarily associated with username/password authentication. In modern JWT + Keycloak flows, they are often bypassed as the token is verified locally without querying the application's database.
+## Roles, authorities, and two enforcement layers
 
-## 3. Method Security vs. URL Security
+A **role** is a broad responsibility; an **authority** is an exact capability. Spring's `hasRole("ADMIN")` convention checks for authority `ROLE_ADMIN`. `hasAuthority("document:delete")` checks that exact string. Map the convention deliberately when converting claims; a token containing `ADMIN` does not automatically satisfy `hasRole("ADMIN")`.
 
-*   **URL Security (e.g., `.requestMatchers("/admin/**").hasRole("ADMIN")`):** Protects endpoints at the routing level.
-*   **Method Security (e.g., `@PreAuthorize("hasRole('ADMIN')")`):** Protects business logic, regardless of how or from where the method is invoked.
-*   **Best Practice:** Combine both for **Defense in Depth**.
+Request rules protect the HTTP boundary. Method rules protect business logic, including calls that do not come through the same controller. Enable method security explicitly; Spring Boot's security starter does not activate it automatically.
 
-### @PreAuthorize Expressions
-*   `hasRole('ADMIN')`: Checks for `ROLE_ADMIN`. (Roles represent job responsibilities).
-*   `hasAuthority('DELETE_ORDER')`: Checks for the exact string `DELETE_ORDER`. (Authorities represent specific capabilities and are more reusable).
-*   `isAuthenticated()`: Checks if the user is logged in (ignores roles/authorities).
-*   **Note:** `@PreAuthorize` does *not* read the JWT. It reads the authorities from the `Authentication` object in the `SecurityContext`.
+```java
+@Configuration
+@EnableMethodSecurity
+class SecurityConfig {
+    @Bean
+    SecurityFilterChain security(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/health").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/documents/**")
+                            .hasAuthority("document:delete")
+                        .anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+                .build();
+    }
+}
 
-## 4. JWT & Keycloak Integration
+@Service
+class DocumentService {
+    @PreAuthorize("hasAuthority('document:delete')")
+    void delete(Document document, Caller caller) {
+        if (!document.tenantId().equals(caller.tenantId())
+                || !document.ownerId().equals(caller.subject())) {
+            throw new AccessDeniedException("not this caller's document");
+        }
+        // delete only after the tenant and ownership decision
+    }
+}
+```
 
-*   **Responsibilities:**
-    *   **Keycloak (Identity Provider):** Manages users, roles, groups, handles login, and issues JWTs. Keycloak does *not* authorize application requests.
-    *   **Spring Security (Resource Server):** Consumes JWTs, verifies signatures, and performs authorization.
-*   **Statelessness:** By configuring `SessionCreationPolicy.STATELESS`, no HTTP sessions are created. Every request must send a JWT.
-*   **Public Keys (JWK):** Keycloak signs multiple JWTs with the same private key. Spring Security downloads and caches Keycloak's public keys (via `jwk-set-uri`). The `kid` (Key ID) in the JWT header tells Spring which cached public key to use to verify the signature locally, avoiding network calls on every request.
+Use route rules for coarse, early rejection and method/domain rules for decisions needing method parameters, entity state, ownership, or a non-HTTP caller. `@PreAuthorize` reads the already-created `Authentication`; it does not parse a JWT. Avoid hiding a large policy language in one SpEL string: grant stable capabilities as authorities, and put complex, testable business decisions in a named authorization component.
 
-### Misconceptions Corrected
-*   **Myth:** Spring Security always authenticates using a database.
-    *   **Fact:** Only for username/password login. In JWT flows, it verifies the token locally using public keys.
-*   **Myth:** Each user has a separate public/private key pair.
-    *   **Fact:** Keys belong to the Identity Provider (Keycloak), not individual users.
+## Stateless JWT authorization: what is verified, then what is decided
 
-## 5. Custom Claims & Business Authorization
+An identity provider handles login and issues tokens. A Spring resource server validates incoming tokens and enforces the application's policy; it does not need a database lookup for every valid JWT.
 
-*   **Custom Claims:** JWTs can carry custom claims like `tenant_id`, `client_id`, or `organization_id` to avoid additional database calls.
-*   **Business Authorization:** Sometimes, `@PreAuthorize` is insufficient because authorization depends on the request body or complex business rules (e.g., requiring specific permissions based on the requested service like OCR vs. Face Match). In these cases, authorization is handled programmatically in the business layer after the JWT is validated.
+For asymmetric JWT signing, the resource server obtains public keys from a **JWKS** (JSON Web Key Set). The JWT header's `kid` identifies the candidate verification key, allowing key rotation. After signature, issuer, expiry, and any configured audience validation succeed, Spring maps claims/scopes into `GrantedAuthority` values and puts the resulting authentication in the context. Treat custom claims such as `tenant_id`, `organization_id`, or `client_id` as inputs to a decision—not as permission to skip resource checks.
 
-## 6. Multi-Tenant Authorization
+**Normal delete path:** a caller sends `DELETE /documents/42` with a bearer token. The filter verifies it and installs the principal. The route requires `document:delete`. The service loads document 42 using the caller's tenant predicate, then checks ownership or an explicit share grant before deletion. A failure at any layer stops the action; log the decision without logging the token.
 
-*   **Tenant:** Refers to a customer organization (e.g., Google, Microsoft), not an individual user.
-*   **Isolation:** Users must never see another tenant's data.
-*   **Implementation:** Tenant IDs are often passed via JWT custom claims. When querying the database, always filter by `WHERE tenant_id = ?`.
-*   **Golden Rule:** **Never** trust a `tenant_id` provided in request parameters. Always derive it from the authenticated JWT.
+## Tenant isolation is an authorization invariant
 
-## 7. Defense in Depth
+A tenant is a customer organization, not an individual user. In shared SaaS, derive the tenant identity from the verified principal, then include it in every resource lookup:
 
-Never rely on a single security check. Use multiple independent layers:
-1.  **Spring Security:** JWT signature validation.
-2.  **Principal Injection:** Standardized request user context.
-3.  **Domain Wrapper:** Extracting claims into a clean domain object (e.g., `VidaUser`).
-4.  **Business Authorization:** Validating user capabilities against the requested operation.
-5.  **Business Validations:** Checking entity states, configuration validity, etc.
+```sql
+SELECT * FROM document WHERE id = :documentId AND tenant_id = :callerTenant;
+```
 
-## 8. Business Models & Deployment
-*   **B2B (Business-to-Business):** Customers are other businesses (e.g., Stripe, Twilio).
-*   **B2C (Business-to-Consumer):** Customers are end-users (e.g., Swiggy, Netflix).
-*   **Deployment Models:**
-    *   **Multi-Tenant SaaS:** One application instance serves many customers. Data is isolated via `tenant_id`.
-    *   **Single-Tenant SaaS:** Vendor hosts separate infrastructure, application, and database for each customer. (Typical for enterprise/banks).
-    *   **On-Premise:** Customer hosts and manages the software, servers, and networking. Vendor only supplies the software.
+Never trust a caller-supplied `tenant_id` as the isolation boundary. If a request carries one for routing, compare it to the authenticated tenant before use. This prevents an insecure direct-object-reference style bug where a valid user guesses another tenant's ID. Database row-level security or tenant-scoped repositories can provide an additional guard, but do not replace service-level intent checks.
 
-## 9. Security Operations
-*   **Audit Logging:** Tracks security-sensitive actions for investigations and compliance (unlike application logs, which help developers debug).
-    *   **Should Log:** User ID, Tenant/Client ID, Action, Resource, Timestamp, Decision (Allowed/Denied), and Reason.
-    *   **Should NOT Log:** Passwords, JWTs, OTPs, or Sensitive Personal Information.
-    *   **MDC (Mapped Diagnostic Context):** Tools like `MDC.put("client.id", clientId)` automatically enrich every log line, facilitating a natural audit trail.
-*   **Step-up Authentication:** Requires a user who is already authenticated to provide stronger authentication (e.g., OTP) before performing high-risk operations (e.g., large fund transfer, disabling MFA). This balances security with user experience.
+| Deployment choice | Authorization consequence |
+| --- | --- |
+| Multi-tenant SaaS | One service can serve many organizations; tenant filtering and cross-tenant tests are mandatory. |
+| Single-tenant hosted deployment | Separate infrastructure/database reduces shared-data blast radius, but users still need authorization. |
+| On-premises deployment | The customer runs the infrastructure; the application still needs roles, auditability, and secure integration boundaries. |
+| B2B versus B2C | B2B often needs organization, delegation, and enterprise federation; B2C commonly emphasizes scale and self-service. Neither removes the ownership check. |
 
-## 10. Additional Misconceptions Corrected
-*   **Myth:** SecurityContext is specific to JWT.
-    *   **Fact:** SecurityContext is independent of the authentication mechanism (JWT, OAuth, Session, etc., all populate the same `Authentication` object).
-*   **Myth:** Spring Security features are "written on SecurityContext."
-    *   **Fact:** Spring Security components *read* the `Authentication` stored inside the SecurityContext.
-*   **Myth:** Interceptors (e.g., `HandlerInterceptor`) authenticate JWTs.
-    *   **Fact:** Authentication happens earlier in the Spring Security filter chain. Interceptors only parse already-authenticated JWTs (e.g., to extract values for MDC logging).
-*   **Myth:** URL-based security should contain all authorization logic.
-    *   **Fact:** URL-based security only knows the URL. Complex authorization requiring business rules or request body analysis belongs in the Java/business layer.
-*   **Myth:** `tenant_id` or `MMID` require special JWT handling.
-    *   **Fact:** They are usually just standard custom JWT claims and can be extracted easily.
+## Failure modes and recovery
+
+| Problem | Naive failure | Mechanism and trade-off | Recovery |
+| --- | --- | --- | --- |
+| Route-only protection | A scheduled job or another adapter invokes a sensitive service directly. | Add method/domain checks; unannotated methods are not automatically protected. | Deny, audit, and add an automated authorization test for every entry point. |
+| Role-prefix mismatch | A valid administrator gets a 403. | Normalize claims to `ROLE_*`, or use exact authorities consistently. | Inspect mapped authorities, correct the converter/configuration, then retest both allow and deny paths. |
+| Tenant from request input | A user supplies another tenant ID. | Derive tenant from the verified principal and scope queries. | Reject mismatch, investigate attempted access, and backfill tenant predicates where missing. |
+| Stale or insufficient authentication | A long-lived token is used for a high-risk change. | Require recent authentication or MFA assurance (`auth_time`/`amr` where supported). It adds user friction. | Return a clear re-authentication challenge; issue a higher-assurance token before retrying. |
+| Context lost in async work | A background task has no current principal. | Pass an explicit actor/tenant command or use Spring's security-context delegation deliberately. | Do not silently run as a system administrator; reject or re-establish a bounded service identity. |
+
+Pessimistically denying a request is safer than guessing. Keep transactions short and do authorization before irreversible writes; `@PostAuthorize` can be useful for reads but is a poor primary guard for a write that has already happened.
+
+## Defense in depth and operations
+
+No single check is enough:
+
+1. The resource server validates token integrity and creates a standard caller context.
+2. Request rules reject clearly invalid routes early.
+3. Service/domain policy verifies capability, state, ownership, and tenant.
+4. Tenant-scoped persistence prevents accidental broad reads or writes.
+5. Audit events make sensitive allow/deny decisions investigable.
+
+For an audit event, record timestamp, subject, tenant/client identifier, action, resource identifier, decision, reason/rule, and request correlation ID. MDC can enrich ordinary logs with safe correlation fields, but security audit events should still have a defined schema and retention/access policy. Never log passwords, OTPs, raw JWTs, refresh tokens, private keys, or unnecessary sensitive personal data.
+
+## Common misconceptions
+
+- **“`@Transactional` or a JWT makes the operation safe.”** Transactions give atomicity and JWTs establish claims; neither decides ownership or tenant access.
+- **“The identity provider authorizes my application's business rules.”** It can issue roles/scopes. The resource server still owns its domain policy.
+- **“Interceptors authenticate JWTs.”** In a Spring MVC application, authentication occurs earlier in the Spring Security filter chain. An interceptor can consume established context for logging or adaptation.
+- **“SecurityContextHolder is only for JWT.”** It is authentication-mechanism independent.
+- **“One URL rule contains all authorization.”** URL rules cannot reliably evaluate entity ownership, request state, or non-HTTP calls.
+
+## Deferred scope
+
+This guide does not teach implementing an OAuth authorization server, SAML assertion processing, policy-engine deployment, or reactive/WebFlux security. Add those when the application needs them; they are not prerequisites for explaining servlet-side authorization clearly.
+
+## References
+
+- [Spring Security method security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html) — request versus method authorization, `@EnableMethodSecurity`, and `@PreAuthorize` behavior.
+- [Spring Security JWT resource server](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html) — JWT validation and claim-to-authority mapping.
+- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) — deny-by-default, per-request validation, and authorization testing guidance.
+- [NIST SP 800-162](https://csrc.nist.gov/pubs/sp/800/162/final) — ABAC terminology and attribute categories.
+
+## Quick recall
+
+- Authenticate first; authorize every sensitive action and resource.
+- Roles are broad; authorities are exact. `hasRole("X")` conventionally checks `ROLE_X`.
+- Route checks are early and coarse; service checks protect business decisions.
+- A verified tenant claim scopes queries; a request parameter never defines the boundary.
+- Log decisions and correlation fields, never credentials or raw tokens.
