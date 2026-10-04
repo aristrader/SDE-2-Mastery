@@ -44,4 +44,146 @@ Model the smallest useful in-memory vending machine for one-item cash purchases.
 
 ## Entity identification
 
+Machine
+Slot
+Transaction
+Payment
+PaymentDetails
+PaymentProcessor
+PaymentResolver
+CashDenomination
+
 ## Class diagrams
+
+MachineService
+- machines : Map<int, Machine>
+- paymentResolver : PaymentResolver
+
++ selectItem(machineId, slotId)
++ startPayment(machineId, paymentType) : PaymentInitResult
++ insertCash(machineId, denomination)
++ completePurchase(machineId) : PaymentResult
++ cancel(machineId)
+
+Machine
+- id : int
+- slots : Map<int, Slot>
+- cashInventory : Map<CashDenomination, int>
+- activeTransaction : Transaction
+- pastTransactions : List<Transaction>
+
++ addSlot(slot)
++ addItemToSlot(slotId, count)
++ updateCashInventory(denomination, count)
+
+Transaction
+- id : long
+- selectedSlotId : int
+- payment : Payment
+- state : TransactionState
+
+TransactionState
+- IN_PROGRESS
+- SUCCESS
+- CANCELLED
+- FAILED
+
+Slot
+- id : int
+- itemName : String
+- itemCount : int
+- itemCost : int
+
++ addStock(count)
++ decreaseStock(count)
++ updateItem(name, cost)
+
+Payment
+- id : long
+- amount : int
+- type : PaymentType
+- status : PaymentStatus
+- details : PaymentDetails
+
+PaymentType
+- CASH
+- UPI
+- CARD
+
+PaymentStatus
+- PENDING
+- SUCCESS
+- FAILED
+- REFUNDED
+
+PaymentDetails <<interface>>
+
+CashPaymentDetails implements PaymentDetails
+- collectedCash : Map<CashDenomination, int>
+
+UpiPaymentDetails implements PaymentDetails
+- externalPaymentId
+- qrCode
+
+CardPaymentDetails implements PaymentDetails
+- externalPaymentId
+
+CashDenomination
+- ONE
+- FIVE
+- TEN
+- ...
+
+PaymentProcessor <<interface>>
++ initiatePayment(amount) : Payment
++ validatePayment(payment, machine) : PaymentResult
++ refund(payment)
+
+CashPaymentProcessor implements PaymentProcessor
++ insertCash(payment, denomination)
+- validateEnoughCash(payment)
+- calculateChange(payment, cashInventory)
+
+UpiPaymentProcessor implements PaymentProcessor
++ handlePaymentCallback(paymentId, status)
+
+CardPaymentProcessor implements PaymentProcessor
++ handlePaymentCallback(paymentId, status)
+
+PaymentResolver
+- processors : Map<PaymentType, PaymentProcessor>
+
++ resolve(paymentType) : PaymentProcessor
+
+PaymentResult
+- change : Map<CashDenomination, int>
+
+PaymentInitResult
+- paymentId
+- paymentType
+- paymentSpecificDetails
+
+## Relationships
+
+MachineService
+→ manages Machine
+→ uses PaymentResolver
+
+Machine
+→ owns Slots
+→ owns CashInventory
+→ has one active Transaction
+
+Transaction
+→ has one Payment
+
+Payment
+→ has one PaymentDetails
+
+PaymentResolver
+→ resolves PaymentProcessor
+
+PaymentProcessor
+→ CashPaymentProcessor
+→ UpiPaymentProcessor
+→ CardPaymentProcessor
