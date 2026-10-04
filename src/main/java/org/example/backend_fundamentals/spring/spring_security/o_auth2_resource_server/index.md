@@ -54,6 +54,42 @@ Don't subclass — configure via the `oauth2ResourceServer` DSL instead.
 
 ### What Spring does on every authenticated request
 
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Filter as BearerTokenAuthenticationFilter
+    participant AuthMgr as AuthenticationManager
+    participant Provider as JwtAuthenticationProvider
+    participant Decoder as NimbusJwtDecoder
+    participant JWKSCache as JWKS Cache (In-Memory)
+    participant AuthServer as Authorization Server (.well-known/jwks.json)
+    participant Converter as JwtAuthenticationConverter
+    participant Context as SecurityContextHolder
+
+    Client->>Filter: HTTP GET /api/resource (Authorization: Bearer <jwt>)
+    Filter->>AuthMgr: authenticate(BearerTokenAuthenticationToken)
+    AuthMgr->>Provider: authenticate(BearerTokenAuthenticationToken)
+    Provider->>Decoder: decode(rawToken)
+    Decoder->>JWKSCache: lookupPublicKey(kid)
+    alt kid in cache
+        JWKSCache-->>Decoder: RSAPublicKey
+    else unknown kid (Key Rotation)
+        Decoder->>AuthServer: GET /.well-known/jwks.json
+        AuthServer-->>Decoder: Updated JWKS keyset
+        Decoder->>JWKSCache: updateCache(keyset)
+        JWKSCache-->>Decoder: RSAPublicKey
+    end
+    Decoder->>Decoder: 1. Verify Signature (RS256)<br/>2. Validate Claims (exp, nbf, iss, aud)
+    Decoder-->>Provider: Validated Jwt
+    Provider->>Converter: convert(jwt)
+    Converter-->>Provider: Collection<GrantedAuthority> (ROLE_*, SCOPE_*)
+    Provider-->>AuthMgr: JwtAuthenticationToken(jwt, authorities)
+    AuthMgr-->>Filter: JwtAuthenticationToken
+    Filter->>Context: setAuthentication(JwtAuthenticationToken)
+    Filter-->>Client: Proceed to Controller
+```
+
 1. Extract the `Authorization: Bearer <token>` header
 2. Base64url-decode the JWT into header / payload / signature parts
 3. Read `kid` from the JWT header; look up the matching JWK in the cached JWKS
@@ -186,9 +222,37 @@ OAuth2AuthorizedClientManager authorizedClientManager(
 }
 ```
 
+> [!IMPORTANT]
+> **Web vs Non-Web Execution Contexts:**
+> `DefaultOAuth2AuthorizedClientManager` depends on `OAuth2AuthorizedClientRepository`, which requires an active `HttpServletRequest` (backed by `HttpSession` or request attributes).
+> In background jobs (`@Scheduled`), message listeners (Kafka/RabbitMQ), or asynchronous threads (`@Async`), there is no HTTP request. Calling `manager.authorize(...)` throws:
+> `IllegalStateException: No HttpServletRequest available`
+>
+> For background and daemon services, use `AuthorizedClientServiceOAuth2AuthorizedClientManager` backed by `OAuth2AuthorizedClientService` (in-memory or JDBC) instead:
+>
+> ```java
+> @Bean
+> OAuth2AuthorizedClientManager authorizedClientManager(
+>         ClientRegistrationRepository clientRegistrationRepository,
+>         OAuth2AuthorizedClientService authorizedClientService) {
+>
+>     AuthorizedClientServiceOAuth2AuthorizedClientManager manager =
+>         new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+>             clientRegistrationRepository, authorizedClientService);
+>
+>     OAuth2AuthorizedClientProvider provider =
+>         OAuth2AuthorizedClientProviderBuilder.builder()
+>             .clientCredentials()
+>             .build();
+>
+>     manager.setAuthorizedClientProvider(provider);
+>     return manager;
+> }
+> ```
+
 ### WebClient integration
 
-The filter function `serverOAuth2AuthorizedClientExchangeFilterFunction` attaches the token to every outbound request:
+The filter function `ServletOAuth2AuthorizedClientExchangeFilterFunction` attaches the token to every outbound request:
 
 ```java
 @Bean
@@ -233,6 +297,8 @@ Spring supports introspection via `.oauth2ResourceServer(o -> o.opaqueToken(...)
 **Clock skew between services:** `exp` validation uses the resource server's clock. If your pod's clock drifts > token TTL, every token looks expired. Ensure NTP sync; `NimbusJwtDecoder` accepts a `clockSkew` tolerance parameter for minor drift.
 
 **Short token TTLs reduce blast radius:** A 15-minute access token means a leak is valid for at most 15 minutes. Don't use 24-hour tokens for client convenience — it shifts the security risk to your system.
+
+**Security context loss across async boundaries:** `SecurityContextHolder` defaults to `MODE_THREADLOCAL`. If an incoming request triggers an asynchronous worker (`@Async`, `CompletableFuture`, or custom `ExecutorService`), child threads will NOT inherit the `JwtAuthenticationToken`, failing method security checks. Use `DelegatingSecurityContextAsyncTaskExecutor` or `SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL)`.
 
 ---
 

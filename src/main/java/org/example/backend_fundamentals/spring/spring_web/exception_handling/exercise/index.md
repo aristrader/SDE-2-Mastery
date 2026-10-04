@@ -20,6 +20,10 @@ class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) { super(message); }
 }
 
+class AccessDeniedException extends RuntimeException {
+    public AccessDeniedException(String message) { super(message); }
+}
+
 enum KycErrorCode { DOCUMENT_EXPIRED, COUNTRY_NOT_SUPPORTED, IDENTITY_MISMATCH }
 
 class KycVerificationException extends RuntimeException {

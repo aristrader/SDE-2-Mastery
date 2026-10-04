@@ -4,27 +4,32 @@ order: 40
 
 # Spring Caching Abstraction
 
+The Spring Caching Abstraction provides a transparent, annotation-driven caching layer that decouples application business logic from specific cache storage technologies. By programming against Spring's `CacheManager` and `Cache` interfaces, you can switch from an in-memory Caffeine cache to a distributed Redis cluster via configuration without modifying application service code.
+
 ---
 
-## What the abstraction is
+## What the Abstraction Is
 
-Spring's caching layer sits between your code and any cache provider via a `CacheManager` interface. Your annotations (`@Cacheable`, `@CacheEvict`, `@CachePut`) are provider-agnostic — swap Caffeine for Redis by changing one bean declaration and zero application code.
+Spring's caching support is implemented as an AOP (Aspect-Oriented Programming) advice around annotated methods. Method annotations (`@Cacheable`, `@CacheEvict`, `@CachePut`) define caching intentions, while `CacheInterceptor` coordinates with the configured `CacheManager` to inspect, store, or invalidate entries.
 
 ```
-@Cacheable("users")          ← your code, unchanged
+@Cacheable("users")          <-- Application code (provider-agnostic)
     │
     ▼
-CacheInterceptor (AOP)
+CacheInterceptor (AOP)       <-- Evaluates SpEL, conditions, and cache operations
     │
     ▼
-CacheManager  (interface)
+CacheManager (Interface)     <-- Bridges Spring Cache SPI to underlying provider
     │
-    ├─ ConcurrentMapCacheManager    (in-memory, no TTL — dev/test only)
-    ├─ CaffeineCacheManager         (in-process, TTL, eviction — single-node prod)
-    └─ RedisCacheManager            (distributed, TTL per cache — multi-node prod)
+    ├─ ConcurrentMapCacheManager (In-memory ConcurrentHashMap, no eviction/TTL -- dev/test only)
+    ├─ CaffeineCacheManager      (In-process, high-concurrency, TTL & TinyLFU -- single-node prod)
+    ├─ JCacheCacheManager        (JSR-107 compliant, e.g., EhCache 3 off-heap/disk tiers)
+    └─ RedisCacheManager         (Distributed, shared across nodes, per-cache TTL -- multi-node prod)
 ```
 
-Enable caching:
+### Enabling Caching
+
+To activate Spring caching, add `@EnableCaching` to a `@Configuration` class:
 
 ```java
 @Configuration
@@ -32,87 +37,131 @@ Enable caching:
 public class CacheConfig { }
 ```
 
-Without `@EnableCaching`, all caching annotations are silently ignored — same failure mode as `@EnableMethodSecurity`.
+Without `@EnableCaching`, Spring does not register the caching advisor (`BeanFactoryCacheOperationSourceAdvisor`) or `CacheInterceptor`. As a result, all caching annotations are silently ignored at runtime—the methods execute normally without checking or updating any cache.
 
 ---
 
-## @Cacheable
+## Core Annotations and Execution Flow
 
-Check cache first; on hit return cached value; on miss call the method and store the result.
+```mermaid
+flowchart TD
+    Client["Caller / Client"] -->|1. Invoke method| Proxy["Spring AOP Proxy / CacheInterceptor"]
+    Proxy --> CondCheck{"condition matches?<br/>(default: true)"}
+    CondCheck -- No (Bypass) --> RunMethod["Execute Target Method"]
+    CondCheck -- Yes --> KeyGen["Resolve Key via SpEL / KeyGenerator"]
+
+    KeyGen --> CacheCheck["Lookup Key in CacheManager / Cache"]
+    CacheCheck --> HitCheck{"Cache Hit?"}
+
+    HitCheck -- Yes --> ReturnCached["Return Cached Value<br/>(Target method skipped)"]
+    HitCheck -- No --> RunTarget["Execute Target Method"]
+
+    RunTarget --> UnlessCheck{"unless condition matches?<br/>(evaluated on #result)"}
+    UnlessCheck -- True (Do not cache) --> ReturnFresh["Return Method Result"]
+    UnlessCheck -- False (Cache result) --> StoreCache["Store Result in Cache"]
+    StoreCache --> ReturnFresh
+```
+
+### @Cacheable
+
+Checks the cache before method invocation. On a cache hit, the cached value is returned immediately and method execution is skipped. On a cache miss, the target method executes, and the returned value is stored in the cache before returning to the caller.
 
 ```java
 @Cacheable(cacheNames = "users", key = "#id")
-public User findById(Long id) { ... }
+public User findById(Long id) {
+    return userRepository.findById(id).orElseThrow();
+}
 ```
 
-Execution flow:
+#### Key Defaults
 
-```
-call findById(42)
-    │
-    ├─ cache "users" has key 42? → HIT  → return cached User, method NOT called
-    └─ MISS → call method → store result under key 42 → return User
-```
+If the `key` attribute is omitted, Spring generates a key using `SimpleKeyGenerator`:
+- **0 parameters:** Uses `SimpleKey.EMPTY`.
+- **1 parameter:** Uses the parameter instance directly (e.g., `Long id` uses the `Long` value).
+- **Multiple parameters:** Computes a compound key wrapped in `SimpleKey` containing all arguments.
 
-**Key defaults:** if `key` is omitted, Spring uses all method parameters as a compound key via `SimpleKeyGenerator`. A method with one `Long id` parameter defaults to the `Long` value itself. A method with zero parameters uses `SimpleKey.EMPTY`.
+#### Stampede Protection with `sync = true`
 
-**Sync mode:**
+Under high concurrency, when a hot cache entry expires, dozens of concurrent requests for the same key may experience a cache miss simultaneously. Each thread will invoke the expensive target method in parallel, causing a **cache stampede** (thundering herd) that overwhelms the database.
+
+Setting `sync = true` forces the local cache abstraction to synchronize concurrent lookups for the same key:
 
 ```java
 @Cacheable(cacheNames = "users", key = "#id", sync = true)
+public User findById(Long id) {
+    return userRepository.findById(id).orElseThrow();
+}
 ```
 
-`sync=true` prevents cache stampede — only one thread calls the method for a given key; others wait. Supported by Caffeine but not all providers (check before enabling with Redis).
+When `sync = true`, only one thread acquires the lock and calls the target method; all other threads block until the result is computed and then read the freshly cached value.
+
+> [!WARNING]
+> `@Cacheable(sync = true)` delegates directly to the underlying provider's `Cache.get(key, Callable)` method. Because the value loader is executed atomically inside the cache provider, Spring cannot inspect the result before storing it. Consequently, **combining `sync = true` with `unless` is strictly forbidden and throws `IllegalArgumentException: @Cacheable(sync=true) does not support unless attribute` at runtime**.
 
 ---
 
-## @CacheEvict
+### @CacheEvict
 
-Remove one or more entries from the cache.
+Removes one or more entries from the cache when entities are updated or deleted.
 
 ```java
-// remove single entry
+// 1. Evict a single entry by key
 @CacheEvict(cacheNames = "users", key = "#id")
-public void deleteUser(Long id) { ... }
+public void deleteUser(Long id) {
+    userRepository.deleteById(id);
+}
 
-// flush the entire cache
+// 2. Flush all entries within the "users" cache
 @CacheEvict(cacheNames = "users", allEntries = true)
-public void importUsers(List<User> users) { ... }
+public void clearUserCache() {
+    // Triggers cache.clear() across the entire cache name
+}
 
-// evict BEFORE method runs — use when method may throw
+// 3. Evict before method execution to guarantee eviction even on exception
 @CacheEvict(cacheNames = "users", key = "#id", beforeInvocation = true)
-public void dangerousUpdate(Long id) { ... }
+public void purgeUserData(Long id) {
+    userRepository.purgeExternalRecords(id);
+}
 ```
 
-`beforeInvocation=false` (default): eviction happens **after** the method completes successfully. If the method throws, the entry is **not** removed — the stale entry survives. Use `beforeInvocation=true` to guarantee the entry is gone regardless of method outcome.
+#### `beforeInvocation` Semantics
+
+- **`beforeInvocation = false` (default):** Eviction happens **after** the method completes successfully. If the method throws an exception, the eviction is skipped, leaving the existing cache entry intact.
+- **`beforeInvocation = true`:** Eviction runs **before** the target method is invoked. This guarantees that stale data is stripped from the cache even if the underlying business method or database operation throws an exception.
 
 ---
 
-## @CachePut
+### @CachePut
 
-**Always** calls the method and stores the result. Never checks for an existing entry — the cache is updated unconditionally.
+Always executes the target method and stores the returned value into the cache, updating existing entries unconditionally without ever checking for an existing cache hit.
 
 ```java
 @CachePut(cacheNames = "users", key = "#result.id")
-public User updateUser(UserUpdateRequest req) { ... }
+public User updateUser(UserUpdateRequest req) {
+    User user = userRepository.findById(req.id()).orElseThrow();
+    user.updateDetails(req.name(), req.email());
+    return userRepository.save(user);
+}
 ```
 
-Use on write paths to keep the cache warm. The caller gets fresh data from the method; the cache gets the new value for subsequent reads.
+- `@CachePut` is designed for write/update operations to keep the cache warm.
+- The SpEL `#result` variable is available in `key` and `unless` expressions because `@CachePut` executes after the target method returns.
 
-**Never put `@Cacheable` and `@CachePut` on the same method.** `@Cacheable` may skip the method entirely, preventing `@CachePut` from ever updating the cache.
+> [!CAUTION]
+> **Never place `@Cacheable` and `@CachePut` on the same method.** If placed together, `@Cacheable` may intercept the call and return the cached value without invoking the method, preventing `@CachePut` from ever refreshing the cache with new data.
 
 ---
 
-## @CacheConfig
+### @CacheConfig
 
-Set defaults for all caching annotations in the class. Avoids repeating `cacheNames` on every method.
+`@CacheConfig` is a class-level annotation that establishes common defaults (such as `cacheNames`, `keyGenerator`, `cacheManager`, or `cacheResolver`) across all caching methods in the class:
 
 ```java
 @Service
 @CacheConfig(cacheNames = "users")
 public class UserService {
 
-    @Cacheable(key = "#id")          // cacheNames inherited
+    @Cacheable(key = "#id")          // Inherits cacheNames = "users"
     public User findById(Long id) { ... }
 
     @CacheEvict(key = "#id")
@@ -123,157 +172,235 @@ public class UserService {
 }
 ```
 
-Method-level `cacheNames` override the class-level default.
+Method-level attributes always override class-level defaults.
 
 ---
 
-## Key generation with SpEL
+## SpEL Key Generation and Conditional Caching
 
-| Expression | Resolves to |
-|---|---|
-| `#id` | Value of the `id` parameter |
-| `#user.id` | `.id` field/getter on the `user` parameter |
-| `#root.methodName` | Name of the annotated method |
-| `#root.method.name + '-' + #id` | Compound key string |
-| `T(String).valueOf(#id)` | Explicit type conversion |
-| `#result.id` | Return value's `id` (only in `@CachePut` — evaluated after method runs) |
+### SpEL Evaluation Context
 
-For keys that cannot be expressed as SpEL, implement `KeyGenerator`:
+Spring Cache provides predefined SpEL variables for constructing cache keys:
+
+| Expression | Resolves to | Lifecycle Availability |
+|---|---|---|
+| `#id` or `#a0` / `#p0` | Argument named `id` (or first argument by index) | Before and after invocation |
+| `#user.id` | Property `id` accessed via getter on `#user` argument | Before and after invocation |
+| `#root.methodName` | Name of the annotated method | Before and after invocation |
+| `#root.targetClass` | Class of the target bean | Before and after invocation |
+| `#root.args[0]` | Array access to method parameters | Before and after invocation |
+| `#result` | Object returned by the method | **Only** after invocation (`@CachePut`, `unless`) |
+| `T(String).valueOf(#id)` | Static method call / explicit type conversion | Before and after invocation |
+
+### Custom KeyGenerator
+
+When key generation requires business-specific hashing, multi-tenant partitioning, or serialization of complex domain objects, register a custom `KeyGenerator`:
 
 ```java
-@Bean
-public KeyGenerator userKeyGenerator() {
-    return (target, method, params) -> {
-        // build a custom key object
-        return method.getName() + "_" + Arrays.toString(params);
-    };
+@Component("tenantAwareKeyGenerator")
+public class TenantAwareKeyGenerator implements KeyGenerator {
+
+    @Override
+    public Object generate(Object target, Method method, Object... params) {
+        String tenantId = TenantContext.getCurrentTenant();
+        return tenantId + ":" + method.getName() + ":" + Arrays.deepToString(params);
+    }
 }
 
-@Cacheable(cacheNames = "users", keyGenerator = "userKeyGenerator")
-public User findByComplexCriteria(SearchCriteria criteria) { ... }
+// Usage in service:
+@Cacheable(cacheNames = "accounts", keyGenerator = "tenantAwareKeyGenerator")
+public Account findAccount(String accountNumber) { ... }
 ```
 
----
+### `condition` vs `unless`
 
-## condition and unless
-
-Both accept SpEL but evaluate at different times.
+Both attributes accept SpEL expressions but evaluate at different lifecycle stages:
 
 ```java
-// condition — evaluated BEFORE method call; if false, cache is bypassed entirely (no read, no write)
+// condition: Evaluated BEFORE method call. If false, caching is completely bypassed.
 @Cacheable(cacheNames = "users", key = "#id", condition = "#id > 0")
 public User findById(Long id) { ... }
 
-// unless — evaluated AFTER method call; if true, result is NOT stored (method always runs)
+// unless: Evaluated AFTER method call. If true, result is NOT stored in cache.
 @Cacheable(cacheNames = "users", key = "#id", unless = "#result == null")
 public User findById(Long id) { ... }
 ```
 
-| | `condition` | `unless` |
+| Feature | `condition` | `unless` |
 |---|---|---|
-| Evaluated | Before method | After method |
-| Cache read | Skipped if false | Normal |
-| Cache write | Skipped if false | Skipped if true |
-| Access to `#result` | No | Yes |
-
-Common pattern: `unless="#result == null"` to avoid caching `null` results (e.g., user not found). Without it, subsequent calls for the same missing ID return a cached `null` and bypass any eventual-consistency recovery.
+| **Evaluation Timing** | Before target method execution | After target method completes |
+| **Cache Hit Check** | Bypassed if condition evaluates to `false` | Always checked before method runs |
+| **Cache Write** | Skipped if `false` | Skipped if `true` |
+| **`#result` Access** | No (method has not run yet) | Yes (can inspect returned payload) |
+| **Primary Use Case** | Skip caching for invalid or test arguments (`#id > 0`) | Prevent caching `null`, empty collections, or error DTOs |
 
 ---
 
-## Provider adapters
+## Provider Adapters: Local vs Distributed
 
-### ConcurrentMapCacheManager (default)
+### 1. ConcurrentMapCacheManager (Dev / Test Only)
 
 ```java
-// auto-configured if no other CacheManager bean present
+@Bean
+public CacheManager cacheManager() {
+    return new ConcurrentMapCacheManager("users", "products");
+}
 ```
 
-- In-process `ConcurrentHashMap`.
-- No TTL, no size limit, no eviction policy.
-- Cache grows unbounded — memory leak risk in production.
-- Use only for dev/testing.
+- Built on Java's `ConcurrentHashMap`.
+- Provides zero eviction policies, zero TTL expiration, and unbounded memory growth.
+- **Production risk:** Unbounded cache accumulation inevitably causes `OutOfMemoryError`. Use strictly for unit and integration testing.
 
-### CaffeineCacheManager (single-node production)
+### 2. CaffeineCacheManager (Single-Node Production)
+
+Caffeine is a high-performance, near-optimal in-process cache library utilizing the Window TinyLFU eviction algorithm.
 
 ```java
 @Bean
 public CacheManager cacheManager() {
     CaffeineCacheManager manager = new CaffeineCacheManager("users", "products");
     manager.setCaffeine(Caffeine.newBuilder()
-        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .initialCapacity(500)
         .maximumSize(10_000)
+        .expireAfterWrite(Duration.ofMinutes(10))
         .recordStats());
     return manager;
 }
 ```
 
-- In-process — data lost on restart, not shared across nodes.
-- Window TinyLFU eviction policy (near-optimal hit rate).
-- `expireAfterWrite` vs `expireAfterAccess`: write TTL is usually safer — stale data is bounded by TTL regardless of access patterns.
-- Per-cache TTL: use `CaffeineSpec` per cache name or build separate caches with different specs.
+- **In-process memory speed:** Sub-microsecond reads without network serialization.
+- **`expireAfterWrite` vs `expireAfterAccess`:** `expireAfterWrite` guarantees bounded data staleness regardless of access frequency, making it the safer default for database-backed entities.
+- **Limitation:** In-process only. Entries are lost on application restart and cannot be shared across multiple horizontal service replicas.
 
-### RedisCacheManager (distributed / multi-node)
+### 3. JCacheCacheManager / EhCache 3 (Multi-Tier Off-Heap)
+
+EhCache 3 supports JSR-107 (JCache) integration and allows multi-tiered storage combining on-heap memory with off-heap RAM and local disk:
 
 ```java
 @Bean
-public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
+public CacheManager cacheManager() {
+    return new JCacheCacheManager(); // Bridges javax.cache.CacheManager to Spring
+}
+```
+
+- **Off-heap capability:** Caches hundreds of gigabytes per node without triggering JVM garbage collection pauses.
+- Useful for large standalone instances requiring high-density local caching before introducing distributed infrastructure.
+
+### 4. RedisCacheManager (Distributed / Multi-Node Production)
+
+Redis provides an out-of-process distributed cache shared across all horizontal application instances:
+
+```java
+@Bean
+public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
     RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-        .entryTtl(Duration.ofMinutes(10))
+        .entryTtl(Duration.ofMinutes(15))
+        .disableCachingNullValues()
         .serializeValuesWith(
             RedisSerializationContext.SerializationPair.fromSerializer(
-                new GenericJackson2JsonRedisSerializer()));  // JSON — human-readable, schema-tolerant
+                new GenericJackson2JsonRedisSerializer()));
 
-    Map<String, RedisCacheConfiguration> perCacheConfig = Map.of(
-        "sessions", RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1)),
+    Map<String, RedisCacheConfiguration> cacheConfigurations = Map.of(
+        "sessions", RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(2)),
         "products", RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5))
     );
 
-    return RedisCacheManager.builder(factory)
+    return RedisCacheManager.builder(connectionFactory)
         .cacheDefaults(defaultConfig)
-        .withInitialCacheConfigurations(perCacheConfig)
+        .withInitialCacheConfigurations(cacheConfigurations)
         .build();
 }
 ```
 
-- Distributed — all nodes share the same cache; survives individual node restarts.
-- Serialization: use JSON (`GenericJackson2JsonRedisSerializer` or `Jackson2JsonRedisSerializer`) rather than Java serialization. Java serialization breaks on class changes; JSON is resilient to additive changes.
-- TTL is configured per cache in `RedisCacheConfiguration`, not per entry. For entry-level TTL control you need a custom `CacheWriter`.
-- Network cost: each cache operation is a network round-trip (~0.5–2 ms). For frequently-accessed, low-change data consider a near-cache (Caffeine in front of Redis) pattern.
+- **Cluster coherence:** All nodes read and invalidate the same centralized dataset; survived pod restarts and rolling deployments.
+- **Serialization:** Always use JSON serialization (`GenericJackson2JsonRedisSerializer` or `Jackson2JsonRedisSerializer`). The default Java serialization (`JdkSerializationRedisSerializer`) produces brittle binary blobs that fail deserialization whenever entity classes or serialVersionUIDs change.
+- **Latency overhead:** Each cache operation incurs a network round-trip (~0.5–2 ms). Under extreme read traffic, consider a two-layer near-cache (Caffeine L1 + Redis L2).
 
 ---
 
-## Common pitfalls
+## Production Resilience: CacheErrorHandler
 
-| Pitfall | Root cause | Fix |
+By default, Spring registers `SimpleCacheErrorHandler`. If Redis becomes unreachable due to network partitions, cluster failover, or latency spikes, `SimpleCacheErrorHandler` rethrows the `RedisConnectionFailureException`. As a result, **a transient cache outage cascades into complete application failure (HTTP 500s), even if the primary database is completely healthy**.
+
+To achieve high availability, implement a custom `CacheErrorHandler` via `CachingConfigurer`:
+
+```java
+@Configuration
+@EnableCaching
+public class ResilientCacheConfig implements CachingConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(ResilientCacheConfig.class);
+
+    @Override
+    public CacheErrorHandler errorHandler() {
+        return new CacheErrorHandler() {
+            @Override
+            public void handleCacheGetError(RuntimeException exception, Cache cache, Object key) {
+                // Fail-open: Log warning and swallow exception so caller falls back to the database
+                log.warn("Cache GET failure on cache '{}' for key '{}'. Falling back to database.",
+                    cache.getName(), key, exception);
+            }
+
+            @Override
+            public void handleCachePutError(RuntimeException exception, Cache cache, Object key, Object value) {
+                log.error("Cache PUT failure on cache '{}' for key '{}'. Data written to DB only.",
+                    cache.getName(), key, exception);
+            }
+
+            @Override
+            public void handleCacheEvictError(RuntimeException exception, Cache cache, Object key) {
+                log.error("Cache EVICT failure on cache '{}' for key '{}'. Stale data risk!",
+                    cache.getName(), key, exception);
+            }
+
+            @Override
+            public void handleCacheClearError(RuntimeException exception, Cache cache) {
+                log.error("Cache CLEAR failure on cache '{}'.", cache.getName(), exception);
+            }
+        };
+    }
+}
+```
+
+- **Fail-open on reads (`handleCacheGetError`):** Swallowing the exception causes Spring to treat the error as a cache miss, seamlessly falling back to the database query.
+- **Alerting on writes (`handleCacheEvictError`):** If an eviction fails in Redis, the cache will hold stale data. Log errors with high severity to trigger operational alerts.
+
+---
+
+## Common Pitfalls and Gotchas
+
+| Pitfall | Root Cause | Solution |
 |---|---|---|
-| `@Cacheable` ignored on self-invocation | Spring AOP proxy bypassed | Inject bean into itself or move cached method to separate bean |
-| Method must be `public` | CGLIB proxy cannot intercept non-public methods | Make annotated methods `public` |
-| `@Cacheable` + `@CachePut` on same method | `@Cacheable` may skip the method, preventing cache update | Use only `@CachePut` on write paths |
-| Cache not populated on update | Using `@Cacheable` on update path | Use `@CachePut` on write, `@Cacheable` on read |
-| Null results cached | No `unless` guard | Add `unless="#result == null"` |
-| Java serialization in Redis | Default serializer — breaks on class change | Switch to JSON serializer |
-| `ConcurrentMapCacheManager` in prod | No TTL, unbounded growth | Use Caffeine or Redis |
-| Missing `@EnableCaching` | Annotations silently ignored | Always add to a `@Configuration` |
+| **Self-invocation bypass** | Method call via `this.method()` bypasses Spring AOP proxy | Refactor method to separate `@Service` bean, or inject bean into itself (`@Autowired Self`) |
+| **Non-public method ignored** | Spring AOP proxy interception applies only to `public` methods | Make annotated caching methods `public` |
+| **`sync = true` with `unless` crash** | Atomic provider execution does not allow post-invocation SpEL inspection | Remove `unless` when `sync = true`, or enforce null checks inside target method |
+| **`@Cacheable` + `@CachePut` on same method** | `@Cacheable` returns cached value and skips method, preventing `@CachePut` execution | Use `@Cacheable` exclusively on read methods and `@CachePut` on write/update methods |
+| **`@CachePut` dirty read on rollback** | Cache is updated before transaction commits; on DB rollback, cache retains phantom data | Evict or update cache strictly in `TransactionSynchronization.afterCommit()` callback |
+| **`@CacheEvict` skipped on method error** | `beforeInvocation = false` defaults to skipping eviction if method throws | Set `beforeInvocation = true` if eviction must occur regardless of execution errors |
+| **Null values permanently cached** | Method returns `null` on missing entity and Spring caches it without expiration | Add `unless = "#result == null"` or configure provider with short negative-caching TTL |
+| **Redis outage takes down service** | Default `SimpleCacheErrorHandler` rethrows Redis connection exceptions | Register custom `CacheErrorHandler` to fail open on read errors |
+| **Brittle Java serialization in Redis** | Default serializer breaks when entity class fields change | Configure `GenericJackson2JsonRedisSerializer` on `RedisCacheConfiguration` |
+| **`ConcurrentMapCacheManager` OOM** | In-memory map has no size bounds or TTL | Replace with Caffeine or Redis in production |
+| **Missing `@EnableCaching`** | Caching advisor is never registered | Add `@EnableCaching` to a `@Configuration` class |
 
 ---
 
-## Quick recall
+## Quick Recall
 
-**Q. What does `@EnableCaching` actually enable?**
-A. Registers a `CacheInterceptor` AOP interceptor. Without it, all caching annotations are no-ops.
+**Q. What does `@EnableCaching` actually register in the Spring ApplicationContext?**
+A. It registers the caching infrastructure beans, specifically `BeanFactoryCacheOperationSourceAdvisor` and `CacheInterceptor`, enabling Spring AOP proxies to intercept caching annotations.
 
-**Q. `@CacheEvict` with `beforeInvocation=false` (default) — what happens if the method throws?**
-A. The cache entry is NOT evicted — stale data survives. Use `beforeInvocation=true` if the entry must be gone regardless of method outcome.
+**Q. Why does `@Cacheable(sync = true, unless = "#result == null")` throw an `IllegalArgumentException`?**
+A. `sync = true` delegates computation directly to the provider's atomic `Cache.get(key, Callable)` method; because value storage occurs inside the provider, Spring cannot inspect `#result` against the `unless` expression prior to caching.
 
-**Q. Difference between `condition` and `unless` on `@Cacheable`?**
-A. `condition` is evaluated before the call (can skip cache read + write); `unless` is evaluated after (can skip write but cache is still checked for a hit). Only `unless` can access `#result`.
+**Q. What happens when an annotated method calls another cached method within the same class (`this.findCached(...)`)?**
+A. The call bypasses the Spring AOP proxy and invokes the target instance directly, causing all caching annotations on the inner method to be completely ignored.
 
-**Q. Why avoid Java serialization in Redis?**
-A. Any class change (rename field, add field) breaks deserialization of existing cache entries. JSON serialization is resilient to additive changes.
+**Q. If a method annotated with `@CacheEvict(beforeInvocation = false)` throws a `RuntimeException`, is the cache entry deleted?**
+A. No. With `beforeInvocation = false` (default), eviction runs only after successful method completion. To guarantee deletion when errors occur, set `beforeInvocation = true`.
 
-**Q. Self-invocation and `@Cacheable` — same problem as `@Transactional`?**
-A. Exactly — the AOP proxy is bypassed, so the cache check is skipped and the method always runs.
+**Q. How do you prevent a Redis outage from causing HTTP 500 errors on `@Cacheable` endpoints?**
+A. Register a custom `CacheErrorHandler` in `CachingConfigurer` and swallow exceptions in `handleCacheGetError`, causing Spring to treat cache failures as misses and fetch from the database.
 
-**Q. Caffeine vs Redis — key deciding factor?**
-A. Single node or multiple nodes. Caffeine is in-process (fast, no network, not shared). Redis is distributed (shared across all nodes, survives restarts, ~1ms per operation overhead).
-
+**Q. Why is placing `@CachePut` inside an active `@Transactional` method risky?**
+A. If the database transaction rolls back after `@CachePut` has already updated Redis, Redis will hold dirty, uncommitted data that was never persisted to the database.

@@ -50,6 +50,38 @@ This is a silent failure: the code compiles and runs, but your logs are untracke
 
 `ThreadPoolTaskExecutor` exposes a `TaskDecorator` hook: a `Runnable` wrapper that runs on the **submitting thread** (where context is available), capturing state and injecting it into the **executor thread** before the task runs.
 
+### Thread context handoff mechanism
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Caller as Caller Thread (Web Request)
+    participant TD as TaskDecorator
+    participant Q as Executor Queue
+    participant Worker as Pooled Worker Thread
+
+    Note over Caller: Active Context:<br/>MDC: trace-123<br/>Security: Alice<br/>Tenant: AcmeCorp
+
+    Caller->>TD: decorate(runnable)
+    Note over TD: Snapshot context on CALLER thread:<br/>mdcCopy, auth, tenantId
+    TD-->>Caller: return wrappedRunnable
+
+    Caller->>Q: execute(wrappedRunnable)
+    Note over Caller: Caller thread returns or continues
+
+    Q->>Worker: Worker dequeues wrappedRunnable
+    activate Worker
+    Note over Worker: 1. Restore snapshot to Worker ThreadLocal:<br/>MDC.setContextMap(mdcCopy)<br/>SecurityContextHolder.setContext(...)<br/>TenantContext.setCurrentTenant(...)
+
+    Worker->>Worker: 2. runnable.run() (business method)
+
+    Note over Worker: 3. MANDATORY finally block:<br/>MDC.clear()<br/>SecurityContextHolder.clearContext()<br/>TenantContext.clear()
+    deactivate Worker
+    Note over Worker: Worker thread returns to pool clean<br/>(Prevents cross-request leakage)
+```
+
+### Executor configuration
+
 ```java
 @Bean("notificationExecutor")
 public ThreadPoolTaskExecutor notificationExecutor() {
@@ -64,6 +96,8 @@ public ThreadPoolTaskExecutor notificationExecutor() {
 }
 ```
 
+### Context decorator implementation
+
 ```java
 public class ContextCopyingDecorator implements TaskDecorator {
 
@@ -76,9 +110,21 @@ public class ContextCopyingDecorator implements TaskDecorator {
 
         return () -> {
             try {
-                MDC.setContextMap(mdcCopy != null ? mdcCopy : Collections.emptyMap());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                // Restored on the EXECUTOR thread
+                if (mdcCopy != null) {
+                    MDC.setContextMap(mdcCopy);
+                } else {
+                    MDC.clear();
+                }
+
+                if (auth != null) {
+                    SecurityContext context = SecurityContextHolder.createEmptyContext();
+                    context.setAuthentication(auth);
+                    SecurityContextHolder.setContext(context);
+                }
+
                 TenantContext.setCurrentTenant(tenantId);
+
                 runnable.run();
             } finally {
                 // MANDATORY — executor threads are pooled and reused
@@ -193,4 +239,3 @@ A. It creates a new OS thread per invocation — no pooling, unbounded under loa
 
 **Q. `@Async` on a method called from within the same class — what happens?**
 A. Self-invocation bypasses the Spring AOP proxy; the method runs synchronously on the caller's thread as if `@Async` wasn't there.
-

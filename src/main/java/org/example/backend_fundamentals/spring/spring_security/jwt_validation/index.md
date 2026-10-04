@@ -111,6 +111,42 @@ Order matters — Spring follows this sequence on every request:
 
 Steps 3–7 all produce 401 on failure. Step 3 failing means the token was tampered with or signed by an unknown party. Step 4 means the token is stale. Steps 5–6 mean it wasn't issued for this context.
 
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Filter as BearerTokenAuthenticationFilter
+    participant Provider as JwtAuthenticationProvider
+    participant Decoder as NimbusJwtDecoder
+    participant JWKS as Remote JWKS (Auth Server)
+    participant Validator as DelegatingOAuth2TokenValidator
+    participant Conv as JwtAuthenticationConverter
+    participant Context as SecurityContextHolder
+
+    Client->>Filter: HTTP Request (Authorization: Bearer <jwt>)
+    Filter->>Filter: Extract Bearer token string
+    Filter->>Provider: authenticate(BearerTokenAuthenticationToken)
+    Provider->>Decoder: decode(token)
+    Decoder->>Decoder: 1. Parse header + payload base64url
+    Decoder->>JWKS: 2. Match kid in JWKS cache (re-fetch on miss)
+    Decoder->>Decoder: 3. Verify cryptographic signature (RS256)
+    Decoder->>Validator: 4-7. Run validators (exp, iss, aud, custom)
+    alt Any validator fails (e.g., expired, wrong issuer/aud)
+        Validator-->>Decoder: OAuth2TokenValidatorResult.failure()
+        Decoder-->>Provider: throws BadJwtException / JwtValidationException
+        Provider-->>Filter: throws AuthenticationException
+        Filter->>Client: 401 Unauthorized (WWW-Authenticate: Bearer error="invalid_token")
+    else All validators succeed
+        Validator-->>Decoder: OAuth2TokenValidatorResult.success()
+        Decoder-->>Provider: returns Jwt instance
+        Provider->>Conv: convert(jwt)
+        Conv-->>Provider: JwtAuthenticationToken (Principal + Authorities)
+        Provider-->>Filter: Authentication object
+        Filter->>Context: setContext(SecurityContext)
+        Filter->>Filter: chain.doFilter(request, response)
+    end
+```
+
 ---
 
 ## RS256 vs HS256
@@ -136,10 +172,18 @@ JWT `exp` is a Unix epoch integer compared against the resource server's clock. 
 To adjust:
 
 ```java
+// Trap: JwtValidators.createDefaultWithIssuer(...) internally embeds a default 60-second
+// JwtTimestampValidator. If you chain a custom JwtTimestampValidator with createDefaultWithIssuer,
+// both run. If you attempt to relax skew to 90 seconds, the 60s default still rejects the token!
+// Correct pattern: pair custom JwtTimestampValidator directly with JwtIssuerValidator:
+OAuth2TokenValidator<Jwt> withClockSkew = new JwtTimestampValidator(Duration.ofSeconds(30));
+OAuth2TokenValidator<Jwt> withIssuer = new JwtIssuerValidator("https://auth-server");
+OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withClockSkew, withIssuer);
+
 NimbusJwtDecoder decoder = NimbusJwtDecoder
     .withJwkSetUri("https://auth-server/.well-known/jwks.json")
     .build();
-decoder.setClockSkew(Duration.ofSeconds(30));
+decoder.setJwtValidator(validator);
 ```
 
 Don't set this large (e.g., 5 minutes) — it effectively extends the token's valid window beyond its stated `exp`.
@@ -163,7 +207,8 @@ JwtDecoder jwtDecoder() {
 
     // Custom: audience check
     OAuth2TokenValidator<Jwt> audienceValidator = jwt -> {
-        if (jwt.getAudience().contains("my-service")) {
+        List<String> audience = jwt.getAudience();
+        if (audience != null && audience.contains("my-service")) {
             return OAuth2TokenValidatorResult.success();
         }
         return OAuth2TokenValidatorResult.failure(
@@ -209,6 +254,15 @@ JwtAuthenticationConverter jwtAuthenticationConverter() {
     });
     return converter;
 }
+
+@Bean
+SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+        .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        .oauth2ResourceServer(oauth2 -> oauth2
+            .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
+        .build();
+}
 ```
 
 ### In a controller (per-request, for business logic)
@@ -221,8 +275,8 @@ public VerificationResult getVerification(
         @PathVariable String id,
         @AuthenticationPrincipal Jwt jwt) {
 
-    String userId   = jwt.getSubject();              // "sub" claim
-    String tenantId = jwt.getClaim("tenant_id");     // custom claim
+    String userId   = jwt.getSubject();                    // "sub" claim
+    String tenantId = jwt.getClaimAsString("tenant_id");   // custom claim
     List<String> roles = jwt.getClaimAsStringList("roles");
 
     // enforce tenant isolation — user can only see their own tenant's data
@@ -236,8 +290,8 @@ Alternatively via `SecurityContextHolder` (useful in service layers where the `J
 ```java
 JwtAuthenticationToken auth = (JwtAuthenticationToken) SecurityContextHolder
     .getContext().getAuthentication();
-Jwt jwt = (Jwt) auth.getCredentials();
-String tenantId = jwt.getClaim("tenant_id");
+Jwt jwt = auth.getToken();
+String tenantId = jwt.getClaimAsString("tenant_id");
 ```
 
 `Jwt.getClaim(String)` returns `Object` — actual type depends on the JSON value (String, List, Boolean, Long). Use typed accessors (`getClaimAsString`, `getClaimAsStringList`, `getClaimAsBoolean`) to avoid casting errors.
@@ -267,6 +321,14 @@ When a JWT is expired, `NimbusJwtDecoder` throws `JwtException`. `ExceptionTrans
 | Logging the raw JWT | Token theft from log aggregation systems | Redact the `Authorization` header before logging |
 | Trusting `alg` claim from the token | "alg:none" attack — token claims to be unsigned | `NimbusJwtDecoder` ignores the token's `alg` claim and uses the JWKS-specified algorithm; do not build a custom decoder that trusts the token's `alg` |
 | Sensitive data in JWT payload | PII leakage (payload is base64url, not encrypted) | Store only identifiers (UUIDs) in claims; look up sensitive data server-side |
+
+---
+
+## References
+
+- **Spring Security Reference**: OAuth 2.0 Resource Server JWT (`org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider`, `NimbusJwtDecoder`, `DelegatingOAuth2TokenValidator`).
+- **RFC 7519 / RFC 7517 / RFC 8725**: JSON Web Token (JWT) and JSON Web Key (JWK) Best Current Practices (key rotation, audience enforcement, replay protection).
+- **OWASP Foundation**: JSON Web Token Cheat Sheet for Java/Spring (defense against `alg:none`, algorithm confusion, excessive clock drift, and sensitive payload leakage).
 
 ---
 
