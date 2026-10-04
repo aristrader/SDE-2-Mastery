@@ -73,7 +73,6 @@ Learn when setter injection is the right tool — for truly optional collaborato
 2. Add a setter: `@Autowired(required = false) public void setNotificationService(NotificationService svc) { this.notificationService = svc; }`.
 3. In the `verify(...)` method, guard the call: `if (notificationService != null) { ... }`.
 4. In your plain-Java test, construct the service without a `NotificationService` and confirm `verify(...)` still runs (no NPE).
-5. Confirm `KycVerificationService` from Exercise 1 still gets `BasicDocumentValidator` automatically without a `@Qualifier`.
 
 ### Gotcha
 `@Autowired(required = false)` means Spring skips injection if no bean of that type exists — it does NOT mean the field gets a default. The field starts `null` and stays `null`. Always null-check before use.
@@ -87,7 +86,7 @@ Resolve ambiguous beans without changing the dependent service.
 1. Create two implementations: `BasicDocumentValidator` and `AiDocumentValidator`, both implementing `DocumentValidator`. Annotate both with `@Component`.
 2. Mark `BasicDocumentValidator` with `@Primary`.
 3. Create a second service `HighRiskKycService` that explicitly injects `AiDocumentValidator` using `@Qualifier("aiDocumentValidator")` in its constructor parameter.
-4. Confirm `KycVerificationService` (from Exercise 1) still gets `BasicDocumentValidator` automatically.
+4. Confirm `KycVerificationService` (from Exercise 1) still gets `BasicDocumentValidator` automatically without a `@Qualifier`.
 
 ### Gotcha
-The `@Qualifier` value defaults to the bean name, which defaults to the uncapitalised class name. Rename the class and the qualifier breaks silently at startup.
+The `@Qualifier` value defaults to the bean name, which defaults to the uncapitalised class name (`aiDocumentValidator`). Rename the class or bean name and a mismatched qualifier breaks at startup.

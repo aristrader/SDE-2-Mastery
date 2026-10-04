@@ -58,13 +58,13 @@ if (notificationService != null) {
 @Primary
 public class BasicDocumentValidator implements DocumentValidator { ... }
 
-@Component("aiValidator")
+@Component("aiDocumentValidator")
 public class AiDocumentValidator implements DocumentValidator { ... }
 
 @Service
 public class HighRiskKycService {
     private final DocumentValidator validator;
-    public HighRiskKycService(@Qualifier("aiValidator") DocumentValidator validator) {
+    public HighRiskKycService(@Qualifier("aiDocumentValidator") DocumentValidator validator) {
         this.validator = validator;
     }
 }
