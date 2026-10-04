@@ -5,35 +5,44 @@
 Model the smallest useful in-memory payment gateway that routes one payment attempt to a provider,
 records an asynchronous outcome, and avoids duplicate initiation on retries.
 
+This is the agreed scope after discussing the initial [interviewer prompt](../exercise/problem_statement/) and
+[candidate clarifications](../exercise/candidate_discussion/).
+
 ## Requirements
 
-- Requests contain merchant reference, positive minor-unit amount, payment method, and idempotency key.
-- Support card and UPI methods, each routed to one configured provider.
-- Initiation creates a pending payment and provider-specific initiation data.
-- A callback changes an existing pending payment to succeeded or failed.
-- Idempotent retries return the existing payment without another initiation.
-- Refund a successful payment once; do not store sensitive card/bank details.
+- A payment request has merchant reference, positive amount in integer minor units, payment method, and
+  idempotency key.
+- Support `CARD` and `UPI` methods. Each method resolves to one configured provider.
+- Initiating a payment creates a `PENDING` payment record and returns provider initiation data.
+- The provider callback identifies an existing pending payment and changes it to `SUCCEEDED` or `FAILED`.
+- A callback for an unknown or already-final payment must not create or alter another payment.
+- Reusing an idempotency key returns the existing payment without another provider initiation.
+- A refund is allowed once for a successful payment and transitions it to `REFUNDED`.
+- Never store card or bank account details; only safe provider references and required payment metadata.
 
 ## Constraints
 
-- Keep data in memory and use integer minor units.
-- Providers are local simulated dependencies.
+- Keep all data in memory.
+- Use integer minor units for money.
+- Providers are local simulated dependencies; real HTTP calls and webhook signature verification are follow-ups.
 - The base implementation is single-threaded.
 
 ## Test scenarios
 
-- Initiate card and UPI payments through their providers.
-- Return the existing payment for an idempotent retry.
-- Process successful and failed callbacks.
-- Reject unknown or already-final callbacks.
-- Refund a successful payment once.
+- Initiate a card and a UPI payment through their configured providers.
+- Return the original payment for a repeated idempotency key.
+- Change a pending payment to succeeded or failed using a callback.
+- Reject a callback for an unknown or final payment.
+- Refund a successful payment once and reject a second refund.
+- Reject a non-positive amount or unsupported payment method without initiating a payment.
 
 ## Interview follow-ups
 
-- How would provider failover preserve idempotency?
-- How would you verify and deduplicate provider webhooks?
-- How would partial refunds, authorization, capture, and settlement fit in?
-- How would persistence, timeouts, and concurrent state transitions change the design?
+- How would provider selection fail over safely while retaining the idempotency guarantee?
+- How would you authenticate provider callbacks and safely process duplicate webhooks?
+- How would partial refund, authorization, capture, and settlement states change the model?
+- How would you persist payment state and recover after a provider timeout?
+- How would concurrent initiation and callback requests protect one payment's state transition?
 
 ## Entity identification
 

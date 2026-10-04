@@ -1,16 +1,34 @@
-### Goal
+# Logger — entity identification and class diagrams
+
+## Goal
 
 Design a small extensible logging library that can be called concurrently and writes to configurable
 output sinks.
 
-### Requirements
+This is the agreed scope after discussing the initial [interviewer prompt](../exercise/problem_statement/) and
+[candidate clarifications](../exercise/candidate_discussion/).
+
+## Requirements
+
+- A log message contains a timestamp, level, and message; callers provide only level and message.
+- Support `DEBUG`, `INFO`, `WARN`, and `ERROR` levels.
+- A logger has one or more sinks; callers never choose a sink.
+- Each sink has a minimum level and ignores lower-level messages.
+- Implement a console/STDOUT sink; allow file, database, Kafka, or HTTP sinks to be added later.
+- Format messages before writing, with room for alternate formatter strategies.
+- Support synchronous and asynchronous logger configurations.
+- The asynchronous logger uses a configurable bounded buffer, preserves enqueue order, and does not drop
+  messages that it has accepted.
+- Logging is safe when called concurrently from multiple threads.
+- A real sink that writes to a shared target must write one complete formatted record atomically; the
+  console-only demonstration does not implement physical file output.
 - Configuration supports logger type, sinks, sink levels, async buffer size, and timestamp format.
 
-### Clarification for the first implementation
+## Clarification for the first implementation
 
 - When the async buffer is full, block until a slot is available rather than silently dropping a message.
 
-### Test scenarios
+## Test scenarios
 
 - Synchronous logging.
 - Asynchronous logging.
@@ -19,7 +37,15 @@ output sinks.
 - Enqueue-order preservation for asynchronous messages.
 - Backpressure when the asynchronous buffer reaches capacity.
 
-### Interview follow-ups
+## Current implementation boundary
+
+The playground demonstrates the object model, filtering, bounded queue, worker, and normal drain-on-close
+path. Its `FileSink` and `JsonFormatter` are extension seams, not real file I/O or JSON serialization.
+`LoggerConfig` currently holds sinks and async buffer size; explicit logger-type and timestamp-format
+configuration remain documented follow-ups. Treat sink-failure isolation, external worker interruption,
+and concurrent `close()` callers as follow-up behavior unless implemented deliberately.
+
+## Interview follow-ups
 
 - What alternative should be offered when an async buffer is full: reject, timeout, or drop?
 - How would you flush pending logs during application shutdown?

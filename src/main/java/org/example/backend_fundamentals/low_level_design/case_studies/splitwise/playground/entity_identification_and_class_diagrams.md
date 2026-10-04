@@ -4,26 +4,31 @@
 
 Model the smallest useful in-memory Splitwise application.
 
+This is the agreed scope after discussing the initial [interviewer prompt](../exercise/problem_statement/) and
+[candidate clarifications](../exercise/candidate_discussion/).
+
 ## Requirements
 
 - Users can belong to groups.
 - Users can create expenses directly with other users or within a group.
-- A group member can add an expense paid by one user and shared by selected users.
 - Support equal, exact, and percentage splits.
 - Validate that a split accounts for the complete expense amount.
-- Track directional balances between users.
+- Track the directional balances between users.
 - Settle an outstanding balance between two users.
 
 ## Constraints
 
 - Use a money representation that avoids floating-point precision errors.
+- Keep database, REST APIs, notifications, and payment-gateway integration out of the first pass.
+- Do not introduce a pattern until a changing requirement makes it useful.
 
 ## Test scenarios
 
-- Add an equal, exact, and percentage expense.
-- Reject a split that does not account for the complete expense amount.
-- Record a direct expense and a group expense separately.
-- Settle part or all of an outstanding balance.
+1. Alice pays 100.00 for Alice and Bob equally; Bob owes Alice 50.00.
+2. An exact split whose inputs do not total the expense, or percentages that do not total 100, is rejected.
+3. A group expense is rejected when its payer or a participant is not a member; a direct expense has no group check.
+4. Bob settles 20.00 of the first debt; the remaining Bob → Alice balance is 30.00. A larger settlement is rejected.
+5. Removing a recorded expense reverses the debts it originally added.
 
 ## Interview follow-ups
 

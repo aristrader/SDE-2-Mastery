@@ -4,11 +4,15 @@
 
 Model the smallest useful in-memory vending machine for one-item cash purchases.
 
+This is the agreed scope after discussing the initial [interviewer prompt](../exercise/problem_statement/) and
+[candidate clarifications](../exercise/candidate_discussion/).
+
 ## Requirements
 
 - A machine owns item slots and its cash inventory.
 - Each slot has a unique code, product details, a positive price in integer minor units, and available stock.
 - A customer can start one transaction, select one slot, and insert supported cash denominations.
+- Once cash has been inserted, changing the selected slot requires cancellation and a new transaction.
 - Reject an unknown or sold-out slot without dispensing a product.
 - Reject unsupported denominations without changing the inserted total.
 - A purchase succeeds only when inserted cash covers the price and the machine can return exact change.
@@ -30,6 +34,7 @@ Model the smallest useful in-memory vending machine for one-item cash purchases.
 - Buy an in-stock item with exact cash.
 - Buy an in-stock item and receive exact change in supported denominations.
 - Reject a sold-out or unknown slot without charging the customer.
+- Reject changing the selected slot after cash has been inserted.
 - Cancel after inserting cash and receive the full inserted amount back.
 - Reject completion with insufficient payment and preserve product stock.
 - Reject completion when exact change cannot be made and refund the inserted cash.
@@ -54,6 +59,8 @@ PaymentResolver
 CashDenomination
 
 ## Class diagrams
+
+```text
 
 MachineService
 - machines : Map<int, Machine>
@@ -162,6 +169,7 @@ PaymentInitResult
 - paymentId
 - paymentType
 - paymentSpecificDetails
+```
 
 ## Relationships
 

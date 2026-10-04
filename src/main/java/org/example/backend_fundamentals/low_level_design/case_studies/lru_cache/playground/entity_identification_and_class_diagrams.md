@@ -4,6 +4,20 @@
 
 Model a generic, fixed-capacity in-memory LRU cache with O(1) average-time reads and writes.
 
+This is the agreed scope after discussing the initial [interviewer prompt](../exercise/problem_statement/) and
+[candidate clarifications](../exercise/candidate_discussion/).
+
+## Requirements
+
+- Construct the cache with a positive fixed capacity.
+- `get(key)` returns a cached value on a hit and has a documented, predictable miss outcome; a hit makes
+  its key most recently used.
+- `put(key, value)` inserts or updates a value and makes its key most recently used.
+- Updating an existing key must not change cache size.
+- Inserting a new key into a full cache evicts exactly one least recently used entry.
+- Reject `null` keys and values with a clear exception.
+- Keep `get` and `put` O(1) on average.
+
 ## Constraints
 
 - Keep the base implementation in memory and single-threaded.
@@ -25,21 +39,12 @@ Model a generic, fixed-capacity in-memory LRU cache with O(1) average-time reads
 - How would you expose cache hit/miss/eviction metrics?
 - When would `LinkedHashMap` be sufficient instead of a custom implementation?
 
-## Requirements
-
-- Construct the cache with a positive fixed capacity.
-- `get(key)` returns a cached value on a hit and has a documented, predictable miss outcome; a hit makes
-  its key most recently used.
-- `put(key, value)` inserts or updates a value and makes its key most recently used.
-- Updating an existing key must not change cache size.
-- Inserting a new key into a full cache evicts exactly one least recently used entry.
-- Reject `null` keys and values with a clear exception.
-- Keep `get` and `put` O(1) on average.
-
 ## Entity identification
 LruCache
 
 ## Class diagrams
+
+```text
 
 // has to be generic since we may wanna support any key and value pair.
 LruCache<K,V>
@@ -61,3 +66,4 @@ Node<K,V>
 + getValue() : V
 + getNext() : Node<K,V>
 + getPrev() : Node<K,V>
+```
