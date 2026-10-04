@@ -8,7 +8,7 @@ order: 30
 
 ## Mental model
 
-Spring Boot Actuator adds operational endpoints to a running app.
+Spring Boot Actuator adds operational endpoints to a running application.
 
 ```xml
 <dependency>
@@ -22,6 +22,7 @@ Use it to answer production questions:
 - Is the app healthy?
 - Is it ready to receive traffic?
 - What metrics is it producing?
+- Can we inspect or change runtime operational state (e.g. logging levels) without a restart?
 
 ---
 
@@ -35,13 +36,13 @@ Use it to answer production questions:
 | `/actuator/loggers` | View/change log levels at runtime; protect it |
 | `/actuator/env` | Environment/config values; sensitive; do not expose publicly |
 
-Default HTTP exposure is conservative: usually only `health` and `info`.
+Default HTTP exposure is conservative: usually only `health` and `info` (`health` in Spring Boot 3+ defaults without sensitive details unless configured).
 
 ---
 
-## Exposure
+## Exposure and management configuration
 
-Expose only what you need.
+Expose only what you need over HTTP:
 
 ```yaml
 management:
@@ -51,7 +52,7 @@ management:
         include: health,info,metrics
 ```
 
-Avoid this in production unless endpoints are strongly protected:
+Avoid wildcard exposure in production unless all endpoints are strongly protected:
 
 ```yaml
 management:
@@ -61,15 +62,15 @@ management:
         include: "*"
 ```
 
-Why: endpoints such as `env`, `heapdump`, `beans`, and `loggers` can expose internals or change runtime behavior.
+Why: endpoints such as `env`, `heapdump`, `threaddump`, `beans`, and `loggers` can leak sensitive credentials/tokens or alter runtime behavior.
 
 ---
 
-## Health
+## Health and Kubernetes Probes
 
-`/actuator/health` reports whether the app and important dependencies are healthy.
+`/actuator/health` reports whether the app and its critical dependencies are healthy.
 
-Typical response:
+Typical aggregated response:
 
 ```json
 {
@@ -81,43 +82,55 @@ Typical response:
 }
 ```
 
-If one important component is `DOWN`, the overall status becomes `DOWN`.
+If one critical component is `DOWN`, the overall status becomes `DOWN` and Actuator maps the HTTP response status to `503 Service Unavailable` by default.
 
-For interviews, know that Spring can include dependency health such as database/Redis, and custom checks are possible with `HealthIndicator`. You do not need to memorize custom health-check code.
+For interviews, know that Spring Boot automatically configures health indicators for registered datasources and clients (such as DB, Redis, RabbitMQ), and custom checks can implement `HealthIndicator`.
 
-Liveness and readiness are special health endpoints:
+### Liveness vs Readiness
 
-| Probe | Meaning | Failure action |
-| --- | --- | --- |
-| Liveness | Is the process alive? | Restart the container |
-| Readiness | Can the app receive traffic? | Remove from load balancer |
+Spring Boot provides built-in probe support mapped directly to Kubernetes lifecycle events:
 
-Endpoints:
+| Probe | Endpoint | Question Asked | Failure Action |
+| --- | --- | --- | --- |
+| **Liveness** | `/actuator/health/liveness` | Is internal state unrecoverably broken (e.g. deadlock, corrupted JVM)? | Restart / kill container |
+| **Readiness** | `/actuator/health/readiness` | Is the app ready to process incoming requests (e.g. warm caches, DB pool available)? | Pull out of load balancer / stop routing traffic |
 
-```text
-/actuator/health/liveness
-/actuator/health/readiness
+```mermaid
+flowchart TD
+    subgraph K8s["Kubernetes Probes"]
+        LProbe["Liveness Probe: /actuator/health/liveness"]
+        RProbe["Readiness Probe: /actuator/health/readiness"]
+    end
+    subgraph Actions["Orchestrator Actions"]
+        FailL["Status DOWN -> Restart Container"]
+        FailR["Status DOWN -> Unroute Traffic from Pod"]
+    end
+    LProbe -->|Fails| FailL
+    RProbe -->|Fails| FailR
 ```
 
-Example: during startup, liveness can be `UP` while readiness is `DOWN`. That means "do not restart the app, but do not send traffic yet."
+Example scenario: During warm-up or temporary downstream database throttling, readiness is `DOWN` while liveness is `UP`. That instructs the orchestrator: *"Do not restart the app, but route traffic elsewhere until ready."*
 
 ---
 
 ## Metrics and Micrometer
 
-Short note only: Actuator exposes metrics at `/actuator/metrics`. Micrometer is the metrics facade underneath, similar to how SLF4J is a facade for logging.
+Actuator exposes operational metrics at `/actuator/metrics` and custom dimensional metrics via **Micrometer**.
+
+- Micrometer acts as a metrics facade (vendor-neutral instrumentation API), analogous to how SLF4J operates for logging.
+- It exports dimensional metrics (timers, counters, gauges) to backends like Prometheus, Datadog, or CloudWatch without coupling application code to vendor libraries.
 
 ---
 
-## Security
+## Security and Port Isolation
 
-The security rule is simple:
+The production security rule is strict:
 
 ```text
-Expose health/info publicly if needed. Protect everything else.
+Expose health/info publicly if needed. Protect or isolate everything else.
 ```
 
-Common production pattern: put management endpoints on a separate port and restrict that port at the network level.
+Common production pattern: bind management endpoints to an internal management port and restrict that port at the network/firewall level:
 
 ```yaml
 management:
@@ -125,7 +138,20 @@ management:
     port: 8081
 ```
 
-If endpoints share the app port, protect them with Spring Security.
+If endpoints share the primary application port, enforce role-based access control with Spring Security:
+
+```java
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .securityMatcher(EndpointRequest.toAnyEndpoint())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(EndpointRequest.to("health", "info")).permitAll()
+            .anyRequest().hasRole("ACTUATOR_ADMIN")
+        );
+    return http.build();
+}
+```
 
 Never expose `env`, `heapdump`, `threaddump`, `beans`, or `loggers` publicly.
 
@@ -140,13 +166,13 @@ A. Operational endpoints for health, info, metrics, and runtime visibility.
 A. `health` and `info`.
 
 **Q. What is Micrometer?**
-A. The metrics facade used by Actuator.
+A. The dimensional metrics instrumentation facade used by Spring Boot Actuator.
 
 **Q. Liveness vs readiness?**
-A. Both are health endpoints. Liveness means restart if broken; readiness means stop sending traffic.
+A. Both are health endpoints. Liveness failure restarts the container; readiness failure temporarily removes the instance from traffic routing.
 
 **Q. Why is `include: "*"` risky?**
-A. It can expose sensitive internals or dangerous operations unless protected.
+A. It exposes sensitive environment variables, thread/heap memory dumps, and write operations like log level alterations.
 
 **Q. Should `env`, `heapdump`, `beans`, or `loggers` be public?**
 A. No. They expose internals or can affect runtime behavior.
